@@ -1,0 +1,1846 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,900&display=swap');
+
+body
+{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-size: 14px;
+    /*background: linear-gradient(0deg, rgba(32, 71, 109, 1), rgba(32, 71, 109, 0.8)), url(../images/bg2.jpg);
+    min-height:100vh;
+    background-repeat:no-repeat;
+    background-size:cover;*/
+}
+
+.themeTable td, .themeTable th
+{
+    padding: 8px !important;
+    text-align: left;
+    border: 1px solid #ccc !important; /*thick;*/
+}
+
+.themeTable th
+{
+    color: #fff !important;
+    /*background: linear-gradient(#002269, #14689e);*/
+    background: #35a9e4;
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.themeTable tr:nth-of-type(odd)
+{
+}
+
+.themeTable tr:nth-of-type(even)
+{
+    background-color: #7a8ddb1a;
+}
+.themeTable tr:hover
+{
+    background-color: #efefef;
+}
+
+.themeTable th
+{
+    font-weight: 600;
+}
+
+.title1
+{
+    color: #032b5c;
+    margin: 0px;
+    padding: 10px 0px;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: left;
+}
+
+.title2
+{
+    color: #032b5c;
+    margin: 0px;
+    padding: 10px 0px;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+}
+
+.patientCard
+{
+    padding: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #cccc;
+    border-radius: 5px;
+    text-align: left;
+}
+
+    .patientCard img
+    {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #efefef;
+    }
+
+    .patientCard h1
+    {
+        text-align: center;
+        font-weight: 600;
+        font-size: 15px;
+        margin: 10px 0px;
+    }
+
+    .patientCard span
+    {
+        display: block;
+        margin: 0px 0px 10px 0px;
+    }
+
+    .patientCard label
+    {
+        margin: 0px;
+    }
+
+.patientDet
+{
+    padding: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #cccc;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.patientDetimg
+{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #efefef;
+}
+
+.patientDet h1
+{
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    margin: 10px 0px;
+}
+
+.patientDet span
+{
+    display: block;
+    margin: 0px 0px 10px 0px;
+}
+
+.patientDet label
+{
+    margin: 0px;
+}
+
+.modal-content
+{
+  
+    box-shadow: none !important;
+    border: 1px solid rgb(81, 175, 223) !important;
+}
+
+.patientProfilePic img
+{
+    width: 100%;
+    margin-bottom: 10px;
+    max-width: 150px;
+}
+
+.patientProfileInfo
+{
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.themeHeader
+{
+    display: flex;
+    padding: 0px 15px 0px 0px;
+    align-items: center;
+    /* justify-content: center; */
+    background: #002269;
+    height: 65px;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    z-index: 5;
+}
+
+.themeLogo
+{
+    align-self: flex-start;
+}
+
+    .themeLogo img
+    {
+        height: 64px;
+    }
+
+.logoutDrop
+{
+    left: -90px !important;
+}
+
+    .logoutDrop::before
+    {
+        left: 78px !important;
+    }
+
+.themeMenu
+{
+    margin: 0px 20px;
+}
+
+button.activeButton
+{
+    color: #fff !important;
+    background: #4e70f7 !important;
+}
+
+.themeRight
+{
+    margin-left: auto;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .themeRight > span
+    {
+        color: #fff;
+    }
+
+.themeProfile
+{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.themeContent
+{
+    margin-top: 65px;
+}
+
+.themeTabs
+{
+    display: flex;
+    margin: 0px 0px 10px 0px;
+    overflow: hidden;
+}
+
+    .themeTabs a
+    {
+        padding: 5px 15px;
+        font-weight: 600;
+        border-top: 2px solid transparent;
+        text-decoration: none;
+        color: #555;
+        background: #efefef;
+        border: 1px solid #ccc;
+        display: block;
+        cursor: pointer;
+    }
+
+        .themeTabs a i
+        {
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+    .themeTabs li:first-child a
+    {
+        border-top-left-radius: 4px;
+    }
+
+    .themeTabs li:last-child a
+    {
+        border-top-right-radius: 4px;
+    }
+
+    .themeTabs a.themeTabActive
+    {
+        color: #f26722;
+        border-top: 2px solid #f26722!important;
+        border-bottom: 1px solid transparent;
+        background: #fff;
+        box-shadow: 0px 2px 10px #ccc;
+        text-decoration: none;
+    }
+
+    .themeTabs a:hover
+    {
+        color: #35a9e4;
+    }
+
+.themeSecondaryHeader
+{
+    position: fixed;
+    top: 65px;
+    z-index: 4;
+    background: #76b0f3;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    padding: 10px 15px;
+    color: #fff;
+    text-align: left;
+    align-items: center;
+}
+
+.primaryDetails
+{
+    flex-basis: 50%;
+}
+
+    .primaryDetails span
+    {
+        font-size: 15px;
+    }
+
+    .primaryDetails label
+    {
+        font-size: 15px;
+    }
+
+.primaryButtons
+{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 12px 0px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+    .primaryButtons button
+    {
+        margin: 0px 10px;
+        border-radius: 10px;
+        font-size: 14px;
+        background: #efefef;
+    }
+
+.selectedUserPanel
+{
+    margin: 15px 0px;
+}
+
+    .selectedUserPanel > ul
+    {
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .selectedUserPanel ul > li
+    {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #efefef;
+    }
+
+    .selectedUserPanel .panel-body
+    {
+        padding: 0px !important;
+    }
+
+    .selectedUserPanel ul > li:nth-child(odd)
+    {
+        background: #eff6ff;
+    }
+
+.themeMsgSec
+{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+    .themeMsgSec button, .themeMsgSec select
+    {
+        margin-right: 10px;
+    }
+
+.msgComposer
+{
+    max-width: 100% !important;
+    padding: 10px !important;
+}
+
+.loginNav
+{
+    background: #002269;
+    padding: 0px 15px;
+}
+
+.loginPrimaryNav
+{
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 50px;
+}
+
+    .loginPrimaryNav > ul
+    {
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+    }
+
+        .loginPrimaryNav > ul > li
+        {
+        }
+
+            .loginPrimaryNav > ul > li > a
+            {
+                color: #fff;
+                padding: 0px 15px;
+            }
+
+                .loginPrimaryNav > ul > li > a:hover
+                {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                .loginPrimaryNav > ul > li > a > i
+                {
+                    padding-right: 6px;
+                }
+
+.navSearch
+{
+    background: #2d416c;
+    border: 1px solid #2d416c;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.loginSecondaryNav
+{
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 50px;
+}
+
+    .loginSecondaryNav > ul
+    {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .loginSecondaryNav > ul > li
+        {
+        }
+
+            .loginSecondaryNav > ul > li > a
+            {
+                color: #fff;
+                padding-right: 15px;
+            }
+
+                .loginSecondaryNav > ul > li > a:hover
+                {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+.loginForm
+{
+    padding: 0px 15px;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100px;
+    flex-wrap: wrap;
+    position:relative;
+}
+
+.loginForm .alert{
+    position: absolute;
+    right: 0;
+    bottom: -52px;
+}
+
+.loginInputs
+{
+    flex-basis: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+    .loginInputs input
+    {
+        border: 1px solid #ccc;
+        padding: 5px;
+        font-size: 14px;
+        margin-left: 15px;
+    }
+
+    .loginInputs img
+    {
+        width: 25px;
+    }
+
+.loginSec
+{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    flex-basis: 80%;
+    flex-wrap: wrap;
+}
+
+.loginInputs button
+{
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    background: #002269;
+    color: #fff;
+    margin-left: 10px;
+    border-radius: 4px;
+}
+
+
+.loginInputs button:hover
+{
+    background: #214080;
+}
+
+.loginInputs > a
+{
+    font-size: 21px;
+    padding-left: 10px;
+}
+
+    .loginInputs > a.f
+    {
+        color: #337ab7;
+    }
+
+    .loginInputs > a.g
+    {
+        color: #f65858;
+    }
+
+.loginForm > a
+{
+    margin-left: 10px;
+    color: #337ab7;
+    position: relative;
+}
+
+.loginSection
+{
+    background: #deeaf6;
+}
+
+.loginWrapper
+{
+    background-image: url(../Images/loginBg.jpg);
+    max-width: 1200px;
+    margin: auto;
+    padding: 100px 30px;
+}
+
+.loginBannerText
+{
+    background: #119ad1;
+    padding: 15px;
+    width: 150px;
+}
+
+    .loginBannerText h2
+    {
+        color: #fff;
+        font-size: 20px;
+        margin: 0px 0px 10px;
+    }
+
+    .loginBannerText p
+    {
+        color: #fff;
+        margin: 0px;
+    }
+
+.loginIcons
+{
+    display: flex;
+    justify-content: flex-end;
+}
+
+    .loginIcons div
+    {
+        width: 150px;
+        height: 150px;
+        background: rgba(255, 255, 255, 0.6);
+        margin: 10px;
+        text-align: right;
+    }
+
+        .loginIcons div i
+        {
+            font-size: 30px;
+            margin: 15px;
+        }
+
+.loginFooter
+{
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background: #efefef;
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+}
+/* The container */
+.containerRadioBox
+{
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: left;
+}
+
+    /* Hide the browser's default radio button */
+    .containerRadioBox input
+    {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+/* Create a custom radio button */
+.checkmark
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.containerRadioBox:hover input ~ .checkmark
+{
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.containerRadioBox input:checked ~ .checkmark
+{
+    background-color: #00b2a3;
+    border: 1px solid #00b2a3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after
+{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.containerRadioBox input:checked ~ .checkmark:after
+{
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.containerRadioBox .checkmark:after
+{
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: white;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+/* The containerCheckBox */
+.containerCheckBox
+{
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: left;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    /* Hide the browser's default checkbox */
+    .containerCheckBox input
+    {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+/* Create a custom checkbox */
+.checkmarkCheckBox
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 23px;
+    width: 23px;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+/* On mouse-over, add a grey background color */
+.containerCheckBox:hover input ~ .checkmarkCheckBox
+{
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.containerCheckBox input:checked ~ .checkmarkCheckBox
+{
+    background-color: #00b2a3;
+    border: 1px solid #00b2a3;
+}
+
+/* Create the checkmarkCheckBox/indicator (hidden when not checked) */
+.checkmarkCheckBox:after
+{
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmarkCheckBox when checked */
+.containerCheckBox input:checked ~ .checkmarkCheckBox:after
+{
+    display: block;
+}
+
+/* Style the checkmarkCheckBox/indicator */
+.containerCheckBox .checkmarkCheckBox:after
+{
+    left: 8px;
+    top: 3px;
+    width: 7px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.modernSearch
+{
+    display: flex;
+    align-items: center;
+}
+
+    .modernSearch input[type="text"]
+    {
+        border: 1px solid #efefef;
+        padding: 3px 10px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        flex-basis: 100%;
+    }
+
+    .modernSearch i
+    {
+        padding: 7px;
+        background: #00b2a3;
+        color: #fff;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+
+.multiselect-container
+{
+    width: 100%;
+}
+
+    .multiselect-container .input-group
+    {
+        width: calc(100% - 10px);
+    }
+
+    .multiselect-container > li > a > label.checkbox, .multiselect-container > li > a > label.radio
+    {
+        color: inherit;
+    }
+
+    .multiselect-container > li > a > label > input[type=checkbox]
+    {
+        position: relative;
+        vertical-align: middle;
+    }
+
+.multiselect.dropdown-toggle .caret
+{
+    float: right;
+    margin-top: 10px;
+}
+
+.btn.selectpicker.form-control
+{
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.btn-group.bootstrap-select
+{
+    width: 100% !important;
+    max-width: 280px;
+}
+
+.rememberText
+{
+    display: flex;
+    align-items: center;
+    flex-basis: 100%;
+    justify-content: flex-end;
+    margin-top: 5px;
+    padding-right: 58px;
+}
+
+.brl
+{
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+.rememberText label
+{
+    font-weight: normal;
+    margin: 0px;
+}
+
+.rememberText input[type="checkbox"]
+{
+    margin: 0px 5px 0px 0px;
+}
+
+.off .toggle-handle
+{
+    right: -12px !important;
+    left: 12px !important;
+}
+
+.toggle-handle
+{
+    left: -12px !important;
+    padding: 0px;
+    height: 20px !important;
+    width: 20px !important;
+    border-radius: 10px;
+}
+
+.toggle-on.btn
+{
+    padding-right: 29px !important;
+    padding-top: 2px !important;
+    background: linear-gradient(-90deg, #5faf86, #0d6140) !important;
+}
+
+    .toggle-on.btn:hover
+    {
+        background: linear-gradient(-90deg, #5faf86, #0d6140) !important;
+    }
+
+.toggle-off.btn
+{
+    padding-left: 28px !important;
+    padding-top: 2px !important;
+    background: linear-gradient(to right, #af4129,#f30404) !important;
+    color: #fff !important;
+}
+
+    .toggle-off.btn:hover
+    {
+        background: linear-gradient(to right, #af4129,#f30404) !important;
+    }
+
+.toggle.btn
+{
+    height: 26px !important;
+    min-height: auto !important;
+    min-width: 0px !important;
+    width: 57px !important;
+    border-radius: 20px !important;
+}
+
+.faColor
+{
+    font-size: 20px;
+    color: #1b3ab5;
+    cursor: pointer;
+}
+
+.uploadButton
+{
+}
+
+    .uploadButton label
+    {
+        padding: 4px 12px;
+        background: #1b3ab5;
+        border-radius: 4px;
+        color: #fff;
+        font-weight: 600;
+        border: 2px solid transparent;
+        cursor: pointer;
+    }
+
+        .uploadButton label:hover
+        {
+            background: #4963cb;
+        }
+
+    .uploadButton input[type="file"]
+    {
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .uploadButton i
+    {
+        margin-left: 5px;
+    }
+
+.uploadIconBtn
+{
+    color: #fff;
+    background: #157bbe;
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s all ease-in-out;
+}
+
+    .uploadIconBtn:hover
+    {
+        border: 2px solid #157bbe;
+        color: #157bbe;
+        background: transparent;
+    }
+
+.uploadIconContainer
+{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 12px;
+    color: #157bbe;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+    .uploadIconContainer span
+    {
+        flex-basis: 100%;
+        text-align: center;
+    }
+
+.textRight
+{
+    text-align: right;
+    display: block;
+}
+
+.modal-header .close
+{
+    color: #fff;
+    opacity: 1;
+    font-size: 22px;
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    padding: 0px;
+    border: 2px solid transparent;
+    border-radius: 15px;
+    line-height: 15px;
+    width: 30px;
+    height: 30px;
+    display: block;
+    /* align-items: center; */
+    /* justify-content: center; */
+    text-shadow: none;
+    outline: none !important;
+    float: none;
+}
+
+    .modal-header .close:hover
+    {
+        border: 2px solid #435fcc;
+    }
+
+.multiselect-native-select .multiselect
+{
+    padding: 2px 8px !important;
+}
+
+.multiselect-container > li > a.multiselect-all label
+{
+    font-weight: 600 !important;
+}
+
+.form-control.multiselect-search
+{
+    font-weight: normal;
+}
+
+.vmiddle
+{
+    vertical-align: middle;
+}
+
+.vtop
+{
+    vertical-align: top;
+}
+
+.chartTabs
+{
+    list-style-type: none;
+    display: inline-flex;
+    margin: 0;
+    border: 1px solid #4b8dd8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+    .chartTabs li:last-child a
+    {
+        border-right: 1px solid transparent;
+    }
+
+    .chartTabs li a
+    {
+        color: #4b8dd8;
+        font-size: 14px;
+        text-decoration: none;
+        padding: 0px 25px;
+        cursor: pointer;
+        display: block;
+        border-right: 1px solid #4b8dd8;
+    }
+
+        .chartTabs li a:hover
+        {
+            background: #f26722;
+            color: #fff;
+            border-right: 1px solid #f26722;
+        }
+
+.chartActiveTab
+{
+    background: #4b8dd8;
+    color: #fff !important;
+}
+
+.tabHeader
+{
+    display: inline-flex;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.customerGrid
+{
+    padding: 15px;
+}
+
+.fade-scale
+{
+    transform: scale(0);
+    opacity: 0;
+    -webkit-transition: all .25s linear;
+    -o-transition: all .25s linear;
+    transition: all .25s linear;
+}
+
+    .fade-scale.in
+    {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+.btn-group.bootstrap-select
+{
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.tableFixedLayout
+{
+    max-height: 350px;
+    overflow: auto;
+}
+
+.responsiveProfileImage
+{
+    width: 100%;
+    height: auto;
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.secondaryMenu
+{
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    border-bottom: 1px solid #efefef;
+}
+
+    .secondaryMenu li
+    {
+    }
+
+        .secondaryMenu li a
+        {
+            border-bottom: 2px solid transparent;
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+
+.secondaryMenuActive
+{
+    border-bottom-color: #f26722 !important;
+    color: #f26722 !important;
+}
+
+.secondaryMenu li a:hover
+{
+    color: #35a9e4 !important;
+}
+
+.patientCharts
+{
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px 15px;
+    left: 0px;
+    right: 0px;
+    top: 65px;
+
+    z-index: 1;
+    background: #fff;
+}
+
+.patientCards
+{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    /* align-items: center; */
+    justify-content: flex-end;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    margin: 12px 10px 12px 0px;
+    border-radius: 5px;
+    width: 200px;
+}
+
+    .patientCards i
+    {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 8px;
+        left: 12px;
+    }
+
+.col1
+{
+    background: linear-gradient(60deg,#ffa726,#fb8c00);
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(255,152,0,.4);
+}
+
+.col2
+{
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(76,175,80,.4);
+    background: linear-gradient(60deg,#66bb6a,#43a047);
+}
+
+.col3
+{
+    background: linear-gradient(60deg,#ef5350,#e53935);
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(244,67,54,.4);
+}
+
+.col4
+{
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(0,188,212,.4);
+    background: linear-gradient(60deg,#26c6da,#00acc1);
+}
+
+.patientCards h1
+{
+    flex-basis: 100%;
+    text-align: right;
+    font-size: 14px;
+    color: #999;
+}
+
+.patientCards h2
+{
+    flex-basis: 75%;
+    text-align: right;
+    font-size: 20px;
+    color: #3c4858;
+    margin: 5px 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.countChartContainer
+{
+    width: 140px;
+    display: inline-block;
+    margin: 10px 0px;
+}
+
+    .countChartContainer .highcharts-label > span
+    {
+        top: 47px !important;
+        left: 3px !important;
+    }
+
+.datalabel
+{
+    text-align: center;
+}
+
+.datalabelh
+{
+    color: #fd9a14;
+    font-size: 20px;
+    transform: rotate(-90deg);
+}
+
+.datalabelh_rot
+{
+    color: #fd9a14;
+    font-size: 20px;
+}
+
+.datalabelp
+{
+    color: #56af5a;
+}
+
+.datalabeld
+{
+    color: #07b1c6;
+    font-size: 18px;
+}
+.resBody{
+    margin-top: 95px
+}
+@media (max-width:1362px){
+.resBody{
+    margin-top: 200px
+}
+}
+.institutionLogo{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 180px;
+
+}
+.userPhoto{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 180px;
+
+}
+.pl-0{
+    padding-left: 0px ;
+}
+.patientMin .patientCard{
+    min-height: 180px;
+}
+.form-group{
+    text-align: left;
+}
+.alert{
+    position: relative;
+}
+.notificationsWarnings{
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 16px;
+}
+.notificationsWarnings i{
+
+}
+.notificationsWarnings span{
+    position: absolute;
+    top: -13px;
+    right: -15px;
+    width: 25px;
+    height: 25px;
+    background: #4e70f7;
+    color: #fff;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.relative-panel{
+    position: relative;
+}
+.relative-panel .dropdown{
+    position: absolute;
+    top: 3px;
+    right: 10px;
+}
+.relTable{
+    
+    margin-top: 30px;
+}
+sub{
+    bottom: 0;
+    vertical-align: middle;
+}
+.highBell{
+    color: red !important;
+    font-size: x-large;
+}
+.mediumBell{
+    color: #ffd300 !important;
+    font-size: x-large;
+   
+}
+.lowBell{
+    color: green !important;
+    font-size: x-large;
+}
+.mediumPosition{
+right: 70px;
+}
+.lowPosition{
+right: 100px;
+}
+.pt-30{
+    padding-top: 30px;
+}
+.chatAttachment{
+    margin:0px 10px 0px 0px !important;
+}
+.chatBodyLeft
+{
+    float: left;
+}
+.chatBodyRight
+{
+    float: right;
+}
+.chatBodyLeftDiv
+{
+    background-color: #78e08f;
+}
+.chatBodyRightDiv
+{
+    background-color: #82ccdd;
+}
+.chatBox{
+    min-height: 430px;
+    position: fixed !important;
+    bottom: 22px !important;
+    z-index: 9999;
+    right: 10px !important;
+    left: unset !important;
+    top: unset !important;
+    width: 340px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-bottom: 50px;
+    transition: all 0.2s ease-in-out;
+}
+.chatBoxBig{
+    width: 680px;
+    
+}
+.chatHeader{
+    position: relative;
+    background: #002269;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    padding: 0px 15px;
+    font-size: 16px;
+    justify-content: flex-end;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.chatHeader h1{
+    margin-right: auto;
+    font-size: 14px;
+
+}
+.chatBoxClose{
+    /*bottom: -430px !important;
+
+    bottom: -moz-calc(-90%)! important;
+    bottom: -webkit-calc(-90%)! important;
+    bottom: calc(-90%)! important;*/
+}
+.chatHeader > span > i{
+
+}
+.chatHeader > span{
+    display: flex;
+    position: absolute;
+    cursor: pointer;
+    top: -20px;
+    right: 20px;
+    width: 25px;
+    height: 25px;
+    background: #002269;
+    z-index: 5;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
+.chatHeader i{
+
+}
+.chatHeader a{
+    color: #fff;
+}
+.callIcon{
+margin-right: 10px;
+}
+.videoIcon{
+
+}
+.chatBody{
+    background: #fff;
+    border-left: 1px solid #efefef;
+    border-right: 1px solid #efefef;
+    padding: 10px;
+    overflow: auto;
+    height: 350px;
+    position: relative;
+   
+}
+.chatBodyHalf{
+    width: 50%;
+    float: left;
+}
+.chatBody p{
+    display: block;
+    margin: 0 auto 10px auto;
+    clear: both;
+    padding: 2px 10px;
+    background: rgba(75, 141, 216, 0.2);
+    border-radius: 26px;
+    font-size: 12px;
+    color: #000;
+    text-align: center;
+    max-width: 120px;
+
+}
+.chatBody ul{
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+    list-style-type: none;    
+}
+.chatBody ul li span{
+    position: absolute;
+    bottom: 0px;
+    right: 25px;
+    font-size: 11px;
+    color: #333;
+}
+
+.chatBody ul li div{
+    padding: 5px 10px 13px 5px;
+    border: 1px solid #efefef;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    position: relative;   
+    min-width: 200px;
+}
+.chatBody ul li::after{
+    content: '';
+    clear: both;
+}
+/*.chatBody ul li:nth-child(odd){
+   float: left;
+}
+.chatBody ul li:nth-child(even){
+  float: right; 
+}*/
+.chatFooter{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    right: 0px;
+    padding: 10px;
+    background: #002269;
+    align-items: center;
+    justify-content: flex-start;
+}
+.chatFooter a{
+    font-size: 16px;
+    margin: 0px 0px 0px 10px;
+    color: #fff;
+    text-decoration: none;
+}
+.chatFooter a i{
+
+}
+.chatFooter input[type="text"]{
+    border: 1px solid #efefef;
+    width: 100%;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    max-width: 100%;
+}
+.chatProfile{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    margin-right: 5px; 
+}
+.chatHeader h1 span{
+    font-size: 10px;
+    display: block;
+    text-align: left;   
+}
+
+.callBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100% !important;
+    float: none !important;
+}
+.call{
+    margin-right: 10px;
+    background: green;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 50%;
+}
+.endCall{
+background: red;
+}
+.callBox  h2{
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0px 0px 10px 0px;
+    flex-basis: 100%;
+    text-align: center;
+}
+.callBox  h2 span{
+    display: block;
+    font-size: 16px;
+
+}
+.contactList{
+    position: relative;
+    overflow: hidden;
+    padding: 0px;
+}
+.contactList ul{
+    margin-top: 35px;
+    height: 300px;
+    overflow-y: auto;
+}
+.contactList ul li{
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #efefef;
+}
+.contactList ul li span{
+    position: static;
+    font-size: 16px; 
+    font-weight: 500;
+    max-width: 100%;
+    word-break: break-all;
+}
+.contactList ul li img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    
+}
+
+.chatCount{
+    margin-left: auto;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #002269;
+    color: #fff;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chatNoCount{
+    margin-left: auto;
+    width: 20px;
+    height: 20px;
+}
+.contactList section{
+    min-width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 5px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.contactList article{
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contactList article span{
+    font-size: 12px !important;
+    margin-left: auto;
+}
+.aqua{
+    color:#7fffd4 !important;
+}
+.chatBody ul li i{
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+    font-size: 12px;
+    color: #555;
+}
+.msgRead{
+
+}
+.msgSend{
+
+}
+.msgDelivered{
+    color: #fff !important;
+}
+.contactSearch{
+    width: 100%;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: 1px solid #efefef;
+    color: #555;
+   
+    max-width: 100%;
+   
+}
+.searchHolder{
+    position: absolute;
+    display: flex;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #efefef;
+    background: #ffff;
+}
+.lds-ripple {
+    display: inline-block;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid #002269;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  @keyframes lds-ripple {
+    0% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 72px;
+      height: 72px;
+      opacity: 0;
+    }
+  }
+  .userOnlineInfo{
+    padding: 0 !important;
+    border: 0px !important;
+    margin: 0 !important;
+    min-width: 0px !important;
+  }
+  .userOnlineInfo::after{
+    content: '';
+    width: 10px;
+    height: 10px;
+   
+    border-radius: 50%;
+    position: absolute;
+    bottom: 4px;
+    right: 2px;
+  }
+  .userOnlineInfo.on::after{
+    background: green;
+  }
+  .userOnlineInfo.off::after{
+    background: red;
+  }
+  .hasAttachement{
+
+  }
+  .hasAttachement i{
+    position: static !important;
+    font-size: 16px !important;
+    padding-left: 5px;
+  }
+  .notificationList{
+
+  }
+  .notificationList > li{
+    padding: 10px;
+    border-bottom: 1px solid #efefef;
+  }
+  .notificationList > li > h1{
+    font-size: 16px;
+  }
+  .notificationList>li>p{
+    margin: 0px;
+    padding: 0px;
+    background: transparent;
+    max-width: 100%;
+    text-align: left;
+    font-size: 13px;
+  }
+  .notificationList>li>p i{
+    position: static;
+    padding-left: 10px;
+    color: red;  
+  }
+   .selectContact {
+    border: none !important;
+    min-width: 0px !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.chatBody ul li p > i{
+    position: static !important;
+}
+.patientVitalscard {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 8px;
+    left: 12px;
+}
+.modalwindowscroll {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}

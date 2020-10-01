@@ -1,0 +1,131 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-title">Protocol<sub><input type="image" src="../../Images/collapse.gif" title='Click to Collapse' onclick="return divcollapse('Protocol', 'tableid_img2')" style="width: 20px;" id="tableid_img2"></sub></h1>            
+        </div>
+          <div class="col-md-12">
+            <div class="panel panel-default panel-info" id="Div1">
+                <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" role="form">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                             <td width="6%">
+                                <label>Protocol Name</label>
+                            </td>
+                            <td width="15%">
+                                <select class="form-control" ng-model="Protocol_Name" id="Select2" ng-required="true" ng-change="Protocol_NameFilter(); Protocol_NameClearList()">
+                                    <option value="0">All</option>      
+                               </select>  
+                            </td>
+                            <td width="40%"> <button type="button" class="btn btn-small" ng-click="ListProtocolPopUP(0)" title="Click to Search">Go</button></td> 
+                            </tr>
+                    </table>
+                </form>
+               </form>
+            </div>  
+              <a href="javascript:" ng-click="AddProtocolPopUP()" class="btn btn-autosize pull-right mb-15" title="Click to Add New Protocol">Add New</a>
+        </div>   
+        <div class="col-md-12">
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollection"  class="table themeTable">
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="1">Sl No.</th>
+                        <th st-ratio="5" st-sort="ProtocolName">Protocol Name</th>
+                        <th st-ratio="5" st-sort="Remarks">Remarks</th>
+                        <th st-ratio="2">Action</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                        <td>{{}}
+                            </td>
+                        <td>{{}}
+                            </td>
+                        <td>{{}}
+                            </td>
+                         <td>
+                     <a href="javascript:" ng-click="ViewProtocolPopUP()" title="View"><img src="../../Images/ViewIcon.png" /></a>
+                      <a href="javascript:" title="Edit"><img src="../../Images/EditIcon.png"/></a>
+                      <a href="javascript:"title="Active"><img src="../../Images/activeIcon1.png"/></a>
+                        </td>                 
+                    </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="ProtocolModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="CancelPopup()"  >&times;</button>
+                <h4 class="modal-title">Protocol Details</h4>
+                <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                             <td width="8%">
+                                <label>Protocol Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td style="width:30%">
+                                <select class="form-control" ng-model="Protocol_Name" id="Select4" ng-required="true">
+                                    <option value="0">Select</option>   
+                                     </select>
+                            </td>
+                            </tr>
+                        
+                            <tr>
+                            <td valign="top">
+                                <label>Remarks</label>
+                            </td>
+                            <td>
+                               <textarea class="form-control" id="Text2" rows="2"  name="Remarks" ng-model="Remarks" placeholder="" ng-maxlength="250" maxlength="250"></textarea>
+                            </td>                             
+                                </tr>
+                             </table>
+                        </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="ProtocolAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="btn  btn-save"  ng-click="CancelPopup()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div id="ProtocolViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+   <div class="modal-dialog">
+       <div class="modal-content">
+           <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()"  >&times;</button>
+                <h4 class="modal-title">Protocol Details</h4>
+           </div>
+          <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td style="width: 15%">
+                                <label>Protocol Name</label>
+                            </td>
+                            <td style="width:35%">
+                                <span>{{ViewProtocol_Name}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 15%">
+                                <label>Remarks</label>
+                            </td>
+                            <td style="width:35%">
+                                <span>{{ViewRemarks}</span>
+                            </td>
+                        </tr>
+                </table>
+             </form>
+         </div>
+               <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="CancelPopup()">Cancel</button>
+               </div>
+        </div>
+    </div>
+</div>
+                        
+    

@@ -1,0 +1,168 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Web.Http;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using MyCortex.Repositories;
+using MyCortex.Repositories.Login;
+using MyCortex.Login.Model;
+using System.Web;
+using log4net;
+namespace MyCortex.Utilities
+{
+    public class DataEncryption
+    {
+        [HttpGet]
+        /// <summary>      
+        /// Getting of User Password Encryption 
+        /// </summary>  
+        /// <param name="Password">Password of User</param>    
+        /// <returns>Populated List of User Password Encryption </returns>
+        public string Encrypt(string Password)
+        {
+            if (Password == null || Password == "")
+            {
+                Password = "";
+            }
+            else
+            {
+                LoginModel model = new LoginModel();
+                string EncryptionKey = "MAKV2SPBNI99212";
+                byte[] clearBytes = Encoding.Unicode.GetBytes(Password);
+                using (Aes encryptor = Aes.Create())
+                {
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(clearBytes, 0, clearBytes.Length);
+                            cs.Close();
+                        }
+                        Password = Convert.ToBase64String(ms.ToArray());
+                    }
+                }
+            }
+            return Password;
+        }
+        public byte[] EncryptFile(byte[] fileData)
+        {
+            byte[] returnBytes;
+            if (fileData == null)
+            {
+                returnBytes = null;
+            }
+            else
+            {
+                LoginModel model = new LoginModel();
+                string EncryptionKey = "MAKV2SPBNI99212";
+                byte[] clearBytes = fileData;
+                using (Aes encryptor = Aes.Create())
+                {
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(clearBytes, 0, clearBytes.Length);
+                            cs.Close();
+                        }
+                        //Password = Convert.ToBase64String(ms.ToArray());
+                        returnBytes = ms.ToArray();
+                    }
+
+                }
+            }
+            return returnBytes;
+        }
+        /// <summary>      
+        /// Getting of Converting User Password as Encrypt Password 
+        /// </summary>  
+        /// <param name="Password">Password of Encrypt Password</param>    
+        /// <returns>Populated List of encryptPassword User Password </returns>
+
+        public byte[] DecryptFile(byte[] DecryptfileData)
+        {
+            string EncryptionKey = "MAKV2SPBNI99212";
+            byte[] cipherBytes = DecryptfileData;
+            byte[] returnByte;
+            using (Aes encryptor = Aes.Create())
+            {
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cs.Write(cipherBytes, 0, cipherBytes.Length);
+                        cs.Close();
+                    }
+                    returnByte = ms.ToArray();
+                }
+            }
+            return returnByte;
+        }
+
+
+        public string Decrypt(string encryptPassword)
+        {
+            if (encryptPassword == null || encryptPassword == "")
+            {
+                encryptPassword = "";
+            }
+            else
+            {
+                string EncryptionKey = "MAKV2SPBNI99212";
+                byte[] cipherBytes = Convert.FromBase64String(encryptPassword);
+                using (Aes encryptor = Aes.Create())
+                {
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(cipherBytes, 0, cipherBytes.Length);
+                            cs.Close();
+                        }
+                        encryptPassword = Encoding.Unicode.GetString(ms.ToArray());
+                    }
+                }
+            }
+            return encryptPassword;
+        }
+        //public string Encrypt(DateTime DOB)
+        //{
+        //    LoginModel model = new LoginModel();
+        //    string EncryptionKey = "MAKV2SPBNI99212";
+        //    byte[] clearBytes = Encoding.Unicode.GetBytes(DOB);
+        //    using (Aes encryptor = Aes.Create())
+        //    {
+        //        Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+        //        encryptor.Key = pdb.GetBytes(32);
+        //        encryptor.IV = pdb.GetBytes(16);
+        //        using (MemoryStream ms = new MemoryStream())
+        //        {
+        //            using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+        //            {
+        //                cs.Write(clearBytes, 0, clearBytes.Length);
+        //                cs.Close();
+        //            }
+        //            Password = Convert.ToBase64String(ms.ToArray());
+        //        }
+        //    }
+        //    return Password;
+        //}
+    }
+}

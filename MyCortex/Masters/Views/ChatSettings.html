@@ -1,0 +1,60 @@
+﻿<ul class="secondaryMenu">
+    <li>
+        <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
+    </li>
+    <li>
+        <a class="secondaryMenuActive" href="Home/Index#/ChatSetting/1">Chat Settings</a>
+    </li>
+    <li><a href="Home/Index#/Password_Policy">Password Policy</a></li>
+    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+    <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
+    <li><a href="Home/Index#/SlotTiming">Slot Timing</a></li>
+    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
+    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+</ul>
+
+<div class="overlay" show-on-load>
+    <div id="loading-img"></div>
+</div>
+<h1 class="page-title">Chat Settings </h1>
+
+<div class="panel panel-info" id="App">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form">
+            <div class="overlay">
+                <div id="Div1"></div>
+            </div>
+
+            <div>               
+                <table style="width: 100%" class="table themeTable">
+                    <thead>
+                        <th></th>
+                        <th ng-repeat="row in UserGroupList">{{row.TypeName}}
+
+                        </th>
+                    </thead>
+
+                    <tbody>                 
+                        <tr ng-repeat="rows in UserGroupListtwo">
+                            
+                            <th>{{rows.TypeName}}</th>
+                           
+                            <td ng-repeat="row in UserGroupListtwo">
+                                <input type="checkbox" id="{{'chk-'+rows.Id+'-'+row.Id}}" ng-init="ViewupdateCheckValue(rows.Id, row.Id,$event)" ng-click="updateCheckValue(rows.Id, row.Id, $event);" ng-disabled ="(rows.Id == 2 && row.Id==2)"/>
+                                
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <div style="text-align: center;">
+    <button type="button" class="btn  btn-save" id="save" ng-click="ChatSettings_AddEdit()">Save</button>
+    <button type="button" class="btn  btn-save" id="Button1" ng-click="ChatSettingsRest()">Reset</button>
+</div>
+    </div>
+</div>

@@ -1,0 +1,653 @@
+﻿<head>
+    <style type="text/css">
+        input[type='file']
+        {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#UserLogo").trigger('click');
+        })
+    </script>
+    <script>
+        $(function () {
+            $('#toggle-one').bootstrapToggle();
+        })
+    </script>
+</head>
+<div class="container">
+
+    <div class="row" ng-init="Admin_View(3);PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div class="col-md-12">
+            <h1 class="page-title">Patient</h1>
+            <ul class="themeTabs">
+                <li><a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'"><i
+                    class="far fa-file"></i>Basic Info</a></li>
+                <li><a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'"><i
+                    class="far fa-file-alt"></i>Additional Info</a></li>
+                <li><a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3'"><i
+                    class="fas fa-map-marker-alt"></i>Address Info</a></li>
+                <li><a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4'"><i
+                    class="far fa-address-card"></i>Emergency Contact Info</a></li>
+                <li><a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5'"><i
+                    class="far fa-hospital"></i>Medical Info</a></li>
+            </ul>
+            <div class="panel panel-default panel-info" id="Div4">
+                <form class="form-horizontal" role="form" style="font-size: small">
+                    <div class="panel panel-default patientProfileInfo">
+                        <div class="panel-body">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-info" ng-show="currentTab=='1'">
+
+                                    <div id="collapse1" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                class="formControlGroup">
+                                                <tr>
+                                                    <td width="20%" valign="top" rowspan="15">
+                                                        <label>Photo</label>
+                                                    </td>
+                                                    <td valign="top" rowspan="15">
+                                                        <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
+                                                            <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
+                                                         <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null||uploadme=='')&&uploadview ==true" 
+                                                            valign="top" rowspan="6">
+                                                            <img class="responsiveProfileImage" src="../../Images/male.png"/>
+                                                            </div>
+                                                        <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null||uploadme=='')&&uploadview ==true">
+                         
+                                                            <img class="responsiveProfileImage" src="../../Images/female.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null||uploadme=='')&&uploadview ==true"
+                                                            valign="top" rowspan="6">
+                                                            <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                        </div>
+                                                        <div ng-if="(uploadme!=null)&&uploadview ==true"  valign="top" rowspan="6">
+                                                            <img class="responsiveProfileImage" src="{{uploadme}}"/>
+                                                        </div>
+                                                             <a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                                class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+                                                        
+                                                            <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                                class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>
+                                                        </td>
+                                                        <td>
+                                                            <label>First Name</label>
+                                                        </td>
+                                                        <td>
+                                                            <span>{{FirstName}}</span>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Middle Name</label>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{MiddleName}}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 15%">
+                                                        <label>Last Name</label>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{LastName}}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="25%">
+                                                        <label>Gender</label>
+                                                    </td>
+                                                    <td width="25%">{{ViewGender}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="15%">
+                                                        <label valign="top">MRN No.</label>
+                                                    </td>
+                                                    <td width="35%">{{MNR_No}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="15%">
+                                                        <label valign="top">Patient ID</label>
+                                                    </td>
+                                                    <td>{{PatientNo}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Short Name</label>
+                                                    </td>
+                                                    <td>
+                                                        {{Createdby_ShortName}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>National ID</label>
+                                                    </td>
+                                                    <td>{{NationalId}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Insurance ID</label>
+                                                    </td>
+                                                    <td>{{InsuranceId}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="15%">
+                                                        <label valign="top">Email</label>
+                                                    </td>
+                                                    <td width="35%">{{EmailId}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="15%">
+                                                        <label valign="top">Google Email</label>
+                                                    </td>
+                                                    <td width="35%">{{Google_EmailId}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="15%">
+                                                        <label valign="top">Facebook Email</label>
+                                                    </td>
+                                                    <td width="35%">{{FB_EmailId}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Mobile No.</label>
+                                                    </td>
+                                                    <td>{{MobileNo}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Group</label>
+                                                    </td>
+                                                    <td>{{ViewGroupName}}
+                                                    </td>
+                                                </tr>
+                                                    <tr>
+                                                    <td>
+                                                        <label>Patient Type</label>
+                                                    </td>
+                                                    <td>{{Patient_Type==1?'Standard':Patient_Type==2?'Premium':null}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-info" ng-show="currentTab=='2'">
+                                    <!--<div class="panel-heading containeralign" style="text-align: left;">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
+                                            </a>
+                                        </h4>
+                                    </div>-->
+                                    <div id="collapse2" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                class="formControlGroup">
+                                                <tr>
+                                                    
+                                                    <td width="25%">
+                                                        <label>Nationality</label>
+                                                    </td>
+                                                    <td width="25%">{{ViewNationality}}
+                                                    </td>
+                                               
+                                                    <td width="25%">
+                                                        <label>Home Phone Number</label>
+                                                    </td>
+                                                    <td class="nopadding">
+                                                        <table border="0" width="100%" class="formControlGroup">
+                                                            <tr>
+                                                                <td width="50%">{{HomeAreaCode}}
+                                                                </td>
+                                                                <td width="50">{{Home_PhoneNo}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                     </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Marital Status</label>
+                                                    </td>
+                                                    <td>{{MaritalStatus}}
+                                                    </td>
+                                               
+                                                    <td>
+                                                        <label>Blood Group</label>
+                                                    </td>
+                                                    <td>{{ViewBloodGroup}}
+                                                    </td>
+                                                     </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Ethnic Group</label>
+                                                    </td>
+                                                    <td>{{EthnicGroup}}
+                                                    </td>
+                                                
+                                                    <td>Chronic Condition
+                                                    </td>
+                                                    <td>{{ChronicCondition}}
+                                                    </td>
+                                                    </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Date of Birth</label>
+                                                    </td>
+                                                    <td>
+                                                        {{DOB_Encrypt}}
+                                                        {{DOB}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-info" ng-show="currentTab=='3'">
+                                    <!--<div class="panel-heading containeralign" style="text-align: left;">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Address Info
+                                            </a>
+                                        </h4>
+                                    </div>-->
+                                    <div id="collapse3" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                class="formControlGroup">
+                                                <td width="25%">
+                                                    <label>Address</label>
+                                                </td>
+                                                <td width="25%">{{Address1}}
+                                                </td>
+
+                                                <td width="25%">
+                                                    <label>Street Address</label>
+                                                </td>
+                                                <td width="25%">{{Address2}}
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Street Address Line 2</label>
+                                                    </td>
+                                                    <td>{{Address3}}
+                                                    </td>
+
+                                                    <td>
+                                                        <label>Postel/Zip Code</label>
+                                                    </td>
+                                                    <td>{{PostalZipCode}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Country</label>
+                                                    </td>
+                                                    <td>{{ViewCountryName}}
+                                                    </td>
+
+                                                    <td>
+                                                        <label>State</label>
+                                                    </td>
+                                                    <td>{{ViewStateName}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>City</label>
+                                                    </td>
+                                                    <td>{{ViewLocationName}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="panel panel-info" ng-show="currentTab=='4'">
+                                    <!--<div class="panel-heading containeralign" style="text-align: left;">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">Emergency Contact
+                                                Info
+                                            </a>
+                                        </h4>
+                                    </div>-->
+                                    <div id="collapse7" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                class="formControlGroup">
+                                                <tr>
+                                                    <td width="25%">
+                                                        <label>First Name</label>
+                                                    </td>
+                                                    <td width="25%">{{EMERG_CONT_FIRSTNAME}}
+                                                    </td>
+
+                                                    <td width="25%">
+                                                        <label>Middle Name</label>
+                                                    </td>
+                                                    <td width="25%">{{EMERG_CONT_MIDDLENAME}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Last Name</label>
+                                                    </td>
+                                                    <td>{{EMERG_CONT_LASTNAME}}
+                                                    </td>
+
+                                                    <td>
+                                                        <label>Relationship</label>
+                                                    </td>
+                                                    <td>{{RelationShipName}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Contact No.</label>
+                                                    </td>
+                                                    <td>{{Emergency_MobileNo}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="panel panel-info" ng-show="currentTab=='5'">
+                                    <!--<div class="panel-heading containeralign" style="text-align: left;">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                href="#collapse4">Medical Info
+                                            </a>
+                                        </h4>
+                                    </div>-->
+                                    <div id="collapse4" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                width="100%" class="formControlGroup">
+                                                <tr>
+                                                    <td width="65%" colspan="2">
+                                                        <label>
+                                                            Do you currently take medication?
+                                                        </label>
+                                                        {{CURRENTLY_TAKEMEDICINE==1?'Yes':CURRENTLY_TAKEMEDICINE==2?'No':""}}
+                                                    </td>
+                                                </tr>
+                                                <tr ng-hide="CURRENTLY_TAKEMEDICINE ==2">
+
+                                                    <td width="35" colspan="2">
+                                                        <table
+                                                            class="table themeTable"
+                                                            template-pagination="custom/pager">
+                                                            <thead>
+                                                                <tr style="text-align: center">
+                                                                    <th width="7%">Sl No.</th>
+                                                                    <th width="20%">Medicine Name</th>
+                                                                    <th width="15%">Description</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr
+                                                                    ng-if="CurrentMedicineflag==0 && AddMedicines.length==0">
+                                                                    <td colspan="5"
+                                                                        style="text-align: center">No Data Available
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="row in AddMedicines">
+                                                                    <td width="5%"
+                                                                        style="text-align: right">{{$index+1}}
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.MedicineName}}
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.Remarks}}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <label>
+                                                            Do you have any past medical history or
+                                                                            problems ?
+                                                                            {{PAST_MEDICALHISTORY==1?'Yes':PAST_MEDICALHISTORY==2?'No':""}}</label>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-hide="PAST_MEDICALHISTORY ==2">
+                                                    <td colspan="2">
+                                                        <table
+                                                            class="table themeTable"
+                                                            template-pagination="custom/pager">
+                                                            <thead>
+                                                                <tr style="text-align: center">
+                                                                    <th width="7%">Sl No.</th>
+                                                                    <th width="20%">Medical History</th>
+                                                                    <th width="15%">Description</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="text-align: right">1</td>
+                                                                    <td style="text-align: left">
+                                                                        Diabetic
+                                                                    </td>
+                                                                    <td style="text-align: left">
+                                                                        {{ViewDiabetic}}
+                                                                    </td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td style="text-align: right">2</td>
+                                                                    <td style="text-align: left">
+                                                                        Hyper Tension
+                                                                    </td>
+                                                                    <td style="text-align: left">
+                                                                         {{ViewHyperTension}}
+                                                                    </td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td style="text-align: right">3</td>
+                                                                    <td style="text-align: left">
+                                                                        Cholestrol
+                                                                    </td>
+                                                                    <td style="text-align: left">
+                                                                        {{ViewCholestrol}}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr
+                                                                    ng-repeat="row in AddMedicalHistory">
+                                                                    <td width="5%"
+                                                                        style="text-align: right">{{$index+4}}
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.Medical_History}}
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.Remarks}}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <label>
+                                                            Is there a family history of the health
+                                                                            problem(s) ?
+                                                                            {{FAMILYHEALTH_PROBLEMHISTORY==1?'Yes':FAMILYHEALTH_PROBLEMHISTORY==2?'No':""}}
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-hide="FAMILYHEALTH_PROBLEMHISTORY==2">
+                                                    <td colspan="2">
+                                                        <table
+                                                            class="table themeTable"
+                                                            template-pagination="custom/pager">
+                                                            <thead>
+                                                                <tr style="text-align: center">
+                                                                    <th width="7%">Sl No.</th>
+                                                                    <th width="20%">Relationship</th>
+                                                                    <th width="20%">Health Problem</th>
+                                                                    <th width="15%">Description</th>
+                                                                </tr>
+
+                                                            </thead>
+
+                                                            <tbody>
+                                                                <tr
+                                                                    ng-if="MedicalHistoryflag==0 && AddHealthProblem.length==0">
+                                                                    <td colspan="5"
+                                                                        style="text-align: center">No Data Available
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="row in AddHealthProblem">
+                                                                    <td width="5%"
+                                                                        style="text-align: right">{{$index+1}}
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.Relationship_Name}}
+                                                                    </td>
+
+                                                                    <td style="text-align: left">{{row.Health_Problem}}
+                                                                    </td>
+                                                                    <td style="text-align: left">{{row.Remarks}}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Immunizations/vaccinations ? </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            {{VACCINATIONS==1?'Yes':VACCINATIONS==2?'No':""}}
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>
+                                                            Describe your diet
+                                                        </label>
+                                                    </td>
+                                                    <td>{{DietDescribe}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>How often do you exercise?</label>
+                                                    </td>
+                                                    <td>{{EXCERCISE_SCHEDULE}}
+                                                                        {{EXCERCISE_TEXT}}
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Are you allergic to any substances?</label>
+                                                    </td>
+                                                    <td>{{AlergySubstance}}
+                                                                        {{ALERGYSUBSTANCE_TEXT}}
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>If you smoke cigarettes (or other substances), how many do you smoke per day?</label>
+                                                    </td>
+                                                    <td>{{SMOKESUBSTANCE}}
+                                                                        {{SMOKESUBSTANCE_TEXT}}
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>How often do you drink alcohol? How much at a time?</label>
+                                                    </td>
+                                                    <td>{{ALCOHALSUBSTANCE}}
+                                                                        {{ALCOHALSUBSTANCE_TEXT}}
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>
+                                                            How often do you drink caffeinated beverages? How much at a time?
+                                                        </label>
+                                                    </td>
+                                                    <td>{{CAFFEINATED_BEVERAGES}}
+                                                                        {{CAFFEINATEDBEVERAGES_TEXT}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn  btn-save" ng-if="PageParameter==1" ng-click="EditPatientData()">
+                    Edit</button>
+                <button type="button" class="btn  btn-save" ng-if="PageParameter==0" ng-click="EditPatientData_Approval()">
+                    Edit</button>
+                <button type="button" class="btn  btn-save" ng-click="PatientView_Cancel()">
+                    Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="MoreInfoModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">More Informations</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <table>
+                              <tr>
+                                  <td width="10%">
+                                      <label>Remarks<sup><font class='mandatory-field'>*</font></sup></label>
+                                  </td>
+                                 <td width="30%">
+                                      <input type="text" class="form-control" ng-model="Remarks" maxlength="250" ng-maxlength="250"/>
+                                 </td>
+                              </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <div class="col-sm-offset-2 col-sm-9">
+                            <button type="button" class="btn btn-save" title="Click to Save" ng-click="PatientApproval_History_Insert()">
+                                Save</button>
+                            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="Cancel_MoreInfoPopup()">
+                                Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,174 @@
+<!-- Institution Details view Page -->
+<meta http-equiv="refresh">
+
+<head>
+    <style type="text/css">
+        input[type='file'] {
+            opacity: 0;
+        }
+
+        .asd {
+            background: rgba(0, 0, 0, 0);
+            border: none;
+        }
+
+        .pagehead {
+            margin-left: 20px;
+        }
+    </style>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#companyphoto").trigger('click');
+        })
+
+    </script>
+</head>
+<div class="mainbody">
+    <ul class="secondaryMenu">
+        <li>
+            <a class="secondaryMenuActive" href="Home/Index#/InstitutionHospitalAdmin_view">
+                Institution</a>
+        </li>
+        <li><a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
+        </li>
+        <li><a href="Home/Index#/HospitalAdmin_UserList/2">Business User</a></li>
+    </ul>
+    <div ng-init="InstitutionDetails_View();">
+          <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <h1 class="page-title">Institution </h1>
+        <div id="Basic1">            
+            <form class="form-horizontal" role="form">
+                <div class="panel panel-default panel-info" id="tableid">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="50%" valign="top">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+                                        <td width="15%">
+                                            <label>Name</label>
+                                        </td>
+                                        <td width="40%">
+                                            <div class="textwrap"> {{Institution_Name}}</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Short Name</label>
+                                        </td>
+                                        <td>
+                                            <div class="textwrap"> {{INSTITUTION_SHORTNAME}}</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Email</label>
+                                        </td>
+                                        <td>
+                                            {{Email}}
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="50%" colspan="2" rowspan="2" valign="top">
+                                <div>
+                                    <label>
+                                        Logo Upload
+
+                                    </label>
+                                    <div>
+                                        <img src="{{uploadme}}" width="120" height="120" class="mtb-7 com_img"
+                                            ng-show="(uploadme != '')" />
+                                        <img src="../../Images/noImage.jpg" width="120" height="120"
+                                            ng-show="(uploadme == '')" />
+                                    </div>
+                                </div>
+                            </td>
+                           
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel panel-default panel-info" id="Div1">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="50%">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+                                        <td width="15%">
+                                            <label>Address</label>
+                                        </td>
+                                        <td width="40%">
+                                            {{Address1}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label></label>
+                                        </td>
+                                        <td>
+                                            {{Address2}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label></label>
+                                        </td>
+                                        <td>
+                                            {{Address3}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Postal / Zip code</label>
+                                        </td>
+                                        <td>
+                                            {{ZipCode}}
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+                            </td>
+                            <td width="50%" style="vertical-align:top">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+                                        <td width="10%">
+                                            <label>Country</label>
+                                        </td>
+                                        <td class="bootstrap-select" width="40%">
+                                            {{ViewCountryName}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>State</label>
+                                        </td>
+                                        <td>
+                                            {{ViewStateName}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>City</label>
+                                        </td>
+                                        <td>
+                                            {{ViewCityName}}
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+
+                </div>
+            </form>
+            <button type="button" class="btn btn-save" title="Click to Edit"
+                ng-click="EditInstitutionHospitalAdmin()">Edit</button>
+        </div>
+    </div>
+
+</div>

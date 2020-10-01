@@ -1,0 +1,252 @@
+﻿<!-- Institution Details view Page -->
+<meta http-equiv="refresh">
+<head>
+   <style type="text/css">
+      input[type='file'] {
+      opacity: 0;
+      }
+      .asd {
+      background: rgba(0,0,0,0);
+      border: none;
+      }
+       
+       .pagehead {
+           margin-left: 20px;
+       }
+  
+   </style>
+   <script>
+       $('#btnLogo').click(function () {
+           $("#companyphoto").trigger('click');
+       })
+
+   </script>
+</head>
+<div class="container">
+   <!-- <div class="Topdiv">
+            <a href="Home/Index#/Institution_view">Institution</a> &nbsp&nbsp&nbsp<a href="Home/Index#/HospitalAdminLogin">Subscription</a>&nbsp&nbsp&nbsp<a href="Home/Index#/HospitalAdmin_UserList">User</a>
+         </div>-->
+   <h1 class="page-title pagehead">User Additional Details</h1>
+   <!--<div ng-if="ModeType==2 && window.top==window">
+      <meta http-equiv="refresh">
+   </div>-->
+   <div class="row">
+      <div class="col-md-12 col-lg-12">
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <div class="panel panel-default active" id="Basic1">
+            <div class="panel-body">
+               <form class="form-horizontal" role="form" name="patientform" id="patientform">
+                 <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="12%">
+                                <label>First Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td width="25%">
+                              <input type="text" class="form-control" id="Text5" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                            <td width="15%">
+                                <label>Middle Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td width="25%">
+                                <input type="text" class="form-control" id="Text1" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Last Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text6" ng-model="Institution_Code" ng-init="Institution_Code=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                          <td>
+                              
+                                <label>Name of the Institution<sup><font class='mandatory-field'>*</font></sup></label>
+                            
+                            <td>
+                                <input type="text" class="form-control" id="Text4" ng-model="Institution_Code" ng-init="Institution_Code=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                          </tr>
+                        <tr>
+                            <td>
+                                <label>Employment No.<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text9" ng-model="Address1" ng-init="Address1=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                        
+                            <td>
+                                <label>Health License<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text2" ng-model="Address2" ng-init="Address2=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                     </tr>
+                        <tr>
+                            <td>
+                                <label>Gender<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                                <select class="form-control" id="Select1">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                       
+                           
+                            <td>
+                                <label>Nationality<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                                 <select class="form-control" id="Select5">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                            </tr>
+                        <tr>
+                            <td>
+                                <label>Date of Birth<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <div class="col-xs-11 input-group date" id="DOB">
+                                <input type="text" class="form-control" ng-model="BirthDate" ng-init="BirthDate=''" style="width:152px" ng-required="true">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div> 
+                            </td>
+                        
+                            <td>
+                                <label>Contact No.<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text8" ng-model="Email" ng-init="Email=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                            </tr>
+                        <tr>
+                            <td width="17%">
+                                <label>Mobile Area Code Phone No.</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text10" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Home Phone Number</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text7" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                            </tr>
+                         <tr>
+                            <td width="17%">
+                                <label>Email Id<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text12" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Address</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text13" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                            </tr>
+                        <tr>
+                            <td width="17%">
+                                <label>Street Address</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text14" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Street Address Line 2</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text15" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                       <tr>
+                            <td width="17%">
+                                <label>Street Addres Line 3</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text16" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Postel/Zip Code</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text17" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        </tr>
+                       
+                             
+                        <tr>
+                            
+                            <td>
+                                <label>Country<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select2">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                            
+                             <td>
+                                <label>State<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select3">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                <label>City<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select4">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                                 <td>
+                                <label>EMR Availability</label>
+                            </td>
+                            <td>
+                             <input type="checkbox" value="1" />
+                            </td>
+                                 </tr>
+                        <tr>
+                           <td>
+                                <label>Languages Known</label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select7">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                             
+                          
+                            <td>
+                                <label>Certificates</label>
+                            </td>
+                            <td>
+                                <select class="form-control" id="Select6">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                           
+                        </tr>
+                    </table>
+               </form>
+            </div>
+         </div>
+         <div style="text-align: center;">  
+             <button type="button" class="btn btn-save" title="Click To Cancel">Edit</button>          
+            <button type="button" class="btn btn-save" title="Click To Cancel" ng-click="">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+

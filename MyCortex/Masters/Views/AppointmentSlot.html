@@ -1,0 +1,138 @@
+﻿<ul class="secondaryMenu">
+    <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
+    <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
+    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
+    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+    <li><a href="Home/Index#/AppointmentSlot" class="secondaryMenuActive">Appointment Slot</a></li>
+    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
+    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
+       <li><a href="Home/Index#/DoctorHoliday">Dortor Holiday</a></li>
+</ul>
+<h1 class="page-title">Doctor Slot</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default panel-info" id="DMid">
+            <form class="form-horizontal" role="form">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                    <tr>
+                        <td width="5%">
+                            <label>Search</label>
+                        </td>
+                        <td width="5%">
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchquery" placeholder="" style="width: 200px" />
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </td>
+                        <td style="text-align:left" width="65%">
+                            Active &nbsp;&nbsp;
+                            <input toggle-checkbox ng-model="IsActive" type="checkbox"  title="Active / All">
+                        </td>
+                        <td>
+                            <a href="javascript:" ng-click="AddSlot()" class="btn btn-autosize pull-right mb-15" title="Click to Add New Drug DB">Add New</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
+            <thead>
+                <tr style="text-align: center">
+                    <th st-ratio="5">#</th>
+                    <th st-ratio="15" st-sort="Generic_Name">Doctor Name</th>
+                    <th st-ratio="12" st-sort="StrengthName">Speciality</th>
+                    <th st-ratio="12" st-sort="Dosage_FromName">New Appointment</th>
+                    <th st-ratio="12" st-sort="Item_Code">Follow up Appointment</th>
+                    <th st-ratio="10" st-sort="Drug_Code">Slot interval</th>
+                    <th st-ratio="8">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="9" class="text-center">
+                        No Records Found
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot ng-show="rowCollectionFilter.length >10">
+                <tr>
+                    <td colspan="9" class="text-center">
+                        <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<!--Add&Edit Modal-->
+<div id="AppointmentSlotModal" class="modal fade-scale" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="CancelPopup()" style="color:#8B0000;">&times;</button>
+                <h4 class="modal-title">Doctor Slot</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                             <td width="4%">
+                                <label>Doctor<sup><font class='mandatory-field'>*</font></sup></label>
+                             </td>
+                             
+                            <td>
+                                <select class="" data-style="form-control" ng-model="Strength_ID" id="selectpicker" data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
+                                    <option ng-repeat="sel in StrengthIDList" ng-selected="Strength_ID==sel.Id" value="{{sel.Id}}">{{sel.Name}}</option>
+                                </select>
+                            </td>
+                            </tr>
+                            <tr>
+                              <td style="width:6%">
+                                <label>Speciality</label>
+                              </td>
+                            
+                               <td style="width:30%">
+                                 
+                               </td>
+                              </tr>
+                              <tr>
+                            <td style="width:6%">
+                                <label>New Appointment<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            
+                            <td style="width:30%">
+                                <input type="text" class="form-control" id="Text4" name="LastName" ng-model="Item_Code" ng-init="Item_CodeName=''" ng-required="true" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                            </td>
+                          </tr> 
+                        <tr>
+                            <td style="width:6%">
+                                <label>Followup Appointment<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+
+                            <td style="width:30%">
+                                <input type="text" class="form-control" id="Text4" name="LastName" ng-model="Item_Code" ng-init="Item_CodeName=''" ng-required="true" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:6%">
+                                <label>Slot interval<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+
+                            <td style="width:30%">
+                                <input type="text" class="form-control" id="Text4" name="LastName" ng-model="Item_Code" ng-init="Item_CodeName=''" ng-required="true" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="DrugDBAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="btn  btn-save"  ng-click="CancelSlot()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

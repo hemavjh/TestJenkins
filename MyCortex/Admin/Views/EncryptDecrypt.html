@@ -1,0 +1,46 @@
+﻿<h1 class="page-title">Encrypt/Decrypt</h1>
+<div>
+    <div class="panel panel-info" id="App">
+        <div class="panel-body">
+            <form class="form-horizontal" role="form">
+                <div class="overlay">
+                    <div id="Div1"></div>
+                </div>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                    <tr>
+                       <td style="width:2%">
+                           <label>Encrypt/Decrypt </label>
+                       </td>
+                       <td style="width:50%"> 
+                            <input type="radio" value="1" ng-model="Input_Type" ng-checked="checked='true'" ng-click="EncryptDecryptvalue()"> Encrypt
+                            <input type="radio" value="2" ng-model="Input_Type" ng-click="EncryptDecryptvalue()"> Decrypt 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:2%"> 
+                            <label>Input </label>
+                        </td>
+                        <td style="width:50%">
+                            <input type="text" class="form-control" id="Text3" ng-model="DecryptInput"  placeholder="" 
+                                ng-maxlength="200" maxlength="200" ng-keyup="EncryptDecryptvalue()"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Result</label>
+                        </td>
+                        <td>
+                            <textarea class="form-control" id="txtDecryptResult" rows="3" ng-model="DecryptResult" readonly></textarea>
+                        </td>
+                    </tr>                    
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="alert alert-danger def" ng-if="errorlist!=null">
+            <div ng-if="errorlist!=null">
+                <strong>{{errorlist}}</strong>
+            </div>
+        </div>
+    <br />
+</div>

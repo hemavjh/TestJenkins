@@ -1,0 +1,241 @@
+﻿<head>
+    <style type="text/css">
+        input[type='file'] {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#companyphoto").trigger('click');
+        })
+
+        $(function () {
+            $('.selectpicker').selectpicker();
+        });
+
+    </script>
+
+    <style>
+        .column {
+            float: left;
+            width: 48%;
+            padding: 10px;
+            height: 150px;
+            /* Should be removed. Only for demonstration */
+            margin-left: 5px;
+            margin-bottom: 5px;
+
+        }
+
+
+        /* Create three equal columns that floats next to each other */
+        .rowMargin {
+            margin-right: 5px !important;
+            margin-bottom: 5px !important;
+
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+    <style>
+        .toggle {
+            border-radius: 20px;
+        }
+
+        .toggle.ios .toggle-handle {
+            border-radius: 20px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('#toggle-one').bootstrapToggle();
+        })
+    </script>
+</head>
+<ul class="secondaryMenu">
+    <li><a class="secondaryMenuActive" href="Home/Index#/ICD10Master">ICD 10</a>
+    </li>
+    <li><a href="Home/Index#/DrugDBMaster">Drug DB</a>
+    </li>
+</ul>
+<h1 class="page-title">ICD 10</h1>
+<div class="panel panel-default panel-info" id="tableid">
+
+    <form class="form-horizontal" role="form">
+
+        <div class="overlay" show-on-load>
+            <div id="loading-img"></div>
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup" id="table1">
+            <tr>
+                <td width="5%">
+                    <label>Search</label>
+                </td>
+                <td width="20%">
+
+                    <input type="text" ng-model="query" class="form-control ml-10 search-input"
+                        ng-change="AcitveFilterChange()" placeholder="" style="width: 200px" />
+
+                </td>
+                <td style="text-align:left" width="65%">
+                    <!--<input type="checkbox" checked="checked" class="ml-10 search-input" />Active-->
+                    Active&nbsp;&nbsp;
+                    <input id="toggle-one" checked data-toggle="toggle" type="checkbox">
+                </td>
+                <td style="text-align:right" width="15%">
+                    <a href="javascript:" ng-click="AddICD10Popup()" class="btn btn-autosize pull-right ml-10">Add
+                        New</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollection" class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="5" st-sort="Id">Sl No.</th>
+            <th st-ratio="10" st-sort="CompanyName">ICD Code</th>
+            <th st-ratio="20" st-sort="Branch_Code">ICD Description</th>
+            <th st-ratio="10" st-sort="Branch_Name">Category</th>
+            <th st-ratio="10" st-sort="Branch_Name">Status</th>
+            <th st-ratio="10" st-sort="Branch_Name">Active From</th>
+            <th st-ratio="10" st-sort="Branch_Name">Deactive From</th>
+            <th st-ratio="10" st-sort="Branch_Name">Source</th>
+            <th st-ratio="10">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: center" st-ratio="10">
+                <a href="javascript:" ng-click="ViewIntstitutionPopup()" title=""><img
+                        src="../../Images/ViewIcon.png" /></a>
+                <a href="javascript:" title="">
+                    <img src="../../Images/EditIcon.png" /></a>
+                <a href="javascript:" title="">
+                    <img src="../../Images/activeIcon1.png" />
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="rowCollection.length >30">
+        <tr>
+            <td colspan="5" class="text-center">
+                <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                    st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<!--Create & Edit Modal-->
+<div id="InstitutionCreateModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 75%;">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" title="Close"
+                    style="color: #8B0000;">&times;</button>
+
+                <h1 class="page-title">ICD 10</h1>
+            </div>
+            <!--<div class="modal-body"style="overflow-y:scroll ; height:300px;">-->
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="80%" class="formControlGroup">
+                        <tr>
+                            <td style="width:50%">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+                                        <td width="20%">
+                                            <label>ICD Code<sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup></label>
+                                        </td>
+                                        <td width="80%">
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>ICD Description</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Category</label>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="Select4">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Status</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Active From</label>
+                                        </td>
+                                        <td>
+                                            <div class="col-xs-11 input-group date" id="Div1">
+                                                <input type="text" class="form-control" ng-model="BirthDate"
+                                                    ng-init="BirthDate=''" style="width:152px" ng-required="true">
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-th"></i></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Deactive From</label>
+                                        </td>
+                                        <td>
+                                            <div class="col-xs-11 input-group date" id="Div1">
+                                                <input type="text" class="form-control" ng-model="BirthDate"
+                                                    ng-init="BirthDate=''" style="width:152px" ng-required="true">
+                                                <span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-th"></i></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" id="save" id="Pages" ng-click="">Save</button>
+                <button type="button" class="btn  btn-save" ng-click="CancelICD10Popup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

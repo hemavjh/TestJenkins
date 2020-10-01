@@ -1,0 +1,81 @@
+﻿<div id="chatWindowmodal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                    title="Close"
+                    ng-click="CancelPopup()"
+                    style="color: #8B0000;">
+                    &times;</button>
+                <!--<h4 class="modal-title">Alert Configuration Details</h4>-->
+            </div>
+            <div class="modal-body">
+                <input id="loggedInUID" type="hidden" />
+                <input id="callSessionID" type="hidden" />
+                <div class="container-fluid h-100">
+                    <div class="row justify-content-center h-100">
+                        <div class="col-md-6 col-xl-6 chat">
+                            <div class="card">
+                                <div class="card-header msg_head">
+                                    <div class="d-flex bd-highlight" id="msg-page">
+                                        <div class="img_cont">
+                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                            <span class="online_icon"></span>
+                                        </div>
+                                        <div class="user_info">
+                                            <span>Chat with Khalid</span>
+                                            <p>1767 Messages</p>
+                                        </div>
+                                        <div class="video_cam">
+                                            <span><i class="fas fa-video"></i></span>
+                                            <span><i class="fas fa-phone"></i></span>
+                                        </div>
+                                    </div>
+                                    <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                                    <div class="action_menu">
+                                        <ul>
+                                            <li><i class="fas fa-user-circle"></i>View profile</li>
+                                            <li><i class="fas fa-users"></i>Add to close friends</li>
+                                            <li><i class="fas fa-plus"></i>Add to group</li>
+                                            <li><i class="fas fa-ban"></i>Block</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="empty-chat" class="text-center img-fluid empty-chat">
+                                    <div class="empty-chat-holder">
+                                        <img src="./assets/empty-state.svg" class="img-res" alt="empty chat image">
+                                    </div>
+
+                                    <div>
+                                        <h2>No new message?</h2>
+                                        <h6 class="empty-chat-sub-title">Send your first message below.</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body msg_card_body" id="group-message-holder">
+                                </div>
+                                <div class="card-footer">
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                                        </div>
+                                        <textarea name="" class="form-control type_msg" id="input-text" placeholder="Type your message..."></textarea>
+                                        <div class="input-group-append">
+
+                                            <input type="button" id="sendmsgbutton" value="send" />
+                                            <input type="button" id="callbutton" value="call" />
+                                            <input type="button" id="receivecallbutton" value="receive" />
+                                            <input type="button" id="callScreen" value="receive" />
+
+                                            <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

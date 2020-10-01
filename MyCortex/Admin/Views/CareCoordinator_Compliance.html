@@ -1,0 +1,332 @@
+﻿
+<head>
+    <style>
+        .boxed {
+            border: 1px solid green;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .headalign {
+            margin-left: 0px;
+        }
+
+        .pagehead {
+            margin-left: 20px;
+        }
+        /* Create three equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 48%;
+            padding: 10px;
+            height: 150px; /* Should be removed. Only for demonstration */
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+
+
+        /* Create three equal columns that floats next to each other */
+        .rowMargin {
+            margin-left: 5px !important;
+            margin-bottom: 5px !important;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+
+    <style>
+        .toggle {
+            border-radius: 20px;
+        }
+
+            .toggle.ios .toggle-handle {
+                border-radius: 20px;
+            }
+    </style>
+    <script>
+  $(function() {
+    $('#toggle-one').bootstrapToggle();
+  })
+    </script>
+</head>
+<div class="container">
+    <div class="Topdiv headalign">
+        <a href="Home/Index#/Carecoordinator">Diagostic Alert</a> &nbsp&nbsp&nbsp<a href="Home/Index#/CarecoordinatorCompliance">Compliance Alert</a>
+         <!--&nbsp&nbsp&nbsp<a href="Home/Index#/PatientAppointmentlist">Patient Appointments</a>-->
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="title1">Compliance Alert</h1>
+            <div class="panel panel-default panel-info" id="Div1">
+                <form class="form-horizontal" role="form">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="5%">
+                                <label>Search</label>
+                            </td>
+                            <td width="95%">
+
+                                <input type="text" ng-model="query" class="form-control ml-10 search-input" ng-change="AcitveFilterChange()" placeholder="" style="width: 200px" />
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3" ng-click="CGAddPatientPopup()" style="cursor: pointer">
+                    <div class="patientDet">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>MRN: </label>ABC123
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>Last Name: </label>Last Name Last Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <label>First Name: </label>First Name First Name
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <span><img src="../../Images/alert red.png" />&nbsp&nbsp&nbsp<img src="../../Images/alertyellow.jpg" />&nbsp&nbsp&nbsp<img src="../../Images/alert green.png" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <img class="patientDetimg" src="../../Images/male.png" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

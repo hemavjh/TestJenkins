@@ -1,0 +1,531 @@
+﻿<head>
+    <style>
+        .themeTable td,
+        .themeTable th {
+            padding: 8px !important;
+        }
+
+        .boxed {
+  border: 1px solid green ;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 48%;
+  padding: 10px;
+  height: 150px; /* Should be removed. Only for demonstration */
+  margin-left:5px;
+  margin-bottom:5px;
+  
+}
+
+
+/* Create three equal columns that floats next to each other */
+.rowMargin {
+  margin-left:5px!important;
+  margin-bottom:5px!important;
+  
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+    </style>
+
+</head>
+
+<div class="row">
+     <div class="Topdiv">
+         <a href="Home/Index#/CareGiverAssignedPatients">Assigned Patients</a> &nbsp&nbsp&nbsp<a href="Home/Index#/CareGiverAllPatients">All Patients</a> 
+         
+        </div>
+    <div class="col-md-12">
+        <h1 class="title1">All Patients</h1>
+
+        <div class="panel panel-default panel-info" id="Div1">
+            <form class="form-horizontal" role="form">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                    <tr>
+                        <td width="5%">
+                            <label>Search</label>
+                        </td>
+                        <td width="95%">
+
+                            <input type="text" ng-model="query" class="form-control ml-10 search-input" ng-change="AcitveFilterChange()" placeholder="" style="width: 200px" />
+
+                        </td>
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3" ng-click="AddPatientPopup()" style="cursor: pointer">
+                <div class="patientCard">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>MRN</label>
+                                    <span>ABC123</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>Unknown</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>Y/N/Pre</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="../../Images/male.png" alt="">
+                            <h1>John Smith</h1>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="col-md-6">
+        <h1 class="title1">Today's Patients</h1>
+        <table class="table themeTable">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Appoinment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Yogeswaran</td>
+                    <td>Veerapathiran</td>
+                    <td>10.30 AM</td>
+                </tr>
+                <tr >
+                    <td>Yogeswaran</td>
+                    <td>Veerapathiran</td>
+                    <td>10.30 AM</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>-->
+</div>

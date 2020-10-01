@@ -1,0 +1,146 @@
+﻿<ul class="secondaryMenu">
+	 <li><a href="Home/Index#/ParameterSettings" class="secondaryMenuActive">Standard Parameter</a></li>
+    <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
+    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
+    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>   
+    <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>   
+    <li><a href="Home/Index#/SlotTiming">Slot Timing</a></li>
+    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li> 
+    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+</ul>
+
+<div class="container">
+
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div class="row">
+        <div class="col-md-12" ng-init="ChatSettings_ViewEdit()">
+            <h1 class="page-title">Standard Parameter</h1>
+            <div class="panel panel-default panel-info">
+                <form class="form-horizontal" role="form">
+                    <div class="overlay" show-on-load>
+                        <div id="loading-img"></div>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" border="0" width="80%" class="formControlGroup" id="table1">
+                        <tr>
+                            <td width="5%">
+                                <label>Search</label>
+                            </td>
+                            <td width="30%">                                
+                                <div class="modernSearch">
+                                    <input type="text" ng-model="query" ng-change="StandardFilterlist()" placeholder=""/>
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </td>
+                            <td width="65%">
+                                <div style="text-align: center;">
+                                    <button type="button" class="btn btn-save" ng-if="IsEdit==false" ng-click="StandardParameterEdit()" title="Click to Edit">Edit</button>
+                                    <button type="button" class="btn  btn-save" id="save" title="Click to Save" ng-if="IsEdit==true" ng-click="StandardParameter_AddEdit()">Save</button>
+                                    <button type="button" class="btn btn-save" ng-if="IsEdit==true" ng-click="StandardParameterCancel()" title="Click to Cancel">Cancel</button>
+                                </div>
+                            </td>
+                          
+                        </tr>
+                    </table>
+                </form>
+            </div>              
+                <table st-table="ProtocolParametersList" style="width: 100%" st-safe-src="ProtocolParametersList" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
+                    <thead>
+                        <tr style="text-align: center">
+                            <th st-ratio="10" colspan="5" st-sort=""></th>
+                            <th st-ratio="10" colspan="2" st-sort="">Normal Range</th>
+                            <th st-ratio="10" colspan="2" st-sort=""></th>
+                        </tr>
+                        <tr style="text-align: center">
+                            <th st-ratio="20" rowspan="1" st-sort="">Parameter</th>
+                            <th st-ratio="10" rowspan="1" st-sort="">Units</th>
+                            <th st-ratio="4" rowspan="1" st-sort="">Diagnostic Alert</th>
+                            <th st-ratio="10" rowspan="1" st-sort="">Min Possible</th>
+                            <th st-ratio="10" rowspan="1" st-sort="">Max Possible</th>
+                            <th st-ratio="12" st-sort="">From</th>
+                            <th st-ratio="12" st-sort="">To</th>
+                            <th st-ratio="10" st-sort="">Average/Target</th>
+                            <th st-ratio="10" st-sort="">Remarks</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-if="ProtocolParametersList.length==0">
+                            <td colspan="15" style="text-align: center">
+                                No Data Available
+                            </td>
+                        </tr>
+                        <tr ng-repeat="row in ProtocolParametersList">
+                            <td style="text-align: left">
+                                {{row.Name}}
+                            </td>
+
+                            <td style="text-align: left" ng-if="IsEdit==true">
+                                <select class="form-control" ng-model="Units_ID[row.Id]" id="Parameterid">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in UnitMasterList | filter : {Parameter_ID:row.Id}: true"
+                                            value="{{sel.Units_ID}}">
+                                        {{sel.Units_Name}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td style="text-align: left" ng-if="IsEdit==false">
+                                <input type="text" class="form-control" ng-model="Units_Name[row.Id]" disabled>
+
+                            </td>
+
+                            <td style="text-align: center" ng-if="IsEdit==true">
+                                <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]">
+
+                            </td>
+                            <td style="text-align: center" ng-if="IsEdit==false">
+                                <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]" disabled>
+
+                            </td>
+                            <td style="text-align: left">
+                                <input type="text" class="form-control"
+                                       ng-model="Min_Possible[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                                <span ng-if="IsEdit==false">{{Min_Possible[row.Id]}}</span>
+
+                            </td>
+
+                            <td style="text-align: left">
+                                <input type="text" class="form-control" ng-model="Max_Possible[row.Id]"
+                                       placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                                <span ng-if="IsEdit==false">{{Max_Possible[row.Id]}}</span>
+                            </td>
+
+                            <td style="text-align: left">
+                                <input type="text" class="form-control"
+                                       ng-model="NormalRange_low[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                                <span ng-if="IsEdit==false">{{NormalRange_low[row.Id]}}</span>
+                            </td>
+                            <td style="text-align: left">
+                                <input type="text" class="form-control"
+                                       ng-model="NormalRange_High[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                                <span ng-if="IsEdit==false">{{NormalRange_High[row.Id]}}</span>
+                            </td>
+                            <td style="text-align: left">
+                                <input type="text" class="form-control"
+                                       ng-model="Average[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                                <span ng-if="IsEdit==false">{{Average[row.Id]}}</span>
+                            </td>
+                            <td style="text-align: left">
+                                <input type="text" class="form-control"
+                                       ng-model="Remarks[row.Id]" placeholder="" ng-maxlength="250" maxlength="250" ng-if="IsEdit==true">
+                                <span ng-if="IsEdit==false">{{Remarks[row.Id]}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+    </div>
+</div>
+
+
+
+
+
+

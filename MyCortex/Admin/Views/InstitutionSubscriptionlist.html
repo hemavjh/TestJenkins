@@ -1,0 +1,408 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-title">
+                Subscription
+            </div>
+        </div>
+        <div class="overlay" show-on-load>
+            <div id="Div2"></div>
+        </div>
+        <div class="col-md-12" ng-init="InstitutionSubscriptionDetailsListTemplate()">
+              <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+            <div class="panel panel-default panel-info" id="tableid">
+                
+                <form class="form-horizontal" role="form">
+
+                    <div class="overlay" show-on-load>
+                        <div id="loading-img"></div>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup" id="table1">
+                        <tr>
+                            <td width="5%">
+                                <label>Search</label>
+                            </td>
+                            <td width="20%">
+                                <div class="modernSearch">
+                                    <input type="text" ng-model="searchquery" ng-change="filterInstitutionSubscriptionList()" placeholder="" />
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </td>
+                            <td style="text-align:left" width="65%">
+                                Active&nbsp;&nbsp;
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="InstitutionSubscriptionDetailsFilter();">
+                            </td>
+                            <td style="text-align:right" width="15%">
+                                <a href="javascript:" ng-click="AddIntstitutionSubPopup()" class="btn btn-autosize pull-right ml-10" title='Add New Subscription'>Add New</a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
+                <thead>
+                    <tr>
+                        <th st-ratio="5" st-sort="Id">#</th>
+                        <th st-ratio="35" st-sort="Institution_Name">Institution Name</th>
+                        <th st-ratio="20" st-sort="InstitutionPrintName">Short Name</th>
+                        <th st-ratio="20" st-sort="InstitutionPrintName">Contract Period</th>
+                        <th st-ratio="5">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="rowCollectionFilter.length==0">
+                        <td colspan="5" class="text-center">
+                            No Data Available
+                        </td>
+                    </tr>
+                    <tr ng-repeat="row in emptydata">
+                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                        <td style="text-align: left">
+                            <div class="textwrap">{{row.Institution.Institution_Name}}</div>
+                        </td>
+
+                        <td style="text-align: left">
+                            <div class="textwrap">{{row.Institution.INSTITUTION_SHORTNAME}}</div>
+                        </td>
+
+                        <td style="text-align: left">
+                            {{row.Contract_PeriodFrom|date:"dd-MMM-yyyy"}} - {{row.Contract_PeriodTo|date:"dd-MMM-yyyy"}}
+                        </td>
+                        <td st-ratio="10" style="text-align: center">
+                            <a href="javascript:" ng-click="ViewIntstitutionSubPopup(row.Id)" title="View"><img src="../../Images/ViewIcon.png" /></a>
+                            <a href="javascript:" title="Edit" ng-click="EditIntstitutionSubPopup(row.Id, row.Institution.IsActive)">
+                                <img src="../../Images/EditIcon.png" />
+                            </a>
+                            <a href="javascript:" ng-click="InstitutionSubscription_Delete()" title="Active Institution">
+                                <img src="../../Images/activeIcon1.png" ng-if="row.Institution.IsActive==1" />
+                            </a>
+                            <a href="javascript:" ng-click="InstitutionSubscription_Delete()" title="Inactive Institution"><img src="../../Images/inactive.png" ng-if="row.Institution.IsActive==0" /></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot ng-show="rowCollectionFilter.length >page_size">
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!--Create & Edit Modal-->
+<div id="InstitutionSubscriptionCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close" >&times;</button>
+
+                <h1 class="page-title">Subscription</h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default" id="Basic1">
+                        <div class="panel-body">
+
+                            <form class="form-horizontal" role="form" name="FormBasic" id="FormBasic">
+                                <table cellpadding="0" align="Center" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+
+                                        <td width="13%">
+                                            <Lable>Institution Name<sup><font class='mandatory-field'>*</font></sup></Lable>
+                                        </td>
+                                        <td width="25%">
+                                            <select class="form-control" data-style="form-control" id="stateselectpicker" data-live-search="true" data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id" ng-change="InstituteGetDetails();">
+                                                <!--<option value="0">Select</option>-->
+                                                <option ng-repeat="sel in InstitutiondetailsList" ng-required="true" value="{{sel.Id}}">{{sel.Name}}</option>
+                                            </select>
+                                        </td>
+
+                                        <td rowspan="9" valign="top">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutiontypeList">
+                                                                <input type="checkbox" ng-model="InstitutionAddList[$index]" />{{value.ModuleName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                                <tr>
+                                                    <td width="15%">
+                                                        <label>No. of Health Care Professionals<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td width="20%">
+                                                        <input type="text" class="form-control" id="text9" ng-model="Health_Care_Professionals" maxlength="9" ng-maxlength="9" style="width:190px" onkeypress="varifyNumberPositive(event)">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>No. of Patients<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" id="text1" ng-model="Patients" style="width:190px" maxlength="9" ng-maxlength="9" onkeypress="varifyNumberPositive(event)">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Contract Period<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td>
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="col-sm-6 col-xs-11 input-group date" id="PeriodFrom">
+                                                                        <input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="col-sm-6 col-xs-12 input-group date" id="PeriodTo">
+                                                                        <input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Type<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td class="nopadding">
+                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="radio" value="1" ng-model="Subscription_Type" ng-checked="checked='true'"> Standard
+                                                                    <input type="radio" value="2" ng-model="Subscription_Type"> Premium
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Email</label>
+                                        </td>
+                                        <td><span>{{Email}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Address1</label>
+                                        </td>
+                                        <td><span>{{Address1}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Address2</label>
+                                        </td>
+                                        <td><span>{{Address2}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Address3</label>
+                                        </td>
+                                        <td><span>{{Address3}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Postal/ZipCode</label>
+                                        </td>
+                                        <td><span>{{ZipCode}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Country</label>
+                                        </td>
+                                        <td><span>{{Country}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>State</label>
+                                        </td>
+                                        <td><span>{{State}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>City</label>
+                                        </td>
+                                        <td><span>{{City}}</span></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer" style="text-align:center;">
+                            <button type="button" class="btn  btn-save" id="save" title="Click to Save" id="Page" ng-click="Institution_SubscriptionAddEdit()">Save</button>
+                            <button type="button" class="btn  btn-save" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Modal -->
+
+<div id="ViewInstitutionSubscriptionModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close" >&times;</button>
+
+                <h1 class="page-title">Subscription</h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default" id="Div1">
+                        <div class="panel-body">
+
+                            <form class="form-horizontal" role="form" name="patientform" id="patientform">
+                                <table cellpadding="0" align="Center" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+                                        <td width="13%">
+                                            <Lable>Institution Name</Lable>
+                                        </td>
+                                        <td width="25%">
+                                            {{ViewInstitution_Name}}
+                                        </td>
+                                        <td rowspan="9" valign="top">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-sm-6" ng-repeat="row in InstitutiontypeList">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" />{{row.ModuleName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="0" width="90%" class="formControlGroup">
+                                                <tr>
+                                                    <td width="7%">
+                                                        <label>No. of Health Care Professionals</label>
+                                                    </td>
+                                                    <td width="20%">
+                                                        {{Health_Care_Professionals}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>No. of Patients</label>
+                                                    </td>
+                                                    <td>
+                                                        {{Patients}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Contract Period</label>
+                                                    </td>
+                                                    <td>
+                                                        {{Contract_Period_From}} - {{Contract_Period_To}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Type</label>
+                                                    </td>
+                                                    <td class="nopadding">
+                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    {{Subscription_Type==1 ? "Standard" : "Premium"}}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                    <tr>
+                                        <td>
+                                            <label>Email</label>
+                                        </td>
+                                        <td><span>{{Email}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Address1</label>
+                                        </td>
+                                        <td><span>{{Address1}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Address2</label>
+                                        </td>
+                                        <td><span>{{Address2}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Address3</label>
+                                        </td>
+                                        <td><span>{{Address3}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Postal/ZipCode</label>
+                                        </td>
+                                        <td><span>{{ZipCode}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Country</label>
+                                        </td>
+                                        <td><span>{{Country}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>State</label>
+                                        </td>
+                                        <td><span>{{State}}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>City</label>
+                                        </td>
+                                        <td><span>{{City}}</span></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer" style="text-align:center;">
+                            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewIntstitutionSubPopup()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#PeriodFrom").bootstrapDP({
+        format: "dd-M-yyyy",
+        forceParse: true,
+        autoclose: true,
+        todayHighlight: true,
+        toggleActive: true,
+        todayBtn: true
+    });
+</script>
+<script>
+    $("#PeriodTo").bootstrapDP({
+        format: "dd-M-yyyy",
+        forceParse: true,
+        autoclose: true,
+        todayHighlight: true,
+        toggleActive: true,
+        todayBtn: true
+    });
+</script>

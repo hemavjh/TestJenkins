@@ -1,0 +1,365 @@
+﻿<head>
+    <style type="text/css">
+        input[type='file'] {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#companyphoto").trigger('click');
+        })
+    </script>
+</head>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-title">Patient<sub><input type="image" src="../../Images/collapse.gif" title='' onclick="return divcollapse('tableid', 'tableid_img')" style="width: 20px;" id="tableid_img"></sub></h1>
+            <div class="panel panel-default panel-info" id="tableid">
+
+                <form class="form-horizontal" role="form">
+
+                    <div class="overlay" show-on-load>
+                        <div id="loading-img"></div>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup" id="table1">
+                        <tr>
+                            <td width="8%">
+                                <label>Patient</label>
+                            </td>
+                            <td width="23%">
+                                <select class="form-control" id="Select1">
+                                    <option value="0">All</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-small" id="go">Go</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <a href="javascript:" ng-click="AddPatientPopup()" class="btn btn-autosize pull-right mb-15">Add New</a>
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollection"  class="table themeTable">
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="5" st-sort="Id">Sl No.</th>
+                        <th st-ratio="25" st-sort="CompanyName">Patient Name</th>
+                        <th st-ratio="15" st-sort="Branch_Code">MRN</th>
+                        <th st-ratio="15" st-sort="Branch_Name">Contact No.</th>
+                        <th st-ratio="15" st-sort="Branch_Name">Pending Since</th>
+                        <th st-ratio="10">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                 
+                    <tr>
+                        <td style="text-align: right">{{1}}</td>
+                        <td style="text-align: left">{{"MyCortex"}}</td>
+                        <td style="text-align: left">{{"MA101"}}</td>
+                        <td style="text-align: left">{{"9758545858"}}</td>
+                        <td style="text-align: left">{{""}}</td>
+                        <td st-ratio="10">
+                            <a href="javascript:" title="">Not Approved</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot ng-show="rowCollection.length >30">
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!--Create & Edit Modal-->
+<div id="PatientCreateModal" class="modal fade"role="dialog">
+    <div class="modal-dialog" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+           
+                <button type="button" class="close" data-dismiss="modal" title="Close" style="color: #8B0000;">&times;</button>
+
+           <h1 class="page-title">Patient Additional Details</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="12%">
+                                <label>First Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td width="25%">
+                              <input type="text" class="form-control" id="Text5" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                            <td width="15%">
+                                <label>Middle Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td width="25%">
+                                <input type="text" class="form-control" id="Text1" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Last Name</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text6" ng-model="Institution_Code" ng-init="Institution_Code=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                          <td>
+                              
+                                <label>MRN No.</label>
+                            
+                            <td>
+                                <input type="text" class="form-control" id="Text4" ng-model="Institution_Code" ng-init="Institution_Code=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                          </tr>
+                        <tr>
+                            <td>
+                                <label>Patient ID</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text9" ng-model="Address1" ng-init="Address1=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                        
+                            <td>
+                                <label>National ID</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text2" ng-model="Address2" ng-init="Address2=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                     </tr>
+                        <tr>
+                            <td>
+                                <label>Insurance ID</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text3" ng-model="Address3" ng-init="Address3=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                       
+                           
+                            <td>
+                                <label>Gender</label>
+                            </td>
+                            <td>
+                                 <select class="form-control" id="Select5">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                            </tr>
+                        <tr>
+                            <td>
+                                <label>Nationality</label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select6">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                        
+                            <td>
+                                <label>Contact No.</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text8" ng-model="Email" ng-init="Email=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                            </tr>
+                        <tr>
+                            <td width="17%">
+                                <label>Mobile Area Code Phone No.</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text10" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Home Phone Number</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text7" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                            </tr>
+                         <tr>
+                            <td width="17%">
+                                <label>WhatsApp No.</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text12" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Ethinic Group</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text13" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                            </tr>
+                        <tr>
+                            <td width="17%">
+                                <label>Addres 1</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text14" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Address 2</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text15" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                       <tr>
+                            <td width="17%">
+                                <label>Addres 3</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text16" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Postel/Zip Code</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text17" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        </tr>
+                       
+                                  <tr>
+                            <td width="17%">
+                                <label>Face Book ID</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text18" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        
+                            <td width="17%">
+                                <label>Gmail ID</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text19" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                             <td>
+                                <label>Email<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <input type="text" class="form-control" id="Text11" ng-model="Website" ng-init="Website=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                            <td>
+                                <label>Country<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select2">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                            </tr>
+                             <tr>
+                             <td>
+                                <label>State<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select3">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                            <td>
+                                <label>City<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select4">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                                 </tr>
+                        <tr>
+                                 <td>
+                                <label>Marital Status<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select7">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                              <td>
+                                <label>Blood Group<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td>
+                               <select class="form-control" id="Select8">
+                                    <option value="0">Select</option>
+                                </select>
+                            </td>
+                            </tr>
+                        <tr>
+                            <td>
+                                <label>Family Physician Name</label>
+                            </td>
+                            <td>
+                                 <input type="text" class="form-control" id="Text22" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                            <td>
+                                <label>Hospital Name</label>
+                            </td>
+                            <td>
+                                 <input type="text" class="form-control" id="Text23" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                    </table>
+                    <h1 class="page-title">Patient Emergency Details</h1>
+                     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="12%">
+                                <label>First Name</label>
+                            </td>
+                            <td width="25%">
+                              <input type="text" class="form-control" id="Text20" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                            <td width="15%">
+                                <label>Last Name</label>
+                            </td>
+                            <td width="25%">
+                                <input type="text" class="form-control" id="Text21" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                          <tr>
+                            <td width="12%">
+                                <label>Relationship</label>
+                            </td>
+                            <td width="25%">
+                              <input type="text" class="form-control" id="Text24" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                            <td width="15%">
+                                <label>Arear Code Phone No.</label>
+                            </td>
+                            <td width="25%">
+                                <input type="text" class="form-control" id="Text25" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                         <tr>
+                            <td width="12%">
+                                <label>Gmail ID</label>
+                            </td>
+                            <td width="25%">
+                              <input type="text" class="form-control" id="Text26" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                            <td width="15%">
+                                <label>FaceBook ID</label>
+                            </td>
+                            <td width="25%">
+                                <input type="text" class="form-control" id="Text27" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                  </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" id="save" id="Page" ng-click="">Save</button>
+                <button type="button" class="btn  btn-save" ng-click="CancelPopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

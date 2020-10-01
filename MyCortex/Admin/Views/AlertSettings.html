@@ -1,0 +1,470 @@
+﻿<head>
+    <style type="text/css">
+        input[type='file'] {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#companyphoto").trigger('click');
+        })
+
+        $(function () {
+            $('.selectpicker').selectpicker();
+        });
+
+    </script>
+    <!--  <script language="javascript">
+        var imgRe = /^.+\.(jpg|jpeg|gif|png)$/i;
+        function showImage(obj) {
+            var path = obj.value;
+            if (path.search(imgRe) != -1) {
+                document['image'].src = 'file://' + path;
+            }
+            else {
+                alert("JPG, PNG, and GIFs only!");
+            }
+        }
+</script>-->
+
+    <style>
+        .column {
+            float: left;
+            width: 48%;
+            padding: 10px;
+            height: 150px;
+            /* Should be removed. Only for demonstration */
+            margin-left: 5px;
+            margin-bottom: 5px;
+
+        }
+
+
+        /* Create three equal columns that floats next to each other */
+        .rowMargin {
+            margin-right: 5px !important;
+            margin-bottom: 5px !important;
+
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+    <style>
+        .toggle {
+            border-radius: 20px;
+        }
+
+        .toggle.ios .toggle-handle {
+            border-radius: 20px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('#toggle-one').bootstrapToggle();
+        })
+    </script>
+</head>
+<ul class="secondaryMenu">
+	 <li>
+        <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
+    </li>
+    <li>
+        <a href="Home/Index#/ChatSetting/2">Chat Settings</a>
+    </li>
+    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
+    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+</ul>
+<h1 class="page-title">Alert Configuration</h1>
+
+
+<div class="panel panel-info" id="tableid">
+
+    <form class="form-horizontal" role="form">
+
+        <div class="overlay" show-on-load>
+            <div id="loading-img"></div>
+        </div>
+      
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup" id="table1">
+                <tr>
+                    <td width="5%">
+                        <label>Search</label>
+                    </td>
+                    <td width="20%">
+
+                        <input type="text" ng-model="query" class="form-control ml-10 search-input"
+                            ng-change="AcitveFilterChange()" placeholder="" style="width: 200px" />
+
+                    </td>
+                    <td style="text-align:left" width="80%">
+                        <!--<input type="checkbox" checked="checked" class="ml-10 search-input" />Active-->
+                        Active&nbsp;&nbsp;
+                        <input id="toggle-one" checked data-toggle="toggle" type="checkbox">
+                    </td>
+                </tr>
+            </table>
+       
+    </form>
+</div>
+<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollection" class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="35" st-sort="">Name of the alert</th>
+            <th st-ratio="35" st-sort="">Active / Inactive</th>
+            <th st-ratio="35" st-sort="">Content</th>
+            <th st-ratio="35" st-sort="">Alert trigger</th>
+            <th st-ratio="35" st-sort="">Alert Type Email</th>
+            <th st-ratio="35" st-sort="">Alert Type App Notification</th>
+            <th st-ratio="35" st-sort="">Alert Type Browser Notification</th>
+            <th st-ratio="35" st-sort="">System Admin</th>
+            <th st-ratio="35" st-sort="">Care Coordinator</th>
+            <th st-ratio="35" st-sort="">Care Giver</th>
+            <th st-ratio="35" st-sort="">Standard Clinician</th>
+            <th st-ratio="35" st-sort="">Premium Clinician</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td style="text-align: left">Nearing licence expiry</td>
+            <td style="text-align: left">Active</td>
+            <td style="text-align: left">Message of Content</td>
+            <td style="text-align: left">Manual/Event/% based/Min based (multiple)</td>
+            <td style="text-align: left"><input type="checkbox"></td>
+            <td style="text-align: left"><input type="checkbox"></td>
+            <td style="text-align: left"><input type="checkbox" checked></td>
+            <td style="text-align: left"><input type="checkbox"></td>
+            <td style="text-align: left"><input type="checkbox" checked></td>
+            <td style="text-align: left"><input type="checkbox"></td>
+            <td style="text-align: left"><input type="checkbox" checked></td>
+            <td style="text-align: left"><input type="checkbox" checked></td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="rowCollection.length >30">
+        <tr>
+            <td colspan="5" class="text-center">
+                <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                    st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<!--Create & Edit Modal-->
+<div id="InstitutionCreateModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 75%;">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" title="Close"
+                    style="color: #8B0000;">&times;</button>
+
+                <h1 class="page-title">Institution Details</h1>
+            </div>
+            <!--<div class="modal-body"style="overflow-y:scroll ; height:300px;">-->
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td style="width:50%">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+                                        <td width="30%">
+                                            <label>Name of the Institution<sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup></label>
+                                        </td>
+                                        <td width="70%">
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Email<sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup></label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Address</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Street Address</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Street Address Line 2</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Postal / Zip code</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Text5"
+                                                ng-model="Institution_Name" ng-init="Branch_Name=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label>Country<sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup></label>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="Select4">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>State<sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup></label>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="Select4">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                            <label>City<sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup></label>
+                                        </td>
+                                        <td valign="top"><select class="form-control" id="Select4">
+                                                <option value="0">Select</option>
+                                            </select></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width:50%;vertical-align:top">
+                                <div>
+                                    <input type="file" id="companyphoto" fileread="uploadphoto"
+                                        onchange="angular.element(this).scope().logoChange(this)" name="FileName"
+                                        title=" " style="height:0px !important"
+                                        accept="image/x-png,image/gif,image/jpeg" />
+                                </div>
+                                <div ng-if="(uploadphoto==0 || uploadphoto == null)">
+                                    <img width="275" height="100" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" id="save" id="Pages" ng-click="">Save</button>
+                <button type="button" class="btn  btn-save" ng-click="CancelIntstitutionPopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Modal -->
+<div id="ViewModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" width="80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="ClearCompanyBranchPopUp()"
+                    title="Close" style="color: #8B0000;">&times;</button>
+                <h1 class="page-title">Institution Details</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="15%">
+                                <label>institution Name<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td width="25%">
+                                <span>{{}}</span>
+                            </td>
+
+                            <td width="17%">
+                                <label>Institution Print Name<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td width="25%">
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Short Name</label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+
+                            <td>
+                                <label>Street Address Line1<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Street Address Line2<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>Street Address Line2<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Primary Contact Person<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>WhatsApp No.<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Email<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>Website<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Country<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+
+                            </td>
+                            <td>
+                                <label>State<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>City<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>Regn. No.<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Registered Address<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>Logo<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" class="btn btn-save" ng-click="CancelViewIntstitutionPopup()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

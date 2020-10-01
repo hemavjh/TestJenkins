@@ -1,0 +1,69 @@
+﻿<div class="row" ng-init="PatientListFunction(1)">
+     <div class="Topdiv">
+            <a href="Home/Index#/TodaysAppoint_ments">Today's Appointment</a> &nbsp&nbsp&nbsp<a href="Home/Index#/Thirtydays_appointments">Next 30 Days Appointments</a> &nbsp&nbsp&nbsp<a href="Home/Index#/PatientAppointments">All Patients</a> &nbsp&nbsp&nbsp
+        </div>
+    <div class="col-md-12">
+        <h1 class="title1">All Patients</h1>
+        <div class="panel panel-default panel-info" id="Div1">
+            <form class="form-horizontal" role="form">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup" st-table="Patientemptydata" st-safe-src="PatientFilter">
+                    <tr>
+                        <td width="5%">
+                            <label>Search</label>
+                        </td>
+                        <td width="95%">
+
+                            <input type="text" ng-model="searchquery" class="form-control ml-10 search-input" ng-change="filterPatientList()" placeholder="" style="width: 200px" maxlength="100" ng-maxlength="100"/>
+
+                        </td>
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-sm-4" style="cursor: pointer" ng-repeat="row in Patientemptydata">
+                <div class="patientCard" >
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <label>MRN</label>
+                                    <span>{{row.MRN_NO}}</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Smoker</label>
+                                    <span>{{row.Smoker}}</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Diabetic</label>
+                                    <span>{{row.Diabetic}}</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Hypertension</label>
+                                    <span>{{row.HyperTension}}</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Cholesterol</label>
+                                    <span>{{row.CHOLESTEROL}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                             <div ng-if="!row.Photo==0 ||!row.Photo==null">
+                                                    <img src="{{row.Photo}}"/>
+                                                </div>
+                                                <div ng-if="(row.Photo==0 || row.Photo == null)">
+                                                    <img src="../../Images/male.png"/>
+                                                </div>
+                            <h1>{{row.UserName}}</h1>
+                        </div>
+                    </div>
+
+                </div>                      
+            </div>
+
+        </div>
+    </div>
+</div>

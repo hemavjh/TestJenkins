@@ -1,0 +1,133 @@
+﻿<!-- Institution Details view Page -->
+<meta http-equiv="refresh">
+<head>
+   <style type="text/css">
+      input[type='file'] {
+      opacity: 0;
+      }
+      .asd {
+      background: rgba(0,0,0,0);
+      border: none;
+      }
+   </style>
+   <script>
+       $('#btnLogo').click(function () {
+           $("#companyphoto").trigger('click');
+       })
+     
+   </script>
+</head>
+<div class="mainbody container-fluid">
+   <h1 class="page-title">Institution Details</h1>
+   <div ng-if="ModeType==2 && window.top==window">
+      <meta http-equiv="refresh">
+   </div>
+   <div class="row" ng-init="InstitutionDetails_View()">
+       <div class="lds-ripple" id="Div5" style="display: none;z-index:10000"><div></div><div></div></div>
+      <div class="col-md-12 col-lg-12">
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <div class="panel panel-default active" id="Basic1">
+            <div class="panel-body">
+               <form class="form-horizontal" role="form" name="patientform" id="patientform">
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                     <tr>
+                        <td width="12%" valign="top">
+                           <label>Institution Name</label>
+                        </td>
+                        <td width="75%">
+                           <div class="textwrap"> {{Institution_Name}}</div>
+                        </td>
+                      
+                     </tr>
+                      <tr>
+                        <td>
+                           <label>Email</label>
+                        </td>
+                        <td>
+                           {{Email}}
+                        </td>
+                       
+                     </tr>
+                     <tr>
+                     
+                        <td>
+                           <label>Address</label>
+                        </td>
+                        <td>
+                           {{Address1}}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <label>Street Address 2</label>
+                        </td>
+                        <td>
+                           {{Address2}}
+                        </td>
+                         </tr>
+                      <tr>
+                        <td>
+                           <label>Address 3</label>
+                        </td>
+                        <td>
+                           {{Address3}}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <label>Postal / Zip code</label>
+                        </td>
+                        <td>
+                           {{ZipCode}}
+                        </td>
+                       
+                     </tr>
+                    
+                     
+                     <tr>
+                        <td>
+                           <label>Country</label>
+                        </td>
+                        <td>
+                           {{ViewCountryName}}                           
+                        </td>
+                         </tr>
+                      <tr>
+                        <td>
+                           <label>State</label>
+                        </td>
+                        <td>
+                           {{ViewStateName}}   
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <label>City</label>
+                        </td>
+                        <td>
+                           {{ViewCityName}}
+                        </td>
+                     </tr>
+                     <tr>
+                         <td  width="10%"valign="top" rowspan="4">
+                           <label>Logo Upload <br />
+                           </label>
+                        </td>
+                        <!--ng-if="!uploadme==0 ||!uploadme==null"-->
+                        <td style="width:180px;height:180px;"  valign="top" rowspan="6">
+                           <img src="{{uploadme}}" width="180" height="180" class="responsiveProfileImage" />
+                        </td>
+                       
+                     </tr>
+                  </table>
+               </form>
+            </div>
+         </div>
+         <div style="text-align: center;">            
+            <button type="button" class="btn btn-save" title="Click To Cancel" ng-click="CancelInstitution()">Cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
+

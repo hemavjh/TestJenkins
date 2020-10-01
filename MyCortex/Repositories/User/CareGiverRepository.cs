@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Data;
+using log4net;
+using MyCortex.User.Model;
+using MyCortexDB;
+using MyCortex.Utilities;
+
+namespace MyCortex.Repositories.User
+{
+    public class CareGiverRepository : ICareGiverRepository
+    {
+         ClsDataBase db;
+        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private JavaScriptSerializer serializer = new JavaScriptSerializer();
+        
+        public CareGiverRepository()
+        {
+            db = new ClsDataBase();
+        }
+
+        /// <summary>     
+        /// to get assigned patient list to a caregiver on CG login     
+        /// </summary>
+        /// <returns>assigned patient list to a caregiver</returns>
+        public IList<CareGiverModel> CareGiver_AssignedPatientList(long CareGiver_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, Guid Login_Session_Id)
+        {
+            DataEncryption EncryptPassword = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@CareGiver_Id", CareGiver_Id));
+            param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
+            param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
+            param.Add(new DataParameter("@GenderId", GENDER_ID));
+            param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
+            param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
+            param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
+            param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
+            param.Add(new DataParameter("@Email", EncryptPassword.Encrypt(EMAILID==null?null:EMAILID.ToLower())));
+            param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
+            param.Add(new DataParameter("@CountryId", COUNTRY_ID));
+            param.Add(new DataParameter("@StateId", STATE_ID));
+            param.Add(new DataParameter("@CityId", CITY_ID));
+            param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
+            param.Add(new DataParameter("@GroupId", Group_Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataEncryption DecryptFields = new DataEncryption();
+                DataEncryption decrypt = new DataEncryption();
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CAREGIVER_ASSIGNEDPATIENTS_SP_LIST]", param);
+
+                List<CareGiverModel> lst = (from p in dt.AsEnumerable()
+                                            select new CareGiverModel()
+                                                      {
+                                                          Id = p.Field<long>("Id"),
+                                                          Smoker_Option = p.Field<string>("Smoker"),
+                                                          Diabetic_Option = p.Field<string>("Diabetic_Option"),
+                                                          Cholestrol_Option = p.Field<string>("Cholstrol_Option"),
+                                                          HyperTension_Option = p.Field<string>("HyperTension_Option"),
+                                                          MRN_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                          Photo = p.IsNull("PHOTO_NAME") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTO_NAME")),
+                                                          ViewGenderName = p.Field<string>("VIEWGENDERNAME"),                                                          	
+                                                          HighCount = p.Field<int>("HighCount"),	
+                                                          MediumCount = p.Field<int>("MediumCount"),	
+                                                          LowCount = p.Field<int>("LowCount"),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        public IList<CareGiverModel> GetCount_CareGiver_AssignedPatientList(long CareGiver_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@CareGiver_Id", CareGiver_Id));
+            param.Add(new DataParameter("@PatientNo", PATIENTNO));
+            param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
+            param.Add(new DataParameter("@GenderId", GENDER_ID));
+            param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
+            param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
+            param.Add(new DataParameter("@MobileNo", MOBILE_NO));
+            param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
+            param.Add(new DataParameter("@Email", EMAILID));
+            param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
+            param.Add(new DataParameter("@CountryId", COUNTRY_ID));
+            param.Add(new DataParameter("@StateId", STATE_ID));
+            param.Add(new DataParameter("@CityId", CITY_ID));
+            param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
+            param.Add(new DataParameter("@GroupId", Group_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataEncryption DecryptFields = new DataEncryption();
+                DataEncryption decrypt = new DataEncryption();
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETCOUNT_CAREGIVER_ASSIGNEDPATIENTS_SP_LIST]", param);
+                List<CareGiverModel> lst = (from p in dt.AsEnumerable()
+                                            select new CareGiverModel()
+                                            {
+                                                PatientCount = p.Field<int>("PatientCount")
+                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        /// <summary>
+        /// to clear assign CG alert 
+        /// </summary>
+        /// <param name="obj">CG assigned alert Id</param>
+        /// <returns></returns>
+        public long CG_Update_ClearAlerts(CareGiverModel obj)
+        {
+            long retid;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Patient_Id", obj.Patient_Id));
+            param.Add(new DataParameter("@CareGiver_Id", obj.CareGiver_Id));
+            param.Add(new DataParameter("@CG_Remarks", obj.CG_Remarks));
+            param.Add(new DataParameter("@Page_Type", obj.Page_Type));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                retid = ClsDataBase.Insert("[MYCORTEX].[CAREGIVER_SP_UPDATESTATUS]", param, true);
+                return retid;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+        /// <summary>
+        /// to get CG assigned patient history list
+        /// </summary>
+        /// <param name="Patient_Id">Patient Id</param>
+        /// <returns>CG assigned patient history list</returns>
+        public IList<CG_Patient_NotesModel> GetClearAlertHistory_View(long Patient_Id, Guid Login_Session_Id)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PatientId", Patient_Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CLEARALERTS_SP_HISTORYVIEW]", param);
+            List<CG_Patient_NotesModel> CGP = (from p in dt.AsEnumerable()
+                                               select
+                                               new CG_Patient_NotesModel()
+                                               {
+                                                   CareGiver_Id = p.Field<long>("CAREGIVER_ID"),
+                                                   CaregiverName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                   Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                   CC_Remarks = p.Field<string>("CC_REMARKS"),
+                                                   Created_Dt = p.Field<DateTime>("CREATED_DT"),
+                                               }).ToList();
+            return CGP;
+        }
+    }
+}

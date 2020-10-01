@@ -1,0 +1,166 @@
+﻿<div class="col-md-12">
+    <h1 class="page-title">Audit Report</h1>
+    </div>  
+    <div class="col-md-12" >
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div class="panel panel-default panel-info" id="AMid">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup"
+                id="table3">
+                <tr>
+                    <td width="4%">
+                        <label>User Type<font class='mandatory-field'>*</font></label>
+                    </td>
+
+                    <td width="15%">
+                        <select class="form-control" data-style="form-control" id="stateselectpicker" data-live-search="true"
+                                data-selectpicker data-collection-name="Usertype_listdata" ng-model="UserTypeId" ng-change="UserTypeBaseduserName()">
+                            <option ng-repeat="sel in Usertype_listdata" ng-required="true" value="{{sel.Id}}">
+                                {{sel.TypeName}}
+                            </option>
+                        </select>
+                    </td>
+
+                    <td width="4%">
+                        <label>User Name<font class='mandatory-field'>*</font></label>
+                    </td>
+                    <td width="15%">
+                        <select class="form-control" data-style="form-control" id="Select1" data-live-search="true"
+                                data-selectpicker data-collection-name="UserName_listdata" ng-model="UserNameId" style="width: 150px;">
+                            <option ng-repeat="sel in UserName_listdata" ng-required="true" value="{{sel.Id}}">
+                                {{sel.FullName}}
+                            </option>
+                        </select>
+                    </td>
+                    <td width="6%">
+                        <label>Table Short Name<font class='mandatory-field'>*</font></label>
+                    </td>
+                    <td width="12%">
+                        <select ng-model="ShortNameId" multiple="multiple"
+                                ng-options="item1.ShortNameId as item1.ShortName for item1 in TableShortName_listdata" multiselect-dropdown
+                                style="width: 150px;"></select>
+                    </td>
+                </tr>
+                <tr>
+                        <td>
+                        <label>Period From<font class='mandatory-field'>*</font></label>
+                    </td>
+                    <td>
+                                
+                    <div class="col-md-10 input-group date" id="Div13">
+                        <input type="text" datepicker class="form-control" ng-model="Period_From"
+                            style="width: 170px">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-th"></i>
+                        </span>
+                    </div>
+                    </td>
+                    <td>
+                        <label>Period To<font class='mandatory-field'>*</font></label>
+                    </td>
+                    <td>
+                        <div class="input-group date" id="PeriodTo">
+                            <input type="text" class="form-control" ng-model="Period_To"
+                                   style="width: 170px">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-th"></i>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                    <button type="button" class="btn btn-small" ng-click="PatientReportDetailslist()"
+                        title="Click to Search">Go</button>
+                        </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-12">
+    <div class="panel panel-default panel-info" id="AMid">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup"
+               id="table3">
+            <tr>
+                <td width="6%">
+                    <label>Search</label>
+                </td>
+                <td width="86%">
+                    <div class="modernSearch">
+                        <input type="text" ng-model="searchreportquery" ng-change="filterReportList()" placeholder="" style="width: 200px" />
+                        <i class="fa fa-search"></i>
+                    </div>
+                </td>
+                </tr>
+            </table>
+        </div>
+        <table st-table="ReportDetailsemptydata" style="width: 100%" st-safe-src="PatientDetailsFilteredDataList"
+                       class="table themeTable">
+            <thead>
+                <tr>
+                    <th st-ratio="4" st-sort="Id">#</th>
+                    <th st-ratio="8" st-sort="ShortName">Table Short Name</th>
+                    <th st-ratio="8" st-sort="TableDisplayName">Table Display Name</th>
+                    <th st-ratio="8" st-sort="Details">Details</th>
+                    <th st-ratio="12" st-sort="ColumnOrder">Column Order</th>
+                    <th st-ratio="8" st-sort="Action">Action</th>
+                    <th st-ratio="8" st-sort="ActionDateTime">Action Date Time</th>
+                    <th st-ratio="16" st-sort="OldValue">Old Value</th>
+                    <th st-ratio="16" st-sort="NewValue">New Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="Reportflag==0 && PatientDetailsFilteredDataList.length==0">
+                    <td colspan="9" style="text-align: center">
+                        No Data Available
+                    </td>
+                </tr>
+                <tr ng-repeat="row in ReportDetailsemptydata">
+                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                    <td style="text-align: left">
+                        {{row.ShortName}}
+                    </td>
+                    <td style="text-align: left">
+                        {{row.TableDisplayName}}
+                    </td>
+                    <td style="text-align: left">
+                        {{row.Details}}
+                    </td>
+                    <td style="text-align: left">
+                        <div class="textwrap">{{row.ColumnOrder}}</div>
+                    </td>
+                    <td style="text-align: left">
+                        {{row.Action}}
+                    </td>
+                    <td style="text-align: left">
+                        {{row.ActionDateTime| date:'dd-MMM-yyyy hh:mm a'}}
+                    </td>
+                    <td style="text-align: left">
+                        {{row.OldValue}}
+                    </td>
+                    <td style="text-align: left">
+                        {{row.NewValue}}
+                    </td>
+
+                </tr>
+            </tbody>
+            <tfoot ng-show="ReportDetails_ListOrder.length >page_size">
+                <tr>
+                    <td colspan="9" class="text-center">
+                        <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
+                                st-pagination="" st-template="Masters/Views/pagination.custom.html">
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+    <script>
+        $('.input-group.date').bootstrapDP({
+            format: "dd-M-yyyy",
+            forceParse: false,
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true,
+            todayBtn: true
+        });
+    </script>

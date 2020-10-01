@@ -1,0 +1,516 @@
+<head>
+    <style type="text/css">
+        input[type='file'] {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#UserLogo").trigger('click');
+        })
+    </script>
+</head>
+<style>
+    .toggle {
+        border-radius: 20px;
+    }
+
+        .toggle.ios .toggle-handle {
+            border-radius: 20px;
+        }
+</style>
+<!--<script>
+    $(function () {
+        $('#toggle-one').bootstrapToggle();
+    })
+</script>-->
+
+<div class="container" ng-init="User_Admin_List(1)">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-title">Admin</h1>
+        </div>
+        <div class="col-md-12">
+            <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+            <div class="panel panel-default panel-info" id="Div1">
+                <form class="form-horizontal" role="form">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="5%">
+                                <label>Search</label>
+                            </td>
+                            <td width="20%">
+                                <div class="modernSearch">
+                                    <input type="text" ng-model="searchquery" ng-change="filterInstitutionList()" placeholder="" />
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </td>
+                            <td style="text-align:left" width="65%">
+                                Active&nbsp;&nbsp;
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="User_Admin_List(1);" title="Active / All">
+
+                            </td>
+                            <td style="text-align:right" width="15%">
+                                <a href="javascript:" ng-click="AddUserPopUP(ClearPopUp())"
+                                   class="btn btn-autosize pull-right ml-10" title='Add New Admin'>Add New</a>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter"
+                   class="table themeTable">
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="5">#</th>
+                        <th st-ratio="15" st-sort="InstitutionName">Institution</th>
+                        <th st-ratio="15" st-sort="FullName">Admin Name</th>
+                        <th st-ratio="10" st-sort="Department_Name">Department</th>
+                        <th st-ratio="10" st-sort="EMPLOYEMENTNO">Employment No.</th>
+                        <th st-ratio="15" st-sort="EMAILID">Email</th>
+                        <!--<th st-ratio="10" st-sort="">Status</th>-->
+                        <th st-ratio="20" st-sort="LoginTime">Last Login</th>
+                        <th st-ratio="10">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+                        <td colspan="8" style="text-align: center">
+                          {{SearchMsg}}
+                        </td>
+                    </tr>
+                    <tr ng-repeat="row in emptydata">
+                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                        <td style="text-align: left">
+                            {{row.InstitutionName}}
+                        </td>
+                        <td style="text-align: left" title="{{row.FullName}}">
+                            <div class="textwrap">
+                                <img src="../../Images/male.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='male'" />
+                                <img src="../../Images/female.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='female'" />
+                                <img src="../../Images/Others.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
+                                {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName }}
+                            </div>
+                        </td>
+                        <td style="text-align: left">
+                            {{row.Department_Name}}
+                        </td>
+                        <td style="text-align: left">
+                            <div class="textwrap">{{row.EMPLOYEMENTNO}}</div>
+                        </td>
+                        <td style="text-align: left">
+                            {{row.EMAILID}}
+                        </td>
+                        <!--<td ng-show="row.IsActive==1">
+                            <span class="dotActive"></span>
+                        </td>
+                        <td ng-show="row.IsActive==0">
+
+                            <span class="dotInActive"></span>
+                        </td>-->
+                        <td style="text-align: left">
+                            {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
+                        </td>
+                        <td style="text-align: center">
+                            <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
+                                <img src="../../Images/ViewIcon.png" />
+                            </a>
+                            <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)"
+                               title="Edit">
+                                <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                                    <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                                </a>
+                            </a>
+                            <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
+                                <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
+                                <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
+                                    <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                                </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot ng-show="UserDetailsList.length >10">
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                                 st-template="Masters/Views/pagination.custom.html"></div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="UserModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">
+                        &times;
+                    </button>
+
+                    <h1 class="page-title">Admin</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-default" id="Basic1">
+                            <div class="panel-body">
+                                <form class="form-horizontal" role="form">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                           class="formControlGroup">
+
+                                        <tr>
+
+                                            <td style="width:10%" valign="top" rowspan="11">
+
+                                                <input type="file" id="UserLogo" fileread="uploadme"
+                                                       onchange="angular.element(this).scope().photoChange(this)"
+                                                       name="FileName" title="Click to Upload Image "
+                                                       style="height:0px !important"
+                                                       accept="image/x-png,image/gif,image/jpeg" ng-click="PhotoUplaodSelected()" />
+
+                                                <!--  <div ng-if="!uploadme==0 ||!uploadme==null">
+                                                      <img src="{{uploadme}}" width="180" height="180" />
+                                                  </div>-->
+                                                <!--  <div ng-if="(uploadme==0 || uploadme == null)">
+                                                     <img src="../../Images/Others.png" width="180" height="180" />
+                                                 </div>
+                                                <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null)"
+                                                             valign="top" rowspan="6">
+                                                             <img class="responsiveProfileImage" src="../../Images/male.png" />
+                                                             </div>
+                                                         <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null)" valign="top" rowspan="6">
+
+                                                             <img class="responsiveProfileImage" src="../../Images/female.png"/>
+                                                         </div>
+                                                         <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null)"
+                                                             valign="top" rowspan="6">
+                                                             <img class="responsiveProfileImage" src="../../Images/Others.png"/>
+                                                         </div>-->
+                                                <div valign="top" rowspan="6">
+                                                    <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                                </div>
+
+
+
+                                                <!--<img src="../../Images/file-upload.png" id="btnLogo"
+                                                style="font-size: 20px;" ng-click=""
+                                                title="Click to Upload Image" />-->
+                                                <div class="uploadIconContainer">
+                                                    <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
+                                                        <u>Clear</u>
+                                                    </a>
+                                                </div>
+                                                <div class="uploadIconContainer">
+                                                    <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
+                                                        <i class="fa fa-upload"></i>
+                                                    </label>
+                                                    <span>Upload Photo</span>
+                                                </div>
+
+
+                                            </td>
+                                            <td width="17%">
+                                                <label valign="top">
+                                                    Institution<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td width="35%">
+                                                <!--<select class="form-control" ng-model="InstitutionId" id="Select13" ng-required="true">
+                                                    <option value="0">Select</option>
+                                                    <option ng-repeat="sel in InstitutionList" ng-selected="InstitutionId==sel.Id"
+                                                        value="{{sel.Id}}">{{sel.Name}}</option>
+                                                </select>-->
+                                                <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker data-collection-name="InstitutionList" ng-model="InstitutionId" ng-change="SubscriptionValidation()">
+                                                    <option ng-repeat="sel in InstitutionList" ng-required="true" value="{{sel.Id}}">{{sel.Name}}</option>
+                                                </select>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td width="17%">
+                                                <label valign="top">
+                                                    First Name<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td width="35%">
+                                                <input type="text" class="form-control" id="Text2" name="Employee_No"
+                                                       ng-model="FirstName" ng-init="Employee_No=''" ng-required="true" placeholder=""
+                                                       ng-maxlength="100" maxlength="100" onkeypress="ParticularSpec(event)" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="15%">
+                                                <label valign="top">Middle Name</label>
+                                            </td>
+                                            <td width="35%">
+                                                <input type="text" class="form-control" id="Text1" name="Employee_No"
+                                                       ng-model="MiddleName" ng-init="Employee_No=''" ng-required="true" placeholder=""
+                                                       ng-maxlength="100" maxlength="100" onkeypress="ParticularSpec(event)" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="15%">
+                                                <label valign="top">
+                                                    Last Name<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td width="35%">
+                                                <input type="text" class="form-control" id="Text4" name="Employee_No"
+                                                       ng-model="LastName" ng-init="Employee_No=''" ng-required="true" placeholder=""
+                                                       ng-maxlength="100" maxlength="100" onkeypress="ParticularSpec(event)" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="15%">
+                                                <label valign="top">
+                                                    Employment No.<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td width="35%">
+                                                <input type="text" class="form-control" id="T1" name="Employee_No"
+                                                       ng-model="Employee_No" ng-init="Employee_No=''" ng-required="true"
+                                                       placeholder="" ng-maxlength="50" maxlength="50" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Gender<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" ng-model="GenderId" id="Select3" ng-required="true" ng-change="AdmingetBase64Image()">
+                                                    <option value="0">Select</option>
+                                                    <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
+                                                            value="{{sel.Id}}">
+                                                        {{sel.Gender_Name}}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="15%">
+                                                <label valign="top">
+                                                    Department<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td width="35%">
+                                                <select class="form-control" ng-model="DepartmentId" id="Select1"
+                                                        ng-required="true">
+                                                    <option value="0">Select</option>
+                                                    <option ng-repeat="sel in DepartmentList" ng-selected="DepartmentId==sel.Id"
+                                                            value="{{sel.Id}}">
+                                                        {{sel.Department_Name}}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr ng-show="Id>0">
+                                            <td>
+                                                <label>Short Name</label>
+                                            </td>
+                                            <td>
+                                                {{Createdby_ShortName}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="15%">
+                                                <label valign="top">
+                                                    Email<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td width="35%">
+                                                <input type="text" class="form-control" id="Text3" name="EmailId"
+                                                       ng-model="EmailId" ng-init="EmailId=''" ng-required="true"
+                                                       ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Mobile No.<sup>
+                                                        <font class='mandatory-field'>*</font>
+                                                    </sup>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" id="Text6" name="FirstName"
+                                                       ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true" placeholder=""
+                                                       ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn  btn-save" title="Click to Save"
+                                        ng-click="User_InsertUpdate()">
+                                    Save
+                                </button>
+                                <button type="button" class="btn  btn-save" ng-click="CancelPopup()"
+                                        title="Click to Cancel">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="UserViewModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 60%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="" ng-click="CancelPopup()">
+                    &times;
+                </button>
+                <h4 class="modal-title">Admin</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="10%" valign="top" rowspan="10">
+                                <label>
+                                    Photo<br />
+                                </label>
+                            </td>
+                            <!--ng-if="!uploadme==0 ||!uploadme==null"-->
+                            <td style="width:180px;height:180px;" valign="top" rowspan="10">
+                                <div ng-if="uploadme!=null && uploadview ==true">
+                                    <img src="{{uploadme}}" width="180" height="180" />
+                                </div>
+                                <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null)&&uploadview ==true"
+                                     valign="top" rowspan="6">
+                                    <img class="responsiveProfileImage" src="../../Images/male.png" />
+                                </div>
+                                <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null)&&uploadview ==true" valign="top" rowspan="6">
+
+                                    <img class="responsiveProfileImage" src="../../Images/female.png" />
+                                </div>
+                                <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null)&&uploadview ==true"
+                                     valign="top" rowspan="6">
+                                    <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                                </div>
+                            </td>
+                            <td style="width:7%">
+                                <label>Institution Name</label>
+                            </td>
+                            <td style="width:30%">
+                                {{ViewInstitutionName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>First Name</label>
+                            </td>
+                            <td>
+                                <span>{{FirstName}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Middle Name</label>
+                            </td>
+                            <td>
+                                <span>{{MiddleName}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:15%">
+                                <label>Last Name</label>
+                            </td>
+                            <td>
+                                <span>{{LastName}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Employment No.</label>
+                            </td>
+                            <td>
+                                <span>{{Employee_No}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Gender</label>
+                            </td>
+                            <td>
+                                <span>{{ViewGender}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Department</label>
+                            </td>
+                            <td>
+                                <span>
+                                    {{ViewDepartmentName}}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Short Name</label>
+                            </td>
+                            <td>
+                                {{Createdby_ShortName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Email Id</label>
+                            </td>
+                            <td>
+                                <span>{{EmailId}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Mobile No.</label>
+                            </td>
+                            <td>
+                                <span>{{MobileNo}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="CancelPopup()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.form-control').bind("paste", function (e) {
+            e.preventDefault();
+        });
+    });
+</script>

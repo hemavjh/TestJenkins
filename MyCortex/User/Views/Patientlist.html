@@ -1,0 +1,357 @@
+<head>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#UserLogo").trigger('click');
+        })
+    </script>
+</head>
+
+<ul class="secondaryMenu">
+    <li><a class="secondaryMenuActive" href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
+</ul>
+
+<h1 class="page-title">Patient</h1>
+<div class="panel panel-default panel-info" id="Div4"
+    ng-init="Patient_List(3);currentTab='1'">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <form class="form-horizontal" role="form">
+        <div class="overlay" show-on-load>
+            <div id="loading-img"></div>
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+            <tr>
+                <td width="5%">
+                    <label>Search</label>
+                </td>
+                <td width="20%">
+                    <div class="modernSearch">
+                        <input type="text" ng-model="Patientsearchquery" ng-change="PatientFilterChange();"
+                            placeholder="" />
+                        <i class="fa fa-search"></i>
+                    </div>
+                </td>
+                <td style="text-align: left" width="65%">Active&nbsp;&nbsp;
+                    <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Patient_List(3);"
+                        title="Active / All">
+                    <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5" href="#collapseMore"
+                        ng-click="currentTab=='1'?currentTab='2':currentTab='1';patientDropdownList()" title="Click for Advance search">More
+                        <sub ng-show="currentTab=='1' ">
+                            <input type="image" src="../../Images/expand.gif" title='' style="width: 20px;"
+                                id="tableid_img2">
+                        </sub>
+                        <sub ng-show="currentTab=='2'">
+                            <input type="image" src="../../Images/collapse.gif" title='' style="width: 20px;"
+                                id="tableid_img2">
+                        </sub>
+                    </a>
+                </td>
+                <td style="text-align: right" width="15%">
+                    <div>
+                        <a href="javascript:" ng-click="AddPatientPopup()" class="btn btn-autosize pull-right ml-10">Add
+                            New</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="collapseMore" class="panel-collapse collapse panel panel-default panel-info">
+    <div class="panel-body">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+            <tr>
+                <td width="15%">Patient ID
+                </td>
+                <td width="20%">
+                    <input type="text" class="form-control" ng-model="Filter_PatientNo" maxlength="50"
+                        ng-maxlength="100">
+                </td>
+                <td width="10%">Insurance ID
+                </td>
+                <td width="20%">
+                    <input type="text" class="form-control" ng-model="filter_InsuranceId" maxlength="50"
+                        ng-maxlength="100">
+                </td>
+                <td width="10%">
+                    <label>Gender</label>
+                </td>
+                <td width="20%">
+                    <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id" value="{{sel.Id}}">
+                            {{sel.Gender_Name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Nationality</label>
+                </td>
+                <td>
+                    <select class="form-control" ng-model="filter_NationalityId" id="Select17" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
+                            value="{{sel.Id}}">{{sel.Name}}
+                        </option>
+                    </select>
+                </td>
+
+                <td>
+                    <label>Ethnic Group</label>
+                </td>
+                <td>
+                    <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in EthnicGroupList" ng-selected="filter_EthinicGroupId==sel.Id"
+                            value="{{sel.Id}}">{{sel.Name}}
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <label>Mobile No.</label>
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="Text11" ng-model="filter_MOBILE_NO"
+                        ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Home Phone Number</label>
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="Text13" ng-model="filter_HomePhoneNo" maxlength="50"
+                        ng-maxlength="50" placeholder="">
+                </td>
+                <td>Email
+                </td>
+                <td>
+                    <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
+                        ng-maxlength="100" />
+                </td>
+                <td>
+                    <label>Marital Status</label>
+                </td>
+                <td>
+                    <select class="form-control" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in MaritalStatusList" ng-selected="filter_MaritalStatus==sel.Id"
+                            value="{{sel.Id}}">{{sel.Name}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Country</label>
+                </td>
+                <td>
+                    <select class="form-control" data-style="form-control" data-live-search="true"
+                        id="countryselectpicker" data-selectpicker data-collection-name="CountryNameList"
+                        ng-model="filter_CountryId" ng-change="Filter_Country_onChange();">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in CountryNameList" ng-required="true" value="{{sel.Id}}">
+                            {{sel.CountryName}}</option>
+                    </select>
+                </td>
+                <td>
+                    <label>State</label>
+                </td>
+
+                <td>
+                    <select class="form-control" data-style="form-control" id="stateselectpicker"
+                        data-live-search="true" data-selectpicker data-collection-name="StateNameList"
+                        ng-model="filter_StataId" ng-change="Filter_State_onChange()">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in StateNameList" ng-required="true" value="{{sel.Id}}">{{sel.StateName}}
+                        </option>
+                    </select>
+
+                </td>
+                <td>
+                    <label>City</label>
+                </td>
+                <td>
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker
+                        data-collection-name="CityNameList" ng-model="filter_CityId">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in CityNameList | filter : {StateId : filter_StataId} "
+                            ng-required="true" value="{{sel.Id}}">{{sel.LocationName}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="vtop">
+                    <label>Blood Group</label>
+                </td>
+                <td class="vtop">
+                    <select class="form-control" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in BloodGroupList" ng-selected="filter_BloodGroupId==sel.Id"
+                            value="{{sel.Id}}">{{sel.BloodGroup_Name}}</option>
+                    </select>
+                </td>
+                <td class="vtop">
+                    <label>Group</label>
+                </td>
+                <td class="vtop">
+                    <select ng-model="filter_GroupId" multiple="multiple"
+                        ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
+                        style="width: 230px;">
+                    </select>
+                </td>
+                <td colspan="2" class="vtop">
+                    <a href="javascript:" ng-click="Patient_List(3)" class="btn btn-autosize ml-10">Search</a>
+
+                    <a href="javascript:" ng-click="ResetPatientFilter()" class="btn btn-autosize ml-10">Reset</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="tableFixedLayout">
+    <table st-table="Patientemptydata" style="width: 100%" st-safe-src="PatientListFilter" class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5" st-sort="Id">#</th>
+                <th st-ratio="5">
+                    <input type="checkbox" ng-model="SelectedAllPatient" ng-click="checkAll()" />
+                </th>
+                <th st-ratio="20" st-sort="FullName">Name</th>
+                <th st-ratio="10" st-sort="MNR_NO">MRN</th>
+                <th st-ratio="10" st-sort="MOBILE_NO">Mobile No.</th>
+                <th st-ratio="15" st-sort="EMAILID">Email</th>
+                <!--<th st-ratio="7" st-sort="">Status</th>-->
+                <th st-ratio="14" st-sort="GroupName">Group</th>
+                    <th st-ratio="13" st-sort="LoginTime">Last Login</th>
+                <th st-ratio="8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="Patientflag==0 && PatientListFilter.length==0">
+                <td colspan="9" style="text-align: center">{{SearchMsg}}
+                </td>
+            </tr>
+            <tr ng-repeat="row in Patientemptydata">
+                <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                <td style="text-align: center">
+                    <input type="checkbox" ng-model="row.SelectedPatient" />
+                </td>
+                <td style="text-align: left" title="{{row.FullName}}">
+                    <div class="textwrap">
+                        <img src="../../Images/male.png" width="30" height="30"
+                            ng-if="(row.GENDER_NAME| lowercase)=='male'" />
+                        <img src="../../Images/female.png" width="30" height="30"
+                            ng-if="(row.GENDER_NAME| lowercase)=='female'" />
+                        <img src="../../Images/Others.png" width="30" height="30"
+                            ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
+                        {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName
+                                }}
+                    </div>
+                </td>
+                <td style="text-align: left">
+                    <div class="textwrap">{{row.MNR_NO}}</div>
+                </td>
+                <td style="text-align: left">{{row.MOBILE_NO}}
+                </td>
+                <td style="text-align: left">
+                    {{row.EMAILID}}
+                </td>
+                <td style="text-align: left" title="{{row.GroupName}}">
+                    <div class="textwrap">
+                        {{ row.GroupName.length > 50 ? row.GroupName.substring(0,50)+"..." : row.GroupName
+                                }}
+                    </div>
+                </td>
+                 <td style="text-align: left">{{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
+                    </td>
+                <td style="text-align: center">
+                    <a href="javascript:" ng-click="ViewPatientPopUp(row.Id)" title="View">
+                        <img src="../../Images/ViewIcon.png" />
+                    </a>
+                    <a href="javascript:;" ng-click="row.IsActive == 0 || EditPatientPopUp(row.Id)" title="Edit">
+                        <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:"
+                            ng-click="ErrorFunction()" title="Edit">
+                            <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                        </a>
+                    </a>
+                    <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
+                        <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
+                        <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
+                            <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                        </a></td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="PatientList.length >10">
+            <tr>
+                <td colspan="10" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                        st-template="Masters/Views/pagination.custom.html">
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="modal-footer" style="text-align: center;">
+
+    <label>Group</label>
+
+    <select ng-model="AssignedGroup" multiple="multiple"
+        ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;">
+    </select>
+    <a href="javascript:" ng-click="AssignGroup()" class="btn btn-autosize">Update Group</a>
+    <a href="javascript:" ng-click="AddGroupPopup(GroupClearPopUp())" class="btn btn-autosize">
+        Create
+        Group</a>
+</div>
+
+
+
+
+<div id="GroupCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 40%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close"
+                    style="color: #8B0000;">
+                    &times;</button>
+
+                <h1 class="page-title">Create Group</h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default" id="Basic1">
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                Group Name<sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" ng-model="CreateGroupName"
+                                                maxlength="100" ng-maxlength="100" />
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <button type="button" class="btn  btn-save" title="Click to Save"
+                                ng-click="AddGroup_Insert()">
+                                Save</button>
+                            <button type="button" class="btn  btn-save" ng-click="CancelGroupPopup()"
+                                title="Click to Cancel">
+                                Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

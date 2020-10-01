@@ -1,0 +1,291 @@
+﻿<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+    function dragstart_handler(ev) {
+        // Change the source element's background color to signify drag has started
+
+        // Set the drag's format and data. Use the event target's id for the data 
+        ev.dataTransfer.setData("text/html", "{" + ev.srcElement.innerHTML + "}");
+    }
+</script>
+<ul class="secondaryMenu">
+    <li>
+        <a class="secondaryMenuActive" href="Home/Index#/EmailTemplate/1">Email Template</a>
+    </li>
+    <li>
+        <a href="Home/Index#/MessagingSend/1">Send Email</a>
+    </li>
+    <li>
+        <a href="Home/Index#/MessagingUndelivered/1">Resend Email</a>
+    </li>
+    <li>
+        <a href="Home/Index#/MessagingHistory/1">Email History</a>
+    </li>
+</ul>
+<h1 class="title1">Email Template</h1>
+
+    <div class="row">
+          <div class="col-md-12" ng-init="EmailTemplatelist()">
+              <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+            <div class="panel panel-default panel-info" id="DMid">
+                <form class="form-horizontal" role="form">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                          <td width="5%">
+                            <label>Search</label>
+                          </td>
+                         <td width="5%">
+                               <div class="modernSearch">
+                                    <input type="text" ng-model="searchquery" ng-change="fliterTemplateList()"  placeholder="" style="width: 200px"/>
+                                    <i class="fa fa-search"></i>   
+                               </div>
+                         </td> 
+                            <td style="text-align:left" width="65%">
+                              Active &nbsp;&nbsp;
+                             <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="EmailTemplatelist();" title="Active / All">
+                             </td>
+                              <td> 
+                             <a href="javascript:" ng-click="AddEmailTemplatePopUP();ClearPopup()" class="btn btn-autosize pull-right mb-15" title="Click to Add Template">Add New</a>
+                         </td>
+                       </tr>
+                  </table>
+               </form>
+            </div>  
+           </div>
+        <div class="col-md-12">
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="5">#</th>
+                        <!--<th st-ratio="15" st-sort="Institution_Name">Institution Name</th>-->
+                         <th st-ratio="15" st-sort="TemplateName">Template Name</th>
+                        <th st-ratio="15" st-sort="EmailSubject">Email Subject</th>    
+                        <th st-ratio="42" st-sort="EmailTemplate">Email Template </th>          
+                        <th st-ratio="8">Action</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                       <tr ng-if="rowCollectionFilter.length==0">
+                        <td colspan="9" style="text-align: center">
+                            No Data Available
+                        </td>
+                   </tr>
+                    <tr ng-repeat="row in emptydata">
+                  <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                  <!--<td style="text-align: left"><div class="textwrap">{{row.Institution_Name}}</div></td>-->
+                        <td style="text-align: left"><div class="textwrap">{{row.TemplateName}}</div></td>
+                         <td style="text-align: left">{{row.EmailSubject}}
+                         </td>
+                  <td style="text-align: left">  
+                      <div>
+                          <p ng-bind-html="row.EmailTemplate.length>150?row.EmailTemplate.substring(0,150)+'...' : row.EmailTemplate"></p>  
+                      </div>
+                  </td>
+                   <td style="text-align: center">
+
+                     <a href="javascript:" ng-click="ViewEmailTemplatePopUP(row.Id)" title="View"><img src="../../Images/ViewIcon.png" /></a>
+
+                      <a href="javascript:" ng-click= "row.IsActive == 0 ||  EditEmailTemplate(row.Id)" title="Edit">
+                         <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ErrorFunction()" title="Edit"><img src="../../Images/EditIcon.png" ng-if="row.IsActive==0"/>
+                        </a>
+                       <a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active"><img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
+                           <img src="../../Images/inactive.png" ng-if="row.IsActive==0"/></a>
+                           </a>
+                        </td>                 
+                    </tr>
+                     </tbody>
+                <tfoot ng-show="rowCollectionFilter.length >10">
+                  <tr>
+                  <td colspan="9" class="text-center">
+                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
+                  </td>
+               </tr>
+            </tfoot>
+            </table>
+         </div>
+    </div>
+</div>
+
+<!--Add&Edit Modal-->
+<div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width:90%">
+        <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="CancelPopup()"  style="color:#8B0000;">&times;</button>
+                <h4 class="modal-title">Email Template</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                           <tr>
+                              <td>
+                                <label>Template Name<sup><font class='mandatory-field'>*</font></sup></label>
+                              </td>
+                            
+                               <td>
+                                 <input type="text" class="form-control" id="Text1" name="TemplateName" ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                               </td>
+                              </tr>
+                            <tr>
+                              <td>
+                                <label>Email Subject<sup><font class='mandatory-field'>*</font></sup></label>
+                              </td>
+                            
+                               <td>
+                                 <input type="text" class="form-control" id="Text3" name="EmailSubject" ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                               </td>
+                              </tr>
+                        <tr>
+                            <td valign="top" style="width:10%">
+                                 <label>Email Template<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td style="width:70%">
+                                  <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true" 
+                                        ondragover="allowDrop(event)">
+                                    </div>
+                                </td>
+                    
+                             <td valign="top" width="20%">
+                                    <label>Tag Name</label>
+
+                                    <ul style="list-style-position:inside; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 350px;overflow: auto;"
+                                        id="allfields">
+                                        <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
+                                            ng-repeat="row in TemplateTagMappingList" ng-model="TagName">{{row.TagList}}</li>
+                                    </ul>
+
+                             </td>
+                        </tr>                        
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="EmailTemplateAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="btn  btn-save"  ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--View Modal-->
+<div id="EmailTemplateViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width:70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()"  style="color:#8B0000;">&times;</button>
+                <h4 class="modal-title"> Email Template</h4>
+             </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+<!--                         <tr>
+                            <td style="width: 15%" valign="top">
+                                <label>Type</label>
+                            </td>
+                            <td style="width:65%">
+                                <span><div class="textwrap">{{ViewType_Name}}</div></span>
+                            </td>
+                           </tr>-->
+                         <tr>
+                            <td style="width: 15%" valign="top">
+                                <label>Template Name</label>
+                            </td>
+                            <td style="width:65%">
+                                <span><div class="textwrap">{{TemplateName}}</div></span>
+                            </td>
+                           </tr>
+                        <tr>
+                            <td>
+                                <label>Email Subject</label>
+                            </td>
+                            <td>
+                                <span>{{EmailSubject}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <label>Email Template</label>
+                            </td>                            
+                               <td colspan="2">
+                                 <div class="textwrap">
+                                       <p ng-bind-html="Template"></p>  
+                                  </div>
+                                                    
+                            </td>
+                        </tr>
+                      <!--  <tr ng-repeat="row in TemplateTagMappingList"> 
+                           
+                             <td valign="top"
+                                <label>Tag Name</label>
+                            </td>
+                            <td>
+                                <span><div class="textwrap">{{row.TagType_Name}}</div></span>                                                        
+                            </td>
+                            </tr>  -->                     
+                     
+                      </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+               <button type="button" class="btn btn-save" ng-click="CancelViewPopup()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .textarea {
+        background: #fff;
+    }
+
+    .list {
+        margin-left: 10px;
+        color: #000;
+    } 
+
+    .list:hover {
+        text-decoration: underline;
+        color: #000;
+    }
+
+    #editor1 {
+        height: 300px;
+        width: 500px;
+    }
+
+</style>
+
+<script>
+    //CKEDITOR.disableAutoInline = true;
+    // Initialize the editor with the hcard plugin.
+    CKEDITOR.replace('editor1', {
+        toolbarLocation: 'top',
+        // Remove some plugins that would conflict with the bottom
+        // toolbar position.
+        removePlugins: 'elementspath,resize,forms'
+    });
+
+    // CKEDITOR.replace( 'editor2', {
+    // 	toolbarLocation: 'top',
+    // 	// Remove some plugins that would conflict with the bottom
+    // 	// toolbar position.
+    // 	removePlugins: 'elementspath,resize'
+    // } );
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".comment").shorten();
+    });
+</script>
+<style>
+      div.textwraptags {
+      width: 30em;
+      /*border: 1px solid #000000 ;*/
+      word-wrap: break-word;
+  }    
+</style>
+
+
+                    

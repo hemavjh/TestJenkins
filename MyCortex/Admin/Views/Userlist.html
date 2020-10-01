@@ -1,0 +1,255 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-title">User<sub><input type="image" src="../../Images/collapse.gif" title='' onclick="return divcollapse('User', 'tableid_img2')" style="width: 20px;" id="tableid_img2"></sub></h1>            
+        </div>
+          <div class="col-md-12">
+            <div class="panel panel-default panel-info" id="Div1">
+                <form class="form-horizontal" role="form">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                          
+                            <td width="6%">
+                                <label>User Name</label>
+                            </td>
+                            <td width="15%">
+                                <input type="text" class="form-control" id="Text5" name="User_Name" ng-model="User_Name" ng-init="User_Name=''" placeholder="" ng-maxlength="15" maxlength="15" onkeypress="" />
+                            </td>                                
+                            <td width="40%"> <button type="button" class="btn btn-small" ng-click="ListUserPopUP(0)" title="">Go</button></td>
+                             </tr>
+                    </table>
+                </form>
+            </div>           
+              <a href="javascript:" ng-click="AddUserPopUP()" class="btn btn-autosize pull-right mb-15" title="">Add New</a>
+        </div>
+         <div class="col-md-12">
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollection"  class="table themeTable">
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="4">Sl No.</th>
+                        <th st-ratio="18" st-sort="Institution Name">Institution Name</th>
+                        <th st-ratio="12" st-sort="Full Name">User Name</th>
+                        <th st-ratio="15" st-sort="Email Id">Email Id</th>
+                        <th st-ratio="10" st-sort="Mobile No">Mobile No.</th>
+                        <th st-ratio="8">Action</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{}}
+                            </td>
+                        <td>{{}}
+                            </td>
+                        <td>{{}}
+                            </td>
+                        <td>{{}}
+                            </td>
+                        <td>{{}}
+                            </td>
+                        <td>
+                          <a href="javascript:" ng-click="ViewUserPopUP()" title="View"><img src="../../Images/ViewIcon.png" /></a>
+                          <a href="javascript:" title="Edit"><img src="../../Images/EditIcon.png"/></a>
+                          <a href="javascript:"title="Active"><img src="../../Images/activeIcon1.png"/></a>
+                        </td>                 
+                    </tr>   
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<div id="UserModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+     <div class="modal-dialog" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"  ng-click="CancelPopup()"  title="Close"  >&times;</button>
+               
+                <h1 class="page-title">User Details</h1>
+            </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default" id="Basic1">
+                <div class="panel-body">
+
+                    <form class="form-horizontal" role="form">
+                       <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="12%">
+                                <label>Title<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td width="25%">
+                                <select class="form-control" id="Select5">
+                                    <option value="1">Select</option>
+                                </select>
+                            </td>                     
+                       
+                            <td width="15%">
+                                <label>First Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+                            <td width="25%">
+                                <input type="text" class="form-control" id="Text1" ng-model="Institution_PrintName" ng-init="Institution_PrintName=''" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Middle Name</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text6" ng-model="Institution_Code" ng-init="Institution_Code=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                            <td>
+                                <label>Last Name</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text9" ng-model="Address1" ng-init="Address1=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <label>Email</label>
+                            </td>
+                            <td>
+                              <select class="form-control" id="Select6">
+                                    <option value="1">Select</option>
+                                </select>
+                            </td>
+                      
+                            <td>
+                                <label>Mobile No.</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text3" ng-model="Address3" ng-init="Address3=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                        <tr>                           
+                            <td valign="top">
+                                <label>User Name</label>
+                            </td>
+                            <td valign="top">
+                                <input type="text" class="form-control" id="Text11" ng-model="PrimaryContact" ng-init="PrimaryContact=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                          <td valign="top">
+                                <label>Password</label>
+                            </td>
+                            <td>
+                                   <input type="text" class="form-control" id="Text12" ng-model="PrimaryContact" ng-init="PrimaryContact=''" maxlength="50" ng-maxlength="50" placeholder="" onkeypress="">
+                            </td>
+                        </tr>
+                         <tr>
+                       <td width="13%" valign="top">
+                                    <label>Profile Picture <br />
+                                        <button type="button" id="btnLogo" class="btn  btn-autosize" id="Button1" id="Page" ng-click="">Click Here to Choose File</button> 
+                                        <!--<span id='btnLogo' class="glyphicon glyphicon-upload" style="font-size: 15px;"></span>-->
+                                        
+                                    </label>
+                                </td>
+                                  <td  style="width:180px;height:180px;"  valign="top" rowspan="6">
+                                      <div>
+                                          <input type="file" id="companyphoto" fileread="uploadphoto" onchange="angular.element(this).scope().logoChange(this)"
+                                               name="FileName" title=" " style="height:0px !important" accept="image/x-png,image/gif,image/jpeg" />
+                                      </div>
+                                      <div ng-if="(uploadphoto==0 || uploadphoto == null)">
+                                          <img  width="275" height="100"/>
+                                      </div>
+                                        
+                                      </td>
+                             </tr>
+
+                    </table>
+                    </form>
+                </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="UserAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="btn  btn-save"  ng-click="CancelPopup()" title="Click to Cancel">Cancel</button>
+            </div>
+            </div>
+        </div>
+    </div>
+       </div>
+      </div>
+ </div>
+    </div>
+
+<div id="UserViewModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"title="" ng-click="CancelPopup()"  >&times;</button>
+                <h4 class="modal-title">User Details</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="5" width="100%" class="formControlGroup">
+                        <tr>
+                           <td style="width:7%">
+                              <label>Institution Name</label>
+                            </td>
+                            <td style="width:30%">
+                                <span>{{ViewInstitution_Name}</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <label>First Name</label>
+                            </td>
+                            <td>
+                                <span>{{ViewFirst_Name}</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <label>Middle Name</label>
+                            </td>
+                            <td>
+                                <span>{{ViewMiddle_Name}</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td style="width:15%">
+                                <label>Last Name</label>
+                            </td>
+                            <td>
+                                <span>{{ViewLast_Name}</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <label>Email Id</label>
+                            </td>
+                            <td>
+                                <span>{{View_Name}</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <label>Mobile Number</label>
+                            </td>
+                            <td>
+                                <span>{{View_Name}</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <label>User Name</label>
+                            </td>
+                            <td>
+                                <span>{{View_Name}</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <label>Password</label>
+                            </td>
+                            <td>
+                                <span>{{View_Name}</span>
+                            </td>
+                        </tr>
+                        </table>
+                </form>
+           </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="CancelPopup()">Cancel</button>
+            </div>
+            </div>
+        </div>
+    </div>

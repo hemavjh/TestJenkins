@@ -1,0 +1,84 @@
+﻿<link href='Css/fullcalendar.css' rel='stylesheet' />
+<link href="Css/calnder.css" rel="stylesheet" type="text/css">
+<link href="Css/Site.css" rel="stylesheet" type="text/css">
+<link href='Css/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<script src='scripts/moment.min.js'></script>
+<!--<script src="scripts/jquery-ui.js" type="text/javascript"></script>-->
+<script src="scripts/calendar.js"></script>
+<script src='scripts/fullcalendar.min.js'></script>
+<script src="scripts/gcal.js"></script>
+<script src='scripts/jquery.tabletojson.js'></script>
+
+
+    <ul class="secondaryMenu">
+        <li>
+            <a class="secondaryMenuActive" href="Home/Index#/TodaysAppoint_ments" title="Today Appointment Page">Today's
+                Appointment</a>
+        </li>
+        <li><a href="Home/Index#/Thirtydays_appointments" title="Click here to go Next 30 Days Appointment Page">Next 30
+                Days Appointments</a>
+        </li>
+    </ul>
+    <div class="row">
+    <div class="lds-ripple" id="chatLoaderPV1" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div class="col-md-12">
+            <h1 class="title1">Today's Appointment</h1>
+            <div>
+                <div id="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar"></div>
+            </div>
+        </div>
+    </div>
+<div id="PatientAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 40%">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"  ng-click="ClearAppointments()"data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Cancel Appointment</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>   
+                             <td width="10%">
+                                        <label>Reason Type <sup>   <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                                 </td>
+                             <td width="30%">
+                                <select class="form-control" data-style="form-control"
+                                            data-live-search="true" data-selectpicker
+                                            data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
+                                            <option
+                                                ng-repeat="sel in AppointmentReasonTypeList"
+                                                ng-required="true" value="{{sel.ReasonTypeId}}">{{sel.ReasonType}}
+                                            </option>
+                                        </select>
+                                 </td>
+                                            
+                                </tr>
+                        <tr>
+                            <td >
+                                <label>Reason
+                                    </label>
+                            </td>
+                            <td >
+                                <input type="text" class="form-control" ng-model="Cancelled_Remarks" maxlength="100"
+                                    ng-maxlength="100" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" class="btn btn-save" ng-click="Update_CancelledAppointment()">
+                        Save</button>
+                    <button type="button" class="btn btn-save" ng-click="Cancel_CancelledAppointment()">
+                        Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

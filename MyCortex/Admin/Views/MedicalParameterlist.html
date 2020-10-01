@@ -1,0 +1,422 @@
+﻿<style type="text/css">
+    input[type='file'] {
+        opacity: 0;
+    }
+</style>
+<script>
+
+    $('#btnLogo').click(function () {
+        $("#companyphoto").trigger('click');
+    })
+
+        //$('#btndoc').click(function () {
+        //    $("#License").trigger('click');
+        //})
+</script>
+
+<h1 class="page-title">Medical Parameter</h1>
+<div class="panelpanel-info" id="tableid">
+
+    <form class="form-horizontal" role="form">
+
+        <div class="overlay" show-on-load>
+            <div id="loading-img"></div>
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup" id="table1">
+            <tr>
+                <td width="12%">
+                    <label>Parameter Name</label>
+                </td>
+                <td width="23%">
+                    <select class="form-control" ng-model="Company_Name" id="Select1" ng-change="autoclear()">
+                        <option value=0>All</option>
+                        <option ng-repeat="sel in CompanyFilterList" ng-selected="Company_Name==sel.Id"
+                            value="{{sel.Id}}">{{sel.CompanyName}}</option>
+                    </select>
+                </td>
+
+                <td>
+                    <button type="button" class="btn btn-small" id="go"
+                        ng-click="CompanyBranchMaster_ListSearch_Go()">Go</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--<a href="Home/Index/#/CompanyBranchModal" class="btn btn-autosize pull-right mb-15">Add New</a>-->
+<a href="javascript:" ng-click="AddParameterPopup()" class="btn btn-autosize pull-right mb-15">Add New</a>
+<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollection" class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="5" st-sort="Id">Sl No.</th>
+            <th st-ratio="25" st-sort="CompanyName">Parameter Name</th>
+            <th st-ratio="20" st-sort="Branch_Code">Minimum Value</th>
+            <th st-ratio="25" st-sort="Branch_Name">Maximum Value</th>
+            <th st-ratio="20" st-sort="Branch_Name">Average</th>
+            <th st-ratio="10">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--  <tr ng-if="flag==0" && "rowCollection.length==0">
+                        <td colspan="5" class="text-center">
+                            No Data Available
+                        </td>
+                    </tr>-->
+        <tr>
+            <td style="text-align: right">{{1}}</td>
+            <td style="text-align: left">{{"Parameter"}}</td>
+            <td style="text-align: left">{{"50"}}</td>
+            <td style="text-align: left">{{"500"}}</td>
+            <td style="text-align: left">{{"250"}}</td>
+            <td st-ratio="10">
+                <a href="javascript:" ng-click="AddParameterPopup()" title="View"><img
+                        src="../../Images/ViewIcon.png" /></a>
+                <a href="javascript:" title="Edit">
+                    <img src="../../Images/EditIcon.png" /></a>
+                <!--<a href="javascript:" ng-click="ErrorFunction()" title="Edit"><img src="../../Images/EditIcon.png" ng-if="row.IsActive==0 && row.CompanyActive==1" /></a>-->
+                <!-- <a href="javascript:" ng-click="Active_ErrorFunction(row.Id)" title="Edit"><img src="../../Images/EditIcon.png" ng-if="row.CompanyActive==0" /></a>
+                            </a>-->
+                <a href="javascript:" ng-click="DeleteBranch(row.Id)" title="Active">
+                    <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
+                    <!--<a href="javascript:" ng-click="ReInsertBranch(row.Id)" title="Inactive"><img src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="rowCollection.length >30">
+        <tr>
+            <td colspan="5" class="text-center">
+                <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                    st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<!--Create & Edit Modal-->
+<div id="ParameterCreateModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 60%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="ClearCompanyBranchPopUp()"
+                    title="Close" style="color: #8B0000;">&times;</button>
+
+                <h1 class="page-title">Parameter Details</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="12%">
+                                <label>Parameter Name<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td width="60%">
+                                <input type="text" class="form-control" id="Text5" ng-model="Branch_Name"
+                                    ng-init="Branch_Name=''" ng-maxlength="100" maxlength="100" placeholder=""
+                                    onkeypress="NoSpecCharallowFew(this.Branch_Name)">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>UOM<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text1" ng-model="Branch_Name"
+                                    ng-init="Branch_Name=''" ng-maxlength="100" maxlength="100" placeholder=""
+                                    onkeypress="NoSpecCharallowFew(this.Branch_Name)">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>Min Value</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text6" ng-model="Branch_Code"
+                                    ng-init="Branch_Code=''" maxlength="50" ng-maxlength="50" placeholder=""
+                                    onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>Max Value</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text9" ng-model="Branch_Code"
+                                    ng-init="Branch_Code=''" maxlength="50" ng-maxlength="50" placeholder=""
+                                    onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Normal Range</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text2" ng-model="Branch_Code"
+                                    ng-init="Branch_Code=''" maxlength="50" ng-maxlength="50" placeholder=""
+                                    onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>Average</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="Text3" ng-model="Branch_Code"
+                                    ng-init="Branch_Code=''" maxlength="50" ng-maxlength="50" placeholder=""
+                                    onkeypress="SomeSpec(this.Branch_Code)">
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" id="save" id="Page"
+                    ng-click="CompanyBranchMaster_AddEdit()">Save</button>
+                <button type="button" class="btn  btn-save" ng-click="CancelParameterPopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Modal -->
+<div id="ViewModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" width="80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="ClearCompanyBranchPopUp()"
+                    title="Close" style="color: #8B0000;">&times;</button>
+                <h1 class="page-title">Institution Details</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="15%">
+                                <label>institution Name<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td width="25%">
+                                <span>{{}}</span>
+                            </td>
+
+                            <td width="17%">
+                                <label>Institution Print Name<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td width="25%">
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>Short Name</label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+
+                            <td>
+                                <label>Street Address Line1<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Street Address Line2<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+
+                            <td>
+                                <label>Street Address Line2<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                <label>Primary Contact Person<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>WhatsApp No.<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Email<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>Website<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Country<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+
+                            </td>
+                            <td>
+                                <label>State<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>City<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>Regn. No.<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Logo<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                            <td>
+                                <label>Registered Address<sup>
+                                        <font class='mandatory-field'>*</font>
+                                    </sup></label>
+                            </td>
+                            <td>
+                                <span>{{}}</span>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" class="btn btn-save" ng-click="CancelViewIntstitutionPopup()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //// $(document).ready(function () {
+    //     $('#Page').click(function () {
+    //         $('#loading').html('<img src="../images/spinner.gif"> loading...').show();
+    //         // return true;
+    //     });
+    //     //$("#loading").hide();
+
+    //     $.ajax({
+    //         type: "POST",
+    //         dataType: "json",
+    //         url: "https://Home/Index#/companybranchlist/0",
+    //         success: function (d) {
+    //             alert("ss");
+    //             // replace div's content with returned data
+    //             // $('#loading').html('<img src="'+d.avatar_url+'"><br>'+d.login);
+    //             // setTimeout added to show loading
+    //             setTimeout(function () {
+    //                 $('#loading').html('<img src="../images/spinner.gif"><br>' + d.login);
+    //             }, 2000);
+    //         }
+    //     });
+    //$("#go,#save").click(function () {
+    //    $(".overlay").show();
+    //    $('#loading-img').show();
+    //    //$('.form-control').hide();
+    //    //$('.mandatory-field').hide();
+    //    //$(".text-center").hide();
+    //    //$(".btn").hide();
+    //    setTimeout(function () {
+    //        $('.overlay').hide();
+    //        $('#loading-img').hide();
+    //        //$('.form-control').show();
+    //        //$('.mandatory-field').show();
+    //        //$(".text-center").show();
+    //        //$(".btn").show();
+    //    }, 300);
+    //});
+    //$(document).ready(function () {
+    //$(window).on('load', function () {
+    //    $(".overlay").show();
+    //    $('#loading-img').show();
+    //    //$('.form-control').hide();
+    //    //$('.mandatory-field').hide();
+    //    //$(".text-center").hide();
+    //    //$(".btn").hide();
+    //    setTimeout(function () {
+    //        $('.overlay').hide();
+    //        $('#loading-img').hide();
+    //        //$('.form-control').show();
+    //        //$('.mandatory-field').show();
+    //        //$(".text-center").show();
+    //        //$(".btn").show();
+    //    }, 300);
+    //});
+    //});
+
+</script>
