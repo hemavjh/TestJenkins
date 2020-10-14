@@ -2937,7 +2937,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
 
         $scope.UserDetails_InActive = function (GetId) {
             $scope.Id = GetId;
-            var del = confirm("Do you like to deactivate the selected User Details?");
+            var del = confirm("Do you like to deactivate the selected User?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
                     alert("User Details has been deactivated Successfully");
@@ -2955,7 +2955,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
         };
         $scope.UserDetails_Active = function (GetId) {
             $scope.Id = GetId;
-            var del = confirm("Do you like to activate the selected User details?");
+            var del = confirm("Do you like to activate the selected User?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
                     if (data.Status == "True") {
