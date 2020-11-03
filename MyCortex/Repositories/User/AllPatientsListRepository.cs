@@ -40,11 +40,44 @@ namespace MyCortex.Repositories.User
         /// <param name="BLOODGROUP_ID"></param>
         /// <param name="Group_Id"></param>
         /// <param name="UserTypeId"></param>
+        /// <param name="StartRowNumber"></param>
+        ///  <param name="EndRowNumber"></param>
         /// <returns>All patient details for the logged in user</returns>
-        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId)
+        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId,int StartRowNumber, int EndRowNumber)
         {
+
+            //int PageIndex = 1;
+            //PageModal pageModal = new PageModal();
+            //pageModal.iDisplayStart = 1;
+            //pageModal.iDisplayLength = 20;
+
+            //if (pageModal.iDisplayStart > 0)
+            //{
+            //    PageIndex = (pageModal.iDisplayStart / pageModal.iDisplayLength) + 1;
+            //}
+            //AllPatientListModel pageDataArgs = new AllPatientListModel();
+            //$scope.PageNumber = PageNumber;
+            //if($scope.searchquery != "")
+            //{
+            //    $scope.PatientList = angular.copy($scope.PatientFilterCopy);
+            //}
+            //else
+            //{
+            //    $scope.PatientList = angular.copy($scope.PatientFilterCopyList);
+            //}
+            //int PageStart = ((PageNumber - 1) *(Patient_PerPage)) +1;
+            //int PageEnd = PageNumber * Patient_PerPage;
+            //pageDataArgs.RequestedPageIndex = PageIndex;//args.RequestedPageIndex,
+            //pageDataArgs.RequestedPageRowCount = pageModal.iDisplayLength;
+            //int StartRowNumber = ((pageDataArgs.RequestedPageIndex - 1) * PageStart) +1;
+
+            //int StartRowNumber = 1;
+            //int EndRowNumber = 20;
+
             DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber",StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@Doctor_Id", Doctor_Id));
             param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
             param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
@@ -71,6 +104,7 @@ namespace MyCortex.Repositories.User
                 List<AllPatientListModel> lst = (from p in dt.AsEnumerable()
                                                  select new AllPatientListModel()
                                                  {
+                                                     TotalRecord = p.Field<string>("TotalRecords"),
                                                      Id = p.Field<long>("Id"),
                                                      Smoker_Option = p.Field<string>("Smoker"),
                                                      Diabetic_Option = p.Field<string>("Diabetic_Option"),
@@ -81,6 +115,7 @@ namespace MyCortex.Repositories.User
                                                      Photo = p.Field<string>("PHOTO_NAME"),
                                                      PhotoBlob = p.IsNull("PHOTOBLOB") ? null : encrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                      ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
+                                                    
                                                  }).ToList();
                 return lst;
             }
