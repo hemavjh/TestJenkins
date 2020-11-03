@@ -16693,6 +16693,94 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 
 ]);
 
+MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+        $scope.IsActive = true;
+        $scope.Id = 0;
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+
+        $scope.page_size = 0;
+        $scope.ConfigCode = "PAGINATION";
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+            if (data[0] != undefined) {
+                $scope.page_size = parseInt(data[0].ConfigValue);
+                $window.localStorage['Pagesize'] = $scope.page_size;
+            }
+        });
+        /*List Page Pagination*/
+        $scope.listdata = [];
+        $scope.current_page = 1;
+        $scope.page_size = $window.localStorage['Pagesize'];
+        $scope.rembemberCurrentPage = function (p) {
+            $scope.current_page = p
+        }
+
+        $scope.Convert24to12Timeformat = function (inputTime) {
+            var outputTime = null;
+            if (inputTime != '' && inputTime != null) {
+                inputTime = inputTime.toString(); //value to string for splitting
+                var splitTime = inputTime.split(':');
+                splitTime.splice(2, 1);
+                var ampm = (splitTime[0] >= 12 ? ' PM' : ' AM'); //determine AM or PM
+                splitTime[0] = splitTime[0] % 12;
+                splitTime[0] = (splitTime[0] == 0 ? 12 : splitTime[0]); //adjust for 0 = 12
+                outputTime = splitTime.join(':') + ampm;
+            }
+            return outputTime;
+        };
+        $scope.Convert12To24Timeformat = function (timeval) {
+            var outputTime = null;
+            if (timeval != '' && timeval != null) {
+                var time = timeval;
+                var hours = Number(time.match(/^(\d+)/)[1]);
+                var minutes = Number(time.match(/:(\d+)/)[1]);
+                var AMPM = time.match(/\s(.*)$/)[1];
+                if (AMPM == "PM" && hours < 12) hours = hours + 12;
+                if (AMPM == "AM" && hours == 12) hours = hours - 12;
+                var sHours = hours.toString();
+                var sMinutes = minutes.toString();
+                if (hours < 10) sHours = "0" + sHours;
+                if (minutes < 10) sMinutes = "0" + sMinutes;
+                outputTime = sHours + ":" + sMinutes;
+            }
+            return outputTime;
+        };
+
+        /*THIS IS FOR LIST FUNCTION*/
+
+        $scope.WebConfigurationList = function () {
+            $("#chatLoaderPV").show();
+            $scope.emptydataWebConfiguration = [];
+            $scope.rowCollectionWebConfiguration = [];
+
+            $scope.ISact = 1;       // default active
+            if ($scope.IsActive == true) {
+                $scope.ISact = 1  //active
+            }
+            else if ($scope.IsActive == false) {
+                $scope.ISact = -1 //all
+            }
+
+            $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?Id=0' + '&IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId
+            ).success(function (data) {
+                $scope.emptydataWebConfiguration = [];
+                $scope.rowCollectionWebConfiguration = [];
+                $scope.rowCollectionWebConfiguration = data;
+                $scope.rowCollectionWebConfigurationFilter = angular.copy($scope.rowCollectionWebConfiguration);
+                if ($scope.rowCollectionWebConfigurationFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                }
+                $("#chatLoaderPV").hide();
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            })
+        };
+    }
+]);
+
 angular.module("angular-bootstrap-select", [])
     .directive("selectpicker",
         [

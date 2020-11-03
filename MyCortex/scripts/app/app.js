@@ -196,6 +196,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
        templateUrl: baseUrl + 'Masters/Views/AttendanceDetails.html',
        controller: 'AttendanceDetailsController'
    }).
+    when('/WebConfiguration', {
+        templateUrl: baseUrl + 'Masters/Views/WebConfiguration.html',
+        controller: 'WebConfigurationController'
+    }).
     //when('/EditParameterSettings/:Id', {
     //    templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
     //    controller: 'ParameterSettingsController'

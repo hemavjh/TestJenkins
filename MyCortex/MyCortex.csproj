@@ -434,6 +434,7 @@
     <Content Include="Masters\Views\pagination.custom.html" />
     <Content Include="Masters\Views\ParameterSettings.html" />
     <Content Include="Masters\Views\PasswordPolicy.html" />
+    <Content Include="Masters\Views\WebConfiguration.html" />
     <Content Include="Report\Views\AuditReportList.html" />
     <Content Include="samplepatienthome.html" />
     <Content Include="scripts\7ca6cce699.js" />
@@ -929,6 +930,7 @@
     <Compile Include="Masters\Controllers\MasterICDController.cs" />
     <Compile Include="Masters\Controllers\ParameterSettingsController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
+    <Compile Include="Masters\Controllers\WebConfigurationController.cs" />
     <Compile Include="Masters\Models\AppConfigurationModel.cs" />
     <Compile Include="Masters\Models\AttendanceModel.cs" />
     <Compile Include="Masters\Models\CategoryMasterModel.cs" />
@@ -952,6 +954,7 @@
     <Compile Include="Masters\Models\ShiftTimingsModel.cs" />
     <Compile Include="Masters\Models\StateMasterModel.cs" />
     <Compile Include="Masters\Models\UnitsMasterModel.cs" />
+    <Compile Include="Masters\Models\WebConfigurationModel.cs" />
     <Compile Include="Notification\Models\AlertEventModel.cs" />
     <Compile Include="Notification\Models\UserNotificationModel.cs" />
     <Compile Include="Notification\PushNotificationApiManager.cs" />
@@ -993,6 +996,7 @@
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\IWebConfigurationRepository.cs" />
     <Compile Include="Repositories\Login\LoginRepository.cs" />
     <Compile Include="Repositories\Masters\AttendanceRepository.cs" />
     <Compile Include="Repositories\Masters\ChatSettingsRepository.cs" />
@@ -1004,6 +1008,7 @@
     <Compile Include="Repositories\Masters\ParameterSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\PasswordPolicyRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
     <Compile Include="Repositories\Menu\CommonMenuRepository.cs" />
     <Compile Include="Repositories\Report\PatientReportDetailsRepository.cs" />
     <Compile Include="Repositories\Template\AlertEventRepository.cs" />
@@ -1185,6 +1190,7 @@
     <Content Include="_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
     <Folder Include="Home\Models\" />
