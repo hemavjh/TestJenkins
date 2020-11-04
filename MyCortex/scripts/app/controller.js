@@ -11917,10 +11917,11 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
                 $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
                 $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
                 //Get the Patient List
-                $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd
+                $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery
                 ).success(function (Patientdata) {
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
+                    $scope.PageCountArray = [];
                     $scope.Patientemptydata = [];
                     $scope.PatientList = [];
                     $scope.PatientList = Patientdata;
@@ -11941,70 +11942,15 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
             });
         }
         $scope.filterPatientList = function () {
-            $scope.ResultListFiltered = [];
-            $scope.PageCountArray = [];
-            $scope.PageNumber = 1;
-            var searchstring = angular.lowercase($scope.searchquery);
-            if ($scope.searchquery == "") {
-                $scope.PatientFilter = angular.copy($scope.PatientFilterCopyList);
-            }
-            else {
-                $scope.PatientFilter = $ff($scope.PatientList, function (value) {
-                    return angular.lowercase(value.PatientName).match(searchstring) ||
-                           angular.lowercase(value.MRN_NO).match(searchstring) ||
-                           angular.lowercase(value.Smoker_Option).match(searchstring) ||
-                           angular.lowercase(value.Diabetic_Option).match(searchstring) ||
-                           angular.lowercase(value.Diabetic_Option).match(searchstring) ||
-                           angular.lowercase(value.Cholestrol_Option).match(searchstring);
-                });
-            }
-            $scope.PatientCount = $scope.PatientFilter.length;
-            total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
-            for (var i = 0; i < total; i++) {
-                var obj = {
-                    PageNumber: i + 1
-                }
-                $scope.PageCountArray.push(obj);
-            }
-            $scope.PatientList = $scope.PatientFilter;
-            $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
-            $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
-            $scope.PatientFilter = $ff($scope.PatientFilter, function (value, index) {
-                return (index >= ($scope.PageStart - 1) && index <= $scope.PageEnd - 1);
-            });
-            if ($scope.PatientFilter.length > 0) {
-                $scope.flag = 1;
-            }
-            else {
-                $scope.flag = 0;
-            }
-
+            $("#chatLoaderPV").show();
+            $scope.Patientemptydata = [];
+            $scope.PatientListFunction(1);
         }
         $scope.Next_PatientListFunction = function (PageNumber) {
             $scope.PageNumber = PageNumber;
-            //if($scope.searchquery != "")
-            //{
-            //    $scope.PatientList = angular.copy($scope.PatientFilterCopy);
-            //}
-            //else
-            //{
-            //    $scope.PatientList = angular.copy($scope.PatientFilterCopyList);
-            //}
             $("#chatLoaderPV").show();
-            //$scope.SearchMsg = "No Data Available";
             $scope.Patientemptydata = [];
             $scope.PatientListFunction(PageNumber);
-            //$scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
-            //$scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
-            //$scope.PatientFilter = $ff($scope.PatientList, function (value, index) {
-            //    return (index >= ($scope.PageStart - 1) && index <= $scope.PageEnd - 1);
-            //});
-            //if ($scope.PatientFilter.length > 0) {
-            //    $scope.flag = 1;
-            //}
-            //else {
-            //    $scope.flag = 0;
-            //}
         }
         $scope.AllPatient_PatientData = function (eventId) {
             //All Patients
