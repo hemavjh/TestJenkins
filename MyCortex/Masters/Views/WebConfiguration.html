@@ -118,13 +118,22 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form" style="font-size:small">
                     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
+                        <tr ng-show="Id==0">
                             <td width="15%">
                                 <label>Config Code<sup><font class='mandatory-field'>*</font></sup></label>
                             </td>
 
                             <td>
                                 <input type="text" class="form-control" id="Text3" name="Config_Code" ng-model="Config_Code" ng-init="Config_Code=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" />
+                            </td>
+                        </tr>
+                        <tr ng-show="Id>0">
+                            <td width="15%">
+                                <label>Config Code<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" id="Text3" name="Config_Code" ng-model="Config_Code" ng-init="Config_Code=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" readonly/>
                             </td>
                         </tr>
                         <tr>
@@ -186,7 +195,7 @@
                             </td>
 
                             <td width="7%">
-                                <div class="textwrap"> {{CONFIGCODE}}</div>
+                                <div class="textwrap"> {{Config_Code}}</div>
                             </td>
                         </tr>
                         <tr>
@@ -195,7 +204,7 @@
                             </td>
 
                             <td>
-                                {{CONFIGNAME}}
+                                {{Config_Name}}
                             </td>
                         </tr>
                         <tr>
@@ -204,7 +213,7 @@
                             </td>
 
                             <td>
-                                {{CONFIGVALUE}}
+                                {{Config_Value}}
                             </td>
                         </tr>
                         <tr>
@@ -213,7 +222,7 @@
                             </td>
 
                             <td>
-                                {{CONFIGTYPE}}
+                                {{Config_Type}}
                             </td>
                         </tr>
                         <tr>
@@ -222,7 +231,7 @@
                             </td>
 
                             <td>
-                                {{REMARKS}}
+                                {{Remarks}}
                             </td>
                         </tr>
 
