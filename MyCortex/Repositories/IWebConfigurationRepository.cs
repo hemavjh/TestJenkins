@@ -10,5 +10,6 @@ namespace MyCortex.Repositories
     {
         IList<WebConfigurationModel> WebConfiguration_List(int? IsActive, int? Institution_Id);
         WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id);
+        long WebConfiguration_InsertUpdate(Guid Login_Session_Id, List<WebConfigurationModel> insobj);
     }
 }

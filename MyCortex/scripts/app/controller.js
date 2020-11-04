@@ -16763,6 +16763,26 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
             }
         };
 
+        /* on click Add New, Add popup opened*/
+        $scope.AddWebConfiguration = function () {
+            angular.element('#WebConfigurationAddModal').modal('show');
+        }
+
+        $scope.CancelWebConfigurationDetails = function () {
+            angular.element('#WebConfigurationAddModal').modal('hide');
+        }
+
+        $scope.ClearWebConfigurationPopUp = function () {
+            $scope.Id = 0;
+            $scope.Institution_Id = "";
+            $scope.Remarks = "";
+            $scope.Config_Code = "";
+            $scope.Config_Name = "";
+            $scope.Config_Value = "";
+            $scope.Config_Type = "";
+            $scope.CancelWebConfigurationPopUp();
+        }
+
         /*THIS IS FOR LIST FUNCTION*/
 
         $scope.WebConfigurationList = function () {
@@ -16812,11 +16832,11 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
             $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.DuplicatesId = data.ID;
                 $scope.Institution_Id = data.INSTITUTION_ID.toString();
-                $scope.CONFIGCODE = data.CONFIGCODE;
-                $scope.CONFIGNAME = data.CONFIGINFO;
-                $scope.CONFIGVALUE = data.CONFIGVALUE;
-                $scope.CONFIGTYPE = data.CONFIG_TYPEDEFINITION;
-                $scope.REMARKS = data.REMARKS;
+                $scope.Config_Code = data.CONFIGCODE;
+                $scope.Config_Name = data.CONFIGINFO;
+                $scope.Config_Value = data.CONFIGVALUE;
+                $scope.Config_Type = data.CONFIG_TYPEDEFINITION;
+                $scope.Remarks = data.REMARKS;
                 $("#chatLoaderPV").hide();
             });
         };
@@ -16825,6 +16845,44 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
         $scope.CancelWebConfigurationPopUp = function () {
             angular.element('#WebConfigurationAddModal').modal('hide');
             angular.element('#ViewWebConfigurationModal').modal('hide');
+        };
+
+        $scope.WebConfigurationDetails = [];
+        $scope.WebConfigurationAddEdit = function () {
+            $("#chatLoaderPV").show();
+            $scope.WebConfigurationDetails = [];
+            var obj = {
+                ID: $scope.Id,
+                INSTITUTION_ID: $window.localStorage['InstitutionId'],
+                CONFIGCODE: $scope.Config_Code,
+                CONFIGINFO: $scope.Config_Name,
+                CONFIGVALUE: $scope.Config_Value,
+                CONFIG_TYPEDEFINITION: $scope.Config_Type,
+                REMARKS: $scope.Remarks
+            };
+            $scope.WebConfigurationDetails.push(obj)
+            $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.WebConfigurationDetails).success(function (data) {
+                alert(data.Message);
+                $scope.WebConfigurationList();
+                $scope.ClearWebConfigurationPopUp();
+                $("#chatLoaderPV").hide();
+            }).error(function (data) {
+                $scope.error = "An error has occurred while deleting Parameter" + data;
+            });
+            
+        };
+
+        /* on click Edit, edit popup opened*/
+        $scope.EditWebConfiguration = function (CatId, ActiveFlag) {
+            if (ActiveFlag == 1) {
+                $scope.ClearWebConfigurationPopUp();
+                $scope.Id = CatId;
+                $scope.ViewWebConfigurationList();
+                angular.element('#WebConfigurationAddModal').modal('show');
+            }
+            else {
+                alert("Inactive record cannot be edited");
+            }
         };
     }
 ]);

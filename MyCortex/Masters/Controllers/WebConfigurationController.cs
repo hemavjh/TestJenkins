@@ -62,6 +62,49 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage WebConfiguration_InsertUpdate(Guid Login_Session_Id, [FromBody] List<WebConfigurationModel> insobj)
+        {
+            IList<WebConfigurationModel> ModelData = new List<WebConfigurationModel>();
+            WebConfigurationReturnModels model = new WebConfigurationReturnModels();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Configuration = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            string messagestr = "";
+            long retflag = 0;
+            try
+            {
+                retflag = repository.WebConfiguration_InsertUpdate(Login_Session_Id, insobj);
+                if ((retflag == 2) == true)
+                {
+                    messagestr = "Configuration created successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if ((retflag == 3) == true)
+                {
+                    messagestr = "Configuration updated Successfully";
+                    model.ReturnFlag = 1;
+                }
+                model.Configuration = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Configuration";
+                model.Configuration = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
 
     }
 

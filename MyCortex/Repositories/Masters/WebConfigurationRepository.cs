@@ -76,5 +76,40 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+
+        public long WebConfiguration_InsertUpdate(Guid Login_Session_Id, List<WebConfigurationModel> insobj)
+        {
+            try
+            {
+                string flag = "";
+                foreach (WebConfigurationModel item in insobj)
+                {
+                    List<DataParameter> param = new List<DataParameter>();
+                    param.Add(new DataParameter("@ID", item.ID));
+                    param.Add(new DataParameter("@INSTITUTION_ID", item.INSTITUTION_ID));
+                    param.Add(new DataParameter("@APPCONFIG_CODE", item.CONFIGCODE));
+                    param.Add(new DataParameter("@APPCONFIG_NAME", item.CONFIGINFO));
+                    param.Add(new DataParameter("@APPCONFIG_VALUE", item.CONFIGVALUE));
+                    param.Add(new DataParameter("@APPCONFIG_TYPE", item.CONFIG_TYPEDEFINITION));
+                    param.Add(new DataParameter("@REMARKS", item.REMARKS));
+                    param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
+                    param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+                    {
+                        DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].APPCONFIGURATION_SP_INSERTUPDATE", param);
+                        DataRow dr = dt.Rows[0];
+                        flag = (dr["FLAG"].ToString());
+                    }
+                }
+                var data = (Convert.ToInt64(flag));
+                return data;
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+
+            }
+            return 0;
+        }
     }
 }
