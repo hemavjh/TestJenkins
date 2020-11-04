@@ -36,11 +36,11 @@
                         <td style="text-align:left" width="65%">
                             Active &nbsp;&nbsp;
                             <input toggle-checkbox ng-model="IsActive" type="checkbox"
-                                    title="Active / All">
+                                   title="Active / All">
                         </td>
 
                         <td>
-                            <a href="javascript:"  class="btn btn-autosize pull-right mb-15" title="Click to Add New Configuration">Add New</a>
+                            <a href="javascript:" ng-click="AddWebConfiguration();" class="btn btn-autosize pull-right mb-15" title="Click to Add New Configuration">Add New</a>
                         </td>
                     </tr>
                 </table>
@@ -85,7 +85,7 @@
                         <a href="javascript:" ng-click="ViewWebConfiguration(row.ID)" title="View">
                             <img src="../../Images/ViewIcon.png" />
                         </a>
-                        <a href="javascript:" title="Edit" ng-click="EditWebConfiguration(row.Id, row.IsActive)">
+                        <a href="javascript:" title="Edit" ng-click="EditWebConfiguration(row.ID, row.ISACTIVE)">
                             <img src="../../Images/EditIcon.png" />
                         </a>
                         <a href="javascript:;" ng-click="DeleteWebConfiguration(row.Id)" title="Active">
@@ -104,6 +104,69 @@
                 </tr>
             </tfoot>
         </table>
+    </div>
+</div>
+<!--Add&Edit Modal-->
+<div id="WebConfigurationAddModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="ClearWebConfigurationPopUp()" style="color:#8B0000;">&times;</button>
+                <h4 class="modal-title">Configuration</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="15%">
+                                <label>Config Code<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" id="Text3" name="Config_Code" ng-model="Config_Code" ng-init="Config_Code=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="4%">
+                                <label>Config Name<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" id="Text3" name="Config_Name" ng-model="Config_Name" ng-init="Config_Name=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="4%">
+                                <label>Config Value<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+
+                            <td>
+                                <textarea rows="5" class="form-control" id="Textarea2" ng-model="Config_Value" ng-maxlength="500" maxlength="500"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="4%">
+                                <label>Config Type<sup><font class='mandatory-field'>*</font></sup></label>
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" id="Text3" name="Config_Type" ng-model="Config_Type" ng-init="Config_Type=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">Remarks</td>
+                            <td>
+                                <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks" ng-maxlength="250" maxlength="250"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn  btn-save" ng-click="WebConfigurationAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="btn  btn-save" ng-click="CancelWebConfigurationDetails()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>
 <div id="ViewWebConfigurationModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
