@@ -11839,7 +11839,8 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
             $scope.filter_CityId = "0";
             $scope.filter_BloodGroupId = "0";
             $scope.filter_GroupId = "0";
-            $scope.PatientListFunction(1);
+            //$scope.PatientListFunction(1);
+            $scope.Next_PatientListFunction(1);
         }
 
         $scope.AllPatientsDropdownList = function () {
@@ -11990,7 +11991,7 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
             //    $scope.PatientList = angular.copy($scope.PatientFilterCopyList);
             //}
             $("#chatLoaderPV").show();
-            $scope.SearchMsg = "No Data Available";
+            //$scope.SearchMsg = "No Data Available";
             $scope.Patientemptydata = [];
             $scope.PatientListFunction(PageNumber);
             //$scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
