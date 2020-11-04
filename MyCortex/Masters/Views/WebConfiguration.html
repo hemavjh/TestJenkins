@@ -29,7 +29,7 @@
                         </td>
                         <td width="5%">
                             <div class="modernSearch">
-                                <input type="text" ng-model="searchqueryWebConfiguration" placeholder="" style="width: 200px" />
+                                <input type="text" ng-model="searchqueryWebConfiguration" ng-change="FilterWebConfigurationList()" placeholder="" style="width: 200px" />
                                 <i class="fa fa-search"></i>
                             </div>
                         </td>
@@ -52,9 +52,10 @@
             <thead>
                 <tr style="text-align: center">
                     <th st-ratio="5">#</th>
-                    <th st-ratio="33" st-sort="KeyName">Key</th>
-                    <th st-ratio="14" st-sort="Value">Value</th>
-                    <th st-ratio="12" st-sort="Created_Dt">Created By </th>
+                    <th st-ratio="17" st-sort="CONFIGCODE">CONFIGCODE</th>
+                    <th st-ratio="25" st-sort="CONFIGINFO">CONFIGNAME</th>
+                    <th st-ratio="35" st-sort="CONFIGVALUE">CONFIGVALUE</th>
+                    <th st-ratio="10" st-sort="CONFIG_TYPEDEFINITION">CONFIG TYPE</th>
                     <th st-ratio="8">Action</th>
                 </tr>
             </thead>
@@ -69,25 +70,28 @@
                     <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
 
                     <td style="text-align: left">
-                        <div class="textwrap">{{row.KeyName}}</div>
+                        <div class="textwrap">{{row.CONFIGCODE}}</div>
                     </td>
                     <td style="text-align: left">
-                        <div class="textwrap">{{row.Value}}</div>
+                        <div class="textwrap">{{row.CONFIGINFO}}</div>
                     </td>
                     <td style="text-align: left">
-                        {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm:ss a'}}
+                        <div class="textwrap">{{row.CONFIGVALUE}}</div>
+                    </td>
+                    <td style="text-align: left">
+                        <div class="textwrap">{{row.CONFIG_TYPEDEFINITION}}</div>
                     </td>
                     <td style="text-align: center">
-                        <a href="javascript:" ng-click="ViewWebConfiguration(row.Id)" title="View">
+                        <a href="javascript:" ng-click="ViewWebConfiguration(row.ID)" title="View">
                             <img src="../../Images/ViewIcon.png" />
                         </a>
                         <a href="javascript:" title="Edit" ng-click="EditWebConfiguration(row.Id, row.IsActive)">
                             <img src="../../Images/EditIcon.png" />
                         </a>
                         <a href="javascript:;" ng-click="DeleteWebConfiguration(row.Id)" title="Active">
-                            <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
+                            <img src="../../Images/activeIcon1.png" ng-if="row.ISACTIVE==1" />
                             <a href="javascript:" ng-click="ReInsertWebConfiguration(row.Id)" title="Inactive">
-                                <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                                <img src="../../Images/inactive.png" ng-if="row.ISACTIVE==0" />
                             </a>
                     </td>
                 </tr>
@@ -100,6 +104,73 @@
                 </tr>
             </tfoot>
         </table>
+    </div>
+</div>
+<div id="ViewWebConfigurationModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#8B0000;">&times;</button>
+                <h4 class="modal-title">Configuration</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                        <tr>
+                            <td width="7%" valign="top">
+                                <label>CONFIGURATION CODE</label>
+                            </td>
+
+                            <td width="7%">
+                                <div class="textwrap"> {{CONFIGCODE}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>CONFIGURATION NAME</label>
+                            </td>
+
+                            <td>
+                                {{CONFIGNAME}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>CONFIGURATION VALUE</label>
+                            </td>
+
+                            <td>
+                                {{CONFIGVALUE}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>CONFIGURATION TYPE</label>
+                            </td>
+
+                            <td>
+                                {{CONFIGTYPE}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>REMARKS</label>
+                            </td>
+
+                            <td>
+                                {{REMARKS}}
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelWebConfigurationPopUp()">
+                    Cancel
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

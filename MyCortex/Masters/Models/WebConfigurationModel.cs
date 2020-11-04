@@ -7,12 +7,14 @@ namespace MyCortex.Masters.Models
 {
     public class WebConfigurationModel
     {
-        public long Id { get; set; }
-        public string KeyName { get; set; }
-        public string Value { get; set; }
-        public int IsActive { get; set; }
-        public long Created_by { get; set; }
-        public DateTime Created_Dt { get; set; }
+        public long ID { get; set; }
+        public long INSTITUTION_ID { get; set; }
+        public string CONFIGCODE { get; set; }
+        public string CONFIGINFO { get; set; }
+        public string CONFIGVALUE { get; set; }
+        public string CONFIG_TYPEDEFINITION { get; set; }
+        public string REMARKS { get; set; }
+        public int ISACTIVE { get; set; }
     }
 
     public class WebConfigurationReturnModels

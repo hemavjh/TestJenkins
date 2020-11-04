@@ -30,16 +30,34 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a IsActive</param>        
         /// <returns>Populated List of AppoinmentSlot list Details DataTable</returns>
         [HttpGet]
-        public IList<WebConfigurationModel> WebConfiguration_List(int? IsActive)
+        public IList<WebConfigurationModel> WebConfiguration_List(int? IsActive, int? Institution_Id)
         {
             IList<WebConfigurationModel> model;
             try
             {
-                model = repository.WebConfiguration_List(IsActive);
+                model = repository.WebConfiguration_List(IsActive, Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
+                return null;
+            }
+        }
+
+        [HttpGet]
+        public WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id)
+        {
+            WebConfigurationModel model = new WebConfigurationModel();
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.WebConfiguration_View(Id, Login_Session_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
         }

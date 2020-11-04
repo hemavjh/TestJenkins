@@ -16741,6 +16741,25 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 outputTime = sHours + ":" + sMinutes;
             }
             return outputTime;
+        }; $scope.searchqueryWebConfiguration = "";
+        /* Filter the master list function for Search*/
+        $scope.FilterWebConfigurationList = function () {
+
+            $scope.ResultListFiltered = [];
+            var searchstring = angular.lowercase($scope.searchqueryWebConfiguration);
+            if (searchstring == "") {
+                $scope.rowCollectionWebConfigurationFilter = [];
+                $scope.rowCollectionWebConfigurationFilter = angular.copy($scope.rowCollectionWebConfiguration);
+            }
+            else {
+                $scope.rowCollectionWebConfigurationFilter = $ff($scope.rowCollectionWebConfiguration, function (value) {
+                    return angular.lowercase(value.CONFIGCODE).match(searchstring) ||
+                        angular.lowercase(value.CONFIGINFO).match(searchstring) ||
+                        angular.lowercase(value.CONFIGVALUE).match(searchstring) ||
+                        angular.lowercase(value.CONFIG_TYPEDEFINITION).match(searchstring);
+
+                });
+            }
         };
 
         /*THIS IS FOR LIST FUNCTION*/
@@ -16758,7 +16777,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 $scope.ISact = -1 //all
             }
 
-            $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?Id=0' + '&IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId
+            $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId']
             ).success(function (data) {
                 $scope.emptydataWebConfiguration = [];
                 $scope.rowCollectionWebConfiguration = [];
@@ -16774,6 +16793,37 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
             })
+        };
+
+        /* on click view, view popup opened*/
+        $scope.ViewWebConfiguration = function (CatId) {
+            $scope.Id = CatId;
+            $scope.ViewWebConfigurationList();
+            angular.element('#ViewWebConfigurationModal').modal('show');
+        }
+
+        $scope.ViewWebConfigurationList = function () {
+            $("#chatLoaderPV").show();
+            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                $scope.Id = $routeParams.Id;
+                $scope.DuplicatesId = $routeParams.Id;
+            }
+            $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.DuplicatesId = data.ID;
+                $scope.Institution_Id = data.INSTITUTION_ID.toString();
+                $scope.CONFIGCODE = data.CONFIGCODE;
+                $scope.CONFIGNAME = data.CONFIGINFO;
+                $scope.CONFIGVALUE = data.CONFIGVALUE;
+                $scope.CONFIGTYPE = data.CONFIG_TYPEDEFINITION;
+                $scope.REMARKS = data.REMARKS;
+                $("#chatLoaderPV").hide();
+            });
+        };
+
+        /* THIS IS FUNCTION FOR CLOSE Modal Window  */
+        $scope.CancelWebConfigurationPopUp = function () {
+            angular.element('#WebConfigurationAddModal').modal('hide');
+            angular.element('#ViewWebConfigurationModal').modal('hide');
         };
     }
 ]);
