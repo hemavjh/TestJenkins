@@ -111,5 +111,53 @@ namespace MyCortex.Repositories.Masters
             }
             return 0;
         }
+
+        /* This is for Delete Allergy Details */
+        public IList<WebConfigurationModel> WebConfiguration_InActive(WebConfigurationModel noteobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                // List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@Id", noteobj.ID));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].WEBCONFIGURATION_SP_INACTIVE", param);
+                IList<WebConfigurationModel> list = (from p in dt.AsEnumerable()
+                                               select new WebConfigurationModel()
+                                               {
+                                                   Flag = p.Field<int>("flag")
+                                               }).ToList();
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        public IList<WebConfigurationModel> WebConfiguration_Active(WebConfigurationModel noteobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                // List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@Id", noteobj.ID));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].WEBCONFIGURATION_SP_ACTIVE", param);
+                IList<WebConfigurationModel> list = (from p in dt.AsEnumerable()
+                                               select new WebConfigurationModel()
+                                               {
+                                                   Flag = p.Field<int>("flag")
+                                               }).ToList();
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
     }
 }

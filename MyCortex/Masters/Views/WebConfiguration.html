@@ -36,7 +36,7 @@
                         <td style="text-align:left" width="65%">
                             Active &nbsp;&nbsp;
                             <input toggle-checkbox ng-model="IsActive" type="checkbox"
-                                   title="Active / All">
+                                   ng-change="WebConfigurationList();" title="Active / All">
                         </td>
 
                         <td>
@@ -88,11 +88,12 @@
                         <a href="javascript:" title="Edit" ng-click="EditWebConfiguration(row.ID, row.ISACTIVE)">
                             <img src="../../Images/EditIcon.png" />
                         </a>
-                        <a href="javascript:;" ng-click="DeleteWebConfiguration(row.Id)" title="Active">
+                        <a href="javascript:;" ng-click="DeleteWebConfiguration(row.ID)" title="Active">
                             <img src="../../Images/activeIcon1.png" ng-if="row.ISACTIVE==1" />
-                            <a href="javascript:" ng-click="ReInsertWebConfiguration(row.Id)" title="Inactive">
-                                <img src="../../Images/inactive.png" ng-if="row.ISACTIVE==0" />
-                            </a>
+                        </a>
+                        <a href="javascript:" ng-click="ReInsertWebConfiguration(row.ID)" title="Inactive">
+                            <img src="../../Images/inactive.png" ng-if="row.ISACTIVE==0" />
+                        </a>
                     </td>
                 </tr>
             </tbody>

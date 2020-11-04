@@ -16795,7 +16795,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 $scope.ISact = 1  //active
             }
             else if ($scope.IsActive == false) {
-                $scope.ISact = -1 //all
+                $scope.ISact = 0 //all
             }
 
             $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId']
@@ -16869,7 +16869,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
             }).error(function (data) {
                 $scope.error = "An error has occurred while deleting Parameter" + data;
             });
-            
+
         };
 
         /* on click Edit, edit popup opened*/
@@ -16884,6 +16884,60 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 alert("Inactive record cannot be edited");
             }
         };
+
+        /*InActive the WebConfiguration*/
+        $scope.DeleteWebConfiguration = function (comId) {
+            $scope.Id = comId;
+            $scope.WebConfiguration_InActive();
+        };
+        /*
+        Calling the api method to inactived the details of the  WebConfiguration ,
+            and redirected to the list page.
+            */
+        $scope.WebConfiguration_InActive = function () {
+            var del = confirm("Do you like to deactivate the selected Web Configuration?");
+            if (del == true) {
+                var obj =
+                {
+                    Id: $scope.Id,
+                    Modified_By: $window.localStorage['UserId']
+                }
+
+                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InActive/', obj).success(function (data) {
+                    alert(data.Message);
+                    $scope.WebConfigurationList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting Holiday" + data;
+                });
+            };
+        };
+
+        /*Active the Doctor Holiday*/
+        $scope.ReInsertWebConfiguration = function (comId) {
+            $scope.Id = comId;
+            $scope.WebConfiguration_Active();
+        };
+        /* 
+       Calling the api method to Actived the details of the  WebConfiguration,
+       and redirected to the list page.
+       */
+        $scope.WebConfiguration_Active = function () {
+            var Ins = confirm("Do you like to activate the selected  Web Configuration?");
+            if (Ins == true) {
+                var obj =
+                {
+                    Id: $scope.Id,
+                    Modified_By: $window.localStorage['UserId']
+                }
+
+                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_Active/', obj).success(function (data) {
+                    alert(data.Message);
+                    $scope.WebConfigurationList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while Activating WebConfiguration" + data;
+                });
+            };
+        }
     }
 ]);
 

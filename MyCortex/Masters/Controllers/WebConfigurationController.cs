@@ -105,6 +105,87 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpPost]
+
+        public HttpResponseMessage WebConfiguration_InActive([FromBody] WebConfigurationModel noteobj)
+        {
+            IList<WebConfigurationModel> ModelData = new List<WebConfigurationModel>();
+            WebConfigurationReturnModels model = new WebConfigurationReturnModels();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Configuration = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.WebConfiguration_InActive(noteobj);
+
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "Web Configuration deactivated successfully";
+                    model.ReturnFlag = 2;
+                }
+
+                model.Configuration = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating WebConfiguration";
+                model.ReturnFlag = 0;
+                model.Configuration = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage WebConfiguration_Active([FromBody] WebConfigurationModel noteobj)
+        {
+            IList<WebConfigurationModel> ModelData = new List<WebConfigurationModel>();
+            WebConfigurationReturnModels model = new WebConfigurationReturnModels();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Configuration = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.WebConfiguration_Active(noteobj);
+
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "WebConfiguration activated successfully";
+                    model.ReturnFlag = 2;
+                }
+
+                model.Configuration = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating WebConfiguration";
+                model.ReturnFlag = 0;
+                model.Configuration = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
 
     }
 
