@@ -991,6 +991,7 @@
     <Compile Include="Repositories\IPasswordPolicyRepository.cs" />
     <Compile Include="Repositories\IPatientAppointmentsRepository.cs" />
     <Compile Include="Repositories\IPatientApprovalRepository.cs" />
+    <Compile Include="Repositories\IPatientDeviceDataRepository.cs" />
     <Compile Include="Repositories\IPatientReportDetailsRepositoy.cs" />
     <Compile Include="Repositories\IProtocolRepository.cs" />
     <Compile Include="Repositories\ISendEmailRepository.cs" />
@@ -1021,6 +1022,7 @@
     <Compile Include="Repositories\User\CareGiverRepository.cs" />
     <Compile Include="Repositories\User\PatientAppointmentRepository.cs" />
     <Compile Include="Repositories\User\PatientApprovalRepository.cs" />
+    <Compile Include="Repositories\User\PatientDeviceDataRepository.cs" />
     <Compile Include="Repositories\User\UserRepository.cs" />
     <Compile Include="Notification\SendGridApiManager.cs" />
     <Compile Include="Notification\SendGridEvents.cs" />
@@ -1037,6 +1039,7 @@
     <Compile Include="User\Controllers\CareGiverController.cs" />
     <Compile Include="User\Controllers\PatientAppointmentsController.cs" />
     <Compile Include="User\Controllers\PatientApprovalController.cs" />
+    <Compile Include="User\Controllers\PatientDeviceDataController.cs" />
     <Compile Include="User\Controllers\UserController.cs" />
     <Compile Include="User\Models\AlergySubstanceModel.cs" />
     <Compile Include="User\Models\AllergyModel.cs" />
@@ -1063,6 +1066,7 @@
     <Compile Include="User\Models\OptionTypeModel.cs" />
     <Compile Include="User\Models\PatientAppointmentsModel.cs" />
     <Compile Include="User\Models\PatientApprovalModel.cs" />
+    <Compile Include="User\Models\PatientDeviceDataModel.cs" />
     <Compile Include="User\Models\PatientHealthDataModel.cs" />
     <Compile Include="User\Models\Patient_OtherDataModel.cs" />
     <Compile Include="User\Models\RelationshipMasterModel.cs" />
@@ -1190,6 +1194,7 @@
     <Content Include="_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\Views\PatientDeviceData\" />
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
