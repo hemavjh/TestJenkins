@@ -487,7 +487,7 @@ namespace MyCortex.Login.Controller
                     // UserModel Ins_model = new UserModel();
                     // Ins_model = userrepo.GetInstitutionForWebURL(request);
                     //long InstitutionId = Ins_model;
-                    long InstitutionId = userrepo.GetInstitutionForWebURL(request);
+                    long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
 
                     EmailGeneration egmodel = new EmailGeneration();
                     generatedpwd = egmodel.GeneratePassword_ByPasswordPolicy(InstitutionId);
