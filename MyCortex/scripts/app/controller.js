@@ -1333,6 +1333,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
         $scope.EditParameter = $routeParams.Editpatient;
         //List Page Pagination.
         $scope.current_page = 1;
+        $scope.total_pages = 1;
+
         $scope.loadCount = 3;
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.rembemberCurrentPage = function (p) {
@@ -2109,8 +2111,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
                 $scope.SearchMsg = "No Data Available";
             });
         }
-        $scope.selectPage1 = function (MenuType, PageNumber) {
-            $scope.Patient_List(3, 1);
+
+
+        $scope.setPage = function (PageNo) {
+            $scope.current_page = PageNo;
+            $scope.Patient_List(3);
         }
 
         $scope.Patient_List = function (MenuType) {
@@ -2118,37 +2123,29 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
             $scope.MenuTypeId = MenuType;
             $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
             $scope.CommaSeparated_Group = $scope.filter_GroupId.toString();
-
-            $scope.PageNumber = 1;
+            
             $scope.PageCountArray = [];
 
             $scope.ConfigCode = "PATIENTPAGE_COUNT";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
                 $scope.Patient_PerPage = data1[0].ConfigValue;
-                $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
-                $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.Patient_PerPage)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.Patient_PerPage;
                 $http.get(baseUrl + '/api/User/Patient_List/Id?=' + $scope.Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId +
-
                     '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' +
-
                     $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus +
-
                     '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId +
-
-                    '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                         console.log(data);
                         $scope.Patientemptydata = [];
                         $scope.PatientList = [];
                         $scope.PatientList = data;
+                        $scope.Patientemptydata = data;
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                        $scope.PatientListFilter = angular.copy($scope.PatientList);
-                        if ($scope.PatientListFilter.length > 0) {
-                            $scope.Patientflag = 1;
-                        }
-                        else {
-                            $scope.Patientflag = 0;
-                        }
+                        $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+
                         $("#chatLoaderPV").hide();
                         $scope.SearchMsg = "No Data Available";
                     });
