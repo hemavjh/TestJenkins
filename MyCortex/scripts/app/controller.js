@@ -2125,13 +2125,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
             $scope.CommaSeparated_Group = $scope.filter_GroupId.toString();
             
             $scope.PageCountArray = [];
+            $scope.Patientemptydata = [];
+            $scope.PatientList = [];
 
             $scope.ConfigCode = "PATIENTPAGE_COUNT";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.Patient_PerPage = data1[0].ConfigValue;
-                $scope.PageStart = (($scope.current_page - 1) * ($scope.Patient_PerPage)) + 1;
-                $scope.PageEnd = $scope.current_page * $scope.Patient_PerPage;
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
                 $http.get(baseUrl + '/api/User/Patient_List/Id?=' + $scope.Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId +
                     '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' +
                     $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus +
@@ -2144,7 +2146,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
                         $scope.PatientList = data;
                         $scope.Patientemptydata = data;
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                        $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                        $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
 
                         $("#chatLoaderPV").hide();
                         $scope.SearchMsg = "No Data Available";
