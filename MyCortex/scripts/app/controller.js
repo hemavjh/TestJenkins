@@ -11917,10 +11917,11 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
                 $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
                 $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
                 //Get the Patient List
-                $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd
+                $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery
                 ).success(function (Patientdata) {
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
+                    $scope.PageCountArray = [];
                     $scope.Patientemptydata = [];
                     $scope.PatientList = [];
                     $scope.PatientList = Patientdata;
@@ -11941,70 +11942,15 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
             });
         }
         $scope.filterPatientList = function () {
-            $scope.ResultListFiltered = [];
-            $scope.PageCountArray = [];
-            $scope.PageNumber = 1;
-            var searchstring = angular.lowercase($scope.searchquery);
-            if ($scope.searchquery == "") {
-                $scope.PatientFilter = angular.copy($scope.PatientFilterCopyList);
-            }
-            else {
-                $scope.PatientFilter = $ff($scope.PatientList, function (value) {
-                    return angular.lowercase(value.PatientName).match(searchstring) ||
-                           angular.lowercase(value.MRN_NO).match(searchstring) ||
-                           angular.lowercase(value.Smoker_Option).match(searchstring) ||
-                           angular.lowercase(value.Diabetic_Option).match(searchstring) ||
-                           angular.lowercase(value.Diabetic_Option).match(searchstring) ||
-                           angular.lowercase(value.Cholestrol_Option).match(searchstring);
-                });
-            }
-            $scope.PatientCount = $scope.PatientFilter.length;
-            total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
-            for (var i = 0; i < total; i++) {
-                var obj = {
-                    PageNumber: i + 1
-                }
-                $scope.PageCountArray.push(obj);
-            }
-            $scope.PatientList = $scope.PatientFilter;
-            $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
-            $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
-            $scope.PatientFilter = $ff($scope.PatientFilter, function (value, index) {
-                return (index >= ($scope.PageStart - 1) && index <= $scope.PageEnd - 1);
-            });
-            if ($scope.PatientFilter.length > 0) {
-                $scope.flag = 1;
-            }
-            else {
-                $scope.flag = 0;
-            }
-
+            $("#chatLoaderPV").show();
+            $scope.Patientemptydata = [];
+            $scope.PatientListFunction(1);
         }
         $scope.Next_PatientListFunction = function (PageNumber) {
             $scope.PageNumber = PageNumber;
-            //if($scope.searchquery != "")
-            //{
-            //    $scope.PatientList = angular.copy($scope.PatientFilterCopy);
-            //}
-            //else
-            //{
-            //    $scope.PatientList = angular.copy($scope.PatientFilterCopyList);
-            //}
             $("#chatLoaderPV").show();
-            //$scope.SearchMsg = "No Data Available";
             $scope.Patientemptydata = [];
             $scope.PatientListFunction(PageNumber);
-            //$scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
-            //$scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
-            //$scope.PatientFilter = $ff($scope.PatientList, function (value, index) {
-            //    return (index >= ($scope.PageStart - 1) && index <= $scope.PageEnd - 1);
-            //});
-            //if ($scope.PatientFilter.length > 0) {
-            //    $scope.flag = 1;
-            //}
-            //else {
-            //    $scope.flag = 0;
-            //}
         }
         $scope.AllPatient_PatientData = function (eventId) {
             //All Patients
@@ -16795,7 +16741,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 $scope.ISact = 1  //active
             }
             else if ($scope.IsActive == false) {
-                $scope.ISact = -1 //all
+                $scope.ISact = 0 //all
             }
 
             $http.get(baseUrl + '/api/WebConfiguration/WebConfiguration_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId']
@@ -16869,7 +16815,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
             }).error(function (data) {
                 $scope.error = "An error has occurred while deleting Parameter" + data;
             });
-            
+
         };
 
         /* on click Edit, edit popup opened*/
@@ -16884,6 +16830,60 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 alert("Inactive record cannot be edited");
             }
         };
+
+        /*InActive the WebConfiguration*/
+        $scope.DeleteWebConfiguration = function (comId) {
+            $scope.Id = comId;
+            $scope.WebConfiguration_InActive();
+        };
+        /*
+        Calling the api method to inactived the details of the  WebConfiguration ,
+            and redirected to the list page.
+            */
+        $scope.WebConfiguration_InActive = function () {
+            var del = confirm("Do you like to deactivate the selected Web Configuration?");
+            if (del == true) {
+                var obj =
+                {
+                    Id: $scope.Id,
+                    Modified_By: $window.localStorage['UserId']
+                }
+
+                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InActive/', obj).success(function (data) {
+                    alert(data.Message);
+                    $scope.WebConfigurationList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting Holiday" + data;
+                });
+            };
+        };
+
+        /*Active the Doctor Holiday*/
+        $scope.ReInsertWebConfiguration = function (comId) {
+            $scope.Id = comId;
+            $scope.WebConfiguration_Active();
+        };
+        /* 
+       Calling the api method to Actived the details of the  WebConfiguration,
+       and redirected to the list page.
+       */
+        $scope.WebConfiguration_Active = function () {
+            var Ins = confirm("Do you like to activate the selected  Web Configuration?");
+            if (Ins == true) {
+                var obj =
+                {
+                    Id: $scope.Id,
+                    Modified_By: $window.localStorage['UserId']
+                }
+
+                $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_Active/', obj).success(function (data) {
+                    alert(data.Message);
+                    $scope.WebConfigurationList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while Activating WebConfiguration" + data;
+                });
+            };
+        }
     }
 ]);
 

@@ -22,6 +22,8 @@ using MyCortex.Masters.Models;
 using MyCortex.Notification.Model;
 using MyCortex.Repositories.Admin;
 using MyCortex.Provider;
+using MyCortex.Repositories.Masters;
+using MyCortex.Repositories;
 
 namespace MyCortex.Home.Controllers
 {
@@ -31,12 +33,14 @@ namespace MyCortex.Home.Controllers
     {
         public string returnError = "";
         private CommonMenuRepository db = new CommonMenuRepository();
+        static readonly ICommonRepository commonrepository = new CommonRepository();
         private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
 
         private InstitutionRepository Insrepository = new InstitutionRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        IList<AppConfigurationModel> model;
         private string ClientId = ConfigurationManager.AppSettings["Google.ClientID"];
         private string SecretKey = ConfigurationManager.AppSettings["Google.SecretKey"];
         private string RedirectUrl = ConfigurationManager.AppSettings["Google.RedirectUrl"];
@@ -45,7 +49,8 @@ namespace MyCortex.Home.Controllers
 
         public HomeController()
         {
-
+            //model = commonrepository.AppConfigurationDetails("Google.ClientID", Convert.ToInt32(Session["InstitutionId"].ToString()));
+            //ClientId = model[0].ConfigValue;
         }
 
         /// <summary>

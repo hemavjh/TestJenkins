@@ -43,36 +43,8 @@ namespace MyCortex.Repositories.User
         /// <param name="StartRowNumber"></param>
         ///  <param name="EndRowNumber"></param>
         /// <returns>All patient details for the logged in user</returns>
-        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId,int StartRowNumber, int EndRowNumber)
+        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId,int StartRowNumber, int EndRowNumber,string SearchQuery)
         {
-
-            //int PageIndex = 1;
-            //PageModal pageModal = new PageModal();
-            //pageModal.iDisplayStart = 1;
-            //pageModal.iDisplayLength = 20;
-
-            //if (pageModal.iDisplayStart > 0)
-            //{
-            //    PageIndex = (pageModal.iDisplayStart / pageModal.iDisplayLength) + 1;
-            //}
-            //AllPatientListModel pageDataArgs = new AllPatientListModel();
-            //$scope.PageNumber = PageNumber;
-            //if($scope.searchquery != "")
-            //{
-            //    $scope.PatientList = angular.copy($scope.PatientFilterCopy);
-            //}
-            //else
-            //{
-            //    $scope.PatientList = angular.copy($scope.PatientFilterCopyList);
-            //}
-            //int PageStart = ((PageNumber - 1) *(Patient_PerPage)) +1;
-            //int PageEnd = PageNumber * Patient_PerPage;
-            //pageDataArgs.RequestedPageIndex = PageIndex;//args.RequestedPageIndex,
-            //pageDataArgs.RequestedPageRowCount = pageModal.iDisplayLength;
-            //int StartRowNumber = ((pageDataArgs.RequestedPageIndex - 1) * PageStart) +1;
-
-            //int StartRowNumber = 1;
-            //int EndRowNumber = 20;
 
             DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
@@ -94,6 +66,7 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
+            param.Add(new DataParameter("@SearchQuery", SearchQuery));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
