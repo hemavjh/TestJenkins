@@ -29,7 +29,7 @@ namespace MyCortex.Email.SendGrid
         public static Task<Response> SendEmail(SendGridMessage message)
         {
             IList<AppConfigurationModel> model;
-            model = commonrepository.AppConfigurationDetails("SENDGRID_APITOKEN", 0);
+            model = commonrepository.AppConfigurationDetails("SENDGRID_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
             var client = new SendGridClient(model[0].ConfigValue);
             var res= client.SendEmailAsync(message);
             return res;
@@ -38,7 +38,7 @@ namespace MyCortex.Email.SendGrid
         public async Task<Response> SendEmailAsync(SendGridMessage message, long templateId)
         {
             IList<AppConfigurationModel> model;
-            model = commonrepository.AppConfigurationDetails("SENDGRID_APITOKEN", 0);
+            model = commonrepository.AppConfigurationDetails("SENDGRID_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
             
             var client = new SendGridClient(model[0].ConfigValue);
             var response = await client.SendEmailAsync(message).ConfigureAwait(false);

@@ -41,16 +41,30 @@ namespace MyCortex.Home.Controllers
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         IList<AppConfigurationModel> model;
-        private string ClientId = ConfigurationManager.AppSettings["Google.ClientID"];
-        private string SecretKey = ConfigurationManager.AppSettings["Google.SecretKey"];
-        private string RedirectUrl = ConfigurationManager.AppSettings["Google.RedirectUrl"];
+        private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
+        private string ClientId;
+        private string SecretKey;
+        private string RedirectUrl;
 
         int i = 0;
 
         public HomeController()
         {
-            //model = commonrepository.AppConfigurationDetails("Google.ClientID", Convert.ToInt32(Session["InstitutionId"].ToString()));
-            //ClientId = model[0].ConfigValue;
+            model = commonrepository.AppConfigurationDetails("Google.ClientID", InstitutionId);
+            if (model.Count > 0)
+            {
+                ClientId = model[0].ConfigValue;
+            }
+            model = commonrepository.AppConfigurationDetails("Google.SecretKey", InstitutionId);
+            if (model.Count > 0)
+            {
+                SecretKey = model[0].ConfigValue;
+            }
+            model = commonrepository.AppConfigurationDetails("Google.RedirectUrl", InstitutionId);
+            if (model.Count > 0)
+            {
+                RedirectUrl = model[0].ConfigValue;
+            }
         }
 
         /// <summary>
