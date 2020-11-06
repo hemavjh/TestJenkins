@@ -236,11 +236,11 @@ namespace MyCortex.User.Controller
                     model.Status = "False";
                 }else if ((ModelData.flag == 8) == true)
                 {
-                    if(userObj.GOOGLE_EMAILID != "")
+                    if(userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID == "")
                     {
                         messagestr = "The Gmail added is linked with another user. Please contact your hospital administrator";
                     }
-                    else if(userObj.FB_EMAILID != "")
+                    else if(userObj.FB_EMAILID != "" && userObj.GOOGLE_EMAILID == "")
                     {
                         messagestr = "The Facebook added is linked with another user. Please contact your hospital administrator";
                     }
@@ -249,6 +249,23 @@ namespace MyCortex.User.Controller
                         messagestr = "The Gmail and Facebook added is linked with another user. Please contact your hospital administrator";
                     } 
                     model.ReturnFlag = 0; 
+                    model.Status = "False";
+                }
+                else if ((ModelData.flag == 9) == true)
+                {
+                    if (userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID == "")
+                    {
+                        messagestr = "the Gmail added is linked with "+Replaced_FullName+" ";
+                    }
+                    else if (userObj.FB_EMAILID != "" && userObj.GOOGLE_EMAILID == "")
+                    {
+                        messagestr = "the facebook added is linked with";
+                    }
+                    else if (userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID != "")
+                    {
+                        messagestr = "the Gmail And facebook added is linked with" + Replaced_FullName + "";
+                    }
+                    model.ReturnFlag = 0;
                     model.Status = "False";
                 }
                 else if ((ModelData.flag == 2) == true)
