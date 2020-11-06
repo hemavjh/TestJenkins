@@ -428,8 +428,8 @@ namespace MyCortex.Repositories.Uesr
                                     EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
                                     EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
                                     EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
-                                    GOOGLE_EMAILID = p.Field<string>("Google_EmailId"),
-                                    FB_EMAILID = p.Field<string>("FB_EMAILID"),
+                                    GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
+                                    FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
                                     DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
                                     HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
                                     CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
@@ -527,11 +527,15 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Group_Id"></param>
         /// <param name="IsActive"></param>
         /// <param name="INSTITUTION_ID"></param>
+         /// <param name="StartRowNumber"></param>
+        ///  <param name="EndRowNumber"></param>
         /// <returns></returns>
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID)
+        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber)
         {
             DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
             param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
@@ -555,6 +559,7 @@ namespace MyCortex.Repositories.Uesr
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                     {
+                                        TotalRecord = p.Field<string>("TotalRecords"),
                                         Id = p.Field<long>("Id"),
                                         FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
                                         MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
@@ -669,8 +674,8 @@ namespace MyCortex.Repositories.Uesr
                                   EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
                                   EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
                                   EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
-                                  GOOGLE_EMAILID = p.Field<string>("Google_EmailId"),
-                                  FB_EMAILID = p.Field<string>("FB_EMAILID"),
+                                  GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
+                                  FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
                                   DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
                                   HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
                                   CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),

@@ -225,13 +225,30 @@ namespace MyCortex.User.Controller
                 userObj.EMERG_CONT_MIDDLENAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_MIDDLENAME);
                 userObj.Emergency_MobileNo = EncryptPassword.Encrypt(userObj.Emergency_MobileNo);
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
+                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID.ToLower());
+                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID.ToLower());
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
 
                 if ((ModelData.flag == 1) == true)
                 {
                     messagestr = "Email already exists, cannot be Duplicated";
-                    model.ReturnFlag = 0;
-
+                    model.ReturnFlag = 0; 
+                    model.Status = "False";
+                }else if ((ModelData.flag == 8) == true)
+                {
+                    if(userObj.GOOGLE_EMAILID != "")
+                    {
+                        messagestr = "The Gmail added is linked with another user. Please contact your hospital administrator";
+                    }
+                    else if(userObj.FB_EMAILID != "")
+                    {
+                        messagestr = "The Facebook added is linked with another user. Please contact your hospital administrator";
+                    }
+                    else if(userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID != "")
+                    {
+                        messagestr = "The Gmail and Facebook added is linked with another user. Please contact your hospital administrator";
+                    } 
+                    model.ReturnFlag = 0; 
                     model.Status = "False";
                 }
                 else if ((ModelData.flag == 2) == true)
@@ -480,10 +497,12 @@ namespace MyCortex.User.Controller
         /// <param name="Group_Id"></param>
         /// <param name="IsActive"></param>
         /// <param name="INSTITUTION_ID"></param>
+        /// <param name="StartRowNumber"></param>
+        /// <param name="EndRowNumber"></param>
         /// <returns></returns>
         [HttpGet]
       //  [CheckSessionOutFilter]
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID)
+        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID,int StartRowNumber, int EndRowNumber)
         {
             IList<ItemizedUserDetailsModel> model;
             if (INSTITUTION_ID == null)
@@ -494,7 +513,7 @@ namespace MyCortex.User.Controller
             {
                 INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             }
-            model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID);
+            model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID,StartRowNumber,EndRowNumber);
             return model;
         }
         /// <summary>
