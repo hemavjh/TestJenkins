@@ -426,7 +426,6 @@
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
-    <Content Include="Masters\Views\pagination.server.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
     <Content Include="Masters\Views\ChatSettings.html" />
     <Content Include="Masters\Views\DrugDBlist.html" />
@@ -1163,6 +1162,7 @@
     </Content>
     <Content Include="MyCortex.ruleset" />
     <Content Include="manifest.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\HRMS.pubxml" />
     <Content Include="scripts\bootstrap-select.min.js" />
     <Content Include="Shared\Views\_LayoutLogin.cshtml" />

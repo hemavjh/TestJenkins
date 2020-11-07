@@ -228,7 +228,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-if="Patientflag==0 && PatientListFilter.length==0">
+            <tr ng-if="Patientemptydata.length==0">
                 <td colspan="9" style="text-align: center">{{SearchMsg}}
                 </td>
             </tr>
@@ -293,7 +293,7 @@
                             <a ng-click="setPage(current_page - 1)">&lt;</a>
                         </li>
                         <li>
-                            <a><page-select></page-select> of {{total_pages}}</a>
+                            <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_pages}}" step="1" ng-value="current_page" > of {{total_pages}}</a>
                         </li>
                         <li>
                             <a ng-click="setPage(current_page + 1)">&gt;</a>
