@@ -2114,6 +2114,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
 
 
         $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else
+                $scope.inputPageNo = PageNo;
+
             $scope.current_page = PageNo;
             $scope.Patient_List(3);
         }
