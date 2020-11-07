@@ -34,9 +34,9 @@
                 <img class="chatProfile" src="../../Images/unknownallergy.png" alt="Unknown Allergies"> Unknown Allergies
             </button>
 
-            <button type="button" class="btn btn-default btn-sm" ng-if="PatientAssignedknownAllergyActiveDataList.length>0 && (PatientAssignedknownAllergyActiveDataList|filter:'No Known Allergies').length==0"
+            <button type="button" class="btn btn-default btn-sm" ng-if="PatientAssignedknownAllergyActiveDataList.length>0 && (PatientAssignedknownAllergyActiveDataList|filter:'Known Allergies').length==0"
                     ng-click="Allergies()" style="margin: 0px 5px;">
-                <img class="chatProfile" src="../../Images/knownAllergy.png" alt="Unknown Allergies"> Known Allergies
+                <img class="chatProfile" src="../../Images/noAllergy.png" alt="Unknown Allergies"> Known Allergies
             </button>
 
             <button type="button" class="btn btn-default btn-sm" ng-if="((PatientAllergyemptydata|filter:'No Known Allergies').length>0)"
