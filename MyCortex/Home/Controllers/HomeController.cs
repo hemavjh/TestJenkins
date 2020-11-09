@@ -65,6 +65,7 @@ namespace MyCortex.Home.Controllers
             {
                 RedirectUrl = model[0].ConfigValue;
             }
+
         }
 
         /// <summary>
@@ -108,13 +109,13 @@ namespace MyCortex.Home.Controllers
         // GET: Login Index
         public ActionResult LoginIndex()
         {
-            Session["UserId"] = "0";
-
+             
+            Session["UserId"] = "0"; 
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             Response.Cache.SetNoStore();
             Session.Abandon();
-
+            
             return View((object)returnError);
         }
 
@@ -349,6 +350,8 @@ namespace MyCortex.Home.Controllers
             model1.Login_Country = (Session["Login_Country"].ToString());
             model1.Login_City = (Session["Login_City"].ToString());
             model1.Login_IpAddress = (Session["Login_IPAdddress"].ToString());
+
+       
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -420,6 +423,41 @@ namespace MyCortex.Home.Controllers
                 {
                     t.Add(i.BuildNo.ToString());
                 }
+                var json = jsonSerialiser.Serialize(t);
+                return Content(json);
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult ProductDetails()
+        {
+
+            List<string> t = new List<string>();
+            Int64 InstanceNameId =  Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            { 
+               
+                string[] list  = new string[3] { "MyHealth", "STC MyCortex", "MyCortex" }; 
+                 
+                if(InstanceNameId == 1)
+                {
+                    t.Add(list[0].ToString());
+                }else if(InstanceNameId == 2)
+                {
+                    t.Add(list[1].ToString());
+                }
+                else
+                {
+                    t.Add(list[2].ToString());
+                } 
+
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);
             }

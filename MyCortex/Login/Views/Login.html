@@ -15,8 +15,8 @@
 
 <div class="loginContainer">    
        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-    <h1>MyCortex Sign In</h1>
-    <p>New to MyCortex?<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>
+       <h1>{{prdName}} Sign In</h1>
+       <p>New to {{prductName}}<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>
     <form>
         <label>Username</label>
         <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
@@ -209,6 +209,7 @@
             </div>-->
         </div>
     </div>
+    <input type="hidden" id="productname" value=""/>
 </div>
 
 <script>

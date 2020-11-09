@@ -24,13 +24,16 @@ using SendGrid.Helpers.Mail;
 using MyCortex.Notification;
 using MyCortex.Notification.Models;
 using MyCortex.Repositories.EmailAlert;
+using MyCortex.Masters.Models;
+using MyCortex.Repositories.Masters;
+using Newtonsoft.Json.Linq;
 
 namespace MyCortex.Login.Controller
 {
     public class LoginController : ApiController
     {
         static readonly ILoginRepository repository = new LoginRepository();
-
+        static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
         static readonly IUserRepository userrepo = new UserRepository();
@@ -38,6 +41,22 @@ namespace MyCortex.Login.Controller
         private LoginRepository login = new LoginRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private object AlertEventReturn;
+
+        IList<AppConfigurationModel> model;
+        private Int64 InstanceNameId = Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
+        private string Productid;
+
+
+        [HttpGet]
+        public HttpResponseMessage getProductName()
+        {
+            string resp = "{\"instanceId\":  \'" + InstanceNameId + "\' }";
+            var jObject = JObject.Parse(resp);
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+            return response;
+        }
+
 
         /// <summary>
         /// check login user authentication, stores Login History
@@ -48,6 +67,7 @@ namespace MyCortex.Login.Controller
         [HttpPost]
         public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
+             
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -155,6 +175,9 @@ namespace MyCortex.Login.Controller
             }
             return true;
         }
+
+
+        
         /// <summary>
         /// Build version details
         /// </summary>
@@ -465,7 +488,18 @@ namespace MyCortex.Login.Controller
         {
             string generatedpwd = "";
             string messagestr = "";
-
+            string productname = "MyCortex";
+            if(InstanceNameId == 1)
+            {
+                productname = "MyHealth - Reset Password";
+            }else  if(InstanceNameId == 2)
+            {
+                productname = "STC MyCortex - Reset Password";
+            }
+            else
+            {
+                productname = "MyCortex - Reset Password";
+            }
             if (EmailId != "")
             {
                 LoginModel ModelData = new LoginModel();
@@ -523,7 +557,7 @@ namespace MyCortex.Login.Controller
                          if (emailModel != null)
                          {
                              SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id,
-                                 "Mycortex - Reset Password",
+                                 productname,
                                  "New Password is : " + generatedpwd,
                                  model.ResetPassword.Username, EncryptPassword.Decrypt(model.ResetPassword.Email));
 

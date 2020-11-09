@@ -24,6 +24,8 @@ if (baseUrl == "/") {
 }
 
 
+
+
 MyCortexControllers.run(['$rootScope', '$window',
   function ($rootScope, $window) {
       $rootScope.user = {};
@@ -177,6 +179,8 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         });
     }
 
+    
+
     /*This is th eValidation for sign Up page 
     The validations are FirstName,Last Name,MRN No,Gender,Nationality,DOB,Email and Mobile No.*/
     $scope.SignupLogin_AddEdit_Validations = function () {
@@ -223,6 +227,22 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         return true;
     };
 
+    $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
+        var ProductName = data;  
+        $('#productname').val(ProductName["instanceId"]);
+        if ($('#productname').val() == "1") {
+            $scope.prdName = "MyHealth";
+            $scope.prductName = " MyHealth?";
+        } else if ($('#productname').val() == "2") {
+            $scope.prdName = "STC MyCortex";
+            $scope.prductName = " STC MyCortex?";
+        } else {
+            $scope.prdName = "MyCortex  ";
+            $scope.prductName = " MyCortex?";
+        }
+    });
+            
+        
 
     /*This is Insert Function for SignUp */
     $scope.SignupLogin_AddEdit = function () {
@@ -369,7 +389,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         var offsetTime = new Date().getTimezoneOffset();
 
         $scope.errorlist = "";
-        $http.get(baseUrl + '/api/Login/CheckDBConnection/').success(function (data) {
+        $http.get(baseUrl + '/api/Login/CheckDBConnection/').success(function (data) { 
             if (data == false) {
                 $scope.errorlist = "Invalid DB Connection";
                 return;
@@ -483,7 +503,14 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                     IdleDays = parseInt(data[0].ConfigValue);
                     $window.localStorage['IdleDays'] = IdleDays;
                 }
-            });      
+        });      
+
+
+        
+            
+        
+        
+       
     };
 
     $scope.getAccessToken = function () {
