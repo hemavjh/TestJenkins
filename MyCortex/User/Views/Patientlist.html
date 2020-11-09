@@ -293,7 +293,7 @@
                             <a ng-click="setPage(current_page - 1)">&lt;</a>
                         </li>
                         <li>
-                            <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_pages}}" step="1" ng-value="current_page" > of {{total_pages}}</a>
+                            <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_pages}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);" > of {{total_pages}}</a>
                         </li>
                         <li>
                             <a ng-click="setPage(current_page + 1)">&gt;</a>
