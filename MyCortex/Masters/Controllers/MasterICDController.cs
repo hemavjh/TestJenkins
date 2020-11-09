@@ -13,10 +13,12 @@ using log4net;
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
     [Authorize]
+    [CheckSessionOutFilter]
     public class MasterICDController : ApiController
     {
         static readonly IMasterICDReposistory repository = new MasterICDRepository();

@@ -13,11 +13,13 @@ using log4net;
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class ParameterSettingsController : ApiController
     {
         static readonly IParameterSettingsRepository repository = new ParameterSettingsRepository();

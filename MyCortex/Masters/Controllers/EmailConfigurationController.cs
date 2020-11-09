@@ -1,5 +1,6 @@
 ﻿using log4net;
 using MyCortex.Admin.Models;
+using MyCortex.Provider;
 using MyCortex.Repositories;
 using MyCortex.Repositories.Admin;
 using System;
@@ -14,6 +15,7 @@ namespace MyCortex.Admin.Controllers
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class EmailConfigurationController : ApiController
     {
         static readonly IEmailConfigurationRepository repository = new EmailConfigurationRepository();

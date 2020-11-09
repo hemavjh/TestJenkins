@@ -11,11 +11,13 @@ using System.Web;
 using System.Web.Http;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class WebConfigurationController : ApiController
     {
         static readonly IWebConfigurationRepository repository = new WebConfigurationRepository();

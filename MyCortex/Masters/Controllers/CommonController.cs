@@ -20,9 +20,11 @@ using MyCortex.Admin.Models;
 using MyCortex.Utilities;
 using System.Configuration;
 using MyCortex.Login.Model;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
+    [CheckSessionOutFilter]
     public class CommonController : ApiController
     {
         static readonly ICommonRepository repository = new CommonRepository();

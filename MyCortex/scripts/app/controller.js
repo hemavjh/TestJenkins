@@ -16663,7 +16663,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
         $scope.Id = 0;
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
-        $scope.page_size = 0;
+        $scope.page_size = 10;
         $scope.ConfigCode = "PAGINATION";
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             if (data[0] != undefined) {

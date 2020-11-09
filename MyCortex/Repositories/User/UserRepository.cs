@@ -3127,5 +3127,26 @@ namespace MyCortex.Repositories.Uesr
             return insert;
         }
 
+        public bool UserSession_Status(string Login_Session_Id)
+        {
+            bool SessionStatus = false;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@LOGINSESSIONID", Login_Session_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGINSESSION_SP_CHECK]", param);
+            DataRow dr = dt.Rows[0];
+            if (int.Parse((dr["SESSIONSTATUS"].ToString())) == 1)
+            {
+                SessionStatus = true;
+            }
+            else
+            {
+                SessionStatus = false;
+            }
+
+
+
+            return SessionStatus;
+        }
+
     }
 }
