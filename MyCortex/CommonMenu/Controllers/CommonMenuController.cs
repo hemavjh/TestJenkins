@@ -10,9 +10,11 @@ using System.Web;
 using System.IO;
 using MyCortex.Repositories.Menu;
 using log4net;
+using MyCortex.Provider;
 
 namespace MyCortex.CommonMenu.Controllers
 {
+    [CheckSessionOutFilter]
     public class CommonMenuController : ApiController
     {
         static readonly ICommonMenuRepository repository = new CommonMenuRepository();

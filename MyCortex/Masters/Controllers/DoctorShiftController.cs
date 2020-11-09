@@ -12,10 +12,12 @@ using System.IO;
 using System.Web.Http;
 using Newtonsoft.Json;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
     [Authorize]
+    [CheckSessionOutFilter]
     public class DoctorShiftController : ApiController
     {
         static readonly IDoctorShiftRepository repository = new DoctorShiftRepository();

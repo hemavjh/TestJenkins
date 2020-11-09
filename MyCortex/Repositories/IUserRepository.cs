@@ -101,5 +101,6 @@ namespace MyCortex.Repositories
         PatientHealthDataModel PatientHealthData_AlertNotification_List(long HealthData_Id);
         UserModel InstitutionSubscriptionLicensecheck(UserModel obj);
         UserModel Patient_Update(Guid Login_Session_Id, UserModel insobj);
+        bool UserSession_Status(string Login_Session_Id);
     }
 }

@@ -12,10 +12,12 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using MyCortex.User.Models;
 using MyCortex.Repositories.User;
+using MyCortex.Provider;
 
 namespace MyCortex.User.Controllers
 {
     // [Authorize]
+    [CheckSessionOutFilter]
     public class AppoinmentSlotController : ApiController
     {
         static readonly IAppoinmentSlotRepository repository = new AppoinmentSlotRepository();

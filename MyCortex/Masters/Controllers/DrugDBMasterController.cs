@@ -13,11 +13,13 @@ using log4net;
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Admin.Controllers 
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class DrugDBMasterController : ApiController
      {
          static readonly IDrugDBMasterRepository repository = new DrugDBMasterRepository();

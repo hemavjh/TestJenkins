@@ -12,11 +12,13 @@ using System.IO;
 using log4net;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class ChatSettingsController : ApiController
     {
 

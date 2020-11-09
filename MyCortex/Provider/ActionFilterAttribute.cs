@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyCortex.Repositories;
+using MyCortex.Repositories.Uesr;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,8 +18,14 @@ namespace MyCortex.Provider
     {
         public override void OnActionExecuting(HttpActionContext filterContext)
         {
-            HttpContext ctx = HttpContext.Current;            
-
+            HttpContext ctx = HttpContext.Current;
+            string SessionID = (string)ctx.Session["Login_Session_Id"];
+            IUserRepository commonrepository = new UserRepository();
+            bool sessionstatus = commonrepository.UserSession_Status(SessionID);
+            if(sessionstatus ==false)
+            {
+                filterContext.Response = filterContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Your SessionId is Invalid. Please Logout from App.");
+            }
             //ClaimsIdentity claimsIdentity = HttpContext.Current.User.Identity as ClaimsIdentity;
             //if (filterContext.Request.Headers.Authorization == null)
             //{

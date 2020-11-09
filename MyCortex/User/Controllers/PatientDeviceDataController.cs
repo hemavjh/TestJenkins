@@ -9,9 +9,11 @@ using MyCortex.Repositories.User;
 using MyCortex.Repositories;
 using System.Net.Http;
 using System.Net;
+using MyCortex.Provider;
 
 namespace MyCortex.User.Controllers
 {
+    [CheckSessionOutFilter]
     public class PatientDeviceDataController : ApiController
     {
         static readonly IPatientDeviceDataRepository repository = new PatientDeviceDataRepository();

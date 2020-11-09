@@ -29,6 +29,7 @@ using MyCortex.User.Models;
 namespace MyCortex.User.Controller
 {
     [Authorize]
+    [CheckSessionOutFilter]
     public class UserController : ApiController
     {
         static readonly IUserRepository repository = new UserRepository();
