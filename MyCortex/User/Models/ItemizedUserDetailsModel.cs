@@ -46,6 +46,7 @@ namespace MyCortex.User.Model
         public IList<GroupTypeModel> GroupTypeList { get; set; }
         public int StartRowNumber { get; set; }
         public int EndRowNumber { get; set; }
+        public string SearchQuery { get; set; }
     }
 
 }
