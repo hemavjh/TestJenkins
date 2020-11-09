@@ -19,12 +19,15 @@ namespace MyCortex.Provider
         public override void OnActionExecuting(HttpActionContext filterContext)
         {
             HttpContext ctx = HttpContext.Current;
-            string SessionID = (string)ctx.Session["Login_Session_Id"];
-            IUserRepository commonrepository = new UserRepository();
-            bool sessionstatus = commonrepository.UserSession_Status(SessionID);
-            if(sessionstatus ==false)
+            string SessionID = (String)HttpContext.Current.Session["Login_Session_Id"];
+            if (!String.IsNullOrEmpty(SessionID))
             {
-                filterContext.Response = filterContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Your SessionId is Invalid. Please Logout from App.");
+                IUserRepository commonrepository = new UserRepository();
+                bool sessionstatus = commonrepository.UserSession_Status(SessionID);
+                if (sessionstatus == false)
+                {
+                    filterContext.Response = filterContext.Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Your SessionId is Invalid. Please Logout from App.");
+                }
             }
             //ClaimsIdentity claimsIdentity = HttpContext.Current.User.Identity as ClaimsIdentity;
             //if (filterContext.Request.Headers.Authorization == null)
