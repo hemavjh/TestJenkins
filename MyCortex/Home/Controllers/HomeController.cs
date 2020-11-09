@@ -128,7 +128,47 @@ namespace MyCortex.Home.Controllers
             try
             {
                 long UserID = Convert.ToInt32(Session["UserId"].ToString());
-                login.User_LogOut(UserID);
+                string SessionId = Convert.ToString(Session["Login_Session_Id"].ToString());
+                login.User_LogOut(UserID, SessionId);
+                Session["UserId"] = "0";
+
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+                Response.Cache.SetNoStore();
+                Session.Abandon();
+
+                //var claimsIdentity = (ClaimsIdentity)User.Identity;
+                //IEnumerable<Claim> claims = claimsIdentity.Claims;
+
+
+                //var authenticationManager = HttpContext.GetOwinContext().Authentication;
+                //////authenticationManager.SignOut(MyAuthentication.ApplicationCookie);
+                //authenticationManager.SignOut(HttpContext.GetOwinContext()
+                //           .Authentication.GetAuthenticationTypes()
+                //           .Select(o => o.AuthenticationType).ToArray());
+
+                //HttpContext.GetOwinContext().Authentication.SignOut("Bearer");
+
+                //// Second we clear the principal to ensure the user does not retain any authentication
+                //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
+                returnError = "";
+                return RedirectToAction("LoginIndex");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [CheckSessionOutFilter]
+        public ActionResult LoginOutAllDevice()
+        {
+            try
+            {
+                long UserID = Convert.ToInt32(Session["UserId"].ToString());
+                login.User_LogOutAllDevice(UserID);
                 Session["UserId"] = "0";
 
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
