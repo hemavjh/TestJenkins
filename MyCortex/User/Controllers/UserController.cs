@@ -226,8 +226,8 @@ namespace MyCortex.User.Controller
                 userObj.EMERG_CONT_MIDDLENAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_MIDDLENAME);
                 userObj.Emergency_MobileNo = EncryptPassword.Encrypt(userObj.Emergency_MobileNo);
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
-                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID.ToLower());
-                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID.ToLower());
+                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
+                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
 
                 if ((ModelData.flag == 1) == true)
@@ -237,39 +237,28 @@ namespace MyCortex.User.Controller
                     model.Status = "False";
                 }else if ((ModelData.flag == 8) == true)
                 {
-                    if(userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID == "")
+                    if(userObj.GOOGLE_EMAILID != "")
                     {
                         messagestr = "The Gmail added is linked with another user. Please contact your hospital administrator";
-                    }
-                    else if(userObj.FB_EMAILID != "" && userObj.GOOGLE_EMAILID == "")
+                    }else if (userObj.FB_EMAILID != "")
                     {
-                        messagestr = "The Facebook added is linked with another user. Please contact your hospital administrator";
+                        messagestr = "The facebook added is linked with another user. Please contact your hospital administrator";
                     }
-                    else if(userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID != "")
-                    {
-                        messagestr = "The Gmail and Facebook added is linked with another user. Please contact your hospital administrator";
-                    } 
                     model.ReturnFlag = 0; 
                     model.Status = "False";
-                }
-                else if ((ModelData.flag == 9) == true)
+                } 
+                else if ((ModelData.flag == 10) == true)
                 {
-                    if (userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID == "")
+                    if (userObj.GOOGLE_EMAILID != "")
                     {
                         messagestr = "the Gmail added is linked with "+Replaced_FullName+" ";
-                    }
-                    else if (userObj.FB_EMAILID != "" && userObj.GOOGLE_EMAILID == "")
+                    }else if (userObj.FB_EMAILID != "")
                     {
-                        messagestr = "the facebook added is linked with";
-                    }
-                    else if (userObj.GOOGLE_EMAILID != "" && userObj.FB_EMAILID != "")
-                    {
-                        messagestr = "the Gmail And facebook added is linked with" + Replaced_FullName + "";
+                        messagestr = "the facebook added is linked with " + Replaced_FullName + " ";
                     }
                     model.ReturnFlag = 0;
                     model.Status = "False";
-                }
-                else if ((ModelData.flag == 2) == true)
+                }  else if ((ModelData.flag == 2) == true)
                 {
                     messagestr = "User created successfully";
                     model.ReturnFlag = 1;
