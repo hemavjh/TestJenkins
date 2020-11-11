@@ -18,8 +18,18 @@ namespace MyCortex.Provider
     {
         public override void OnActionExecuting(HttpActionContext filterContext)
         {
+            string SessionID;
             HttpContext ctx = HttpContext.Current;
-            string SessionID = (String)HttpContext.Current.Session["Login_Session_Id"];
+            var queryStringCollection = HttpUtility.ParseQueryString(filterContext.Request.RequestUri.Query);
+            bool iskey = queryStringCollection.AllKeys.Contains("Login_Session_Id");
+            if (iskey)
+            {
+                SessionID = queryStringCollection["Login_Session_Id"];
+            }
+            else
+            {
+                SessionID = (String)HttpContext.Current.Session["Login_Session_Id"];
+            }
             if (!String.IsNullOrEmpty(SessionID))
             {
                 IUserRepository commonrepository = new UserRepository();
