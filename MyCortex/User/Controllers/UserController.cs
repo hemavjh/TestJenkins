@@ -37,6 +37,8 @@ namespace MyCortex.User.Controller
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        IList<AppConfigurationModel> AppConfigmodel;
+        private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
 
         /// <summary>      
         /// Getting list of Doctor Affiliation Institution list
@@ -154,7 +156,13 @@ namespace MyCortex.User.Controller
             //{
             //    userObj.INSTITUTION_ID = 1;
             //}
-            string defaultPwd = ConfigurationManager.AppSettings["User.defaultPassword"];
+            string defaultPwd = "P@ssw0rd";
+            AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", InstitutionId);
+            if (AppConfigmodel.Count > 0)
+            {
+                defaultPwd = AppConfigmodel[0].ConfigValue;
+            }
+            // string defaultPwd = ConfigurationManager.AppSettings["User.defaultPassword"];
             string generatedPwd = "";
             if (ModelState.IsValid)
             {
