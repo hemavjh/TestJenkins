@@ -9,7 +9,7 @@ var EmpApp = angular.module('EmpApp', [
 EmpApp.config(['IdleProvider', function (IdleProvider) {
     // configure Idle settings
     //console.log('KeepaliveProvider')
-    IdleProvider.idle(10);
+    IdleProvider.idle(window.localStorage['IdleDays']);
    // IdleProvider.idle(60*10);
     IdleProvider.timeout(15);
     //KeepaliveProvider.interval(10);
