@@ -1189,8 +1189,8 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 ]);
 
 // This is for User controller functions/ /
-MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("UserController", ['$scope','$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
+    function ($scope,$q, $http, $filter, $routeParams, $location, $window, $ff) {
         $scope.SearchMsg = "No Data Available";
         $scope.currentTab = "1";
         $scope.CountryFlag = false;
@@ -2420,7 +2420,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
                     return false;
                 }
                 else if ($scope.AgeRestrictioncalculation() == false) {
-                    alert("Age should be more than 18 years.Please enter a valid Date of Birth");
+                    alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
                     $scope.currentTab = 2;
                     return false;
                 }
@@ -2551,6 +2551,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
                     $scope.currentTab = 2;
                     return false;
                 }
+                else if ($scope.AgeRestrictioncalculation() == false) {
+                    alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
+                    $scope.currentTab = 2;
+                    return false;
+                }
                 else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
                     alert("Please select Country under Address Info");
                     $scope.currentTab = 3;
@@ -2672,13 +2677,28 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
             return true;
         }
 
+        $scope.AgeRestictLimit = function () {
+            $scope.JAge = 18;
+            var deferred = $q.defer();
+
+            if ($scope.MenuTypeId == 2)
+                $scope.ConfigCode = "BUSINESS_USER_MIN_AGE";
+            else if ($scope.MenuTypeId == 2)
+                $scope.ConfigCode = "PATIENT_MIN_AGE";
+
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+                if (data[0] != undefined) {
+                    $scope.JAge = parseInt(data[0].ConfigValue);
+                }
+                deferred.resolve($scope.JAge);
+            });
+            return deferred.promise;
+        };
 
         $scope.AgeRestrictioncalculation = function () {
-            $scope.JAge = 18;
             $scope.Today_Date = $filter('date')(new Date(), 'DD-MMM-YYYY');
             $scope.Join_Day = moment(ParseDate($scope.Today_Date).subtract($scope.JAge, 'years')).format("DD-MMM-YYYY");
             if ((ParseDate($scope.DOB)) > (ParseDate($scope.Join_Day))) {
-                //alert("Age should be more than 18 years.Please enter a valid Date of Birth");
                 return false;
             }
             return true;
@@ -3086,335 +3106,339 @@ MyCortexControllers.controller("UserController", ['$scope', '$http', '$filter', 
             }
         };
         $scope.User_InsertUpdate = function () {
-            if ($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) // for business users
-            {
-                $scope.InstitutionId = $window.localStorage['InstitutionId'];
-            }
-            if ($scope.User_Admin_AddEdit_Validations() == true) {
-                $("#chatLoaderPV").show();
-                $scope.UserInstitutionDetails_List = [];
-                angular.forEach($scope.SelectedInstitution, function (value, index) {
-                    var Institutionobj = {
-                        Id: 0,
-                        Institution_Id: value
-                    }
-                    $scope.UserInstitutionDetails_List.push(Institutionobj);
-                });
-                $scope.UserLanguageDetails_List = [];
-                angular.forEach($scope.SelectedLanguage, function (value, index) {
-                    var Languageobj = {
-                        Id: 0,
-                        Language_Id: value
-                    }
-                    $scope.UserLanguageDetails_List.push(Languageobj);
-                });
-                $scope.UserGroupDetails_List = [];
-                angular.forEach($scope.SelectedGroup, function (value, index) {
-                    var obj = {
-                        Id: 0,
-                        Group_Id: value
-                    }
-                    $scope.UserGroupDetails_List.push(obj);
-                });
-                $scope.PatientChronicCondition_List = [];
-                angular.forEach($scope.SelectedChronicCondition, function (value, index) {
-                    var obj = {
-                        Id: 0,
-                        Chronic_Id: value
-                    }
-                    $scope.PatientChronicCondition_List.push(obj);
-                });
-                var FileName = "";
-                var CertificateFileName = "";
-                var Licensefilename = "";
-                var fd = new FormData();
-                var imgBlob;
-                var imgBlobfile;
-                var itemIndexLogo = -1;
-                var itemIndexfile = -1;
-                var fd = new FormData();
-                //if ($('#UserLogo')[0].files[0] != undefined) {
-                //    FileName = $('#UserLogo')[0].files[0]['name'];
-                //    imgBlob = $scope.dataURItoBlob($scope.uploadme);
-                //    itemIndexLogo = 0;
-                //}
+            var myPromise = $scope.AgeRestictLimit();
+            myPromise.then(function (resolve) {
 
-                //if (itemIndexLogo != -1) {
-                //    fd.append('file', imgBlob);
-                //}
-                /*
-                calling the api method for read the file path 
-                and saving the image uploaded in the local server. 
-                */
-
-
-                var obj = {
-                    Id: $scope.Id,
-                    INSTITUTION_ID: $scope.InstitutionId == 0 ? null : $scope.InstitutionId,
-                    FirstName: $scope.FirstName,
-                    MiddleName: $scope.MiddleName,
-                    LastName: $scope.LastName,
-                    EMPLOYEMENTNO: $scope.Employee_No,
-                    DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
-                    EMAILID: $scope.EmailId,
-                    MOBILE_NO: $scope.MobileNo,
-                    FileName: $scope.FileName,
-                    Photo_Fullpath: "",
-                    Photo: $scope.UserLogo,
-                    UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
-                    TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
-                    HEALTH_LICENSE: $scope.Health_License,
-                    FILE_NAME: $scope.CertificateFileName,
-                    FILE_FULLPATH: "",
-                    UPLOAD_FILENAME: $scope.Resume,
-                    GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                    NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                    ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
-                    DOB: $scope.DOB,
-                    HOME_AREACODE: $scope.HomeAreaCode,
-                    HOME_PHONENO: $scope.Home_PhoneNo,
-                    MOBIL_AREACODE: $scope.MobileAreaCode,
-                    POSTEL_ZIPCODE: $scope.PostalZipCode,
-                    EMR_AVAILABILITY: $scope.EMR_Avalability,
-                    ADDRESS1: $scope.Address1,
-                    ADDRESS2: $scope.Address2,
-                    ADDRESS3: $scope.Address3,
-                    COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
-                    STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
-                    CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
-                    MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
-                    BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
-                    PATIENTNO: $scope.PatientNo,
-                    INSURANCEID: $scope.InsuranceId,
-                    MNR_NO: $scope.MNR_No,
-                    NATIONALID: $scope.NationalId,
-                    SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
-                    DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
-                    HYPERTENSION: $scope.HyperTension == 0 ? null : $scope.HyperTension,
-                    CHOLESTEROL: $scope.Cholestrol == 0 ? null : $scope.Cholestrol,
-                    SelectedGroupList: $scope.UserGroupDetails_List,
-                    GroupTypeList: $scope.GroupTypeList,
-                    SelectedInstitutionList: $scope.UserInstitutionDetails_List,
-                    InstitutionList: $scope.DoctorInstitutionList,
-                    SelectedLanguageList: $scope.UserLanguageDetails_List,
-                    LanguageList: $scope.LanguageList,
-                    CURRENTLY_TAKEMEDICINE: $scope.CURRENTLY_TAKEMEDICINE,
-                    PAST_MEDICALHISTORY: $scope.PAST_MEDICALHISTORY,
-                    FAMILYHEALTH_PROBLEMHISTORY: $scope.FAMILYHEALTH_PROBLEMHISTORY,
-                    VACCINATIONS: $scope.VACCINATIONS,
-                    DIETDESCRIBE_ID: $scope.DIETDESCRIBE_ID == 0 ? null : $scope.DIETDESCRIBE_ID,
-                    EXCERCISE_SCHEDULEID: $scope.EXCERCISE_SCHEDULEID == 0 ? null : $scope.EXCERCISE_SCHEDULEID,
-                    EXCERCISE_TEXT: $scope.EXCERCISE_TEXT,
-                    ALERGYSUBSTANCE_ID: $scope.ALERGYSUBSTANCE_ID == 0 ? null : $scope.ALERGYSUBSTANCE_ID,
-                    ALERGYSUBSTANCE_TEXT: $scope.ALERGYSUBSTANCE_TEXT,
-                    SMOKESUBSTANCE_ID: $scope.SMOKESUBSTANCE_ID == 0 ? null : $scope.SMOKESUBSTANCE_ID,
-                    SMOKESUBSTANCE_TEXT: $scope.SMOKESUBSTANCE_TEXT,
-                    ALCOHALSUBSTANCE_ID: $scope.ALCOHALSUBSTANCE_ID == 0 ? null : $scope.ALCOHALSUBSTANCE_ID,
-                    ALCOHALSUBSTANCE_TEXT: $scope.ALCOHALSUBSTANCE_TEXT,
-                    CAFFEINATED_BEVERAGESID: $scope.CAFFEINATED_BEVERAGESID == 0 ? null : $scope.CAFFEINATED_BEVERAGESID,
-                    CAFFEINATEDBEVERAGES_TEXT: $scope.CAFFEINATEDBEVERAGES_TEXT,
-                    EMERG_CONT_FIRSTNAME: $scope.EMERG_CONT_FIRSTNAME,
-                    EMERG_CONT_MIDDLENAME: $scope.EMERG_CONT_MIDDLENAME,
-                    EMERG_CONT_LASTNAME: $scope.EMERG_CONT_LASTNAME,
-                    EMERG_CONT_RELATIONSHIP_ID: $scope.EMERG_CONT_RELATIONSHIP_ID == 0 ? null : $scope.EMERG_CONT_RELATIONSHIP_ID,
-                    SelectedChronicConnditionList: $scope.PatientChronicCondition_List,
-                    ChronicConditionList: $scope.ChronicConditionList,
-                    AddMedicines: $scope.AddMedicines,
-                    AddMedicalHistory: $scope.AddMedicalHistory,
-                    AddHealthProblem: $scope.AddHealthProblem,
-                    MenuType: $scope.MenuTypeId,
-                    GOOGLE_EMAILID: $scope.Google_EmailId,
-                    FB_EMAILID: $scope.FB_EmailId,
-                    CREATED_BY: $window.localStorage['UserId'],
-                    ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
-                    Patient_Type: $scope.Patient_Type,
-                    Emergency_MobileNo: $scope.Emergency_MobileNo
+                if ($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) // for business users
+                {
+                    $scope.InstitutionId = $window.localStorage['InstitutionId'];
                 }
-                $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                    alert(data.Message);
-                    /*if (data.Message == "Email already exists cannot be Duplicated") {
-                        alert("Email already exists, cannot be Duplicate");
-                        return false;
-                    }
-                    else if (data.Message == "User created successfully") {
-                        alert("User created successfully");
-                    }
-                    else if (data.Message == "User updated successfully") {
-                        alert("User updated successfully");
-                    }*/
-                    var userid = data.UserDetails.Id;
-
-                    if (photoview == false) {
-                        photoview = true;
-
-                        imgBlob = $scope.dataURItoBlob($scope.uploadme);
-                        itemIndexLogo = 0;
-
-                        if (itemIndexLogo != -1) {
-                            fd.append('file', imgBlob);
+                if ($scope.User_Admin_AddEdit_Validations() == true) {
+                    $("#chatLoaderPV").show();
+                    $scope.UserInstitutionDetails_List = [];
+                    angular.forEach($scope.SelectedInstitution, function (value, index) {
+                        var Institutionobj = {
+                            Id: 0,
+                            Institution_Id: value
                         }
-                        /*
-                        calling the api method for read the file path 
-                        and saving the image uploaded in the local server. 
-                        */
-                        $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue,
-                            fd,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
-                            }
-                            )
-                        .success(function (response) {
-                            if ($scope.FileName == "") {
-                                $scope.UserLogo = "";
-                            }
-                            else if (itemIndexLogo > -1) {
-                                if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                    $scope.UserLogo = response[itemIndexLogo];
-                                }
-                            }
-                        });
+                        $scope.UserInstitutionDetails_List.push(Institutionobj);
+                    });
+                    $scope.UserLanguageDetails_List = [];
+                    angular.forEach($scope.SelectedLanguage, function (value, index) {
+                        var Languageobj = {
+                            Id: 0,
+                            Language_Id: value
+                        }
+                        $scope.UserLanguageDetails_List.push(Languageobj);
+                    });
+                    $scope.UserGroupDetails_List = [];
+                    angular.forEach($scope.SelectedGroup, function (value, index) {
+                        var obj = {
+                            Id: 0,
+                            Group_Id: value
+                        }
+                        $scope.UserGroupDetails_List.push(obj);
+                    });
+                    $scope.PatientChronicCondition_List = [];
+                    angular.forEach($scope.SelectedChronicCondition, function (value, index) {
+                        var obj = {
+                            Id: 0,
+                            Chronic_Id: value
+                        }
+                        $scope.PatientChronicCondition_List.push(obj);
+                    });
+                    var FileName = "";
+                    var CertificateFileName = "";
+                    var Licensefilename = "";
+                    var fd = new FormData();
+                    var imgBlob;
+                    var imgBlobfile;
+                    var itemIndexLogo = -1;
+                    var itemIndexfile = -1;
+                    var fd = new FormData();
+                    //if ($('#UserLogo')[0].files[0] != undefined) {
+                    //    FileName = $('#UserLogo')[0].files[0]['name'];
+                    //    imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                    //    itemIndexLogo = 0;
+                    //}
+
+                    //if (itemIndexLogo != -1) {
+                    //    fd.append('file', imgBlob);
+                    //}
+                    /*
+                    calling the api method for read the file path 
+                    and saving the image uploaded in the local server. 
+                    */
+
+
+                    var obj = {
+                        Id: $scope.Id,
+                        INSTITUTION_ID: $scope.InstitutionId == 0 ? null : $scope.InstitutionId,
+                        FirstName: $scope.FirstName,
+                        MiddleName: $scope.MiddleName,
+                        LastName: $scope.LastName,
+                        EMPLOYEMENTNO: $scope.Employee_No,
+                        DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
+                        EMAILID: $scope.EmailId,
+                        MOBILE_NO: $scope.MobileNo,
+                        FileName: $scope.FileName,
+                        Photo_Fullpath: "",
+                        Photo: $scope.UserLogo,
+                        UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
+                        TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
+                        HEALTH_LICENSE: $scope.Health_License,
+                        FILE_NAME: $scope.CertificateFileName,
+                        FILE_FULLPATH: "",
+                        UPLOAD_FILENAME: $scope.Resume,
+                        GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
+                        NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                        ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                        DOB: $scope.DOB,
+                        HOME_AREACODE: $scope.HomeAreaCode,
+                        HOME_PHONENO: $scope.Home_PhoneNo,
+                        MOBIL_AREACODE: $scope.MobileAreaCode,
+                        POSTEL_ZIPCODE: $scope.PostalZipCode,
+                        EMR_AVAILABILITY: $scope.EMR_Avalability,
+                        ADDRESS1: $scope.Address1,
+                        ADDRESS2: $scope.Address2,
+                        ADDRESS3: $scope.Address3,
+                        COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
+                        STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
+                        CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
+                        MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
+                        BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                        PATIENTNO: $scope.PatientNo,
+                        INSURANCEID: $scope.InsuranceId,
+                        MNR_NO: $scope.MNR_No,
+                        NATIONALID: $scope.NationalId,
+                        SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
+                        DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
+                        HYPERTENSION: $scope.HyperTension == 0 ? null : $scope.HyperTension,
+                        CHOLESTEROL: $scope.Cholestrol == 0 ? null : $scope.Cholestrol,
+                        SelectedGroupList: $scope.UserGroupDetails_List,
+                        GroupTypeList: $scope.GroupTypeList,
+                        SelectedInstitutionList: $scope.UserInstitutionDetails_List,
+                        InstitutionList: $scope.DoctorInstitutionList,
+                        SelectedLanguageList: $scope.UserLanguageDetails_List,
+                        LanguageList: $scope.LanguageList,
+                        CURRENTLY_TAKEMEDICINE: $scope.CURRENTLY_TAKEMEDICINE,
+                        PAST_MEDICALHISTORY: $scope.PAST_MEDICALHISTORY,
+                        FAMILYHEALTH_PROBLEMHISTORY: $scope.FAMILYHEALTH_PROBLEMHISTORY,
+                        VACCINATIONS: $scope.VACCINATIONS,
+                        DIETDESCRIBE_ID: $scope.DIETDESCRIBE_ID == 0 ? null : $scope.DIETDESCRIBE_ID,
+                        EXCERCISE_SCHEDULEID: $scope.EXCERCISE_SCHEDULEID == 0 ? null : $scope.EXCERCISE_SCHEDULEID,
+                        EXCERCISE_TEXT: $scope.EXCERCISE_TEXT,
+                        ALERGYSUBSTANCE_ID: $scope.ALERGYSUBSTANCE_ID == 0 ? null : $scope.ALERGYSUBSTANCE_ID,
+                        ALERGYSUBSTANCE_TEXT: $scope.ALERGYSUBSTANCE_TEXT,
+                        SMOKESUBSTANCE_ID: $scope.SMOKESUBSTANCE_ID == 0 ? null : $scope.SMOKESUBSTANCE_ID,
+                        SMOKESUBSTANCE_TEXT: $scope.SMOKESUBSTANCE_TEXT,
+                        ALCOHALSUBSTANCE_ID: $scope.ALCOHALSUBSTANCE_ID == 0 ? null : $scope.ALCOHALSUBSTANCE_ID,
+                        ALCOHALSUBSTANCE_TEXT: $scope.ALCOHALSUBSTANCE_TEXT,
+                        CAFFEINATED_BEVERAGESID: $scope.CAFFEINATED_BEVERAGESID == 0 ? null : $scope.CAFFEINATED_BEVERAGESID,
+                        CAFFEINATEDBEVERAGES_TEXT: $scope.CAFFEINATEDBEVERAGES_TEXT,
+                        EMERG_CONT_FIRSTNAME: $scope.EMERG_CONT_FIRSTNAME,
+                        EMERG_CONT_MIDDLENAME: $scope.EMERG_CONT_MIDDLENAME,
+                        EMERG_CONT_LASTNAME: $scope.EMERG_CONT_LASTNAME,
+                        EMERG_CONT_RELATIONSHIP_ID: $scope.EMERG_CONT_RELATIONSHIP_ID == 0 ? null : $scope.EMERG_CONT_RELATIONSHIP_ID,
+                        SelectedChronicConnditionList: $scope.PatientChronicCondition_List,
+                        ChronicConditionList: $scope.ChronicConditionList,
+                        AddMedicines: $scope.AddMedicines,
+                        AddMedicalHistory: $scope.AddMedicalHistory,
+                        AddHealthProblem: $scope.AddHealthProblem,
+                        MenuType: $scope.MenuTypeId,
+                        GOOGLE_EMAILID: $scope.Google_EmailId,
+                        FB_EMAILID: $scope.FB_EmailId,
+                        CREATED_BY: $window.localStorage['UserId'],
+                        ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
+                        Patient_Type: $scope.Patient_Type,
+                        Emergency_MobileNo: $scope.Emergency_MobileNo
                     }
-                    if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
-                        if ($('#UserLogo')[0].files[0] != undefined) {
-                            FileName = $('#UserLogo')[0].files[0]['name'];
+                    $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                        alert(data.Message);
+                        /*if (data.Message == "Email already exists cannot be Duplicated") {
+                            alert("Email already exists, cannot be Duplicate");
+                            return false;
+                        }
+                        else if (data.Message == "User created successfully") {
+                            alert("User created successfully");
+                        }
+                        else if (data.Message == "User updated successfully") {
+                            alert("User updated successfully");
+                        }*/
+                        var userid = data.UserDetails.Id;
+
+                        if (photoview == false) {
+                            photoview = true;
+
                             imgBlob = $scope.dataURItoBlob($scope.uploadme);
                             itemIndexLogo = 0;
-                        }
-                        if (itemIndexLogo != -1) {
-                            fd.append('file', imgBlob);
-                        }
-                        /*	
-                        calling the api method for read the file path 	
-                        and saving the image uploaded in the local server. 	
-                        */
-                        $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
-                            fd,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
+
+                            if (itemIndexLogo != -1) {
+                                fd.append('file', imgBlob);
                             }
+                            /*
+                            calling the api method for read the file path 
+                            and saving the image uploaded in the local server. 
+                            */
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue,
+                                fd,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
                             )
-                        .success(function (response) {
-                            if ($scope.FileName == "") {
-                                $scope.UserLogo = "";
-                            }
-                            else if (itemIndexLogo > -1) {
-                                if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                    $scope.UserLogo = response[itemIndexLogo];
-                                }
-                            }
-                        });
-                    }
-                    else if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
-                        if ($('#UserLogo')[0].files[0] != undefined) {
-                            FileName = $('#UserLogo')[0].files[0]['name'];
-                            imgBlob = $scope.dataURItoBlob($scope.uploadme);
-                            itemIndexLogo = 0;
+                                .success(function (response) {
+                                    if ($scope.FileName == "") {
+                                        $scope.UserLogo = "";
+                                    }
+                                    else if (itemIndexLogo > -1) {
+                                        if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                            $scope.UserLogo = response[itemIndexLogo];
+                                        }
+                                    }
+                                });
                         }
-
-                        if (itemIndexLogo != -1) {
-                            fd.append('file', imgBlob);
-                        }
-                        /*
-                        calling the api method for read the file path 
-                        and saving the image uploaded in the local server. 
-                        */
-
-                        $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
-                            fd,
-                            {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
+                        if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
+                            if ($('#UserLogo')[0].files[0] != undefined) {
+                                FileName = $('#UserLogo')[0].files[0]['name'];
+                                imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                                itemIndexLogo = 0;
                             }
+                            if (itemIndexLogo != -1) {
+                                fd.append('file', imgBlob);
+                            }
+                            /*	
+                            calling the api method for read the file path 	
+                            and saving the image uploaded in the local server. 	
+                            */
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
+                                fd,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
                             )
-                        .success(function (response) {
-                            if ($scope.FileName == "") {
-                                $scope.UserLogo = "";
-                            }
-                            else if (itemIndexLogo > -1) {
-                                if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                    $scope.UserLogo = response[itemIndexLogo];
-                                }
-                            }
-                        });
-                    }
-                    if ($scope.CertificateValue == 1) {
-                        if ($scope.MenuTypeId == 2) {
-                            if ($('#EditDocument')[0].files[0] != undefined) {
-                                $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
-                                imgBlobfile = $scope.dataURItoBlob($scope.Editresumedoc);
-                                if (itemIndexLogo == -1) {
-                                    itemIndexfile = 0;
-                                }
-                                else {
-                                    itemIndexfile = 1;
-                                }
-                            }
-                            if (itemIndexfile != -1) {
-                                fd.append('file1', imgBlobfile);
-                            }
+                                .success(function (response) {
+                                    if ($scope.FileName == "") {
+                                        $scope.UserLogo = "";
+                                    }
+                                    else if (itemIndexLogo > -1) {
+                                        if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                            $scope.UserLogo = response[itemIndexLogo];
+                                        }
+                                    }
+                                });
                         }
-                        $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
-          fd,
-          {
-              transformRequest: angular.identity,
-              headers: {
-                  'Content-Type': undefined
-              }
-          }
-                          )
-                          .success(function (response) {
-                              if ($scope.Resume == "") {
-                                  $scope.EditDocument = "";
-                              }
-                              //else if (itemIndexLogo > -1) {
-                              //    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                              //        $scope.UserLogo = response[itemIndexLogo];
-                              //    }
-                              //}
-                              if ($scope.MenuTypeId === 2) {
-                                  if ($scope.EditDocument == "") {
-                                      $scope.Resume = "";
-                                  }
+                        else if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
+                            if ($('#UserLogo')[0].files[0] != undefined) {
+                                FileName = $('#UserLogo')[0].files[0]['name'];
+                                imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                                itemIndexLogo = 0;
+                            }
 
-                                  else if (itemIndexfile > -1) {
-                                      if ($scope.CertificateFileName != "" && response[itemIndexfile] != "") {
-                                          $scope.Resume = response[itemIndexfile];
-                                      }
-                                  }
-                              }
-                          })
-                    }
-                    if (data.ReturnFlag == "1") {
-                        if ($scope.MenuTypeId == 1) {
-                            $scope.User_Admin_List($scope.MenuTypeId);
-                        }
-                        if ($scope.MenuTypeId == 2) {
-                            $scope.BusinessUser_List($scope.MenuTypeId);
-                        }
-                        $scope.CancelPopup();
-                        if ($scope.MenuTypeId == 3) {
-                            $scope.ListRedirect();
-                        }
-                        if ($scope.PageParameter == 1) {
-                            $scope.Cancel_PatientData_Edit();
-                        }
-                        if ($scope.PageParameter == 0) {
-                            $scope.Cancel_PatientAppproval_Edit();
-                        }
-                        $("#UserLogo").val('');
-                    }
+                            if (itemIndexLogo != -1) {
+                                fd.append('file', imgBlob);
+                            }
+                            /*
+                            calling the api method for read the file path 
+                            and saving the image uploaded in the local server. 
+                            */
 
-                    $("#chatLoaderPV").hide();
-                });
-            }
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
+                                fd,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .success(function (response) {
+                                    if ($scope.FileName == "") {
+                                        $scope.UserLogo = "";
+                                    }
+                                    else if (itemIndexLogo > -1) {
+                                        if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                            $scope.UserLogo = response[itemIndexLogo];
+                                        }
+                                    }
+                                });
+                        }
+                        if ($scope.CertificateValue == 1) {
+                            if ($scope.MenuTypeId == 2) {
+                                if ($('#EditDocument')[0].files[0] != undefined) {
+                                    $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
+                                    imgBlobfile = $scope.dataURItoBlob($scope.Editresumedoc);
+                                    if (itemIndexLogo == -1) {
+                                        itemIndexfile = 0;
+                                    }
+                                    else {
+                                        itemIndexfile = 1;
+                                    }
+                                }
+                                if (itemIndexfile != -1) {
+                                    fd.append('file1', imgBlobfile);
+                                }
+                            }
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
+                                fd,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }
+                            )
+                                .success(function (response) {
+                                    if ($scope.Resume == "") {
+                                        $scope.EditDocument = "";
+                                    }
+                                    //else if (itemIndexLogo > -1) {
+                                    //    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                    //        $scope.UserLogo = response[itemIndexLogo];
+                                    //    }
+                                    //}
+                                    if ($scope.MenuTypeId === 2) {
+                                        if ($scope.EditDocument == "") {
+                                            $scope.Resume = "";
+                                        }
+
+                                        else if (itemIndexfile > -1) {
+                                            if ($scope.CertificateFileName != "" && response[itemIndexfile] != "") {
+                                                $scope.Resume = response[itemIndexfile];
+                                            }
+                                        }
+                                    }
+                                })
+                        }
+                        if (data.ReturnFlag == "1") {
+                            if ($scope.MenuTypeId == 1) {
+                                $scope.User_Admin_List($scope.MenuTypeId);
+                            }
+                            if ($scope.MenuTypeId == 2) {
+                                $scope.BusinessUser_List($scope.MenuTypeId);
+                            }
+                            $scope.CancelPopup();
+                            if ($scope.MenuTypeId == 3) {
+                                $scope.ListRedirect();
+                            }
+                            if ($scope.PageParameter == 1) {
+                                $scope.Cancel_PatientData_Edit();
+                            }
+                            if ($scope.PageParameter == 0) {
+                                $scope.Cancel_PatientAppproval_Edit();
+                            }
+                            $("#UserLogo").val('');
+                        }
+
+                        $("#chatLoaderPV").hide();
+                    });
+                }
+            });
         }
         $scope.ResetPatientFilter = function () {
             $scope.Filter_PatientNo = "";
