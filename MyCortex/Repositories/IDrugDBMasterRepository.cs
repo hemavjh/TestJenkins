@@ -13,7 +13,7 @@ namespace MyCortex.Repositories
     {
        IList<DrugStrengthMasterModel> DrugStrengthList(long Institution_Id);
        IList<DosageFormMasterModel> DosageFormList(long Institution_Id);      
-       IList<DrugDBMasterModel> DrugDBMasterList(int IsActive, long InstitutionId);
+       IList<DrugDBMasterModel> DrugDBMasterList(int IsActive, long InstitutionId,int StartRowNumber, int EndRowNumber);
        DrugDBMasterModel DrugDBMasterView(int Id);
 
        IList<DrugDBMasterModel> DrugDBMaster_AddEdit(DrugDBMasterModel obj);

@@ -2976,9 +2976,11 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="IsActive"></param>
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
-        public IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id)
+        public IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id,int StartRowNumber,int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -2989,6 +2991,7 @@ namespace MyCortex.Repositories.Uesr
                 List<AllergyModel> list = (from p in dt.AsEnumerable()
                                            select new AllergyModel()
                                            {
+                                               TotalRecord = p.Field<string>("TotalRecords"),
                                                Id = p.Field<long>("Id"),
                                                AllergyTypeName = p.Field<string>("NAME"),
                                                AllergenName = p.Field<string>("ALLERGENNAME"),

@@ -4290,10 +4290,21 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
         
         //List Page Pagination.
         $scope.current_page = 1;
+        $scope.Allergt_pages = 1;
         $scope.page_size =$window.localStorage['Pagesize'];
         $scope.allergyActive=true;
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
+        }
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else
+                $scope.inputPageNo = PageNo;
+
+            $scope.current_page = PageNo;
+            $scope.AllergyMasterList_Details();
         }
 
         $scope.AllergyMasterList_Details = function () {
@@ -4305,20 +4316,31 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
             else if ($scope.AllergyMasterIsActive == false) {
                 $scope.ISact = 0 //all
             }
-            $http.get(baseUrl + '/api/User/AllergtMaster_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.Institution_Id).success(function (data) {    
-                $("#chatLoaderPV").hide();
-                $scope.AllergyMasteremptydata=[];
-                $scope.AllergyMasterListData=[];
-                $scope.AllergyMasterListData=data;
-                $scope.AllergyMasterListFilterData=data;
-                $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);       
-                if ($scope.AllergyMasterList.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-            
+
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                $http.get(baseUrl + '/api/User/AllergtMaster_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.Institution_Id + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {    
+                    $("#chatLoaderPV").hide();
+                    $scope.AllergyMasteremptydata=[];
+                    $scope.AllergyMasterListData=[];
+                    $scope.AllergyMasterListData = data;
+                    $scope.AllergyCount = $scope.AllergyMasterListData[0].TotalRecord;
+                    $scope.AllergyMasterListFilterData = data; 
+                    $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);       
+                    if ($scope.AllergyMasterList.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $scope.Allergt_pages = Math.ceil(($scope.AllergyCount) / ($scope.page_size));
+
+                })
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
             })
@@ -9986,10 +10008,11 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
         /*List Page Pagination*/
         $scope.listdata = [];
         $scope.current_page = 1;
+        $scope.total_page = 1;
         $scope.page_size =$window.localStorage['Pagesize'];
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
-        }
+        } 
         $scope.Patient_Id = $window.localStorage['UserId'];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId =$window.localStorage['Login_Session_Id']
@@ -10055,6 +10078,16 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
         $scope.rowCollection = [];
         $scope.flag = 0;
         $scope.rowCollectionFilter = [];
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else
+                $scope.inputPageNo = PageNo;
+
+            $scope.current_page = PageNo;
+            $scope.ICD10list();
+        }
 
         $scope.ICD10list = function () {
             $("#chatLoaderPV").show();
@@ -10066,26 +10099,40 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
             else if ($scope.IsActive == false) {
                 $scope.ISact = -1 //all
             }
-            $http.get(baseUrl + '/api/MasterICD/ICDMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
-                $("#chatLoaderPV").hide();
-                $scope.emptydata = [];
-                $scope.rowCollection = [];
-                $scope.rowCollection = data;
-                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                if ($scope.rowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-                $http.get(baseUrl + '/api/MasterICD/CategoryMasterList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+      
+      
+
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                $http.get(baseUrl + '/api/MasterICD/ICDMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    $scope.CategoryIDListTemp = [];
-                    $scope.CategoryIDListTemp = data;
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.CategoryIDListTemp.splice(0, 0, obj);
-                    $scope.CategoryIDList = angular.copy($scope.CategoryIDListTemp);
-                });
+                    $scope.emptydata = [];
+                    $scope.rowCollection = [];
+                    $scope.rowCollection = data;
+                    $scope.PatientCount = $scope.rowCollection[0].TotalRecord; 
+                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $http.get(baseUrl + '/api/MasterICD/CategoryMasterList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.CategoryIDListTemp = [];
+                        $scope.CategoryIDListTemp = data;
+                        var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                        $scope.CategoryIDListTemp.splice(0, 0, obj);
+                        $scope.CategoryIDList = angular.copy($scope.CategoryIDListTemp);
+                    });
+                     $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size)); 
+                })
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.error = "AN error has occured while Listing the records!" + data;
@@ -10246,6 +10293,7 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
         /*List Page Pagination*/
         $scope.listdata = [];
         $scope.current_page = 1;
+        $scope.total_pageDrug = 1;
         $scope.page_size =$window.localStorage['Pagesize'];
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
@@ -10330,6 +10378,17 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
         $scope.flag = 0;
         $scope.rowCollectionFilter = [];
 
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else
+                $scope.inputPageNo = PageNo;
+
+            $scope.current_page = PageNo;
+            $scope.DrugDB_List();
+        }
+
         $scope.DrugDB_List = function () {
             $("#chatLoaderPV").show();
             $scope.ISact = 1;       // default active
@@ -10339,38 +10398,47 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
             else if ($scope.IsActive == false) {
                 $scope.ISact = -1 //all
             }
-            $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterList/?IsActive=' + $scope.ISact + '&InstitutionId='+$scope.InstituteId).success(function (data) {               
-                $scope.emptydata = [];
-                $scope.rowCollection = [];
-                $scope.rowCollection = data;
-                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                if ($scope.rowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-                $("#chatLoaderPV").hide();
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    $scope.emptydata = [];
+                    $scope.rowCollection = [];
+                    $scope.rowCollection = data; 
+                    $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
+                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $("#chatLoaderPV").hide();
 
-                $http.get(baseUrl + '/api/DrugDBMaster/DrugStrengthList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.StrengthIDListTemp = [];
-                    $scope.StrengthIDListTemp = data;
+                    $http.get(baseUrl + '/api/DrugDBMaster/DrugStrengthList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                        $scope.StrengthIDListTemp = [];
+                        $scope.StrengthIDListTemp = data;
 
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.StrengthIDListTemp.splice(0, 0, obj);
+                        var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                        $scope.StrengthIDListTemp.splice(0, 0, obj);
 
-                    $scope.StrengthIDList = angular.copy($scope.StrengthIDListTemp);
+                        $scope.StrengthIDList = angular.copy($scope.StrengthIDListTemp);
+                    })
+                    $http.get(baseUrl + '/api/DrugDBMaster/DosageFormList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                        $scope.DosageFromIDListTemp = [];
+                        $scope.DosageFromIDListTemp = data;
+
+                        var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                        $scope.DosageFromIDListTemp.splice(0, 0, obj);
+
+                        $scope.DosageFromIDList = angular.copy($scope.DosageFromIDListTemp);
+                    })
+                    $scope.total_pageDrug = Math.ceil(($scope.DrugCount) / ($scope.page_size)); 
                 })
-                $http.get(baseUrl + '/api/DrugDBMaster/DosageFormList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.DosageFromIDListTemp = [];
-                    $scope.DosageFromIDListTemp = data;
-
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.DosageFromIDListTemp.splice(0, 0, obj);
-
-                    $scope.DosageFromIDList = angular.copy($scope.DosageFromIDListTemp);
-                })
-
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.error = "AN error has occured while Listing the records!" + data;

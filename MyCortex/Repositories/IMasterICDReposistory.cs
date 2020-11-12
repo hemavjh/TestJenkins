@@ -12,7 +12,7 @@ namespace MyCortex.Repositories
     interface IMasterICDReposistory
     {
         IList<CategoryMasterModel> CategoryMasterList(long Institution_Id);
-        IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId);
+        IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber);
         MasterICDModel ICDMasterView(int Id);
         void ICDMaster_Delete(int Id);
         void ICDMaster_Active(int Id);

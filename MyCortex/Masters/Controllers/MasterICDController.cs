@@ -50,12 +50,14 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <param name="IsActive">active flag</param>
         /// <param name="InstitutionId">Institution Id</param>
+        ///  <param name="StartRowNumber">Institution Id</param>
+        ///   <param name="EndRowNumber">Institution Id</param>
         /// <returns>ICD master list of a institution</returns>
         [HttpGet]
-        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId)
+        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId,int StartRowNumber, int EndRowNumber)
         {
             IList<MasterICDModel> model;
-            model = repository.ICDMasterList(IsActive, InstitutionId);
+            model = repository.ICDMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber);
             return model;
         }
 

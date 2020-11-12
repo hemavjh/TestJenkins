@@ -61,10 +61,14 @@ namespace MyCortex.Repositories.Masters
         /// </summary>
         /// <param name="IsActive">active flag</param>
         /// <param name="InstitutionId">Institution Id</param>
+        /// <param name="StartRowNumber">StartRowNumber</param>
+        /// <param name="EndRowNumber">EndRowNumber</param>
         /// <returns>ICD master list of a institution</returns>
-        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId)
+        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -74,6 +78,7 @@ namespace MyCortex.Repositories.Masters
                 List<MasterICDModel> lst = (from p in dt.AsEnumerable()
                                             select new MasterICDModel()
                                             {
+                                                TotalRecord = p.Field<string>("TotalRecords"),
                                                 Id = p.Field<long>("ID"),
                                                 ICD_Code = p.Field<string>("ICDCODE"),
                                                 Description = p.Field<string>("ICDDESC"),

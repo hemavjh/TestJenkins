@@ -94,7 +94,7 @@ namespace MyCortex.Repositories
         Patient_OtherDataModel Patient_OtherData_Active(long Id, long Modified_By);
         IList<UserGroupDetails_List> GroupBasedUserList_ByUser(long User_Id);
 
-        IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id);
+        IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id,int StartRowNumber,int EndRowNumber);
         IList<DoctorNotesModel> DoctorNotesDetails_InActive(DoctorNotesModel noteobj);
         IList<DoctorNotesModel> DoctorNotesDetails_Active(DoctorNotesModel noteobj);
         IList<PatientHealthDataModel> PatientLiveData_List(long Patient_Id, DateTime DataTime, Guid Login_Session_Id);

@@ -2725,14 +2725,14 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
       //  [CheckSessionOutFilter]
-        public IList<AllergyModel> AllergtMaster_List(int IsActive, long Institution_Id)
+        public IList<AllergyModel> AllergtMaster_List(int IsActive, long Institution_Id, int StartRowNumber, int EndRowNumber)
         {
             IList<AllergyModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.AllergyMasterList(IsActive, Institution_Id);
+                model = repository.AllergyMasterList(IsActive, Institution_Id,  StartRowNumber,  EndRowNumber);
                 return model;
             }
             catch (Exception ex)
