@@ -2683,7 +2683,7 @@ MyCortexControllers.controller("UserController", ['$scope','$q', '$http', '$filt
 
             if ($scope.MenuTypeId == 2)
                 $scope.ConfigCode = "BUSINESS_USER_MIN_AGE";
-            else if ($scope.MenuTypeId == 2)
+            else if ($scope.MenuTypeId == 3)
                 $scope.ConfigCode = "PATIENT_MIN_AGE";
 
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
