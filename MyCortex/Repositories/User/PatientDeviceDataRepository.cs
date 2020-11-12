@@ -15,26 +15,23 @@ namespace MyCortex.Repositories.User
         ClsDataBase db;
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
-        public long PatientDeviceData_InsertUpdate(List<PatientDeviceDataModel> insobj)
+        public long PatientDeviceData_InsertUpdate(PatientDeviceDataModel insobj)
         {
             try
             {
                 string flag = "";
-                foreach (PatientDeviceDataModel item in insobj)
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@ID", insobj.Id));
+                param.Add(new DataParameter("@PATIENT_ID", insobj.Patient_Id));
+                param.Add(new DataParameter("@INSTITUTION_ID", insobj.Institution_Id));
+                param.Add(new DataParameter("@DEVICETYPE", insobj.DeviceType));
+                param.Add(new DataParameter("@DEVICENO", insobj.DeviceNo));
+                param.Add(new DataParameter("@DEVICEDATA", insobj.DeviceData));
+                param.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
                 {
-                    List<DataParameter> param = new List<DataParameter>();
-                    param.Add(new DataParameter("@ID", item.Id));
-                    param.Add(new DataParameter("@PATIENT_ID", item.Patient_Id));
-                    param.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
-                    param.Add(new DataParameter("@DEVICETYPE", item.DeviceType));
-                    param.Add(new DataParameter("@DEVICENO", item.DeviceNo));
-                    param.Add(new DataParameter("@DEVICEDATA", item.DeviceData));
-                    param.Add(new DataParameter("@CREATED_BY", item.Created_By));
-                    {
-                        DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDEVICEDATA_SP_INSERTUPDATE", param);
-                        DataRow dr = dt.Rows[0];
-                        flag = (dr["FLAG"].ToString());
-                    }
+                    DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDEVICEDATA_SP_INSERTUPDATE", param);
+                    DataRow dr = dt.Rows[0];
+                    flag = (dr["FLAG"].ToString());
                 }
                 var data = (Convert.ToInt64(flag));
                 return data;
