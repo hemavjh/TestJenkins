@@ -321,12 +321,66 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     });
     $rootScope.$on('IdleStart', function () {
         console.log('IdleStart');
+        var interval;
+        var timeLeft = 15;
+        Swal.fire({
+            position: 'top',
+            title: '<h6 class="text-lg" style="color: var(--bg-green);">You have been Idle!</h6>',
+            html: 'You will timeout in <b>15</b> seconds.',
+            timer: timeLeft * 1000,
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: 'Logout',
+            confirmButtonColor: '#d33',
+            confirmButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
+            cancelButtonClass: 'btn bg-green rounded text-white text-sm px-3 py-1 mx-1',
+            cancelButtonColor: '#008000',
+            cancelButtonText: 'Stay',
+            focusCancel: true,
+            allowOutsideClick: false,
+            onOpen: () => {
+                interval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                    } else {
+                        timeLeft = 15;
+                    }
+                    const content = swal.getContent();
+                    if (content) {
+                        const b = content.querySelector('b');
+                        if (b) {
+                            b.textContent = timeLeft.toString();
+                        }
+                    }
+                }, 1000);
+            },
+            onClose: () => {
+                timeLeft = 15;
+                clearInterval(interval);
+            },
+        }).then((result) => {
+            if (result.value) {
+                $window.location.href = baseUrl + "/Home/LoginIndex#/";
+            } else {
+                if (result.dismiss) {
+                    if (result.dismiss === swal.DismissReason.timer) {
+                        $window.location.href = baseUrl + "/Home/LoginIndex#/";
+                    } else {
+                        timeLeft = 15;
+                        clearInterval(interval);
+                        IdleProvider.resetTimer();
+                    }
+                }
+            }
+        });
         // the user appears to have gone idle
     });
     $rootScope.$on('IdleTimeout', function () {
         //console.log('IdleTimeout');
+        
 
-        $window.location.href = baseUrl + "/Home/LoginIndex#/";
+        //$window.location.href = baseUrl + "/Home/LoginIndex#/";
         // the user has timed out, let log them out
     });
     $rootScope.$on('IdleEnd', function () {
