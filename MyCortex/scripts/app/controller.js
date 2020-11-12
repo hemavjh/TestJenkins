@@ -2150,12 +2150,12 @@ MyCortexControllers.controller("UserController", ['$scope','$q', '$http', '$filt
                         $scope.Patientemptydata = [];
                         $scope.PatientList = [];
                         $scope.PatientList = data;
-                        $scope.Patientemptydata = data;
+                        $scope.Patientemptydata = data; 
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                        $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
-
+                        $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size)); 
                         $("#chatLoaderPV").hide();
                         $scope.SearchMsg = "No Data Available";
+                          
                     });
             });
             $scope.loadCount = 0;
@@ -3581,7 +3581,7 @@ MyCortexControllers.controller("UserController", ['$scope','$q', '$http', '$filt
             } else {
                 $scope.SelectedAllPatient = false;
             }
-            angular.forEach($scope.PatientListFilter, function (row) {
+            angular.forEach($scope.Patientemptydata, function (row) {
                 row.SelectedPatient = $scope.SelectedAllPatient;
             });
         };

@@ -20,7 +20,7 @@ namespace MyCortex.User.Controllers
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [HttpPost]
-        public HttpResponseMessage PatientDeviceData_AddEdit([FromBody] List<PatientDeviceDataModel> insobj)
+        public HttpResponseMessage PatientDeviceData_AddEdit([FromBody] PatientDeviceDataModel insobj)
         {
             IList<PatientDeviceDataModel> ModelData = new List<PatientDeviceDataModel>();
             PatientDeviceDataReturnModels model = new PatientDeviceDataReturnModels();

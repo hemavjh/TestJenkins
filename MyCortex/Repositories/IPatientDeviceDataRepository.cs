@@ -8,6 +8,6 @@ namespace MyCortex.Repositories
 {
     interface IPatientDeviceDataRepository
     {
-        long PatientDeviceData_InsertUpdate(List<PatientDeviceDataModel> insobj);
+        long PatientDeviceData_InsertUpdate(PatientDeviceDataModel insobj);
     }
 }
