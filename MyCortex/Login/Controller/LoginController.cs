@@ -297,12 +297,12 @@ namespace MyCortex.Login.Controller
         /// <param name="UserId">logged in user id</param>
         /// <returns>logout response</returns>
         [HttpGet]
-        public HttpResponseMessage User_Logout(long UserId, string SessionId)
+        public HttpResponseMessage User_Logout(long UserId, string Login_Session_Id)
         {
             UserReturnModel user = new UserReturnModel();
             try
             {
-                login.User_LogOut(UserId, SessionId);
+                login.User_LogOut(UserId, Login_Session_Id);
 
                 user.Status = "True";
                 user.Message = "Used logged out successfully";
