@@ -122,7 +122,7 @@ namespace MyCortex.Login.Controller
                         messagestr = "User Name or Password Mismatch";
                         model.Status = "False";
                     }
-                    else if ((model.data == 6) == true || (model.data == 7) == true || (model.data == 8) == true)
+                    else if ((model.data == 6) == true || (model.data == 7) == true || (model.data == 8) == true || (model.data == 10) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = model.Messagetype;

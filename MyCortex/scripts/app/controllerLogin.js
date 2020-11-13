@@ -471,7 +471,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                 else if (data == "4" || data == "5") {
                     window.location.href = baseUrl + "/Home/Index#/home";
                 }
-                else if (data == "6") {
+                else if (data == "6" || data == "10") {
                     $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                     $window.localStorage['UserId'] = $scope.UserId;
 
