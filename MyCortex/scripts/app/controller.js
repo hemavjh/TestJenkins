@@ -3572,7 +3572,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             });
         };
         $scope.AssignGroup = function () {
-            var cnt = ($filter('filter')($scope.PatientListFilter, 'true')).length;
+            var cnt = ($filter('filter')($scope.Patientemptydata, 'true')).length;
             if (cnt == 0) {
                 alert("Please select atleast one Patient to Assign Group");
             }
@@ -3582,7 +3582,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             else {
                 $scope.AssignedGroupList = [];
-                angular.forEach($scope.PatientListFilter, function (SelectedPatient, index) {
+                angular.forEach($scope.Patientemptydata, function (SelectedPatient, index) {
                     if (SelectedPatient.SelectedPatient == true) {
                         var AssignGroupobj = {
                             Id: $scope.AssignedGroup_Id,
