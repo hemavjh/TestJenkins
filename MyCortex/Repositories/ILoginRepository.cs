@@ -25,6 +25,8 @@ namespace MyCortex.Repositories
         LoginModel GetPasswordHistory_Count(long UserId);
         UsertypeModal LastPasswordChangeTime(long UserId);
         LoginModel Userlogin_Validate(string Username, string Password);
+
+        bool CheckExpiryDate(Int64 InstitutionId);
     }
 }
 

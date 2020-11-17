@@ -44,6 +44,7 @@ namespace MyCortex.Login.Controller
 
         IList<AppConfigurationModel> model;
         private Int64 InstanceNameId = Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
+        private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
         private string Productid;
 
 
@@ -57,6 +58,22 @@ namespace MyCortex.Login.Controller
             return response;
         }
 
+        [HttpGet]
+        public bool CheckExpiryDate()
+        {
+            bool isExpired = true;
+
+            DataEncryption EncryptPassword = new DataEncryption();
+            var result = EncryptPassword.Encrypt("2020-10-30");
+
+            if (InstitutionId > 0)
+            {
+                isExpired = repository.CheckExpiryDate(InstitutionId);
+            }
+            
+            return isExpired;
+        }
+
 
         /// <summary>
         /// check login user authentication, stores Login History
@@ -67,6 +84,7 @@ namespace MyCortex.Login.Controller
         [HttpPost]
         public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
+            
              
             try
             {
@@ -78,6 +96,16 @@ namespace MyCortex.Login.Controller
                 {
                     model.Status = "False";
                     model.Message = "Invalid data";
+                    model.Error_Code = "";
+                    model.UserDetails = ModelData;
+                    model.ReturnFlag = 0;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                }
+
+                if (repository.CheckExpiryDate(InstitutionId))
+                {
+                    model.Status = "False";
+                    model.Message = "Your app is outdated. Please contact Admin";
                     model.Error_Code = "";
                     model.UserDetails = ModelData;
                     model.ReturnFlag = 0;

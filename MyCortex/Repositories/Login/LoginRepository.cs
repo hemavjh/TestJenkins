@@ -750,7 +750,36 @@ namespace MyCortex.Repositories.Login
             return lst;
         }
 
+        /// <summary>
+        /// check expiry date
+        /// </summary>
+        /// <param name="InstanceId">Instance Id</param>
+        /// <returns>expired or not</returns>
+        //  public bool CheckExpiryDate(Int64 InstanceId)
+        public bool CheckExpiryDate(Int64 InstitutionId)
+        {
+            bool isExpired = true;
+            DataEncryption DecryptFields = new DataEncryption();
 
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InstitutionId", InstitutionId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_SP_EXPIRYDATE]", param).ToString();
+
+                if(!String.IsNullOrEmpty(ExpiryDate))
+                    ExpiryDate = DecryptFields.Decrypt(ExpiryDate);
+
+                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow)
+                    isExpired = false;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+            }
+            return isExpired;
+        }
     }
 }
 

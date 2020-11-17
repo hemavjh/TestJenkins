@@ -367,6 +367,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         Login_Country = response.data.country;
         Login_City = response.data.city
     });
+
     navigator.sayswho = (function () {
         var ua = navigator.userAgent, tem,
         M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
@@ -385,6 +386,9 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 
     //LoginController js
     $scope.UserLogin_AddEdit = function () {
+        if ($scope.isExpired) {
+            return false;
+        }
         $("#chatLoaderPV").show();
         var offsetTime = new Date().getTimezoneOffset();
 
@@ -504,13 +508,6 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                     $window.localStorage['IdleDays'] = IdleDays;
                 }
         });      
-
-
-        
-            
-        
-        
-       
     };
 
     $scope.getAccessToken = function () {
@@ -656,5 +653,13 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         // $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
         window.location.href = redirect;
     }
+
+    $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
+        if (data == true) {
+            $scope.errorlist = "Your app is outdated. Please contact admin.";
+            $scope.isExpired = true;
+        }
+    });
+
 }
 ]);
