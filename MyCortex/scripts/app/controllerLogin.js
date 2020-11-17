@@ -656,7 +656,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 
     $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
         if (data == true) {
-            $scope.errorlist = "Your app is outdated. Please contact admin.";
+            $scope.errorlist = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
             $scope.isExpired = true;
         }
     });

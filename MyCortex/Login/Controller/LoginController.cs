@@ -105,7 +105,7 @@ namespace MyCortex.Login.Controller
                 if (repository.CheckExpiryDate(InstitutionId))
                 {
                     model.Status = "False";
-                    model.Message = "Your app is outdated. Please contact Admin";
+                    model.Message = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
                     model.Error_Code = "";
                     model.UserDetails = ModelData;
                     model.ReturnFlag = 0;
