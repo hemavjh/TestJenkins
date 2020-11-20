@@ -36,6 +36,7 @@ namespace MyCortex.Repositories
         IList<PatientHealthDataModel> ParametersDetails_Delete(PatientHealthDataModel noteobj);
         IList<PatientHealthDataModel> ParametersDetails_Active(PatientHealthDataModel noteobj);
         void UserDetails_PhotoUpload(byte[] imageFile, int Id);
+        void UserDetails_PhotoImageCompress(byte[] imageFile, byte[] imageFile1, int Id);
         PhotoUploadModal UserDetails_GetPhoto(int Id);
         void UserDetails_CertificateUpload(byte[] imageFile, int Id);
         PhotoUploadModal UserDetails_GetCertificate(long Id);

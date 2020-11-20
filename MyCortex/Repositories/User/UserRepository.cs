@@ -1392,6 +1392,28 @@ namespace MyCortex.Repositories.Uesr
 
         }
 
+
+        public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id)
+        {
+            DataEncryption encrypt = new DataEncryption();
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            if (imageFile != null)
+            {
+                param.Add(new DataParameter("@PHOTOBLOB_LOW", encrypt.EncryptFile(imageFile)));
+                param.Add(new DataParameter("@PHOTOBLOB_THUMB", encrypt.EncryptFile(imageFile1)));
+            }
+            else
+            {
+                param.Add(new DataParameter("@PHOTOBLOB_LOW", null));
+                param.Add(new DataParameter("@PHOTOBLOB_THUMB", null));
+            }
+            ClsDataBase.Update("[MYCORTEX].TBLIMAGECOMPRESSUSER_SP_INSERTUPDATE", param);
+
+        }
+
         /// <summary>
         /// to attach photo or certificate of user
         /// </summary>
