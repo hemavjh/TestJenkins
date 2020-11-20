@@ -1154,7 +1154,7 @@
     <Content Include="GlobalReport.xsc">
       <DependentUpon>GlobalReport.xsd</DependentUpon>
     </Content>
-    <Content Include="bin\DataString.ini" />
+    <None Include="bin\DataString.ini" />
     <Content Include="fonts\Amazon Ember Italic.ttf" />
     <Content Include="fonts\Amazon-Ember-Bold.ttf" />
     <Content Include="fonts\Amazon-Ember-Regular.ttf" />

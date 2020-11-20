@@ -11,7 +11,7 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
     //console.log('KeepaliveProvider')
     IdleProvider.idle(window.localStorage['IdleDays']);
    // IdleProvider.idle(60*10);
-    IdleProvider.timeout(15);
+    IdleProvider.timeout(60);
     //KeepaliveProvider.interval(10);
     IdleProvider.interrupt('keydown wheel mousedown touchstart touchmove scroll');
 }])
@@ -322,7 +322,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     $rootScope.$on('IdleStart', function () {
         console.log('IdleStart');
         var interval;
-        var timeLeft = 15;
+        var timeLeft = 60;
         Swal.fire({
             position: 'top',
             title: '<h6 class="text-lg" style="color: var(--bg-green);">You have been Idle!</h6>',
@@ -344,7 +344,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                     if (timeLeft > 0) {
                         timeLeft--;
                     } else {
-                        timeLeft = 15;
+                        timeLeft = 60;
                     }
                     const content = swal.getContent();
                     if (content) {
@@ -356,7 +356,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                 }, 1000);
             },
             onClose: () => {
-                timeLeft = 15;
+                timeLeft = 60;
                 clearInterval(interval);
             },
         }).then((result) => {
@@ -367,7 +367,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                     if (result.dismiss === swal.DismissReason.timer) {
                         $window.location.href = baseUrl + "/Home/LoginIndex#/";
                     } else {
-                        timeLeft = 15;
+                        timeLeft = 60;
                         clearInterval(interval);
                         IdleProvider.resetTimer();
                     }

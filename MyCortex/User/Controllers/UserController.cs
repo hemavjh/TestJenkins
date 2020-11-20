@@ -876,6 +876,12 @@ namespace MyCortex.User.Controller
                     model.ReturnFlag = 1;
                     model.Status = "True";
                 }
+                else if ((ModelData.flag == 3) == true)
+                {
+                    messagestr = "Patient Data Already Exits";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
                 model.Message = messagestr;
