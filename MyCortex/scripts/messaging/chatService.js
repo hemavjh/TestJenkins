@@ -820,7 +820,7 @@ const chatService = function() {
 			            onCallEnded: call => {
 			                /* Notification received here if current ongoing call is ended. */    
 			            
-			                CometChat.removeCallListener(listenerID);
+			                //CometChat.removeCallListener(listenerID);
 			                $('#addressBook').show();
                             $('.chatBody').removeClass('chatBodyHalf');
                             $('#addressBook').addClass('aqua');
@@ -845,14 +845,14 @@ const chatService = function() {
 			    },
                 onOutgoingCallRejected(call) {
                     $.stopSound();
-                    CometChat.removeCallListener(listenerID);
+                    //CometChat.removeCallListener(listenerID);
                     utilService.callEndAction();
 				    //console.log("Outgoing call rejected:", call);
 				    // Outgoing Call Rejected
 			    },
 			    onIncomingCallCancelled(call) {    
 			        $.stopSound();
-			        CometChat.removeCallListener(listenerID);
+			        //CometChat.removeCallListener(listenerID);
 			        utilService.callEndAction();
 				    //console.log("Incoming call cancelled:", call);
 				    var fromutype, toutype;
