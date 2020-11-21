@@ -1393,7 +1393,7 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id)
+        public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id,int Created_By)
         {
             DataEncryption encrypt = new DataEncryption();
 
@@ -1404,11 +1404,13 @@ namespace MyCortex.Repositories.Uesr
             {
                 param.Add(new DataParameter("@PHOTOBLOB_LOW", encrypt.EncryptFile(imageFile)));
                 param.Add(new DataParameter("@PHOTOBLOB_THUMB", encrypt.EncryptFile(imageFile1)));
+                param.Add(new DataParameter("@CREATED_BY", Created_By));
             }
             else
             {
                 param.Add(new DataParameter("@PHOTOBLOB_LOW", null));
                 param.Add(new DataParameter("@PHOTOBLOB_THUMB", null));
+                param.Add(new DataParameter("@CREATED_BY", null));
             }
             ClsDataBase.Update("[MYCORTEX].TBLIMAGECOMPRESSUSER_SP_INSERTUPDATE", param);
 

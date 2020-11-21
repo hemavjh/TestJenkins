@@ -1176,9 +1176,10 @@ namespace MyCortex.User.Controller
         /// <param name="Certificate"></param>
         /// <returns></returns>
         [HttpPost]
-        public List<string> AttachPhoto(int Id, int Photo, int Certificate)
+        public List<string> AttachPhoto(int Id, int Photo, int Certificate,int CREATED_BY)
         {
             var UserId = Id;
+            var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
             string filePath = "";
             string returnPath = "";
@@ -1212,7 +1213,7 @@ namespace MyCortex.User.Controller
                             if (Photo == 1)
                             {
                                 repository.UserDetails_PhotoUpload(fileData, UserId);
-                                repository.UserDetails_PhotoImageCompress(compressimage, compressimage1, UserId);
+                                repository.UserDetails_PhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
                             }
                             else if (Certificate == 1)
                             {

@@ -3266,7 +3266,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             calling the api method for read the file path 
                             and saving the image uploaded in the local server. 
                             */
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue,
+                            
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
                                 fd,
                                 {
                                     transformRequest: angular.identity,
@@ -3299,7 +3300,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             calling the api method for read the file path 	
                             and saving the image uploaded in the local server. 	
                             */
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
                                 fd,
                                 {
                                     transformRequest: angular.identity,
@@ -3334,7 +3335,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             and saving the image uploaded in the local server. 
                             */
 
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
                                 fd,
                                 {
                                     transformRequest: angular.identity,
@@ -3370,7 +3371,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                     fd.append('file1', imgBlobfile);
                                 }
                             }
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue,
+                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
                                 fd,
                                 {
                                     transformRequest: angular.identity,
