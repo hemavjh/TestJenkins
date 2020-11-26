@@ -12103,6 +12103,21 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
 
         });
 
+        $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceGet/').success(function (data) {
+
+            $scope.UserGroupList = data;
+            $scope.UserGroupListtwo = data;
+            $scope.firstobj = [];
+            $scope.secondobj = [];
+            angular.forEach($scope.UserGroupList, function (Ovalue, Oindex) {
+
+                angular.forEach($scope.UserGroupList, function (Ivalue, Iindex) {
+                    var name = Ivalue.Id.toString();
+                })
+            })
+
+        });
+
 
         //Assign the usertype true or false
         $scope.updateCheckValue = function (OId, IId, $event) {
@@ -12170,6 +12185,8 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
           */
         $scope.ChatSettings_AddEdit = function () {
             $("#chatLoaderPV").show();
+            $scope.SaveChatPreference();
+
             var savecnt = $scope.UserGroupList.length * 2;
             var lpcnt = 0;
 
@@ -12215,6 +12232,21 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                 $("#chatLoaderPV").hide();
             })
         };
+
+        /*Store Chat Preference*/
+        $scope.SaveChatPreference = function () {
+            var type = $scope.Preference_Type;
+            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceSave/?institutionId=' + $window.localStorage['InstitutionId'] + '&preferenceType=' + type).success(function (data) {
+                return data;
+            })
+        }
+
+        /*Set Chat Preference*/
+        $scope.SetChatPreference = function () {
+            $http.get(baseUrl + '/api/ChatSettings/ChatPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $scope.Preference_Type = data.PreferenceType;
+            })
+        }
 
         /*LIST REDIRECT FUNCTION */
         $scope.ListRedirect = function () {
