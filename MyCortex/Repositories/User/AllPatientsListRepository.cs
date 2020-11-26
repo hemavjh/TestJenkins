@@ -43,7 +43,7 @@ namespace MyCortex.Repositories.User
         /// <param name="StartRowNumber"></param>
         ///  <param name="EndRowNumber"></param>
         /// <returns>All patient details for the logged in user</returns>
-        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId,int StartRowNumber, int EndRowNumber,string SearchQuery)
+        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId,int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
         {
 
             DataEncryption EncryptPassword = new DataEncryption();
@@ -67,6 +67,7 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
             param.Add(new DataParameter("@SearchQuery", SearchQuery));
+            param.Add(new DataParameter("@SearchEncryptedQuery",SearchEncryptedQuery));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

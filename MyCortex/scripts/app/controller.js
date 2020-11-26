@@ -1292,6 +1292,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.filter_BloodGroupId = "0";
         $scope.filter_GroupId = "0";
         $scope.searchquery = "";
+        $scope.SearchEncryptedQuery = "";
         $scope.Business_Usersearchquery = "";
         $scope.PatientList = [];
         $scope.PatientListFilter = [];
@@ -2128,26 +2129,36 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.page_size = data1[0].ConfigValue;
                 $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                 $scope.PageEnd = $scope.current_page * $scope.page_size;
-                $http.get(baseUrl + '/api/User/Patient_List/Id?=' + $scope.Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId +
-                    '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' +
-                    $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus +
-                    '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId +
-                    '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&StartRowNumber=' + $scope.PageStart +
-                    '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery).success(function (data) {
-                        console.log(data); 
-                        $("#chatLoaderPV").hide();
-                        if (data.length == 0) {
-                            $scope.SearchMsg = "No Data Available";
-                        } 
-                        $scope.Patientemptydata = [];
-                        $scope.PatientList = [];
-                        $scope.PatientList = data;
-                        $scope.Patientemptydata = data;
-                        $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                        $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size)); 
-                        
+                $scope.Input_Type = 1;
+                $scope.SearchEncryptedQuery = $scope.searchquery; 
+                    var obj = {
+                        InputType: $scope.Input_Type,
+                        DecryptInput: $scope.SearchEncryptedQuery
+                    };
+                $http.post(baseUrl + '/api/Common/EncryptDecrypt', obj).success(function (data) {
+                    $scope.SearchEncryptedQuery = data; 
 
-                    });
+                    $http.get(baseUrl + '/api/User/Patient_List/Id?=' + $scope.Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId +
+                        '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' +
+                        $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus +
+                        '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId +
+                        '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&StartRowNumber=' + $scope.PageStart +
+                        '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery).success(function (data) {
+                            console.log(data);
+                            $("#chatLoaderPV").hide();
+                            if (data.length == 0) {
+                                $scope.SearchMsg = "No Data Available";
+                            }
+                            $scope.Patientemptydata = [];
+                            $scope.PatientList = [];
+                            $scope.PatientList = data;
+                            $scope.Patientemptydata = data;
+                            $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                            $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+
+
+                        });
+                });
             });
             $scope.loadCount = 0;
             if ($scope.LoginType == 3) {
@@ -11879,6 +11890,7 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
         $scope.SearchMsg = "No Data Available";
         $scope.searchquery = "";
+        $scope.SearchEncryptedQuery = "";
         $scope.PatientFilter = [];
         $scope.PatientList = [];
         $scope.Filter_PatientNo = "";
@@ -12006,28 +12018,40 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
                 $scope.Patient_PerPage = data1[0].ConfigValue;
                 $scope.PageStart = (($scope.PageNumber - 1) * ($scope.Patient_PerPage)) + 1;
                 $scope.PageEnd = $scope.PageNumber * $scope.Patient_PerPage;
-                //Get the Patient List
-                $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery
-                ).success(function (Patientdata) {
-                    $("#chatLoaderPV").hide();
-                    $scope.SearchMsg = "No Data Available";
-                    $scope.PageCountArray = [];
-                    $scope.Patientemptydata = [];
-                    $scope.PatientList = [];
-                    $scope.PatientList = Patientdata;
-                    $scope.Patientemptydata = Patientdata;
-                    //$scope.PatientCount = $scope.PatientList.length;
-                    $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                    total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
-                    for (var i = 0; i < total; i++) {
-                        var obj = {
-                            PageNumber: i + 1
-                        }
-                        $scope.PageCountArray.push(obj);
-                    }
-                    $scope.PatientFilter = angular.copy($scope.PatientList);
-                    $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
+                $scope.Input_Type = 1;
+                $scope.SearchEncryptedQuery = $scope.searchquery;
+                var obj = {
+                    InputType: $scope.Input_Type,
+                    DecryptInput: $scope.SearchEncryptedQuery
+                };
+                $http.post(baseUrl + '/api/Common/EncryptDecrypt', obj).success(function (data) {
+                    $scope.SearchEncryptedQuery = data;
 
+
+
+                    //Get the Patient List
+                    $http.get(baseUrl + '/api/AllPatientList/PatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery
+                    ).success(function (Patientdata) {
+                        $("#chatLoaderPV").hide();
+                        $scope.SearchMsg = "No Data Available";
+                        $scope.PageCountArray = [];
+                        $scope.Patientemptydata = [];
+                        $scope.PatientList = [];
+                        $scope.PatientList = Patientdata;
+                        $scope.Patientemptydata = Patientdata;
+                        //$scope.PatientCount = $scope.PatientList.length;
+                        $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                        total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                        for (var i = 0; i < total; i++) {
+                            var obj = {
+                                PageNumber: i + 1
+                            }
+                            $scope.PageCountArray.push(obj);
+                        }
+                        $scope.PatientFilter = angular.copy($scope.PatientList);
+                        $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
+
+                    });
                 });
             });
         }
