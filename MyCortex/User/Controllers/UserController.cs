@@ -521,7 +521,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,String SearchQuery)
+        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,String SearchQuery,string SearchEncryptedQuery)
         {
             IList<ItemizedUserDetailsModel> model;
             if (INSTITUTION_ID == null)
@@ -532,7 +532,7 @@ namespace MyCortex.User.Controller
             {
                 INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             }
-            model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID, StartRowNumber, EndRowNumber, SearchQuery);
+            model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID, StartRowNumber, EndRowNumber, SearchQuery, SearchEncryptedQuery);
             return model;
         }
         /// <summary>
@@ -1176,9 +1176,10 @@ namespace MyCortex.User.Controller
         /// <param name="Certificate"></param>
         /// <returns></returns>
         [HttpPost]
-        public List<string> AttachPhoto(int Id, int Photo, int Certificate)
+        public List<string> AttachPhoto(int Id, int Photo, int Certificate,int CREATED_BY)
         {
             var UserId = Id;
+            var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
             string filePath = "";
             string returnPath = "";
@@ -1212,7 +1213,7 @@ namespace MyCortex.User.Controller
                             if (Photo == 1)
                             {
                                 repository.UserDetails_PhotoUpload(fileData, UserId);
-                                repository.UserDetails_PhotoImageCompress(compressimage, compressimage1, UserId);
+                                repository.UserDetails_PhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
                             }
                             else if (Certificate == 1)
                             {

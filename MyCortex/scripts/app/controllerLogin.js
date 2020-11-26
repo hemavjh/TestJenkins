@@ -460,6 +460,15 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                     console.log(err);
                 });
+                $scope.ConfigCode = "WEBIDLETIME";
+                var IdleDays = 0;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+                    .success(function (data) {
+                        if (data[0] != undefined) {
+                            IdleDays = parseInt(data[0].ConfigValue);
+                            $window.localStorage['IdleDays'] = IdleDays;
+                        }
+                    }); 
 
                 if (data == "1") {
                     $scope.errorlist = "Username and/or Password are not matching, please verify";
@@ -499,15 +508,15 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
             });
         }
 
-        $scope.ConfigCode = "WEBIDLETIME";
-        var IdleDays = 0;
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-            .success(function (data) {
-                if (data[0] != undefined) {
-                    IdleDays = parseInt(data[0].ConfigValue);
-                    $window.localStorage['IdleDays'] = IdleDays;
-                }
-        });      
+        //$scope.ConfigCode = "WEBIDLETIME";
+        //var IdleDays = 0;
+        //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+        //    .success(function (data) {
+        //        if (data[0] != undefined) {
+        //            IdleDays = parseInt(data[0].ConfigValue);
+        //            $window.localStorage['IdleDays'] = IdleDays;
+        //        }
+        //});      
     };
 
     $scope.getAccessToken = function () {

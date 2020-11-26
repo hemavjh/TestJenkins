@@ -530,7 +530,7 @@ namespace MyCortex.Repositories.Uesr
          /// <param name="StartRowNumber"></param>
         ///  <param name="EndRowNumber"></param>
         /// <returns></returns>
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery)
+        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
         {
             DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
@@ -544,7 +544,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
             param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
             param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-            param.Add(new DataParameter("@Email", EncryptPassword.Encrypt(EMAILID)));
+            param.Add(new DataParameter("@Email",  EncryptPassword.Encrypt(EMAILID)));
             param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
             param.Add(new DataParameter("@CountryId", COUNTRY_ID));
             param.Add(new DataParameter("@StateId", STATE_ID));
@@ -554,6 +554,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@InstitutionId", INSTITUTION_ID));
             param.Add(new DataParameter("@SearchQuery", SearchQuery));
+            param.Add(new DataParameter("@SearchEncryptedQuery", SearchEncryptedQuery));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
@@ -1393,7 +1394,7 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id)
+        public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id,int Created_By)
         {
             DataEncryption encrypt = new DataEncryption();
 
@@ -1404,11 +1405,13 @@ namespace MyCortex.Repositories.Uesr
             {
                 param.Add(new DataParameter("@PHOTOBLOB_LOW", encrypt.EncryptFile(imageFile)));
                 param.Add(new DataParameter("@PHOTOBLOB_THUMB", encrypt.EncryptFile(imageFile1)));
+                param.Add(new DataParameter("@CREATED_BY", Created_By));
             }
             else
             {
                 param.Add(new DataParameter("@PHOTOBLOB_LOW", null));
                 param.Add(new DataParameter("@PHOTOBLOB_THUMB", null));
+                param.Add(new DataParameter("@CREATED_BY", null));
             }
             ClsDataBase.Update("[MYCORTEX].TBLIMAGECOMPRESSUSER_SP_INSERTUPDATE", param);
 
