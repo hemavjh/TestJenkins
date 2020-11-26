@@ -64,6 +64,43 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public bool ChatPreferenceSave(Int64 InstitutionId, int PreferenceType)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+                param.Add(new DataParameter("@PREFERENCE_TYPE", PreferenceType));
+                ClsDataBase.Update("[MYCORTEX].[CHAT_PREFERENCE_UPDATE]", param);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return false;
+            }
+        }
+
+        public int ChatPreferenceGet(Int64 InstitutionId)
+        {
+            int preferenceType = 1;
+
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+                preferenceType = Convert.ToInt32(ClsDataBase.GetScalar("[MYCORTEX].[CHAT_PREFERENCE_GET]", param));
+                return preferenceType;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return preferenceType;
+            }
+        }
+
         /// <summary>
         /// to Insert/Update the entered AV/Chat Settings Information 
         /// </summary>
@@ -72,7 +109,6 @@ namespace MyCortex.Repositories.Masters
 
         public IList<ChatSettingsModel> ChatSettings_AddEdit(ChatSettingsModel obj)
         {
-
             int retid;
            
                 List<DataParameter> param = new List<DataParameter>();
