@@ -554,7 +554,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@InstitutionId", INSTITUTION_ID));
             param.Add(new DataParameter("@SearchQuery", SearchQuery));
-            param.Add(new DataParameter("@SearchEncryptedQuery", SearchEncryptedQuery));
+            param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()

@@ -67,7 +67,7 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
             param.Add(new DataParameter("@SearchQuery", SearchQuery));
-            param.Add(new DataParameter("@SearchEncryptedQuery",SearchEncryptedQuery));
+            param.Add(new DataParameter("@SearchEncryptedQuery",EncryptPassword.Encrypt(SearchQuery)));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
