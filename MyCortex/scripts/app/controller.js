@@ -2219,26 +2219,29 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         /* Filter the master list function.*/
         $scope.PatientFilterChange = function () {
-            $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.Patientsearchquery);
-            if ($scope.Patientsearchquery == "") {
-                $scope.PatientListFilter = angular.copy($scope.PatientList);
-            }
-            else {
-                $scope.PatientListFilter = $ff($scope.PatientList, function (value) {
-                    return angular.lowercase(value.MNR_NO).match(searchstring) ||
-                        angular.lowercase(value.FullName).match(searchstring) ||
-                        angular.lowercase(value.MOBILE_NO).match(searchstring) ||
-                        angular.lowercase(value.EMAILID).match(searchstring) ||
-                        angular.lowercase(value.GroupName == null ? "" : value.GroupName).match(searchstring);
-                });
-                if ($scope.PatientListFilter.length > 0) {
-                    $scope.Patientflag = 1;
-                }
-                else {
-                    $scope.Patientflag = 0;
-                }
-            }
+            //$scope.ResultListFiltered = [];
+            //var searchstring = angular.lowercase($scope.Patientsearchquery);
+            //if ($scope.Patientsearchquery == "") {
+            //    $scope.PatientListFilter = angular.copy($scope.PatientList);
+            //}
+            //else {
+            //    $scope.PatientListFilter = $ff($scope.PatientList, function (value) {
+            //        return angular.lowercase(value.MNR_NO).match(searchstring) ||
+            //            angular.lowercase(value.FullName).match(searchstring) ||
+            //            angular.lowercase(value.MOBILE_NO).match(searchstring) ||
+            //            angular.lowercase(value.EMAILID).match(searchstring) ||
+            //            angular.lowercase(value.GroupName == null ? "" : value.GroupName).match(searchstring);
+            //    });
+            //    if ($scope.PatientListFilter.length > 0) {
+            //        $scope.Patientflag = 1;
+            //    }
+            //    else {
+            //        $scope.Patientflag = 0;
+            //    }
+            //}
+            $("#chatLoaderPV").show();
+            $scope.Patientemptydata = [];
+            $scope.Patient_List(3);
         }
         $scope.Adminimageclear = function () {
             $scope.Photo = "";
