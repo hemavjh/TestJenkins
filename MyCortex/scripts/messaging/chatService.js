@@ -38,6 +38,7 @@ const utilService = function()
         },
         callRejectAction: function()
         {
+            checkCallStatus = false;
             $.stopSound();
             $('#addressBook').show();
             $('.chatBody').removeClass('chatBodyHalf');
@@ -51,6 +52,7 @@ const utilService = function()
         },
         callEndAction: function()
         {
+            checkCallStatus = false;
             $('#addressBook').show();
             $('.chatBody').removeClass('chatBodyHalf');
             $('#addressBook').addClass('aqua');
@@ -334,6 +336,7 @@ const chatService = function() {
     let currentusertype="";
     let callAcceptedStatus=false;
     let callInitiatorFlag = false;
+    let checkCallStatus = false;
     let userDataLoad = "";
     //let userid="";
     return {
@@ -675,7 +678,8 @@ const chatService = function() {
 			CometChat.initiateCall(call).then(
 			  outGoingCall => {
 			        callAcceptedStatus=false;
-			        callInitiatorFlag=true;
+                    callInitiatorFlag = true;
+                    checkCallStatus = true;
 			        $.playSound('/images/vivo-ringtone.mp3');
 			        messageList =  `<p><i class="fas fa-phone-alt"></i> call</p><br/>`
                     $('#group-message-holder').append(messageList);			
@@ -714,7 +718,8 @@ const chatService = function() {
             CometChat.initiateCall(call).then(
                 outGoingCall => {
                     callAcceptedStatus=false;
-                    callInitiatorFlag=true;
+                    callInitiatorFlag = true;
+                    checkCallStatus = true;
 		            messageList =  `<p><i class="fas fa-video"></i> call</p><br />`
                     $('#group-message-holder').append(messageList);
                     $('#callSessionID').val(outGoingCall.sessionId)	;    
@@ -789,7 +794,8 @@ const chatService = function() {
 				  // Handle incoming call
 		            },
 		        onOutgoingCallAccepted(call) {
-		            callAcceptedStatus=true;
+                    callAcceptedStatus = true;
+                    checkCallStatus = true;
 		            $.stopSound();
 		            //console.log("Outgoing call accepted:", call);
 		            //$('#callSessionID').val(call.sessionId)	;   
@@ -874,7 +880,8 @@ const chatService = function() {
 		},
 		callAccept: function()
 		{
-			var sessionID = $('#callSessionID').val();
+            var sessionID = $('#callSessionID').val();
+            checkCallStatus = true;
 			CometChat.acceptCall(sessionID).then(
 			  call => {
 				//console.log("Call accepted successfully:", call);
@@ -932,7 +939,8 @@ const chatService = function() {
         callReject: function()
 		{
             var sessionID = $('#callSessionID').val();
-            var status ;
+            var status;
+            checkCallStatus = false;
             if(callAcceptedStatus==false)
                 status = CometChat.CALL_STATUS.CANCELLED;
             else
@@ -1221,49 +1229,49 @@ const chatService = function() {
             $("#chatLoader_add").attr("style", "display:none")
 
             },
-            groupaddressbookDetails: function()
-            {
+        groupaddressbookDetails: function()
+        {
                
-                $('#group-user').empty();
-                var baseUrl = $("base").first().attr("href");
-                if (baseUrl == "/") {
-                    baseUrl = "";
-                }
-                var gendername = "";
-                var contactExist =false;
+            $('#group-user').empty();
+            var baseUrl = $("base").first().attr("href");
+            if (baseUrl == "/") {
+                baseUrl = "";
+            }
+            var gendername = "";
+            var contactExist =false;
                 
-                $.each(userDataLoad, function (index, value) {
+            $.each(userDataLoad, function (index, value) {
 
-                        if (value.GenderName.toLowerCase() == "male") {
-                            gendername = "male.png";
-                        }
-                        else if (value.GenderName.toLowerCase() == "female") {
-                            gendername = "female.png";
-                        }
-                        else {
-                            gendername = "others.png";
-                        }
-                          if(value.User_Id!=username)
-                          {
-                              messageList =  `<li id=` + value.User_Id + `  style="cursor:pointer">       
-                            <div class="selectContact">
-                                <input type="checkbox" id="chk` + value.User_Id + `"/>
-                            </div>
-                            <div class="userOnlineInfo off">
-                                <img src= "../../Images/` + gendername + `" alt="Profile">
-                            </div>
-                               <section>
-                                   <span>` + value.UserName + `</span>
+                    if (value.GenderName.toLowerCase() == "male") {
+                        gendername = "male.png";
+                    }
+                    else if (value.GenderName.toLowerCase() == "female") {
+                        gendername = "female.png";
+                    }
+                    else {
+                        gendername = "others.png";
+                    }
+                        if(value.User_Id!=username)
+                        {
+                            messageList =  `<li id=` + value.User_Id + `  style="cursor:pointer">       
+                        <div class="selectContact">
+                            <input type="checkbox" id="chk` + value.User_Id + `"/>
+                        </div>
+                        <div class="userOnlineInfo off">
+                            <img src= "../../Images/` + gendername + `" alt="Profile">
+                        </div>
+                            <section>
+                                <span>` + value.UserName + `</span>
                                    
-                                   <article><span></span></article>
-                                   </section>
-                               </li>`
-                                   $('#group-user').append(messageList);
-                          }
-                      });
+                                <article><span></span></article>
+                                </section>
+                            </li>`
+                                $('#group-user').append(messageList);
+                        }
+                    });
                 
 
-            },
+        },
         createGroup: function(groupname)
         {
             var GUID =utilService.createGUID();
@@ -1391,6 +1399,12 @@ const chatService = function() {
         scrollToBottom() {
             const chat = document.getElementById("msg-page");            
             chat.scrollTo(0, chat.scrollHeight);
+        },
+        checkCall: function (patientId) {
+            if (patientId != window.COMETCHAT_TO_USER) {
+                return checkCallStatus;
+            }
+            return false;
         }
     }
 }();

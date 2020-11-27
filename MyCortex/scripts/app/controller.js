@@ -4369,6 +4369,11 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
 
 MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval) {
+        if (chatService.checkCall($routeParams.Id)) {
+            alert('You cannot switch patient during call.')
+            $window.history.back();
+            return false;
+        }
         $scope.SearchMsg = "No Data Available";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.LiveDataCurrentTime = "";
