@@ -12049,12 +12049,14 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
                         $scope.Patientemptydata = Patientdata;
                         //$scope.PatientCount = $scope.PatientList.length;
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                        total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
-                        for (var i = 0; i < total; i++) {
-                            var obj = {
-                                PageNumber: i + 1
+                        if ($scope.searchquery == '') {
+                            total = Math.ceil(($scope.PatientCount) / ($scope.Patient_PerPage));
+                            for (var i = 0; i < total; i++) {
+                                var obj = {
+                                    PageNumber: i + 1
+                                }
+                                $scope.PageCountArray.push(obj);
                             }
-                            $scope.PageCountArray.push(obj);
                         }
                         $scope.PatientFilter = angular.copy($scope.PatientList);
                         $scope.PatientFilterCopyList = angular.copy($scope.PatientList);
