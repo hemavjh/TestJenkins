@@ -125,15 +125,15 @@ namespace MyCortexDB
             {
 
                 StringBuilder ConnectionStr = new StringBuilder();
-                //ConnectionStr.Append("server="
-                //                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
-                //ConnectionStr.Append(";uid="
-                //                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "LOGIN"));
-                //ConnectionStr.Append(";pwd="
-                //                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "PASSWORD"));
-                //ConnectionStr.Append(";database="
-                //                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DB"));
-                ConnectionStr.Append(@"Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304");
+                ConnectionStr.Append("server="
+                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
+                ConnectionStr.Append(";uid="
+                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "LOGIN"));
+                ConnectionStr.Append(";pwd="
+                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "PASSWORD"));
+                ConnectionStr.Append(";database="
+                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DB"));
+                //ConnectionStr.Append(@"Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304");
                 return ConnectionStr.ToString();
             }
             else
