@@ -1,0 +1,1049 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #333;
+    --headerBg: #232f3e;
+    --footerBg: #f6f6f6;
+    --headder: #555;
+    --warning: #ea4335;
+    --baseFontSize: 14px;
+}
+
+@font-face {
+    font-family: Amazon Ember;
+    src: url("../fonts/Amazon-Ember-Regular.ttf");
+}
+
+body {
+    font-family: "Amazon Ember" !important;
+    font-size: var(--baseFontSize);
+}
+
+.modal-title {
+    color: #fff;
+}
+
+.modal-header {
+    background: var(--primary);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-radius: 0px;
+    border: 0px;
+    padding: 10px 15px;
+}
+
+label {
+    font-weight: 500;
+}
+
+.mandatory-field {
+    color: var(--warning);
+}
+
+.input-group-addon {
+    display: none;
+}
+
+.dateIcon {
+    background-image: url(../Images/date.png);
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+    max-width: 125px;
+}
+
+.themeHeader {
+    display: flex;
+    padding: 0px 15px 0px 0px;
+    align-items: center;
+    background: var(--headerBg);
+    height: 90px;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    z-index: 5;
+}
+
+.themeLogo {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px 20px;
+}
+
+    .themeLogo img {
+        max-height: 50px;
+    }
+
+.themeMenu {
+    display: flex;
+    flex-basis: 100%;
+}
+
+.themeRight {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+    .themeRight > span {
+        color: #fff;
+    }
+
+.themeProfile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.menuList button {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    margin-right: 10px;
+    position: relative;
+}
+
+    .menuList button:hover::after {
+        width: 100%;
+    }
+
+    .menuList button::after {
+        content: "";
+        left: 0px;
+        right: 0px;
+        bottom: -9px;
+        height: 5px;
+        background: #fff;
+        position: absolute;
+        width: 0px;
+        margin: 0 auto;
+        transition: 0.2s ease-in-out;
+    }
+
+button.activeButton::after {
+    width: 100%;
+}
+
+.profile_menu .dropdown-toggle {
+    background: none !important;
+    outline: none !important;
+    border: none;
+}
+
+.profile_menu .dropdown-toggle {
+    background: none !important;
+    outline: none !important;
+    border: none;
+}
+
+    .profile_menu .dropdown-toggle:hover {
+        background: none;
+        border: none;
+    }
+
+.open > .dropdown-menu {
+    opacity: 1 !important;
+}
+
+.logoutDrop {
+    left: -116px !important;
+    width: 175px;
+}
+
+.customDropdownlast-child {
+    border: none !important;
+    cursor: pointer;
+}
+
+.customDropdown::before {
+    content: "";
+    z-index: 2;
+    border-bottom: 10px solid #fff;
+    position: absolute;
+    top: -18px;
+    left: calc(50% - 10px);
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+}
+
+.logoutDrop::before {
+    left: 135px !important;
+}
+
+li.customDropdownlast-child:hover {
+    color: #fff !important;
+    text-decoration: none;
+    background-color: var(--primary) !important;
+}
+
+.footerBg {
+    background-color: var(--footerBg);
+    border-top: 1px solid #ccc;
+    padding: 3px 10px;
+    clear: both;
+    overflow: auto;
+    font-size: 11px;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+    z-index: 5;
+}
+
+.patientHeaderProfile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+    .patientHeaderProfile p {
+        margin: 0px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+        .patientHeaderProfile p i {
+            margin-left: 10px;
+        }
+
+.themeContent {
+    margin-top: 90px;
+    min-height: calc(100vh - 90px);
+    background: #fafafa;
+}
+
+.patientHeaderProfileDetails {
+    position: absolute;
+    background: #fff;
+    color: #555;
+    padding: 15px;
+    top: 38px;
+    width: 220px;
+    z-index: 999;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 2px rgb(204 204 204 / 0.2);
+}
+
+    .patientHeaderProfileDetails img {
+        width: 80px;
+        height: 80px;
+        max-height: 80px;
+        border-radius: 50%;
+        display: block;
+        margin: 0px auto 10px auto;
+    }
+
+    .patientHeaderProfileDetails p {
+        color: #333;
+        text-align: left;
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #efefef;
+        position: relative;
+    }
+
+        .patientHeaderProfileDetails p i {
+            font-size: 25px;
+            position: absolute;
+            right: 10px;
+            top: 8px;
+        }
+
+    .patientHeaderProfileDetails span:first-child {
+        display: block;
+        font-weight: 600;
+    }
+
+.patientShortInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 460px;
+}
+
+    .patientShortInfo p {
+        color: #fff;
+        margin: 0px 25px 0px 0px;
+    }
+
+    .patientShortInfo a {
+        color: #fff;
+        font-size: 25px;
+        margin-right: 25px;
+    }
+
+.notificationOnline {
+    position: relative;
+    min-width: 127px;
+}
+
+    .notificationOnline span {
+        width: 25px;
+        height: 25px;
+        background: #ff418c;
+        position: absolute;
+        left: 17px;
+        top: -10px;
+        color: #fff;
+        border: 3px solid #232f3e;
+        border-radius: 50%;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .notificationOnline i {
+        font-size: 25px;
+        color: #fff;
+        margin-right: 25px;
+    }
+
+        .notificationOnline i:first-child {
+            padding: 0px 10px;
+            border-left: 1px solid #efefef;
+            border-right: 1px solid #efefef;
+        }
+
+.patientNotifications {
+    display: flex;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+    .patientNotifications > div {
+        position: relative;
+        margin-right: 15px;
+    }
+
+        .patientNotifications > div > i {
+            font-size: 25px;
+        }
+
+        .patientNotifications > div > span {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            position: absolute;
+            top: -7px;
+            right: -8px;
+        }
+
+.bellYellow i {
+    color: #ffbb00;
+}
+
+.bellYellow span {
+    background: #d03004;
+    color: #fff;
+}
+
+.bellBrown i {
+    color: #d03004;
+}
+
+.bellBrown span {
+    background: #933333;
+    color: #fff;
+}
+
+.bellGreen i {
+    color: #8fbc7b;
+}
+
+.bellGreen span {
+    background: #476838;
+    color: #fff;
+}
+
+.panel {
+   
+    border-radius: 0px !important;
+    
+}
+
+.panel-info {
+    border-color: #ccc !important;
+}
+
+.patientProfileInfo .panel-heading {
+    background: #e6e7e8 !important;
+    border: 0px !important;
+    /* color: #000 !important; */
+}
+
+.patientProfileInfo .panel-title {
+    font-weight: normal;
+    color: #000 !important;
+}
+
+.theme-btn-1 {
+    color: #fff;
+    background: #232f3e;
+    border: 2px solid transparent;
+    padding: 5px 15px;
+    border-radius: 5px;
+   
+    display:inline-block !important;
+    text-decoration:none;
+    outline:none;
+}
+
+    .theme-btn-1:hover {
+        color: #232f3e !important;
+        background: #fff;
+        border: 2px solid #232f3e;
+        text-decoration: none;
+        outline: none;
+    }
+
+.theme-btn-2 {
+    color: #000;
+    background: #d3d5d8;
+    border: 2px solid transparent;
+    padding: 5px 15px;
+    border-radius: 5px;
+    outline: none;
+}
+
+    .theme-btn-2:hover {
+        color: #000;
+        background: #fff;
+        border: 2px solid #d3d5d8;
+        text-decoration: none;
+        outline: none;
+    }
+     .theme-btn-2:active, .theme-btn-2:focus,  .theme-btn-2:visited {
+        color: initial;
+        text-decoration: none;
+        outline: none;
+    }
+  .theme-btn-1:focus {
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+}
+.nav-tabs {
+    border: 0px !important;
+}
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        border: 0px !important;
+        color: #000 !important;
+        font-weight: 600;
+        background: #fff !important;
+    }
+
+    .nav-tabs > li > a {
+        background: #e6e7e8 !important;
+        margin-right: 0px !important;
+        line-height: normal !important;
+        border: 0px solid transparent !important;
+        border-radius: 0 !important;
+        color: #8d8c8d !important;
+    }
+
+.patientProfileInfo .nav li {
+    width: 50% !important;
+    text-align: center;
+}
+
+.nav-tabs > li:first-child > a {
+    border-bottom-right-radius: 5px !important;
+}
+
+.nav-tabs > li:last-child > a {
+    border-bottom-left-radius: 5px !important;
+}
+
+
+
+.changeViews {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+}
+
+    .changeViews a {
+        font-size: 25px;
+        margin-left: 10px;
+    }
+
+    .changeViews .fa-chart-bar {
+        color: #ea4335;
+    }
+
+    .changeViews .fa-table {
+        color: #34a853;
+    }
+
+    .changeViews .fa-clock {
+        color: #4285f4;
+    }
+
+    .changeViews .fa-language {
+        color: #be4bdb;
+    }
+
+.myAppoinments {
+    text-align: left;
+}
+
+    .myAppoinments a {
+        color: #4285f4;
+        display: block;
+    }
+
+    .myAppoinments p {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #efefef;
+    }
+
+    .myAppoinments span:first-child {
+        font-weight: 600;
+        display: block;
+    }
+
+.patientListCard {
+    padding: 15px;
+    border: 1px solid #efefef;
+    background: #fff;
+    border-top: 4px solid #333;
+    margin-bottom: 15px;
+    overflow: auto;
+}
+
+    .patientListCard img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .patientListCard h1 {
+        font-weight: 600;
+        font-size: 16px;
+        margin: 10px 0px;
+        padding: 10px 0px;
+        border-top: 1px solid #efefef;
+        border-bottom: 1px solid #efefef;
+        color: #333;
+    }
+
+.cardViewDetails {
+    width: 50%;
+    margin-bottom: 5px;
+    float: left;
+}
+
+    .cardViewDetails span {
+        display: block;
+        text-align: left;
+    }
+
+    .cardViewDetails label {
+        font-weight: 600;
+        display: block;
+        text-align: left;
+    }
+
+.pagination > li {
+    margin-right: 5px;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    cursor: pointer;
+    background-color: #555;
+    border-color: #555;
+    border-radius: 0px !important;
+}
+
+.inputGroups {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+    .inputGroups label {
+        font-weight: 600;
+        display: block;
+    }
+
+    .inputGroups .form-control {
+    }
+
+.modal-content {
+    border-radius: 0px;
+    border: 0px;
+}
+
+.modal-header .close {
+    color: #fff;
+    opacity: 1;
+    font-size: 22px;
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    padding: 0px;
+    border: 2px solid transparent;
+    border-radius: 15px;
+    line-height: 15px;
+    width: 30px;
+    height: 30px;
+    display: block;
+    /* align-items: center; */
+    /* justify-content: center; */
+    text-shadow: none;
+    outline: none !important;
+    float: none;
+}
+
+    .modal-header .close:hover {
+        border: 2px solid #fff;
+    }
+
+.footerBg p {
+    margin-bottom: 0px;
+}
+
+.tooltip {
+    min-width: 280px;
+}
+
+.tooltip-inner {
+    background-color: #fff !important;
+    color: #000 !important;
+    max-width: 300px !important;
+}
+
+.tooltip.left .tooltip-arrow {
+    border-left-color: #fff !important;
+}
+
+.container {
+    width: 100%;
+    position: relative;
+}
+
+.title1 {
+    color: #032b5c;
+    margin: 0px;
+    padding: 10px 0px;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: left;
+}
+
+.title2 {
+    color: #000;
+    margin: 0px;
+    margin: 0px 0px 10px 0px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: left;
+}
+
+.modernSearch {
+    display: flex;
+    align-items: center;
+}
+
+    .modernSearch input[type="text"] {
+        border: 1px solid #efefef;
+        padding: 3px 10px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        flex-basis: 100%;
+    }
+
+    .modernSearch i {
+        padding: 7px;
+        background: #555;
+        color: #fff;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+
+.btn-group.bootstrap-select {
+    width: 100% !important;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+.btn.selectpicker.form-control {
+    width: 100%;
+    border: 1px solid #ccc;
+}
+.multiselect-native-select .btn-group {
+    width: 100% !important;
+}
+.multiselect {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    text-align: left !important;
+    
+}
+
+.chartTabs {
+    list-style-type: none;
+    display: flex;
+    margin: 0 0px 15px 0px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-right: auto;
+    padding: 0;
+}
+
+
+
+    .chartTabs li a {
+        font-size: 14px;
+        text-decoration: none;
+        padding: 0px 25px;
+        cursor: pointer;
+        display: block;
+        margin-right: 15px;
+        border-radius: 25px;
+    }
+
+        .chartTabs li a:hover {
+            background: #333;
+            color: #fff;
+        }
+
+.chartActiveTab {
+    background: #333;
+    color: #fff !important;
+}
+
+.themeTabs {
+    display: flex;
+    border: 1px solid #ccc;
+    background: #fff;
+    height: 43px;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 0px;
+}
+
+    .themeTabs a {
+        padding: 0px 15px;
+        /* font-weight: 600; */
+        border-top: 2px solid transparent;
+        text-decoration: none;
+        color: #949394;
+        /* background: #efefef; */
+        /* border: 1px solid #ccc; */
+        display: block;
+        cursor: pointer;
+        border-right: 1px solid #ccc;
+        position: relative;
+    }
+    .themeTabs li:last-child a{
+        border-right:0px;
+    }
+    .themeTabs a i {
+        font-size: 14px;
+        margin-right: 5px;
+    }
+
+
+
+
+
+        .themeTabs a.themeTabActive::after {
+            content: '';
+            border-top: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #fff;
+            position: absolute;
+            left: 50%;
+            bottom: -12px;
+            transform: translateX(-50%);
+        }
+
+        .themeTabs a.themeTabActive::before {
+            content: '';
+            border-top: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #ccc;
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+        }
+
+        .themeTabs a:hover {
+            color: #35a9e4;
+        }
+
+    .themeTabs li:last-child a {
+        border-right: 0px !important;
+    }
+.btn-link [ng-show="currentTab=='1'"] i {
+    color: green;
+    
+}
+.btn-link [ng-show="currentTab=='2'"] i {
+   
+    color: orange;
+}
+.btn-link i {
+    font-size: 20px;
+}
+.multiselect.dropdown-toggle .caret {
+    float: right;
+    margin-top: 10px;
+}
+
+.off .toggle-handle {
+    right: -12px !important;
+    left: 12px !important;
+}
+
+.toggle-handle {
+    left: -12px !important;
+    padding: 0px;
+    height: 20px !important;
+    width: 20px !important;
+    border-radius: 10px;
+}
+
+.toggle-on.btn {
+    padding-right: 29px !important;
+    padding-top: 2px !important;
+    background: linear-gradient(-90deg, #5faf86, #0d6140) !important;
+}
+
+    .toggle-on.btn:hover {
+        background: linear-gradient(-90deg, #5faf86, #0d6140) !important;
+    }
+
+.toggle-off.btn {
+    padding-left: 28px !important;
+    padding-top: 2px !important;
+    background: linear-gradient(to right, #af4129,#f30404) !important;
+    color: #fff !important;
+}
+
+    .toggle-off.btn:hover {
+        background: linear-gradient(to right, #af4129,#f30404) !important;
+    }
+
+.toggle.btn {
+    height: 26px !important;
+    min-height: auto !important;
+    min-width: 0px !important;
+    width: 57px !important;
+    border-radius: 20px !important;
+}
+
+.themeTable td, .themeTable th {
+    padding: 8px !important;
+    text-align: left;
+    border: 1px solid #ccc !important; /*thick;*/
+}
+
+.themeTable th {
+    color: #fff !important;
+    background: linear-gradient(#232f3e, #333);
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.themeTable tr:nth-of-type(odd) {
+    background: #fff;
+}
+
+.themeTable tr:nth-of-type(even) {
+    background-color: #7a8ddb1a;
+}
+
+.themeTable tr:hover {
+    background-color: #efefef;
+}
+
+.themeTable th {
+    font-weight: 600;
+}
+
+.notificationsWarnings {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 16px;
+}
+
+    .notificationsWarnings i {
+    }
+
+    .notificationsWarnings span {
+        position: absolute;
+        top: -13px;
+        right: -15px;
+        width: 25px;
+        height: 25px;
+        background: #4e70f7;
+        color: #fff;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+.highBell {
+    color: red !important;
+    font-size: x-large;
+}
+
+.mediumBell {
+    color: #ffd300 !important;
+    font-size: x-large;
+}
+
+.lowBell {
+    color: green !important;
+    font-size: x-large;
+}
+
+.mediumPosition {
+    right: 70px;
+}
+
+.lowPosition {
+    right: 100px;
+}
+
+.secondaryMenu {
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    padding:0;
+    border-bottom: 1px solid #efefef;
+}
+
+    .secondaryMenu li {
+    }
+
+        .secondaryMenu li a {
+            border-bottom: 2px solid transparent;
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+
+.secondaryMenuActive {
+    border-bottom-color: #f26722 !important;
+    color: #f26722 !important;
+}
+
+.secondaryMenu li a:hover {
+    color: #35a9e4 !important;
+}
+.page-title {
+    color: #032b5c !important;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 0px;
+    font-size: 20px;
+    margin:0px;
+}
+.institutionLogo{
+    max-height:120px;
+}
+.themeTable a {
+    text-decoration: none;
+}
+.themeTable i {
+    font-size: 16px;
+    color: #333;
+    padding: 0px 2px;
+}
+    .themeTable i.fa-check-circle-o {
+       
+        color:green;
+       
+    }
+    .themeTable i.fa-times-circle-o {
+        color: orangered;
+    }
+.imgAdd img{
+    width: 100%;
+    max-width: 200px;
+    max-height: 200px;
+}
+.inputNxt input, .inputNxt label
+{
+    display:inline-block;
+}
+.lds-ripple {
+    display: inline-block;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+    .lds-ripple div {
+        position: absolute;
+        border: 4px solid #002269;
+        opacity: 1;
+        border-radius: 50%;
+        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+
+        .lds-ripple div:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+@keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+}
+.themeTable nav
+{
+    text-align:center;
+}
+.pagination > li > a, .pagination > li > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor:pointer;
+    min-height:40px;
+}
+.select-page
+{
+    margin-right:5px;
+}

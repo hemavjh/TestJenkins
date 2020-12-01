@@ -27,178 +27,189 @@
         </a>
     </li>
 </ul>
-<div class="row">
-    <div class="col-md-12">
-        <h1 class="page-title">Business User</h1>
-    </div>
-    <div class="col-md-12" ng-init="BusinessUser_List(2);currentTab='1';">
-        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-        <div class="panel panel-default panel-info" id="Div1">
-            <form class="form-horizontal" role="form">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                    <tr>
-                        <td width="5%">
+
+
+<h1 class="page-title">Business User</h1>
+
+<div ng-init="BusinessUser_List(2);currentTab='1';">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div class="panel panel-default" id="Div1">
+        <form class="form-horizontal" role="form">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
                             <label>Search</label>
-                        </td>
-                        <td width="20%">
                             <div class="modernSearch">
                                 <input type="text" ng-model="Business_Usersearchquery" ng-change="filterBusinessList()"
                                        placeholder="" />
                                 <i class="fa fa-search"></i>
                             </div>
-                        </td>
-                        <td style="text-align: left" width="65%">
-                            Active&nbsp;&nbsp;
-                            <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="BusinessUser_List(2);"
-                                   title="Active / All">
-                        </td>
-                        <td style="text-align: right" width="15%">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Active</label>
+                            <div>
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="BusinessUser_List(2);"
+                                       title="Active / All">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
                             <a href="javascript:" ng-click="AddUserPopUP();ClearPopUp();InstitutionBased_CountryStateList()"
-                               class="btn btn-autosize pull-right ml-10" title='Add New User'>Add New</a>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <table st-table="BusineessUseremptydata" style="width: 100%" st-safe-src="BusinessUserFilter"
-               class="table themeTable">
-            <thead>
-                <tr style="text-align: center">
-                    <th st-ratio="3">#</th>
-                    <th st-ratio="5"><input type="checkbox" ng-model="SelectedAllBuisnessUser" ng-click="BuisnessUsercheckAll()" /></th>
-                    <th st-ratio="17" st-sort="FullName">User Name</th>
-                    <th st-ratio="12" st-sort="EMAILID">Email</th>
-                    <th st-ratio="12" st-sort="Department_Name">Department</th>
-                    <th st-ratio="12" st-sort="EMPLOYEMENTNO">Employment No.</th>
-                    <th st-ratio="8" st-sort="UserName">User Type</th>
-                    <th st-ratio="12" st-sort="GroupName">Groups</th>
-                    <th st-ratio="12" st-sort="LoginTime">Last Login</th>
-                    <th st-ratio="12">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-if="BusinessUserflag==0 && BusinessUserFilter.length==0">
-                    <td colspan="10" style="text-align: center">
-                          {{SearchMsg}}
-                    </td>
-                </tr>
-                <tr ng-repeat="row in BusineessUseremptydata">
-                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
-                    <td style="text-align: center"><input type="checkbox" ng-model="row.SelectedBuisnessuser" ng-disabled="row.UserType_Id==7"/></td>
-                    <td style="text-align: left" title="{{row.FullName}}">
-                        <div class="textwrap">
-                            <img src="../../Images/male.png" width="30" height="30"
-                                 ng-if="(row.GENDER_NAME| lowercase)=='male'" />
-                            <img src="../../Images/female.png" width="30" height="30"
-                                 ng-if="(row.GENDER_NAME| lowercase)=='female'" />
-                            <img src="../../Images/Others.png" width="30" height="30"
-                                 ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
-                            {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+ "..." : row.FullName}}
+                               class="theme-btn-1 pull-right mt-15" title='Add New User'>Add New</a>
                         </div>
-                        <!--<div class="textwrap">{{row.FullName}}</div>-->
-                    </td>
-                    <td style="text-align: left">
-                        {{row.EMAILID}}
-                    </td>
-                    <td style="text-align: left">
-                        {{row.Department_Name}}
-                    </td>
-                    <td style="text-align: left">
-                        {{row.EMPLOYEMENTNO}}
-                    </td>
-                    <td style="text-align: left">
-                        {{row.UserName}}
-                    </td>
-                    <td style="text-align: left" title="{{row.GroupName}}">
-                        <div class="textwrap">
-                            {{
- row.GroupName.length > 50 ? row.GroupName.substring(0,50) + "..." : row.GroupName
-                            }}
-                        </div>
-                    </td>
-                    <td style="text-align: left">
-                        {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
-                    </td>
-                    <td style="text-align: center">
-                        <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
-                            <img src="../../Images/ViewIcon.png" />
-                        </a>
-                        <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit">
-                            <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:"
-                                                                                              ng-click="ErrorFunction()" title="Edit">
-                                <img src="../../Images/EditIcon.png"
-                                     ng-if="row.IsActive==0" />
-                            </a>
-                        </a>
-                        <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
-                            <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
-                            <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
-                                <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
-                            </a>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot ng-show="BusinessUserList.length >page_size">
-                <tr>
-                    <td colspan="10" class="text-center">
-                        <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                             st-template="Masters/Views/pagination.custom.html"></div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <div class="modal-footer" style="text-align: center;">
-        <label>Group</label>
+                    </div>
+                </div>
+            </div>
 
-        <select ng-model="AssignedGroup" multiple="multiple"
-                ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;"></select>
-        <a href="javascript:" ng-click="BuisnessuserAssignGroup()" class="btn btn-autosize">Update Group</a>
-        <a href="javascript:" ng-click="AddGroupPopup(GroupClearPopUp())" class="btn btn-autosize">Create Group</a>
+        </form>
     </div>
 </div>
+
+<table st-table="BusineessUseremptydata" style="width: 100%" st-safe-src="BusinessUserFilter"
+       class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="3">#</th>
+            <th st-ratio="5"><input type="checkbox" ng-model="SelectedAllBuisnessUser" ng-click="BuisnessUsercheckAll()" /></th>
+            <th st-ratio="17" st-sort="FullName">User Name</th>
+            <th st-ratio="12" st-sort="EMAILID">Email</th>
+            <th st-ratio="12" st-sort="Department_Name">Department</th>
+            <th st-ratio="12" st-sort="EMPLOYEMENTNO">Employment No.</th>
+            <th st-ratio="8" st-sort="UserName">User Type</th>
+            <th st-ratio="12" st-sort="GroupName">Groups</th>
+            <th st-ratio="12" st-sort="LoginTime">Last Login</th>
+            <th st-ratio="12">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="BusinessUserflag==0 && BusinessUserFilter.length==0">
+            <td colspan="10" style="text-align: center">
+                {{SearchMsg}}
+            </td>
+        </tr>
+        <tr ng-repeat="row in BusineessUseremptydata">
+            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: center"><input type="checkbox" ng-model="row.SelectedBuisnessuser" ng-disabled="row.UserType_Id==7" /></td>
+            <td style="text-align: left" title="{{row.FullName}}">
+                <div class="textwrap">
+                    <img src="../../Images/male.png" width="30" height="30"
+                         ng-if="(row.GENDER_NAME| lowercase)=='male'" />
+                    <img src="../../Images/female.png" width="30" height="30"
+                         ng-if="(row.GENDER_NAME| lowercase)=='female'" />
+                    <img src="../../Images/Others.png" width="30" height="30"
+                         ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
+
+                    {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+ "..." : row.FullName}}
+                    v>
+                </div>
+                <!--<div class="textwrap">{{row.FullName}}</div>-->
+            </td>
+            <td style="text-align: left">
+                {{row.EMAILID}}
+            </td>
+            <td style="text-align: left">
+                {{row.Department_Name}}
+            </td>
+            <td style="text-align: left">
+                {{row.EMPLOYEMENTNO}}
+            </td>
+            <td style="text-align: left">
+                {{row.UserName}}
+            </td>
+            <td style="text-align: left" title="{{row.GroupName}}">
+                <div class="textwrap">
+                    {{
+ row.GroupName.length > 50 ? row.GroupName.substring(0,50) + "..." : row.GroupName
+                    }}
+                </div>
+            </td>
+            <td style="text-align: left">
+                {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
+            </td>
+            <td style="text-align: center">
+                <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)" title="Edit">
+
+                    <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:"
+                       ng-click="ErrorFunction()" title="Edit">
+                        <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
+
+                    </a>
+                </a>
+                <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
+                    <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
+                    <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
+                        <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+
+                    </a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="BusinessUserList.length >page_size">
+        <tr>
+            <td colspan="10" class="text-center">
+                <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                     st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="inputGroups center-block" style="text-align: center;max-width:320px;">
+    <label>Group</label>
+
+    <select ng-model="AssignedGroup" multiple="multiple"
+            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;"></select>
+    <a href="javascript:" ng-click="BuisnessuserAssignGroup()" class="theme-btn-1 mtb-15 mr-10">Update Group</a>
+    <a href="javascript:" ng-click="AddGroupPopup(GroupClearPopUp())" class="
+       theme-btn-1 mtb-15">Create Group</a>
+</div>
+<br />
+<br />
+<br />
 
 <div id="GroupCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width: 40%">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close"
-                        style="color: #8B0000;">
+                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">
                     &times;
                 </button>
 
-                <h1 class="page-title">Create Group</h1>
+                <h4 class="modal-title">Create Group</h4>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="panel panel-default" id="Div2">
+                    <div id="Div2">
                         <div class="panel-body">
-                            <form class="form-horizontal" role="form">
-                                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                Group Name<sup>
-                                                    <font class='mandatory-field'>*</font>
-                                                </sup>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" ng-model="CreateGroupName"
-                                                   maxlength="100" ng-maxlength="100" />
-                                        </td>
-                                    </tr>
-                                </table>
+                            <form role="form">
+                                <div class="inputGroups">
+                                    <label>
+                                        Group Name<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                    <input type="text" class="form-control" ng-model="CreateGroupName"
+                                           maxlength="100" ng-maxlength="100" />
+                                </div>
+
                             </form>
+
                         </div>
-                        <div class="modal-footer" style="text-align: center;">
-                            <button type="button" class="btn  btn-save" title="Click to Save"
+                        <div style="text-align: center;" class="modal-footer">
+                            <button type="button" class="theme-btn-1 mr-10" title="Click to Save"
                                     ng-click="AddGroup_Insert()">
                                 Save
                             </button>
-                            <button type="button" class="btn  btn-save" ng-click="CancelGroupPopup()"
+                            <button type="button" class="theme-btn-2" ng-click="CancelGroupPopup()"
                                     title="Click to Cancel">
                                 Cancel
                             </button>
@@ -212,16 +223,16 @@
 
 
 <div id="UserModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="width: 70%">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">
                     &times;
                 </button>
 
-                <h1 class="page-title">Business User</h1>
+                <h4 class="modal-title">Business User</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-0">
 
 
                 <div class="row">
@@ -255,17 +266,140 @@
                             <div>
                                 <form class="form-horizontal" role="form">
 
-                                    <div class="panel panel-info" ng-show="currentTab=='1'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
                                         <div id="collapse1" class="panel-collapse">
                                             <div class="panel-body">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                       class="formControlGroup">
-                                                    <tr>
-                                                        <td width="15%" valign="top" rowspan="13">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="inputGroups">
+                                                            <label valign="top">
+                                                                First Name<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <input type="text" class="form-control" ng-model="FirstName"
+                                                                   ng-init="FirstName=''" ng-required="true" ng-maxlength="100"
+                                                                   maxlength="100" onkeypress="ParticularSpec(event)" />
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label valign="top">Middle Name</label>
+                                                            <input type="text" class="form-control" ng-model="MiddleName"
+                                                                   ng-init="MiddleName=''" ng-required="true" ng-maxlength="100"
+                                                                   maxlength="100" onkeypress="ParticularSpec(event)" />
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label valign="top">
+                                                                Last Name<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <input type="text" class="form-control" ng-model="LastName"
+                                                                   ng-init="LastName=''" ng-required="true" placeholder=""
+                                                                   ng-maxlength="100" maxlength="100"
+                                                                   onkeypress="ParticularSpec(event)" />
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label valign="top">
+                                                                Employment No.<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <input type="text" class="form-control" name="Employee_No"
+                                                                   ng-model="Employee_No" ng-init="Employee_No=''"
+                                                                   ng-required="true" placeholder="" ng-maxlength="50"
+                                                                   maxlength="50" />
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>
+                                                                Gender<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <select class="form-control" ng-model="GenderId" id="Select3"
+                                                                    ng-required="true" ng-change="getBase64Image()">
+                                                                <option value="0">Select</option>
+                                                                <option ng-repeat="sel in GenderList"
+                                                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+                                                                    {{sel.Gender_Name}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+
+                                                        <div class="inputGroups">
+                                                            <label valign="top">
+                                                                Department<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <select class="form-control" ng-model="DepartmentId" id="Select1"
+                                                                    ng-required="true">
+                                                                <option value="0">Select</option>
+                                                                <option ng-repeat="sel in DepartmentList"
+                                                                        ng-selected="DepartmentId==sel.Id" value="{{sel.Id}}">
+                                                                    {{sel.Department_Name}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="inputGroups" ng-show="Id>0">
+                                                            <label>User No.</label>
+                                                            {{PatientNo}}
+                                                        </div>
+                                                        <div class="inputGroups" ng-show="Id>0">
+                                                            <label>Short Name</label>
+                                                            {{Createdby_ShortName}}
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label valign="top">
+                                                                Email<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <input type="text" class="form-control" name="EmailId"
+                                                                   ng-model="EmailId" ng-init="EmailId=''" ng-required="true"
+                                                                   placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>
+                                                                Mobile No.<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <input type="text" class="form-control" id="Text6" name="MobileNo"
+                                                                   ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true"
+                                                                   placeholder="" ng-maxlength="20" maxlength="20"
+                                                                   onkeypress="OnlySpecCharNum(event)" />
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>
+                                                                Type of User<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <select class="form-control" ng-model="UserTypeId" id="Select2"
+                                                                    ng-required="true" ng-change="getBase64Image();ClearGroup()">
+                                                                <option value="0">Select</option>
+                                                                <option ng-repeat="sel in UserTypeList"
+                                                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
+                                                                    {{sel.UserName}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="inputGroups" ng-hide="UserTypeId==7">
+                                                            <label>Group</label>
+                                                            <select ng-model="SelectedGroup" multiple="multiple"
+                                                                    ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
+                                                                    multiselect-dropdown style="width: 230px;"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="imgAdd">
                                                             <input type="file" id="UserLogo" fileread="uploadme"
                                                                    onchange="angular.element(this).scope().photoChange(this);"
                                                                    name="FileName" title="Click to Upload Image "
-                                                                   style="height: 0px !important"                                                       
+                                                                   style="height: 0px !important"
                                                                    ng-click="PhotoUplaodSelected();" />
 
                                                             <!--<div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null||uploadme=='')"
@@ -284,232 +418,56 @@
                                                             </div>-->
                                                             <div ng-if="(uploadme!=null||uploadme!='')" valign="top"
                                                                  rowspan="6">
-                                                                <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                                                <img class="responsiveProfileImage mb-10" src="{{uploadme}}" />
                                                             </div>
-                                                            <a class="textRight" style="max-width: 250px;" href="javascript:"
+                                                            <a class="textRight theme-btn-2 mr-10" style="max-width: 250px;" href="javascript:"
                                                                ng-click="imageclear()" title="Clear">
-                                                                <u>Clear</u>
+                                                                Clear
                                                             </a>
-                                                            <div class="uploadIconContainer">
-                                                                <label for="UserLogo" class="uploadIconBtn"
+                                                            <div class="theme-btn-1">
+                                                                <label for="UserLogo" class="mb-0"
                                                                        title="Click to Upload Logo">
                                                                     <i class="fa fa-upload"></i>
                                                                 </label>
                                                                 <span>Upload Photo</span>
                                                             </div>
-                                                        </td>
-                                                        <td width="12%">
-                                                            <label valign="top">
-                                                                First Name<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td width="35%">
-                                                            <input type="text" class="form-control" ng-model="FirstName"
-                                                                   ng-init="FirstName=''" ng-required="true" ng-maxlength="100"
-                                                                   maxlength="100" onkeypress="ParticularSpec(event)" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="15%">
-                                                            <label valign="top">Middle Name</label>
-                                                        </td>
-                                                        <td width="35%">
-                                                            <input type="text" class="form-control" ng-model="MiddleName"
-                                                                   ng-init="MiddleName=''" ng-required="true" ng-maxlength="100"
-                                                                   maxlength="100" onkeypress="ParticularSpec(event)" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="15%">
-                                                            <label valign="top">
-                                                                Last Name<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td width="35%">
-                                                            <input type="text" class="form-control" ng-model="LastName"
-                                                                   ng-init="LastName=''" ng-required="true" placeholder=""
-                                                                   ng-maxlength="100" maxlength="100"
-                                                                   onkeypress="ParticularSpec(event)" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="15%">
-                                                            <label valign="top">
-                                                                Employment No.<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td width="35%">
-                                                            <input type="text" class="form-control" name="Employee_No"
-                                                                   ng-model="Employee_No" ng-init="Employee_No=''"
-                                                                   ng-required="true" placeholder="" ng-maxlength="50"
-                                                                   maxlength="50" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label>
-                                                                Gender<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <select class="form-control" ng-model="GenderId" id="Select3"
-                                                                    ng-required="true" ng-change="getBase64Image()">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in GenderList"
-                                                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Gender_Name}}
-                                                                </option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="15%">
-                                                            <label valign="top">
-                                                                Department<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td width="35%">
-                                                            <select class="form-control" ng-model="DepartmentId" id="Select1"
-                                                                    ng-required="true">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in DepartmentList"
-                                                                        ng-selected="DepartmentId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Department_Name}}
-                                                                </option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr ng-if="Id>0">
-                                                        <td width="15%">
-                                                            <label>User No.</label>
-                                                        </td>
-                                                        <td>
-                                                            {{PatientNo}}
-                                                        </td>
-                                                    </tr>
-                                                    <tr ng-show="Id>0">
-                                                        <td>
-                                                            <label>Short Name</label>
-                                                        </td>
-                                                        <td>
-                                                            {{Createdby_ShortName}}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td width="15%">
-                                                            <label valign="top">
-                                                                Email<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td width="35%">
-                                                            <input type="text" class="form-control" name="EmailId"
-                                                                   ng-model="EmailId" ng-init="EmailId=''" ng-required="true"
-                                                                   placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label>
-                                                                Mobile No.<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control" id="Text6" name="MobileNo"
-                                                                   ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true"
-                                                                   placeholder="" ng-maxlength="20" maxlength="20"
-                                                                   onkeypress="OnlySpecCharNum(event)" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label>
-                                                                Type of User<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <select class="form-control" ng-model="UserTypeId" id="Select2"
-                                                                    ng-required="true" ng-change="getBase64Image();ClearGroup()">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in UserTypeList"
-                                                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.UserName}}
-                                                                </option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr ng-hide="UserTypeId==7">
-                                                        <td>
-                                                            <label>Group</label>
-                                                        </td>
-                                                        <td>
-                                                            <select ng-model="SelectedGroup" multiple="multiple"
-                                                                    ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
-                                                                    multiselect-dropdown style="width: 230px;" ></select>
-                                                        </td>
-                                                    </tr>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                       class="formControlGroup">
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-info" ng-show="currentTab=='2'">
+                                    <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <!--<div class="panel-heading containeralign">
-                                                                <h4 class="panel-title">
-                                                                    <a data-toggle="collapse" data-parent="#accordion"
-                                                                        href="#collapse2">
-                                                                        Additional Info</a>
-                                                                </h4>
-                                                            </div>-->
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                                href="#collapse2">
+                                                                Additional Info</a>
+                                                        </h4>
+                                                    </div>-->
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                       class="formControlGroup">
-                                                    <tr>
-                                                        <td width="25%">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
                                                             <label>
                                                                 Health License<sup>
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                        </td>
-                                                        <td>
                                                             <input type="text" class="form-control" id="Health_License"
                                                                    ng-model="Health_License" ng-init="Health_License=''"
                                                                    maxlength="100" ng-maxlength="100">
-                                                        </td>
-                                                        <td width="17%">
-                                                            <label valign="top">Affiliation</label>
-                                                        </td>
-                                                        <td width="35%">
-                                                            <select ng-model="SelectedInstitution" multiple="multiple"
-                                                                    ng-options="item1.Id as item1.InstitutionName for item1 in DoctorInstitutionList"
-                                                                    multiselect-dropdown style="width: 230px;"></select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
+                                                        </div>
+                                                        <div class="inputGroups">
                                                             <label>
                                                                 Nationality<sup>
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                        </td>
-                                                        <td>
                                                             <select class="form-control" ng-model="NationalityId" id="Select5"
                                                                     ng-required="true">
                                                                 <option value="0">Select</option>
@@ -518,110 +476,82 @@
                                                                     {{sel.Name}}
                                                                 </option>
                                                             </select>
-                                                        </td>
-                                                        <td>
-                                                            <label>
-                                                                Date of Birth<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="col-xs-11 input-group date" id="DOB">
-                                                                <input type="text" class="form-control" ng-model="DOB"
-                                                                       ng-init="DOB=''" style="width: 152px" ng-required="true">
-                                                                <span class="input-group-addon">
-                                                                    <i class="glyphicon glyphicon-th"></i>
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
+                                                        </div>
+                                                        <div class="inputGroups">
                                                             <label>Home Phone Number</label>
-                                                        </td>
-                                                        <td>
                                                             <div class="row">
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <input type="text" class="form-control" id="HomeAreaCode"
                                                                            ng-model="HomeAreaCode" ng-init="HomeAreaCode=''"
                                                                            maxlength="20" ng-maxlength="20" placeholder=""
                                                                            onkeypress="OnlySpecCharNum(event)">
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-9">
+
                                                                     <input type="text" class="form-control" id="Text1"
                                                                            ng-model="Home_PhoneNo" ng-init="Home_PhoneNo=''"
                                                                            maxlength="20" ng-maxlength="20" placeholder=""
                                                                            onkeypress="OnlySpecCharNum(event)">
                                                                 </div>
                                                             </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
+                                                            <label valign="top">Affiliation</label>
+                                                            <select ng-model="SelectedInstitution" multiple="multiple"
+                                                                    ng-options="item1.Id as item1.InstitutionName for item1 in DoctorInstitutionList"
+                                                                    multiselect-dropdown style="width: 230px;"></select>
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>
+                                                                Date of Birth<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+
+                                                            <input id="DOB" type="text" class="form-control dateIcon" ng-model="DOB"
+                                                                   ng-init="DOB=''" ng-required="true">
+
+                                                        </div>
 
 
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-info" ng-show="currentTab=='3'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='3'">
                                         <!--<div class="panel-heading containeralign">
-                                                                <h4 class="panel-title">
-                                                                    <a data-toggle="collapse" data-parent="#accordion"
-                                                                        href="#collapse3">
-                                                                        Address Info</a>
-                                                                </h4>
-                                                            </div>-->
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                    href="#collapse3">
+                                                    Address Info</a>
+                                            </h4>
+                                        </div>-->
                                         <div id="collapse3" class="panel-collapse">
                                             <div class="panel-body">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                       class="formControlGroup">
-                                                    <tr>
-                                                        <td>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
                                                             <label>Address</label>
-                                                        </td>
-                                                        <td>
                                                             <input type="text" class="form-control" id="Text14"
                                                                    ng-model="Address1" ng-init="Address1=''" maxlength="50"
                                                                    ng-maxlength="50" placeholder="">
-                                                        </td>
-                                                        <td>
-                                                            <label>Street Address</label>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control" id="Text15"
-                                                                   ng-model="Address2" ng-init="Address2=''" maxlength="50"
-                                                                   ng-maxlength="50" placeholder="">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
+                                                        </div>
+                                                        <div class="inputGroups">
                                                             <label>Street Address Line 2</label>
-                                                        </td>
-                                                        <td>
                                                             <input type="text" class="form-control" id="Text16"
                                                                    ng-model="Address3" ng-init="Addres3=''" maxlength="50"
                                                                    ng-maxlength="50" placeholder="">
-                                                        </td>
-                                                        <td>
-                                                            <label>Postel/Zip Code</label>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" class="form-control" id="PostalZipCode"
-                                                                   ng-model="PostalZipCode" ng-init="PostalZipCode=''"
-                                                                   maxlength="50" ng-maxlength="50" placeholder=""
-                                                                   onkeypress="SomeSpec(event)">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
+                                                        </div>
+                                                        <div class="inputGroups">
                                                             <label>
                                                                 Country<sup>
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                        </td>
-                                                        <td>
                                                             <select class="" data-style="form-control" data-live-search="true"
                                                                     id="countryselectpicker" data-selectpicker
                                                                     data-collection-name="CountryNameList" ng-model="CountryId"
@@ -632,15 +562,46 @@
                                                                     {{sel.CountryName}}
                                                                 </option>
                                                             </select>
-                                                        </td>
-                                                        <td>
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>
+                                                                City<sup>
+                                                                    <font class='mandatory-field'>*</font>
+                                                                </sup>
+                                                            </label>
+                                                            <select class="" data-style="form-control" data-live-search="true"
+                                                                    data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
+                                                                <option value="0">Select</option>
+                                                                <option ng-repeat="sel in LocationName_List "
+                                                                        ng-required="true" value="{{sel.Id}}">
+                                                                    {{sel.LocationName}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
+
+                                                            <label>Street Address</label>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" id="Text15"
+                                                                       ng-model="Address2" ng-init="Address2=''" maxlength="50"
+                                                                       ng-maxlength="50" placeholder="">
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label>Postel/Zip Code</label>
+                                                            <input type="text" class="form-control" id="PostalZipCode"
+                                                                   ng-model="PostalZipCode" ng-init="PostalZipCode=''"
+                                                                   maxlength="50" ng-maxlength="50" placeholder=""
+                                                                   onkeypress="SomeSpec(event)">
+                                                        </div>
+                                                        <div class="inputGroups">
                                                             <label>
                                                                 State<sup>
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                        </td>
-                                                        <td>
                                                             <select class="" data-style="form-control" id="stateselectpicker"
                                                                     data-live-search="true" data-selectpicker
                                                                     data-collection-name="StateName_List" ng-model="StateId"
@@ -651,111 +612,60 @@
                                                                     {{sel.StateName}}
                                                                 </option>
                                                             </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <label>
-                                                                City<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <select class="" data-style="form-control" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in LocationName_List "
-                                                                        ng-required="true" value="{{sel.Id}}">
-                                                                    {{sel.LocationName}}
-                                                                </option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-info" ng-show="currentTab=='4'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='4'">
                                         <!--<div class="panel-heading containeralign">
-                                                                <h4 class="panel-title">
-                                                                    <a data-toggle="collapse" data-parent="#accordion"
-                                                                        href="#collapse4">
-                                                                        Qualification Info</a>
-                                                                </h4>
-                                                            </div>-->
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                    href="#collapse4">
+                                                    Qualification Info</a>
+                                            </h4>
+                                        </div>-->
                                         <div id="collapse4" class="panel-collapse">
                                             <div class="panel-body">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                       class="formControlGroup">
-                                                    <tr>
-                                                        <td width="17%">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
                                                             <label>EMR Availability</label>
-                                                        </td>
-                                                        <td width="18%">
-
                                                             <input type="checkbox" ng-model="EMR_Avalability"
                                                                    ng-click="PFClear()">
-                                                        </td>
-                                                        <td width="15%">
-                                                            <label>Languages Known</label>
-                                                        </td>
-                                                        <td>
-                                                            <select ng-model="SelectedLanguage" multiple="multiple"
-                                                                    ng-options="item1.Id as item1.Name for item1 in LanguageList"
-                                                                    multiselect-dropdown style="width: 230px;"></select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr ng-show="CertificateValue==0">
-                                                        <td valign="top">
+                                                        </div>
+                                                        <div class="inputGroups">
                                                             <label>Certificates Upload</label>
-                                                        </td>
-                                                        <td valign="top" colspan="2">
-
                                                             <input type="file" id="EditDocument" fileread="Editresumedoc"
                                                                    onchange="angular.element(this).scope().EditdocfileChange(this)"
                                                                    name="Resume" title="Click to Upload File" ng-click="CertificateUplaodSelected()"
                                                                    style="height: 0px !important" accept="application/pdf,application/excel,application/excel" />
                                                             <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
-                                                            <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-start;">
-                                                                <label for="EditDocument" class="uploadIconBtn" title="Click to Upload File">
+                                                            <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items: left!important; justify-content: flex-start;">
+                                                                <label for="EditDocument" class="uploadIconBtn" style="display:initial;" title="Click to Upload File">
                                                                     <i class="fa fa-upload" aria-hidden="true"></i>
                                                                 </label>
-                                                                <span style="text-align: left;">Upload File</span>
-                                                            </div>
-                                                            <a href="javascript:" ng-click="fileclear()">
-                                                                <u>Clear</u>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr ng-show="CertificateValue==1">
-                                                        <td valign="top">
-                                                            <label>Certificates Upload</label>
-                                                        </td>
-                                                        <td valign="top" colspan="2">
 
-                                                            <input type="file" id="File1" fileread="Editresumedoc"
-                                                                   onchange="angular.element(this).scope().EditdocfileChange(this)"
-                                                                   name="Resume" title="Click to Upload File" ng-click="CertificateUplaodSelected()"
-                                                                   style="height: 0px !important"accept="application/pdf,application/vnd.ms-excel"/>
-                                                            {{CertificateFileName}}
-                                                            <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-start;">
-                                                                <label for="EditDocument" class="uploadIconBtn" title="Click to Upload File">
-                                                                    <i class="fa fa-upload" aria-hidden="true"></i>
-                                                                </label>
                                                                 <span style="text-align: left;">Upload File</span>
                                                             </div>
-                                                            <a href="javascript:" ng-click="fileclear()">
-                                                                <u>Clear</u>
+                                                            <a href="javascript:" class="theme-btn-2" ng-click="fileclear()">
+                                                                Clear
                                                             </a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="inputGroups">
+                                                            <label>Languages Known</label>
+                                                            <select ng-model="SelectedLanguage" multiple="multiple"
+                                                                    ng-options="item1.Id as item1.Name for item1 in LanguageList"
+                                                                    multiselect-dropdown style="width: 230px;"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </form>
                             </div>
 
@@ -764,10 +674,10 @@
                 </div>
             </div>
             <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="btn  btn-save" ng-click="User_InsertUpdate()" title="Click to Save">
+                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-click="User_InsertUpdate()" title="Click to Save">
                     Save
                 </button>
-                <button type="button" class="btn  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
                     Cancel
                 </button>
             </div>
@@ -783,10 +693,10 @@
                     &times;
                 </button>
 
-                <h1 class="page-title">Business User</h1>
+                <h4 class="modal-title">Business User</h4>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body p-0">
                 <ul class="themeTabs">
                     <li>
                         <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
@@ -818,143 +728,93 @@
                         <div class="patientProfileInfo">
 
                             <div class="panel-group" id="Div4">
-                                <div class="panel panel-info" ng-show="currentTab=='1'">
+                                <div class="panel panel-default bs-0 b-0 m-0" ng-show="currentTab=='1'">
 
                                     <div id="Div5" class="panel-collapse">
                                         <div class="panel-body">
-                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                   class="formControlGroup">
-                                                <tr>
-                                                    <td width="30%" colspan="2" valign="top" rowspan="12">
-                                                        <label>
-                                                            Photo
-                                                            <br />
-                                                        </label>
-
-
-                                                        <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
-                                                             valign="top" rowspan="6">
-                                                            <img class="responsiveProfileImage" src="../../Images/male.png" />
-                                                        </div>
-                                                        <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
-                                                             valign="top" rowspan="6">
-
-                                                            <img class="responsiveProfileImage" src="../../Images/female.png" />
-                                                        </div>
-                                                        <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
-                                                             valign="top" rowspan="6">
-                                                            <img class="responsiveProfileImage" src="../../Images/Others.png" />
-                                                        </div>
-                                                        <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
-                                                             valign="top" rowspan="6">
-                                                            <img class="responsiveProfileImage" src="{{uploadme}}" />
-                                                        </div>
-                                                    </td>
-
-
-                                                    <td>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="inputGroups">
                                                         <label>First Name</label>
-                                                    </td>
-                                                    <td>
                                                         <span>{{FirstName}}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Middle Name</label>
-                                                    </td>
-                                                    <td>
                                                         <span>{{MiddleName}}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 15%">
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Last Name</label>
-                                                    </td>
-                                                    <td>
                                                         <span>{{LastName}}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Employment No.</label>
-                                                    </td>
-                                                    <td>
                                                         <span>{{Employee_No}}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Gender</label>
-                                                    </td>
-                                                    <td>
-                                                        {{ViewGender}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                        <span> {{ViewGender}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Department</label>
-                                                    </td>
-                                                    <td>
                                                         <span>
                                                             {{ViewDepartmentName}}
                                                         </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="15%">
-                                                        <label>User No.</label>
-                                                    </td>
-                                                    <td>
-                                                        {{PatientNo}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Short Name</label>
-                                                    </td>
-                                                    <td>
-                                                        {{Createdby_ShortName}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Email</label>
-                                                    </td>
-                                                    <td>
-                                                        <span>{{EmailId}}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Mobile No.</label>
-                                                    </td>
-                                                    <td>
-                                                        <span>{{MobileNo}}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Type of User</label>
-                                                    </td>
-                                                    <td>
-                                                        {{ViewUserName}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Group</label>
-                                                    </td>
-                                                    <td>
-                                                        {{ViewGroupName}}
-                                                    </td>
-                                                </tr>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
 
-                                            </table>
+                                                    <div class="inputGroups">
+                                                        <label>Short Name</label>
+                                                        {{Createdby_ShortName}}
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Email</label>
+                                                        <span>{{EmailId}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Mobile No.</label>
+                                                        <span>{{MobileNo}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Type of User</label>
+                                                        {{ViewUserName}}
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Group</label>
+                                                        {{ViewGroupName}}
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Short Name</label>
+                                                        {{Createdby_ShortName}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label>
+                                                        Photo
+                                                    </label>
+                                                    <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
+                                                         valign="top" rowspan="6">
+                                                        <img class="responsiveProfileImage" src="../../Images/male.png" />
+                                                    </div>
+                                                    <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
+                                                         valign="top" rowspan="6">
+
+                                                        <img class="responsiveProfileImage" src="../../Images/female.png" />
+                                                    </div>
+                                                    <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
+                                                         valign="top" rowspan="6">
+                                                        <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                    </div>
+                                                    <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
+                                                         valign="top" rowspan="6">
+                                                        <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-info" ng-show="currentTab=='2'">
+                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='2'">
                                     <!--                                                <div class="panel-heading containeralign">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -963,62 +823,38 @@
                                                 </div>-->
                                     <div id="collapse7" class="panel-collapse">
                                         <div class="panel-body">
-                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                   class="formControlGroup">
-                                                <tr>
-                                                    <td width="25%">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
                                                         <label>Health License</label>
-                                                    </td>
-                                                    <td width="25%">
-                                                        {{Health_License}}
-                                                    </td>
-                                                    </td>
-                                                    <td width="25%">
-                                                        <label valign="top">Affiliation</label>
-                                                    </td>
-                                                    <td width="25%">
-                                                        {{Institution}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                        <span>{{Health_License}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Nationality</label>
-                                                    </td>
-                                                    <td>
-                                                        {{ViewNationality}}
-                                                    </td>
-                                                    <td>
-                                                        <label>Date of Birth</label>
-                                                    </td>
-                                                    <td>
-                                                        {{DOB}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                        <span>{{ViewNationality}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Home Phone Number</label>
-                                                    </td>
-                                                    <td>
-                                                        <table>
-                                                            <tr>
-
-                                                                <td>
-                                                                    {{HomeAreaCode}}
-                                                                </td>
-                                                                <td>
-                                                                    {{Home_PhoneNo}}
-                                                                </td>
-
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                                        <span>{{HomeAreaCode}}</span>
+                                                        <span>{{Home_PhoneNo}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
+                                                        <label valign="top">Affiliation</label>
+                                                        <span>{{Institution}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Date of Birth</label>
+                                                        <span> {{DOB}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-info" ng-show="currentTab=='3'">
+                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='3'">
                                     <!--                                                <div class="panel-heading containeralign">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1027,66 +863,43 @@
                                                 </div>-->
                                     <div id="collapse8" class="panel-collapse">
                                         <div class="panel-body">
-                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                   class="formControlGroup">
-                                                <tr>
-                                                    <td width="25%">
-                                                        <label>Address</label>
-                                                    </td>
-                                                    <td width="25%">
-                                                        {{Address1}}
-                                                    </td>
+                                            <div class="col-sm-6">
+                                                <div class="inputGroups">
+                                                    <label>Address</label>
+                                                    <span>{{Address1}}</span>
+                                                </div>
+                                                <div class="inputGroups">
+                                                    <label>Street Address</label>
+                                                    <span>{{Address2}}</span>
+                                                </div>
+                                                <div class="inputGroups">
+                                                    <label>Country</label>
+                                                    <span>{{ViewCountryName}}</span>
+                                                </div>
+                                                <div class="inputGroups">
+                                                    <label>City</label>
+                                                    <span> {{ViewLocationName}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="inputGroups">
+                                                    <label>Street Address Line 2</label>
+                                                    <span>{{Address1}}</span>
+                                                </div>
+                                                <div class="inputGroups">
+                                                    <label>Postel/Zip Code</label>
+                                                    <span>{{PostalZipCode}}</span>
+                                                </div>
+                                                <div class="inputGroups">
+                                                    <label>State</label>
+                                                    <span>{{ViewStateName}}</span>
+                                                </div>
+                                            </div>
 
-                                                    <td width="25%">
-                                                        <label>Street Address</label>
-                                                    </td>
-                                                    <td width="25%">
-                                                        {{Address2}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Street Address Line 2</label>
-                                                    </td>
-                                                    <td>
-                                                        {{Address1}}
-                                                    </td>
-
-                                                    <td>
-                                                        <label>Postel/Zip Code</label>
-                                                    </td>
-                                                    <td>
-                                                        {{PostalZipCode}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>Country</label>
-                                                    </td>
-                                                    <td>
-                                                        {{ViewCountryName}}
-                                                    </td>
-
-                                                    <td>
-                                                        <label>State</label>
-                                                    </td>
-                                                    <td>
-                                                        {{ViewStateName}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label>City</label>
-                                                    </td>
-                                                    <td>
-                                                        {{ViewLocationName}}
-                                                    </td>
-                                                </tr>
-                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-info" ng-show="currentTab=='4'">
+                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='4'">
                                     <!--<div class="panel-heading containeralign">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1095,34 +908,25 @@
                                                 </div>-->
                                     <div id="collapse9" class="panel-collapse">
                                         <div class="panel-body">
-                                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                                   class="formControlGroup">
-                                                <tr>
-                                                    <td width="25%">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
                                                         <label>EMR Availability</label>
-                                                    </td>
-                                                    <td width="25%">
                                                         <input type="checkbox" value="agree" ng-model="EMR_Avalability"
                                                                ng-disabled="true">
-                                                    </td>
-
-                                                    <td width="25%">
+                                                    </div>
+                                                    <div class="inputGroups">
                                                         <label>Languages Known</label>
-                                                    </td>
-                                                    <td width="25%">
-                                                        {{LanguageKnown}}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td valign="top" width="25%">
+                                                        <span>{{LanguageKnown}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
                                                         <label>Certificates Upload</label>
-                                                    </td>
-
-                                                    <td valign="top" width="25%">
                                                         <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

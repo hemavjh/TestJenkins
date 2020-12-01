@@ -22,137 +22,98 @@
     <ul class="secondaryMenu">
         <li>
             <a href="Home/Index#/InstitutionHospitalAdmin_view">
-                Institution</a>
+                Institution
+            </a>
         </li>
-        <li><a class="secondaryMenuActive" href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
+        <li>
+            <a class="secondaryMenuActive" href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
         </li>
         <li><a href="Home/Index#/HospitalAdmin_UserList/2">Business User</a></li>
     </ul>
     <!--<div ng-if="ModeType==2 && window.top==window">
-      <meta http-equiv="refresh">
-   </div>-->
+       <meta http-equiv="refresh">
+    </div>-->
     <div ng-init="InstitutionSubscriptionDetails_View();">
-         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
         <h1 class="page-title">Subscription</h1>
         <div class="panel panel-default active" id="Basic1">
             <div class="panel-body">
                 <form class="form-horizontal" role="form" name="patientform" id="patientform">
-                    <table cellpadding="0" align="Center" cellspacing="0" border="0" width="100%"
-                        class="formControlGroup">
-                        <tr>
-                            <td width="15%">
-                                <Lable>Name of the Institution</Lable>
-                            </td>
-                            <td width="30%">
-                                {{ViewInstitution_Name}}
-                            </td>
-                            <td rowspan="9" valign="top">
-                                <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
-                                    <tr style="text-align: center">
-                                        <td>
-                                            <!--<input type="checkbox" value=0 ng-model="InstitutionAddList[$index]" />{{row.ModuleName}}-->
-                                            <div class="row">
-                                                <div class="col-sm-6" ng-repeat="(key,value) in InstitutiontypeList">
-                                                    
-                                                    <input type="checkbox" disabled="disabled"
-                                                        ng-model="InstitutionAddList[$index]" />{{value.ModuleName}}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <table cellpadding="0" cellspacing="0" border="0" width="90%" class="formControlGroup">
-                                    <tr>
-                                        <td width="7%">
-                                            <label>No.of Health Care Professionals</label>
-                                        </td>
-                                        <td width="20%">
-                                            {{Health_Care_Professionals}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>No.of Patients</label>
-                                        </td>
-                                        <td>
-                                            {{Patients}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>Contract Period </label>
-                                        </td>
-                                        <td>
-                                            {{Contract_Period_From}} - {{Contract_Period_To}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label>Type</label>
-                                        </td>
-                                        <td class="nopadding">
-                                            <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup"
-                                                width="100%">
-                                                <tr>
-                                                    <td>
-                                                        {{Subscription_Type==1 ? "Standard" : "Premium"}}
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <label>Name of the Institution</label>
+                                <span>{{ViewInstitution_Name}}</span>
+                            </div>
+                            <div class="inputGroups">
                                 <label>Email</label>
-                            </td>
-                            <td><span>{{Email}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
+                                <span>{{Email}}</span>
+                            </div>
+                            <div class="inputGroups">
                                 <label>Address</label>
-                            </td>
-                            <td><span>{{Address1}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label></label>
-                            </td>
-                            <td><span>{{Address2}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label></label>
-                            </td>
-                            <td><span>{{Address3}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
+                                <div><span>{{Address1}}</span></div>
+                                <div> <span>{{Address2}}</span></div>
+                                <div> <span>{{Address3}}</span></div>
+
+
+
+                            </div>
+                            <div class="inputGroups">
+
                                 <label>Postal/ZipCode</label>
-                            </td>
-                            <td><span>{{ZipCode}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
+
+                                <span>{{ZipCode}}</span>
+                            </div>
+                            <div class="inputGroups">
+
                                 <label>Country</label>
-                            </td>
-                            <td><span>{{Country}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
+                                <span>{{Country}}</span>
+                            </div>
+                            <div class="inputGroups">
+
                                 <label>State</label>
-                            </td>
-                            <td><span>{{State}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
+                                <span>{{State}}</span>
+                            </div>
+                            <div class="inputGroups">
+
                                 <label>City</label>
-                            </td>
-                            <td><span>{{City}}</span></td>
-                        </tr>
-                    </table>
+                                <span>{{City}}</span>
+                            </div>
+                            <div class="inputGroups"></div>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <label>No.of Health Care Professionals</label>
+                                <span> {{Health_Care_Professionals}}</span>
+                            </div>
+                            <div class="inputGroups">
+                                <label>No.of Patients</label>
+                                <span>{{Patients}}</span>
+                            </div>
+                            <div class="inputGroups">
+                                <label>Contract Period </label>
+                                <span> {{Contract_Period_From}} - {{Contract_Period_To}}</span>
+                            </div>
+                            <div class="inputGroups">
+                                <label>Type</label>
+                                {{Subscription_Type==1 ? "Standard" : "Premium"}}
+                            </div>
+
+
+                        </div>
+                        <div class="col-sm-4">
+
+                            <div ng-repeat="(key,value) in InstitutiontypeList">
+
+                                <input type="checkbox" disabled="disabled"
+                                       ng-model="InstitutionAddList[$index]" /><span class="ml-10">{{value.ModuleName}}</span>
+                            </div>
+
+
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>

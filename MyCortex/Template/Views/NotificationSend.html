@@ -3,159 +3,100 @@
     </li>
     <li><a class="secondaryMenuActive" href="Home/Index#/NotificationSend/2">Send Notification</a>
     </li>
-        <li><a href="Home/Index#/NotificationUndelivered/2">Resend Notification</a>
+    <li><a href="Home/Index#/NotificationUndelivered/2">Resend Notification</a>
     </li>
     <li><a href="Home/Index#/NotificationHistory/2">Notification History</a>
     </li>
 </ul>
-<h1 class="title1">Send Notification</h1>
-<div class="panel panel-default panel-info" id="Div4" ng-init="currentTab='1'">
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+<h1 class="page-title">Send Notification</h1>
+<div class="panel panel-default" id="Div4" ng-init="currentTab='1'">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
     <form class="form-horizontal" role="form">
         <div class="overlay" show-on-load>
             <div id="loading-img"></div>
         </div>
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-            <tr>
-                <td width="5%">
-                    <label>Search</label>
-                </td>
-                <td width="15%">
-                    <div class="modernSearch">
-                        <input type="text" ng-model="searchquery" ng-change="ListFilter();" placeholder="" />
-                        <i class="fa fa-search"></i>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label>Search</label>
+                        <div class="modernSearch">
+                            <input type="text" ng-model="searchquery" ng-change="ListFilter();" placeholder="" />
+                            <i class="fa fa-search"></i>
+                        </div>
                     </div>
-                </td>
-                <td width="7%">
-                    <label>User Type</label>
-                </td>
-                <td width="25%">
-                    <select ng-model="UserTypeId" multiple="multiple"
-                        ng-options="row.Id as row.TypeName for row in Usertypelistdata" multiselect-dropdown>
-                    </select>
-                </td>
-                <td width="5%">
-                    <label>Template</label>
-                </td>
-                <td width="20%">
-                    <select class="form-control" data-style="form-control" id="TemplateId" ng-model="Template_Id">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in SentEmailTemplateList" ng-selected="Template_Id==sel.Id"
-                            ng-required="true" value="{{sel.Id}}">{{sel.TemplateName}}</option>
-                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label>User Type</label>
+                        <select ng-model="UserTypeId" multiple="multiple"
+                            ng-options="row.Id as row.TypeName for row in Usertypelistdata" multiselect-dropdown>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label>Template</label>
+                        <select class="form-control" data-style="form-control" id="TemplateId" ng-model="Template_Id">
+                            <option value="0">Select</option>
+                            <option ng-repeat="sel in SentEmailTemplateList" ng-selected="Template_Id==sel.Id"
+                                ng-required="true" value="{{sel.Id}}">{{sel.TemplateName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label>Advance Filter</label>
+                        <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5"
+                            href="#collapseMore"
+                            ng-click="currentTab=='1'?currentTab='2':currentTab='1';SendEmailDropdownList()"
+                            title="Click for Advance search">
+                            <sub ng-show="currentTab=='1' ">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </sub>
+                            <sub ng-show="currentTab=='2'">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </sub>
+                        </a>
+                        <button type="button" ng-click="Get_SendEmail_UserList()" title="Click to List the Values"
+                            class="theme-btn-1  pull-right">Go</button>
+                        <button type="button" ng-click="SendEmail_Insert()" title="Click to Send the Email"
+                            class="theme-btn-1 mr-10 pull-right">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                </td>
-                <td width="28%">
-                    <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5" href="#collapseMore"
-                        ng-click="currentTab=='1'?currentTab='2':currentTab='1';SendEmailDropdownList()" title="Click for Advance search">More
-                        <sub ng-show="currentTab=='1' ">
-                            <input type="image" src="../../Images/expand.gif" title='' style="width: 20px;"
-                                id="tableid_img2">
-                        </sub>
-                        <sub ng-show="currentTab=='2'">
-                            <input type="image" src="../../Images/collapse.gif" title='' style="width: 20px;"
-                                id="Image1">
-                        </sub>
-                    </a>
-                    <button type="button" ng-click="Get_SendEmail_UserList()" title="Click to List the Values"
-                        class="btn btn-primary btn-sm">Go</button>
-                    <button type="button" ng-click="SendEmail_Insert()" title="Click to Send the Email"
-                        class="btn btn-primary btn-sm">Send</button>
-                </td>
-            </tr>
-        </table>
     </form>
 </div>
-<div id="collapseMore" class="panel-collapse collapse panel panel-default panel-info">
+<div id="collapseMore" class="panel-collapse collapse panel panel-default">
     <div class="panel-body">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-            <tr>
-                <td width="15%">Patient ID
-                </td>
-                <td width="20%">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="inputGroups">
+                    <label for="">Patient ID</label>
                     <input type="text" class="form-control" ng-model="Filter_PatientNo" maxlength="50"
                         ng-maxlength="100">
-                </td>
-                <td width="10%">Insurance ID
-                </td>
-                <td width="20%">
-                    <input type="text" class="form-control" ng-model="filter_InsuranceId" maxlength="50"
-                        ng-maxlength="100">
-                </td>
-                <td width="10%">
-                    <label>Gender</label>
-                </td>
-                <td width="20%">
-                    <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Gender_Name}}</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                </div>
+                <div class="inputGroups">
                     <label>Nationality</label>
-                </td>
-                <td>
                     <select class="form-control" ng-model="filter_NationalityId" id="Select17" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
                             value="{{sel.Id}}">{{sel.Name}}
                         </option>
                     </select>
-                </td>
-
-                <td>
-                    <label>Ethnic Group</label>
-                </td>
-                <td>
-                    <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in EthnicGroupList" ng-selected="filter_EthinicGroupId==sel.Id"
-                            value="{{sel.Id}}">{{sel.Name}}
-                        </option>
-                    </select>
-                </td>
-                <td>
-                    <label>Mobile No.</label>
-                </td>
-                <td>
-                    <input type="text" class="form-control" id="Text11" ng-model="filter_MOBILE_NO"
-                        ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
-                </td>
-            </tr>
-            <tr>
-                <td>
+                </div>
+                <div class="inputGroups">
                     <label>Home Phone Number</label>
-                </td>
-                <td>
                     <input type="text" class="form-control" id="Text13" ng-model="filter_HomePhoneNo" maxlength="50"
                         ng-maxlength="50" placeholder="">
-                </td>
-                <td>Email
-                </td>
-                <td>
-                    <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
-                        ng-maxlength="100" />
-                </td>
-                <td>
-                    <label>Marital Status</label>
-                </td>
-                <td>
-                    <select class="form-control" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in MaritalStatusList" ng-selected="filter_MaritalStatus==sel.Id"
-                            value="{{sel.Id}}">{{sel.Name}}
-                        </option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                </div>
+                <div class="inputGroups">
                     <label>Country</label>
-                </td>
-                <td>
                     <select class="form-control" data-style="form-control" data-live-search="true"
                         id="countryselectpicker" data-selectpicker data-collection-name="CountryNameList"
                         ng-model="filter_CountryId" ng-change="Filter_Country_onChange();">
@@ -163,12 +104,38 @@
                         <option ng-repeat="sel in CountryNameList" ng-required="true" value="{{sel.Id}}">
                             {{sel.CountryName}}</option>
                     </select>
-                </td>
-                <td>
+                </div>
+                <div class="inputGroups">
+                    <label>Blood Group</label>
+                    <select class="form-control" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in BloodGroupList" ng-selected="filter_BloodGroupId==sel.Id"
+                            value="{{sel.Id}}">{{sel.BloodGroup_Name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="inputGroups">
+                    <label for="Insurance ID">Insurance ID</label>
+                    <input type="text" class="form-control" ng-model="filter_InsuranceId" maxlength="50"
+                        ng-maxlength="100">
+                </div>
+                <div class="inputGroups">
+                    <label>Ethnic Group</label>
+                    <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in EthnicGroupList" ng-selected="filter_EthinicGroupId==sel.Id"
+                            value="{{sel.Id}}">{{sel.Name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="inputGroups">
+                    <label for="Email">Email</label>
+                    <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
+                        ng-maxlength="100" />
+                </div>
+                <div class="inputGroups">
                     <label>State</label>
-                </td>
-
-                <td>
                     <select class="form-control" data-style="form-control" id="stateselectpicker"
                         data-live-search="true" data-selectpicker data-collection-name="StateNameList"
                         ng-model="filter_StataId" ng-change="Filter_State_onChange()">
@@ -176,49 +143,59 @@
                         <option ng-repeat="sel in StateNameList" ng-required="true" value="{{sel.Id}}">{{sel.StateName}}
                         </option>
                     </select>
-
-                </td>
-                <td>
-                    <label>City</label>
-                </td>
-                <td>
-                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker
-                        data-collection-name="CityNameList" ng-model="filter_CityId">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in CityNameList | filter : {StateId : filter_StataId} "
-                            ng-required="true" value="{{sel.Id}}">{{sel.LocationName}}</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="vtop">
-                    <label>Blood Group</label>
-                </td>
-                <td class="vtop">
-                    <select class="form-control" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in BloodGroupList" ng-selected="filter_BloodGroupId==sel.Id"
-                            value="{{sel.Id}}">{{sel.BloodGroup_Name}}</option>
-                    </select>
-                </td>
-                <td class="vtop">
+                </div>
+                <div class="inputGroups">
                     <label>Group</label>
-                </td>
-                <td class="vtop">
                     <select ng-model="filter_GroupId" multiple="multiple"
-                        ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
-                        style="width: 230px;">
+                    ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
+                    style="width: 230px;">
+                </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="inputGroups">
+                    <label>Gender</label>
+                    <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id" value="{{sel.Id}}">
+                            {{sel.Gender_Name}}</option>
                     </select>
-                </td>
-                <td colspan="2" class="vtop">
+                </div>
+                <div class="inputGroups">
+                    <label>Mobile No.</label>
+                    <input type="text" class="form-control" id="Text11" ng-model="filter_MOBILE_NO"
+                        ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
+                </div>
+                <div class="inputGroups">
+                    <label>Marital Status</label>
+                    <select class="form-control" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in MaritalStatusList" ng-selected="filter_MaritalStatus==sel.Id"
+                            value="{{sel.Id}}">{{sel.Name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="inputGroups">
+                    <label>City</label>
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker
+                    data-collection-name="CityNameList" ng-model="filter_CityId">
+                    <option value="0">Select</option>
+                    <option ng-repeat="sel in CityNameList | filter : {StateId : filter_StataId} "
+                        ng-required="true" value="{{sel.Id}}">{{sel.LocationName}}</option>
+                </select>
+                </div>
+                <div class="inputGroups">
                     <a href="javascript:" ng-click="Get_SendEmail_UserList()" title="Click to Filter the Values"
-                        class="btn btn-autosize ml-10">Search</a>
+                        class="theme-btn-1 ml-10 mt-10">Search</a>
 
                     <a href="javascript:" ng-click="ResetPatientFilter()" title="Click to Reset the Filter"
-                        class="btn btn-autosize ml-10">Reset</a>
-                </td>
-            </tr>
-        </table>
+                        class="theme-btn-2 mt-10">Reset</a>
+                </div>
+            </div>
+
+
+        </div>
+     
     </div>
 </div>
 <div class="tableFixedLayout">
@@ -283,40 +260,32 @@
                 <h4 class="modal-title">Template Preview</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
-                            <td style="width:7%">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="inputGroups">
                                 <label>To</label>
-                            </td>
-                            <td style="width:30%">
                                 <span>{{EmailId}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width:7%">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="inputGroups">
                                 <label>Notification Title</label>
-                            </td>
-                            <td style="width:30%">
                                 <span>{{EmailSubject}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="inputGroups">
                                 <label>Notification Message</label>
-                            </td>
-                            <td>
-                                <div>
-                                    <p ng-bind-html="Generated_Template"></p>
-                                </div>
-                                <!--<span>{{Generated_Template}}</span>-->
-                            </td>
-                        </tr>
-                    </table>
+                                <span ng-bind-html="Generated_Template"></span>
+                            </div>
+                        </div>
+                    </div>
+                  
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn  btn-save" title="Click to Cancel"
+                <button type="button" class="theme-btn-2" title="Click to Cancel"
                     ng-click="CancelPreview_PopUp()">Cancel</button>
             </div>
         </div>

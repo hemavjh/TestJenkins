@@ -14,35 +14,40 @@
 <div class="container">
     <div class="row">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-          <div class="col-md-12" ng-init="ICD10list()">
-            <div class="panel panel-default panel-info" id="ICD10Id">
+          <div class="" ng-init="ICD10list()">
+            <div class="panel panel-default" id="ICD10Id">
                 <form class="form-horizontal" role="form">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
-                        <td width="5%">
-                        <label>Search</label>
-                        </td>
-                        <td width="15%">
-                            <div class="modernSearch">
-                             <input type="text" ng-model="searchquery" ng-change="fliterICD10List()"
-                                    placeholder="" style="width: 200px" />  
-                            <i class="fa fa-search"></i>   
-                                </div>                     
-                       </td>
-                        <td style="text-align:left" width="65%">
-                         Active&nbsp;&nbsp;
-                         <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="ICD10list();" title="Active / All">
-                        </td>
-                        <td style="text-align:right" width="65%"> 
-                      <a href="javascript:" ng-click="ClearPopup();AddICD10PopUP();" class="btn btn-autosize pull-right mb-15" title="Click to Add New ICD 10">Add New</a>
-                     </td>
-                    </tr>
-                </table>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label>Search</label>
+                                    <div class="modernSearch">
+                                        <input type="text" ng-model="searchquery" ng-change="fliterICD10List()"
+                                               placeholder="" style="width: 200px" />
+                                        <i class="fa fa-search"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label>Active</label>
+                                </div>
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="ICD10list();" title="Active / All">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <a href="javascript:" ng-click="ClearPopup();AddICD10PopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New ICD 10">Add New</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
            </form>
         </div> 
       </div>
             <!-- <a href="javascript:" ng-click="AddICD10PopUP()" class="btn btn-autosize pull-right mb-15" title="Click to Add New ICD 10">Add New</a>-->
-        <div class="col-md-12">
+        <div class="">
             <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
                 <thead>
                    <tr style="text-align: center">
@@ -66,15 +71,21 @@
                     <td style="text-align: left">{{row.CategoryName}}</td>
                       <td st-ratio="10">
 
-                     <a href="javascript:" ng-click="ViewICD1OPopUP(row.Id)" title="View"><img src="../../Images/ViewIcon.png"/></a>
+                     <a href="javascript:" ng-click="ViewICD1OPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
-                      <a href="javascript:" ng-click= "row.IsActive == 0 ||  EditICD10PopUP(row.Id)" title="Edit">
-                         <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ErrorFunction()" title="Edit"><img src="../../Images/EditIcon.png" ng-if="row.IsActive==0"/>
-                        </a>
-                       <a href="javascript:" ng-click="DeleteICD10(row.Id)" title="Active"><img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
-                           <img src="../../Images/inactive.png" ng-if="row.IsActive==0"/></a>
-                           </a>
-                        </td>                 
+                     <a href="javascript:" ng-click="row.IsActive == 0 ||  EditICD10PopUP(row.Id)" title="Edit">
+                         <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                         <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+
+                         </a>
+                     </a>
+                         <a href="javascript:" ng-click="DeleteICD10(row.Id)" title="Active">
+                             <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                            <a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
+                                
+                             </a>
+                         </a>
+</td>                 
                     </tr>
                      </tbody>
                 <tfoot ng-show="rowCollectionFilter.length >10">
@@ -94,46 +105,31 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="CancelPopup()"  style="color:#8B0000;">&times;</button>
+                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="CancelPopup()"  style="color:#fff;">&times;</button>
                 <h4 class="modal-title">ICD 10</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
-                             <td width="4%">
-                                <label>ICD Code<sup><font class='mandatory-field'>*</font></sup></label>
-                             </td>
-                             <td>
-                                <input type="text" class="form-control" id="Text6" name="ICD_Code" ng-model="ICD_Code" ng-init="ICD_Code=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
-                            </td>
-                            </tr>
-
-                        <tr>
-                            <td valign="top">
-                                <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
-                            <td>
-                                <textarea class="form-control" id="Textarea1" rows="2" name="Description" ng-model="Description" placeholder="" ng-maxlength="250" maxlength="250"></textarea>
-                            </td>
-                        </tr>
-                            <tr>
-                           <td>
-                                <label>Category</label>
-                            </td>
-                            <td>
-                                <select class="" data-style="form-control" ng-model="Category_ID" id="selectpicker"  data-live-search="true" data-selectpicker data-collection-name="CategoryIDList">                                    
-                                    <option ng-repeat="sel in CategoryIDList" value="{{sel.Id}}">{{sel.Name}}</option>                                   
-                                </select>                               
-                            </td>
-                        </tr>
-                        <tr>
-                    </table>
+                    <div class="inputGroups">
+                        <label>ICD Code<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="Text6" name="ICD_Code" ng-model="ICD_Code" ng-init="ICD_Code=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
+                        <textarea class="form-control" id="Textarea1" rows="2" name="Description" ng-model="Description" placeholder="" ng-maxlength="250" maxlength="250"></textarea>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Category</label>
+                        <select class="" data-style="form-control" ng-model="Category_ID" id="selectpicker" data-live-search="true" data-selectpicker data-collection-name="CategoryIDList">
+                                <option ng-repeat="sel in CategoryIDList" value="{{sel.Id}}">{{sel.Name}}</option>
+                            </select>
+                    </div>
+                   
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn  btn-save" ng-click="ICD10AddEdit()" title="Click to Save">Save</button>
-                <button type="button" class="btn  btn-save"  ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-click="ICD10AddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2  btn-save"  ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
             </div>
         </div>
     </div>
@@ -143,41 +139,28 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()"  style="color:#8B0000;">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()">&times;</button>
                 <h4 class="modal-title">ICD 10</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                           <tr>
-                            <td style="width:15%">
-                                <label>ICD Code</label>
-                            </td>
-                            <td style="width:65%">
-                                <span>{{ICD_Code}}</span>
-                            </td>
-                           </tr>          
-                        <tr>
-                            <td valign="top">
-                                <label>Description</label>
-                            </td>
-                            <td>
-                                <span><div class="textwrap">{{Description}}</div></span>
-                            </td>
-                        </tr>                 
-                        <tr>
-                            <td>
-                                <label>Category</label>
-                            </td>
-                            <td>
-                                <span>{{ViewCategoryName}}</span>
-                            </td>
-                        </tr>
-                  </table>
+                    <div class="inputGroups">
+                        <label>ICD Code</label>
+                        <span>{{ICD_Code}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Description</label>
+                        <span><div class="textwrap">{{Description}}</div></span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Category</label>
+                       <span>{{ViewCategoryName}}</span>
+                    </div>
+                    
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn  btn-save" ng-click="CancelViewPopup()" title="Click to Cancel">Cancel</button>
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelViewPopup()" title="Click to Cancel">Cancel</button>
             </div>
         </div>
     </div>

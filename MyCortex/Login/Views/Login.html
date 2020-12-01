@@ -11,10 +11,12 @@
             padding: 10px;
             cursor: pointer;
         }
+        pre{
+            display: none;
+        }
 </style>
 
-<div class="loginContainer">    
-       <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+<div class="loginContainer">
     <h1>MyCortex Sign In</h1>
     <p>New to MyCortex?<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>
     <form>
@@ -29,9 +31,9 @@
         </div>
         <div class="alert alert-danger def" ng-if="errorlist!=null">
             <div ng-if="errorlist!=null">
-                <strong>{{errorlist}}</strong>
+                {{errorlist}}
             </div>
-        </div>       
+        </div>
         <button type="button" class="loginBtn" ng-click="UserLogin_AddEdit()">Log in</button>
         <div class="row">
             <div class="col-xs-6">
@@ -57,10 +59,13 @@
                 </a>
             </div>
         </div>
+        <div class="version">
+            V1.3
+        </div>
     </form>
 </div>
 
-<div id="signupModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+<div id="signupModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -71,7 +76,7 @@
             <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">First Name<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="Text5" name="FirstName" ng-model="FirstName"
                                        ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
@@ -79,7 +84,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">Middle Name</label>
                                 <input type="text" class="form-control" id="Text19" name="MiddleName" ng-model="MiddleName"
                                        ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
@@ -87,7 +92,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="LastName">Last Name<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="LastName" name="LastName" ng-model="LastName"
                                        ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
@@ -95,28 +100,28 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">MRN No.<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="T1" name="MNR_No" ng-model="MNR_No" ng-init="MNR_No=''"
                                        ng-required="true" onkeypress="" placeholder="" ng-maxlength="50" maxlength="50" />
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">National ID</label>
                                 <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
                                        ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" />
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">Insurance ID</label>
                                 <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId"
                                        ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">Sex<sup><font class='mandatory-field'>*</font></sup></label>
                                 <select class="form-control" ng-model="GenderId" id="Select3" ng-required="true">
                                     <option value="0">Select</option>
@@ -127,7 +132,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">Nationality<sup><font class='mandatory-field'>*</font></sup></label>
                                 <select class="form-control" placeholder="Nationality" ng-model="NationalityId" id="Select5"
                                         ng-required="true">
@@ -139,31 +144,31 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
-                                <div class="col-xs-11 input-group date" id="DOB">
-                                    <input type="text" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''"
-                                           style="width: 190px" ng-required="true">
+                                <div class="date" id="DOB">
+                                    <input type="text" placeholder="" class="form-control dateIcon" ng-model="DOB" ng-init="DOB=''"
+                                            ng-required="true">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">Email<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="Text4" name="" ng-model="EmailId" ng-init="EmailId=''"
                                        ng-required="true" placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="inputGroups">
                                 <label for="email">Mobile No.<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
                                        maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" title="Click to Submit Signup Details"
+                    <button type="button" class="theme-btn-1 mt-10"  title="Click to Submit Signup Details"
                             ng-click="SignupLogin_AddEdit()">
                         Submit
                     </button>
@@ -176,7 +181,7 @@
         </div>
     </div>
 </div>
-<div id="forgotPasswordModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+<div id="forgotPasswordModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -187,8 +192,8 @@
             <div class="modal-body">
                 <form action="/action_page.php">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="inputGroups">
                                 <label for="email">Email<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="Text1" name="forgotPasswordEmail" ng-model="forgotPasswordEmail"
                                        ng-required="true" placeholder="" ng-maxlength="100"
@@ -196,7 +201,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" title="Click to Resend password"
+                    <button type="button" class="theme-btn-1 mt-10" title="Click to Resend password"
                             ng-click="forgotPasswordValidate()">
                         Send Password
                     </button>
@@ -212,21 +217,17 @@
 </div>
 
 <script>
-        // <i class="fas fa-eye-slash"></i>
+     
         $(function () {
-            // $('#viewPassword').click(function(){
-            //     $(this).toggleClass('fa-eye-slash');
-            //     $(this).toggleClass('fa-eye');
-            //     if($(this).hasClass('fa-eye')){
-            //         $('#password').attr('type','password')
-
-            //     }
-            //     else{
-            //         $('#password').attr('type','text')
-            //     }
-
-            // })
+            
+            $('body:not(".viewPassword")').click(function(){
+               
+                $('#viewPassword').addClass('fa-eye');
+                $('#viewPassword').removeClass('fa-eye-slash');
+                $('#psw').attr('type', 'password');
+            })
             $('#viewPassword').on('mousedown', function () {
+               
                 $(this).addClass('fa-eye-slash');
                 $(this).removeClass('fa-eye');
                 $('#psw').attr('type', 'text');
@@ -235,15 +236,6 @@
                 $(this).removeClass('fa-eye-slash');
                 $('#psw').attr('type', 'password');
             });
-
-            $(document).ready(function () {
-                $(document).mouseup(function () {
-                    $('#viewPassword').addClass('fa-eye');
-                    $('#viewPassword').removeClass('fa-eye-slash');
-                    $('#psw').attr('type', 'password');
-                });
-            });
-
         })
 
         $("#DOB").datepicker({

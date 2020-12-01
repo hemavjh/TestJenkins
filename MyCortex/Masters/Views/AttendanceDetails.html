@@ -11,173 +11,183 @@
     <li><a href="Home/Index#/DoctorHoliday" class="secondaryMenuActive">Doctor Holiday</a></li>
 </ul>
 <h1 class="page-title">Holiday</h1>
-<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-<div class="row" ng-init="AttendanceList()">
-    <div class="col-md-12">
-        <div class="panel panel-default panel-info" id="DMid">
-            <form class="form-horizontal" role="form">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                    <tr>
-                        <td width="5%">
-                            <label>Search</label>
-                        </td>
-                        <td width="5%">
-                            <div class="modernSearch">
-                                <input type="text"  ng-model="searchqueryAttendance" ng-change="FilterAttendanceList()" placeholder="" style="width: 200px" />
-                                <i class="fa fa-search"></i>
-                            </div>
-                        </td>
-                        <td style="text-align:left" width="65%">
-                            Active &nbsp;&nbsp;
-                             <input toggle-checkbox ng-model="IsActive" type="checkbox"
-                                        ng-change="AttendanceList();" title="Active / All">
-                            </td>
-                        
-                        <td>
-                            <a href="javascript:" ng-click="AddAttendance();" class="btn btn-autosize pull-right mb-15" title="Click to Add New Shift Timing">Add New</a>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
+<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+    <div></div>
+    <div></div>
+</div>
+<div ng-init="AttendanceList()">
+
+    <div class="panel panel-default" id="DMid">
+        <form class="panel-body" role="form">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Search</label>
+
+                        <div class="modernSearch">
+                            <input type="text" ng-model="searchqueryAttendance" ng-change="FilterAttendanceList()"
+                                placeholder="" style="width: 200px" />
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label for="Active">Active</label>
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="AttendanceList();"
+                            title="Active / All">
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <a href="javascript:" ng-click="AddAttendance();" class="theme-btn-1 pull-right mt-15"
+                            title="Click to Add New Shift Timing">Add New</a>
+                    </div>
+                </div>
+            </div>
+
+        </form>
     </div>
-    <div class="col-md-12">
-        <table st-table="emptydataAttendance" style="width: 100%" st-safe-src="rowCollectionAttendanceFilter" st-search="query" class="table themeTable">
-            <thead>
-                <tr style="text-align: center">
-                    <th st-ratio="5">#</th>
-                    <th st-ratio="33" st-sort="DoctorName">Doctor Name</th>
-                    <th st-ratio="14" st-sort="AttendanceFromDate">From Date</th>
-                    <th st-ratio="14" st-sort="ShiftEndTime">To Date</th>
-                    <th st-ratio="14" st-sort="ShiftEndTime">Remarks</th>
-                    <th st-ratio="12" st-sort="AttendanceFromDate">Created By/Created On </th>
-                    <th st-ratio="8">Action</th>
-                </tr>
-             </thead>
-            <tbody>
-                <tr ng-if="flag==0 && rowCollectionAttendanceFilter.length==0">
-                    <td colspan="9" style="text-align: center">
-                        No Data Available
-                    </td>
-                </tr>
-               <!-- {{emptydataAttendance}}-->
-                <tr ng-repeat="row in emptydataAttendance">
+
+    <table st-table="emptydataAttendance" style="width: 100%" st-safe-src="rowCollectionAttendanceFilter"
+        st-search="query" class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5">#</th>
+                <th st-ratio="33" st-sort="DoctorName">Doctor Name</th>
+                <th st-ratio="14" st-sort="AttendanceFromDate">From Date</th>
+                <th st-ratio="14" st-sort="ShiftEndTime">To Date</th>
+                <th st-ratio="14" st-sort="ShiftEndTime">Remarks</th>
+                <th st-ratio="12" st-sort="AttendanceFromDate">Created By/Created On </th>
+                <th st-ratio="8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="flag==0 && rowCollectionAttendanceFilter.length==0">
+                <td colspan="9" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <!-- {{emptydataAttendance}}-->
+            <tr ng-repeat="row in emptydataAttendance">
                 <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
-               
+
                 <td style="text-align: left">
                     <div class="textwrap">{{row.DoctorName}}</div>
                 </td>
-              <td style="text-align: left">
-                  {{row.AttendanceFromDate| date:'dd-MMM-yyyy '}} 
-              </td>
-                       <td style="text-align: left">
-                  {{row.AttendanceToDate| date:'dd-MMM-yyyy'}}
-              </td>
-              <td style="text-align: left">
-                 <div class="textwrap"> {{row.Remarks}} </div>
-              </td>
-                       <td style="text-align: left">
-                               {{row.CreatedByName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm:ss a'}}
-              </td>
+                <td style="text-align: left">
+                    {{row.AttendanceFromDate| date:'dd-MMM-yyyy '}}
+                </td>
+                <td style="text-align: left">
+                    {{row.AttendanceToDate| date:'dd-MMM-yyyy'}}
+                </td>
+                <td style="text-align: left">
+                    <div class="textwrap"> {{row.Remarks}} </div>
+                </td>
+                <td style="text-align: left">
+                    {{row.CreatedByName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm:ss a'}}
+                </td>
                 <td style="text-align: center">
                     <a href="javascript:" ng-click="ViewAttendance(row.Id)" title="View">
-                        <img src="../../Images/ViewIcon.png" />
+                        <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a href="javascript:" title="Edit" ng-click="EditAttendance(row.Id, row.IsActive,row.AttendanceToDate)">
-                        <img src="../../Images/EditIcon.png" />
-                    </a>                  
+                    <a href="javascript:" title="Edit"
+                        ng-click="EditAttendance(row.Id, row.IsActive,row.AttendanceToDate)">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
                     <a href="javascript:;" ng-click="DeleteAttendance(row.Id)" title="Active">
-                        <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
+                        <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
                         <a href="javascript:" ng-click="ReInsertAttendance(row.Id)" title="Inactive">
-                            <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                            <i class="fa fa-times-circle-o" ng-if="row.IsActive==0" aria-hidden="true"></i>
+
                         </a></td>
             </tr>
-            </tbody>
-            <tfoot ng-show="rowCollectionAttendanceFilter.length >10">
-                <tr>
-                    <td colspan="9" class="text-center">
-                        <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+        </tbody>
+        <tfoot ng-show="rowCollectionAttendanceFilter.length >10">
+            <tr>
+                <td colspan="9" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                        st-template="Masters/Views/pagination.custom.html"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
 </div>
 <!--Add&Edit Modal-->
 <div id="AttendanceAddModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="ClearAttendancePopUp()" style="color:#8B0000;">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" title="Close"
+                    ng-click="ClearAttendancePopUp()">&times;</button>
                 <h4 class="modal-title">Holiday</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                      
-                        <tr ng-show="Id==0">
-                             <td width="7%">
-                                <label>Doctor<sup><font class='mandatory-field'>*</font></sup></label>
-                             </td>
-                             
-                            <td  width="7%">
-                              <select ng-model="SelectedAttendance" multiple="multiple"
-                                        ng-options="item1.Id as item1.FullName for item1 in UserTypeList"
-                                        multiselect-dropdown style="width: 230px;">
-                                    </select>
-                            </td>
-                            </tr>                          
-                             <tr ng-show="Id>0">
-                                 <td width="7%">
-                                    <label>Doctor<sup><font class='mandatory-field'>*</font></sup></label>
-                                 </td>
-                                <td  width="7%">
-                                        <select class="form-control" data-style="form-control" id="stateselectpicker" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
-                                             ng-model="EditSelectedAttendance" >
-                                            <option ng-repeat="sel in UserTypeList" ng-required="true" value="{{sel.Id}}">{{sel.FullName}}</option>
-                                        </select>
-                                </td>
-                            </tr>    
-                            <tr>
-                            <td >
-                                <label>From date<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
+                <form role="form">
+                    <div class="inputGroups" ng-show="Id==0">
+                        <label>Doctor<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup></label>
 
-                            <td style="width:30%">
-                            <div class="input-group date" id="AttendanceFromDate">
-                                            <input type="text" class="form-control" ng-model="AttendanceFromDate" ng-init="AttendanceFromDate=''">
-                                            <span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-th"></i>
-                                            </span>
-                                        </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td >
-                                <label>To date<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
+                        <select ng-model="SelectedAttendance" multiple="multiple"
+                            ng-options="item1.Id as item1.FullName for item1 in UserTypeList" multiselect-dropdown
+                            style="width: 230px;">
+                        </select>
+                    </div>
+                    <div class="inputGroups" ng-show="Id>0">
+                        <label>Doctor<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup></label>
 
-                            <td >
-                            <div class="input-group date" id="AttendanceToDate">
-                                            <input type="text" class="form-control" ng-model="AttendanceToDate" ng-init="AttendanceToDate=''">
-                                            <span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-th"></i>
-                                            </span>
-                                        </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top">Remarks</td>
-                            <td>
-                                    <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks"  ng-maxlength="250" maxlength="250"></textarea>
-                                </td>
-                        </tr>
-                    </table>
+                        <select class="form-control" data-style="form-control" id="stateselectpicker"
+                            data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
+                            ng-model="EditSelectedAttendance">
+                            <option ng-repeat="sel in UserTypeList" ng-required="true" value="{{sel.Id}}">
+                                {{sel.FullName}}</option>
+                        </select>
+                    </div>
+                    <div class="inputGroups">
+                        <label>From date<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup></label>
+
+                        <div id="AttendanceFromDate">
+                            <input type="text" class="form-control date" ng-model="AttendanceFromDate"
+                                ng-init="AttendanceFromDate=''">
+
+                        </div>
+                    </div>
+                    <div class="inputGroups">
+                        <label>To date<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup></label>
+
+                        <div id="AttendanceToDate">
+                            <input type="text" class="form-control date" ng-model="AttendanceToDate"
+                                ng-init="AttendanceToDate=''">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-th"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="inputGroups">
+                        <label for="Remarks">Remarks</label>
+                        <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks" ng-maxlength="250"
+                            maxlength="250"></textarea>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn  btn-save" ng-click="AttendanceAddEdit()" title="Click to Save">Save</button>
-                <button type="button" class="btn  btn-save"  ng-click="CancelAttendancePopUp()" title="Click to Cancel">Cancel</button>
+                <button type="button" class="theme-btn-1 mr-10" ng-click="AttendanceAddEdit()"
+                    title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2" ng-click="CancelAttendancePopUp()"
+                    title="Click to Cancel">Cancel</button>
             </div>
         </div>
     </div>
@@ -186,81 +196,64 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="CancelPopup()" style="color:#8B0000;">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" title="Close"
+                    ng-click="CancelPopup()">&times;</button>
                 <h4 class="modal-title">Holiday</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
-                             <td width="7%" valign="top">
-                                <label>Doctor</label>
-                             </td>
-                             
-                            <td  width="7%">
-                             <div class="textwrap"> {{DoctorName}}</div>
-                            </td>
-                            </tr>
-                            <tr>
-                              <td >
-                                <label>From Date</label>
-                              </td>
-                            
-                               <td>
-                                    {{AttendanceFromDate}}
-                               </td>
-                              </tr>
-                              <tr>
-                            <td >
-                                <label>To Date</label>
-                            </td>
-                            
-                            <td >
-                               {{AttendanceToDate}}
-                            </td>
-                          </tr> 
-                        <tr>
-                            <td valign="top" >
-                                <label>Remarks</label>
-                            </td>
+                <form role="form">
+                    <div class="inputGroups">
+                        <label>Doctor</label>
 
-                            <td style="width:30%">
-                          <div class="textwrap"> {{Remarks}}</div>
-                            </td>
-                        </tr>
-                       
-                    </table>
+                        <span class="textwrap"> {{DoctorName}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>From Date</label>
+                           
+                        <span>{{AttendanceFromDate}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>To Date</label>
+                           
+                        <span>{{AttendanceToDate}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Remarks</label>
+                        <span class="textwrap"> {{Remarks}}</span>
+                    </div>
+                    
+                    
                 </form>
             </div>
-            <div class="modal-footer" style="text-align:center;">               
-                  <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelAttendancePopUp()">
-                            Cancel
-                        </button>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelAttendancePopUp()">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
 </div>
-  <script>
-      $('#timepicker1').timepicker();
-      $('#timepicker2').timepicker();
-      $("#AttendanceFromDate").bootstrapDP({
-          format: "dd-M-yyyy",
-          forceParse: false,
-          //endDate: '+0d',
-          startDate: new Date(),
-          autoclose: true,
-          todayHighlight: true,
-          toggleActive: true,
-          todayBtn: true
-      });
-      $("#AttendanceToDate").bootstrapDP({
-          format: "dd-M-yyyy",
-          forceParse: false,
-          //endDate: '+0d',
-          startDate: new Date(),
-          autoclose: true,
-          todayHighlight: true,
-          toggleActive: true,
-          todayBtn: true
-      });
-    </script>
+<script>
+    // $('#timepicker1').timepicker();
+    // $('#timepicker2').timepicker();
+    $(".date").bootstrapDP({
+        format: "dd-M-yyyy",
+        forceParse: false,
+        //endDate: '+0d',
+        startDate: new Date(),
+        autoclose: true,
+        todayHighlight: true,
+        toggleActive: true,
+        todayBtn: true
+    });
+    // $("#AttendanceToDate").bootstrapDP({
+    //     format: "dd-M-yyyy",
+    //     forceParse: false,
+    //     //endDate: '+0d',
+    //     startDate: new Date(),
+    //     autoclose: true,
+    //     todayHighlight: true,
+    //     toggleActive: true,
+    //     todayBtn: true
+    // });
+</script>

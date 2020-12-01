@@ -15,103 +15,95 @@
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
 </ul>
 
-<div class="mainbody container-fluid">
-    <h1 class="page-title">Email setup</h1>
-    <div class="row" ng-init="EmailConfiguration_ViewEdit()">
-         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="panel panel-default" id="Basic1">
-                <div class="panel-body">
 
-                    <form class="form-horizontal" role="form">
+<h1 class="page-title">Email setup</h1>
+<div ng-init="EmailConfiguration_ViewEdit()">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
 
-                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                            <!--<tr>
-                                <td style="width: 2%">
-                                    <label>Institution Name</label>
-                                </td>
-                              <td style="width: 20%">
-                                     {{Insitution_Name}}
-                                </td>
-                            </tr>-->
-                            <tr>
-                                <td style="width: 2%">
-                                    <label>Sender Email ID<sup><font class='mandatory-field'>*</font></sup></label>
-                                </td>
-                                <td style="width: 20%">
-                                    <input type="text" class="form-control" id="Text3" ng-model="Sender_Email_Id" ng-maxlength="150" maxlength="150">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>User Name<sup><font class='mandatory-field'>*</font></sup></label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="Text2" ng-model="UserName" ng-maxlength="50" maxlength="50">
-                                </td>
-                            <tr>
-                                <td>
-                                    <label>Password<sup><font class='mandatory-field'>*</font></sup></label>
-                                </td>
-                                <td>
-                                    <input type="password" class="form-control" id="Text10" ng-model="Password" ng-maxlength="30" maxlength="30">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Server Name(SMTP)<sup><font class='mandatory-field'>*</font></sup></label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="Text1" ng-model="ServerName" ng-maxlength="100" maxlength="100">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Port No<sup><font class='mandatory-field'>*</font></sup></label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="Text4" ng-model="PortNo" onkeypress="varifyNumberPositive(this.PortNo)" ng-maxlength="10" maxlength="10">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Display Name<sup><font class='mandatory-field'>*</font></sup></label>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control" id="Text5" ng-model="DisplayName" ng-maxlength="50" maxlength="50">
-                                </td>
-                            </tr>
+    <div class="panel panel-default" id="Basic1">
+        <div class="panel-body">
+            <form class="form-horizontal" role="form">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label>Sender Email ID<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                            <input type="text" class="form-control" id="Text3" ng-model="Sender_Email_Id"
+                                ng-maxlength="150" maxlength="150">
+                        </div>
+                        <div class="inputGroups">
+                            <label>Password<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                            <input type="password" class="form-control" id="Text10" ng-model="Password"
+                                ng-maxlength="30" maxlength="30">
+                        </div>
+                        <div class="inputGroups">
+                            <label>Port No<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                            <input type="text" class="form-control" id="Text4" ng-model="PortNo"
+                                onkeypress="varifyNumberPositive(this.PortNo)" ng-maxlength="10" maxlength="10">
+                        </div>
+                        <div class="inputGroups">
+                            <label>Display Name<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                            <input type="text" class="form-control" id="Text5" ng-model="DisplayName" ng-maxlength="50"
+                                maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label>User Name<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                            <input type="text" class="form-control" id="Text2" ng-model="UserName" ng-maxlength="50"
+                                maxlength="50">
+                        </div>
+                        <div class="inputGroups">
+                            <label>Server Name(SMTP)<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                            <input type="text" class="form-control" id="Text1" ng-model="ServerName" ng-maxlength="100"
+                                maxlength="100">
+                        </div>
+                        <div class="inputGroups">
+                            <label>SSL Enable<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                            <select class="form-control" ng-model="SSL_Enable" id="SSL_Enable">
+                                <option value="0">Select</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
 
-                            <tr>
-                                <td>
-                                    <label>SSL Enable<sup><font class='mandatory-field'>*</font></sup></label>
-                                </td>
-                                <td>
-                                    <select class="form-control" ng-model="SSL_Enable" id="SSL_Enable">
-                                        <option value="0">Select</option>
-                                        <option value="1">Yes</option>
-                                        <option value="2">No</option>
-                                    </select>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td style="vertical-align:top">
-                                    <label>Remarks</label>
-                                </td>
-                                <td>
-                                    <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks" ng-maxlength="250" maxlength="250"></textarea>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="inputGroups">
+                            <label>Remarks</label>
+                            <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks" ng-maxlength="250"
+                                maxlength="250"></textarea>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div style="text-align: center;">
-                <button type="button" class="btn  btn-save" id="save" title="Click to Save" ng-click="EmailConfiguration_AddEdit()">Save</button>
-                <button type="button" class="btn  btn-save" id="reset" title="Click to Reset" ng-click="ClearFields()">Reset</button>
-            </div>
 
+
+
+            </form>
         </div>
     </div>
+    <div style="text-align: center;">
+        <button type="button" class="theme-btn-1 mr-10" id="save" title="Click to Save"
+            ng-click="EmailConfiguration_AddEdit()">Save</button>
+        <button type="button" class="theme-btn-2" id="reset" title="Click to Reset"
+            ng-click="ClearFields()">Reset</button>
+    </div>
+
+
 </div>

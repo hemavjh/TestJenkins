@@ -30,88 +30,115 @@
         <a href="Home/Index#/NotificationHistory/2">Notification History</a>
     </li>
 </ul>
-<h1 class="title1">Notification Template</h1>
-    <div class="row" ng-init="PageParameter='2'">
-          <div class="col-md-12" ng-init="EmailTemplatelist()">
-              <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-            <div class="panel panel-default panel-info" id="DMid">
-                <form class="form-horizontal" role="form">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
-                          <td width="5%">
-                            <label>Search</label>
-                          </td>
-                         <td width="5%">
-                               <div class="modernSearch">
-                                    <input type="text" ng-model="searchquery" ng-change="fliterTemplateList()"  placeholder="" style="width: 200px"/>
-                                    <i class="fa fa-search"></i>   
-                               </div>
-                         </td> 
-                            <td style="text-align:left" width="65%">
-                              Active &nbsp;&nbsp;
-                             <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="EmailTemplatelist();" title="Active / All">
-                             </td>
-                              <td> 
-                             <a href="javascript:" ng-click="AddEmailTemplatePopUP();ClearPopup()" class="btn btn-autosize pull-right mb-15" title="Click to Add Template">Add New</a>
-                         </td>
-                       </tr>
-                  </table>
-               </form>
-            </div>  
-           </div>
-        <div class="col-md-12">
-            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
-                <thead>
-                    <tr style="text-align: center">
-                        <th st-ratio="5">#</th>
-                        
-                         <th st-ratio="15" st-sort="TemplateName">Template Name</th>
-                        <th st-ratio="15" st-sort="EmailSubject">Notification Title</th>    
-                        <th st-ratio="42" st-sort="EmailTemplate">Notification Template </th>          
-                        <th st-ratio="8">Action</th>                       
-                    </tr>
-                </thead>
-                <tbody>
-                       <tr ng-if="rowCollectionFilter.length==0">
-                        <td colspan="9" style="text-align: center">
-                            No Data Available
-                        </td>
-                   </tr>
-                    <tr ng-repeat="row in emptydata">
-                  <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
-                        <td style="text-align: left"><div class="textwrap">{{row.TemplateName}}</div></td>
-                         <td style="text-align: left">{{row.EmailSubject}}
-                               
-
-                         </td>
-                        <td style="text-align: left">
-                            <div>
-                                <p ng-bind-html="row.EmailTemplate.length>150?row.EmailTemplate.substring(0,150)+'...' : row.EmailTemplate"></p>
+<h1 class="page-title">Notification Template</h1>
+<div ng-init="PageParameter='2'">
+    <div ng-init="EmailTemplatelist()">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="panel panel-default" id="DMid">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <label>Search</label>
+                                <div class="modernSearch">
+                                    <input type="text" ng-model="searchquery" ng-change="fliterTemplateList()"
+                                        placeholder="" style="width: 200px" />
+                                    <i class="fa fa-search"></i>
+                                </div>
                             </div>
-                        </td>
-                   <td style="text-align: center">
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <label>Active</label>
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox"
+                                    ng-change="EmailTemplatelist();" title="Active / All">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <a href="javascript:" ng-click="AddEmailTemplatePopUP();ClearPopup()"
+                                    class="theme-btn-1 mt-15 pull-right" title="Click to Add Template">Add New</a>
+                            </div>
+                        </div>
+                    </div>
 
-                     <a href="javascript:" ng-click="ViewEmailTemplatePopUP(row.Id)" title="View"><img src="../../Images/ViewIcon.png" /></a>
+                </form>
+            </div>
 
-                      <a href="javascript:" ng-click= "row.IsActive == 0 ||  EditEmailTemplate(row.Id)" title="Edit">
-                         <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ErrorFunction()" title="Edit"><img src="../../Images/EditIcon.png" ng-if="row.IsActive==0"/>
-                        </a>
-                       <a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active"><img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
-                           <img src="../../Images/inactive.png" ng-if="row.IsActive==0"/></a>
-                           </a>
-                        </td>                 
-                    </tr>
-                     </tbody>
-                <tfoot ng-show="rowCollectionFilter.length >10">
-                  <tr>
-                  <td colspan="9" class="text-center">
-                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
-                  </td>
-               </tr>
-            </tfoot>
-            </table>
-         </div>
+        </div>
     </div>
+
+    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+        class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5">#</th>
+
+                <th st-ratio="15" st-sort="TemplateName">Template Name</th>
+                <th st-ratio="15" st-sort="EmailSubject">Notification Title</th>
+                <th st-ratio="42" st-sort="EmailTemplate">Notification Template </th>
+                <th st-ratio="8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="rowCollectionFilter.length==0">
+                <td colspan="9" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in emptydata">
+                <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                <td style="text-align: left">
+                    <div class="textwrap">{{row.TemplateName}}</div>
+                </td>
+                <td style="text-align: left">{{row.EmailSubject}}
+
+
+                </td>
+                <td style="text-align: left">
+                    <div>
+                        <p
+                            ng-bind-html="row.EmailTemplate.length>150?row.EmailTemplate.substring(0,150)+'...' : row.EmailTemplate">
+                        </p>
+                    </div>
+                </td>
+                <td style="text-align: center">
+
+                    <a href="javascript:" ng-click="ViewEmailTemplatePopUP(row.Id)" title="View">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a>
+
+                    <a href="javascript:" ng-click="row.IsActive == 0 ||  EditEmailTemplate(row.Id)" title="Edit">
+                        <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
+                        <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                            <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                        </a>
+                        <a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
+                            <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
+                            <a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
+                                <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                            </a>
+                        </a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="rowCollectionFilter.length >10">
+            <tr>
+                <td colspan="9" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                        st-template="Masters/Views/pagination.custom.html"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>
 </div>
 
 <!--Add&Edit Modal-->
@@ -119,57 +146,63 @@
     <div class="modal-dialog" style="width:70%">
         <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"title="Close" style="color:#8B0000;">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" title="Close"
+                    >&times;</button>
                 <h4 class="modal-title">Notification Template</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                           <tr>
-                              <td>
-                                <label>Template Name<sup><font class='mandatory-field'>*</font></sup></label>
-                              </td>
-                            
-                               <td>
-                                 <input type="text" class="form-control" id="Text1" name="TemplateName" ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
-                               </td>
-                              </tr>
-                            <tr>
-                              <td>
-                                <label>Notification Title<sup><font class='mandatory-field'>*</font></sup></label>
-                              </td>
-                            
-                               <td>
-                                 <input type="text" class="form-control" id="Text3" name="EmailSubject" ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
-                               </td>
-                              </tr>
-                        <tr>
-                            <td valign="top" style="width:15%" >
-                                 <label>Notification Message<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
-                            <td style="width:42%" valign="top">
-                            <textarea class="mt-10 form-control" ng-model="Template" ng-init="Template=''" ng-required="true" ng-maxlength="250" maxlength="250"  
-                                      cols="200" id="messages"
-                            rows="12" ondragover="allowDrop(event)" ondrop="drop(event)"></textarea>
-                                </td>
-                    
-                            <td valign="top" width="20%">
+                <form class="form-horizontal" role="form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
+                                <label>Template Name<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                                <input type="text" class="form-control" id="Text1" name="TemplateName"
+                                ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100"
+                                maxlength="100" onkeypress="" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
+                                <label>Notification Title<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                                <input type="text" class="form-control" id="Text3" name="EmailSubject"
+                                ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
+                                maxlength="100" onkeypress="" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
+                                <label>Notification Message<sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup></label>
+                                <textarea class="mt-10 form-control" ng-model="Template" ng-init="Template=''"
+                                ng-required="true" ng-maxlength="250" maxlength="250" cols="200" id="messages"
+                                rows="12" ondragover="allowDrop(event)" ondrop="drop(event)"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
                                 <label>Tag Name</label>
-
-                                <ul style="list-style-position:inside; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 250px;overflow: auto;"
-                                    id="allfields">
-                                    <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
-                                        ng-repeat="row in TemplateTagMappingList" ng-model="TagName">{{row.TagList}}</li>
-                                </ul>
-
-                            </td>
-                        </tr>                        
-                    </table>
+                                <ul style="list-style-type:none;padding:15px; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 250px;overflow: auto;"
+                                id="allfields">
+                                <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
+                                    ng-repeat="row in TemplateTagMappingList" ng-model="TagName">{{row.TagList}}
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                   
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn  btn-save" ng-click="EmailTemplateAddEdit()" title="Click to Save">Save</button>
-                <button type="button" class="btn  btn-save"  ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+                <button type="button" class="theme-btn-1 mr-10" ng-click="EmailTemplateAddEdit()"
+                    title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
+                    title="Click to Cancel">Cancel</button>
             </div>
         </div>
     </div>
@@ -180,52 +213,38 @@
     <div class="modal-dialog" style="width:50%">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()"  style="color:#8B0000;">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()"
+                   >&times;</button>
                 <h4 class="modal-title"> Notification Template</h4>
-             </div>
+            </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-<!--                         <tr>
-                            <td style="width: 15%" valign="top">
-                                <label>Type</label>
-                            </td>
-                            <td style="width:65%">
-                                <span><div class="textwrap">{{ViewType_Name}}</div></span>
-                            </td>
-                           </tr>-->
-                         <tr>
-                            <td style="width: 25%" valign="top">
+                <form  role="form" >
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
                                 <label>Template Name</label>
-                            </td>
-                            <td style="width:78%">
-                                <span><div class="textwrap">{{TemplateName}}</div></span>
-                            </td>
-                           </tr>
-                        <tr>
-                            <td>
+                                <span>{{TemplateName}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
                                 <label>Notification Title</label>
-                            </td>
-                            <td>
                                 <span>{{EmailSubject}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="inputGroups">
                                 <label>Notification Template</label>
-                            </td>                            
-                               <td>
-                                 <div class="textwrap">
-                                       <p ng-bind-html="Template"></p>  
-                                  </div>
-                                                    
-                            </td>
-                        </tr>
-                      </table>
+                                <span ng-bind-html="Template"></span>
+                            </div>
+                        </div>
+                    </div>
+                
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-               <button type="button" class="btn btn-save" ng-click="CancelViewPopup()" title="Click to Cancel">Cancel</button>
+                <button type="button" class="theme-btn-2" ng-click="CancelViewPopup()"
+                    title="Click to Cancel">Cancel</button>
             </div>
         </div>
 
@@ -239,7 +258,7 @@
     .list {
         margin-left: 10px;
         color: #000;
-    } 
+    }
 
     .list:hover {
         text-decoration: underline;
@@ -250,8 +269,4 @@
         height: 300px;
         width: 500px;
     }
-
 </style>
-
-
-   
