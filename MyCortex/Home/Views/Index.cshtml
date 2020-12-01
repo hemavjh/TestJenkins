@@ -95,7 +95,7 @@
                     else if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                     {
                         <div class="dropdown app_menu">
-                            <button class="btn btn-primary dropdown-toggle" onclick="location.href = '@menu.Menu_URL'"
+                            <button class="btn btn-primary dropdown-toggle" onclick="if (chatService.checkCall()) {alert('during call, you cannot navigate'); return false;    } else { location.href = '@menu.Menu_URL' }"
                                     type="button" aria-expanded="false">
                                 @menu.Menu_Name
                             </button>

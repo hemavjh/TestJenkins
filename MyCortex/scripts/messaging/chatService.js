@@ -1400,11 +1400,8 @@ const chatService = function() {
             const chat = document.getElementById("msg-page");            
             chat.scrollTo(0, chat.scrollHeight);
         },
-        checkCall: function (patientId) {
-            if (patientId != window.COMETCHAT_TO_USER) {
-                return checkCallStatus;
-            }
-            return false;
+        checkCall: function () {
+            return checkCallStatus;
         }
     }
 }();
