@@ -9197,6 +9197,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
         $scope.Max_Possible = [];
         $scope.Remarks = [];
         $scope.Diagnostic_Flag = [];
+        $scope.UnitGroupType = 0;
 
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
@@ -9295,9 +9296,24 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
         //    $scope.ResultListFiltered = $scope.ProtocolParametersList;
         //});
 
-        $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0').success(function (data) {
-            $scope.UnitMasterList = data;
-        });
+        /*Set Unit Group Preference*/
+        $scope.SetUnitGroupPreference = function () {
+            $http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $scope.UnitGroupType = data.PreferenceType;
+            })
+        }
+
+        /*Store Chat Preference*/
+        $scope.SaveUnitGroupPreference = function () {
+            var type = $scope.UnitGroupType;
+            $http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceSave/?institutionId=' + $window.localStorage['InstitutionId'] + '&preferenceType=' + type).success(function (data) {
+                return data;
+            })
+        }
+
+        //$http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=1').success(function (data) {
+        //    $scope.UnitMasterList = data;
+        //});
 
         $scope.query = "";
         /* Filter the master list function.*/
@@ -9327,10 +9343,14 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
         $scope.ViewParamList1 = [];
         $scope.ChatSettings_ViewEdit = function () {
             $("#chatLoaderPV").show();
+            // $scope.UnitGroupType = UnitGroupType;
+            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
+                $scope.UnitMasterList = data;
+            });
             $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').success(function (data1) {
                 $scope.ProtocolParametersList = data1;
                 $scope.ResultListFiltered = $scope.ProtocolParametersList;
-                $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId).success(function (data) {
+                $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId + '&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
                     $scope.ViewParamList = data;
                     $("#chatLoaderPV").hide();
                     angular.forEach($scope.ProtocolParametersList, function (masterVal, masterInd) {
@@ -9374,6 +9394,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
         /* THIS IS FOR ADD/EDIT PROCEDURE */
 
         $scope.StandardParameter_AddEdit = function () {
+            $scope.SaveUnitGroupPreference();
             $scope.UnitsParameterdata = [];
             if ($scope.ParameterSettings_Validations() == true) {
                 $("#chatLoaderPV").show();

@@ -28,20 +28,29 @@
                             <td width="5%">
                                 <label>Search</label>
                             </td>
-                            <td width="30%">                                
+                            <td width="30%">
                                 <div class="modernSearch">
-                                    <input type="text" ng-model="query" ng-change="StandardFilterlist()" placeholder=""/>
+                                    <input type="text" ng-model="query" ng-change="StandardFilterlist()" placeholder="" />
                                     <i class="fa fa-search"></i>
                                 </div>
                             </td>
-                            <td width="65%">
+                            <td width="12%">
+                                <label>Unit Group Type</label>
+                            </td>
+                            <td width="23%">
+                                <div class="modernSearch">
+                                    <input style="margin-left: 5px !important" type="radio" value="1" ng-model="UnitGroupType" ng-init="SetUnitGroupPreference()" ng-change="ChatSettings_ViewEdit()"> Metric
+                                    <input style="margin-left: 5px !important" type="radio" value="2" ng-model="UnitGroupType" ng-change="ChatSettings_ViewEdit()"> English
+                                </div>
+                            </td>
+                            <td width="30%">
                                 <div style="text-align: center;">
                                     <button type="button" class="btn btn-save" ng-if="IsEdit==false" ng-click="StandardParameterEdit()" title="Click to Edit">Edit</button>
                                     <button type="button" class="btn  btn-save" id="save" title="Click to Save" ng-if="IsEdit==true" ng-click="StandardParameter_AddEdit()">Save</button>
                                     <button type="button" class="btn btn-save" ng-if="IsEdit==true" ng-click="StandardParameterCancel()" title="Click to Cancel">Cancel</button>
                                 </div>
                             </td>
-                          
+
                         </tr>
                     </table>
                 </form>

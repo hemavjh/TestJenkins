@@ -326,7 +326,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         Swal.fire({
             position: 'top',
             title: '<h6 class="text-lg" style="color: var(--bg-green);">You have been Idle!</h6>',
-            html: 'You will timeout in <b>15</b> seconds.',
+            html: 'You will timeout in <b>60</b> seconds.',
             timer: timeLeft * 1000,
             showCloseButton: true,
             showCancelButton: true,
