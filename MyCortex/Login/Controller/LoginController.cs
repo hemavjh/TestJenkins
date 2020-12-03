@@ -101,7 +101,7 @@ namespace MyCortex.Login.Controller
                     model.ReturnFlag = 0;
                     return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                 }
-
+                _logger.Info("username:" + loginObj.Username + " " + loginObj.Password);
                 if (repository.CheckExpiryDate(InstitutionId))
                 {
                     model.Status = "False";
@@ -121,6 +121,8 @@ namespace MyCortex.Login.Controller
                     loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
                     loginObj.Username = EncryptPassword.Encrypt(loginObj.Username.ToLower());
                     model = repository.Userlogin_AddEdit(loginObj);
+                    _logger.Info("Model:" + model.data + " " + model.UserId);
+
                     HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                     HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
                     HttpContext.Current.Session["InstitutionId"] = model.InstitutionId.ToString();
