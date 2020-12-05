@@ -92,6 +92,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -146,6 +152,9 @@
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
@@ -167,6 +176,9 @@
     <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=5.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.3.1\lib\net45\System.Web.Http.OData.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -937,6 +949,7 @@
     <Compile Include="Masters\Models\AttendanceModel.cs" />
     <Compile Include="Masters\Models\CategoryMasterModel.cs" />
     <Compile Include="Masters\Models\ChatSettingsModel.cs" />
+    <Compile Include="Masters\Models\ColorPreferenceModel.cs" />
     <Compile Include="Masters\Models\CountryMasterModel.cs" />
     <Compile Include="Masters\Models\DoctorShiftModel.cs" />
     <Compile Include="Masters\Models\DosageAdministrationModel.cs" />
@@ -999,6 +1012,7 @@
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\IColorPreferenceRepository.cs" />
     <Compile Include="Repositories\IWebConfigurationRepository.cs" />
     <Compile Include="Repositories\Login\LoginRepository.cs" />
     <Compile Include="Repositories\Masters\AttendanceRepository.cs" />
@@ -1011,6 +1025,7 @@
     <Compile Include="Repositories\Masters\ParameterSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\PasswordPolicyRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\Masters\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
     <Compile Include="Repositories\Menu\CommonMenuRepository.cs" />
     <Compile Include="Repositories\Report\PatientReportDetailsRepository.cs" />
@@ -1203,6 +1218,7 @@
     <Content Include="_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\Views\ColorPreference\" />
     <Folder Include="Admin\Views\PatientDeviceData\" />
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />

@@ -12724,7 +12724,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
         /* User basic details list*/
         $scope.Userdetailsdatalist = function () {
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
                 $scope.Userlist = data;
             });
         };
