@@ -1025,7 +1025,7 @@
     <Compile Include="Repositories\Masters\ParameterSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\PasswordPolicyRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
-    <Compile Include="Repositories\Masters\ColorPreferenceRepository.cs" />
+    <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
     <Compile Include="Repositories\Menu\CommonMenuRepository.cs" />
     <Compile Include="Repositories\Report\PatientReportDetailsRepository.cs" />
@@ -1054,6 +1054,7 @@
     <Compile Include="User\Controllers\AppoinmentSlotController.cs" />
     <Compile Include="User\Controllers\CareCoordinnatorController.cs" />
     <Compile Include="User\Controllers\CareGiverController.cs" />
+    <Compile Include="User\Controllers\ColorPreferenceController.cs" />
     <Compile Include="User\Controllers\PatientAppointmentsController.cs" />
     <Compile Include="User\Controllers\PatientApprovalController.cs" />
     <Compile Include="User\Controllers\PatientDeviceDataController.cs" />
@@ -1067,6 +1068,7 @@
     <Compile Include="User\Models\CareCoordinatorModel.cs" />
     <Compile Include="User\Models\CareGiverModel.cs" />
     <Compile Include="User\Models\ChronicConditionModel.cs" />
+    <Compile Include="User\Models\ColorPreferenceModel.cs" />
     <Compile Include="User\Models\DepartmentModel.cs" />
     <Compile Include="User\Models\DietTypeModel.cs" />
     <Compile Include="User\Models\DoctorInstitutionModel.cs" />

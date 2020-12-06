@@ -392,6 +392,23 @@ namespace MyCortexDB
                 }
             }
         }
+
+        public static object GetScalar(string storedProcedureName)
+        {
+            using (DbConnection connection = factory.CreateConnection())
+            {
+                connection.ConnectionString = ClsDataBase.GetConnectionString();
+
+                using (DbCommand command = factory.CreateCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = storedProcedureName;
+                    connection.Open();
+                    return command.ExecuteScalar();
+                }
+            }
+        }
         #endregion
 
         #region Utility methods

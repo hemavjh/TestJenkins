@@ -5,11 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using log4net;
-using MyCortex.Masters.Models;
+using MyCortex.User.Models;
 using MyCortex.Utilities;
 using MyCortexDB;
 
-namespace MyCortex.Repositories.Masters
+namespace MyCortex.Repositories.User
 {
     public class ColorPreferenceRepository : IColorPreferenceRepository
     {
@@ -21,12 +21,11 @@ namespace MyCortex.Repositories.Masters
         {
             db = new ClsDataBase();
         }
-        public ColorPreferenceModel ColorPreference_List(int? UserId, Guid Login_Session_Id)
+        public ColorPreferenceModel ColorPreference_List(long? UserId)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USER_ID", UserId));
-            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLCOLOR_PREFERENCE_SP_LIST", param);
@@ -72,7 +71,7 @@ namespace MyCortex.Repositories.Masters
         }
 
 
-        public ColorPreferenceReturnModel ColorPreference_InsertUpdate(Guid Login_Session_Id, ColorPreferenceModel insobj)
+        public ColorPreferenceReturnModel ColorPreference_InsertUpdate(ColorPreferenceModel insobj)
         {
             try
             {               
@@ -80,10 +79,7 @@ namespace MyCortex.Repositories.Masters
                 param.Add(new DataParameter("@ID", insobj.ID));
                 param.Add(new DataParameter("@USER_ID", insobj.UserId));
                 param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
-                param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLCOLOR_PREFERENCE_SP_INSERTUPDATE", param);
-
-
 
                 ColorPreferenceReturnModel insert = (from p in dt.AsEnumerable()
                                                 select

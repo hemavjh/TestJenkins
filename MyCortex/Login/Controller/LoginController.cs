@@ -44,7 +44,6 @@ namespace MyCortex.Login.Controller
 
         IList<AppConfigurationModel> model;
         private Int64 InstanceNameId = Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
-        private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
         private string Productid;
 
 
@@ -62,15 +61,7 @@ namespace MyCortex.Login.Controller
         public bool CheckExpiryDate()
         {
             bool isExpired = true;
-
-            DataEncryption EncryptPassword = new DataEncryption();
-            var result = EncryptPassword.Encrypt("2020-10-30");
-
-            if (InstitutionId > 0)
-            {
-                isExpired = repository.CheckExpiryDate(InstitutionId);
-            }
-            
+            isExpired = repository.CheckExpiryDate();
             return isExpired;
         }
 
@@ -102,7 +93,7 @@ namespace MyCortex.Login.Controller
                     return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                 }
                 _logger.Info("username:" + loginObj.Username + " " + loginObj.Password);
-                if (repository.CheckExpiryDate(InstitutionId))
+                if (repository.CheckExpiryDate())
                 {
                     model.Status = "False";
                     model.Message = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
