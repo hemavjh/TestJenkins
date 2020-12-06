@@ -972,6 +972,7 @@
     <Compile Include="Repositories\ICarecoordinatorRepository.cs" />
     <Compile Include="Repositories\ICareGiverRepository.cs" />
     <Compile Include="Repositories\IChatSettingsRepository.cs" />
+    <Compile Include="Repositories\IColorPreferenceRepository.cs" />
     <Compile Include="Repositories\ICommonMenuRepository.cs" />
     <Compile Include="Repositories\ICommonRepository.cs" />
     <Compile Include="Repositories\IDoctorShiftRepository.cs" />
@@ -1014,6 +1015,7 @@
     <Compile Include="Repositories\User\AppoinmentSlotRepository.cs" />
     <Compile Include="Repositories\User\CareCoordinatorRepository.cs" />
     <Compile Include="Repositories\User\CareGiverRepository.cs" />
+    <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\User\PatientAppointmentRepository.cs" />
     <Compile Include="Repositories\User\PatientApprovalRepository.cs" />
     <Compile Include="Repositories\User\UserRepository.cs" />
@@ -1042,6 +1044,7 @@
     <Compile Include="User\Models\CareCoordinatorModel.cs" />
     <Compile Include="User\Models\CareGiverModel.cs" />
     <Compile Include="User\Models\ChronicConditionModel.cs" />
+    <Compile Include="User\Models\ColorPreferenceModel.cs" />
     <Compile Include="User\Models\DepartmentModel.cs" />
     <Compile Include="User\Models\DietTypeModel.cs" />
     <Compile Include="User\Models\DoctorInstitutionModel.cs" />
@@ -1154,6 +1157,7 @@
     </Content>
     <Content Include="MyCortex.ruleset" />
     <Content Include="manifest.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\HRMS.pubxml" />
     <Content Include="scripts\bootstrap-select.min.js" />
     <Content Include="Shared\Views\_LayoutLogin.cshtml" />
@@ -1177,6 +1181,7 @@
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="scripts\ckeditor\skins\moono-lisa\readme.md" />
+    <None Include="Properties\PublishProfiles\VJH-Dev-Profile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
