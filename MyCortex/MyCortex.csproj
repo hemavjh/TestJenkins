@@ -972,7 +972,6 @@
     <Compile Include="Repositories\ICarecoordinatorRepository.cs" />
     <Compile Include="Repositories\ICareGiverRepository.cs" />
     <Compile Include="Repositories\IChatSettingsRepository.cs" />
-    <Compile Include="Repositories\IColorPreferenceRepository.cs" />
     <Compile Include="Repositories\ICommonMenuRepository.cs" />
     <Compile Include="Repositories\ICommonRepository.cs" />
     <Compile Include="Repositories\IDoctorShiftRepository.cs" />
@@ -1015,7 +1014,6 @@
     <Compile Include="Repositories\User\AppoinmentSlotRepository.cs" />
     <Compile Include="Repositories\User\CareCoordinatorRepository.cs" />
     <Compile Include="Repositories\User\CareGiverRepository.cs" />
-    <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\User\PatientAppointmentRepository.cs" />
     <Compile Include="Repositories\User\PatientApprovalRepository.cs" />
     <Compile Include="Repositories\User\UserRepository.cs" />
@@ -1044,7 +1042,6 @@
     <Compile Include="User\Models\CareCoordinatorModel.cs" />
     <Compile Include="User\Models\CareGiverModel.cs" />
     <Compile Include="User\Models\ChronicConditionModel.cs" />
-    <Compile Include="User\Models\ColorPreferenceModel.cs" />
     <Compile Include="User\Models\DepartmentModel.cs" />
     <Compile Include="User\Models\DietTypeModel.cs" />
     <Compile Include="User\Models\DoctorInstitutionModel.cs" />
