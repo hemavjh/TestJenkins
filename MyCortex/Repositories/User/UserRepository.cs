@@ -1032,12 +1032,13 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, Guid Login_Session_Id)
+        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENTID", Patient_Id));
             param.Add(new DataParameter("@TYPE", OptionType_Id));
             param.Add(new DataParameter("@PARAMGROUP_ID", Group_Id));
+            param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTHDATA_SP_LISTS]", param);
             DataEncryption DecryptFields = new DataEncryption();
@@ -1281,6 +1282,7 @@ namespace MyCortex.Repositories.Uesr
                                                   Average = p.IsNull("AVERAGE") ? 0 : p.Field<decimal>("AVERAGE"),
                                                   ParameterHas_Child = p.Field<int?>("HASCHILD"),
                                                   ParameterParent_Id = p.Field<int?>("PARENT_ID"),
+                                                  UOM_Id = p.Field<long>("UOM_ID"),
                                                   UOM_Name = p.Field<string>("UOM_NAME"),
                                                   Range_Max = p.IsNull("NORMALRANGE_HIGH") ? 0 : p.Field<decimal>("NORMALRANGE_HIGH"),
                                                   Range_Min = p.IsNull("NORMALRANGE_LOW") ? 0 : p.Field<decimal>("NORMALRANGE_LOW"),

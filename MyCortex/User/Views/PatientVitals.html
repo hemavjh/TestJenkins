@@ -2,7 +2,7 @@
 <body>
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <div class="patientCharts"
-         ng-init="PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();">
+         ng-init="getUnitGroupType_List();UnitGroupPreference();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();">
         <div class="patientCards ">
             <img src="../../Images/MRN.png" class="patientVitalscard" />
             <h1>MRN</h1>
@@ -264,6 +264,9 @@
                                                        ng-class="{'chartActiveTab':LSType_Id=='7'}">All</a>
                                                 </li>
                                             </ul>
+                                            <select ng-model="unitgrouptype" ng-options="item1.Id as item1.UnitGroupName for item1 in UnitGroupTypeList" ng-change="ActivitiesDaysClick(1,1)">
+                                                
+                                            </select>
                                         </div>
                                         <div class="panel-body" ng-show="currentTab=='1'">
                                             <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight">
@@ -380,6 +383,12 @@
                                                                 <input toggle-checkbox ng-model="VitalsIsActive"
                                                                        type="checkbox" ng-change="vitalsFilterAllItem();"
                                                                        title="Active / All">
+                                                            </td>
+                                                            <td ng-show="currentTab=='2'">
+                                                                <select ng-model="unitgrouptype" ng-options="item1.Id as item1.UnitGroupName for item1 in UnitGroupTypeList" ng-change="ActivitiesDaysClick(2,2)"></select>
+                                                            </td>
+                                                            <td ng-show="currentTab=='3'">
+                                                                <select ng-model="unitgrouptype" ng-options="item1.Id as item1.UnitGroupName for item1 in UnitGroupTypeList" ng-change="ActivitiesDaysClick(3,2)"></select>
                                                             </td>
                                                             <td ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                 <a href="javascript:" ng-click="AddVitalsPopUp()"
