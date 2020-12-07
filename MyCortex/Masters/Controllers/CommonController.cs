@@ -794,5 +794,23 @@ namespace MyCortex.Masters.Controllers
 
         }
 
+        [HttpGet]
+        public IList<UnitGroupTypeModel> getUnitGroupType()
+        {
+            IList<UnitGroupTypeModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.UnitGroupTypeList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
     }
 }

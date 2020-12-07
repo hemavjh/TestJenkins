@@ -4684,6 +4684,20 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
         ``
         var photoview = false;
         $scope.uploadview = false;
+        $scope.unitgrouptype = 1;
+        $scope.UnitGroupTypeList = [];
+        $scope.getUnitGroupType_List = function () {
+            $http.get(baseUrl + '/api/Common/getUnitGroupType/').success(function (data) {
+                $scope.UnitGroupTypeList = data;
+            });
+
+        }
+        $scope.UnitGroupPreference = function () {
+            //$http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+            //    $scope.unitgrouptype = data.PreferenceType;
+            //})
+
+        }
         $scope.PatientBasicDetails_List = function () {
             $("#chatLoaderPV").show();
             photoview = true;
@@ -4787,7 +4801,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
             $scope.PatientHealthDataChartList = [];
             $scope.ParamGroup_Id = ParamGroup_Id;
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&UnitsGroupType=' + $scope.unitgrouptype + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.SearchMsg = "No Data Available";
                 // only active items for Chart

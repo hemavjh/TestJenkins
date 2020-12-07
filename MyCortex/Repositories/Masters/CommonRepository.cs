@@ -552,7 +552,31 @@ namespace MyCortex.Repositories.Masters
             return list;
         }
 
-      
+        public IList<UnitGroupTypeModel> UnitGroupTypeList()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].UNITGROUPTYPE_SP_LIST");
+                List<UnitGroupTypeModel> lst = (from p in dt.AsEnumerable()
+                                                select new UnitGroupTypeModel()
+                                                {
+                                                    Id = p.Field<long>("ID"),
+                                                    UnitGroupName = p.Field<string>("UNITSGROUPNAME"),
+                                                    IsActive = p.Field<int>("ISACTIVE")
+                                                }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+
     }
 }
 
