@@ -36,13 +36,16 @@ namespace MyCortex.User.Models
         public string NegativeHoverBtnText { get; set; }
         public string Title { get; set; }
         public string SubTitle { get; set; }
-        public int IsActive { get; set; }
+        public bool IsActive { get; set; }
+        public long CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime ModifiedAt { get; set; }
     }
 
     public class ColorPreferenceReturnModel
     {
         public int ReturnFlag { get; set; }
-        public string Status { get; set; }
+        public bool Status { get; set; }
         public string Message { get; set; }
         public ColorPreferenceModel ColorPreferences { get; set; }
     }

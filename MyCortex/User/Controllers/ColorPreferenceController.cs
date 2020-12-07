@@ -43,38 +43,48 @@ namespace MyCortex.User.Controllers
         {
             ColorPreferenceModel ModelData = new ColorPreferenceModel();
             ColorPreferenceReturnModel model = new ColorPreferenceReturnModel();
+            
             if (!ModelState.IsValid)
             {
-                model.Status = "False";
                 model.Message = "Invalid data";
                 model.ColorPreferences = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
-            string messagestr = "";
-            long retflag = 0;
+
+            if(insobj.UserId == 0)
+            {
+                model.Message = "UserId is missing";
+                model.ColorPreferences = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+
+            if (insobj.InstitutionId == 0)
+            {
+                model.Message = "Institution is missing";
+                model.ColorPreferences = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
             try
             {
                 model = repository.ColorPreference_InsertUpdate(insobj);
-                if ((retflag == 2) == true)
+                if ((model.ReturnFlag == 1) == true)
                 {
-                    messagestr = "Configuration created successfully";
+                    model.Message = "Color preference created successfully";
                     model.ReturnFlag = 1;
+                    model.Status = true;
                 }
-                else if ((retflag == 3) == true)
+                else if ((model.ReturnFlag == 2) == true)
                 {
-                    messagestr = "Configuration updated Successfully";
+                    model.Message = "Color preference updated Successfully";
                     model.ReturnFlag = 1;
+                    model.Status = true;
                 }
-                model.ColorPreferences = ModelData;
-                model.Message = messagestr;
-                model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                 return response;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
-                model.Status = "False";
                 model.Message = "Error in creating Configuration";
                 model.ColorPreferences = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);

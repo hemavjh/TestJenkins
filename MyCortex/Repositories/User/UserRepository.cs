@@ -3161,18 +3161,14 @@ namespace MyCortex.Repositories.Uesr
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@LOGINSESSIONID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGINSESSION_SP_CHECK]", param);
-            DataRow dr = dt.Rows[0];
-            if (int.Parse((dr["SESSIONSTATUS"].ToString())) == 1)
+            if (dt.Rows.Count > 0)
             {
-                SessionStatus = true;
+                DataRow dr = dt.Rows[0];
+                if (int.Parse((dr["SESSIONSTATUS"].ToString())) == 1)
+                {
+                    SessionStatus = true;
+                }
             }
-            else
-            {
-                SessionStatus = false;
-            }
-
-
-
             return SessionStatus;
         }
 
