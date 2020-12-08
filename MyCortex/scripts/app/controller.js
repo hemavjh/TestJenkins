@@ -4746,17 +4746,42 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
         }
 
         $scope.myMeeting = function () {
+            var key = "";
+
             var obj =
             {
-                action: "get",
+                name: "conference1",
                 username: "appsAdmin",
                 key : "ab3049da9a0cd8d6e8b7c62586752472"
             }
 
-            $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/videoConfSettings', obj).success(function (data) {
-                alert(data);
-                url ='https://mymeeting.mycortex.ca/meeting/?key=2f2b85bcfa83d6dcf3d32d7aec6f23d7'
-                window.open(url);
+            $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/getconferencedetails', obj).success(function (data) {
+                if (data == "Conference not available") {
+                    var objAdd =
+                    {
+                        "action": "Add",
+                        "username": "appsAdmin",
+                        "key": "ab3049da9a0cd8d6e8b7c62586752472",
+                        "name": "conference1",
+                        "audio": "on",
+                        "video": "off",
+                        "chat": "off",
+                        "conferenceMode":"on"
+                    }
+                    $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/videoConfSettings', objAdd).success(function (data) {
+                        if (data.status == "Added") {
+                            key = data.hashKey;
+                            url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
+                            window.open(url);
+                        }
+                    });
+                }
+                else {
+                    key = data.Hashkey;
+                    url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
+                    window.open(url);
+                }
+               
             }).error(function (data) {
                 $scope.error = "Error: " + data;
             });

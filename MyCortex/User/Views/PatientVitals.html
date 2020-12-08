@@ -24,7 +24,22 @@
             <h2 title="{{DOB}}">{{DOB}}</h2>
         </div>
         <div class="patientCards ">
-            <input type="button" value="Start Meeting" ng-click="myMeeting();" />
+            <div id="patient" ng-if="UserId!=37">
+                <select id="user">
+                    <option>Doctor 1</option>
+                    <option>Doctor 2</option>
+                    <option>Care Giver 1</option>
+                </select>
+                <input type="button" value="Start Meeting" ng-click="myMeeting();" />
+            </div>
+            <div id="user" ng-if="UserId==37">
+                <select id="user">
+                    <option>Patient 1</option>
+                    <option>Doctor 2</option>
+                    <option>Care Giver 1</option>
+                </select>
+                <input type="button" value="Join Meeting" ng-click="myMeeting();" />
+            </div>
         </div>
         <div class="primaryButtons" style="padding:0px">
             <button type="button" ng-click="openProtocol()" class="btn btn-default btn-sm" style="margin: 0px 5px;">
