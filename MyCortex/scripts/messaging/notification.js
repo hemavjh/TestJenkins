@@ -1,15 +1,15 @@
 var firebaseConfig = {
-    apiKey: "AIzaSyB2TEBk_Zjep7njuZEidu9pZ0b0onK_TM0",
-    authDomain: "mycortexandroid.firebaseapp.com",
-    databaseURL: "https://mycortexandroid.firebaseio.com",
-    projectId: "mycortexandroid",
-    storageBucket: "mycortexandroid.appspot.com",
-    messagingSenderId: "419028261987",
-    appId: "1:419028261987:web:811ad0c7a9238f38d02c56",
-    measurementId: "G-EEGLTE5S68"
+    apiKey: "AIzaSyBQRI1TZ3k9f13rtedqMtz0Ef8jtgYCeOY",
+    authDomain: "mycortex-2b207.firebaseapp.com",
+    databaseURL: "https://mycortex-2b207.firebaseio.com",
+    projectId: "mycortex-2b207",
+    storageBucket: "mycortex-2b207.appspot.com",
+    messagingSenderId: "538725094029",
+    appId: "1:538725094029:web:e1de3f6e70fd5bf464c8c4",
+    measurementId: "G-PYBLJGPE0S"
 };
 
-jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=0')
+jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=5')
         .done(function (data) {
             var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
             // Your web app's Firebase configuration

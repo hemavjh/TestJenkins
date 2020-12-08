@@ -4745,6 +4745,22 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
             });
         }
 
+        $scope.myMeeting = function () {
+            var obj =
+            {
+                action: "get",
+                username: "appsAdmin",
+                key : "ab3049da9a0cd8d6e8b7c62586752472"
+            }
+
+            $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/videoConfSettings', obj).success(function (data) {
+                alert(data);
+                url ='https://mymeeting.mycortex.ca/meeting/?key=2f2b85bcfa83d6dcf3d32d7aec6f23d7'
+                window.open(url);
+            }).error(function (data) {
+                $scope.error = "Error: " + data;
+            });
+        }
 
         $scope.HelathDataList = [];
 

@@ -4,34 +4,41 @@ if ('undefined' === typeof window) {
     importScripts('https://www.gstatic.com/firebasejs/7.13.2/firebase-messaging.js');
     // Initialize Firebase
 
-    var config = {
-        apiKey: "AIzaSyB2TEBk_Zjep7njuZEidu9pZ0b0onK_TM0",
-        authDomain: "mycortexandroid.firebaseapp.com",
-        databaseURL: "https://mycortexandroid.firebaseio.com",
-        projectId: "mycortexandroid",
-        storageBucket: "mycortexandroid.appspot.com",
-        messagingSenderId: "419028261987",
-        appId: "1:419028261987:web:811ad0c7a9238f38d02c56",
-        measurementId: "G-EEGLTE5S68"
-    };
+    jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=5')
+        .done(function (data) {
+            var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
+            // Your web app's Firebase configuration
+            firebaseConfig = {
+                apiKey: jsonobj.apiKey,
+                authDomain: jsonobj.authDomain,
+                databaseURL: jsonobj.databaseURL,
+                projectId: jsonobj.projectId,
+                storageBucket: jsonobj.storageBucket,
+                messagingSenderId: jsonobj.messagingSenderId,
+                appId: jsonobj.appId,
+                measurementId: jsonobj.measurementId
+            };
 
-    firebase.initializeApp(config);
-    
-    const messaging = firebase.messaging();
+            firebase.initializeApp(firebaseConfig);
 
-    messaging.setBackgroundMessageHandler(function (payload) {
-        console.log('Handling background message ', payload);
+            const messaging = firebase.messaging();
 
-        return self.registration.showNotification(payload.data.title, {
-            body: payload.data.body,
-            icon: payload.data.icon,
-            tag: payload.data.tag,
-            data: payload.data.link
+            messaging.setBackgroundMessageHandler(function (payload) {
+                console.log('Handling background message ', payload);
+
+                return self.registration.showNotification(payload.data.title, {
+                    body: payload.data.body,
+                    icon: payload.data.icon,
+                    tag: payload.data.tag,
+                    data: payload.data.link
+                });
+            });
+
+            self.addEventListener('notificationclick', function (event) {
+                event.notification.close();
+                event.waitUntil(self.clients.openWindow(event.notification.data));
+            });
         });
-    });
 
-    self.addEventListener('notificationclick', function (event) {
-        event.notification.close();
-        event.waitUntil(self.clients.openWindow(event.notification.data));
-    });
+    
 }
