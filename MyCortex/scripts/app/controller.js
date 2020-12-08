@@ -4440,7 +4440,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
         $scope.ParameterId = "0";
         $scope.getParameterList = function () {
 
-            $http.get(baseUrl + '/api/User/GroupParameterNameList/?Patient_Id=' + $scope.SelectedPatientId).success(function (data) {
+            $http.get(baseUrl + '/api/User/GroupParameterNameList/?Patient_Id=' + $scope.SelectedPatientId + '&UnitGroupType_Id=' + $scope.unitgrouptype).success(function (data) {
                 $scope.GroupParameterNameList = data;
 
             });
@@ -5018,7 +5018,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
             }
         }
 
-        $scope.getParameterList();
+        // $scope.getParameterList();
         setTimeout(function () {
         }, 1000);
         setTimeout(function () {

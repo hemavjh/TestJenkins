@@ -32,7 +32,7 @@ namespace MyCortex.Repositories
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id);
-        IList<ParametersListModel> GroupParameterNameList(long Patient_Id);
+        IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id);
         IList<PatientHealthDataModel> ParametersDetails_Delete(PatientHealthDataModel noteobj);
         IList<PatientHealthDataModel> ParametersDetails_Active(PatientHealthDataModel noteobj);
         void UserDetails_PhotoUpload(byte[] imageFile, int Id);
