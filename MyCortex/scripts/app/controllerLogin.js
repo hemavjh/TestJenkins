@@ -467,41 +467,40 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                         if (data[0] != undefined) {
                             IdleDays = parseInt(data[0].ConfigValue);
                             $window.localStorage['IdleDays'] = IdleDays;
+                            if (data == "1") {
+                                $scope.errorlist = "Username and/or Password are not matching, please verify";
+                            }
+                            else if (data == "2") {
+                                $scope.errorlist = "Contract period expired, cannot login";
+                            }
+                            else if (data == "3") {
+                                //$scope.errorlist = "Contract Time Exceed,contact admin";
+                                alert("Contract period expired, Please contact Admin for renewal");
+                                window.location.href = baseUrl + "/Home/Index#/home";
+                            }
+                            else if (data == "4" || data == "5") {
+                                window.location.href = baseUrl + "/Home/Index#/home";
+                            }
+                            else if (data == "6" || data == "10") {
+                                $window.localStorage['UserTypeId'] = $scope.UserTypeId;
+                                $window.localStorage['UserId'] = $scope.UserId;
+
+                                window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
+                                $scope.errorlist = Message;
+                            }
+                            else if (data == "7") {
+                                $scope.errorlist = Message;
+                            }
+                            else if (data == "8") {
+                                $scope.errorlist = Message;
+                            }
+                            else if (data == "9") {
+                                $scope.errorlist = "Username and/or Password are not active, please verify";
+                            }
+                            else
+                                $scope.errorlist = "Username and/or Password are not matching, please verify";
                         }
                     }); 
-
-                if (data == "1") {
-                    $scope.errorlist = "Username and/or Password are not matching, please verify";
-                }
-                else if (data == "2") {
-                    $scope.errorlist = "Contract period expired, cannot login";
-                }
-                else if (data == "3") {
-                    //$scope.errorlist = "Contract Time Exceed,contact admin";
-                    alert("Contract period expired, Please contact Admin for renewal");
-                    window.location.href = baseUrl + "/Home/Index#/home";
-                }
-                else if (data == "4" || data == "5") {
-                    window.location.href = baseUrl + "/Home/Index#/home";
-                }
-                else if (data == "6" || data == "10") {
-                    $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                    $window.localStorage['UserId'] = $scope.UserId;
-
-                    window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
-                    $scope.errorlist = Message;
-                }
-                else if (data == "7") {
-                    $scope.errorlist = Message;
-                }
-                else if (data == "8") {
-                    $scope.errorlist = Message;
-                }
-                else if (data == "9") {
-                    $scope.errorlist = "Username and/or Password are not active, please verify";
-                }
-                else
-                    $scope.errorlist = "Username and/or Password are not matching, please verify";
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.errorlist = "Login Failed! \n Invalid Username or Password ";

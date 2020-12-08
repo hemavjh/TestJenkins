@@ -1263,11 +1263,12 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id"></param>
         /// <returns></returns>
-        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id)
+        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@ParamGroup_Id", Group_Id));
             param.Add(new DataParameter("@Patient_Id", Patient_Id));
+            param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER]", param);
             List<ParametersListModel> list = (from p in dt.AsEnumerable()
                                               select new ParametersListModel()
