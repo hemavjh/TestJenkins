@@ -4750,7 +4750,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
 
             var obj =
             {
-                name: "conference1",
+                name: "conference38",
                 username: "appsAdmin",
                 key : "ab3049da9a0cd8d6e8b7c62586752472"
             }
@@ -4762,7 +4762,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
                         "action": "Add",
                         "username": "appsAdmin",
                         "key": "ab3049da9a0cd8d6e8b7c62586752472",
-                        "name": "conference1",
+                        "name": "conference38",
                         "audio": "on",
                         "video": "off",
                         "chat": "off",

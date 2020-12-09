@@ -463,9 +463,9 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                 $scope.ConfigCode = "WEBIDLETIME";
                 var IdleDays = 0;
                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-                    .success(function (data) {
-                        if (data[0] != undefined) {
-                            IdleDays = parseInt(data[0].ConfigValue);
+                    .success(function (result) {
+                        if (result[0] != undefined) {
+                            IdleDays = parseInt(result[0].ConfigValue);
                             $window.localStorage['IdleDays'] = IdleDays;
                             if (data == "1") {
                                 $scope.errorlist = "Username and/or Password are not matching, please verify";
