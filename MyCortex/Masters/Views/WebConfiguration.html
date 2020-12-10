@@ -16,258 +16,121 @@
     <li><a class="secondaryMenuActive" href="Home/Index#/WebConfiguration">Configuration</a></li>
 </ul>
 
-<h1 class="page-title">Configuration</h1>
-<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-<div class="row" ng-init="WebConfigurationList()">
-    <div class="col-md-12">
-        <div class="panel panel-default panel-info" id="DMid">
-            <form class="form-horizontal" role="form">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                    <tr>
-                        <td width="5%">
-                            <label>Search</label>
-                        </td>
-                        <td width="5%">
-                            <div class="modernSearch">
-                                <input type="text" ng-model="searchqueryWebConfiguration" ng-change="FilterWebConfigurationList()" placeholder="" style="width: 200px" />
-                                <i class="fa fa-search"></i>
-                            </div>
-                        </td>
-                        <td style="text-align:left" width="65%">
-                            Active &nbsp;&nbsp;
-                            <input toggle-checkbox ng-model="IsActive" type="checkbox"
-                                   ng-change="WebConfigurationList();" title="Active / All">
-                        </td>
+<div class="container">
 
-                        <td>
-                            <a href="javascript:" ng-click="AddWebConfiguration();" class="btn btn-autosize pull-right mb-15" title="Click to Add New Configuration">Add New</a>
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div class="row">
+        <div class="col-md-12" ng-init="WebConfigurationList()()">
+            <h1 class="page-title">Web Configuration</h1>
+            <div class="panel panel-default panel-info">
+                <form class="form-horizontal" role="form">
+                    <div class="overlay" show-on-load>
+                        <div id="loading-img"></div>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" border="0" width="80%" class="formControlGroup" id="table1">
+                        <tr>
+                            <td width="5%">
+                                <label>Search</label>
+                            </td>
+                            <td width="30%">
+                                <div class="modernSearch">
+                                    <input type="text" ng-model="searchqueryWebConfiguration" ng-change="FilterWebConfigurationList()" placeholder="" />
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </td>
+                            <td width="30%">
+                                <div style="text-align: center;">
+                                    <button type="button" class="btn btn-save" ng-if="IsEdit==false" ng-click="WebConfigEdit()"  title="Click to Edit">Edit</button>
+                                    <button type="button" class="btn  btn-save" id="save" title="Click to Save" ng-if="IsEdit==true" ng-click="Configuration_AddEdit()" >Save</button>
+                                    <button type="button" class="btn btn-save" ng-if="IsEdit==true" ng-click="WebConfigCancel()"  title="Click to Cancel">Cancel</button>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <table st-table="rowCollectionWebConfiguration" style="width: 100%" st-safe-src="rowCollectionWebConfiguration" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
+                <colgroup>
+                    <col span="1" style="width:25%" />
+                    <col span="1" style="width:75%" />
+                </colgroup>
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="4" rowspan="1" st-sort="">CONFIGCODE</th>
+                        <th st-ratio="20" rowspan="1" st-sort="">CONFIGVALUE</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-if="rowCollectionWebConfiguration.length==0">
+                        <td colspan="15" style="text-align: center">
+                            No Data Available
                         </td>
                     </tr>
-                </table>
-            </form>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <table st-table="emptydataWebConfiguration" style="width: 100%" st-safe-src="rowCollectionWebConfigurationFilter" st-search="query" class="table themeTable">
-            <thead>
-                <tr style="text-align: center">
-                    <th st-ratio="5">#</th>
-                    <th st-ratio="17" st-sort="CONFIGCODE">CONFIGCODE</th>
-                    <th st-ratio="25" st-sort="CONFIGINFO">CONFIGNAME</th>
-                    <th st-ratio="35" st-sort="CONFIGVALUE">CONFIGVALUE</th>
-                    <th st-ratio="10" st-sort="CONFIG_TYPEDEFINITION">CONFIG TYPE</th>
-                    <th st-ratio="8">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-if="flag==0 && rowCollectionWebConfigurationFilter.length==0">
-                    <td colspan="9" style="text-align: center">
-                        No Data Available
-                    </td>
-                </tr>
-                <!-- {{emptydataWebConfiguration}}-->
-                <tr ng-repeat="row in emptydataWebConfiguration">
-                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                    <tr ng-repeat="row in rowCollectionWebConfiguration">
+                        <td style="text-align: left">
+                            {{row.CONFIGCODE}}
+                        </td>
+                        
+                        <td style="text-align: left">
+                            <input type="text" class="form-control" style="max-width:100% !important"
+                                   ng-model="Config_value[row.ID]" placeholder="" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
+                            <!--{{row.CONFIGVALUE}}-->
+                        </td>
 
-                    <td style="text-align: left">
-                        <div class="textwrap">{{row.CONFIGCODE}}</div>
-                    </td>
-                    <td style="text-align: left">
-                        <div class="textwrap">{{row.CONFIGINFO}}</div>
-                    </td>
-                    <td style="text-align: left">
-                        <div class="textwrap">{{row.CONFIGVALUE}}</div>
-                    </td>
-                    <td style="text-align: left">
-                        <div class="textwrap">{{row.CONFIG_TYPEDEFINITION}}</div>
-                    </td>
-                    <td style="text-align: center">
-                        <a href="javascript:" ng-click="ViewWebConfiguration(row.ID)" title="View">
-                            <img src="../../Images/ViewIcon.png" />
-                        </a>
-                        <a href="javascript:" title="Edit" ng-click="EditWebConfiguration(row.ID, row.ISACTIVE)">
-                            <img src="../../Images/EditIcon.png" />
-                        </a>
-                        <a href="javascript:;" ng-click="DeleteWebConfiguration(row.ID)" title="Active">
-                            <img src="../../Images/activeIcon1.png" ng-if="row.ISACTIVE==1" />
-                        </a>
-                        <a href="javascript:" ng-click="ReInsertWebConfiguration(row.ID)" title="Inactive">
-                            <img src="../../Images/inactive.png" ng-if="row.ISACTIVE==0" />
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot ng-show="rowCollectionWebConfigurationFilter.length >10">
-                <tr>
-                    <td colspan="9" class="text-center">
-                        <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-</div>
-<!--Add&Edit Modal-->
-<div id="WebConfigurationAddModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="ClearWebConfigurationPopUp()" style="color:#8B0000;">&times;</button>
-                <h4 class="modal-title">Configuration</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr ng-show="Id==0">
-                            <td width="15%">
-                                <label>Config Code<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
+                        <!--<td style="text-align: left">
+                            <input type="text" class="form-control"
+                                   ng-model="Remarks[row.Id]" placeholder="" ng-maxlength="250" maxlength="250" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{Remarks[row.Id]}}</span>
+                        </td>-->
 
-                            <td>
-                                <input type="text" class="form-control" name="Config_Code" ng-model="Config_Code" ng-init="Config_Code=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" />
-                            </td>
-                        </tr>
-                        <tr ng-show="Id>0">
-                            <td width="15%">
-                                <label>Config Code<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
+                        <!--<td style="text-align: center" ng-if="IsEdit==true">
+                            <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]">
 
-                            <td>
-                                <input type="text" class="form-control" name="Config_Code" ng-model="Config_Code" ng-init="Config_Code=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" readonly/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="4%">
-                                <label>Config Name<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
+                        </td>
+                        <td style="text-align: center" ng-if="IsEdit==false">
+                            <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]" disabled>
 
-                            <td>
-                                <input type="text" class="form-control" name="Config_Name" ng-model="Config_Name" ng-init="Config_Name=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="4%">
-                                <label>Config Value<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
+                        </td>
+                        <td style="text-align: left">
+                            <input type="text" class="form-control"
+                                   ng-model="Min_Possible[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{Min_Possible[row.Id]}}</span>
 
-                            <td>
-                                <textarea rows="5" class="form-control" ng-model="Config_Value" ng-maxlength="500" maxlength="500"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="4%">
-                                <label>Config Type<sup><font class='mandatory-field'>*</font></sup></label>
-                            </td>
+                        </td>
 
-                            <td>
-                                <input type="text" class="form-control" name="Config_Type" ng-model="Config_Type" ng-init="Config_Type=''" placeholder="" ng-maxlength="250" maxlength="250" onkeypress="" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top">Remarks</td>
-                            <td>
-                                <textarea rows="5" class="form-control" ng-model="Remarks" ng-maxlength="250" maxlength="250"></textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn  btn-save" ng-click="WebConfigurationAddEdit()" title="Click to Save">Save</button>
-                <button type="button" class="btn  btn-save" ng-click="CancelWebConfigurationDetails()" title="Click to Cancel">Cancel</button>
-            </div>
+                        <td style="text-align: left">
+                            <input type="text" class="form-control" ng-model="Max_Possible[row.Id]"
+                                   placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{Max_Possible[row.Id]}}</span>
+                        </td>
+
+                        <td style="text-align: left">
+                            <input type="text" class="form-control"
+                                   ng-model="NormalRange_low[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{NormalRange_low[row.Id]}}</span>
+                        </td>
+                        <td style="text-align: left">
+                            <input type="text" class="form-control"
+                                   ng-model="NormalRange_High[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{NormalRange_High[row.Id]}}</span>
+                        </td>
+                        <td style="text-align: left">
+                            <input type="text" class="form-control"
+                                   ng-model="Average[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{Average[row.Id]}}</span>
+                        </td>
+                        <td style="text-align: left">
+                            <input type="text" class="form-control"
+                                   ng-model="Remarks[row.Id]" placeholder="" ng-maxlength="250" maxlength="250" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{Remarks[row.Id]}}</span>
+                        </td>-->
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>
-<div id="ViewWebConfigurationModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#8B0000;">&times;</button>
-                <h4 class="modal-title">Configuration</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
-                            <td width="7%" valign="top">
-                                <label>CONFIGURATION CODE</label>
-                            </td>
-
-                            <td width="7%">
-                                <div class="textwrap"> {{Config_Code}}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>CONFIGURATION NAME</label>
-                            </td>
-
-                            <td>
-                                {{Config_Name}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>CONFIGURATION VALUE</label>
-                            </td>
-
-                            <td>
-                                {{Config_Value}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>CONFIGURATION TYPE</label>
-                            </td>
-
-                            <td>
-                                {{Config_Type}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>REMARKS</label>
-                            </td>
-
-                            <td>
-                                {{Remarks}}
-                            </td>
-                        </tr>
-
-                    </table>
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelWebConfigurationPopUp()">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $('#timepicker1').timepicker();
-    $('#timepicker2').timepicker();
-    $("#AttendanceFromDate").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        //endDate: '+0d',
-        startDate: new Date(),
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
-    $("#AttendanceToDate").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        //endDate: '+0d',
-        startDate: new Date(),
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
-</script>

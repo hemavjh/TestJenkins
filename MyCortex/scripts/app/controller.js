@@ -16840,70 +16840,30 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
         $scope.IsActive = true;
         $scope.Id = 0;
+        $scope.User_Id = 0;
+        $scope.Config_value = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
-        $scope.page_size = 10;
-        $scope.ConfigCode = "PAGINATION";
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            if (data[0] != undefined) {
-                $scope.page_size = parseInt(data[0].ConfigValue);
-                $window.localStorage['Pagesize'] = $scope.page_size;
-            }
-        });
-        /*List Page Pagination*/
-        $scope.listdata = [];
-        $scope.current_page = 1;
-        $scope.page_size = $window.localStorage['Pagesize'];
-        $scope.rembemberCurrentPage = function (p) {
-            $scope.current_page = p
+        $scope.IsEdit = false;
+        $scope.WebConfigEdit = function () {
+            $scope.IsEdit = true;
         }
 
-        $scope.Convert24to12Timeformat = function (inputTime) {
-            var outputTime = null;
-            if (inputTime != '' && inputTime != null) {
-                inputTime = inputTime.toString(); //value to string for splitting
-                var splitTime = inputTime.split(':');
-                splitTime.splice(2, 1);
-                var ampm = (splitTime[0] >= 12 ? ' PM' : ' AM'); //determine AM or PM
-                splitTime[0] = splitTime[0] % 12;
-                splitTime[0] = (splitTime[0] == 0 ? 12 : splitTime[0]); //adjust for 0 = 12
-                outputTime = splitTime.join(':') + ampm;
-            }
-            return outputTime;
-        };
-        $scope.Convert12To24Timeformat = function (timeval) {
-            var outputTime = null;
-            if (timeval != '' && timeval != null) {
-                var time = timeval;
-                var hours = Number(time.match(/^(\d+)/)[1]);
-                var minutes = Number(time.match(/:(\d+)/)[1]);
-                var AMPM = time.match(/\s(.*)$/)[1];
-                if (AMPM == "PM" && hours < 12) hours = hours + 12;
-                if (AMPM == "AM" && hours == 12) hours = hours - 12;
-                var sHours = hours.toString();
-                var sMinutes = minutes.toString();
-                if (hours < 10) sHours = "0" + sHours;
-                if (minutes < 10) sMinutes = "0" + sMinutes;
-                outputTime = sHours + ":" + sMinutes;
-            }
-            return outputTime;
-        }; $scope.searchqueryWebConfiguration = "";
+        $scope.WebConfigCancel = function () {
+            $scope.WebConfigurationList();
+            $scope.IsEdit = false;
+        }
+
+        $scope.searchqueryWebConfiguration = "";
         /* Filter the master list function for Search*/
         $scope.FilterWebConfigurationList = function () {
-
-            $scope.ResultListFiltered = [];
             var searchstring = angular.lowercase($scope.searchqueryWebConfiguration);
-            if (searchstring == "") {
-                $scope.rowCollectionWebConfigurationFilter = [];
-                $scope.rowCollectionWebConfigurationFilter = angular.copy($scope.rowCollectionWebConfiguration);
+            if ($scope.searchqueryWebConfiguration == "") {
+                $scope.rowCollectionWebConfiguration = angular.copy($scope.rowCollectionWebConfigurationFilter);
             }
             else {
-                $scope.rowCollectionWebConfigurationFilter = $ff($scope.rowCollectionWebConfiguration, function (value) {
-                    return angular.lowercase(value.CONFIGCODE).match(searchstring) ||
-                        angular.lowercase(value.CONFIGINFO).match(searchstring) ||
-                        angular.lowercase(value.CONFIGVALUE).match(searchstring) ||
-                        angular.lowercase(value.CONFIG_TYPEDEFINITION).match(searchstring);
-
+                $scope.rowCollectionWebConfiguration = $ff($scope.rowCollectionWebConfigurationFilter, function (value, index) {
+                    return angular.lowercase(value.CONFIGCODE).match(searchstring)
                 });
             }
         };
@@ -16929,7 +16889,8 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
         }
 
         /*THIS IS FOR LIST FUNCTION*/
-
+        $scope.ViewParamList = [];
+        $scope.ViewParamList1 = [];
         $scope.WebConfigurationList = function () {
             $("#chatLoaderPV").show();
             $scope.emptydataWebConfiguration = [];
@@ -16956,6 +16917,9 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                     $scope.flag = 0;
                 }
                 $("#chatLoaderPV").hide();
+                angular.forEach($scope.rowCollectionWebConfiguration, function (masterVal, masterInd) {
+                    $scope.Config_value[masterVal.ID] = masterVal.CONFIGVALUE;
+                });
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
             })
@@ -17010,11 +16974,37 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 alert(data.Message);
                 $scope.WebConfigurationList();
                 $scope.ClearWebConfigurationPopUp();
+                $scope.searchqueryWebConfiguration = "";
                 $("#chatLoaderPV").hide();
             }).error(function (data) {
                 $scope.error = "An error has occurred while deleting Parameter" + data;
             });
 
+        };
+
+        $scope.WebConfigurationDetails = [];
+        $scope.Configuration_AddEdit = function () {
+            $("#chatLoaderPV").show();
+            angular.forEach($scope.rowCollectionWebConfiguration, function (value, index) {
+                var obj = {
+                    Id: value.ID,
+                    INSTITUTION_ID: $scope.INSTITUTION_ID,
+                    CONFIGVALUE: $scope.Config_value[value.ID] == 0 ? null : $scope.Config_value[value.ID],
+                }
+                $scope.WebConfigurationDetails.push(obj);
+            });
+
+            $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
+                $("#chatLoaderPV").hide();
+                alert("Configuration Data saved successfully");
+                $scope.WebConfigurationDetails = [];
+                $scope.Config_value = [];
+                $scope.searchqueryWebConfiguration = "";
+                $scope.WebConfigurationList();
+                $scope.IsEdit = false;
+                //$location.path("/ParameterSettings");
+            });
+            
         };
 
         /* on click Edit, edit popup opened*/

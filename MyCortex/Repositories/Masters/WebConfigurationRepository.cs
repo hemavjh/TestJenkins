@@ -112,6 +112,49 @@ namespace MyCortex.Repositories.Masters
             return 0;
         }
 
+        public int Configuration_InsertUpdate(List<WebConfigurationModel> obj)
+        {
+            try
+            {
+                int retid = 0;
+                // int executedOnce = 0;
+
+                foreach (WebConfigurationModel item in obj)
+                {
+                    //if (item.Units_ID != null)
+                    {
+                        List<DataParameter> param = new List<DataParameter>();
+                        param.Add(new DataParameter("@Id", item.ID));
+                        param.Add(new DataParameter("@INSTITUTION_ID", item.INSTITUTION_ID));
+                        // param.Add(new DataParameter("@USER_ID", item.User_Id));
+                        param.Add(new DataParameter("@CONFIG_VALUE", item.CONFIGVALUE));
+                        param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
+                        retid = ClsDataBase.Insert("[MYCORTEX].APPCONFIGURATION_SP_UPDATE", param, true);
+
+
+                    }
+
+                }
+                //foreach (WebConfigurationModel item in obj)
+                //{
+                //    // execute only once for thie institution
+                //    if (executedOnce == 0)
+                //    {
+                //        List<DataParameter> param = new List<DataParameter>();
+                //        param.Add(new DataParameter("@INSTITUTION_ID", item.Institution_ID));
+                //        retid = ClsDataBase.Insert("[MYCORTEX].STANDARD_PARAMETER_PARENT_INSERTUPDATE", param, true);
+                //        executedOnce = 1;
+                //    }
+                //}
+                return retid;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
         /* This is for Delete Allergy Details */
         public IList<WebConfigurationModel> WebConfiguration_InActive(WebConfigurationModel noteobj)
         {

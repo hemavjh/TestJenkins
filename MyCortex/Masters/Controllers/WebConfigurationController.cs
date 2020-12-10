@@ -108,6 +108,36 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage Configuration_AddEdit(List<WebConfigurationModel> model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        int id = repository.Configuration_InsertUpdate(model);
+                        return Request.CreateResponse(HttpStatusCode.OK, id);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.Message, ex);
+                        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                    }
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+
+        [HttpPost]
 
         public HttpResponseMessage WebConfiguration_InActive([FromBody] WebConfigurationModel noteobj)
         {
