@@ -440,6 +440,7 @@
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
+    <Content Include="Masters\Views\LanguageSettings.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
     <Content Include="Masters\Views\ChatSettings.html" />
     <Content Include="Masters\Views\DrugDBlist.html" />
@@ -941,6 +942,7 @@
     <Compile Include="Masters\Controllers\DoctorShiftController.cs" />
     <Compile Include="Masters\Controllers\DrugDBMasterController.cs" />
     <Compile Include="Masters\Controllers\EmailConfigurationController.cs" />
+    <Compile Include="Masters\Controllers\LanguageSettingsController.cs" />
     <Compile Include="Masters\Controllers\MasterICDController.cs" />
     <Compile Include="Masters\Controllers\ParameterSettingsController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
@@ -960,6 +962,7 @@
     <Compile Include="Masters\Models\EmailConfigurationModel.cs" />
     <Compile Include="Masters\Models\EmailGenerateModel.cs" />
     <Compile Include="Masters\Models\EmailTemplateModel.cs" />
+    <Compile Include="Masters\Models\LanguageSettingsModel.cs" />
     <Compile Include="Masters\Models\LocationMasterModel.cs" />
     <Compile Include="Masters\Models\MasterICDModel.cs" />
     <Compile Include="Masters\Models\ParamaterSettingsModel.cs" />
@@ -1000,6 +1003,7 @@
     <Compile Include="Repositories\IEmployeeLoginRepository.cs" />
     <Compile Include="Repositories\IInstitutionRepository.cs" />
     <Compile Include="Repositories\IInstitutionSubscriptionRepository.cs" />
+    <Compile Include="Repositories\ILanguageSettingsRepository.cs" />
     <Compile Include="Repositories\ILoginRepository.cs" />
     <Compile Include="Repositories\IMasterICDReposistory.cs" />
     <Compile Include="Repositories\IParameterSettingsRepository.cs" />
@@ -1021,6 +1025,7 @@
     <Compile Include="Repositories\Masters\DoctorShiftRepository.cs" />
     <Compile Include="Repositories\Masters\DrugDBMasterRepository.cs" />
     <Compile Include="Repositories\Masters\EmailConfigurationRepository.cs" />
+    <Compile Include="Repositories\Masters\LanguageSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\MasterICDRepository.cs" />
     <Compile Include="Repositories\Masters\ParameterSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\PasswordPolicyRepository.cs" />
@@ -1186,6 +1191,8 @@
     </Content>
     <Content Include="MyCortex.ruleset" />
     <Content Include="manifest.json" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\HRMS.pubxml" />
     <Content Include="scripts\bootstrap-select.min.js" />
@@ -1221,6 +1228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin\Views\ColorPreference\" />
+    <Folder Include="Admin\Views\LanguageSettings\" />
     <Folder Include="Admin\Views\PatientDeviceData\" />
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
