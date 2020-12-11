@@ -18,6 +18,13 @@ namespace MyCortex.Masters.Models
         public bool ISACTIVE { get; set; }
     }
 
+    public class LanguageKeyValueModel
+    {
+        public long ID { get; set; }
+        public string LANGUAGE_KEY { get; set; }
+        public string LANGUAGE_VALUE { get; set; }
+    }
+
     public class LanguageSettingsReturnModels
     {
         public int ReturnFlag { get; set; }

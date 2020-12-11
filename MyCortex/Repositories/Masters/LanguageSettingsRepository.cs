@@ -82,5 +82,31 @@ namespace MyCortex.Repositories.Masters
                 return 0;
             }
         }
+
+        public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Institution_Id, Guid Login_Session_Id)
+        {
+            //  DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_SP_LIST_BASEDONINSTITUTESETTINGS]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                List<LanguageKeyValueModel> list = (from p in dt.AsEnumerable()
+                                                    select new LanguageKeyValueModel()
+                                                    {
+                                                        ID = p.Field<long>("ID"),
+                                                        LANGUAGE_KEY = p.Field<string>("LANGUAGE_KEY"),
+                                                        LANGUAGE_VALUE = p.Field<string>("LANGUAGE_VALUE"),
+
+                                                    }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

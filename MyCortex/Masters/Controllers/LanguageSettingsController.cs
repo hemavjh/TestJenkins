@@ -67,5 +67,21 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        [ActionName("List")]
+        public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Institution_Id, Guid Login_Session_Id)
+        {
+            IList<LanguageKeyValueModel> model;
+            try
+            {
+                model = repository.LanguageKeyValue_List(Institution_Id, Login_Session_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }
