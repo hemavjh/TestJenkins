@@ -30,42 +30,42 @@ namespace MyCortex.Repositories.User
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLCOLOR_PREFERENCE_SP_LIST", param);
                 ColorPreferenceModel list = (from p in dt.AsEnumerable()
-                                             select
-                                             new ColorPreferenceModel()
-                                             {
-                                                 ID = p.IsNull("ID") ? 0 : p.Field<long>("ID"),
-                                                 UserId = p.IsNull("USER_ID") ? 0 : p.Field<long>("USER_ID"),
-                                                 InstitutionId = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
-                                                 Primary = (p.Field<string>("PRIMARY_COLOR")),
-                                                 Secondary = (p.Field<string>("SECONDARY_COLOR")),
-                                                 HeaderBg = (p.Field<string>("HEADERBG")),
-                                                 HeaderText = (p.Field<string>("HEADERTEXT")),
-                                                 TableHeaderBg = (p.Field<string>("TABLEHEADERBG")),
-                                                 TableHeaderText = (p.Field<string>("TABLEHEADERTEXT")),
-                                                 TableAlternateRowBg = (p.Field<string>("TABLEALTERNATEROWBG")),
-                                                 TableAlternateRowText = (p.Field<string>("TABLEALTERNATEROWTEXT")),
-                                                 TableRowHoverBg = (p.Field<string>("TABLEROWHOVERBG")),
-                                                 TableRowHoverText = (p.Field<string>("TABLEROWHOVERTEXT")),
-                                                 LinkText = (p.Field<string>("LINKTEXT")),
-                                                 PositiveBtnBg = (p.Field<string>("POSITIVEBTNBG")),
-                                                 PositiveBtnBorder = (p.Field<string>("POSITIVEBTNBORDER")),
-                                                 PositiveBtnText = (p.Field<string>("POSITIVEBTNTEXT")),
-                                                 PositiveHoverBtnBg = (p.Field<string>("POSITIVEHOVERBTNBG")),
-                                                 PositiveHoverBtnBorder = (p.Field<string>("POSITIVEHOVERBTNBORDER")),
-                                                 PositiveHoverBtnText = (p.Field<string>("POSITIVEHOVERBTNTEXT")),
-                                                 NegativeBtnBg = (p.Field<string>("NEGATIVEBTNBG")),
-                                                 NegativeBtnBorder = (p.Field<string>("NEGATIVEBTNBORDER")),
-                                                 NegativeBtnText = (p.Field<string>("NEGATIVEBTNTEXT")),
-                                                 NegativeHoverBtnBg = (p.Field<string>("NEGATIVEHOVERBTNBG")),
-                                                 NegativeHoverBtnBorder = (p.Field<string>("NEGATIVEHOVERBTNBORDER")),
-                                                 NegativeHoverBtnText = (p.Field<string>("NEGATIVEHOVERBTNTEXT")),
-                                                 Title = (p.Field<string>("TITLE")),
-                                                 SubTitle = (p.Field<string>("SUBTITLE")),
-                                                 IsActive = (p.Field<bool>("ISACTIVE")),
-                                                 CreatedBy = (p.Field<long>("CREATED_BY")),
-                                                 CreatedAt = (p.Field<DateTime>("CREATED_AT")),
-                                                 ModifiedAt = (p.Field<DateTime>("MODIFIED_AT")),
-                                             }).FirstOrDefault();
+                        select
+                        new ColorPreferenceModel()
+                        {
+                            ID = p.IsNull("ID") ? 0 : p.Field<long>("ID"),
+                            UserId = p.IsNull("USER_ID") ? 0 : p.Field<long>("USER_ID"),
+                            InstitutionId = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
+                            Primary = (p.Field<string>("PRIMARY_COLOR")),
+                            Secondary = (p.Field<string>("SECONDARY_COLOR")),
+                            HeaderBg = (p.Field<string>("HEADERBG")),
+                            HeaderText = (p.Field<string>("HEADERTEXT")),
+                            TableHeaderBg = (p.Field<string>("TABLEHEADERBG")),
+                            TableHeaderText = (p.Field<string>("TABLEHEADERTEXT")),
+                            TableAlternateRowBg = (p.Field<string>("TABLEALTERNATEROWBG")),
+                            TableAlternateRowText = (p.Field<string>("TABLEALTERNATEROWTEXT")),
+                            TableRowHoverBg = (p.Field<string>("TABLEROWHOVERBG")),
+                            TableRowHoverText = (p.Field<string>("TABLEROWHOVERTEXT")),
+                            LinkText = (p.Field<string>("LINKTEXT")),
+                            PositiveBtnBg = (p.Field<string>("POSITIVEBTNBG")),
+                            PositiveBtnBorder = (p.Field<string>("POSITIVEBTNBORDER")),
+                            PositiveBtnText = (p.Field<string>("POSITIVEBTNTEXT")),
+                            PositiveHoverBtnBg = (p.Field<string>("POSITIVEHOVERBTNBG")),
+                            PositiveHoverBtnBorder = (p.Field<string>("POSITIVEHOVERBTNBORDER")),
+                            PositiveHoverBtnText = (p.Field<string>("POSITIVEHOVERBTNTEXT")),
+                            NegativeBtnBg = (p.Field<string>("NEGATIVEBTNBG")),
+                            NegativeBtnBorder = (p.Field<string>("NEGATIVEBTNBORDER")),
+                            NegativeBtnText = (p.Field<string>("NEGATIVEBTNTEXT")),
+                            NegativeHoverBtnBg = (p.Field<string>("NEGATIVEHOVERBTNBG")),
+                            NegativeHoverBtnBorder = (p.Field<string>("NEGATIVEHOVERBTNBORDER")),
+                            NegativeHoverBtnText = (p.Field<string>("NEGATIVEHOVERBTNTEXT")),
+                            Title = (p.Field<string>("TITLE")),
+                            SubTitle = (p.Field<string>("SUBTITLE")),
+                            IsActive = (p.Field<bool>("ISACTIVE")),
+                            CreatedBy = (p.Field<long>("CREATED_BY")),
+                            CreatedAt = (p.Field<DateTime>("CREATED_AT")),
+                            ModifiedAt = (p.Field<DateTime>("MODIFIED_AT")),
+                        }).FirstOrDefault();
                 return list;
             }
             catch (Exception ex)

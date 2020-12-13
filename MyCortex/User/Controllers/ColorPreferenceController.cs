@@ -20,20 +20,33 @@ namespace MyCortex.User.Controllers
 
         [HttpGet]
         [ActionName("List")]
-        public ColorPreferenceModel ListColorPreference(long UserId)
+        public HttpResponseMessage ListColorPreference(long UserId)
         {
             ColorPreferenceModel model = new ColorPreferenceModel();
+            ColorPreferenceReturnModel result = new ColorPreferenceReturnModel();
+            
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
                 model = repository.ColorPreference_List(UserId);
-                return model;
+                if (model != null)
+                {
+                    result.Status = true;
+                    result.Message = "Success";
+                    result.ReturnFlag = 1;
+                    result.ColorPreferences = model;
+                    return Request.CreateResponse(HttpStatusCode.OK, result);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, result);
+                }
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
-                return null;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, result);
             }
         }
 
