@@ -28,7 +28,7 @@
     <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/bootstrap-datepicker.js")" type="text/javascript"></script>
     @*<script src="@Url.Content("~/Scripts/bootstrap-timepicker.js")" type="text/javascript"></script>*@
-    <link href="@Url.Content("~/Css/bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/default.css")" rel="stylesheet" type="text/css" />
     @*<link href="@Url.Content("~/Css/mycortexTheme.css")" rel="stylesheet" type="text/css" />*@
     @*<link href="@Url.Content("~/Css/ng-table.css")" rel="stylesheet" type="text/css" />*@
@@ -58,7 +58,7 @@
         var BuildList = jQuery.parseJSON('@Html.Action("BuildDetails", "Home")');
         $(document).ready(function () {
             var Buildnamespan = document.getElementById('Buildnamespan');
-      
+
             if ('textContent' in Buildnamespan) {
                 Buildnamespan.textContent = BuildList[0];
             } else {
@@ -66,7 +66,8 @@
             }
         });
     </script>
-
+    <link href="@Url.Content("~/Css/theme.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/spacing.css")" rel="stylesheet" type="text/css" />
 
 </head>
 <body>

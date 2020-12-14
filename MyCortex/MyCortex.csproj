@@ -261,7 +261,9 @@
     <Content Include="Css\mycortexTheme.css" />
     <Content Include="Css\ng-table.css" />
     <Content Include="Css\Site.css" />
+    <Content Include="Css\spacing.css" />
     <Content Include="Css\summernote.css" />
+    <Content Include="Css\theme.css" />
     <Content Include="Css\TreeStructure.css" />
     <Content Include="default.css" />
     <Content Include="firebase-messaging-sw.js" />
@@ -1154,7 +1156,6 @@
     </Content>
     <Content Include="MyCortex.ruleset" />
     <Content Include="manifest.json" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\HRMS.pubxml" />
     <Content Include="scripts\bootstrap-select.min.js" />
     <Content Include="Shared\Views\_LayoutLogin.cshtml" />
@@ -1178,7 +1179,6 @@
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="scripts\ckeditor\skins\moono-lisa\readme.md" />
-    <None Include="Properties\PublishProfiles\VJH-Dev-Profile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
