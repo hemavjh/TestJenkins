@@ -139,6 +139,9 @@ namespace MyCortex.User.Model
         public IList<Patient_CurrentMedicalDetails> AddMedicines { get; set; }
         public IList<Patient_FamilyHeealthHistoryDetails> AddHealthProblem { get; set; }
         public IList<Patient_PastMedicalDetails> AddMedicalHistory { get; set; }
+        public string PHOTOBLOB_LOW { get; set; }
+        public string PHOTOBLOB_THUMB { get; set; }
+        
     }
 
     public class UserReturnModel

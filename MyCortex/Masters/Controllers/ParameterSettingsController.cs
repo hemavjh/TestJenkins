@@ -13,11 +13,15 @@ using log4net;
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace MyCortex.Masters.Controllers
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class ParameterSettingsController : ApiController
     {
         static readonly IParameterSettingsRepository repository = new ParameterSettingsRepository();
@@ -86,14 +90,14 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a Parameter Settings</param>    
         /// <returns>details of Parameter settings</returns>
         [HttpGet]
-        public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id)
+        public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id, int? Unitgroup_Type)
         {
             IList<ParamaterSettingsModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.ViewEditProtocolParameters(Id);
+                model = repository.ViewEditProtocolParameters(Id, Unitgroup_Type);
                 return model;
             }
             catch (Exception ex)
@@ -108,13 +112,46 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Parameter_Id">Parameter Id</param>
         /// <returns> unit list of a parameter</returns>
         [HttpGet]
-        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id)
+        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Unitgroup_Type)
         {
             IList<ParamaterSettingsModel> model;
-            model = repository.ParameterMappingList(Parameter_Id);
+            model = repository.ParameterMappingList(Parameter_Id, Unitgroup_Type);
             return model;
         }
 
-    
-     }
+        [HttpGet]
+        public bool UnitGroupPreferenceSave(Int64 institutionId, int preferenceType)
+        {
+            try
+            {
+                return repository.UnitGroupPreferenceSave(institutionId, preferenceType);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return false;
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage UnitGroupPreferenceGet(Int64 institutionId)
+        {
+            try
+            {
+                var prefType = repository.UnitGroupPreferenceGet(institutionId);
+                string resp = "{\"PreferenceType\":  \'" + prefType + "\' }";
+                var jObject = JObject.Parse(resp);
+                var response = Request.CreateResponse(HttpStatusCode.OK);
+                response.Content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
+
+
+    }
   }

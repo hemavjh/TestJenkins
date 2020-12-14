@@ -13,5 +13,9 @@ namespace MyCortex.Repositories
         IList<ChatSettingsModel> ChatSettings_AddEdit(ChatSettingsModel obj);
         IList<ChatSettingsModel> ViewEditChatSettings(int Id);
         IList<UserTypeModel> ChatSettingsUserType_List();
+
+        bool ChatPreferenceSave(Int64 InstitutionId, int PreferenceType);
+        int ChatPreferenceGet(Int64 InstitutionId);
+
     }
 }

@@ -12,11 +12,15 @@ using System.IO;
 using log4net;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace MyCortex.Masters.Controllers
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class ChatSettingsController : ApiController
     {
 
@@ -81,7 +85,7 @@ namespace MyCortex.Masters.Controllers
                         model.ReturnFlag = 1;
                     }
                     model.chat = ModelData;
-                    model.Message = messagestr;// "User created successfully";
+                    model.Message = messagestr;
                     model.Status = "True";
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                     return response;
@@ -119,6 +123,38 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        
+        [HttpGet]
+        public bool ChatPreferenceSave(Int64 institutionId, int preferenceType)
+        {
+            try
+            {
+                return repository.ChatPreferenceSave(institutionId,preferenceType);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return false;
+            }
+        }
 
+        [HttpGet]
+        public HttpResponseMessage ChatPreferenceGet(Int64 institutionId)
+        {
+            try
+            {
+                var prefType = repository.ChatPreferenceGet(institutionId);
+                string resp = "{\"PreferenceType\":  \'" + prefType + "\' }";
+                var jObject = JObject.Parse(resp);
+                var response = Request.CreateResponse(HttpStatusCode.OK);
+                response.Content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+        }
     }
 }

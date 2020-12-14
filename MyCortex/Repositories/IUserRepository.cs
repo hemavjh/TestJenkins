@@ -20,22 +20,23 @@ namespace MyCortex.Repositories
         void UserDetails_InActive(long Id);
         UserReturnModel UserDetails_Active(long Id);
         IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id);
-        IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID);
+        IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery);
         GroupCreateModel GroupMaster_Insert(GroupCreateModel insobj);
         long AssignedGroup_Insert(List<AssignedGroupModel> obj);
         ItemizedUserDetailsModel PatientBasicDetailsList(long PatientId);
         IList<ItemizedUserDetailsModel> PatientGroupNameList(long? PatientId);
         IList<PatientAllergiesNameListModels> PatientAllergiesNameList(long? PatientId);
         long GetInstitutionForWebURL(string request);
-        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, Guid Login_Session_Id);
+        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id);
         IList<PatientHealthDataModel> GoalDataDetails_List(long Patient_Id, Guid Login_Session_Id);
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id);
-        IList<ParametersListModel> GroupParameterNameList(long Patient_Id);
+        IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id);
         IList<PatientHealthDataModel> ParametersDetails_Delete(PatientHealthDataModel noteobj);
         IList<PatientHealthDataModel> ParametersDetails_Active(PatientHealthDataModel noteobj);
         void UserDetails_PhotoUpload(byte[] imageFile, int Id);
+        void UserDetails_PhotoImageCompress(byte[] imageFile, byte[] imageFile1, int Id,int Created_By);
         PhotoUploadModal UserDetails_GetPhoto(int Id);
         void UserDetails_CertificateUpload(byte[] imageFile, int Id);
         PhotoUploadModal UserDetails_GetCertificate(long Id);
@@ -94,12 +95,13 @@ namespace MyCortex.Repositories
         Patient_OtherDataModel Patient_OtherData_Active(long Id, long Modified_By);
         IList<UserGroupDetails_List> GroupBasedUserList_ByUser(long User_Id);
 
-        IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id);
+        IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id,int StartRowNumber,int EndRowNumber);
         IList<DoctorNotesModel> DoctorNotesDetails_InActive(DoctorNotesModel noteobj);
         IList<DoctorNotesModel> DoctorNotesDetails_Active(DoctorNotesModel noteobj);
         IList<PatientHealthDataModel> PatientLiveData_List(long Patient_Id, DateTime DataTime, Guid Login_Session_Id);
         PatientHealthDataModel PatientHealthData_AlertNotification_List(long HealthData_Id);
         UserModel InstitutionSubscriptionLicensecheck(UserModel obj);
         UserModel Patient_Update(Guid Login_Session_Id, UserModel insobj);
+        bool UserSession_Status(string Login_Session_Id);
     }
 }

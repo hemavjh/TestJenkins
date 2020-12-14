@@ -22,6 +22,8 @@ using MyCortex.Masters.Models;
 using MyCortex.Notification.Model;
 using MyCortex.Repositories.Admin;
 using MyCortex.Provider;
+using MyCortex.Repositories.Masters;
+using MyCortex.Repositories;
 
 namespace MyCortex.Home.Controllers
 {
@@ -31,20 +33,38 @@ namespace MyCortex.Home.Controllers
     {
         public string returnError = "";
         private CommonMenuRepository db = new CommonMenuRepository();
+        static readonly ICommonRepository commonrepository = new CommonRepository();
         private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
 
         private InstitutionRepository Insrepository = new InstitutionRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private string ClientId = ConfigurationManager.AppSettings["Google.ClientID"];
-        private string SecretKey = ConfigurationManager.AppSettings["Google.SecretKey"];
-        private string RedirectUrl = ConfigurationManager.AppSettings["Google.RedirectUrl"];
+        IList<AppConfigurationModel> model;
+        private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
+        private string ClientId;
+        private string SecretKey;
+        private string RedirectUrl;
 
         int i = 0;
 
         public HomeController()
         {
+            model = commonrepository.AppConfigurationDetails("Google.ClientID", InstitutionId);
+            if (model.Count > 0)
+            {
+                ClientId = model[0].ConfigValue;
+            }
+            model = commonrepository.AppConfigurationDetails("Google.SecretKey", InstitutionId);
+            if (model.Count > 0)
+            {
+                SecretKey = model[0].ConfigValue;
+            }
+            model = commonrepository.AppConfigurationDetails("Google.RedirectUrl", InstitutionId);
+            if (model.Count > 0)
+            {
+                RedirectUrl = model[0].ConfigValue;
+            }
 
         }
 
@@ -89,13 +109,13 @@ namespace MyCortex.Home.Controllers
         // GET: Login Index
         public ActionResult LoginIndex()
         {
-            Session["UserId"] = "0";
-
+             
+            Session["UserId"] = "0"; 
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             Response.Cache.SetNoStore();
             Session.Abandon();
-
+            
             return View((object)returnError);
         }
 
@@ -109,7 +129,47 @@ namespace MyCortex.Home.Controllers
             try
             {
                 long UserID = Convert.ToInt32(Session["UserId"].ToString());
-                login.User_LogOut(UserID);
+                string SessionId = Convert.ToString(Session["Login_Session_Id"].ToString());
+                login.User_LogOut(UserID, SessionId);
+                Session["UserId"] = "0";
+
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+                Response.Cache.SetNoStore();
+                Session.Abandon();
+
+                //var claimsIdentity = (ClaimsIdentity)User.Identity;
+                //IEnumerable<Claim> claims = claimsIdentity.Claims;
+
+
+                //var authenticationManager = HttpContext.GetOwinContext().Authentication;
+                //////authenticationManager.SignOut(MyAuthentication.ApplicationCookie);
+                //authenticationManager.SignOut(HttpContext.GetOwinContext()
+                //           .Authentication.GetAuthenticationTypes()
+                //           .Select(o => o.AuthenticationType).ToArray());
+
+                //HttpContext.GetOwinContext().Authentication.SignOut("Bearer");
+
+                //// Second we clear the principal to ensure the user does not retain any authentication
+                //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
+                returnError = "";
+                return RedirectToAction("LoginIndex");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [CheckSessionOutFilter]
+        public ActionResult LoginOutAllDevice()
+        {
+            try
+            {
+                long UserID = Convert.ToInt32(Session["UserId"].ToString());
+                login.User_LogOutAllDevice(UserID);
                 Session["UserId"] = "0";
 
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -330,6 +390,8 @@ namespace MyCortex.Home.Controllers
             model1.Login_Country = (Session["Login_Country"].ToString());
             model1.Login_City = (Session["Login_City"].ToString());
             model1.Login_IpAddress = (Session["Login_IPAdddress"].ToString());
+
+       
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -401,6 +463,41 @@ namespace MyCortex.Home.Controllers
                 {
                     t.Add(i.BuildNo.ToString());
                 }
+                var json = jsonSerialiser.Serialize(t);
+                return Content(json);
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult ProductDetails()
+        {
+
+            List<string> t = new List<string>();
+            Int64 InstanceNameId =  Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            { 
+               
+                string[] list  = new string[3] { "MyHealth", "STC MyCortex", "MyCortex" }; 
+                 
+                if(InstanceNameId == 1)
+                {
+                    t.Add(list[0].ToString());
+                }else if(InstanceNameId == 2)
+                {
+                    t.Add(list[1].ToString());
+                }
+                else
+                {
+                    t.Add(list[2].ToString());
+                } 
+
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);
             }

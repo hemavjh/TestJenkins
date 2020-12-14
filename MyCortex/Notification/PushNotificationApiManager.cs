@@ -30,7 +30,7 @@ namespace MyCortex.Notification.Firebase
         private async static Task<IRestResponse> SendPushNotification(PushNotificationMessage message, long templateId, string Url)
         {
             IList<AppConfigurationModel> model;
-            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", 0);
+            model = commonrepository.AppConfigurationDetails("FIREBASE_APITOKEN", Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]));
 
             var client = new RestClient("https://fcm.googleapis.com/fcm/send");
             client.Timeout = -1;

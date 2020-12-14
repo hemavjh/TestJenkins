@@ -40,11 +40,16 @@ namespace MyCortex.Repositories.User
         /// <param name="BLOODGROUP_ID"></param>
         /// <param name="Group_Id"></param>
         /// <param name="UserTypeId"></param>
+        /// <param name="StartRowNumber"></param>
+        ///  <param name="EndRowNumber"></param>
         /// <returns>All patient details for the logged in user</returns>
-        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId)
+        public IList<AllPatientListModel> PatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, long? UserTypeId,int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
         {
+
             DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber",StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@Doctor_Id", Doctor_Id));
             param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
             param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
@@ -61,6 +66,8 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@UserTypeId", UserTypeId));
+            param.Add(new DataParameter("@SearchQuery", SearchQuery));
+            param.Add(new DataParameter("@SearchEncryptedQuery",EncryptPassword.Encrypt(SearchQuery)));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -71,6 +78,7 @@ namespace MyCortex.Repositories.User
                 List<AllPatientListModel> lst = (from p in dt.AsEnumerable()
                                                  select new AllPatientListModel()
                                                  {
+                                                     TotalRecord = p.Field<string>("TotalRecords"),
                                                      Id = p.Field<long>("Id"),
                                                      Smoker_Option = p.Field<string>("Smoker"),
                                                      Diabetic_Option = p.Field<string>("Diabetic_Option"),
@@ -81,6 +89,7 @@ namespace MyCortex.Repositories.User
                                                      Photo = p.Field<string>("PHOTO_NAME"),
                                                      PhotoBlob = p.IsNull("PHOTOBLOB") ? null : encrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                      ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
+                                                    
                                                  }).ToList();
                 return lst;
             }

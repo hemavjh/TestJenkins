@@ -92,6 +92,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
@@ -146,6 +152,9 @@
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
@@ -167,6 +176,9 @@
     <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.OData, Version=5.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.3.1\lib\net45\System.Web.Http.OData.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -263,7 +275,6 @@
     <Content Include="Css\Site.css" />
     <Content Include="Css\spacing.css" />
     <Content Include="Css\summernote.css" />
-    <Content Include="Css\theme.css" />
     <Content Include="Css\TreeStructure.css" />
     <Content Include="default.css" />
     <Content Include="firebase-messaging-sw.js" />
@@ -428,6 +439,7 @@
     <Content Include="Masters\Views\AttendanceDetails.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
+    <Content Include="Masters\Views\LanguageSettings.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
     <Content Include="Masters\Views\ChatSettings.html" />
     <Content Include="Masters\Views\DrugDBlist.html" />
@@ -436,6 +448,7 @@
     <Content Include="Masters\Views\pagination.custom.html" />
     <Content Include="Masters\Views\ParameterSettings.html" />
     <Content Include="Masters\Views\PasswordPolicy.html" />
+    <Content Include="Masters\Views\WebConfiguration.html" />
     <Content Include="Report\Views\AuditReportList.html" />
     <Content Include="samplepatienthome.html" />
     <Content Include="scripts\7ca6cce699.js" />
@@ -928,13 +941,16 @@
     <Compile Include="Masters\Controllers\DoctorShiftController.cs" />
     <Compile Include="Masters\Controllers\DrugDBMasterController.cs" />
     <Compile Include="Masters\Controllers\EmailConfigurationController.cs" />
+    <Compile Include="Masters\Controllers\LanguageSettingsController.cs" />
     <Compile Include="Masters\Controllers\MasterICDController.cs" />
     <Compile Include="Masters\Controllers\ParameterSettingsController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
+    <Compile Include="Masters\Controllers\WebConfigurationController.cs" />
     <Compile Include="Masters\Models\AppConfigurationModel.cs" />
     <Compile Include="Masters\Models\AttendanceModel.cs" />
     <Compile Include="Masters\Models\CategoryMasterModel.cs" />
     <Compile Include="Masters\Models\ChatSettingsModel.cs" />
+    <Compile Include="Masters\Models\ColorPreferenceModel.cs" />
     <Compile Include="Masters\Models\CountryMasterModel.cs" />
     <Compile Include="Masters\Models\DoctorShiftModel.cs" />
     <Compile Include="Masters\Models\DosageAdministrationModel.cs" />
@@ -945,6 +961,7 @@
     <Compile Include="Masters\Models\EmailConfigurationModel.cs" />
     <Compile Include="Masters\Models\EmailGenerateModel.cs" />
     <Compile Include="Masters\Models\EmailTemplateModel.cs" />
+    <Compile Include="Masters\Models\LanguageSettingsModel.cs" />
     <Compile Include="Masters\Models\LocationMasterModel.cs" />
     <Compile Include="Masters\Models\MasterICDModel.cs" />
     <Compile Include="Masters\Models\ParamaterSettingsModel.cs" />
@@ -954,6 +971,7 @@
     <Compile Include="Masters\Models\ShiftTimingsModel.cs" />
     <Compile Include="Masters\Models\StateMasterModel.cs" />
     <Compile Include="Masters\Models\UnitsMasterModel.cs" />
+    <Compile Include="Masters\Models\WebConfigurationModel.cs" />
     <Compile Include="Notification\Models\AlertEventModel.cs" />
     <Compile Include="Notification\Models\UserNotificationModel.cs" />
     <Compile Include="Notification\PushNotificationApiManager.cs" />
@@ -984,17 +1002,21 @@
     <Compile Include="Repositories\IEmployeeLoginRepository.cs" />
     <Compile Include="Repositories\IInstitutionRepository.cs" />
     <Compile Include="Repositories\IInstitutionSubscriptionRepository.cs" />
+    <Compile Include="Repositories\ILanguageSettingsRepository.cs" />
     <Compile Include="Repositories\ILoginRepository.cs" />
     <Compile Include="Repositories\IMasterICDReposistory.cs" />
     <Compile Include="Repositories\IParameterSettingsRepository.cs" />
     <Compile Include="Repositories\IPasswordPolicyRepository.cs" />
     <Compile Include="Repositories\IPatientAppointmentsRepository.cs" />
     <Compile Include="Repositories\IPatientApprovalRepository.cs" />
+    <Compile Include="Repositories\IPatientDeviceDataRepository.cs" />
     <Compile Include="Repositories\IPatientReportDetailsRepositoy.cs" />
     <Compile Include="Repositories\IProtocolRepository.cs" />
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\IColorPreferenceRepository.cs" />
+    <Compile Include="Repositories\IWebConfigurationRepository.cs" />
     <Compile Include="Repositories\Login\LoginRepository.cs" />
     <Compile Include="Repositories\Masters\AttendanceRepository.cs" />
     <Compile Include="Repositories\Masters\ChatSettingsRepository.cs" />
@@ -1002,10 +1024,13 @@
     <Compile Include="Repositories\Masters\DoctorShiftRepository.cs" />
     <Compile Include="Repositories\Masters\DrugDBMasterRepository.cs" />
     <Compile Include="Repositories\Masters\EmailConfigurationRepository.cs" />
+    <Compile Include="Repositories\Masters\LanguageSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\MasterICDRepository.cs" />
     <Compile Include="Repositories\Masters\ParameterSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\PasswordPolicyRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
+    <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
     <Compile Include="Repositories\Menu\CommonMenuRepository.cs" />
     <Compile Include="Repositories\Report\PatientReportDetailsRepository.cs" />
     <Compile Include="Repositories\Template\AlertEventRepository.cs" />
@@ -1018,6 +1043,7 @@
     <Compile Include="Repositories\User\CareGiverRepository.cs" />
     <Compile Include="Repositories\User\PatientAppointmentRepository.cs" />
     <Compile Include="Repositories\User\PatientApprovalRepository.cs" />
+    <Compile Include="Repositories\User\PatientDeviceDataRepository.cs" />
     <Compile Include="Repositories\User\UserRepository.cs" />
     <Compile Include="Notification\SendGridApiManager.cs" />
     <Compile Include="Notification\SendGridEvents.cs" />
@@ -1032,8 +1058,10 @@
     <Compile Include="User\Controllers\AppoinmentSlotController.cs" />
     <Compile Include="User\Controllers\CareCoordinnatorController.cs" />
     <Compile Include="User\Controllers\CareGiverController.cs" />
+    <Compile Include="User\Controllers\ColorPreferenceController.cs" />
     <Compile Include="User\Controllers\PatientAppointmentsController.cs" />
     <Compile Include="User\Controllers\PatientApprovalController.cs" />
+    <Compile Include="User\Controllers\PatientDeviceDataController.cs" />
     <Compile Include="User\Controllers\UserController.cs" />
     <Compile Include="User\Models\AlergySubstanceModel.cs" />
     <Compile Include="User\Models\AllergyModel.cs" />
@@ -1044,6 +1072,7 @@
     <Compile Include="User\Models\CareCoordinatorModel.cs" />
     <Compile Include="User\Models\CareGiverModel.cs" />
     <Compile Include="User\Models\ChronicConditionModel.cs" />
+    <Compile Include="User\Models\ColorPreferenceModel.cs" />
     <Compile Include="User\Models\DepartmentModel.cs" />
     <Compile Include="User\Models\DietTypeModel.cs" />
     <Compile Include="User\Models\DoctorInstitutionModel.cs" />
@@ -1060,6 +1089,7 @@
     <Compile Include="User\Models\OptionTypeModel.cs" />
     <Compile Include="User\Models\PatientAppointmentsModel.cs" />
     <Compile Include="User\Models\PatientApprovalModel.cs" />
+    <Compile Include="User\Models\PatientDeviceDataModel.cs" />
     <Compile Include="User\Models\PatientHealthDataModel.cs" />
     <Compile Include="User\Models\Patient_OtherDataModel.cs" />
     <Compile Include="User\Models\RelationshipMasterModel.cs" />
@@ -1079,6 +1109,10 @@
     <Content Include="scripts\smart-table.js" />
     <Content Include="scripts\summernote.js" />
     <Content Include="scripts\summernoteScript.js" />
+    <Content Include="scripts\sweetalert2.all.js" />
+    <Content Include="scripts\sweetalert2.all.min.js" />
+    <Content Include="scripts\sweetalert2.js" />
+    <Content Include="scripts\sweetalert2.min.js" />
     <Content Include="scripts\tautocomplete.js" />
     <Content Include="scripts\TreeStructure.js" />
     <Content Include="scripts\ui-bootstrap-tpls.js" />
@@ -1141,11 +1175,10 @@
     <Content Include="GlobalReport.xsc">
       <DependentUpon>GlobalReport.xsd</DependentUpon>
     </Content>
-    <Content Include="bin\DataString.ini" />
+    <None Include="bin\DataString.ini" />
     <Content Include="fonts\Amazon Ember Italic.ttf" />
     <Content Include="fonts\Amazon-Ember-Bold.ttf" />
     <Content Include="fonts\Amazon-Ember-Regular.ttf" />
-    <Content Include="datastring.ini" />
     <None Include="GlobalReport.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>GlobalReport.Designer.cs</LastGenOutput>
@@ -1156,6 +1189,9 @@
     </Content>
     <Content Include="MyCortex.ruleset" />
     <Content Include="manifest.json" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\HRMS.pubxml" />
     <Content Include="scripts\bootstrap-select.min.js" />
     <Content Include="Shared\Views\_LayoutLogin.cshtml" />
@@ -1179,6 +1215,7 @@
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="scripts\ckeditor\skins\moono-lisa\readme.md" />
+    <None Include="Properties\PublishProfiles\VJHSite-Dev-Profile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1188,6 +1225,10 @@
     <Content Include="_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\Views\ColorPreference\" />
+    <Folder Include="Admin\Views\LanguageSettings\" />
+    <Folder Include="Admin\Views\PatientDeviceData\" />
+    <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
     <Folder Include="Home\Models\" />

@@ -25,10 +25,14 @@ using MyCortex.Repositories.EmailAlert;
 using MyCortex.Repositories.Masters;
 using MyCortex.Provider;
 using MyCortex.User.Models;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace MyCortex.User.Controller
 {
     [Authorize]
+    [CheckSessionOutFilter]
     public class UserController : ApiController
     {
         static readonly IUserRepository repository = new UserRepository();
@@ -36,6 +40,8 @@ namespace MyCortex.User.Controller
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        IList<AppConfigurationModel> AppConfigmodel;
+        private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
 
         /// <summary>      
         /// Getting list of Doctor Affiliation Institution list
@@ -120,7 +126,7 @@ namespace MyCortex.User.Controller
         /// </summary>          
         /// <returns> user list of a institution</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id)
         {
             IList<ItemizedUserDetailsModel> model;
@@ -138,22 +144,28 @@ namespace MyCortex.User.Controller
             {
                 Login_Session_Id = new Guid();
             }
-           // var LoginSession = Login_Session_Id;
+            // var LoginSession = Login_Session_Id;
             var request = HttpContext.Current.Request.Url.Authority;
             if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
             {
-              
-               userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
-              //  return model;
+
+                userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
+                //  return model;
                 //UserModel Ins_model = new UserModel();
                 //Ins_model = repository.GetInstitutionForWebURL(request);
-             //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
-            }
+                //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
+            }      
             //if (userObj.INSTITUTION_ID == null)
             //{
             //    userObj.INSTITUTION_ID = 1;
             //}
-            string defaultPwd = ConfigurationManager.AppSettings["User.defaultPassword"];
+            string defaultPwd = "P@ssw0rd";
+            AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", InstitutionId);
+             if (AppConfigmodel.Count > 0)
+            {
+                defaultPwd = AppConfigmodel[0].ConfigValue;
+            }
+            // string defaultPwd = ConfigurationManager.AppSettings["User.defaultPassword"];
             string generatedPwd = "";
             if (ModelState.IsValid)
             {
@@ -164,7 +176,7 @@ namespace MyCortex.User.Controller
                 if (userObj.UPLOAD_FILENAME != null)
                 {
                     userObj.FILE_FULLPATH = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.UPLOAD_FILENAME);
-                }
+                }  
             }
             else
             {
@@ -225,16 +237,39 @@ namespace MyCortex.User.Controller
                 userObj.EMERG_CONT_MIDDLENAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_MIDDLENAME);
                 userObj.Emergency_MobileNo = EncryptPassword.Encrypt(userObj.Emergency_MobileNo);
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
+                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
+                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
 
                 if ((ModelData.flag == 1) == true)
                 {
                     messagestr = "Email already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
-
+                    model.Status = "False";
+                }else if ((ModelData.flag == 8) == true)
+                {
+                    if(userObj.GOOGLE_EMAILID != "")
+                    {
+                        messagestr = "The Gmail added is linked with another user. Please contact your hospital administrator";
+                    }else if (userObj.FB_EMAILID != "")
+                    {
+                        messagestr = "The facebook added is linked with another user. Please contact your hospital administrator";
+                    }
+                    model.ReturnFlag = 0;
                     model.Status = "False";
                 }
-                else if ((ModelData.flag == 2) == true)
+                else if ((ModelData.flag == 10) == true)
+                {
+                    if (userObj.GOOGLE_EMAILID != "")
+                    {
+                        messagestr = "the Gmail added is linked with " + Replaced_FullName + " ";
+                    }else if (userObj.FB_EMAILID != "")
+                    {
+                        messagestr = "the facebook added is linked with " + Replaced_FullName + " ";
+                    }
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }  else if ((ModelData.flag == 2) == true)
                 {
                     messagestr = "User created successfully";
                     model.ReturnFlag = 1;
@@ -329,14 +364,14 @@ namespace MyCortex.User.Controller
                     {
                         EmailList = AlertEventReturn.InstitutionCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, -1, EmailList);
-                    }                        
+                    }
                     else
                     {
                         EmailList = AlertEventReturn.UserCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
                     }
-                    
-                    
+
+
                     if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
                     {
                         Event_Code = "PAT_SIGNUP_HOSADMIN";
@@ -349,9 +384,9 @@ namespace MyCortex.User.Controller
 
                     IList<UserLimit_AlertEventModel> ReturnModel;
                     ReturnModel = AlertEventReturn.AlertEvent_Get_UserLimit_List((long)userObj.INSTITUTION_ID, ModelData.Id);
-                    if(ReturnModel.Count>=1)
+                    if (ReturnModel.Count >= 1)
                     {
-                        if(userObj.UserType_Id==2)
+                        if (userObj.UserType_Id == 2)
                             Event_Code = "NEAR_PAT_LIMIT";
                         else
                             Event_Code = "NEAR_USR_LIMIT";
@@ -390,7 +425,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         public int createCometChatUser(UserModel usrObj, long Institution, int isCreate = 0)
         {
-            
+
             DataEncryption EncryptPassword = new DataEncryption();
             IList<AppConfigurationModel> App_Id;
             IList<AppConfigurationModel> App_Key;
@@ -409,7 +444,7 @@ namespace MyCortex.User.Controller
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
 
                 string url = "https://api-eu.cometchat.io/v2.0/users";
-                if(isCreate==1)
+                if (isCreate == 1)
                     url = "https://api-eu.cometchat.io/v2.0/users/" + usrObj.Id.ToString();
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -452,7 +487,7 @@ namespace MyCortex.User.Controller
         /// <param name="Id">User Id</param>
         /// <returns>User basic details</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public UserModel UserDetails_View(long Id, Guid Login_Session_Id)
         {
             UserModel model = new UserModel();
@@ -480,10 +515,13 @@ namespace MyCortex.User.Controller
         /// <param name="Group_Id"></param>
         /// <param name="IsActive"></param>
         /// <param name="INSTITUTION_ID"></param>
+        /// <param name="StartRowNumber"></param>
+        /// <param name="EndRowNumber"></param>
+        /// <param name="SearchQuery"></param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID)
+        //  [CheckSessionOutFilter]
+        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,String SearchQuery,string SearchEncryptedQuery)
         {
             IList<ItemizedUserDetailsModel> model;
             if (INSTITUTION_ID == null)
@@ -494,7 +532,7 @@ namespace MyCortex.User.Controller
             {
                 INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             }
-            model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID);
+            model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID, StartRowNumber, EndRowNumber, SearchQuery, SearchEncryptedQuery);
             return model;
         }
         /// <summary>
@@ -643,7 +681,7 @@ namespace MyCortex.User.Controller
             model = repository.PatientBasicDetailsList(PatientId);
             return model;
         }
-        
+
         /// <summary>
         /// Patient group name list
         /// </summary>
@@ -663,7 +701,7 @@ namespace MyCortex.User.Controller
         /// <param name="PatientId">Patient Id</param>
         /// <returns>patient's allergy list</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<PatientAllergiesNameListModels> PatientAllergiesNameList(long? PatientId)
         {
             IList<PatientAllergiesNameListModels> model;
@@ -678,14 +716,14 @@ namespace MyCortex.User.Controller
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, Guid Login_Session_Id)
+        //  [CheckSessionOutFilter]
+        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id)
         {
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
             try
             {
-                model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, Login_Session_Id);
+                model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, UnitsGroupType, Login_Session_Id);
 
                 modelReturn.Status = "True";
                 modelReturn.Message = "List of Patient Health Data";
@@ -715,7 +753,7 @@ namespace MyCortex.User.Controller
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientLiveData_List(long Patient_Id, DateTime DataTime, Guid Login_Session_Id)
         {
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
@@ -750,7 +788,7 @@ namespace MyCortex.User.Controller
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns>List of Health Data for today</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientDailyGoalData_List(long Patient_Id, Guid Login_Session_Id)
         {
 
@@ -838,6 +876,12 @@ namespace MyCortex.User.Controller
                     model.ReturnFlag = 1;
                     model.Status = "True";
                 }
+                else if ((ModelData.flag == 3) == true)
+                {
+                    messagestr = "Patient Data Already Exits";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
                 model.Message = messagestr;
@@ -899,7 +943,7 @@ namespace MyCortex.User.Controller
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientAppointmentList(long Patient_Id,Guid Login_Session_Id)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
@@ -954,8 +998,8 @@ namespace MyCortex.User.Controller
                     PatientHealthDataModel phm = new PatientHealthDataModel();
                     phm = repository.PatientHealthData_AlertNotification_List(model.Id);
                     string Event_Code = "";
-                    if(phm!=null)
-                    { 
+                    if(phm != null)
+                    {
                         if (phm.HighCount > 0)
                             Event_Code = "DIAG_HIGH";
                         else if (phm.MediumCount > 0)
@@ -972,7 +1016,7 @@ namespace MyCortex.User.Controller
                             AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, model.Id, (long)model.Institution_Id, EmailList);
                         }
                     }
-                    
+
                     {
                         Event_Code = "NEWDATA_CAPTURE";
 
@@ -986,7 +1030,7 @@ namespace MyCortex.User.Controller
                         TargetAchived_AlertEventModel tarobj = new TargetAchived_AlertEventModel();
                         tarobj = AlertEventReturn.AlertEvent_TargetAchievedDaily_List((long)model.Institution_Id, (long)patientDataListObj.Patient_Id);
 
-                        if(tarobj!=null)
+                        if(tarobj != null)
                             AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataListObj.Patient_Id, (long)model.Institution_Id, EmailList);
                     }
                 }
@@ -1008,10 +1052,10 @@ namespace MyCortex.User.Controller
         /// <param name="Patient_Id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id)
+        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id)
         {
             IList<ParametersListModel> model;
-            model = repository.GroupParameterNameList(Patient_Id);
+            model = repository.GroupParameterNameList(Patient_Id,UnitGroupType_Id);
             return model;
         }
 
@@ -1037,7 +1081,7 @@ namespace MyCortex.User.Controller
 
         //}
 
-           
+
         [HttpPost]
         public HttpResponseMessage ParametersDetails_Delete([FromBody] PatientHealthDataModel noteobj)
         {
@@ -1123,7 +1167,7 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-     
+
         /// <summary>
         /// to attach photo or certificate of user
         /// </summary>
@@ -1132,9 +1176,10 @@ namespace MyCortex.User.Controller
         /// <param name="Certificate"></param>
         /// <returns></returns>
         [HttpPost]
-        public List<string> AttachPhoto(int Id, int Photo, int Certificate)
+        public List<string> AttachPhoto(int Id, int Photo, int Certificate,int CREATED_BY)
         {
             var UserId = Id;
+            var Created_By = CREATED_BY;
             HttpResponseMessage result = null;
             string filePath = "";
             string returnPath = "";
@@ -1148,19 +1193,31 @@ namespace MyCortex.User.Controller
                     {
                         foreach (string file in httpRequest.Files)
                         {
-                            var postedFile = httpRequest.Files[file];
+                            var postedFile = httpRequest.Files[file]; 
+                             
                             byte[] fileData = null;
                             using (var binaryReader = new BinaryReader(postedFile.InputStream))
                             {
                                 fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                             }
-                            if (Photo==1)
+                            //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
+                            Image img = ToImage(fileData);
+                            Size thumbnailSize = GetThumbnailSize(img);
+                            Image ThumImage = ResizeImage(img, thumbnailSize.Width,thumbnailSize.Height);
+                            Image Cimage = ResizeImage(img, 40, 40);
+                            //ImageConverter Class convert Image object to Byte array.
+                            byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
+                            byte[] compressimage1 = (byte[])(new ImageConverter()).ConvertTo(ThumImage, typeof(byte[]));
+
+
+                            if (Photo == 1)
                             {
-                            repository.UserDetails_PhotoUpload(fileData, UserId);
+                                repository.UserDetails_PhotoUpload(fileData, UserId);
+                                repository.UserDetails_PhotoImageCompress(compressimage, compressimage1, UserId, Created_By);
                             }
                             else if (Certificate == 1)
                             {
-                            repository.UserDetails_CertificateUpload(fileData, UserId);
+                                repository.UserDetails_CertificateUpload(fileData, UserId);
                             }
 
                             docfiles.Add(postedFile.ToString());
@@ -1239,7 +1296,7 @@ namespace MyCortex.User.Controller
         /// <param name="Id">Id of a Protocol</param>        
         /// <returns>monitoring protocol detail detail assigned to a patient</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public MonitoringProtocolModel ProtocolMonitoringProtocolView(long Id)
         {
             MonitoringProtocolModel model = new MonitoringProtocolModel();
@@ -1262,7 +1319,7 @@ namespace MyCortex.User.Controller
         /// <param name="PatientId">Patient Id</param>
         /// <returns>appointment history for a patient</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<PatientAppointmentsModel> DoctorAppoinmentHistoryList(long PatientId, Guid Login_Session_Id)
         {
             try
@@ -1284,7 +1341,7 @@ namespace MyCortex.User.Controller
         /// <param name="model">protocol and patient</param>
         /// <returns>inserted protocol assigned to a patient</returns>
         [HttpPost]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage PatientAssignedProtocol_InsertUpdate(ProtocolModel model)
         {
             if (ModelState.IsValid)
@@ -1305,7 +1362,7 @@ namespace MyCortex.User.Controller
         /// <param name="Patient_Id">Patient Id</param>
         /// <returns>monitoring protocol assigned history list</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<ProtocolModel> ProtocolHistorylist(long Patient_Id, Guid Login_Session_Id)
         {
             IList<ProtocolModel> model;
@@ -1330,7 +1387,7 @@ namespace MyCortex.User.Controller
         /// </summary>
         /// <returns>ICD 10 Category name list</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<MasterICDModel> ICD10_CategoryList()
         {
             IList<MasterICDModel> model;
@@ -1354,7 +1411,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_ID">Institution Id</param>
         /// <returns>ICD 10 master list for a institution</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<MasterICDModel> ICD10_CodeList(long Institution_ID)
         {
             IList<MasterICDModel> model;
@@ -1379,7 +1436,7 @@ namespace MyCortex.User.Controller
         /// <param name="obj"></param>
         /// <returns></returns>
         [HttpPost]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage Patient_ICD10Details_AddEdit(Guid Login_Session_Id,[FromBody] List<MasterICDModel> obj)
         {
             IList<MasterICDModel> ModelData = new List<MasterICDModel>();
@@ -1465,7 +1522,7 @@ namespace MyCortex.User.Controller
         /// <param name="Isactive"></param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<MasterICDModel> PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id)
         {
 
@@ -1484,14 +1541,14 @@ namespace MyCortex.User.Controller
             }
         }
 
-       /// <summary>
-       /// ICD 10 master list based on ICD 10 search list
-       /// </summary>
-       /// <param name="ICD10CodeSearch"></param>
-       /// <param name="Institution_Id"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// ICD 10 master list based on ICD 10 search list
+        /// </summary>
+        /// <param name="ICD10CodeSearch"></param>
+        /// <param name="Institution_Id"></param>
+        /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<MasterICDModel> ICD10Code_List(string ICD10CodeSearch, long Institution_Id)
         {
             IList<MasterICDModel> model;
@@ -1516,7 +1573,7 @@ namespace MyCortex.User.Controller
         /// <param name="Id">Patient ICD 10 Id</param>
         /// <returns>selected Patient ICD 10 detail</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public MasterICDModel PatientICD10_Details_View(long Id, Guid Login_Session_Id)
         {
             MasterICDModel model = new MasterICDModel();
@@ -1532,7 +1589,7 @@ namespace MyCortex.User.Controller
             }
             return model;
         }
-        
+
         /// <summary>
         /// to deactivate a Patient ICD 10 detail
         /// </summary>
@@ -1706,7 +1763,7 @@ namespace MyCortex.User.Controller
         /// <param name="insobj">allergy detail model</param>
         /// <returns>inserted/updated allergy to a patient</returns>
         [HttpPost]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage Allergy_InsertUpdate(Guid Login_Session_Id,[FromBody] AllergyModel insobj)
         {
             IList<AllergyModel> ModelData = new List<AllergyModel>();
@@ -1772,7 +1829,7 @@ namespace MyCortex.User.Controller
         /// <param name="IsActive">Active Flag</param>
         /// <returns>allergy list of a patient</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id)
         {
             IList<AllergyModel> model;
@@ -1927,14 +1984,14 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-        
+
         /// <summary>
         /// a Patient's allergy details
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id)
         {
             AllergyModel model = new AllergyModel();
@@ -1958,7 +2015,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<DrugDBMasterModel> DrugCode_List(string DrugCodeSearch, long Institution_Id)
         {
             IList<DrugDBMasterModel> model;
@@ -2016,7 +2073,7 @@ namespace MyCortex.User.Controller
                 }
 
                 if (ModelData.Any(item => item.flag == 1) == true)
-                { 
+                {
                     string Event_Code = "";
                     Event_Code = "CLINICIAN_NOTE";
 
@@ -2064,7 +2121,7 @@ namespace MyCortex.User.Controller
         /// <param name="IsActive"></param>
         /// <returns>Clinical notes list of a patient</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<DoctorNotesModel> PatientNotes_List(long Patient_Id, int IsActive, Guid Login_Session_Id)
         {
             IList<DoctorNotesModel> model;
@@ -2088,7 +2145,7 @@ namespace MyCortex.User.Controller
         /// <param name="Id">Client note Id</param>
         /// <returns>details of a Client note</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id)
         {
             DoctorNotesModel model = new DoctorNotesModel();
@@ -2137,7 +2194,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<DrugDBMasterModel> DrugCodeBased_DrugDetails(long DrugCodeId, long Institution_Id)
         {
             IList<DrugDBMasterModel> model;
@@ -2186,7 +2243,7 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<DrugDBMasterModel> FrequencyList(long Institution_Id)
         {
             IList<DrugDBMasterModel> model;
@@ -2211,7 +2268,7 @@ namespace MyCortex.User.Controller
         /// <param name="FrequencyId">Frequency Id</param>
         /// <returns>details of a selected frequency</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public DrugDBMasterModel FrequencybasedDetails(long FrequencyId)
         {
             DrugDBMasterModel model = new DrugDBMasterModel();
@@ -2236,7 +2293,7 @@ namespace MyCortex.User.Controller
         /// <param name="insobj">Medication details of a patient</param>
         /// <returns>inserted/updated Medication for a patient</returns>
         [HttpPost]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage MedicationInsertUpdate(Guid Login_Session_Id,[FromBody] List<DrugDBMasterModel> insobj)
         {
             IList<DrugDBMasterModel> ModelData = new List<DrugDBMasterModel>();
@@ -2321,7 +2378,7 @@ namespace MyCortex.User.Controller
         /// <param name="Id">Patient medication Id</param>
         /// <returns>Medication details of a selected Patient Medication</returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public DrugDBMasterModel MedicationView(long Id,Guid Login_Session_Id)
         {
             DrugDBMasterModel model = new DrugDBMasterModel();
@@ -2346,7 +2403,7 @@ namespace MyCortex.User.Controller
         /// <param name="IsActive">Active flag</param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<DrugDBMasterModel> MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id)
         {
             IList<DrugDBMasterModel> model;
@@ -2363,7 +2420,7 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
-        
+
         /// <summary>
         /// to deactivate a patient medication details
         /// </summary>
@@ -2419,7 +2476,7 @@ namespace MyCortex.User.Controller
         /// <param name="Created_By"></param>
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By)
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
@@ -2519,7 +2576,7 @@ namespace MyCortex.User.Controller
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public Patient_OtherDataModel Patient_OtherData_View(long Id)
         {
             try
@@ -2544,7 +2601,7 @@ namespace MyCortex.User.Controller
         /// <param name="IsActive">Active flag</param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive,Guid Login_Session_Id)
         {
             IList<Patient_OtherDataModel> model;
@@ -2610,7 +2667,7 @@ namespace MyCortex.User.Controller
         /// <param name="OtherData"></param>
         /// <returns>activated a patient's other data</returns>
         [HttpPost]
-      //  [CheckSessionOutFilter]
+        //  [CheckSessionOutFilter]
         public HttpResponseMessage Patient_OtherData_Active(Patient_OtherDataModel OtherData)
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
@@ -2645,7 +2702,7 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-        
+
         /// <summary>
         /// to get patient other data document
         /// </summary>
@@ -2689,15 +2746,15 @@ namespace MyCortex.User.Controller
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
         [HttpGet]
-      //  [CheckSessionOutFilter]
-        public IList<AllergyModel> AllergtMaster_List(int IsActive, long Institution_Id)
+        //  [CheckSessionOutFilter]
+        public IList<AllergyModel> AllergtMaster_List(int IsActive, long Institution_Id, int StartRowNumber, int EndRowNumber)
         {
             IList<AllergyModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.AllergyMasterList(IsActive, Institution_Id);
+                model = repository.AllergyMasterList(IsActive, Institution_Id,  StartRowNumber,  EndRowNumber);
                 return model;
             }
             catch (Exception ex)
@@ -2897,7 +2954,7 @@ namespace MyCortex.User.Controller
                 userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
                 userObj.INSURANCEID = EncryptPassword.Encrypt(userObj.INSURANCEID);
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
-                userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);   
+                userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
 
 
 
@@ -2930,5 +2987,161 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
+
+          
+       public static void CompressImage(string SoucePath, string DestPath, int quality)
+       {
+            var FileName = Path.GetFileName(SoucePath);
+            DestPath = DestPath + "\\" + FileName;
+
+            using (Bitmap bmp1 = new Bitmap(SoucePath))
+            {
+                ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+
+                System.Drawing.Imaging.Encoder QualityEncoder = System.Drawing.Imaging.Encoder.Quality;
+
+                EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+                EncoderParameter myEncoderParameter = new EncoderParameter(QualityEncoder, quality);
+
+                myEncoderParameters.Param[0] = myEncoderParameter;
+                bmp1.Save(DestPath, jpgEncoder, myEncoderParameters);
+
+            }
+        }
+
+        private static ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
+        }
+
+        static Size GetThumbnailSize(Image original)
+        {
+            // Maximum size of any dimension.
+            const int maxPixels = 40;
+
+            // Width and height.
+            int originalWidth = original.Width;
+            int originalHeight = original.Height;
+
+            // Compute best factor to scale entire image based on larger dimension.
+            double factor;
+            if (originalWidth > originalHeight)
+            {
+                factor = (double)maxPixels / originalWidth;
+            }
+            else
+            {
+                factor = (double)maxPixels / originalHeight;
+            }
+
+            // Return thumbnail size.
+            return new Size((int)(originalWidth * factor), (int)(originalHeight * factor));
+        }
+
+        public static Bitmap CreateThumbnail(string filename, int width, int height)
+        {
+
+            Bitmap bmpOut = null;
+            try
+            {
+                Bitmap loBMP = new Bitmap(filename);
+                ImageFormat loFormat = loBMP.RawFormat;
+
+                decimal lnRatio;
+                int lnNewWidth = 0;
+                int lnNewHeight = 0;
+
+                //*** If the image is smaller than a thumbnail just return it
+                if (loBMP.Width < width && loBMP.Height < height)
+                    return loBMP;
+
+                if (loBMP.Width > loBMP.Height)
+                {
+                    lnRatio = (decimal)width / loBMP.Width;
+                    lnNewWidth = width;
+                    decimal lnTemp = loBMP.Height * lnRatio;
+                    lnNewHeight = (int)lnTemp;
+                }
+
+                else
+                {
+                    lnRatio = (decimal)height / loBMP.Height;
+                    lnNewHeight = height;
+                    decimal lnTemp = loBMP.Width * lnRatio;
+                    lnNewWidth = (int)lnTemp;
+
+                }
+
+                bmpOut = new Bitmap(lnNewWidth, lnNewHeight);
+                Graphics g = Graphics.FromImage(bmpOut);
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.FillRectangle(Brushes.White, 0, 0, lnNewWidth, lnNewHeight);
+                g.DrawImage(loBMP, 0, 0, lnNewWidth, lnNewHeight);
+
+                loBMP.Dispose();
+            }
+            catch
+            {
+                return null;
+            }
+            return bmpOut;
+        }
+        private Image ToImage(byte[] byptes)
+        {
+            using (var ms = new MemoryStream(byptes))
+            {
+                return Image.FromStream(ms);
+            }
+        }
+
+        public string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Convert Image to byte[]
+                image.Save(ms, format);
+                byte[] imageBytes = ms.ToArray();
+
+                // Convert byte[] to Base64 String
+                string base64String = Convert.ToBase64String(imageBytes);
+                return base64String;
+            }
+        }
+
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
     }
 }

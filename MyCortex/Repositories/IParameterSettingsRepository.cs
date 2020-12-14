@@ -13,8 +13,10 @@ namespace MyCortex.Repositories
         IList<ProtocolParameterMasterModel> ProtocolParameterMasterList();
         IList<UnitsMasterModel> UnitMasterList();
         int ParameterSettings_AddEdit(List<ParamaterSettingsModel> model);
-        IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id);
-        IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id);        
-   }
+        IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id, int? Unitgroup_Type);
+        IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Unitgroup_Type);
+        bool UnitGroupPreferenceSave(Int64 InstitutionId, int PreferenceType);
+        int UnitGroupPreferenceGet(Int64 InstitutionId);
+    }
   }
    

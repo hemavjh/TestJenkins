@@ -28,11 +28,13 @@ namespace MyCortex.Repositories.Masters
         /// drug strength name list of a institution
         /// </summary>
         /// <param name="Institution_Id">Institution Id</param>
+        ///  <param name="StartRowNumber">StartRowNumber</param>
+        /// <param name="EndRowNumber">EndRowNumber</param>
         /// <returns>drug strength name list of a institution</returns>
 
         public IList<DrugStrengthMasterModel> DrugStrengthList(long Institution_Id)
         {
-            List<DataParameter> param = new List<DataParameter>();
+            List<DataParameter> param = new List<DataParameter>(); 
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -41,6 +43,7 @@ namespace MyCortex.Repositories.Masters
                 List<DrugStrengthMasterModel> lst = (from p in dt.AsEnumerable()
                                                      select new DrugStrengthMasterModel()
                                                      {
+                                                       
                                                          Id = p.Field<long>("ID"),
                                                          Name = p.Field<string>("NAME"),
                                                          IsActive = p.Field<int>("IsActive")
@@ -92,9 +95,11 @@ namespace MyCortex.Repositories.Masters
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>drug db master list of a institution</returns>
 
-        public IList<DrugDBMasterModel> DrugDBMasterList(int IsActive, long InstitutionId)
+        public IList<DrugDBMasterModel> DrugDBMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -105,6 +110,7 @@ namespace MyCortex.Repositories.Masters
                 List<DrugDBMasterModel> lst = (from p in dt.AsEnumerable()
                                                select new DrugDBMasterModel()
                                                {
+                                                   TotalRecord = p.Field<string>("TotalRecords"),
                                                    Id = p.Field<long>("ID"),
                                                    Generic_name = p.Field<string>("GENERIC_NAME"),
                                                    Strength_ID = p.Field<long>("STRENGTH_ID"),

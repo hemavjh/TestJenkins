@@ -143,10 +143,11 @@ namespace MyCortex.Repositories.Masters
         /// <param name="Id">Id of a Parameter Settings</param>    
         /// <returns>details of Parameter settings</returns>
         
-        public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id)
+        public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id, int? Unitgroup_Type)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Id));
+            param.Add(new DataParameter("@UnitGroup_ID", Unitgroup_Type));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -186,12 +187,13 @@ namespace MyCortex.Repositories.Masters
         /// </summary>
         /// <param name="Parameter_Id">Parameter Id</param>
         /// <returns> unit list of a parameter</returns>
-        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id)
+        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Unitgroup_Type)
         {
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
                 param.Add(new DataParameter("@Parameter_Id", Parameter_Id));
+                param.Add(new DataParameter("@UNITSGROUP_ID", Unitgroup_Type));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PARAMETERMAPPING_SP_LIST", param);
                 List<ParamaterSettingsModel> lst = (from p in dt.AsEnumerable()
                                                     select new ParamaterSettingsModel()
@@ -209,6 +211,43 @@ namespace MyCortex.Repositories.Masters
             {
                 _logger.Error(ex.Message, ex);
                 return null;
+            }
+        }
+
+        public bool UnitGroupPreferenceSave(Int64 InstitutionId, int PreferenceType)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+                param.Add(new DataParameter("@PREFERENCE_TYPE", PreferenceType));
+                ClsDataBase.Update("[MYCORTEX].[UNITGROUP_PREFERENCE_UPDATE]", param);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return false;
+            }
+        }
+
+        public int UnitGroupPreferenceGet(Int64 InstitutionId)
+        {
+            int preferenceType = 1;
+
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+                preferenceType = Convert.ToInt32(ClsDataBase.GetScalar("[MYCORTEX].[UNITGROUP_PREFERENCE_GET]", param));
+                return preferenceType;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return preferenceType;
             }
         }
 

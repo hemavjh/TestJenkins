@@ -11,6 +11,7 @@ namespace MyCortex.User.Model
         {
 
         }
+        public string TotalRecord { get; set; }
         public long Id { get; set; }
         public DateTime? OnSetDate { get; set; }
         public long AllergenId { get; set; }

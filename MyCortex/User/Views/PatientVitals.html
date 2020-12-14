@@ -1,8 +1,7 @@
 <!DOCTYPE HTML>
 <body>
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-    <!--Hide by Yogeswaran Please-->
-    <div class="patientCharts" style="display:none"
+    <div class="patientCharts"
          ng-init="PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();">
         <div class="patientCards ">
             <img src="../../Images/MRN.png" class="patientVitalscard" />
@@ -24,6 +23,24 @@
             <h1>DOB</h1>
             <h2 title="{{DOB}}">{{DOB}}</h2>
         </div>
+        <div class="patientCards ">
+            <div id="patient" ng-if="UserId!=37">
+                <select id="user">
+                    <option>Doctor 1</option>
+                    <option>Doctor 2</option>
+                    <option>Care Giver 1</option>
+                </select>
+                <input type="button" value="Start Meeting" ng-click="myMeeting();" />
+            </div>
+            <div id="user" ng-if="UserId==37">
+                <select id="user">
+                    <option>Patient 1</option>
+                    <option>Doctor 2</option>
+                    <option>Care Giver 1</option>
+                </select>
+                <input type="button" value="Join Meeting" ng-click="myMeeting();" />
+            </div>
+        </div>
         <div class="primaryButtons" style="padding:0px">
             <button type="button" ng-click="openProtocol()" class="btn btn-default btn-sm" style="margin: 0px 5px;">
                 <img src="../../Images/monitoringProtocol.jpeg" class="chatProfile" />
@@ -35,9 +52,9 @@
                 <img class="chatProfile" src="../../Images/unknownallergy.png" alt="Unknown Allergies"> Unknown Allergies
             </button>
 
-            <button type="button" class="btn btn-default btn-sm" ng-if="PatientAssignedknownAllergyActiveDataList.length>0 && (PatientAssignedknownAllergyActiveDataList|filter:'No Known Allergies').length==0"
+            <button type="button" class="btn btn-default btn-sm" ng-if="PatientAssignedknownAllergyActiveDataList.length>0 && (PatientAssignedknownAllergyActiveDataList|filter:'Known Allergies').length==0"
                     ng-click="Allergies()" style="margin: 0px 5px;">
-                <img class="chatProfile" src="../../Images/knownAllergy.png" alt="Unknown Allergies"> Known Allergies
+                <img class="chatProfile" src="../../Images/noAllergy.png" alt="Unknown Allergies"> Known Allergies
             </button>
 
             <button type="button" class="btn btn-default btn-sm" ng-if="((PatientAllergyemptydata|filter:'No Known Allergies').length>0)"
@@ -406,266 +423,143 @@
                 <div class="row">
                     <div class="col-sm-8 p-0">
 
-                        <div class="patientNotifications">
-
-                            <div class="bellBrown">
-                                <i class="fas fa-bell"></i>
-                                <span>10</span>
-                            </div>
-                            <div class="bellYellow">
-                                <i class="fas fa-bell"></i>
-                                <span>5</span>
-                            </div>
-                            <div class="bellGreen">
-                                <i class="fas fa-bell"></i>
-                                <span>10+</span>
-                            </div>
-                        </div>
-
-
-                        <ul class="chartTabs" ng-show="currentTab=='1'">
-                            <li>
-                                <a ng-click="DayDetailsList(currentTab)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='1'}">Today</a>
-                            </li>
-                            <li>
-                                <a ng-click="WeeKDetailsList(currentTab)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='2'}">1W</a>
-                            </li>
-                            <li>
-                                <a ng-click="OneWeekDetailsList(currentTab)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='3'}">1M</a>
-                            </li>
-                            <li>
-                                <a ng-click="ThreeMonthDetailsList(currentTab)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='4'}">3M</a>
-                            </li>
-                            <li>
-                                <a ng-click="OneYearKDetailsList(currentTab)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='5'}">1Y</a>
-                            </li>
-                            <li>
-                                <a ng-click="FromYearDetailsList(currentTab)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='6'}">YTD</a>
-                            </li>
-                            <li>
-                                <a ng-click="AllDetailsList(currentTab, 1)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='7'}">All</a>
-                            </li>
-                        </ul>
-                        <div ng-show="VitalChart=='1'"
-                             ng-click="TabClickDataLoad(currentTab)">
-                            <ul class="chartTabs">
-                                <li>
-                                    <a ng-click="DayDetailsList(currentTab)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='1'}">Today</a>
-                                </li>
-                                <li>
-                                    <a ng-click="WeeKDetailsList(currentTab)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='2'}">1W</a>
-                                </li>
-                                <li>
-                                    <a ng-click="OneWeekDetailsList(currentTab)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='3'}">1M</a>
-                                </li>
-                                <li>
-                                    <a ng-click="ThreeMonthDetailsList(currentTab)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='4'}">3M</a>
-                                </li>
-                                <li>
-                                    <a ng-click="OneYearKDetailsList(currentTab)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='5'}">1Y</a>
-                                </li>
-                                <li>
-                                    <a ng-click="FromYearDetailsList(currentTab)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='6'}">YTD</a>
-                                </li>
-                                <li>
-                                    <a ng-click="AllDetailsList(currentTab, 1)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='7'}">All</a>
-                                </li>
-                            </ul>
-                        </div>
-
-
-                        <ul class="themeTabs">
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1';CancelLiveData();TabClickDataLoad(currentTab)">Lifestyle</a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='2'}"
-                                   ng-click="currentTab='2';VitalChart='1';VitalsType_Id='2';Type_Id = '2';CancelLiveData();TabClickDataLoad(currentTab)">
-                                    Vitals
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='3'}"
-                                   ng-click="currentTab='3';VitalChart='1';VitalsType_Id='2';Type_Id = '2';CancelLiveData();TabClickDataLoad(currentTab)">
-                                    Lab
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4';CancelLiveData();ICD10TabLoadList()">
-                                    ICD-10
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5';CancelLiveData();MedicationTabLoadList()">MyPillBox</a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='6'}" ng-click="currentTab='6';CancelLiveData();PatientAllergyList()">
-                                    Allergies
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='7'}" ng-click="currentTab='7';CancelLiveData();ClinicalNotesListData(currentTab);">
-                                    Clinical Notes
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='8'}" ng-click="currentTab='8';CancelLiveData();OthersListData(currentTab);">
-                                    Others
-                                </a>
-                            </li>
-                            <li ng-show="UserTypeId==4 || UserTypeId==7">
-                                <a ng-class="{'themeTabActive':currentTab=='9'}" ng-click="currentTab='9';LiveTabClick()">
-                                    Live
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div class="panel panel-default patientProfileInfo bt-0">
+                <ul class="themeTabs">
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1';CancelLiveData();TabClickDataLoad(currentTab)">Lifestyle</a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='2'}"
+                           ng-click="currentTab='2';VitalChart='1';VitalsType_Id='2';Type_Id = '2';CancelLiveData();TabClickDataLoad(currentTab)">
+                            Vitals
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='3'}"
+                           ng-click="currentTab='3';VitalChart='1';VitalsType_Id='2';Type_Id = '2';CancelLiveData();TabClickDataLoad(currentTab)">
+                            Lab
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4';CancelLiveData();ICD10TabLoadList()">
+                            ICD-10
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5';CancelLiveData();MedicationTabLoadList()">MyPillBox</a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='6'}" ng-click="currentTab='6';CancelLiveData();PatientAllergyList()">
+                            Allergies
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='7'}" ng-click="currentTab='7';CancelLiveData();ClinicalNotesListData(currentTab);">
+                            Clinical Notes
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='8'}" ng-click="currentTab='8';CancelLiveData();OthersListData(currentTab);">
+                            Others
+                        </a>
+                    </li>
+                    <li ng-show="UserTypeId==4 || UserTypeId==7">
+                        <a ng-class="{'themeTabActive':currentTab=='9'}" ng-click="currentTab='9';LiveTabClick()">
+                            Live
+                        </a>
+                    </li>
+                </ul>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="panel panel-default patientProfileInfo">
                             <div class="panel-body">
 
-                                <div id="accordion">
-
-
-
-                                    <div class="panel-body" ng-show="currentTab=='1'">
-                                        <div id="zoomChart"></div>
-                                        <script>
-                                            Highcharts.chart('zoomChart', {
-                                                chart: {
-                                                    zoomType: 'xy'
-                                                },
-                                                title: {
-                                                    text: 'Life Styles'
-                                                },
-
-
-
-                                                yAxis: {
-                                                    title: {
-                                                        text: 'Activities'
-                                                    }
-                                                },
-
-                                                xAxis: {
-                                                    accessibility: {
-                                                        rangeDescription: 'Range: 2010 to 2017'
-                                                    }
-                                                },
-
-                                                legend: {
-                                                    layout: 'vertical',
-                                                    align: 'right',
-                                                    verticalAlign: 'middle'
-                                                },
-
-                                                plotOptions: {
-                                                    series: {
-                                                        label: {
-                                                            connectorAllowed: false
-                                                        },
-                                                        pointStart: 2010
-                                                    }
-                                                },
-
-                                                series: [{
-                                                    name: 'Walks',
-                                                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-                                                }, {
-                                                    name: 'Sleep',
-                                                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-                                                }, {
-                                                    name: 'Stand',
-                                                    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                                                }, {
-                                                    name: 'exercise',
-                                                    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                                                }, {
-                                                    name: 'Other',
-                                                    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                                                }],
-
-                                                responsive: {
-                                                    rules: [{
-                                                        condition: {
-                                                            maxWidth: 500
-                                                        },
-                                                        chartOptions: {
-                                                            legend: {
-                                                                layout: 'horizontal',
-                                                                align: 'center',
-                                                                verticalAlign: 'bottom'
-                                                            }
-                                                        }
-                                                    }]
-                                                }
-
-                                            });
-                                        </script>
-                                        <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight">
-                                            </>
-                                    </div>
-                                    <div class="panel-body" ng-show="currentTab=='1'">
-                                        <highchart id="Chart2" config="DistanceCoveredChartConfig"
-                                                   class="chartHeight" />
-                                    </div>
-                                    <div class="panel panel-info" ng-show="currentTab=='1'">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title containeralign">
-                                                <a data-toggle="collapse" data-parent="#accordion"
-                                                   href="#collapse16">
-                                                    Calories Expended
-                                                </a>
-                                            </h4>
+                                <div class="panel-group" id="accordion">
+                                    <!--<h1 class="title1">Lifestyle</h1>-->
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading text-left" ng-show="currentTab=='1'">
+                                            <!--<h1 class="tabHeader">Activities</h1>-->
+                                            <ul class="chartTabs">
+                                                <li>
+                                                    <a ng-click="DayDetailsList(currentTab)"
+                                                       ng-class="{'chartActiveTab':LSType_Id=='1'}">Today</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="WeeKDetailsList(currentTab)"
+                                                       ng-class="{'chartActiveTab':LSType_Id=='2'}">1W</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="OneWeekDetailsList(currentTab)"
+                                                       ng-class="{'chartActiveTab':LSType_Id=='3'}">1M</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="ThreeMonthDetailsList(currentTab)"
+                                                       ng-class="{'chartActiveTab':LSType_Id=='4'}">3M</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="OneYearKDetailsList(currentTab)"
+                                                       ng-class="{'chartActiveTab':LSType_Id=='5'}">1Y</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="FromYearDetailsList(currentTab)"
+                                                       ng-class="{'chartActiveTab':LSType_Id=='6'}">YTD</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-click="AllDetailsList(currentTab, 1)"
+                                                       ng-class="{'chartActiveTab':LSType_Id=='7'}">All</a>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        <div id="collapse16" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <highchart id="Chart3" config="CaloriesExpendedChartConfig"
-                                                           class="chartHeight">
-                                                    </>
+                                        <div class="panel-body" ng-show="currentTab=='1'">
+                                            <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight">
+                                                </>
+                                        </div>
+                                        <div class="panel-body" ng-show="currentTab=='1'">
+                                            <highchart id="Chart2" config="DistanceCoveredChartConfig"
+                                                       class="chartHeight" />
+                                        </div>
+                                        <div class="panel panel-info" ng-show="currentTab=='1'">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title containeralign">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapse16">
+                                                        Calories Expended
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse16" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <highchart id="Chart3" config="CaloriesExpendedChartConfig"
+                                                               class="chartHeight">
+                                                        </>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="panel panel-info" ng-show="currentTab=='1'">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title containeralign">
-                                                <a data-toggle="collapse" data-parent="#accordion"
-                                                   href="#collapse17">
-                                                    Sleeping
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapse17" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <highchart id="Chart4" config="SleepingChartConfig"
-                                                           class="chartHeight">
-                                                    </>
+                                        <div class="panel panel-info" ng-show="currentTab=='1'">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title containeralign">
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapse17">
+                                                        Sleeping
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse17" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <highchart id="Chart4" config="SleepingChartConfig"
+                                                               class="chartHeight">
+                                                        </>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div ng-show="currentTab=='2' || currentTab=='3' ">
-                                        <div>
-                                            <!-- Commented by yogesh
-                                            <div class="dropdown profile_menu">
-                                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fas fa-chart-line" class="themeProfile"
-                                                       ng-show="VitalChart=='1'"></i>
-                                                    <i class="fas fa-table" class="themeProfile"
-                                                       ng-show="VitalChart=='2'"></i>
+                                        <div class="panel panel-info" ng-show="currentTab=='2' || currentTab=='3' ">
+                                            <div class="panel-heading text-left">
+                                                <div class="dropdown profile_menu">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                            data-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-chart-line" class="themeProfile"
+                                                           ng-show="VitalChart=='1'"></i>
+                                                        <i class="fas fa-table" class="themeProfile"
+                                                           ng-show="VitalChart=='2'"></i>
 
                                                 </button>
                                                 <ul class="dropdown-menu customDropdown">
@@ -750,37 +644,64 @@
                                                                 <input toggle-checkbox ng-model="VitalsIsActive"
                                                                        type="checkbox" ng-change="vitalsFilterAllItem();"
                                                                        title="Active / All">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="inputGroups">
-                                                                <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                       class="theme-btn-1"
-                                                                       title='Add New Vitals'>Add New</a>
-                                                                </div>
-                                                                <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                       class="theme-btn-1 ml-10"
-                                                                       title='Add New Lab'>Add New</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                            </td>
+                                                            <td ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                                   class="btn btn-autosize ml-10"
+                                                                   title='Add New Vitals'>Add New</a>
+                                                            </td>
+                                                            <td ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                                   class="btn btn-autosize ml-10"
+                                                                   title='Add New Lab'>Add New</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
 
                                                     </div>
 
-                                                </div>
                                             </div>
-
-
-                                        </div>
-
-                                        <div id="collapse21" class="panel-collapse">
-                                            <div ng-show="VitalChart=='1'">
-                                                <div ng-repeat="row in VitalsParameterList_Data|filter:{ParameterParent_Id:0}">
-                                                    <highchart id="Chart{{row.ParameterId}}" class="chartHeight">
-                                                </div>
+                                            <div class="panel-heading text-left" ng-show="VitalChart=='1'"
+                                                 ng-click="TabClickDataLoad(currentTab)">
+                                                <ul class="chartTabs">
+                                                    <li>
+                                                        <a ng-click="DayDetailsList(currentTab)"
+                                                           ng-class="{'chartActiveTab':VitalsType_Id=='1'}">Today</a>
+                                                    </li>
+                                                    <li>
+                                                        <a ng-click="WeeKDetailsList(currentTab)"
+                                                           ng-class="{'chartActiveTab':VitalsType_Id=='2'}">1W</a>
+                                                    </li>
+                                                    <li>
+                                                        <a ng-click="OneWeekDetailsList(currentTab)"
+                                                           ng-class="{'chartActiveTab':VitalsType_Id=='3'}">1M</a>
+                                                    </li>
+                                                    <li>
+                                                        <a ng-click="ThreeMonthDetailsList(currentTab)"
+                                                           ng-class="{'chartActiveTab':VitalsType_Id=='4'}">3M</a>
+                                                    </li>
+                                                    <li>
+                                                        <a ng-click="OneYearKDetailsList(currentTab)"
+                                                           ng-class="{'chartActiveTab':VitalsType_Id=='5'}">1Y</a>
+                                                    </li>
+                                                    <li>
+                                                        <a ng-click="FromYearDetailsList(currentTab)"
+                                                           ng-class="{'chartActiveTab':VitalsType_Id=='6'}">YTD</a>
+                                                    </li>
+                                                    <li>
+                                                        <a ng-click="AllDetailsList(currentTab, 1)"
+                                                           ng-class="{'chartActiveTab':VitalsType_Id=='7'}">All</a>
+                                                    </li>
+                                                </ul>
                                             </div>
+                                            <div id="collapse21" class="panel-collapse">
+                                                <div class="panel-heading" ng-show="VitalChart=='1'">
+                                                    <div class="panel-body"
+                                                         ng-repeat="row in VitalsParameterList_Data|filter:{ParameterParent_Id:0}">
+                                                        <highchart id="Chart{{row.ParameterId}}" class="chartHeight">
+                                                    </div>
+                                                </div>
 
                                             <div ng-show="VitalChart=='2'">
                                                 <table st-table="emptydataVitalLab" style="width: 100%"

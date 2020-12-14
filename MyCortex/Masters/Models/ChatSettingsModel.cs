@@ -33,4 +33,5 @@ namespace MyCortex.Masters.Models
         public string Message { get; set; }
         public IList<ChatSettingsModel> chat { get; set; }
     }
+
 }

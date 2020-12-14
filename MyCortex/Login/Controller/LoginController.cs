@@ -24,13 +24,16 @@ using SendGrid.Helpers.Mail;
 using MyCortex.Notification;
 using MyCortex.Notification.Models;
 using MyCortex.Repositories.EmailAlert;
+using MyCortex.Masters.Models;
+using MyCortex.Repositories.Masters;
+using Newtonsoft.Json.Linq;
 
 namespace MyCortex.Login.Controller
 {
     public class LoginController : ApiController
     {
         static readonly ILoginRepository repository = new LoginRepository();
-
+        static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
         static readonly IEmailConfigurationRepository emailrepository = new EmailConfigurationRepository();
         static readonly IUserRepository userrepo = new UserRepository();
@@ -38,6 +41,30 @@ namespace MyCortex.Login.Controller
         private LoginRepository login = new LoginRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private object AlertEventReturn;
+
+        IList<AppConfigurationModel> model;
+        private Int64 InstanceNameId = Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
+        private string Productid;
+
+
+        [HttpGet]
+        public HttpResponseMessage getProductName()
+        {
+            string resp = "{\"instanceId\":  \'" + InstanceNameId + "\' }";
+            var jObject = JObject.Parse(resp);
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+            return response;
+        }
+
+        [HttpGet]
+        public bool CheckExpiryDate()
+        {
+            bool isExpired = true;
+            isExpired = repository.CheckExpiryDate();
+            return isExpired;
+        }
+
 
         /// <summary>
         /// check login user authentication, stores Login History
@@ -48,6 +75,8 @@ namespace MyCortex.Login.Controller
         [HttpPost]
         public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
+            
+             
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -63,6 +92,16 @@ namespace MyCortex.Login.Controller
                     model.ReturnFlag = 0;
                     return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                 }
+                _logger.Info("username:" + loginObj.Username + " " + loginObj.Password);
+                if (repository.CheckExpiryDate())
+                {
+                    model.Status = "False";
+                    model.Message = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
+                    model.Error_Code = "";
+                    model.UserDetails = ModelData;
+                    model.ReturnFlag = 0;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                }
 
                 string messagestr = "";
                 // string VisitorsIPAddr ='';
@@ -73,6 +112,8 @@ namespace MyCortex.Login.Controller
                     loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
                     loginObj.Username = EncryptPassword.Encrypt(loginObj.Username.ToLower());
                     model = repository.Userlogin_AddEdit(loginObj);
+                    _logger.Info("Model:" + model.data + " " + model.UserId);
+
                     HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                     HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
                     HttpContext.Current.Session["InstitutionId"] = model.InstitutionId.ToString();
@@ -102,7 +143,7 @@ namespace MyCortex.Login.Controller
                         messagestr = "User Name or Password Mismatch";
                         model.Status = "False";
                     }
-                    else if ((model.data == 6) == true || (model.data == 7) == true || (model.data == 8) == true)
+                    else if ((model.data == 6) == true || (model.data == 7) == true || (model.data == 8) == true || (model.data == 10) == true)
                     {
                         model.ReturnFlag = 1;
                         messagestr = model.Messagetype;
@@ -155,6 +196,9 @@ namespace MyCortex.Login.Controller
             }
             return true;
         }
+
+
+        
         /// <summary>
         /// Build version details
         /// </summary>
@@ -274,12 +318,12 @@ namespace MyCortex.Login.Controller
         /// <param name="UserId">logged in user id</param>
         /// <returns>logout response</returns>
         [HttpGet]
-        public HttpResponseMessage User_Logout(long UserId)
+        public HttpResponseMessage User_Logout(long UserId, string Login_Session_Id)
         {
             UserReturnModel user = new UserReturnModel();
             try
             {
-                login.User_LogOut(UserId);
+                login.User_LogOut(UserId, Login_Session_Id);
 
                 user.Status = "True";
                 user.Message = "Used logged out successfully";
@@ -465,7 +509,18 @@ namespace MyCortex.Login.Controller
         {
             string generatedpwd = "";
             string messagestr = "";
-
+            string productname = "MyCortex";
+            if(InstanceNameId == 1)
+            {
+                productname = "MyHealth - Reset Password";
+            }else  if(InstanceNameId == 2)
+            {
+                productname = "STC MyCortex - Reset Password";
+            }
+            else
+            {
+                productname = "MyCortex - Reset Password";
+            }
             if (EmailId != "")
             {
                 LoginModel ModelData = new LoginModel();
@@ -487,7 +542,7 @@ namespace MyCortex.Login.Controller
                     // UserModel Ins_model = new UserModel();
                     // Ins_model = userrepo.GetInstitutionForWebURL(request);
                     //long InstitutionId = Ins_model;
-                    long InstitutionId = userrepo.GetInstitutionForWebURL(request);
+                    long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
 
                     EmailGeneration egmodel = new EmailGeneration();
                     generatedpwd = egmodel.GeneratePassword_ByPasswordPolicy(InstitutionId);
@@ -523,7 +578,7 @@ namespace MyCortex.Login.Controller
                          if (emailModel != null)
                          {
                              SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id,
-                                 "Mycortex - Reset Password",
+                                 productname,
                                  "New Password is : " + generatedpwd,
                                  model.ResetPassword.Username, EncryptPassword.Decrypt(model.ResetPassword.Email));
 

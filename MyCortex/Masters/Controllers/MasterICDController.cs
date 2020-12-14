@@ -13,10 +13,12 @@ using log4net;
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
     [Authorize]
+    [CheckSessionOutFilter]
     public class MasterICDController : ApiController
     {
         static readonly IMasterICDReposistory repository = new MasterICDRepository();
@@ -48,12 +50,14 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <param name="IsActive">active flag</param>
         /// <param name="InstitutionId">Institution Id</param>
+        ///  <param name="StartRowNumber">Institution Id</param>
+        ///   <param name="EndRowNumber">Institution Id</param>
         /// <returns>ICD master list of a institution</returns>
         [HttpGet]
-        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId)
+        public IList<MasterICDModel> ICDMasterList(int IsActive, long InstitutionId,int StartRowNumber, int EndRowNumber)
         {
             IList<MasterICDModel> model;
-            model = repository.ICDMasterList(IsActive, InstitutionId);
+            model = repository.ICDMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber);
             return model;
         }
 

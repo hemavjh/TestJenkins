@@ -7,6 +7,7 @@ namespace MyCortex.User.Model
 {
     public class AllPatientListModel
     {
+        public string TotalRecord { get; set; }
         public long Id { get; set; }
         public long Doctor_Id { get; set; }
         public long Patient_Id { get; set; }
@@ -27,5 +28,17 @@ namespace MyCortex.User.Model
         public int LowCount { get; set; }
         public string ViewGenderName { get; set; }
         public int? PatientCount { get; set; }
+        public int RequestedPageIndex {  get; set;  }
+        public int RequestedPageRowCount {  get; set;  }
+        public int StartRowNumber { get; set; }
+        public int EndRowNumber { get; set; }
+        
+
     }
-}
+    public class PageModal
+    {
+      
+        public int iDisplayStart { get; set; }
+        public int iDisplayLength { get; set; }
+    }
+ }

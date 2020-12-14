@@ -20,14 +20,20 @@ using MyCortex.Admin.Models;
 using MyCortex.Utilities;
 using System.Configuration;
 using MyCortex.Login.Model;
+using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
+    [CheckSessionOutFilter]
     public class CommonController : ApiController
     {
         static readonly ICommonRepository repository = new CommonRepository();
         static readonly IPasswordPolicyRepository pwdrepository = new PasswordPolicyRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        IList<AppConfigurationModel> model;
+        private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
+        private string CCAppId;
+        private string CCAPIKey;
 
         /// <summary>      
         /// Getting Country to populate dropdown
@@ -738,7 +744,17 @@ namespace MyCortex.Masters.Controllers
         [HttpGet]
         public string getCometchatAppId()
         {
-            return ConfigurationManager.AppSettings["CometChat.AppId"].ToString() + "," + ConfigurationManager.AppSettings["CometChat.APIKey"].ToString();
+            model = repository.AppConfigurationDetails("COMETCHAT_APPID", InstitutionId);
+            if (model.Count > 0)
+            {
+                CCAppId = model[0].ConfigValue;
+            }
+            model = repository.AppConfigurationDetails("COMETCHAT_APPKEY", InstitutionId);
+            if (model.Count > 0)
+            {
+                CCAPIKey = model[0].ConfigValue;
+            }
+            return CCAppId + "," + CCAPIKey;
         }
 
         /// <summary>      
@@ -776,6 +792,24 @@ namespace MyCortex.Masters.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "");
             }
 
+        }
+
+        [HttpGet]
+        public IList<UnitGroupTypeModel> getUnitGroupType()
+        {
+            IList<UnitGroupTypeModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.UnitGroupTypeList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
         }
 
     }

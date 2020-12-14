@@ -13,11 +13,13 @@ using log4net;
 using Newtonsoft.Json;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
+using MyCortex.Provider;
 
 namespace MyCortex.Admin.Controllers 
 {
 
     [Authorize]
+    [CheckSessionOutFilter]
     public class DrugDBMasterController : ApiController
      {
          static readonly IDrugDBMasterRepository repository = new DrugDBMasterRepository();
@@ -71,12 +73,14 @@ namespace MyCortex.Admin.Controllers
         /// drug db master list of a institution
         /// </summary>
         /// <param name="Institution_Id">Institution Id</param>
+        ///  <param name="StartRowNumber">StartRowNumber</param>
+        ///   <param name="EndRowNumber">EndRowNumber</param>
         /// <returns>drug db master list of a institution</returns>
         [HttpGet]
-         public IList<DrugDBMasterModel> DrugDBMasterList(int IsActive, long InstitutionId)
+         public IList<DrugDBMasterModel> DrugDBMasterList(int IsActive, long InstitutionId,int StartRowNumber, int EndRowNumber)
          {
              IList<DrugDBMasterModel> model;
-             model = repository.DrugDBMasterList(IsActive, InstitutionId);
+             model = repository.DrugDBMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber);
              return model;
          }
         /// <summary>

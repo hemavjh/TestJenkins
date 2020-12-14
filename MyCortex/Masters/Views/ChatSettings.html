@@ -13,6 +13,8 @@
     <li><a href="Home/Index#/SlotTiming">Slot Timing</a></li>
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
+    <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
 </ul>
 
 <div class="overlay" show-on-load>
@@ -20,22 +22,19 @@
 </div>
 <h1 class="page-title">Chat Settings </h1>
 
-<div  id="App">
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
-        <div></div>
-        <div></div>
-    </div>
+<div class="panel panel-info" id="App">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form">
+            <div class="overlay">
+                <div id="Div1"></div>
+            </div>
 
-    <form class="form-horizontal" role="form">
-        <div class="overlay">
-            <div id="Div1"></div>
-        </div>
-
-       
-            <table style="width: 100%" class="table themeTable">
-                <thead>
-                    <th></th>
-                    <th ng-repeat="row in UserGroupList">{{row.TypeName}}
+            <div>               
+                <table style="width: 100%" class="table themeTable">
+                    <thead>
+                        <th></th>
+                        <th ng-repeat="row in UserGroupList">{{row.TypeName}}
 
                     </th>
                 </thead>

@@ -392,7 +392,26 @@ namespace MyCortex.Repositories.Login
 
         /// <param name="UserId">logged in user id</param>
         /// <returns>logout response</returns>
-        public long User_LogOut(long UserId)
+        public long User_LogOut(long UserId, string SessionId)
+        {
+            long retid;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@USERID", UserId));
+            param.Add(new DataParameter("@SESSIONID", SessionId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                retid = ClsDataBase.Update("[MYCORTEX].USER_SP_LOGOUT", param);
+                return retid;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
+        public long User_LogOutAllDevice(long UserId)
         {
             long retid;
             List<DataParameter> param = new List<DataParameter>();
@@ -400,7 +419,7 @@ namespace MyCortex.Repositories.Login
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                retid = ClsDataBase.Update("[MYCORTEX].USER_SP_LOGOUT", param);
+                retid = ClsDataBase.Update("[MYCORTEX].USER_SP_LOGOUTALLDEVICE", param);
                 return retid;
             }
             catch (Exception ex)
@@ -731,7 +750,32 @@ namespace MyCortex.Repositories.Login
             return lst;
         }
 
+        /// <summary>
+        /// check expiry date
+        /// </summary>
+        /// <param name="InstanceId">Instance Id</param>
+        /// <returns>expired or not</returns>
+        //  public bool CheckExpiryDate(Int64 InstanceId)
+        public bool CheckExpiryDate()
+        {
+            bool isExpired = true;
+            DataEncryption DecryptFields = new DataEncryption();
+            try
+            {
+                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_SP_EXPIRYDATE]").ToString();
 
+                if(!String.IsNullOrEmpty(ExpiryDate))
+                    ExpiryDate = DecryptFields.Decrypt(ExpiryDate);
+
+                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow)
+                    isExpired = false;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+            }
+            return isExpired;
+        }
     }
 }
 

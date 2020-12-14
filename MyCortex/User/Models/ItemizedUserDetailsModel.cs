@@ -10,6 +10,7 @@ namespace MyCortex.User.Model
     public class ItemizedUserDetailsModel
     {
 
+        public string TotalRecord { get; set; } 
         public long Id { get; set; }
         public long PatientId { get; set; }
         public long? INSTITUTION_ID { get; set; }
@@ -43,7 +44,9 @@ namespace MyCortex.User.Model
         public int? Patient_Type { get; set; }
         public long Group_Id { get; set; }
         public IList<GroupTypeModel> GroupTypeList { get; set; }
-       
+        public int StartRowNumber { get; set; }
+        public int EndRowNumber { get; set; }
+        public string SearchQuery { get; set; }
     }
 
 }

@@ -428,8 +428,8 @@ namespace MyCortex.Repositories.Uesr
                                     EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
                                     EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
                                     EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
-                                    GOOGLE_EMAILID = p.Field<string>("Google_EmailId"),
-                                    FB_EMAILID = p.Field<string>("FB_EMAILID"),
+                                    GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
+                                    FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
                                     DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
                                     HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
                                     CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
@@ -527,11 +527,15 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Group_Id"></param>
         /// <param name="IsActive"></param>
         /// <param name="INSTITUTION_ID"></param>
+         /// <param name="StartRowNumber"></param>
+        ///  <param name="EndRowNumber"></param>
         /// <returns></returns>
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID)
+        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
         {
             DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
             param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
@@ -540,7 +544,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
             param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
             param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-            param.Add(new DataParameter("@Email", EncryptPassword.Encrypt(EMAILID)));
+            param.Add(new DataParameter("@Email",  EncryptPassword.Encrypt(EMAILID)));
             param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
             param.Add(new DataParameter("@CountryId", COUNTRY_ID));
             param.Add(new DataParameter("@StateId", STATE_ID));
@@ -549,12 +553,14 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@InstitutionId", INSTITUTION_ID));
-
+            param.Add(new DataParameter("@SearchQuery", SearchQuery));
+            param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                     {
+                                        TotalRecord = p.Field<string>("TotalRecords"),
                                         Id = p.Field<long>("Id"),
                                         FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
                                         MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
@@ -669,8 +675,8 @@ namespace MyCortex.Repositories.Uesr
                                   EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
                                   EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
                                   EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
-                                  GOOGLE_EMAILID = p.Field<string>("Google_EmailId"),
-                                  FB_EMAILID = p.Field<string>("FB_EMAILID"),
+                                  GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
+                                  FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
                                   DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
                                   HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
                                   CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
@@ -1026,12 +1032,13 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, Guid Login_Session_Id)
+        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENTID", Patient_Id));
             param.Add(new DataParameter("@TYPE", OptionType_Id));
             param.Add(new DataParameter("@PARAMGROUP_ID", Group_Id));
+            param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTHDATA_SP_LISTS]", param);
             DataEncryption DecryptFields = new DataEncryption();
@@ -1256,11 +1263,12 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Patient_Id"></param>
         /// <returns></returns>
-        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id)
+        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@ParamGroup_Id", Group_Id));
             param.Add(new DataParameter("@Patient_Id", Patient_Id));
+            param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER]", param);
             List<ParametersListModel> list = (from p in dt.AsEnumerable()
                                               select new ParametersListModel()
@@ -1275,6 +1283,7 @@ namespace MyCortex.Repositories.Uesr
                                                   Average = p.IsNull("AVERAGE") ? 0 : p.Field<decimal>("AVERAGE"),
                                                   ParameterHas_Child = p.Field<int?>("HASCHILD"),
                                                   ParameterParent_Id = p.Field<int?>("PARENT_ID"),
+                                                  UOM_Id = p.Field<long>("UOM_ID"),
                                                   UOM_Name = p.Field<string>("UOM_NAME"),
                                                   Range_Max = p.IsNull("NORMALRANGE_HIGH") ? 0 : p.Field<decimal>("NORMALRANGE_HIGH"),
                                                   Range_Min = p.IsNull("NORMALRANGE_LOW") ? 0 : p.Field<decimal>("NORMALRANGE_LOW"),
@@ -1384,6 +1393,30 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@BLOBDATA", null));
             }
             ClsDataBase.Update("[MYCORTEX].TBLUPLOADUSER_SP_INSERTUPDATE", param);
+
+        }
+
+
+        public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id,int Created_By)
+        {
+            DataEncryption encrypt = new DataEncryption();
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            if (imageFile != null)
+            {
+                param.Add(new DataParameter("@PHOTOBLOB_LOW", encrypt.EncryptFile(imageFile)));
+                param.Add(new DataParameter("@PHOTOBLOB_THUMB", encrypt.EncryptFile(imageFile1)));
+                param.Add(new DataParameter("@CREATED_BY", Created_By));
+            }
+            else
+            {
+                param.Add(new DataParameter("@PHOTOBLOB_LOW", null));
+                param.Add(new DataParameter("@PHOTOBLOB_THUMB", null));
+                param.Add(new DataParameter("@CREATED_BY", null));
+            }
+            ClsDataBase.Update("[MYCORTEX].TBLIMAGECOMPRESSUSER_SP_INSERTUPDATE", param);
 
         }
 
@@ -2971,9 +3004,11 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="IsActive"></param>
         /// <param name="Institution_Id"></param>
         /// <returns></returns>
-        public IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id)
+        public IList<AllergyModel> AllergyMasterList(int IsActive, long Institution_Id,int StartRowNumber,int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -2984,6 +3019,7 @@ namespace MyCortex.Repositories.Uesr
                 List<AllergyModel> list = (from p in dt.AsEnumerable()
                                            select new AllergyModel()
                                            {
+                                               TotalRecord = p.Field<string>("TotalRecords"),
                                                Id = p.Field<long>("Id"),
                                                AllergyTypeName = p.Field<string>("NAME"),
                                                AllergenName = p.Field<string>("ALLERGENNAME"),
@@ -3120,6 +3156,23 @@ namespace MyCortex.Repositories.Uesr
             }
 
             return insert;
+        }
+
+        public bool UserSession_Status(string Login_Session_Id)
+        {
+            bool SessionStatus = false;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@LOGINSESSIONID", Login_Session_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[LOGINSESSION_SP_CHECK]", param);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                if (int.Parse((dr["SESSIONSTATUS"].ToString())) == 1)
+                {
+                    SessionStatus = true;
+                }
+            }
+            return SessionStatus;
         }
 
     }

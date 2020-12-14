@@ -11,7 +11,7 @@ EmpApp.config(['IdleProvider', function (IdleProvider) {
     //console.log('KeepaliveProvider')
     IdleProvider.idle(window.localStorage['IdleDays']);
    // IdleProvider.idle(60*10);
-    IdleProvider.timeout(15);
+    IdleProvider.timeout(60);
     //KeepaliveProvider.interval(10);
     IdleProvider.interrupt('keydown wheel mousedown touchstart touchmove scroll');
 }])
@@ -196,6 +196,14 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
        templateUrl: baseUrl + 'Masters/Views/AttendanceDetails.html',
        controller: 'AttendanceDetailsController'
    }).
+    when('/WebConfiguration', {
+        templateUrl: baseUrl + 'Masters/Views/WebConfiguration.html',
+        controller: 'WebConfigurationController'
+    }).
+    when('/LanguageSettings', {
+        templateUrl: baseUrl + 'Masters/Views/LanguageSettings.html',
+        controller: 'LanguageSettingsController'
+    }).
     //when('/EditParameterSettings/:Id', {
     //    templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
     //    controller: 'ParameterSettingsController'
@@ -317,12 +325,66 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     });
     $rootScope.$on('IdleStart', function () {
         console.log('IdleStart');
+        var interval;
+        var timeLeft = 60;
+        Swal.fire({
+            position: 'top',
+            title: '<h6 class="text-lg" style="color: var(--bg-green);">You have been Idle!</h6>',
+            html: 'You will timeout in <b>60</b> seconds.',
+            timer: timeLeft * 1000,
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: 'Logout',
+            confirmButtonColor: '#d33',
+            confirmButtonClass: 'btn bg-green rounded text-white text-sm  px-3 py-1 mx-1',
+            cancelButtonClass: 'btn bg-green rounded text-white text-sm px-3 py-1 mx-1',
+            cancelButtonColor: '#008000',
+            cancelButtonText: 'Stay',
+            focusCancel: true,
+            allowOutsideClick: false,
+            onOpen: () => {
+                interval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                    } else {
+                        timeLeft = 60;
+                    }
+                    const content = swal.getContent();
+                    if (content) {
+                        const b = content.querySelector('b');
+                        if (b) {
+                            b.textContent = timeLeft.toString();
+                        }
+                    }
+                }, 1000);
+            },
+            onClose: () => {
+                timeLeft = 60;
+                clearInterval(interval);
+            },
+        }).then((result) => {
+            if (result.value) {
+                $window.location.href = baseUrl + "/Home/LoginIndex#/";
+            } else {
+                if (result.dismiss) {
+                    if (result.dismiss === swal.DismissReason.timer) {
+                        $window.location.href = baseUrl + "/Home/LoginIndex#/";
+                    } else {
+                        timeLeft = 60;
+                        clearInterval(interval);
+                        IdleProvider.resetTimer();
+                    }
+                }
+            }
+        });
         // the user appears to have gone idle
     });
     $rootScope.$on('IdleTimeout', function () {
         //console.log('IdleTimeout');
+        
 
-        $window.location.href = baseUrl + "/Home/LoginIndex#/";
+        //$window.location.href = baseUrl + "/Home/LoginIndex#/";
         // the user has timed out, let log them out
     });
     $rootScope.$on('IdleEnd', function () {

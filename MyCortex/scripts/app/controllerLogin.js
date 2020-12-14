@@ -24,6 +24,8 @@ if (baseUrl == "/") {
 }
 
 
+
+
 MyCortexControllers.run(['$rootScope', '$window',
   function ($rootScope, $window) {
       $rootScope.user = {};
@@ -177,6 +179,8 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         });
     }
 
+    
+
     /*This is th eValidation for sign Up page 
     The validations are FirstName,Last Name,MRN No,Gender,Nationality,DOB,Email and Mobile No.*/
     $scope.SignupLogin_AddEdit_Validations = function () {
@@ -223,6 +227,22 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         return true;
     };
 
+    $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
+        var ProductName = data;  
+        $('#productname').val(ProductName["instanceId"]);
+        if ($('#productname').val() == "1") {
+            $scope.prdName = "MyHealth";
+            $scope.prductName = " MyHealth?";
+        } else if ($('#productname').val() == "2") {
+            $scope.prdName = "STC MyCortex";
+            $scope.prductName = " STC MyCortex?";
+        } else {
+            $scope.prdName = "MyCortex  ";
+            $scope.prductName = " MyCortex?";
+        }
+    });
+            
+        
 
     /*This is Insert Function for SignUp */
     $scope.SignupLogin_AddEdit = function () {
@@ -347,6 +367,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         Login_Country = response.data.country;
         Login_City = response.data.city
     });
+
     navigator.sayswho = (function () {
         var ua = navigator.userAgent, tem,
         M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
@@ -365,11 +386,14 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 
     //LoginController js
     $scope.UserLogin_AddEdit = function () {
+        if ($scope.isExpired) {
+            return false;
+        }
         $("#chatLoaderPV").show();
         var offsetTime = new Date().getTimezoneOffset();
 
         $scope.errorlist = "";
-        $http.get(baseUrl + '/api/Login/CheckDBConnection/').success(function (data) {
+        $http.get(baseUrl + '/api/Login/CheckDBConnection/').success(function (data) { 
             if (data == false) {
                 $scope.errorlist = "Invalid DB Connection";
                 return;
@@ -436,54 +460,62 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                     console.log(err);
                 });
+                $scope.ConfigCode = "WEBIDLETIME";
+                var IdleDays = 0;
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+                    .success(function (data1) {
+                        if (data1[0] != undefined) {
+                            IdleDays = parseInt(data1[0].ConfigValue);
+                            $window.localStorage['IdleDays'] = IdleDays;
+                            if (data == "1") {
+                                $scope.errorlist = "Username and/or Password are not matching, please verify";
+                            }
+                            else if (data == "2") {
+                                $scope.errorlist = "Contract period expired, cannot login";
+                            }
+                            else if (data == "3") {
+                                //$scope.errorlist = "Contract Time Exceed,contact admin";
+                                alert("Contract period expired, Please contact Admin for renewal");
+                                window.location.href = baseUrl + "/Home/Index#/home";
+                            }
+                            else if (data == "4" || data == "5") {
+                                window.location.href = baseUrl + "/Home/Index#/home";
+                            }
+                            else if (data == "6" || data == "10") {
+                                $window.localStorage['UserTypeId'] = $scope.UserTypeId;
+                                $window.localStorage['UserId'] = $scope.UserId;
 
-                if (data == "1") {
-                    $scope.errorlist = "Username and/or Password are not matching, please verify";
-                }
-                else if (data == "2") {
-                    $scope.errorlist = "Contract period expired, cannot login";
-                }
-                else if (data == "3") {
-                    //$scope.errorlist = "Contract Time Exceed,contact admin";
-                    alert("Contract period expired, Please contact Admin for renewal");
-                    window.location.href = baseUrl + "/Home/Index#/home";
-                }
-                else if (data == "4" || data == "5") {
-                    window.location.href = baseUrl + "/Home/Index#/home";
-                }
-                else if (data == "6") {
-                    $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                    $window.localStorage['UserId'] = $scope.UserId;
-
-                    window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
-                    $scope.errorlist = Message;
-                }
-                else if (data == "7") {
-                    $scope.errorlist = Message;
-                }
-                else if (data == "8") {
-                    $scope.errorlist = Message;
-                }
-                else if (data == "9") {
-                    $scope.errorlist = "Username and/or Password are not active, please verify";
-                }
-                else
-                    $scope.errorlist = "Username and/or Password are not matching, please verify";
+                                window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
+                                $scope.errorlist = Message;
+                            }
+                            else if (data == "7") {
+                                $scope.errorlist = Message;
+                            }
+                            else if (data == "8") {
+                                $scope.errorlist = Message;
+                            }
+                            else if (data == "9") {
+                                $scope.errorlist = "Username and/or Password are not active, please verify";
+                            }
+                            else
+                                $scope.errorlist = "Username and/or Password are not matching, please verify";
+                        }
+                    }); 
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.errorlist = "Login Failed! \n Invalid Username or Password ";
             });
         }
 
-        $scope.ConfigCode = "WEBIDLETIME";
-        var IdleDays = 0;
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
-            .success(function (data) {
-                if (data[0] != undefined) {
-                    IdleDays = parseInt(data[0].ConfigValue);
-                    $window.localStorage['IdleDays'] = IdleDays;
-                }
-            });      
+        //$scope.ConfigCode = "WEBIDLETIME";
+        //var IdleDays = 0;
+        //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+        //    .success(function (data) {
+        //        if (data[0] != undefined) {
+        //            IdleDays = parseInt(data[0].ConfigValue);
+        //            $window.localStorage['IdleDays'] = IdleDays;
+        //        }
+        //});      
     };
 
     $scope.getAccessToken = function () {
@@ -629,5 +661,13 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         // $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
         window.location.href = redirect;
     }
+
+    $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
+        if (data == true) {
+            $scope.errorlist = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
+            $scope.isExpired = true;
+        }
+    });
+
 }
 ]);

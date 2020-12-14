@@ -95,7 +95,7 @@
     var BuildList = jQuery.parseJSON('@Html.Action("BuildDetails", "Home")');
     $(document).ready(function () {
         var Buildnamespan = document.getElementById('Buildnamespan');
-
+      
         if ('textContent' in Buildnamespan) {
             Buildnamespan.textContent = BuildList[0];
         } else {
@@ -107,7 +107,7 @@
     var nameList = jQuery.parseJSON('@Html.Action("LoginDetails", "Home")');
     $(document).ready(function() {
         var usernamespan = document.getElementById('usernamespan');
-
+       
         if ('textContent' in usernamespan) {
             usernamespan.textContent = nameList[2];
         } else {
@@ -137,6 +137,16 @@
             document.getElementById("InstLogo").src = PhotoList[0];
         });
 
+        var productList = jQuery.parseJSON('@Html.Action("ProductDetails", "Home")');
+        $(document).ready(function () {
+        var productnamespan = document.getElementById('productnamespan');
+         
+            if ('textContent' in productnamespan) {
+                productnamespan.textContent = productList[0];
+        } else {
+                productnamespan.innerText = productList[0];
+        }
+    }); 
 
     </script>
     <link href="@Url.Content("~/Css/theme.css")" rel="stylesheet" type="text/css" />
@@ -252,8 +262,9 @@
         @RenderBody()
         <div class="footerBg"> 
             <p>
-                Powered by MyCortex
+                Powered by <span id="productnamespan"></span>
                 <span style="float:right;">Build Version <span id="Buildnamespan"></span></span>
+
             </p> 
         </div>
 
