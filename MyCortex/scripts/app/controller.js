@@ -17004,7 +17004,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 $scope.IsEdit = false;
                 //$location.path("/ParameterSettings");
             });
-            
+
         };
 
         /* on click Edit, edit popup opened*/
@@ -17073,6 +17073,114 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 });
             };
         }
+    }
+]);
+
+MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+        $scope.IsActive = true;
+        $scope.Id = 0;
+        $scope.User_Id = 0;
+        $scope.English = [];
+        $scope.French = [];
+        $scope.Spanish = [];
+        $scope.Arabic = [];
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+
+        $scope.IsEdit = false;
+        $scope.LanguageSettingsEdit = function () {
+            $scope.IsEdit = true;
+        }
+
+        $scope.LanguageSettingsCancel = function () {
+            $scope.LanguageSettingsList();
+            $scope.IsEdit = false;
+        }
+
+        $scope.searchqueryLanguageSettings = "";
+        /* Filter the master list function for Search*/
+        $scope.FilterLanguageSettingsList = function () {
+            var searchstring = angular.lowercase($scope.searchqueryLanguageSettings);
+            if ($scope.searchqueryLanguageSettings == "") {
+                $scope.rowCollectionLanguageSettings = angular.copy($scope.rowCollectionLanguageSettingsFilter);
+            }
+            else {
+                $scope.rowCollectionLanguageSettings = $ff($scope.rowCollectionLanguageSettingsFilter, function (value, index) {
+                    return angular.lowercase(value.LANGUAGE_KEY).match(searchstring)
+                });
+            }
+        };
+
+        /*THIS IS FOR LIST FUNCTION*/
+        $scope.ViewParamList = [];
+        $scope.ViewParamList1 = [];
+        $scope.LanguageSettingsList = function () {
+            $("#chatLoaderPV").show();
+            $scope.emptydataLanguageSettings = [];
+            $scope.rowCollectionLanguageSettings = [];
+
+            $scope.ISact = 1;       // default active
+            if ($scope.IsActive == true) {
+                $scope.ISact = 1  //active
+            }
+            else if ($scope.IsActive == false) {
+                $scope.ISact = 0 //all
+            }
+
+            $http.get(baseUrl + '/api/LanguageSettings/LanguageSettings_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId
+            ).success(function (data) {
+                $scope.emptydataLanguageSettings = [];
+                $scope.rowCollectionLanguageSettings = [];
+                $scope.rowCollectionLanguageSettings = data;
+                $scope.rowCollectionLanguageSettingsFilter = angular.copy($scope.rowCollectionLanguageSettings);
+                if ($scope.rowCollectionLanguageSettingsFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                }
+                $("#chatLoaderPV").hide();
+                angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                    $scope.English[masterVal.ID] = masterVal.ENGLISH;
+                    $scope.French[masterVal.ID] = masterVal.FRENCH;
+                    $scope.Spanish[masterVal.ID] = masterVal.SPANISH;
+                    $scope.Arabic[masterVal.ID] = masterVal.ARABIC;
+                });
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            })
+        };
+
+        $scope.LanguageSettingsDetails = [];
+        $scope.LanguageSettings_AddEdit = function () {
+            $("#chatLoaderPV").show();
+            angular.forEach($scope.rowCollectionLanguageSettings, function (value, index) {
+                var obj = {
+                    ID: value.ID,
+                    INSTITUTION_ID: $window.localStorage['InstitutionId'],
+                    ENGLISH: $scope.English[value.ID],
+                    FRENCH: $scope.French[value.ID],
+                    SPANISH: $scope.Spanish[value.ID],
+                    ARABIC: $scope.Arabic[value.ID]
+                }
+                $scope.LanguageSettingsDetails.push(obj);
+            });
+
+            $http.post(baseUrl + '/api/LanguageSettings/LanguageSettings_AddEdit/', $scope.LanguageSettingsDetails).success(function (data) {
+                $("#chatLoaderPV").hide();
+                alert("LanguageSettings Data saved successfully");
+                $scope.LanguageSettingsDetails = [];
+                $scope.English = [];
+                $scope.French = [];
+                $scope.Spanish = [];
+                $scope.Arabic = [];
+                $scope.searchqueryLanguageSettings = "";
+                $scope.LanguageSettingsList();
+                $scope.IsEdit = false;
+                //$location.path("/ParameterSettings");
+            });
+
+        };
     }
 ]);
 

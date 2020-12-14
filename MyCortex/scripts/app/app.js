@@ -200,6 +200,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Masters/Views/WebConfiguration.html',
         controller: 'WebConfigurationController'
     }).
+    when('/LanguageSettings', {
+        templateUrl: baseUrl + 'Masters/Views/LanguageSettings.html',
+        controller: 'LanguageSettingsController'
+    }).
     //when('/EditParameterSettings/:Id', {
     //    templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
     //    controller: 'ParameterSettingsController'
