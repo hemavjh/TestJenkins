@@ -9,7 +9,7 @@ var firebaseConfig = {
     measurementId: "G-PYBLJGPE0S"
 };
 
-jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=5')
+jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=' + window.localStorage.getItem('InstitutionId'))
         .done(function (data) {
             var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
             // Your web app's Firebase configuration

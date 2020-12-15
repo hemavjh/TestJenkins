@@ -4,7 +4,7 @@ if ('undefined' === typeof window) {
     importScripts('https://www.gstatic.com/firebasejs/7.13.2/firebase-messaging.js');
     // Initialize Firebase
 
-    jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=5')
+    jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=' + window.localStorage.getItem('InstitutionId'))
         .done(function (data) {
             var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
             // Your web app's Firebase configuration
