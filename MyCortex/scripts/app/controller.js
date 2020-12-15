@@ -4367,8 +4367,8 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
     }
 ]);
 
-MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval) {
+MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval',
+    function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval) {
         if (chatService.checkCall($routeParams.Id)) {
             alert('You cannot switch patient during call.')
             $window.history.back();
@@ -4745,6 +4745,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
             });
         }
 
+        $scope.myMeetingURL = '';
         $scope.myMeeting = function () {
             var key = "";
 
@@ -4772,19 +4773,28 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$h
                         if (data.status == "Added") {
                             key = data.hashKey;
                             url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
-                            window.open(url);
+                            $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
+                            angular.element('#ViewMyMeetingModal').modal('show');
+                            // window.open(url);
                         }
                     });
                 }
                 else {
                     key = data.Hashkey;
                     url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
-                    window.open(url);
+                    $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
+                    angular.element('#ViewMyMeetingModal').modal('show');
+                    // window.open(url);
                 }
                
             }).error(function (data) {
                 $scope.error = "Error: " + data;
             });
+        }
+
+        $scope.CancelMyMeeting = function () {
+            $scope.myMeetingURL = '';
+            angular.element('#ViewMyMeetingModal').modal('hide');
         }
 
         $scope.HelathDataList = [];
