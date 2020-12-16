@@ -329,8 +329,8 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         var timeLeft = 60;
         Swal.fire({
             position: 'top',
-            title: '<h6 class="text-lg" style="color: var(--bg-green);">You have been Idle!</h6>',
-            html: 'You will timeout in <b>60</b> seconds.',
+            title: '<h6 class="text-lg" style="color: var(--bg-green);">Your session is about to expire due to inactivity</h6>',
+            html: 'MyCortex will logout in <b>60</b> seconds.',
             timer: timeLeft * 1000,
             showCloseButton: true,
             showCancelButton: true,

@@ -4852,7 +4852,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.PatientHealthDataChartList = [];
             $scope.ParamGroup_Id = ParamGroup_Id;
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&UnitsGroupType=' + $scope.unitgrouptype + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.SearchMsg = "No Data Available";
                 // only active items for Chart
@@ -9262,7 +9262,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
         $scope.Max_Possible = [];
         $scope.Remarks = [];
         $scope.Diagnostic_Flag = [];
-        $scope.UnitGroupType = 0;
+        $scope.UnitGroupType = 1;
 
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
@@ -9411,45 +9411,45 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
             // $scope.UnitGroupType = UnitGroupType;
             $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
                 $scope.UnitMasterList = data;
-            });
-            $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').success(function (data1) {
-                $scope.ProtocolParametersList = data1;
-                $scope.ResultListFiltered = $scope.ProtocolParametersList;
-                $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId + '&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
-                    $scope.ViewParamList = data;
-                    $("#chatLoaderPV").hide();
-                    angular.forEach($scope.ProtocolParametersList, function (masterVal, masterInd) {
-                        $scope.ViewParamList1 = $ff($scope.ViewParamList, { Parameter_ID: masterVal.Id }, true)[0];
-                        if ($scope.ViewParamList1 != undefined) {
+                $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').success(function (data1) {
+                    $scope.ProtocolParametersList = data1;
+                    $scope.ResultListFiltered = $scope.ProtocolParametersList;
+                    $http.get(baseUrl + 'api/ParameterSettings/ViewEditProtocolParameters/?Id=' + $scope.InstituteId + '&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
+                        $scope.ViewParamList = data;
+                        $("#chatLoaderPV").hide();
+                        angular.forEach($scope.ProtocolParametersList, function (masterVal, masterInd) {
+                            $scope.ViewParamList1 = $ff($scope.ViewParamList, { Parameter_ID: masterVal.Id }, true)[0];
+                            if ($scope.ViewParamList1 != undefined) {
 
-                            $scope.Units_ID[masterVal.Id] = $scope.ViewParamList1.Units_ID == null ? "0" : $scope.ViewParamList1.Units_ID.toString();
-                            if ($scope.IsEdit == false) {
-                                $scope.Units_Name[masterVal.Id] = $scope.ViewParamList1.Units_Name == null ? "" : $scope.ViewParamList1.Units_Name.toString();
+                                $scope.Units_ID[masterVal.Id] = $scope.ViewParamList1.Units_ID == null ? "0" : $scope.ViewParamList1.Units_ID.toString();
+                                if ($scope.IsEdit == false) {
+                                    $scope.Units_Name[masterVal.Id] = $scope.ViewParamList1.Units_Name == null ? "" : $scope.ViewParamList1.Units_Name.toString();
+                                }
+                                $scope.Diagnostic_Flag[masterVal.Id] = $scope.ViewParamList1.Diagnostic_Flag == null ? true : $scope.ViewParamList1.Diagnostic_Flag;
+                                $scope.Max_Possible[masterVal.Id] = $scope.ViewParamList1.Max_Possible == null ? "" : $scope.ViewParamList1.Max_Possible;
+                                $scope.Min_Possible[masterVal.Id] = $scope.ViewParamList1.Min_Possible == null ? "" : $scope.ViewParamList1.Min_Possible;
+                                $scope.NormalRange_High[masterVal.Id] = $scope.ViewParamList1.NormalRange_High == null ? "" : $scope.ViewParamList1.NormalRange_High;
+                                $scope.NormalRange_low[masterVal.Id] = $scope.ViewParamList1.NormalRange_low == null ? "" : $scope.ViewParamList1.NormalRange_low;
+                                $scope.Average[masterVal.Id] = $scope.ViewParamList1.Average == null ? "" : $scope.ViewParamList1.Average;
+                                $scope.Remarks[masterVal.Id] = $scope.ViewParamList1.Remarks == null ? "" : $scope.ViewParamList1.Remarks;
                             }
-                            $scope.Diagnostic_Flag[masterVal.Id] = $scope.ViewParamList1.Diagnostic_Flag == null ? true : $scope.ViewParamList1.Diagnostic_Flag;
-                            $scope.Max_Possible[masterVal.Id] = $scope.ViewParamList1.Max_Possible == null ? "" : $scope.ViewParamList1.Max_Possible;
-                            $scope.Min_Possible[masterVal.Id] = $scope.ViewParamList1.Min_Possible == null ? "" : $scope.ViewParamList1.Min_Possible;
-                            $scope.NormalRange_High[masterVal.Id] = $scope.ViewParamList1.NormalRange_High == null ? "" : $scope.ViewParamList1.NormalRange_High;
-                            $scope.NormalRange_low[masterVal.Id] = $scope.ViewParamList1.NormalRange_low == null ? "" : $scope.ViewParamList1.NormalRange_low;
-                            $scope.Average[masterVal.Id] = $scope.ViewParamList1.Average == null ? "" : $scope.ViewParamList1.Average;
-                            $scope.Remarks[masterVal.Id] = $scope.ViewParamList1.Remarks == null ? "" : $scope.ViewParamList1.Remarks;
-                        }
-                        else {
-                            $scope.Units_ID[masterVal.Id] = "0";
-                            $scope.Diagnostic_Flag[masterVal.Id] = true;
-                            $scope.Max_Possible[masterVal.Id] = "";
-                            $scope.Min_Possible[masterVal.Id] = "";
-                            $scope.NormalRange_High[masterVal.Id] = "";
-                            $scope.NormalRange_low[masterVal.Id] = "";
-                            $scope.Average[masterVal.Id] = "";
-                            $scope.Remarks[masterVal.Id] = "";
-                        }
-                    });
+                            else {
+                                $scope.Units_ID[masterVal.Id] = "0";
+                                $scope.Diagnostic_Flag[masterVal.Id] = true;
+                                $scope.Max_Possible[masterVal.Id] = "";
+                                $scope.Min_Possible[masterVal.Id] = "";
+                                $scope.NormalRange_High[masterVal.Id] = "";
+                                $scope.NormalRange_low[masterVal.Id] = "";
+                                $scope.Average[masterVal.Id] = "";
+                                $scope.Remarks[masterVal.Id] = "";
+                            }
+                        });
 
-                }).error(function (data) {
-                    $("#chatLoaderPV").hide();
-                    $scope.error = "An error has occcurred while viewing standard parameter Details!" + data;
-                    alert($scope.error);
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "An error has occcurred while viewing standard parameter Details!" + data;
+                        alert($scope.error);
+                    });
                 });
             });
         };

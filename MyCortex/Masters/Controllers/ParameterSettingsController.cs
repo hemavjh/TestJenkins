@@ -90,7 +90,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a Parameter Settings</param>    
         /// <returns>details of Parameter settings</returns>
         [HttpGet]
-        public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id, int? Unitgroup_Type)
+        public IList<ParamaterSettingsModel> ViewEditProtocolParameters(int Id, int Unitgroup_Type = 1)
         {
             IList<ParamaterSettingsModel> model;
             try
@@ -112,7 +112,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Parameter_Id">Parameter Id</param>
         /// <returns> unit list of a parameter</returns>
         [HttpGet]
-        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Unitgroup_Type)
+        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int Unitgroup_Type = 1)
         {
             IList<ParamaterSettingsModel> model;
             model = repository.ParameterMappingList(Parameter_Id, Unitgroup_Type);
