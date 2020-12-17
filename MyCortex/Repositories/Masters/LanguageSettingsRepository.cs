@@ -25,7 +25,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_SP_LIST]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_TEXT_SP_LIST]", param);
                 DataEncryption DecryptFields = new DataEncryption();
                 List<LanguageSettingsModel> list = (from p in dt.AsEnumerable()
                                                     select new LanguageSettingsModel()
@@ -33,13 +33,8 @@ namespace MyCortex.Repositories.Masters
                                                         ID = p.Field<long>("ID"),
                                                         INSTITUTION_ID = p.Field<long>("INSTITUTION_ID"),
                                                         LANGUAGE_KEY = p.Field<string>("LANGUAGE_KEY"),
-                                                        DEFAULT_TEXT = p.Field<string>("DEFAULT_TEXT"),
-                                                        ENGLISH = p.Field<string>("ENGLISH"),
-                                                        FRENCH = p.Field<string>("FRENCH"),
-                                                        SPANISH = p.Field<string>("SPANISH"),
-                                                        ARABIC = p.Field<string>("ARABIC"),
-                                                        ISACTIVE = p.Field<bool>("ISACTIVE"),
-
+                                                        LANGUAGE_TEXT = p.Field<string>("LANGUAGE_TEXT"),
+                                                        LANGUAGE_DEFAULT = p.Field<string>("LANGUAGE_DEFAULT"),
                                                     }).ToList();
                 return list;
             }
@@ -63,14 +58,9 @@ namespace MyCortex.Repositories.Masters
                         List<DataParameter> param = new List<DataParameter>();
                         param.Add(new DataParameter("@ID", item.ID));
                         param.Add(new DataParameter("@INSTITUTION_ID", item.INSTITUTION_ID));
-                        param.Add(new DataParameter("@ENGLISH", item.ENGLISH));
-                        param.Add(new DataParameter("@FRENCH", item.FRENCH));
-                        param.Add(new DataParameter("@SPANISH", item.SPANISH));
-                        param.Add(new DataParameter("@ARABIC", item.ARABIC));
+                        param.Add(new DataParameter("@ENGLISH", item.LANGUAGE_KEY));
                         param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
                         retid = ClsDataBase.Insert("[MYCORTEX].[TBLLANGUAGE_SP_UPDATE]", param, true);
-
-
                     }
 
                 }
@@ -91,14 +81,14 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_SP_LIST_BASEDONINSTITUTESETTINGS]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_SP_LIST_KEYVALUE]", param);
                 DataEncryption DecryptFields = new DataEncryption();
                 List<LanguageKeyValueModel> list = (from p in dt.AsEnumerable()
                                                     select new LanguageKeyValueModel()
                                                     {
                                                         ID = p.Field<long>("ID"),
                                                         LANGUAGE_KEY = p.Field<string>("LANGUAGE_KEY"),
-                                                        LANGUAGE_VALUE = p.Field<string>("LANGUAGE_VALUE"),
+                                                        LANGUAGE_VALUE = p.Field<string>("LANGUAGE_TEXT"),
 
                                                     }).ToList();
                 return list;

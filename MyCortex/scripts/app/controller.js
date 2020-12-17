@@ -4767,21 +4767,32 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         "audio": "on",
                         "video": "off",
                         "chat": "off",
-                        "conferenceMode":"on"
                     }
                     $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/videoConfSettings', objAdd).success(function (data) {
                         if (data.status == "Added") {
-                            key = data.hashKey;
-                            url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
-                            $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
-                            angular.element('#ViewMyMeetingModal').modal('show');
-                            // window.open(url);
+                            var objAdd =
+                            {
+                                "action": "changeConferenceMode",
+                                "username": "appsAdmin",
+                                "key": "ab3049da9a0cd8d6e8b7c62586752472",
+                                "name": "conference38",
+                                "conferenceMode": "on"
+                            }
+                            $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/videoConfSettings', objAdd).success(function (data) {
+                                if (data.status != "") {
+                                    key = data.hashKey;
+                                    url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                                    $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
+                                    angular.element('#ViewMyMeetingModal').modal('show');
+                                    //window.open(url);
+                                }
+                            });
                         }
                     });
                 }
                 else {
                     key = data.Hashkey;
-                    url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
+                    url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
                     $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
                     angular.element('#ViewMyMeetingModal').modal('show');
                     // window.open(url);
@@ -17091,10 +17102,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         $scope.IsActive = true;
         $scope.Id = 0;
         $scope.User_Id = 0;
-        $scope.English = [];
-        $scope.French = [];
-        $scope.Spanish = [];
-        $scope.Arabic = [];
+        $scope.LanguageText = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
         $scope.IsEdit = false;
@@ -17151,10 +17159,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 }
                 $("#chatLoaderPV").hide();
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
-                    $scope.English[masterVal.ID] = masterVal.ENGLISH;
-                    $scope.French[masterVal.ID] = masterVal.FRENCH;
-                    $scope.Spanish[masterVal.ID] = masterVal.SPANISH;
-                    $scope.Arabic[masterVal.ID] = masterVal.ARABIC;
+                    $scope.LanguageText[masterVal.ID] = masterVal.LANGUAGE_TEXT;
                 });
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
@@ -17168,10 +17173,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 var obj = {
                     ID: value.ID,
                     INSTITUTION_ID: $window.localStorage['InstitutionId'],
-                    ENGLISH: $scope.English[value.ID],
-                    FRENCH: $scope.French[value.ID],
-                    SPANISH: $scope.Spanish[value.ID],
-                    ARABIC: $scope.Arabic[value.ID]
+                    LANGUAGE_TEXT: $scope.LanguateText[value.ID],
                 }
                 $scope.LanguageSettingsDetails.push(obj);
             });
@@ -17180,14 +17182,10 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 $("#chatLoaderPV").hide();
                 alert("LanguageSettings Data saved successfully");
                 $scope.LanguageSettingsDetails = [];
-                $scope.English = [];
-                $scope.French = [];
-                $scope.Spanish = [];
-                $scope.Arabic = [];
+                $scope.LanguageText = [];
                 $scope.searchqueryLanguageSettings = "";
                 $scope.LanguageSettingsList();
                 $scope.IsEdit = false;
-                //$location.path("/ParameterSettings");
             });
 
         };

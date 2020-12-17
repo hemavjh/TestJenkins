@@ -133,11 +133,14 @@ namespace MyCortex.User.Controller
             model = repository.UserDetails_List(Id, InstitutionId, IsActive, Login_Session_Id);
             return model;
         }
+
+
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution
         /// </summary>
         /// <param name="userObj">User Information</param>
         /// <returns>Status message with inserted/updated user information</returns>
+        [AllowAnonymous]
         public HttpResponseMessage User_InsertUpdate(Guid Login_Session_Id, [FromBody] UserModel userObj)
         {
             if (Login_Session_Id == null)

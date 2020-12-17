@@ -54,20 +54,14 @@
             <table st-table="rowCollectionLanguageSettings" style="width: 100%" st-safe-src="rowCollectionLanguageSettings" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
                 <colgroup>
                     <col span="1" style="width:16%" />
-                    <col span="1" style="width:17%" />
-                    <col span="1" style="width:17%" />
-                    <col span="1" style="width:17%" />
-                    <col span="1" style="width:17%" />
-                    <col span="1" style="width:17%" />
+                    <col span="1" style="width:37%" />
+                    <col span="1" style="width:37%" />
                 </colgroup>
                 <thead>
                     <tr style="text-align: center">
                         <th st-ratio="20" rowspan="1" st-sort="">Language Key</th>
-                        <th st-ratio="10" rowspan="1" st-sort="">Default Key</th>
-                        <th st-ratio="4" rowspan="1" st-sort="">English</th>
-                        <th st-ratio="10" rowspan="1" st-sort="">French</th>
-                        <th st-ratio="10" rowspan="1" st-sort="">SPANISH</th>
-                        <th st-ratio="10" rowspan="1" st-sort="">ARABIC</th>
+                        <th st-ratio="40" rowspan="1" st-sort="">Language Text</th>
+                        <th st-ratio="40" rowspan="1" st-sort="">Default</th>
                     </tr>
                 </thead>
 
@@ -81,33 +75,13 @@
                         <td style="text-align: left">
                             {{row.LANGUAGE_KEY}}
                         </td>
-
-                        <td style="text-align: left">
-                            {{row.DEFAULT_TEXT}}
-                        </td>
-
                         <td style="text-align: left">
                             <input type="text" class="form-control" style="max-width:100% !important"
-                                   ng-model="English[row.ID]" placeholder="" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{English[row.ID]}}</span>
+                                   ng-model="LanguageText[row.ID]" placeholder="" ng-if="IsEdit==true">
+                            <span ng-if="IsEdit==false">{{LanguageText[row.ID]}}</span>
                         </td>
-
                         <td style="text-align: left">
-                            <input type="text" class="form-control" style="max-width:100% !important"
-                                   ng-model="French[row.ID]" placeholder="" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{French[row.ID]}}</span>
-                        </td>
-
-                        <td style="text-align: left">
-                            <input type="text" class="form-control" style="max-width:100% !important"
-                                   ng-model="Spanish[row.ID]" placeholder="" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{Spanish[row.ID]}}</span>
-                        </td>
-
-                        <td style="text-align: left">
-                            <input type="text" class="form-control" style="max-width:100% !important"
-                                   ng-model="Arabic[row.ID]" placeholder="" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{Arabic[row.ID]}}</span>
+                            {{row.LANGUAGE_DEFAULT}}
                         </td>
                     </tr>
                 </tbody>
