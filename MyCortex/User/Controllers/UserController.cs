@@ -32,7 +32,6 @@ using System.Drawing.Drawing2D;
 namespace MyCortex.User.Controller
 {
     [Authorize]
-    [CheckSessionOutFilter]
     public class UserController : ApiController
     {
         static readonly IUserRepository repository = new UserRepository();
@@ -1055,7 +1054,7 @@ namespace MyCortex.User.Controller
         /// <param name="Patient_Id"></param>
         /// <returns></returns>
         [HttpGet]
-        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id)
+        public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id = 1)
         {
             IList<ParametersListModel> model;
             model = repository.GroupParameterNameList(Patient_Id,UnitGroupType_Id);

@@ -24,7 +24,6 @@ using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
-    [CheckSessionOutFilter]
     public class CommonController : ApiController
     {
         static readonly ICommonRepository repository = new CommonRepository();

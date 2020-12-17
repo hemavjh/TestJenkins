@@ -415,7 +415,6 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 
             //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
             $http.post(baseUrl + '/api/Login/Userlogin_CheckValidity/', obj).success(function (data) {
-                $("#chatLoaderPV").hide();
                 $scope.UserId = data.UserId;
                 $scope.UserTypeId = data.UserTypeId;
                 $scope.InstitutionId = data.InstitutionId;
@@ -467,39 +466,16 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                         if (data1[0] != undefined) {
                             IdleDays = parseInt(data1[0].ConfigValue);
                             $window.localStorage['IdleDays'] = IdleDays;
-                            if (data == "1") {
-                                $scope.errorlist = "Username and/or Password are not matching, please verify";
-                            }
-                            else if (data == "2") {
-                                $scope.errorlist = "Contract period expired, cannot login";
-                            }
-                            else if (data == "3") {
-                                //$scope.errorlist = "Contract Time Exceed,contact admin";
-                                alert("Contract period expired, Please contact Admin for renewal");
-                                window.location.href = baseUrl + "/Home/Index#/home";
-                            }
-                            else if (data == "4" || data == "5") {
-                                window.location.href = baseUrl + "/Home/Index#/home";
-                            }
-                            else if (data == "6" || data == "10") {
-                                $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                                $window.localStorage['UserId'] = $scope.UserId;
-
-                                window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
-                                $scope.errorlist = Message;
-                            }
-                            else if (data == "7") {
-                                $scope.errorlist = Message;
-                            }
-                            else if (data == "8") {
-                                $scope.errorlist = Message;
-                            }
-                            else if (data == "9") {
-                                $scope.errorlist = "Username and/or Password are not active, please verify";
-                            }
-                            else
-                                $scope.errorlist = "Username and/or Password are not matching, please verify";
+                            $scope.UserLogin(data);
+                        } else {
+                            IdleDays = 600;
+                            $window.localStorage['IdleDays'] = IdleDays;
+                            $scope.UserLogin(data);
                         }
+                    }).error(function (err) {
+                        IdleDays = 600;
+                        $window.localStorage['IdleDays'] = 600;
+                        $scope.UserLogin(data);
                     }); 
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
@@ -517,6 +493,42 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         //        }
         //});      
     };
+
+    $scope.UserLogin = function (data) {
+        $("#chatLoaderPV").hide();
+        if (data == "1") {
+            $scope.errorlist = "Username and/or Password are not matching, please verify";
+        }
+        else if (data == "2") {
+            $scope.errorlist = "Contract period expired, cannot login";
+        }
+        else if (data == "3") {
+            //$scope.errorlist = "Contract Time Exceed,contact admin";
+            alert("Contract period expired, Please contact Admin for renewal");
+            window.location.href = baseUrl + "/Home/Index#/home";
+        }
+        else if (data == "4" || data == "5") {
+            window.location.href = baseUrl + "/Home/Index#/home";
+        }
+        else if (data == "6" || data == "10") {
+            $window.localStorage['UserTypeId'] = $scope.UserTypeId;
+            $window.localStorage['UserId'] = $scope.UserId;
+
+            window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
+            $scope.errorlist = Message;
+        }
+        else if (data == "7") {
+            $scope.errorlist = Message;
+        }
+        else if (data == "8") {
+            $scope.errorlist = Message;
+        }
+        else if (data == "9") {
+            $scope.errorlist = "Username and/or Password are not active, please verify";
+        }
+        else
+            $scope.errorlist = "Username and/or Password are not matching, please verify";
+    }
 
     $scope.getAccessToken = function () {
         var offsetTime = new Date().getTimezoneOffset();
