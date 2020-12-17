@@ -137,6 +137,7 @@ namespace MyCortex.User.Controller
         /// </summary>
         /// <param name="userObj">User Information</param>
         /// <returns>Status message with inserted/updated user information</returns>
+        [AllowAnonymous]
         public HttpResponseMessage User_InsertUpdate(Guid Login_Session_Id, [FromBody] UserModel userObj)
         {
             if (Login_Session_Id == null)
