@@ -4746,7 +4746,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.myMeetingURL = '';
-        $scope.myMeeting = function () {
+        $scope.myMeeting = function (meetingdomain) {
             var key = "";
 
             var obj =
@@ -4781,7 +4781,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/videoConfSettings', objAdd).success(function (data) {
                                 if (data.status != "") {
                                     key = data.hashKey;
-                                    url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                                    if (meetingdomain == 1) {
+                                        url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
+                                    } else if (meetingdomain == 2) {
+                                        url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                                    }
                                     $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
                                     angular.element('#ViewMyMeetingModal').modal('show');
                                     //window.open(url);
@@ -4792,7 +4796,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
                 else {
                     key = data.Hashkey;
-                    url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                    if (meetingdomain == 1) {
+                        url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
+                    } else if (meetingdomain == 2) {
+                        url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                    }
                     $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
                     angular.element('#ViewMyMeetingModal').modal('show');
                     // window.open(url);

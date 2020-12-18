@@ -54,12 +54,14 @@
             <table st-table="rowCollectionWebConfiguration" style="width: 100%" st-safe-src="rowCollectionWebConfiguration" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
                 <colgroup>
                     <col span="1" style="width:25%" />
-                    <col span="1" style="width:75%" />
+                    <col span="1" style="width:25%" />
+                    <col span="1" style="width:50%" />
                 </colgroup>
                 <thead>
                     <tr style="text-align: center">
-                        <th st-ratio="4" rowspan="1" st-sort="">CONFIGCODE</th>
-                        <th st-ratio="20" rowspan="1" st-sort="">CONFIGVALUE</th>
+                        <th rowspan="1" st-sort="">CONFIGCODE</th>
+                        <th rowspan="1" st-sort="">CONFIGINFO</th>
+                        <th rowspan="1" st-sort="">CONFIGVALUE</th>
                     </tr>
                 </thead>
 
@@ -73,7 +75,11 @@
                         <td style="text-align: left">
                             {{row.CONFIGCODE}}
                         </td>
-                        
+
+                        <td style="text-align: left">
+                            {{row.CONFIGINFO}}
+                        </td>
+
                         <td style="text-align: left">
                             <input type="text" class="form-control" style="max-width:100% !important"
                                    ng-model="Config_value[row.ID]" placeholder="" ng-if="IsEdit==true">
@@ -82,52 +88,51 @@
                         </td>
 
                         <!--<td style="text-align: left">
-                            <input type="text" class="form-control"
-                                   ng-model="Remarks[row.Id]" placeholder="" ng-maxlength="250" maxlength="250" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{Remarks[row.Id]}}</span>
-                        </td>-->
-
+        <input type="text" class="form-control"
+               ng-model="Remarks[row.Id]" placeholder="" ng-maxlength="250" maxlength="250" ng-if="IsEdit==true">
+        <span ng-if="IsEdit==false">{{Remarks[row.Id]}}</span>
+    </td>-->
                         <!--<td style="text-align: center" ng-if="IsEdit==true">
-                            <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]">
+        <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]">
 
-                        </td>
-                        <td style="text-align: center" ng-if="IsEdit==false">
-                            <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]" disabled>
+    </td>
+    <td style="text-align: center" ng-if="IsEdit==false">
+        <input type="checkbox" class="form-control" ng-model="Diagnostic_Flag[row.Id]" disabled>
 
-                        </td>
-                        <td style="text-align: left">
-                            <input type="text" class="form-control"
-                                   ng-model="Min_Possible[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{Min_Possible[row.Id]}}</span>
+    </td>
+    <td style="text-align: left">
+        <input type="text" class="form-control"
+               ng-model="Min_Possible[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+        <span ng-if="IsEdit==false">{{Min_Possible[row.Id]}}</span>
 
-                        </td>
+    </td>
 
-                        <td style="text-align: left">
-                            <input type="text" class="form-control" ng-model="Max_Possible[row.Id]"
-                                   placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{Max_Possible[row.Id]}}</span>
-                        </td>
+    <td style="text-align: left">
+        <input type="text" class="form-control" ng-model="Max_Possible[row.Id]"
+               placeholder="" onkeypress="OnlySpecCharNum(event)" ng-required="true" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+        <span ng-if="IsEdit==false">{{Max_Possible[row.Id]}}</span>
+    </td>
 
-                        <td style="text-align: left">
-                            <input type="text" class="form-control"
-                                   ng-model="NormalRange_low[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{NormalRange_low[row.Id]}}</span>
-                        </td>
-                        <td style="text-align: left">
-                            <input type="text" class="form-control"
-                                   ng-model="NormalRange_High[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{NormalRange_High[row.Id]}}</span>
-                        </td>
-                        <td style="text-align: left">
-                            <input type="text" class="form-control"
-                                   ng-model="Average[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{Average[row.Id]}}</span>
-                        </td>
-                        <td style="text-align: left">
-                            <input type="text" class="form-control"
-                                   ng-model="Remarks[row.Id]" placeholder="" ng-maxlength="250" maxlength="250" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{Remarks[row.Id]}}</span>
-                        </td>-->
+    <td style="text-align: left">
+        <input type="text" class="form-control"
+               ng-model="NormalRange_low[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+        <span ng-if="IsEdit==false">{{NormalRange_low[row.Id]}}</span>
+    </td>
+    <td style="text-align: left">
+        <input type="text" class="form-control"
+               ng-model="NormalRange_High[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+        <span ng-if="IsEdit==false">{{NormalRange_High[row.Id]}}</span>
+    </td>
+    <td style="text-align: left">
+        <input type="text" class="form-control"
+               ng-model="Average[row.Id]" placeholder="" onkeypress="OnlySpecCharNum(event)" ng-maxlength="15" maxlength="15" ng-if="IsEdit==true">
+        <span ng-if="IsEdit==false">{{Average[row.Id]}}</span>
+    </td>
+    <td style="text-align: left">
+        <input type="text" class="form-control"
+               ng-model="Remarks[row.Id]" placeholder="" ng-maxlength="250" maxlength="250" ng-if="IsEdit==true">
+        <span ng-if="IsEdit==false">{{Remarks[row.Id]}}</span>
+    </td>-->
                     </tr>
                 </tbody>
             </table>
