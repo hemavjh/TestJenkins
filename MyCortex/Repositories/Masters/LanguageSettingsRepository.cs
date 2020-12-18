@@ -81,7 +81,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_SP_LIST_KEYVALUE]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_TEXT_SP_LIST_KEYVALUE]", param);
                 DataEncryption DecryptFields = new DataEncryption();
                 List<LanguageKeyValueModel> list = (from p in dt.AsEnumerable()
                                                     select new LanguageKeyValueModel()
