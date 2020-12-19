@@ -102,12 +102,23 @@
 
 
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
 
                             <div ng-repeat="(key,value) in InstitutiontypeList">
 
                                 <input type="checkbox" disabled="disabled"
                                        ng-model="InstitutionAddList[$index]" /><span class="ml-10">{{value.ModuleName}}</span>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-sm-2">
+
+                            <div ng-repeat="(key,value) in LanguageList">
+
+                                <input type="checkbox" disabled="disabled"
+                                      ng-model="InstitutionAddLanguageList[$index]"  /><span class="ml-10">{{value.LanguageName}}</span>
                             </div>
 
 

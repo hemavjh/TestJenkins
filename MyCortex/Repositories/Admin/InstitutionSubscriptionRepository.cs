@@ -112,6 +112,23 @@ namespace MyCortex.Repositories.Admin
 
                     InsSubModId = ClsDataBase.Insert("[MYCORTEX].INSTITUTION_SUBSCRIPTION_MODULE_SP_INSERTUPDATE", param1, true);
                 }
+
+                foreach (LanguageMasterModel item in obj.Language_List)
+                {
+                    List<DataParameter> param1 = new List<DataParameter>();
+                    param1.Add(new DataParameter("@INSTITUTIONSUBSCRIPTION_ID", InsertId));
+                    param1.Add(new DataParameter("@LANGUAGE_ID", item.Id));
+                    param1.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
+                    var objExist = obj.Institution_Languages.Where(ChildItem => ChildItem.LanguageId == item.Id);
+
+                    if (objExist.ToList().Count > 0)
+                        //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
+                        param1.Add(new DataParameter("@LANGUAGE_SELECTED", "1"));
+                    else
+                        param1.Add(new DataParameter("@LANGUAGE_SELECTED", "0"));
+
+                    InsSubModId = ClsDataBase.Insert("[MYCORTEX].INSTITUTION_SUBSCRIPTION_LANGUAGE_SP_INSERTUPDATE", param1, true);
+                }
                 return INS;
             }
         }
@@ -144,6 +161,30 @@ namespace MyCortex.Repositories.Admin
             }
         }
 
+        public IList<LanguageMasterModel> LanguageNameList()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].LANGUAGEMASTER_SP_LANGUAGENAME");
+                List<LanguageMasterModel> lst = (from p in dt.AsEnumerable()
+                                               select new LanguageMasterModel()
+                                               {
+                                                   Id = p.Field<long>("ID"),
+                                                   LanguageName = p.Field<string>("LANGUAGE_NAME"),
+                                                   IsActive = p.Field<bool>("ISACTIVE")
+                                               }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// details of a selected Institution Subscription
         /// </summary>
@@ -161,6 +202,27 @@ namespace MyCortex.Repositories.Admin
                                                                  ChildId = p.Field<long>("MId"),
                                                                  ModuleId = p.Field<long>("MODULE_ID"),
                                                                  ModuleName = p.Field<string>("ModuleName")
+                                                             }).ToList();
+            return INS;
+        }
+
+        /// <summary>
+        /// details of a selected Institution Subscription
+        /// </summary>
+        /// <param name="Id">Id of a Institution Subscription</param>
+        /// <returns>Language Subscription details object</returns>
+        public IList<InstitutionSubscriptionLanguageModels> InstitutionSubscriptionLanguageDetails_View(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SUBSCRIPTIONLANGUAGE_SP_VIEW", param);
+            List<InstitutionSubscriptionLanguageModels> INS = (from p in dt.AsEnumerable()
+                                                             select new InstitutionSubscriptionLanguageModels()
+                                                             {
+                                                                 Id = p.Field<long>("ID"),
+                                                                 ChildId = p.Field<long>("LID"),
+                                                                 LanguageId = p.Field<long>("LANGUAGE_ID"),
+                                                                 LanguageName = p.Field<string>("LANGUAGE_NAME")
                                                              }).ToList();
             return INS;
         }
@@ -211,6 +273,8 @@ namespace MyCortex.Repositories.Admin
             //ViewId = INS.Id;
             INS.Module_List = ModuleNameList();
             INS.ChildModuleList = InstitutionSubscriptionModuleDetails_View(INS.Id);
+            INS.Language_List = LanguageNameList();
+            INS.ChildLanguageList = InstitutionSubscriptionLanguageDetails_View(INS.Id);
 
             return INS;
             //INS.ToList=

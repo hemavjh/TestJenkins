@@ -1139,6 +1139,7 @@
     <Compile Include="Admin\Models\DurationModel.cs" />
     <Compile Include="Admin\Models\InstitutionModel.cs" />
     <Compile Include="Admin\Models\InstitutionSubscriptionModel.cs" />
+    <Compile Include="Admin\Models\LanguageMasterModel.cs" />
     <Compile Include="Admin\Models\ModuleMasterModel.cs" />
     <Compile Include="Admin\Models\MonitoringProtocolModel.cs" />
     <Compile Include="Admin\Models\ProtocolModel.cs" />
