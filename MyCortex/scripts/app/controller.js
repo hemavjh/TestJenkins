@@ -4174,9 +4174,13 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                                         $scope.InstitutionLogo = response[itemIndexLogo];
                                     }
                                 }
-
-                                alert(data.Message);
-                                $scope.CancelInstitutionHospitalAdmin();
+                                $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
+                                    document.getElementById("InstLogo").src = resImage[0];
+                                    alert(data.Message);
+                                    $scope.CancelInstitutionHospitalAdmin();
+                                }).error(function (response) {
+                                    $scope.Photo = "";
+                                });
                             })
                             .error(function (response) {
                                 $scope.Photo = "";
