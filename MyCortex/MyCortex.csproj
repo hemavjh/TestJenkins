@@ -276,8 +276,6 @@
     <Content Include="Css\Site.css" />
     <Content Include="Css\spacing.css" />
     <Content Include="Css\summernote.css" />
-    <Content Include="Css\sweetalert2.css" />
-    <Content Include="Css\sweetalert2.min.css" />
     <Content Include="Css\tautocomplete.css" />
     <Content Include="Css\theme.css" />
     <Content Include="Css\TreeStructure.css" />
@@ -1337,10 +1335,6 @@
     <Content Include="scripts\smart-table.js" />
     <Content Include="scripts\summernote.js" />
     <Content Include="scripts\summernoteScript.js" />
-    <Content Include="scripts\sweetalert2.all.js" />
-    <Content Include="scripts\sweetalert2.all.min.js" />
-    <Content Include="scripts\sweetalert2.js" />
-    <Content Include="scripts\sweetalert2.min.js" />
     <Content Include="scripts\tautocomplete.js" />
     <Content Include="scripts\TreeStructure.js" />
     <Content Include="scripts\ui-bootstrap-tpls.js" />
