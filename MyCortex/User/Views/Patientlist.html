@@ -19,37 +19,41 @@
         <div class="overlay" show-on-load>
             <div id="loading-img"></div>
         </div>
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-            <tr>
-                <td width="5%">
-                    <label>Search</label>
-                </td>
-                <td width="20%">
-                    <div class="modernSearch">
-                        <input type="text" ng-model="Patientsearchquery" ng-change="PatientFilterChange();"
-                            placeholder="" />
-                        <i class="fa fa-search"></i>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Search
+                        </label>
+                        <div class="modernSearch">
+                            <input type="text" ng-model="Patientsearchquery" ng-change="PatientFilterChange();"
+                                   placeholder="" />
+                            <i class="fa fa-search"></i>
+                        </div>
                     </div>
-                </td>
-                <td style="text-align: left" width="65%">Active&nbsp;&nbsp;
-                    <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Patient_List(3);"
-                        title="Active / All">
-                    <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5" href="#collapseMore"
-                        ng-click="currentTab=='1'?currentTab='2':currentTab='1';patientDropdownList()" title="Click for Advance search">More
-                        <sub ng-show="currentTab=='1' ">
-                            <input type="image" src="../../Images/expand.gif" title='' style="width: 20px;"
-                                id="tableid_img2">
-                        </sub>
-                        <sub ng-show="currentTab=='2'">
-                            <input type="image" src="../../Images/collapse.gif" title='' style="width: 20px;"
-                                id="tableid_img2">
-                        </sub>
-                    </a>
-                </td>
-                <td style="text-align: right" width="15%">
-                    <div>
-                        <a href="javascript:" ng-click="AddPatientPopup()" class="btn btn-autosize pull-right ml-10">Add
-                            New</a>
+                </div>
+                <div class="col-sm-2">
+                    <div class="inputGroups">
+                        <label>Active</label>
+                        <div>
+                            <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Patient_List(3);"
+                                   title="Active / All">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="inputGroups">
+                        <label>Advance filter</label>
+                        <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5" href="#collapseMore"
+                           ng-click="currentTab=='1'?currentTab='2':currentTab='1';patientDropdownList()" title="Click for Advance search">
+                            <i class="fas fa-filter"></i>
+                            <sub ng-show="currentTab=='1' ">
+
+                            </sub>
+                            <sub ng-show="currentTab=='2'">
+
+                            </sub>
+                        </a>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -216,7 +220,8 @@
         </thead>
         <tbody>
             <tr ng-if="Patientflag==0 && PatientListFilter.length==0">
-                <td colspan="9" style="text-align: center">{{SearchMsg}}
+                <td colspan="9" style="text-align: center">
+                    {{SearchMsg}}
                 </td>
             </tr>
             <tr ng-repeat="row in Patientemptydata">
@@ -274,11 +279,11 @@
 </td>
             </tr>
         </tbody>
-        <tfoot ng-show="total_pages>1">
+        <tfoot ng-show="total_pages >1">
             <tr>
                 <td colspan="10" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                        st-template="Masters/Views/pagination.custom.html">
+                         st-template="Masters/Views/pagination.custom.html">
                     </div>
                 </td>
             </tr>
