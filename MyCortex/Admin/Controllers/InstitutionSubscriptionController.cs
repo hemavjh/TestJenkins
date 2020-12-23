@@ -102,6 +102,14 @@ namespace MyCortex.Admin.Controllers
             return model;
         }
 
+        [HttpGet]
+        public IList<LanguageMasterModel> LanguageNameList()
+        {
+            IList<LanguageMasterModel> model;
+            model = repository.LanguageNameList();
+            return model;
+        }
+
         /// <summary>
         /// list of institution subscription details for the given filter
         /// </summary>

@@ -946,8 +946,13 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         })
         // This is for to get Institution Modiule List 
         $http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
-            // only active Country    
+            // only active Module    
             $scope.InstitutiontypeList = data;
+        });
+        // This is for to get Institution Language List 
+        $http.get(baseUrl + '/api/InstitutionSubscription/LanguageNameList/').success(function (data) {
+            // only active Language    
+            $scope.LanguageList = data;
         });
         /*This is for Auto fill Details by selected Name of the Institution */
         $scope.InstituteGetDetails = function () {
@@ -1010,9 +1015,12 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         };
         /*on click Save calling the insert update function for Institution Subscription */
         $scope.InstitutionAddList = [];
+        $scope.InstitutionAddLanguageList = [];
         $scope.InstitutionModule_List = [];
+        $scope.InstitutionLanguage_List = [];
         $scope.Institution_SubscriptionAddEdit = function () {
             $scope.InstitutionModule_List = [];
+            $scope.InstitutionLanguage_List = [];
             if ($scope.Institution_SubscriptionAddEditValidations() == true) {
                 $("#chatLoaderPV").show();
                 angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
@@ -1027,6 +1035,18 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                         }
                     }
                 });
+                angular.forEach($scope.InstitutionAddLanguageList, function (SelectedInstitutiontype, index) {
+                    if (SelectedInstitutiontype == true) {
+                        {
+                            var obj = {
+                                Id: 0,
+                                Institution_Subcription_Id: $scope.Id,
+                                LanguageId: index + 1
+                            }
+                            $scope.InstitutionLanguage_List.push(obj);
+                        }
+                    }
+                });
                 var obj = {
                     Id: $scope.Id,
                     Institution_Id: $scope.Institution_Id,
@@ -1036,7 +1056,9 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Contract_PeriodTo: $scope.Contract_Period_To,
                     Subscription_Type: $scope.Subscription_Type,
                     Institution_Modules: $scope.InstitutionModule_List,
-                    Module_List: $scope.InstitutiontypeList
+                    Module_List: $scope.InstitutiontypeList,
+                    Institution_Languages: $scope.InstitutionLanguage_List,
+                    Language_List: $scope.LanguageList
                 }
 
                 $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
@@ -1112,6 +1134,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             }
         };
         $scope.InstitutionChildList = [];
+        $scope.InstitutionLanguageList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
             $("#chatLoaderPV").show();
@@ -1123,6 +1146,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $scope.DuplicatesId = data.Id;
                 $scope.InstitutiontypeList = data.Module_List;
                 $scope.InstitutionChildList = data.ChildModuleList;
+                $scope.LanguageList = data.Language_List;
+                $scope.InstitutionLanguageList = data.ChildLanguageList;
                 $scope.Institution_Id = data.Institution_Id.toString();
                 $scope.ViewInstitution_Name = data.Institution.Institution_Name;
                 $scope.Email = data.Institution.Email;
@@ -1151,6 +1176,18 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                         $scope.InstitutionAddList[modIndex] = false;
                     }
                 })
+
+                angular.forEach($scope.LanguageList, function (item, modIndex) {
+
+                    if ($ff($scope.InstitutionLanguageList, function (value) {
+                        return value.LanguageId == item.Id;
+                    }).length > 0) {
+                        $scope.InstitutionAddLanguageList[modIndex] = true;
+                    }
+                    else {
+                        $scope.InstitutionAddLanguageList[modIndex] = false;
+                    }
+                })
                 $("#chatLoaderPV").hide();
             });
         };
@@ -1164,6 +1201,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.Subscription_Type = "1";
             $scope.InstitutionModule_List = [];
             $scope.InstitutionAddList = [];
+            $scope.InstitutionAddLanguageList = [];
             $scope.Institution_Id = "0";
 
             $scope.Email = "";
@@ -4136,9 +4174,13 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                                         $scope.InstitutionLogo = response[itemIndexLogo];
                                     }
                                 }
-
-                                alert(data.Message);
-                                $scope.CancelInstitutionHospitalAdmin();
+                                $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
+                                    document.getElementById("InstLogo").src = resImage[0];
+                                    alert(data.Message);
+                                    $scope.CancelInstitutionHospitalAdmin();
+                                }).error(function (response) {
+                                    $scope.Photo = "";
+                                });
                             })
                             .error(function (response) {
                                 $scope.Photo = "";
@@ -4226,7 +4268,9 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
 
         /*on click Save calling the insert update function for Institution Subscription */
         $scope.InstitutionAddList = [];
+        $scope.InstitutionAddLanguageList = [];
         $scope.InstitutionModule_List = [];
+        $scope.InstitutionLanguage_List = [];
         $scope.InstitutionChildList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
@@ -4240,6 +4284,8 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                 $scope.DuplicatesId = data.Id;
                 $scope.InstitutiontypeList = data.Module_List;
                 $scope.InstitutionChildList = data.ChildModuleList;
+                $scope.LanguageList = data.Language_List;
+                $scope.InstitutionLanguageList = data.ChildLanguageList;
                 $scope.Institution_Id = data.Institution_Id.toString();
                 $scope.ViewInstitution_Name = data.Institution.Institution_Name;
                 $scope.Email = data.Institution.Email;
@@ -4265,6 +4311,18 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     }
                     else {
                         $scope.InstitutionAddList[modIndex] = false;
+                    }
+                })
+
+                angular.forEach($scope.LanguageList, function (item, modIndex) {
+
+                    if ($ff($scope.InstitutionLanguageList, function (value) {
+                        return value.LanguageId == item.Id;
+                    }).length > 0) {
+                        $scope.InstitutionAddLanguageList[modIndex] = true;
+                    }
+                    else {
+                        $scope.InstitutionAddLanguageList[modIndex] = false;
                     }
                 })
             });
@@ -4746,7 +4804,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.myMeetingURL = '';
-        $scope.myMeeting = function () {
+        $scope.myMeeting = function (meetingdomain) {
             var key = "";
 
             var obj =
@@ -4781,7 +4839,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/videoConfSettings', objAdd).success(function (data) {
                                 if (data.status != "") {
                                     key = data.hashKey;
-                                    url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                                    if (meetingdomain == 1) {
+                                        url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
+                                    } else if (meetingdomain == 2) {
+                                        url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                                    }
                                     $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
                                     angular.element('#ViewMyMeetingModal').modal('show');
                                     //window.open(url);
@@ -4792,7 +4854,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
                 else {
                     key = data.Hashkey;
-                    url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                    if (meetingdomain == 1) {
+                        url = 'https://mymeeting.mycortex.ca/meeting/?key=' + key;
+                    } else if (meetingdomain == 2) {
+                        url = 'https://mycortex.livebox.co.in/meeting/?key=' + key;
+                    }
                     $scope.myMeetingURL = $sce.trustAsResourceUrl(url);
                     angular.element('#ViewMyMeetingModal').modal('show');
                     // window.open(url);

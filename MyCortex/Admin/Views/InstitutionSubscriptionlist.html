@@ -131,6 +131,17 @@
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in LanguageList">
+                                                                <input type="checkbox" ng-model="InstitutionAddLanguageList[$index]" />{{value.LanguageName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
                                                 <tr>
                                                     <td width="15%">
@@ -285,6 +296,17 @@
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-sm-6" ng-repeat="row in LanguageList">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddLanguageList[$index]" />{{row.LanguageName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                             <table cellpadding="0" cellspacing="0" border="0" width="90%" class="formControlGroup">
                                                 <tr>
                                                     <td width="7%">
@@ -325,7 +347,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                    <tr>
+                                        <tr>
                                         <td>
                                             <label>Email</label>
                                         </td>

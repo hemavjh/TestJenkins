@@ -38,6 +38,9 @@ namespace MyCortex.Admin.Models
         public IList<InstitutionSubscriptionModuleModels> Institution_Modules { get; set; }
         public IList<ModuleMasterModel> Module_List { get; set; }
         public IList<InstitutionSubscriptionModuleModels> ChildModuleList { get; set; }
+        public IList<InstitutionSubscriptionLanguageModels> Institution_Languages { get; set; }
+        public IList<LanguageMasterModel> Language_List { get; set; }
+        public IList<InstitutionSubscriptionLanguageModels> ChildLanguageList { get; set; }
 
     }
 
@@ -50,6 +53,15 @@ namespace MyCortex.Admin.Models
         public long ChildId { get; set; }
         public string ModuleName { get; set; }
 
+    }
+
+    public class InstitutionSubscriptionLanguageModels
+    {
+        public long Id { get; set; }
+        public long Institution_Subcription_Id { get; set; }
+        public long LanguageId { get; set; }
+        public long ChildId { get; set; }
+        public string LanguageName { get; set; }
     }
 
     public class InstitutionSubscriptionReturnModels
