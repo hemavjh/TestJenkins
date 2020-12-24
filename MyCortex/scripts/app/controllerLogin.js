@@ -347,10 +347,12 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 
         if (typeof ($scope.Username) == "undefined" || $scope.Username == "") {
             $scope.errorlist = "Please enter Email";
+            $("#chatLoaderPV").hide();
             return false;
         }
         else if (typeof ($scope.Password) == "undefined" || $scope.Password == "") {
             $scope.errorlist = "Please enter Password";
+            $("#chatLoaderPV").hide();
             return false;
         }
         return true;
