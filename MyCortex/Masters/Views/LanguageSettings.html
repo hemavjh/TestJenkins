@@ -17,76 +17,82 @@
     <li><a class="secondaryMenuActive" href="Home/Index#/LanguageSettings">Language Settings</a></li>
 </ul>
 
-<div class="container">
+<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+    <div></div>
+    <div></div>
+</div>
 
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-    <div class="row">
-        <div class="col-md-12" ng-init="LanguageSettingsList()()">
-            <h1 class="page-title">Language Settings</h1>
-            <div class="panel panel-default panel-info">
-                <form class="form-horizontal" role="form">
-                    <div class="overlay" show-on-load>
-                        <div id="loading-img"></div>
-                    </div>
-                    <table cellpadding="0" cellspacing="0" border="0" width="80%" class="formControlGroup" id="table1">
-                        <tr>
-                            <td width="5%">
-                                <label>Search</label>
-                            </td>
-                            <td width="30%">
-                                <div class="modernSearch">
-                                    <input type="text" ng-model="searchqueryLanguageSettings" ng-change="FilterLanguageSettingsList()" placeholder="" />
-                                    <i class="fa fa-search"></i>
-                                </div>
-                            </td>
-                            <td width="30%">
-                                <div style="text-align: center;">
-                                    <button type="button" class="btn btn-save" ng-if="IsEdit==false" ng-click="LanguageSettingsEdit()" title="Click to Edit">Edit</button>
-                                    <button type="button" class="btn  btn-save" id="save" title="Click to Save" ng-if="IsEdit==true" ng-click="LanguageSettings_AddEdit()">Save</button>
-                                    <button type="button" class="btn btn-save" ng-if="IsEdit==true" ng-click="LanguageSettingsCancel()" title="Click to Cancel">Cancel</button>
-                                </div>
-                            </td>
-
-                        </tr>
-                    </table>
-                </form>
+<div ng-init="LanguageSettingsList()">
+    <h1 class="page-title">Language Settings</h1>
+    <div class="panel panel-default">
+        <form class="panel-body" role="form">
+            <div class="overlay" show-on-load>
+                <div id="loading-img"></div>
             </div>
-            <table st-table="rowCollectionLanguageSettings" style="width: 100%" st-safe-src="rowCollectionLanguageSettings" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
-                <colgroup>
-                    <col span="1" style="width:16%" />
-                    <col span="1" style="width:37%" />
-                    <col span="1" style="width:37%" />
-                </colgroup>
-                <thead>
-                    <tr style="text-align: center">
-                        <th st-ratio="20" rowspan="1" st-sort="">Language Key</th>
-                        <th st-ratio="40" rowspan="1" st-sort="">Language Text</th>
-                        <th st-ratio="40" rowspan="1" st-sort="">Default</th>
-                    </tr>
-                </thead>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Search</label>
+                        <div class="modernSearch">
+                            <input type="text" ng-model="searchqueryLanguageSettings" ng-change="FilterLanguageSettingsList()" placeholder="" />
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="LanguageSettingsEdit()"
+                            title="Click to Edit">
+                        Edit
+                    </button>
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" title="Click to Save" ng-if="IsEdit==true"
+                            ng-click="LanguageSettings_AddEdit()">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true" ng-click="LanguageSettingsCancel()"
+                            title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </div>
 
-                <tbody>
-                    <tr ng-if="rowCollectionLanguageSettings.length==0">
-                        <td colspan="15" style="text-align: center">
-                            No Data Available
-                        </td>
-                    </tr>
-                    <tr ng-repeat="row in rowCollectionLanguageSettings">
-                        <td style="text-align: left">
-                            {{row.LANGUAGE_KEY}}
-                        </td>
-                        <td style="text-align: left">
-                            <input type="text" class="form-control" style="max-width:100% !important"
-                                   ng-model="LanguageText[row.ID]" placeholder="" ng-if="IsEdit==true">
-                            <span ng-if="IsEdit==false">{{LanguageText[row.ID]}}</span>
-                        </td>
-                        <td style="text-align: left">
-                            {{row.LANGUAGE_DEFAULT}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
+        </form>
     </div>
+    <table st-table="rowCollectionLanguageSettings" style="width: 100%" st-safe-src="rowCollectionLanguageSettings" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
+        <colgroup>
+            <col span="1" style="width:16%" />
+            <col span="1" style="width:37%" />
+            <col span="1" style="width:37%" />
+        </colgroup>
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="20" rowspan="1" st-sort="">Language Key</th>
+                <th st-ratio="40" rowspan="1" st-sort="">Language Text</th>
+                <th st-ratio="40" rowspan="1" st-sort="">Default</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-if="rowCollectionLanguageSettings.length==0">
+                <td colspan="15" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in rowCollectionLanguageSettings">
+                <td style="text-align: left">
+                    {{row.LANGUAGE_KEY}}
+                </td>
+                <td style="text-align: left">
+                    <input type="text" class="form-control" style="max-width:100% !important"
+                           ng-model="LanguageText[row.ID]" placeholder="" ng-if="IsEdit==true">
+                    <span ng-if="IsEdit==false">{{LanguageText[row.ID]}}</span>
+                </td>
+                <td style="text-align: left">
+                    {{row.LANGUAGE_DEFAULT}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
 </div>

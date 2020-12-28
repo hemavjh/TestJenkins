@@ -16,50 +16,48 @@
     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
     <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
 </ul>
-
 <div class="overlay" show-on-load>
     <div id="loading-img"></div>
 </div>
 <h1 class="page-title">Chat Settings </h1>
+<div id="App">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+    <form class="form-horizontal" role="form">
+        <div class="overlay">
+            <div id="Div1"></div>
+        </div>
+        <div class="fc-left">
+            <input type="radio" value="1" ng-model="Preference_Type" ng-init="SetChatPreference()"> Comet Chat
+            <input type="radio" value="2" ng-model="Preference_Type"> MyMeetings
+        </div>
 
-<div class="panel panel-info" id="App">
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-    <div class="panel-body">
-        <form class="form-horizontal" role="form">
-            <div class="overlay">
-                <div id="Div1"></div>
-            </div>
+        <table style="width: 100%" class="table themeTable">
+            <thead>
+            <th></th>
+            <th ng-repeat="row in UserGroupList">
+                {{row.TypeName}}
+            </th>
+            </thead>
 
-            <div>               
-                <table style="width: 100%" class="table themeTable">
-                    <thead>
-                        <th></th>
-                        <th ng-repeat="row in UserGroupList">{{row.TypeName}}
+            <tbody>
+                <tr ng-repeat="rows in UserGroupListtwo">
+                    <th>{{rows.TypeName}}</th>
+                    <td ng-repeat="row in UserGroupListtwo">
+                        <input type="checkbox" id="{{'chk-'+rows.Id+'-'+row.Id}}"
+                               ng-init="ViewupdateCheckValue(rows.Id, row.Id,$event)"
+                               ng-click="updateCheckValue(rows.Id, row.Id, $event);"
+                               ng-disabled="(rows.Id == 2 && row.Id==2)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-                    </th>
-                </thead>
-
-                <tbody>
-                    <tr ng-repeat="rows in UserGroupListtwo">
-
-                        <th>{{rows.TypeName}}</th>
-
-                        <td ng-repeat="row in UserGroupListtwo">
-                            <input type="checkbox" id="{{'chk-'+rows.Id+'-'+row.Id}}"
-                                ng-init="ViewupdateCheckValue(rows.Id, row.Id,$event)"
-                                ng-click="updateCheckValue(rows.Id, row.Id, $event);"
-                                ng-disabled="(rows.Id == 2 && row.Id==2)" />
-
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-        
     </form>
     <div style="text-align: center;">
         <button type="button" class="theme-btn-1 mr-10" id="save" ng-click="ChatSettings_AddEdit()">Save</button>
         <button type="button" class="theme-btn-2" id="Button1" ng-click="ChatSettingsRest()">Reset</button>
-
     </div>
 </div>
