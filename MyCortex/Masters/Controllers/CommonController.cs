@@ -811,5 +811,23 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        public IList<LanguageMasterModel> getInstitutionLanguages(long Institution_Id)
+        {
+            IList<LanguageMasterModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.InstitutionLanguages(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
     }
 }

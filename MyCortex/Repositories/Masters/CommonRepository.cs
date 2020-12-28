@@ -576,6 +576,29 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<LanguageMasterModel> InstitutionLanguages(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ISUBSCRIPTIONLANGUAGE_SP_LIST]", param);
+                List<LanguageMasterModel> lst = (from p in dt.AsEnumerable()
+                                                select new LanguageMasterModel()
+                                                {
+                                                    Id = p.Field<long>("LANGUAGE_ID"),
+                                                    LanguageName = p.Field<string>("LANGUAGE_NAME")
+                                                }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
 
     }
 }

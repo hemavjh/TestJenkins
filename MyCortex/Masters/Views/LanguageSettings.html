@@ -40,6 +40,16 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Select Language</label>
+                        <div class="modernSearch">
+                            <select class="form-control" ng-model="selectedLanguage" ng-options="item1.Id as item1.LanguageName for item1 in InstitutionLanguageList" 
+                                    ng-change="">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
                     <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="LanguageSettingsEdit()"
                             title="Click to Edit">
                         Edit
