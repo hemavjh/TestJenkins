@@ -314,7 +314,6 @@
                     <div class="row">
                         <div class="col-sm-3 colorSettings">
 
-
                             <div class="colorGroup">
                                 <h1>Title Color</h1>
                                 <input type="color" id="title" name="title" />
@@ -458,7 +457,7 @@
         if (!saved) {
             if (confirm("Settings not yet saved do you want to close")) {
                 $('#colorSetting').modal('hide');
-                alert('after close again make api to get new values');
+                //alert('after close again make api to get new values');
                 applyStyle();
                 saved = false;
             }
@@ -530,7 +529,8 @@
 
     let applyStyle = () => {
         //alert('use this method when user logged in first time and use response object instead of getAPIObj')
-        $.get(baseUrl + "api/ColorPreference/List?UserId=35", function (data) {
+        // alert(@HttpContext.Current.Session["UserId"].ToString());
+        $.get(baseUrl + "api/ColorPreference/List?UserId=" + @HttpContext.Current.Session["UserId"].ToString(), function (data) {
             if (data["Status"]) {
                 getAPIObj["primary"] = data["ColorPreferences"]["Primary"];
                 getAPIObj["secondary"] = data["ColorPreferences"]["Secondary"];
@@ -557,27 +557,54 @@
                 getAPIObj["negativeHoverBtnText"] = data["ColorPreferences"]["NegativeHoverBtnText"];
                 getAPIObj["title"] = data["ColorPreferences"]["Title"];
                 getAPIObj["subTitle"] = data["ColorPreferences"]["SubTitle"];
-                console.log("applyStyle:" + getAPIObj[0])
-                for (key in getAPIObj) {
+            } else {
+                getAPIObj["primary"] = defaultValueObj["primary"];
+                getAPIObj["secondary"] = defaultValueObj["secondary"];
+                getAPIObj["headerBg"] = defaultValueObj["HeaderBg"];
+                getAPIObj["headerText"] = defaultValueObj["HeaderText"];
+                getAPIObj["TableHeaderBg"] = defaultValueObj["TableHeaderBg"];
+                getAPIObj["TableHeaderText"] = defaultValueObj["TableHeaderText"];
+                getAPIObj["TableAlternateRowBg"] = defaultValueObj["TableAlternateRowBg"];
+                getAPIObj["TableAlternateRowText"] = defaultValueObj["TableAlternateRowText"];
+                getAPIObj["TableRowHoverBg"] = defaultValueObj["TableRowHoverBg"];
+                getAPIObj["TableRowHoverText"] = defaultValueObj["TableRowHoverText"];
+                getAPIObj["linkText"] = defaultValueObj["LinkText"];
+                getAPIObj["positiveBtnBg"] = defaultValueObj["PositiveBtnBg"];
+                getAPIObj["positiveBtnBorder"] = defaultValueObj["PositiveBtnBorder"];
+                getAPIObj["positiveBtnText"] = defaultValueObj["PositiveBtnText"];
+                getAPIObj["positiveHoverBtnBg"] = defaultValueObj["PositiveHoverBtnBg"];
+                getAPIObj["positiveHoverBtnBorder"] = defaultValueObj["PositiveHoverBtnBorder"];
+                getAPIObj["positiveHoverBtnText"] = defaultValueObj["PositiveHoverBtnText"];
+                getAPIObj["negativeBtnBg"] = defaultValueObj["NegativeBtnBg"];
+                getAPIObj["negativeBtnBorder"] = defaultValueObj["NegativeBtnBorder"];
+                getAPIObj["negativeBtnText"] = defaultValueObj["NegativeBtnText"];
+                getAPIObj["negativeHoverBtnBg"] = defaultValueObj["NegativeHoverBtnBg"];
+                getAPIObj["negativeHoverBtnBorder"] = defaultValueObj["NegativeHoverBtnBorder"];
+                getAPIObj["negativeHoverBtnText"] = defaultValueObj["NegativeHoverBtnText"];
+                getAPIObj["title"] = defaultValueObj["Title"];
+                getAPIObj["subTitle"] = defaultValueObj["SubTitle"];
 
-                    if (getAPIObj[key] != null && getAPIObj[key] != "") {
-                        $(`#${key}`).val(getAPIObj[key]);
-                        document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);
+            }
+            console.log("applyStyle:" + getAPIObj[0])
+            for (key in getAPIObj) {
 
-                    }
+                if (getAPIObj[key] != null && getAPIObj[key] != "") {
+                    $(`#${key}`).val(getAPIObj[key]);
+                    document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);
 
                 }
+
             }
             //console.log(data)
             //alert(data["ColorPreferences"]["Primary"]);
         });
-        
+
     }
     applyStyle();
     let saveSettings = () => {
         let saveAPIObj = {
-            UserId: 35,
-            InstitutionId: 5,
+            UserId: @HttpContext.Current.Session["UserId"].ToString(),
+            InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString(),
             primary: $('#primary').val() || "#333",
             secondary: $('#secondary').val() || "#555",
             headerBg: $('#headerBg').val() || "#232f3e",
@@ -617,8 +644,8 @@
     let restoreSettings = () => {
         if (confirm("Click Ok Button to Restore Color Settings. If not Please click close button!")) {
             let restoreAPIObj = {
-                UserId: 35,
-                InstitutionId: 5,
+                UserId: @HttpContext.Current.Session["UserId"].ToString(),
+                InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString(),
                 primary: defaultValueObj["primary"],
                 secondary: defaultValueObj["secondary"],
                 headerBg: defaultValueObj["headerBg"],
@@ -658,7 +685,7 @@
             //applyStyle();
             //saved = false;
         }
-        
+
     };
     (function ($) {
 

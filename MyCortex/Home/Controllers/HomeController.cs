@@ -28,7 +28,6 @@ using MyCortex.Repositories;
 namespace MyCortex.Home.Controllers
 {
     //[EnableCors(origins: "*", headers: "*", methods: "*")]
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-My-Header")]
     public class HomeController : Controller
     {
         public string returnError = "";
