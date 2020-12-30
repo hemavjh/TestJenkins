@@ -156,11 +156,11 @@ namespace MyCortex.User.Controller
                 //UserModel Ins_model = new UserModel();
                 //Ins_model = repository.GetInstitutionForWebURL(request);
                 //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
-            }      
-            //if (userObj.INSTITUTION_ID == null)
-            //{
-            //    userObj.INSTITUTION_ID = 1;
-            //}
+            }
+            if (userObj.INSTITUTION_ID == 0)
+            {
+                userObj.INSTITUTION_ID = InstitutionId;
+            }
             string defaultPwd = "P@ssw0rd";
             AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", InstitutionId);
              if (AppConfigmodel.Count > 0)

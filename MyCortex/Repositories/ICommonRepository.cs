@@ -32,6 +32,7 @@ namespace MyCortex.Repositories
         IList<OptionTypeModel> OptionTypeList();
         IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id);
         IList<UnitGroupTypeModel> UnitGroupTypeList();
+        IList<LanguageMasterModel> InstitutionLanguages(long Institution_Id);
 
     }
 }

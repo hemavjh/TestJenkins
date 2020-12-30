@@ -17169,7 +17169,16 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         $scope.Id = 0;
         $scope.User_Id = 0;
         $scope.LanguageText = [];
+        $scope.InstitutionLanguageList = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+
+        $http.get(baseUrl + '/api/Common/getInstitutionLanguages/?Institution_Id=' + $window.localStorage['InstitutionId']
+        ).success(function (data) {
+            $scope.InstitutionLanguageList = [];
+            $scope.InstitutionLanguageList = data;
+        }).error(function (data) {
+            $scope.error = "AN error has occured while Listing the records!" + data;
+        })
 
         $scope.IsEdit = false;
         $scope.LanguageSettingsEdit = function () {

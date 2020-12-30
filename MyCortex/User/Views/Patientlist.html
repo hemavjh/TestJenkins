@@ -5,12 +5,10 @@
         })
     </script>
 </head>
-
 <ul class="secondaryMenu">
     <li><a class="secondaryMenuActive" href="Home/Index#/PatientList/3">All Patient</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
 </ul>
-
 <h1 class="page-title">Patient</h1>
 <div class="panel panel-default" id="Div4"
      ng-init="Patient_List(3);currentTab='1'">
@@ -23,7 +21,8 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="inputGroups">
-                        <label>Search
+                        <label>
+                            Search
                         </label>
                         <div class="modernSearch">
                             <input type="text" ng-model="Patientsearchquery" ng-change="PatientFilterChange();"
@@ -48,10 +47,8 @@
                            ng-click="currentTab=='1'?currentTab='2':currentTab='1';patientDropdownList()" title="Click for Advance search">
                             <i class="fas fa-filter"></i>
                             <sub ng-show="currentTab=='1' ">
-
                             </sub>
                             <sub ng-show="currentTab=='2'">
-
                             </sub>
                         </a>
                     </div>
@@ -65,7 +62,6 @@
                 </div>
             </div>
         </div>
-</div>
     </form>
 </div>
 <div id="collapseMore" class="panel-collapse collapse panel panel-default">
@@ -151,8 +147,7 @@
                     <label>Group</label>
                     <select ng-model="filter_GroupId" multiple="multiple"
                             ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
-                            style="width: 230px;">
-                    </select>
+                            style="width: 230px;"></select>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -193,7 +188,6 @@
                 </div>
                 <div class="inputGroups">
                     <a href="javascript:" ng-click="Patient_List(3)" class="theme-btn-1 btn-autosize mt-20 mr-10">Search</a>
-
                     <a href="javascript:" ng-click="ResetPatientFilter()" class="theme-btn-2 btn-autosize mt-20">Reset</a>
                 </div>
             </div>
@@ -219,7 +213,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-if="Patientflag==0 && PatientListFilter.length==0">
+            <tr ng-if="Patientemptydata.length==0">
                 <td colspan="9" style="text-align: center">
                     {{SearchMsg}}
                 </td>
@@ -267,19 +261,19 @@
                     </a>
                     <a href="javascript:;" ng-click="row.IsActive == 0 || EditPatientPopUp(row.Id)" title="Edit">
                         <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                            <a href="javascript:"ng-click="ErrorFunction()" title="Edit">
-                                <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
-                            </a>
+                        <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                            <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                        </a>
                     </a>
                     <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
-                        <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>    
+                        <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                         <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
                             <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                         </a>
-</td>
+                </td>
             </tr>
         </tbody>
-        <tfoot ng-show="total_pages >1">
+        <tfoot ng-show="PatientList.length >10">
             <tr>
                 <td colspan="10" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -291,20 +285,15 @@
     </table>
 </div>
 <div class="inputGroups center-block" style="text-align: center;max-width:320px;">
-
     <label>Group</label>
-
     <select ng-model="AssignedGroup" multiple="multiple"
-            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;">
-    </select>
+            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown style="width: 230px;"></select>
     <a href="javascript:" ng-click="AssignGroup()" class="theme-btn-1 mtb-15 mr-10 btn-autosize">Update Group</a>
     <a href="javascript:" ng-click="AddGroupPopup(GroupClearPopUp())" class="theme-btn-1 mtb-15 btn-autosize" style="margin-bottom:50px;">
         Create
         Group
     </a>
 </div>
-
-
 
 
 <div id="GroupCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -315,7 +304,6 @@
                         style="color: #8B0000;">
                     &times;
                 </button>
-
                 <h1 class="page-title">Create Group</h1>
             </div>
             <div class="row">
@@ -337,7 +325,6 @@
                                                    maxlength="100" ng-maxlength="100" />
                                         </td>
                                     </tr>
-
                                 </table>
                             </form>
                         </div>
@@ -356,3 +343,4 @@
             </div>
         </div>
     </div>
+</div>
