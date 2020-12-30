@@ -5,10 +5,32 @@
 :root {
     --primary: #333;
     --headerBg: #232f3e;
+    --headerText: #fff;
     --footerBg: #f6f6f6;
     --headder: #555;
     --warning: #ea4335;
     --baseFontSize: 14px;
+    --title: #032b5c;
+    --subTitle: #032b5c;
+    --TableHeaderBg: linear-gradient(#232f3e, #333);
+    --TableHeaderText: #fff;
+    --TableAlternateRowBg: #7a8ddb1a;
+    --TableAlternateRowText: #333;
+    --TableRowHoverBg: #efefef;
+    --TableRowHoverText: #333;
+    --linkText: #337ab7;
+    --positiveBtnBg: #232f3e;
+    --positiveBtnBorder: transparent;
+    --positiveBtnText: #fff;
+    --positiveHoverBtnBg: transparent;
+    --positiveHoverBtnBorder: #232f3e;
+    --positiveHoverBtnText: #232f3e;
+    --negativeBtnBg: #d3d5d8;
+    --negativeBtnBorder: transparent;
+    --negativeBtnText: #000;
+    --negativeHoverBtnBg: #fff;
+    --negativeHoverBtnBorder: #d3d5d8;
+    --negativeHoverBtnText: #000;
 }
 
 @font-face {
@@ -19,6 +41,10 @@
 body {
     font-family: "Amazon Ember" !important;
     font-size: var(--baseFontSize);
+}
+
+a {
+    color: var(--linkText);
 }
 
 .modal-title {
@@ -59,6 +85,7 @@ label {
     padding: 0px 15px 0px 0px;
     align-items: center;
     background: var(--headerBg);
+    color: var(--headerText);
     height: 90px;
     position: fixed;
     left: 0px;
@@ -90,7 +117,7 @@ label {
 }
 
     .themeRight > span {
-        color: #fff;
+        color: inherit;
     }
 
 .themeProfile {
@@ -103,7 +130,7 @@ label {
     background: transparent;
     border: none;
     outline: none;
-    color: #fff;
+    color: inherit;
     margin-right: 10px;
     position: relative;
 }
@@ -153,6 +180,7 @@ button.activeButton::after {
 .logoutDrop {
     left: -116px !important;
     width: 175px;
+    color: #000;
 }
 
 .customDropdownlast-child {
@@ -205,7 +233,7 @@ li.customDropdownlast-child:hover {
 
     .patientHeaderProfile p {
         margin: 0px;
-        color: #fff;
+        color: inherit;
         cursor: pointer;
     }
 
@@ -269,12 +297,12 @@ li.customDropdownlast-child:hover {
 }
 
     .patientShortInfo p {
-        color: #fff;
+        color: inherit;
         margin: 0px 25px 0px 0px;
     }
 
     .patientShortInfo a {
-        color: #fff;
+        color: inherit;
         font-size: 25px;
         margin-right: 25px;
     }
@@ -368,9 +396,7 @@ li.customDropdownlast-child:hover {
 }
 
 .panel {
-   
     border-radius: 0px !important;
-    
 }
 
 .panel-info {
@@ -389,56 +415,62 @@ li.customDropdownlast-child:hover {
 }
 
 .theme-btn-1 {
-    color: #fff;
-    background: #232f3e;
-    border: 2px solid transparent;
+    color: var(--positiveBtnText);
+    background: var(--positiveBtnBg);
+    border: 2px solid var(--positiveBtnBorder);
     padding: 5px 15px;
     border-radius: 5px;
-   
-    display:inline-block !important;
-    text-decoration:none;
-    outline:none;
+    display: inline-block !important;
+    text-decoration: none;
+    outline: none;
 }
 
     .theme-btn-1:hover {
-        color: #232f3e !important;
-        background: #fff;
-        border: 2px solid #232f3e;
+        color: var(--positiveHoverBtnText) !important;
+        background: var(--positiveHoverBtnBg);
+        border: 2px solid var(--positiveHoverBtnBorder);
         text-decoration: none;
         outline: none;
     }
 
 .theme-btn-2 {
-    color: #000;
-    background: #d3d5d8;
-    border: 2px solid transparent;
+    color: var(--negativeBtnText);
+    background: var(--negativeBtnBg);
+    border: 2px solid var(--negativeBtnBorder);
     padding: 5px 15px;
     border-radius: 5px;
     outline: none;
 }
 
     .theme-btn-2:hover {
-        color: #000;
-        background: #fff;
-        border: 2px solid #d3d5d8;
+        color: var(--negativeHoverBtnText);
+        background: var(--negativeHoverBtnBg);
+        border: 2px solid var(--negativeHoverBtnBorder);
         text-decoration: none;
         outline: none;
     }
-     .theme-btn-2:active, .theme-btn-2:focus,  .theme-btn-2:visited {
+
+    .theme-btn-2:active,
+    .theme-btn-2:focus,
+    .theme-btn-2:visited {
         color: initial;
         text-decoration: none;
         outline: none;
     }
-  .theme-btn-1:focus {
+
+.theme-btn-1:focus {
     color: #fff;
     text-decoration: none;
     outline: none;
 }
+
 .nav-tabs {
     border: 0px !important;
 }
 
-    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:focus,
+    .nav-tabs > li.active > a:hover {
         border: 0px !important;
         color: #000 !important;
         font-weight: 600;
@@ -466,8 +498,6 @@ li.customDropdownlast-child:hover {
 .nav-tabs > li:last-child > a {
     border-bottom-left-radius: 5px !important;
 }
-
-
 
 .changeViews {
     display: flex;
@@ -564,7 +594,12 @@ li.customDropdownlast-child:hover {
     margin-right: 5px;
 }
 
-.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
     cursor: pointer;
     background-color: #555;
     border-color: #555;
@@ -638,7 +673,7 @@ li.customDropdownlast-child:hover {
 }
 
 .title1 {
-    color: #032b5c;
+    color: var(--title);
     margin: 0px;
     padding: 10px 0px;
     font-weight: 600;
@@ -647,7 +682,7 @@ li.customDropdownlast-child:hover {
 }
 
 .title2 {
-    color: #000;
+    color: var(--subTitle);
     margin: 0px;
     margin: 0px 0px 10px 0px;
     font-weight: 600;
@@ -681,18 +716,20 @@ li.customDropdownlast-child:hover {
     padding: 0px !important;
     margin: 0px !important;
 }
+
 .btn.selectpicker.form-control {
     width: 100%;
     border: 1px solid #ccc;
 }
+
 .multiselect-native-select .btn-group {
     width: 100% !important;
 }
+
 .multiselect {
     padding-left: 10px !important;
     padding-right: 10px !important;
     text-align: left !important;
-    
 }
 
 .chartTabs {
@@ -704,8 +741,6 @@ li.customDropdownlast-child:hover {
     margin-right: auto;
     padding: 0;
 }
-
-
 
     .chartTabs li a {
         font-size: 14px;
@@ -751,60 +786,60 @@ li.customDropdownlast-child:hover {
         border-right: 1px solid #ccc;
         position: relative;
     }
-    .themeTabs li:last-child a{
-        border-right:0px;
+
+    .themeTabs li:last-child a {
+        border-right: 0px;
     }
+
     .themeTabs a i {
         font-size: 14px;
         margin-right: 5px;
     }
 
+    .themeTabs a.themeTabActive::after {
+        content: "";
+        border-top: 10px solid transparent;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+        position: absolute;
+        left: 50%;
+        bottom: -12px;
+        transform: translateX(-50%);
+    }
 
+    .themeTabs a.themeTabActive::before {
+        content: "";
+        border-top: 10px solid transparent;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #ccc;
+        position: absolute;
+        left: 50%;
+        bottom: -10px;
+        transform: translateX(-50%);
+    }
 
-
-
-        .themeTabs a.themeTabActive::after {
-            content: '';
-            border-top: 10px solid transparent;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 10px solid #fff;
-            position: absolute;
-            left: 50%;
-            bottom: -12px;
-            transform: translateX(-50%);
-        }
-
-        .themeTabs a.themeTabActive::before {
-            content: '';
-            border-top: 10px solid transparent;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 10px solid #ccc;
-            position: absolute;
-            left: 50%;
-            bottom: -10px;
-            transform: translateX(-50%);
-        }
-
-        .themeTabs a:hover {
-            color: #35a9e4;
-        }
+    .themeTabs a:hover {
+        color: #35a9e4;
+    }
 
     .themeTabs li:last-child a {
         border-right: 0px !important;
     }
+
 .btn-link [ng-show="currentTab=='1'"] i {
     color: green;
-    
 }
+
 .btn-link [ng-show="currentTab=='2'"] i {
-   
     color: orange;
 }
+
 .btn-link i {
     font-size: 20px;
 }
+
 .multiselect.dropdown-toggle .caret {
     float: right;
     margin-top: 10px;
@@ -836,12 +871,12 @@ li.customDropdownlast-child:hover {
 .toggle-off.btn {
     padding-left: 28px !important;
     padding-top: 2px !important;
-    background: linear-gradient(to right, #af4129,#f30404) !important;
+    background: linear-gradient(to right, #af4129, #f30404) !important;
     color: #fff !important;
 }
 
     .toggle-off.btn:hover {
-        background: linear-gradient(to right, #af4129,#f30404) !important;
+        background: linear-gradient(to right, #af4129, #f30404) !important;
     }
 
 .toggle.btn {
@@ -852,15 +887,16 @@ li.customDropdownlast-child:hover {
     border-radius: 20px !important;
 }
 
-.themeTable td, .themeTable th {
+.themeTable td,
+.themeTable th {
     padding: 8px !important;
     text-align: left;
     border: 1px solid #ccc !important; /*thick;*/
 }
 
 .themeTable th {
-    color: #fff !important;
-    background: linear-gradient(#232f3e, #333);
+    color: var(--TableHeaderText) !important;
+    background: var(--TableHeaderBg);
     vertical-align: middle !important;
     text-align: center !important;
 }
@@ -870,11 +906,13 @@ li.customDropdownlast-child:hover {
 }
 
 .themeTable tr:nth-of-type(even) {
-    background-color: #7a8ddb1a;
+    background-color: var(--TableAlternateRowBg);
+    color: var(--TableAlternateRowText);
 }
 
 .themeTable tr:hover {
-    background-color: #efefef;
+    background-color: var(--TableRowHoverBg);
+    color: var(--TableRowHoverText);
 }
 
 .themeTable th {
@@ -933,7 +971,7 @@ li.customDropdownlast-child:hover {
     margin: 0;
     list-style-type: none;
     display: flex;
-    padding:0;
+    padding: 0;
     border-bottom: 1px solid #efefef;
 }
 
@@ -957,42 +995,59 @@ li.customDropdownlast-child:hover {
 .secondaryMenu li a:hover {
     color: #35a9e4 !important;
 }
+
 .page-title {
-    color: #032b5c !important;
+    color: var(--title) !important;
     font-weight: 600;
     text-align: left;
     padding: 10px 0px;
     font-size: 20px;
-    margin:0px;
+    margin: 0px;
 }
-.institutionLogo{
-    max-height:120px;
+
+.page-subTitle {
+    color: var(--subTitle) !important;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 0px;
+    font-size: 18px;
+    margin: 0px;
 }
+
+.institutionLogo {
+    max-height: 120px;
+}
+
 .themeTable a {
     text-decoration: none;
+    color: inherit;
 }
+
 .themeTable i {
     font-size: 16px;
-    color: #333;
+    color: inherit;
     padding: 0px 2px;
 }
+
     .themeTable i.fa-check-circle-o {
-       
-        color:green;
-       
+        color: green;
     }
+
     .themeTable i.fa-times-circle-o {
         color: orangered;
     }
-.imgAdd img{
+
+.imgAdd img {
     width: 100%;
     max-width: 200px;
     max-height: 200px;
 }
-.inputNxt input, .inputNxt label
-{
-    display:inline-block;
+
+.inputNxt input,
+.inputNxt label {
+    display: inline-block;
 }
+
 .lds-ripple {
     display: inline-block;
     position: absolute;
@@ -1000,7 +1055,7 @@ li.customDropdownlast-child:hover {
     height: 80px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
 
     .lds-ripple div {
@@ -1032,18 +1087,73 @@ li.customDropdownlast-child:hover {
         opacity: 0;
     }
 }
-.themeTable nav
-{
-    text-align:center;
+
+.themeTable nav {
+    text-align: center;
 }
-.pagination > li > a, .pagination > li > span {
+
+.pagination > li > a,
+.pagination > li > span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor:pointer;
-    min-height:40px;
+    cursor: pointer;
+    min-height: 40px;
 }
-.select-page
-{
-    margin-right:5px;
+
+.select-page {
+    margin-right: 5px;
+}
+
+#colorSetting .modal-lg {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0px;
+}
+
+#colorSetting .modal-body {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+    #colorSetting .modal-body > .row > div {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        height: calc(100vh - 110.6px);
+        overflow: auto;
+    }
+
+.colorGroup {
+    display: flex;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #efefef;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+    .colorGroup h1 {
+        font-size: 16px;
+        margin: 0px 15px 10px 0px;
+        min-width: 210px;
+        flex-basis: 100%;
+    }
+
+    .colorGroup input[type="color"] {
+        width: 100px;
+        margin-right: 20px;
+    }
+
+.frameController {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.frameController iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
 }

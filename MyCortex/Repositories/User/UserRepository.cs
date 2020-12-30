@@ -1201,14 +1201,20 @@ namespace MyCortex.Repositories.Uesr
 
             param.Add(new DataParameter("@WEB_URL", request));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SP_GET_INSTITUTION]", param);
-            DataRow dr = dt.Rows[0];
-         /*   UserModel View = (from p in dt.AsEnumerable()
-                              select
-                              new UserModel()
-                              {
-                                  INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
-                              }).FirstOrDefault();*/
-            INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                /*   UserModel View = (from p in dt.AsEnumerable()
+                                     select
+                                     new UserModel()
+                                     {
+                                         INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
+                                     }).FirstOrDefault();*/
+                INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
+            } else
+            {
+                INSTITUTION_ID = 0;
+            }
             var data = (Convert.ToInt64(INSTITUTION_ID));
             return data;
             //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
@@ -2157,7 +2163,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_LIST ", param);
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_LIST", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<DrugDBMasterModel> lst = (from p in dt.AsEnumerable()
                                            select new DrugDBMasterModel()
