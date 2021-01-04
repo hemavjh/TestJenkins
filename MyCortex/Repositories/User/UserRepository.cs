@@ -1194,7 +1194,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="userObj">User Information</param>
         /// <returns>Status message with inserted/updated user information</returns>
       //  public UserModel GetInstitutionForWebURL(string request)
-             public long GetInstitutionForWebURL(string request)
+        public long GetInstitutionForWebURL(string request)
         {
              long INSTITUTION_ID ;
             List<DataParameter> param = new List<DataParameter>();
@@ -1212,6 +1212,35 @@ namespace MyCortex.Repositories.Uesr
                                      }).FirstOrDefault();*/
                 INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
             } else
+            {
+                INSTITUTION_ID = 0;
+            }
+            var data = (Convert.ToInt64(INSTITUTION_ID));
+            return data;
+            //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
+            //DataRow dr = dt.Rows[0];
+            //flag = (dr["FLAG"].ToString());
+        }
+
+        public long GetInstitutionFromShortName(string INSTITUTION_CODE)
+        {
+            long INSTITUTION_ID;
+            List<DataParameter> param = new List<DataParameter>();
+
+            param.Add(new DataParameter("@INSTITUTION_CODE", INSTITUTION_CODE));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SP_GET_INSTITUTIONBYCODE]", param);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                /*   UserModel View = (from p in dt.AsEnumerable()
+                                     select
+                                     new UserModel()
+                                     {
+                                         INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
+                                     }).FirstOrDefault();*/
+                INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
+            }
+            else
             {
                 INSTITUTION_ID = 0;
             }

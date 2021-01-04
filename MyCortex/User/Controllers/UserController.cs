@@ -150,8 +150,14 @@ namespace MyCortex.User.Controller
             var request = HttpContext.Current.Request.Url.Authority;
             if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
             {
-
-                userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
+                if (!string.IsNullOrEmpty(userObj.INSTITUTION_CODE))
+                {
+                    userObj.INSTITUTION_ID = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                }
+                //else
+                //{
+                //    userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
+                //}
                 //  return model;
                 //UserModel Ins_model = new UserModel();
                 //Ins_model = repository.GetInstitutionForWebURL(request);
@@ -159,7 +165,8 @@ namespace MyCortex.User.Controller
             }
             if (userObj.INSTITUTION_ID == 0)
             {
-                userObj.INSTITUTION_ID = InstitutionId;
+                // userObj.INSTITUTION_ID = InstitutionId;
+                return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Invalid Institution!");
             }
             string defaultPwd = "P@ssw0rd";
             AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", InstitutionId);
@@ -195,6 +202,15 @@ namespace MyCortex.User.Controller
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
+            //if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
+            //{
+            //    model.Status = "False";
+            //    model.Message = "Invalid Institution!";
+            //    model.Error_Code = "";
+            //    model.ReturnFlag = 0;
+            //    model.UserDetails = ModelData;
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            //}
             string messagestr = "";
             try
             {

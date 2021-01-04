@@ -15,6 +15,7 @@ namespace MyCortex.User.Model
         public int? IsActive { get; set; }
         public string Department_Name { get; set; }
         public long? INSTITUTION_ID { get; set; }
+        public string INSTITUTION_CODE { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

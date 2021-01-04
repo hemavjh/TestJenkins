@@ -27,6 +27,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Login/Views/Login.html',
         controller: 'LoginController'
     }).
+    when('/signup/:InstitutionCode', {
+        templateUrl: baseUrl + 'Login/Views/Signup.html',
+        controller: 'SignupController'
+    }).
    when('/home', {
        templateUrl: baseUrl + 'Home/Views/HomePage.html',
        controller: 'homeController'
