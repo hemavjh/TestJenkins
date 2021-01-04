@@ -2,6 +2,7 @@ if ('undefined' === typeof window) {
 
     importScripts('https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js');
     importScripts('https://www.gstatic.com/firebasejs/7.13.2/firebase-messaging.js');
+    importScripts('/scripts/jquery-1.10.2.min.js');
     // Initialize Firebase
 
     jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=' + window.localStorage.getItem('InstitutionId'))
