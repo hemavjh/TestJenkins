@@ -3130,8 +3130,10 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@EmailId", insobj.EMAILID));
             param.Add(new DataParameter("@GENDER_ID", insobj.GENDER_ID));
             param.Add(new DataParameter("@NATIONALITY_ID", insobj.NATIONALITY_ID));
-            param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
+            param.Add(new DataParameter("@MRN_NO", insobj.MNR_NO));
             param.Add(new DataParameter("@FullName", insobj.FullName));
+            param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
+            param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_UPDATE]", param);
 
