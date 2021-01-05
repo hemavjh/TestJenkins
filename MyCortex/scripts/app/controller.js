@@ -1839,7 +1839,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //    $scope.InstitutionList = data;
         //});
         $scope.SuperAdminDropdownsList = function () {
-            if ($scope.LoginType == 1) {
+            if ($scope.LoginType == 1 || $scope.LoginType == 3) {
                 $http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
                     $scope.InstitutiondetailsListTemp = [];
                     $scope.InstitutiondetailsListTemp = data;
@@ -3150,7 +3150,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             var myPromise = $scope.AgeRestictLimit();
             myPromise.then(function (resolve) {
 
-                if ($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) // for business users
+                if (($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) || ($scope.MenuTypeId == 1 && $scope.LoginType == 3)) // for business users
                 {
                     $scope.InstitutionId = $window.localStorage['InstitutionId'];
                 }

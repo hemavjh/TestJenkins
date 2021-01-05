@@ -51,6 +51,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
         controller: 'UserController'
     }).
+    when('/Admin_UserList/:LoginUserType', {
+        templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
+        controller: 'UserController'
+    }).
     when('/HospitalAdmin_UserList/:LoginUserType', {
         templateUrl: baseUrl + 'User/Views/HospitalAdmin_Userlist.html',
         controller: 'UserController'
