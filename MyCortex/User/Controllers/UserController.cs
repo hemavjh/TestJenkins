@@ -301,7 +301,7 @@ namespace MyCortex.User.Controller
                 }
                 else if ((ModelData.flag == 4) == true)
                 {
-                    messagestr = "Admin already exist for this Institution, cannot be created";
+                    messagestr = "Master Admin already exist for this Institution, cannot be created";
                     model.ReturnFlag = 0;
                     model.Status = "False";
                 }

@@ -1366,6 +1366,7 @@
     <Content Include="User\Views\CareCoordinator.html" />
     <Content Include="User\Views\CareCoordinator_Compliance.html" />
     <Content Include="User\Views\CareGiverAssignedPatients.html" />
+    <Content Include="User\Views\HospitalAdmin_Adminlist.html" />
     <Content Include="User\Views\HospitalAdmin_Userlist.html" />
     <Content Include="User\Views\PatientAppointments.html" />
     <Content Include="User\Views\PatientApproval.html" />

@@ -201,6 +201,7 @@ namespace MyCortex.Repositories.Uesr
             DataEncryption EncryptPassword = new DataEncryption();
             insobj.PATIENTNO = EncryptPassword.Encrypt(Get_Patient_No.PATIENTNO);
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
+            param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_ADMIN_SP_INSERTUPDATE]", param);
             DataRow dr = dt.Rows[0];
             if (dr.IsNull("Id") == true)
