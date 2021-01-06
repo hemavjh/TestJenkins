@@ -215,14 +215,14 @@
 
 
                                             </td>
-                                            <td width="17%">
+                                            <td width="17%" ng-if="LoginType == 1">
                                                 <label valign="top">
                                                     Institution<sup>
                                                         <font class='mandatory-field'>*</font>
                                                     </sup>
                                                 </label>
                                             </td>
-                                            <td width="35%">
+                                            <td width="35%" ng-if="LoginType == 1">
                                                 <!--<select class="form-control" ng-model="InstitutionId" id="Select13" ng-required="true">
                                                     <option value="0">Select</option>
                                                     <option ng-repeat="sel in InstitutionList" ng-selected="InstitutionId==sel.Id"

@@ -142,6 +142,7 @@ namespace MyCortex.User.Model
         public IList<Patient_PastMedicalDetails> AddMedicalHistory { get; set; }
         public string PHOTOBLOB_LOW { get; set; }
         public string PHOTOBLOB_THUMB { get; set; }
+        public bool IS_MASTER { get; set; }
         
     }
 
