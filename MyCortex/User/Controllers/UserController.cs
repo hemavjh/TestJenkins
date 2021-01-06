@@ -2954,41 +2954,30 @@ namespace MyCortex.User.Controller
             try
             {
                 DataEncryption EncryptPassword = new DataEncryption();
-                string FormulaforFullName = "";
-                FormulaforFullName = "[L],[F]";
-                /*get full name formula*/
-                IList<AppConfigurationModel> modelLF_Formula;
-                modelLF_Formula = commonrepository.AppConfigurationDetails("FULLNAME_FORMULA", userObj.INSTITUTION_ID.Value);
-                if (modelLF_Formula[0].ConfigValue != null)
-                    FormulaforFullName = modelLF_Formula[0].ConfigValue;
-
-                string Replaced_FullName = "";
-                Replaced_FullName = FormulaforFullName.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
-                userObj.FullName = EncryptPassword.Encrypt(Replaced_FullName);
-                userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
-                userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
-                userObj.LastName = EncryptPassword.Encrypt(userObj.LastName);
-                userObj.DOB_Encrypt = EncryptPassword.Encrypt(userObj.DOB.ToString());
                 userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
-                userObj.INSURANCEID = EncryptPassword.Encrypt(userObj.INSURANCEID);
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
-                userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
-
-
-
+                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
+                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 ModelData = repository.Patient_Update(Login_Session_Id, userObj);
 
-                if ((ModelData.flag == 1) == true)
+                if (ModelData.flag > 0)
                 {
-                    messagestr = "User Updated Successfully";
                     model.ReturnFlag = 1;
-
+                    model.Status = "False";
+                    model.Error_Code = "1";
+                    model.UserDetails = ModelData;
+                    model.Message = "Duplicate email address found";
+                }
+                else
+                {
+                    model.ReturnFlag = 0;
                     model.Status = "True";
+                    model.Error_Code = "";
+                    model.UserDetails = ModelData;
+                    model.Message = "User Updated successfully";
                 }
 
-                model.Error_Code = "";
-                model.UserDetails = ModelData;
-                model.Message = messagestr;// "User Updated successfully";
+                
 
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
@@ -2999,7 +2988,7 @@ namespace MyCortex.User.Controller
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error in Updating User";
-                model.Error_Code = ex.Message;
+                model.Error_Code = ex.InnerException.ToString();
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);

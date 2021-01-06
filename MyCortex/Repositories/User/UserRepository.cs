@@ -3118,20 +3118,10 @@ namespace MyCortex.Repositories.Uesr
 
         public UserModel Patient_Update(Guid Login_Session_Id, UserModel insobj)
         {
-            long InsertId = 0;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", insobj.Id));
-            param.Add(new DataParameter("@FirstName", insobj.FirstName));
-            param.Add(new DataParameter("@MiddleName", insobj.MiddleName));
-            param.Add(new DataParameter("@LastName", insobj.LastName));
-            param.Add(new DataParameter("@DOB_Encrypt", insobj.DOB_Encrypt));
-            param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
-            param.Add(new DataParameter("@INSURANCEID", insobj.INSURANCEID));
             param.Add(new DataParameter("@EmailId", insobj.EMAILID));
-            param.Add(new DataParameter("@GENDER_ID", insobj.GENDER_ID));
-            param.Add(new DataParameter("@NATIONALITY_ID", insobj.NATIONALITY_ID));
-            param.Add(new DataParameter("@MRN_NO", insobj.MNR_NO));
-            param.Add(new DataParameter("@FullName", insobj.FullName));
+            param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
             param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
             param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -3144,6 +3134,11 @@ namespace MyCortex.Repositories.Uesr
             }
             else
             {
+                DataEncryption DecryptFields = new DataEncryption();
+                insobj.EMAILID = DecryptFields.Decrypt(insobj.EMAILID);
+                insobj.MOBILE_NO = DecryptFields.Decrypt(insobj.MOBILE_NO);
+                insobj.GOOGLE_EMAILID = DecryptFields.Decrypt(insobj.GOOGLE_EMAILID);
+                insobj.FB_EMAILID = DecryptFields.Decrypt(insobj.FB_EMAILID);
                 insobj.flag = int.Parse((dr["flag"].ToString()));
             }
             
