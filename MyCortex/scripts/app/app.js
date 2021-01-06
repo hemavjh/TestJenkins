@@ -52,7 +52,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         controller: 'UserController'
     }).
     when('/Admin_UserList/:LoginUserType', {
-        templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
+        templateUrl: baseUrl + 'User/Views/HospitalAdmin_Adminlist.html',
         controller: 'UserController'
     }).
     when('/HospitalAdmin_UserList/:LoginUserType', {
