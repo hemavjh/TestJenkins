@@ -905,8 +905,38 @@
         todayBtn: true
     });
     $(document).ready(function () {
-        $('.form-control').bind("paste", function (e) {
-            e.preventDefault();
+        $("#Text5").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text5').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text5').val(dataFull);
+            });
+
+        });
+
+        $("#Text19").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text19').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text19').val(dataFull);
+            });
+        });
+
+        $("#LastName").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#LastName').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#LastName').val(dataFull);
+            });
         });
     });
 </script>

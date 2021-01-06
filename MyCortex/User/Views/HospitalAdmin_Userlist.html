@@ -278,13 +278,13 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <input type="text" class="form-control" ng-model="FirstName"
+                                                            <input type="text" class="form-control" id="Text1" ng-model="FirstName"
                                                                    ng-init="FirstName=''" ng-required="true" ng-maxlength="100"
                                                                    maxlength="100" onkeypress="ParticularSpec(event)" />
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label valign="top">Middle Name</label>
-                                                            <input type="text" class="form-control" ng-model="MiddleName"
+                                                            <input type="text" class="form-control" id="Text2" ng-model="MiddleName"
                                                                    ng-init="MiddleName=''" ng-required="true" ng-maxlength="100"
                                                                    maxlength="100" onkeypress="ParticularSpec(event)" />
                                                         </div>
@@ -294,7 +294,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <input type="text" class="form-control" ng-model="LastName"
+                                                            <input type="text" class="form-control" id="Text3" ng-model="LastName"
                                                                    ng-init="LastName=''" ng-required="true" placeholder=""
                                                                    ng-maxlength="100" maxlength="100"
                                                                    onkeypress="ParticularSpec(event)" />
@@ -959,8 +959,38 @@
     });
 
     $(document).ready(function () {
-        $('.form-control').bind("paste", function (e) {
-            e.preventDefault();
+        $("#Text1").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text1').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text1').val(dataFull);
+            });
+
+        });
+
+        $("#Text2").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text2').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text2').val(dataFull);
+            });
+        });
+
+        $("#Text3").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text3').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text3').val(dataFull);
+            });
         });
     });
 </script>

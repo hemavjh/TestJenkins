@@ -509,8 +509,38 @@
 
 <script>
     $(document).ready(function () {
-        $('.form-control').bind("paste", function (e) {
-            e.preventDefault();
+        $("#Text2").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text2').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text2').val(dataFull);
+            });
+
+        });
+
+        $("#Text1").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text1').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text1').val(dataFull);
+            });
+        });
+
+        $("#Text4").bind('paste', function () {
+            setTimeout(function () {
+                //get the value of the input text
+                var text = $('#Text4').val();
+                //replace the special characters to '' 
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                //set the new value of the input text without special characters
+                $('#Text4').val(dataFull);
+            });
         });
     });
 </script>
