@@ -24,7 +24,22 @@
         $('#toggle-one').bootstrapToggle();
     })
 </script>-->
-
+<ul class="secondaryMenu" ng-show="LoginType == 3">
+    <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
+    <li>
+        <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
+    </li>
+    <li>
+        <a href="Home/Index#/HospitalAdmin_UserList/2">
+            Clinical
+            User
+        </a>
+    </li>
+    <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
+    <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
+</ul>
 <div class="container" ng-init="User_Admin_List(1)">
     <div class="row">
         <div class="col-md-12">
