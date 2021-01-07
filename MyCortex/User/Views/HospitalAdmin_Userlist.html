@@ -964,12 +964,9 @@
     $(document).ready(function () {
         $("#Text1").bind('paste', function () {
             setTimeout(function () {
-                //get the value of the input text
                 var text = $('#Text1').val();
-                //replace the special characters to '' 
                 var dataFull = text.replace(/[^\w\s]/gi, '');
-                var dataFull = text.replace(/[0-9]/g, '');
-                //set the new value of the input text without special characters
+                var dataFull = dataFull.replace(/[0-9]/g, '');
                 $('#Text1').val(dataFull);
             });
 
@@ -979,7 +976,7 @@
             setTimeout(function () {
                 var text = $('#Text2').val();
                 var dataFull = text.replace(/[^\w\s]/gi, '');
-                var dataFull = text.replace(/[0-9]/g, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
                 $('#Text2').val(dataFull);
             });
         });
@@ -988,7 +985,7 @@
             setTimeout(function () {
                 var text = $('#Text3').val();
                 var dataFull = text.replace(/[^\w\s]/gi, '');
-                var dataFull = text.replace(/[0-9]/g, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
                 $('#Text3').val(dataFull);
             });
         });

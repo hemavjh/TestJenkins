@@ -909,7 +909,7 @@
             setTimeout(function () {
                 var text = $('#Text5').val();
                 var dataFull = text.replace(/[^\w\s]/gi, '');
-                var dataFull = text.replace(/[0-9]/g, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
                 $('#Text5').val(dataFull);
             });
 
@@ -919,7 +919,7 @@
             setTimeout(function () {
                 var text = $('#Text19').val();
                 var dataFull = text.replace(/[^\w\s]/gi, '');
-                var dataFull = text.replace(/[0-9]/g, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
                 $('#Text19').val(dataFull);
             });
         });
@@ -928,7 +928,7 @@
             setTimeout(function () {
                 var text = $('#LastName').val();
                 var dataFull = text.replace(/[^\w\s]/gi, '');
-                var dataFull = text.replace(/[0-9]/g, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
                 $('#LastName').val(dataFull);
             });
         });
