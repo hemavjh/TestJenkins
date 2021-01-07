@@ -2945,12 +2945,11 @@ namespace MyCortex.User.Controller
             {
                 model.Status = "False";
                 model.Message = "Invalid data";
-                model.Error_Code = "";
+                model.Error_Code = "1";
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
-            string messagestr = "";
             try
             {
                 DataEncryption EncryptPassword = new DataEncryption();
@@ -2967,7 +2966,6 @@ namespace MyCortex.User.Controller
                     model.Error_Code = "1";
                     model.UserDetails = ModelData;
                     model.Message = "Email address already exists, cannot be duplicated";
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                 }
                 else
                 {
@@ -2976,15 +2974,16 @@ namespace MyCortex.User.Controller
                     model.Error_Code = "";
                     model.UserDetails = ModelData;
                     model.Message = "User Updated successfully";
-                    return Request.CreateResponse(HttpStatusCode.OK, model);
                 }
+
+                return Request.CreateResponse(HttpStatusCode.OK, model);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error in Updating User";
-                model.Error_Code = ex.InnerException.ToString();
+                model.Error_Code = "1";
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
