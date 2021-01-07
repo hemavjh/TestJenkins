@@ -257,6 +257,10 @@ namespace MyCortex.User.Controller
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
+                if (userObj.ApprovalFlag == "0")
+                {
+                    userObj.Patient_Type = 1;
+                }
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
 
                 if ((ModelData.flag == 1) == true)

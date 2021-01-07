@@ -271,7 +271,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                     EMAILID: $scope.EmailId,
                     MOBILE_NO: $scope.MobileNo,
                     UserType_Id: $scope.UserTypeId,
-                    ApprovalFlag: 0
+                    ApprovalFlag: 0,
                     //, INSTITUTION_ID: 1
                 }
                 var config = {
