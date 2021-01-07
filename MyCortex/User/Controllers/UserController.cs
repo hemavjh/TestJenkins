@@ -2966,7 +2966,8 @@ namespace MyCortex.User.Controller
                     model.Status = "False";
                     model.Error_Code = "1";
                     model.UserDetails = ModelData;
-                    model.Message = "Duplicate email address found";
+                    model.Message = "Email address already exists, cannot be duplicated";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                 }
                 else
                 {
@@ -2975,13 +2976,8 @@ namespace MyCortex.User.Controller
                     model.Error_Code = "";
                     model.UserDetails = ModelData;
                     model.Message = "User Updated successfully";
+                    return Request.CreateResponse(HttpStatusCode.OK, model);
                 }
-
-                
-
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
-                return response;
             }
             catch (Exception ex)
             {
