@@ -814,12 +814,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
                         $("#chatLoaderPV").hide();
                         alert(data.Message);
-                        if (data.Status) {
+                        if (data.ReturnFlag == 1) {
                             $scope.CancelSignUpPopup();
                         }
                         //if ($scope.MenuTypeId == 3) {
                         //    $scope.ListRedirect();
                         //}
+                    }).error(function (err) {
+                        $("#chatLoaderPV").hide();
+                        console.log(err);
+                        alert(err);
                     });
                     //$("#chatLoaderPV").hide();
                 }).error(function (err) {
