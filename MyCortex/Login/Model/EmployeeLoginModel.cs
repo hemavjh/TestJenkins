@@ -39,6 +39,7 @@ namespace MyCortex.Login.Model
         public DateTime? DOB { get; set; }
         public string MOBILE_NO { get; set; }
         public long USERTYPE_ID { get; set; }
+        public string UserType { get; set; }
 
         public string FullName { get; set; }
 

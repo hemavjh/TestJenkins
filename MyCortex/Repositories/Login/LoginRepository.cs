@@ -508,7 +508,8 @@ namespace MyCortex.Repositories.Login
                                                     NATIONALITY_ID = p.Field<long>("NATIONALITY_ID"),
                                                     DOB = p.Field<DateTime>("DOB"),
                                                     MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                                    USERTYPE_ID = p.Field<long>("USERTYPE_ID")
+                                                    USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
+                                                    UserType = p.Field<string>("USERTYPE")
                                                 }).ToList();
 
 

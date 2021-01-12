@@ -254,7 +254,7 @@ namespace MyCortex.Home.Controllers
                     string DOB = "";
                     DOB = ((DateTime)i.DOB).ToString("dd-MM-yyyy");
                     t.Add(DOB.ToString());
-                    t.Add(i.USERTYPE_ID.ToString());
+                    t.Add(i.UserType.ToString());
                     t.Add(i.MOBILE_NO.ToString());
                     if (i.FullName != null)
                     {
