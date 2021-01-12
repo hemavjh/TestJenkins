@@ -35,6 +35,14 @@ namespace MyCortex.Login.Model
 
         public int LoginUser_Permission_Flag { get; set; }
         public int PatientType { get; set; }
+        public long NATIONALITY_ID { get; set; }
+        public DateTime? DOB { get; set; }
+        public string MOBILE_NO { get; set; }
+        public long USERTYPE_ID { get; set; }
+
+        public string FullName { get; set; }
+
+        public string GENDER_NAME { get; set; }
     }
 
     public class UsertypeModal
