@@ -1,96 +1,86 @@
-﻿<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-title">
-                Subscription
-            </div>
-        </div>
-        <div class="overlay" show-on-load>
-            <div id="Div2"></div>
-        </div>
-        <div class="col-md-12" ng-init="InstitutionSubscriptionDetailsListTemplate()">
-              <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-            <div class="panel panel-default panel-info" id="tableid">
-                
-                <form class="form-horizontal" role="form">
-
-                    <div class="overlay" show-on-load>
-                        <div id="loading-img"></div>
+﻿<h1 class="page-title">Subscription</h1>
+<div ng-init="InstitutionSubscriptionDetailsListTemplate()">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="panel panel-default" id="tableid">
+        <form class="panel-body" role="form">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Search</label>
+                        <div class="modernSearch">
+                            <input type="text" ng-model="searchquery" ng-change="filterInstitutionSubscriptionList()"
+                                   placeholder="" style="width: 200px" />
+                            <i class="fa fa-search"></i>
+                        </div>
                     </div>
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup" id="table1">
-                        <tr>
-                            <td width="5%">
-                                <label>Search</label>
-                            </td>
-                            <td width="20%">
-                                <div class="modernSearch">
-                                    <input type="text" ng-model="searchquery" ng-change="filterInstitutionSubscriptionList()" placeholder="" />
-                                    <i class="fa fa-search"></i>
-                                </div>
-                            </td>
-                            <td style="text-align:left" width="65%">
-                                Active&nbsp;&nbsp;
-                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="InstitutionSubscriptionDetailsFilter();">
-                            </td>
-                            <td style="text-align:right" width="15%">
-                                <a href="javascript:" ng-click="AddIntstitutionSubPopup()" class="btn btn-autosize pull-right ml-10" title='Add New Subscription'>Add New</a>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label for="Active">Active</label>
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="InstitutionSubscriptionDetailsFilter();"
+                               title="Active / All">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <a href="javascript:" ng-click="AddIntstitutionSubPopup();" class="theme-btn-1 pull-right mt-15"
+                       title="Click to Add New Subscription">Add New</a>
+                </div>
             </div>
-            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
-                <thead>
-                    <tr>
-                        <th st-ratio="5" st-sort="Id">#</th>
-                        <th st-ratio="35" st-sort="Institution_Name">Institution Name</th>
-                        <th st-ratio="20" st-sort="InstitutionPrintName">Short Name</th>
-                        <th st-ratio="20" st-sort="InstitutionPrintName">Contract Period</th>
-                        <th st-ratio="5">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-if="rowCollectionFilter.length==0">
-                        <td colspan="5" class="text-center">
-                            No Data Available
-                        </td>
-                    </tr>
-                    <tr ng-repeat="row in emptydata">
-                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
-                        <td style="text-align: left">
-                            <div class="textwrap">{{row.Institution.Institution_Name}}</div>
-                        </td>
-
-                        <td style="text-align: left">
-                            <div class="textwrap">{{row.Institution.INSTITUTION_SHORTNAME}}</div>
-                        </td>
-
-                        <td style="text-align: left">
-                            {{row.Contract_PeriodFrom|date:"dd-MMM-yyyy"}} - {{row.Contract_PeriodTo|date:"dd-MMM-yyyy"}}
-                        </td>
-                        <td st-ratio="10" style="text-align: center">
-                            <a href="javascript:" ng-click="ViewIntstitutionSubPopup(row.Id)" title="View"><img src="../../Images/ViewIcon.png" /></a>
-                            <a href="javascript:" title="Edit" ng-click="EditIntstitutionSubPopup(row.Id, row.Institution.IsActive)">
-                                <img src="../../Images/EditIcon.png" />
-                            </a>
-                            <a href="javascript:" ng-click="InstitutionSubscription_Delete()" title="Active Institution">
-                                <img src="../../Images/activeIcon1.png" ng-if="row.Institution.IsActive==1" />
-                            </a>
-                            <a href="javascript:" ng-click="InstitutionSubscription_Delete()" title="Inactive Institution"><img src="../../Images/inactive.png" ng-if="row.Institution.IsActive==0" /></a>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot ng-show="rowCollectionFilter.length >page_size">
-                    <tr>
-                        <td colspan="5" class="text-center">
-                            <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        </form>
     </div>
 </div>
+<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
+    <thead>
+        <tr>
+            <th st-ratio="5" st-sort="Id">#</th>
+            <th st-ratio="35" st-sort="Institution_Name">Institution Name</th>
+            <th st-ratio="20" st-sort="InstitutionPrintName">Short Name</th>
+            <th st-ratio="20" st-sort="InstitutionPrintName">Contract Period</th>
+            <th st-ratio="5">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="rowCollectionFilter.length==0">
+            <td colspan="5" class="text-center">
+                No Data Available
+            </td>
+        </tr>
+        <tr ng-repeat="row in emptydata">
+            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: left">
+                <div class="textwrap">{{row.Institution.Institution_Name}}</div>
+            </td>
+
+            <td style="text-align: left">
+                <div class="textwrap">{{row.Institution.INSTITUTION_SHORTNAME}}</div>
+            </td>
+
+            <td style="text-align: left">
+                {{row.Contract_PeriodFrom|date:"dd-MMM-yyyy"}} - {{row.Contract_PeriodTo|date:"dd-MMM-yyyy"}}
+            </td>
+            <td st-ratio="10" style="text-align: center">
+                <a href="javascript:" ng-click="ViewIntstitutionSubPopup(row.Id)" title="View"><img src="../../Images/ViewIcon.png" /></a>
+                <a href="javascript:" title="Edit" ng-click="EditIntstitutionSubPopup(row.Id, row.Institution.IsActive)">
+                    <img src="../../Images/EditIcon.png" />
+                </a>
+                <a href="javascript:" ng-click="InstitutionSubscription_Delete()" title="Active Institution">
+                    <img src="../../Images/activeIcon1.png" ng-if="row.Institution.IsActive==1" />
+                </a>
+                <a href="javascript:" ng-click="InstitutionSubscription_Delete()" title="Inactive Institution"><img src="../../Images/inactive.png" ng-if="row.Institution.IsActive==0" /></a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="rowCollectionFilter.length >page_size">
+        <tr>
+            <td colspan="5" class="text-center">
+                <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
 <!--Create & Edit Modal-->
 <div id="InstitutionSubscriptionCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width: 70%">
@@ -98,7 +88,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close" >&times;</button>
 
-                <h1 class="page-title">Subscription</h1>
+                <h1 class="modal-title">Subscription</h1>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -250,8 +240,8 @@
                             </form>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="btn  btn-save" id="save" title="Click to Save" id="Page" ng-click="Institution_SubscriptionAddEdit()">Save</button>
-                            <button type="button" class="btn  btn-save" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>
+                            <button type="button" class="theme-btn-1 mr-10" id="save" title="Click to Save" id="Page" ng-click="Institution_SubscriptionAddEdit()">Save</button>
+                            <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -268,7 +258,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close" >&times;</button>
 
-                <h1 class="page-title">Subscription</h1>
+                <h1 class="modal-title">Subscription</h1>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -399,7 +389,7 @@
                             </form>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewIntstitutionSubPopup()">Cancel</button>
+                            <button type="button" class="theme-btn-1 mr-10" title="Click to Cancel" ng-click="CancelViewIntstitutionSubPopup()">Cancel</button>
                         </div>
                     </div>
                 </div>
