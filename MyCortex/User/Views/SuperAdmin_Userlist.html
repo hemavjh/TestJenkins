@@ -40,126 +40,127 @@
     <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
-<div class="container" ng-init="User_Admin_List(1)">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="page-title">Admin</h1>
-        </div>
-        <div class="col-md-12">
-            <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-            <div class="panel panel-default panel-info" id="Div1">
-                <form class="form-horizontal" role="form">
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                        <tr>
-                            <td width="5%">
-                                <label>Search</label>
-                            </td>
-                            <td width="20%">
-                                <div class="modernSearch">
-                                    <input type="text" ng-model="searchquery" ng-change="filterInstitutionList()" placeholder="" />
-                                    <i class="fa fa-search"></i>
-                                </div>
-                            </td>
-                            <td style="text-align:left" width="65%">
-                                Active&nbsp;&nbsp;
-                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="User_Admin_List(1);" title="Active / All">
-
-                            </td>
-                            <td style="text-align:right" width="15%">
-                                <a href="javascript:" ng-click="AddUserPopUP(ClearPopUp())"
-                                   class="btn btn-autosize pull-right ml-10" title='Add New Admin'>Add New</a>
-                            </td>
-                        </tr>
-
-                    </table>
-                </form>
+<div ng-init="User_Admin_List(1);">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div class="panel panel-default" id="Div1">
+        <form class="form-horizontal" role="form">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Search</label>
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchquery" ng-change="filterInstitutionList()"
+                                       placeholder="" />
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Active</label>
+                            <div>
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="User_Admin_List(1);"
+                                       title="Active / All">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <a href="javascript:" ng-click="AddUserPopUP(ClearPopUp())"
+                               class="theme-btn-1 pull-right mt-15" title='Add New User'>Add New</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-        </div>
-        <div class="col-md-12">
-            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter"
-                   class="table themeTable">
-                <thead>
-                    <tr style="text-align: center">
-                        <th st-ratio="5">#</th>
-                        <th st-ratio="15" st-sort="InstitutionName">Institution</th>
-                        <th st-ratio="15" st-sort="FullName">Admin Name</th>
-                        <th st-ratio="10" st-sort="Department_Name">Department</th>
-                        <th st-ratio="10" st-sort="EMPLOYEMENTNO">Employment No.</th>
-                        <th st-ratio="15" st-sort="EMAILID">Email</th>
-                        <!--<th st-ratio="10" st-sort="">Status</th>-->
-                        <th st-ratio="20" st-sort="LoginTime">Last Login</th>
-                        <th st-ratio="10">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-if="flag==0 && rowCollectionFilter.length==0">
-                        <td colspan="8" style="text-align: center">
-                          {{SearchMsg}}
-                        </td>
-                    </tr>
-                    <tr ng-repeat="row in emptydata">
-                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
-                        <td style="text-align: left">
-                            {{row.InstitutionName}}
-                        </td>
-                        <td style="text-align: left" title="{{row.FullName}}">
-                            <div class="textwrap">
-                                <img src="../../Images/male.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='male'" />
-                                <img src="../../Images/female.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='female'" />
-                                <img src="../../Images/Others.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
-                                {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName }}
-                            </div>
-                        </td>
-                        <td style="text-align: left">
-                            {{row.Department_Name}}
-                        </td>
-                        <td style="text-align: left">
-                            <div class="textwrap">{{row.EMPLOYEMENTNO}}</div>
-                        </td>
-                        <td style="text-align: left">
-                            {{row.EMAILID}}
-                        </td>
-                        <!--<td ng-show="row.IsActive==1">
-                            <span class="dotActive"></span>
-                        </td>
-                        <td ng-show="row.IsActive==0">
-
-                            <span class="dotInActive"></span>
-                        </td>-->
-                        <td style="text-align: left">
-                            {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
-                        </td>
-                        <td style="text-align: center">
-                            <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
-                                <img src="../../Images/ViewIcon.png" />
-                            </a>
-                            <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)"
-                               title="Edit">
-                                <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                                    <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
-                                </a>
-                            </a>
-                            <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
-                                <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
-                                <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
-                                    <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
-                                </a>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot ng-show="UserDetailsList.length >10">
-                    <tr>
-                        <td colspan="8" class="text-center">
-                            <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                                 st-template="Masters/Views/pagination.custom.html"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        </form>
     </div>
 </div>
+
+<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter"
+       class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="5">#</th>
+            <th st-ratio="15" st-sort="InstitutionName">Institution</th>
+            <th st-ratio="15" st-sort="FullName">Admin Name</th>
+            <th st-ratio="10" st-sort="Department_Name">Department</th>
+            <th st-ratio="10" st-sort="EMPLOYEMENTNO">Employment No.</th>
+            <th st-ratio="15" st-sort="EMAILID">Email</th>
+            <!--<th st-ratio="10" st-sort="">Status</th>-->
+            <th st-ratio="20" st-sort="LoginTime">Last Login</th>
+            <th st-ratio="10">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+            <td colspan="8" style="text-align: center">
+                {{SearchMsg}}
+            </td>
+        </tr>
+        <tr ng-repeat="row in emptydata">
+            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: left">
+                {{row.InstitutionName}}
+            </td>
+            <td style="text-align: left" title="{{row.FullName}}">
+                <div class="textwrap">
+                    <img src="../../Images/male.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='male'" />
+                    <img src="../../Images/female.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)=='female'" />
+                    <img src="../../Images/Others.png" width="30" height="30" ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
+                    {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+"..." : row.FullName }}
+                </div>
+            </td>
+            <td style="text-align: left">
+                {{row.Department_Name}}
+            </td>
+            <td style="text-align: left">
+                <div class="textwrap">{{row.EMPLOYEMENTNO}}</div>
+            </td>
+            <td style="text-align: left">
+                {{row.EMAILID}}
+            </td>
+            <!--<td ng-show="row.IsActive==1">
+                <span class="dotActive"></span>
+            </td>
+            <td ng-show="row.IsActive==0">
+
+                <span class="dotInActive"></span>
+            </td>-->
+            <td style="text-align: left">
+                {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
+            </td>
+            <td style="text-align: center">
+                <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">
+                    <img src="../../Images/ViewIcon.png" />
+                </a>
+                <a href="javascript:;" ng-click="row.IsActive == 0 || EditUserPopUP(row.Id)"
+                   title="Edit">
+                    <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                        <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                    </a>
+                </a>
+                <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
+                    <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
+                    <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
+                        <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                    </a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="UserDetailsList.length >10">
+        <tr>
+            <td colspan="8" class="text-center">
+                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                     st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<br />
+<br />
+<br />
 <div class="container">
     <div id="UserModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" style="width: 70%">
@@ -215,8 +216,8 @@
                                                 </label>
                                             </td>
                                             <td width="35%">
-                                                <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker data-collection-name="InstitutionList" 
-                                                 ng-model="InstitutionId" ng-change="SubscriptionValidation()" ng-show="LoginType == 1">
+                                                <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker data-collection-name="InstitutionList"
+                                                        ng-model="InstitutionId" ng-change="SubscriptionValidation()" ng-show="LoginType == 1">
                                                     <option ng-repeat="sel in InstitutionList" ng-required="true" value="{{sel.Id}}">{{sel.Name}}</option>
                                                 </select>
                                             </td>
