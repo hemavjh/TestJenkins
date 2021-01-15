@@ -91,6 +91,7 @@
             <th st-ratio="15" st-sort="EMAILID">Email</th>
             <!--<th st-ratio="10" st-sort="">Status</th>-->
             <th st-ratio="20" st-sort="LoginTime">Last Login</th>
+            <th st-ratio="10" st-sort="Is_Master">Is Master</th>
             <th st-ratio="10">Action</th>
         </tr>
     </thead>
@@ -131,6 +132,9 @@
             </td>-->
             <td style="text-align: left">
                 {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
+            </td>
+            <td style="text-align: left">
+                {{row.Is_Master}}
             </td>
             <td style="text-align: center">
                 <a href="javascript:" ng-click="ViewUserPopUP(row.Id)" title="View">

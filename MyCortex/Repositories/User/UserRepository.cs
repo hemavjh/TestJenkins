@@ -503,7 +503,8 @@ namespace MyCortex.Repositories.Uesr
                                         GroupName = p.Field<string>("GroupName") ?? "",
                                         LoginTime = p.Field<DateTime?>("LoginTime"),
                                         GENDER_NAME = p.Field<string>("Gender_Name"),
-                                        UserType_Id = p.Field<long?>("UserType_Id")
+                                        UserType_Id = p.Field<long?>("UserType_Id"),
+                                        Is_Master = p.Field<bool>("IS_MASTER")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
