@@ -1839,7 +1839,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //    $scope.InstitutionList = data;
         //});
         $scope.SuperAdminDropdownsList = function () {
-            if ($scope.LoginType == 1) {
+            if ($scope.LoginType == 1 || $scope.LoginType == 3) {
                 $http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
                     $scope.InstitutiondetailsListTemp = [];
                     $scope.InstitutiondetailsListTemp = data;
@@ -3148,11 +3148,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         };
         $scope.User_InsertUpdate = function () {
             var myPromise = $scope.AgeRestictLimit();
+            $scope.Is_Master = false;
             myPromise.then(function (resolve) {
 
-                if ($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) // for business users
+                if (($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) || ($scope.MenuTypeId == 1 && $scope.LoginType == 3)) // for business users
                 {
                     $scope.InstitutionId = $window.localStorage['InstitutionId'];
+                }
+                if ($scope.MenuTypeId == 1 && $scope.LoginType == 1) {
+                    $scope.Is_Master = true;
                 }
                 if ($scope.User_Admin_AddEdit_Validations() == true) {
                     $("#chatLoaderPV").show();
@@ -3292,7 +3296,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         CREATED_BY: $window.localStorage['UserId'],
                         ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
                         Patient_Type: $scope.Patient_Type,
-                        Emergency_MobileNo: $scope.Emergency_MobileNo
+                        Emergency_MobileNo: $scope.Emergency_MobileNo,
+                        IS_MASTER: $scope.Is_Master
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);

@@ -905,8 +905,32 @@
         todayBtn: true
     });
     $(document).ready(function () {
-        $('.form-control').bind("paste", function (e) {
-            e.preventDefault();
+        $("#Text5").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text5').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text5').val(dataFull);
+            });
+
+        });
+
+        $("#Text19").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text19').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text19').val(dataFull);
+            });
+        });
+
+        $("#LastName").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#LastName').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#LastName').val(dataFull);
+            });
         });
     });
 </script>

@@ -201,6 +201,7 @@ namespace MyCortex.Repositories.Uesr
             DataEncryption EncryptPassword = new DataEncryption();
             insobj.PATIENTNO = EncryptPassword.Encrypt(Get_Patient_No.PATIENTNO);
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
+            param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_ADMIN_SP_INSERTUPDATE]", param);
             DataRow dr = dt.Rows[0];
             if (dr.IsNull("Id") == true)
@@ -502,7 +503,8 @@ namespace MyCortex.Repositories.Uesr
                                         GroupName = p.Field<string>("GroupName") ?? "",
                                         LoginTime = p.Field<DateTime?>("LoginTime"),
                                         GENDER_NAME = p.Field<string>("Gender_Name"),
-                                        UserType_Id = p.Field<long?>("UserType_Id")
+                                        UserType_Id = p.Field<long?>("UserType_Id"),
+                                        Is_Master = p.Field<bool>("IS_MASTER")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
@@ -1194,7 +1196,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="userObj">User Information</param>
         /// <returns>Status message with inserted/updated user information</returns>
       //  public UserModel GetInstitutionForWebURL(string request)
-             public long GetInstitutionForWebURL(string request)
+        public long GetInstitutionForWebURL(string request)
         {
              long INSTITUTION_ID ;
             List<DataParameter> param = new List<DataParameter>();
@@ -1212,6 +1214,35 @@ namespace MyCortex.Repositories.Uesr
                                      }).FirstOrDefault();*/
                 INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
             } else
+            {
+                INSTITUTION_ID = 0;
+            }
+            var data = (Convert.ToInt64(INSTITUTION_ID));
+            return data;
+            //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
+            //DataRow dr = dt.Rows[0];
+            //flag = (dr["FLAG"].ToString());
+        }
+
+        public long GetInstitutionFromShortName(string INSTITUTION_CODE)
+        {
+            long INSTITUTION_ID;
+            List<DataParameter> param = new List<DataParameter>();
+
+            param.Add(new DataParameter("@INSTITUTION_CODE", INSTITUTION_CODE));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SP_GET_INSTITUTIONBYCODE]", param);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                /*   UserModel View = (from p in dt.AsEnumerable()
+                                     select
+                                     new UserModel()
+                                     {
+                                         INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
+                                     }).FirstOrDefault();*/
+                INSTITUTION_ID = dr.IsNull("Id") ? 0 : dr.Field<long>("Id");
+            }
+            else
             {
                 INSTITUTION_ID = 0;
             }
@@ -3089,79 +3120,32 @@ namespace MyCortex.Repositories.Uesr
 
         public UserModel Patient_Update(Guid Login_Session_Id, UserModel insobj)
         {
-            long InsertId = 0;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", insobj.Id));
-            param.Add(new DataParameter("@FirstName", insobj.FirstName));
-            param.Add(new DataParameter("@MiddleName", insobj.MiddleName));
-            param.Add(new DataParameter("@LastName", insobj.LastName));
-            param.Add(new DataParameter("@DOB_Encrypt", insobj.DOB_Encrypt));
-            param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
-            param.Add(new DataParameter("@INSURANCEID", insobj.INSURANCEID));
             param.Add(new DataParameter("@EmailId", insobj.EMAILID));
-            param.Add(new DataParameter("@GENDER_ID", insobj.GENDER_ID));
-            param.Add(new DataParameter("@NATIONALITY_ID", insobj.NATIONALITY_ID));
-            param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
-            param.Add(new DataParameter("@FullName", insobj.FullName));
+            param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
+            param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
+            param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_UPDATE]", param);
 
             DataRow dr = dt.Rows[0];
-            if (dr.IsNull("Id") == true)
+            if (dr.IsNull("flag") == true)
             {
-                InsertId = 0;
+                insobj.flag = 1;
             }
             else
             {
-                InsertId = long.Parse((dr["Id"].ToString()));
+                DataEncryption DecryptFields = new DataEncryption();
+                insobj.EMAILID = DecryptFields.Decrypt(insobj.EMAILID);
+                insobj.MOBILE_NO = DecryptFields.Decrypt(insobj.MOBILE_NO);
+                insobj.GOOGLE_EMAILID = DecryptFields.Decrypt(insobj.GOOGLE_EMAILID);
+                insobj.FB_EMAILID = DecryptFields.Decrypt(insobj.FB_EMAILID);
+                insobj.flag = int.Parse((dr["flag"].ToString()));
             }
-            DataEncryption DecryptFields = new DataEncryption();
-            UserModel insert = (from p in dt.AsEnumerable()
-                                select
-                                new UserModel()
-                                {
-                                    Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
-                                    flag = p.Field<int>("flag"),
-                                    INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
-                                    InstitutionName = p.Field<string>("InstitutionName"),
-                                    FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                    MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                    LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
-                                    EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
-                                    MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                    DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
-                                    GENDER_ID = p.IsNull("GENDER_ID") ? 0 : p.Field<long>("GENDER_ID"),
-                                    NATIONALITY_ID = p.IsNull("NATIONALITY_ID") ? 0 : p.Field<long>("NATIONALITY_ID"),
-                                    MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
-                                    INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")),
-                                    GENDER_NAME = p.Field<string>("GENDER_NAME"),
-                                    Nationality = p.Field<string>("Nationality"),
-                                    FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
-                                }).FirstOrDefault();
-            if (insert.DOB_Encrypt != "")
-            {
-                insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
-                /*string[] tokens = insert.DOB_Encrypt.Split('/');
-                insert.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
-            }
+            
 
-            if (InsertId > 0)
-            {
-                String FirstCharacter = insert.FirstName.ToString();
-                String LastCharacter = insert.LastName.ToString();
-                String Month = "00";
-                if (insert.DOB != null)
-                    Month = insert.DOB.Value.Month.ToString("00");
-
-                List<DataParameter> param2 = new List<DataParameter>();
-                param2.Add(new DataParameter("@FirstNameChar", FirstCharacter.Substring(0, 1)));
-                param2.Add(new DataParameter("@LastNameChar", LastCharacter.Substring(0, 1)));
-                param2.Add(new DataParameter("@ID", InsertId));
-                param2.Add(new DataParameter("@Month", Month));
-                DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SHORTCODE_SP_INSERTUPDATE]", param2);
-            }
-
-            return insert;
+            return insobj;
         }
 
         public bool UserSession_Status(string Login_Session_Id)

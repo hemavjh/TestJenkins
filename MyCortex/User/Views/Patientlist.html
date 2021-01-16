@@ -6,8 +6,18 @@
     </script>
 </head>
 <ul class="secondaryMenu">
+    <li>
+        <a href="Home/Index#/InstitutionHospitalAdmin_view">
+            Institution
+        </a>
+    </li>
+    <li>
+        <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
+    </li>
+    <li><a href="Home/Index#/HospitalAdmin_UserList/2">Clinical user</a></li>
     <li><a class="secondaryMenuActive" href="Home/Index#/PatientList/3">All Patient</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
+    <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
 </ul>
 <h1 class="page-title">Patient</h1>
 <div class="panel panel-default" id="Div4"
@@ -273,12 +283,24 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot ng-show="PatientList.length >10">
+        <tfoot ng-show="total_pages>1">
             <tr>
                 <td colspan="10" class="text-center">
-                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                         st-template="Masters/Views/pagination.custom.html">
-                    </div>
+                    <ul class="pagination">
+                        <li>
+                            <a ng-click="setPage(1)">First</a>
+                        </li>
+                        <li>
+                            <a ng-click="setPage(current_page - 1)">&lt;</a>
+                        </li>
+                        <li>
+                            <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_pages}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_pages}}</a>
+                        </li>
+                        <li>
+                            <a ng-click="setPage(current_page + 1)">&gt;</a>
+                        </li>
+                        <li><a ng-click="setPage(total_pages)">Last</a></li>
+                    </ul>
                 </td>
             </tr>
         </tfoot>

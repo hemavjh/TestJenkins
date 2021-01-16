@@ -28,7 +28,6 @@ using MyCortex.Repositories;
 namespace MyCortex.Home.Controllers
 {
     //[EnableCors(origins: "*", headers: "*", methods: "*")]
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-My-Header")]
     public class HomeController : Controller
     {
         public string returnError = "";
@@ -251,6 +250,20 @@ namespace MyCortex.Home.Controllers
                     {
                         t.Add("Images/admin.jpg");
                     }
+                    t.Add(i.NATIONALITY_ID.ToString());
+                    string DOB = "";
+                    DOB = ((DateTime)i.DOB).ToString("dd-MM-yyyy");
+                    t.Add(DOB.ToString());
+                    t.Add(i.UserType.ToString());
+                    t.Add(i.MOBILE_NO.ToString());
+                    if (i.FullName != null)
+                    {
+                        string fullname = " ";
+                        fullname = (i.FullName).ToString();
+                        fullname = fullname.Replace(",", "");
+                        t.Add(fullname);
+                    }
+                    t.Add(i.GENDER_NAME.ToString());
                     t.Add(i.Employee_Name.ToString());
                     t.Add(i.PatientType.ToString());
                 }

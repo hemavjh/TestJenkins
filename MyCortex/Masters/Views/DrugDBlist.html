@@ -10,147 +10,177 @@
     </li>
 </ul>
 <h1 class="page-title">Drug DB</h1>
-<div class="row">
-    <div class="col-md-12" ng-init="DrugDB_List()">
-        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-        <div class="panel panel-default panel-info" id="DMid">
-            <form class="form-horizontal" role="form">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                    <tr>
-                        <td width="5%">
-                            <label>Search</label>
-                        </td>
-                        <td width="5%">
-                            <div class="modernSearch">
-                                <input type="text" ng-model="searchquery" ng-change="filterInstitutionList()" ng-click="ListDrugDBPopUP()" placeholder="" style="width: 200px" />
-                                <i class="fa fa-search"></i>
-                            </div>
-                        </td>
-                        <td style="text-align:left" width="65%">
-                            Active &nbsp;&nbsp;
-                            <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DrugDB_List();" title="Active / All">
-                        </td>
-                        <td>
-                            <a href="javascript:" ng-click="AddDrugDBPopUP();ClearPopup()" class="btn btn-autosize pull-right mb-15" title="Click to Add New Drug DB">Add New</a>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
+<div ng-init="DrugDB_List()">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
     </div>
-    <div class="col-md-12">
-        <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
-            <thead>
-                <tr style="text-align: center">
-                    <th st-ratio="5">#</th>
-                    <th st-ratio="15" st-sort="Generic_Name">Generic Name</th>
-                    <th st-ratio="12" st-sort="StrengthName">Strength </th>
-                    <th st-ratio="12" st-sort="Dosage_FromName">Dosage Form</th>
-                    <th st-ratio="12" st-sort="Item_Code">Item Code</th>
-                    <th st-ratio="10" st-sort="Drug_Code">Drug Code</th>
-                    <th st-ratio="8">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-if="rowCollectionFilter.length==0">
-                    <td colspan="9" style="text-align: center">
-                          {{SearchMsg}}
-                    </td>
-                </tr>
-                <tr ng-repeat="row in emptydata">
-                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
-                    <td style="text-align: left"><div class="textwrap">{{row.Generic_name}}</div></td>
-                    <td style="text-align: left">{{row.StrengthName}}</td>
-                    <td style="text-align: left">{{row.Dosage_FromName}}</td>
-                    <td style="text-align: left"><div class="textwrap">{{row.Item_Code}}</div></td>
-                    <td style="text-align: left"><div class="textwrap">{{row.Drug_Code}}</div></td>
-                    <td st-ratio="10">
-                        <a href="javascript:" ng-click="ViewDrugDBPopUP(row.Id)" title="View"><img src="../../Images/ViewIcon.png" /></a>
-                        <a href="javascript:" ng-click="row.IsActive == 0 ||  EditDrugDBPopUP(row.Id)" title="Edit">
-                            <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" /><a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                                <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
-                            </a>
-                            <a href="javascript:" ng-click="DeleteDrugDB(row.Id)" title="Active">
-                                <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
-                            </a>
-                            <a href="javascript:" ng-click="ActiveDrugDB(row.Id)" title="InActive">
-                                <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
-                            </a>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot ng-show="rowCollectionFilter.length >10">
-                <tr>
-                    <td colspan="9" class="text-center">
-                        <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+    <div class="panel panel-default" id="DMid">
+        <form class="panel-body" role="form">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Search</label>
+                        <div class="modernSearch">
+                            <input type="text" ng-model="searchquery" ng-change="filterInstitutionList()"
+                                   ng-click="ListDrugDBPopUP()" placeholder="" style="width: 200px" />
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label for="Active">Active</label>
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DrugDB_List();"
+                               title="Active / All">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <a href="javascript:" ng-click="AddDrugDBPopUP();ClearPopup()" class="theme-btn-1 pull-right mt-15"
+                       title="Click to Add New Drug DB">Add New</a>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+       class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="5">#</th>
+            <th st-ratio="15" st-sort="Generic_Name">Generic Name</th>
+            <th st-ratio="12" st-sort="StrengthName">Strength </th>
+            <th st-ratio="12" st-sort="Dosage_FromName">Dosage Form</th>
+            <th st-ratio="12" st-sort="Item_Code">Item Code</th>
+            <th st-ratio="10" st-sort="Drug_Code">Drug Code</th>
+            <th st-ratio="8">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="rowCollectionFilter.length==0">
+            <td colspan="9" style="text-align: center">
+                {{SearchMsg}}
+            </td>
+        </tr>
+        <tr ng-repeat="row in emptydata">
+            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: left">
+                <div class="textwrap">{{row.Generic_name}}</div>
+            </td>
+            <td style="text-align: left">{{row.StrengthName}}</td>
+            <td style="text-align: left">{{row.Dosage_FromName}}</td>
+            <td style="text-align: left">
+                <div class="textwrap">{{row.Item_Code}}</div>
+            </td>
+            <td style="text-align: left">
+                <div class="textwrap">{{row.Drug_Code}}</div>
+            </td>
+            <td st-ratio="10">
+                <a href="javascript:" ng-click="ViewDrugDBPopUP(row.Id)" title="View">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:" ng-click="row.IsActive == 0 ||  EditDrugDBPopUP(row.Id)" title="Edit">
+                    <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                        <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                    </a>
+                    <a href="javascript:" ng-click="DeleteDrugDB(row.Id)" title="Active">
+                        <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
+                    </a>
+                    <a href="javascript:" ng-click="ActiveDrugDB(row.Id)" title="InActive">
+                        <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                        <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                    </a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="rowCollectionFilter.length >10">
+        <tr>
+            <td colspan="9" class="text-center">
+                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                     st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
 <!--Add&Edit Modal-->
 <div id="DrugDBModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content" ng-init="DrugDBList()">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
-                    ng-click="CancelPopup()">&times;</button>
+                        ng-click="CancelPopup()">
+                    &times;
+                </button>
                 <h4 class="modal-title">Drug DB</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="inputGroups">
-                        <label>Generic Name<sup>
+                        <label>
+                            Generic Name<sup>
                                 <font class='mandatory-field'>*</font>
-                            </sup></label>
+                            </sup>
+                        </label>
 
                         <input type="text" class="form-control" id="Text3" name="Generic_Name" ng-model="Generic_Name"
-                            ng-init="Generic_Name=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
+                               ng-init="Generic_Name=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
                     </div>
                     <div class="inputGroups">
-                        <label>Strength<sup>
+                        <label>
+                            Strength<sup>
                                 <font class='mandatory-field'>*</font>
-                            </sup></label>
+                            </sup>
+                        </label>
 
                         <select class="" data-style="form-control" ng-model="Strength_ID" id="selectpicker"
-                            data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
+                                data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
                             <option ng-repeat="sel in StrengthIDList" ng-selected="Strength_ID==sel.Id"
-                                value="{{sel.Id}}">{{sel.Name}}</option>
+                                    value="{{sel.Id}}">
+                                {{sel.Name}}
+                            </option>
                         </select>
                     </div>
                     <div class="inputGroups">
-                        <label>Dosage Form<sup>
+                        <label>
+                            Dosage Form<sup>
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
                         <select class="" data-style="form-control" ng-model="Dosage_From_ID" id="select1"
-                            data-live-search="true" data-selectpicker data-collection-name="DosageFromIDList">
+                                data-live-search="true" data-selectpicker data-collection-name="DosageFromIDList">
                             <option ng-repeat="sel in DosageFromIDList" ng-selected="Dosage_From_ID==sel.Id"
-                                value="{{sel.Id}}">{{sel.Name}}</option>
+                                    value="{{sel.Id}}">
+                                {{sel.Name}}
+                            </option>
                         </select>
                     </div>
                     <div class="inputGroups">
                         <label>Item Code</label>
 
                         <input type="text" class="form-control" id="Text4" name="LastName" ng-model="Item_Code"
-                            ng-init="Item_CodeName=''" ng-required="true" placeholder="" ng-maxlength="100"
-                            maxlength="100" onkeypress="" />
+                               ng-init="Item_CodeName=''" ng-required="true" placeholder="" ng-maxlength="100"
+                               maxlength="100" onkeypress="" />
                     </div>
                     <div class="inputGroups">
                         <label>Drug Code</label>
 
                         <input type="text" class="form-control" id="Drug_Code" name="Drug_Code" ng-model="Drug_Code"
-                            ng-init="Drug_Code=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                               ng-init="Drug_Code=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
                     </div>
 
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button type="button" class="theme-btn-1 mr-10" ng-click="DrugDBAddEdit()"
-                    title="Click to Save">Save</button>
+                        title="Click to Save">
+                    Save
+                </button>
                 <button type="button" class="theme-btn-2" ng-click="CancelPopup()"
-                    title="Click to Cancel">Cancel</button>
+                        title="Click to Cancel">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
@@ -158,12 +188,14 @@
 
 <!--View Modal-->
 <div id="DrugDBViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false"
-    init="ViewDrugDB">
+     init="ViewDrugDB">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
-                    ng-click="CancelPopup()">&times;</button>
+                        ng-click="CancelPopup()">
+                    &times;
+                </button>
                 <h4 class="modal-title"> Drug DB</h4>
             </div>
             <div class="modal-body">
@@ -194,18 +226,20 @@
                     </div>
                     <div class="inputGroups">
                         <label>Drug Code</label>
-                          
+
                         <span>
                             <div class="textwrap">{{Drug_Code}}</div>
                         </span>
                     </div>
-                   
-                 
+
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button type="button" class="theme-btn-2" ng-click="CancelViewPopup()"
-                    title="Click to Cancel">Cancel</button>
+                        title="Click to Cancel">
+                    Cancel
+                </button>
             </div>
         </div>
 

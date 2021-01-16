@@ -56,6 +56,11 @@ namespace MyCortex.Admin.Controllers
                         messagestr = "Institution Name already exists, cannot be Duplicated";
                         model.ReturnFlag = 0;
                     }
+                    else if (ModelData.Any(item => item.flag == 4) == true)
+                    {
+                        messagestr = "Institution Short Name already exists, cannot be Duplicated";
+                        model.ReturnFlag = 0;
+                    }
                     else if (ModelData.Any(item => item.flag == 2) == true)
                     {
                         messagestr = "Institution created successfully";

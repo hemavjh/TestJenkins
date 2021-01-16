@@ -26,11 +26,14 @@
             User
         </a>
     </li>
+    <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
+    <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
 
 
-<h1 class="page-title">Business User</h1>
+<h1 class="page-title">Clinical User</h1>
 
 <div ng-init="BusinessUser_List(2);currentTab='1';">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
@@ -231,7 +234,7 @@
                     &times;
                 </button>
 
-                <h4 class="modal-title">Business User</h4>
+                <h4 class="modal-title">Clinical User</h4>
             </div>
             <div class="modal-body p-0">
 
@@ -278,13 +281,13 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <input type="text" class="form-control" ng-model="FirstName"
+                                                            <input type="text" class="form-control" id="Text1" ng-model="FirstName"
                                                                    ng-init="FirstName=''" ng-required="true" ng-maxlength="100"
                                                                    maxlength="100" onkeypress="ParticularSpec(event)" />
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label valign="top">Middle Name</label>
-                                                            <input type="text" class="form-control" ng-model="MiddleName"
+                                                            <input type="text" class="form-control" id="Text2" ng-model="MiddleName"
                                                                    ng-init="MiddleName=''" ng-required="true" ng-maxlength="100"
                                                                    maxlength="100" onkeypress="ParticularSpec(event)" />
                                                         </div>
@@ -294,7 +297,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <input type="text" class="form-control" ng-model="LastName"
+                                                            <input type="text" class="form-control" id="Text3" ng-model="LastName"
                                                                    ng-init="LastName=''" ng-required="true" placeholder=""
                                                                    ng-maxlength="100" maxlength="100"
                                                                    onkeypress="ParticularSpec(event)" />
@@ -694,7 +697,7 @@
                     &times;
                 </button>
 
-                <h4 class="modal-title">Business User</h4>
+                <h4 class="modal-title">Clinical User</h4>
             </div>
 
             <div class="modal-body p-0">
@@ -959,8 +962,32 @@
     });
 
     $(document).ready(function () {
-        $('.form-control').bind("paste", function (e) {
-            e.preventDefault();
+        $("#Text1").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text1').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text1').val(dataFull);
+            });
+
+        });
+
+        $("#Text2").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text2').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text2').val(dataFull);
+            });
+        });
+
+        $("#Text3").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text3').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text3').val(dataFull);
+            });
         });
     });
 </script>

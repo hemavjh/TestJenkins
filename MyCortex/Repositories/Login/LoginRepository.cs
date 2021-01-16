@@ -497,12 +497,19 @@ namespace MyCortex.Repositories.Login
                                                     LogInTime = p.Field<DateTime?>("LogInTime"),
                                                     Photo = p.Field<string>("PHOTO_NAME"),
                                                     FileName = p.Field<string>("PHOTO_FILENAME"),
+                                                    FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                    GENDER_NAME = p.Field<string>("GENDER_NAME"),
                                                     Photo_Fullpath = p.IsNull("PHOTO_FULLPATH") ? null : p.Field<string>("PHOTO_FULLPATH"),
                                                     Employee_Name = p.IsNull("EMAILID") ? null : DecryptFields.Decrypt(p.Field<string>("EMAILID")),
                                                     Name = p.IsNull("Name") ? null : p.Field<string>("Name"),
                                                     // BlobName = decrypt.DecryptFile(p.IsNull("BLOBDATA") ? null : p.Field<byte[]>("BLOBDATA")),
                                                     PhotoBlob = p.IsNull("BLOBDATA") ? null : decrypt.DecryptFile(p.Field<byte[]>("BLOBDATA")),
-                                                    PatientType = p.Field<int>("PATIENT_TYPE")
+                                                    PatientType = p.Field<int>("PATIENT_TYPE"),
+                                                    NATIONALITY_ID = p.Field<long>("NATIONALITY_ID"),
+                                                    DOB = p.Field<DateTime>("DOB"),
+                                                    MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                                    USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
+                                                    UserType = p.Field<string>("USERTYPE")
                                                 }).ToList();
 
 

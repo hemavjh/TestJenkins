@@ -9,7 +9,7 @@ var EmpApp = angular.module('EmpApp', [
 EmpApp.config(['IdleProvider', function (IdleProvider) {
     // configure Idle settings
     //console.log('KeepaliveProvider')
-    IdleProvider.idle(30);
+    IdleProvider.idle(window.localStorage['IdleDays']);
    // IdleProvider.idle(60*10);
     IdleProvider.timeout(60);
     //KeepaliveProvider.interval(10);
@@ -26,6 +26,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     when('/login', {
         templateUrl: baseUrl + 'Login/Views/Login.html',
         controller: 'LoginController'
+    }).
+    when('/signup/:InstitutionCode', {
+        templateUrl: baseUrl + 'Login/Views/Signup.html',
+        controller: 'SignupController'
     }).
    when('/home', {
        templateUrl: baseUrl + 'Home/Views/HomePage.html',
@@ -44,6 +48,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         controller: 'InstitutionSubscriptionController'
     }).
     when('/SuperAdmin_UserList/:LoginUserType', {
+        templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
+        controller: 'UserController'
+    }).
+    when('/Admin_UserList/:LoginUserType', {
         templateUrl: baseUrl + 'User/Views/SuperAdmin_Userlist.html',
         controller: 'UserController'
     }).

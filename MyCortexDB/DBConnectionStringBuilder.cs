@@ -163,14 +163,18 @@ namespace MyCortexDB
 
             //local variables
             string FilePath;
-            string rDSN;
+            string rDSN = string.Empty;
 
-            if (HttpContext.Current == null)
-                return null;
-            FilePath = HttpContext.Current.Request.PhysicalApplicationPath;
-            FilePath = FilePath + @"\BIN\DATASTRING.INI";
+            if (HttpContext.Current != null)
+            {
+                FilePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                FilePath = FilePath + @"\BIN\DATASTRING.INI";
+            }
+            else
+            {
+                FilePath = AppDomain.CurrentDomain.BaseDirectory + @"\DATASTRING.INI";
+            }
             //FilePath = FilePath.Replace(@"\MyCortex\", @"\BIN\DATASTRING.INI");
-            rDSN = "";
            // throw new Exception(FilePath);
             // Open the ini file
             FileInfo config_file = new FileInfo(FilePath);

@@ -1,4 +1,53 @@
 ﻿<script>
+    var List = jQuery.parseJSON('@Html.Action("LoginDetails", "Home")');
+
+    $(document).ready(function () {
+        User_id = window.localStorage['UserTypeId'];
+        if (User_id == 1 || User_id == 3) {
+            $('#User_id').hide();
+        }
+        else {
+            $('#User_id').show();
+        }
+        var imgSrc = document.getElementById('imgSrc');
+        imgSrc.src = List[1];
+
+        var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
+        NATIONALITY_ID.textContent = List[2];
+
+        var USERTYPE_ID = document.getElementById('USERTYPE_ID');
+        USERTYPE_ID.textContent = List[4];
+
+        var MOBILE_NO = document.getElementById('MOBILE_NO');
+        MOBILE_NO.textContent = List[5];
+
+        var DOB = document.getElementById('DOB');
+        DOB.textContent = List[3];
+
+        var fullname = document.getElementById('fullname');
+        fullname.textContent = List[6];
+
+        var Gender = document.getElementById('Gender');
+        Gender.textContent = List[7];
+
+        $(document).ready(function () {
+            var dob = DOB.textContent;
+            dob = dob.replace(/-/gi, '');
+            var year = Number(dob.substr(4, 4));
+            var month = Number(dob.substr(2, 2));
+            var day = Number(dob.substr(0, 2));
+            var today = new Date();
+            var age = today.getFullYear() - year;
+
+            //var Age = age.toString();
+            //$('#Age').val(age.toString());
+
+            Age = document.getElementById('Age');
+            Age.textContent = age.toString();
+
+
+        });
+    });
     $(document).ready(function () {
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
@@ -74,27 +123,27 @@
                     @*<img src="images/MyCortexLogo.JPG">*@
                     <img src="images/MyCortexLogo.JPG" id="InstLogo">
                     <div class="patientHeaderProfile">
-                        <p>Yogeswaran Veerapathiran <i class="fas fa-chevron-down"></i></p>
+                        <p id="fullname">{{fullname}}</p>  <i class="fas fa-chevron-down"></i>
                         <div class="patientHeaderProfileDetails" style="display:none">
-                            <img class="responsiveProfileImage" src="data:image/png;base64,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">
-                            <p>
-                                <span>MRN</span>
-                                <span>2</span>
+                            <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
+                            <p onclick = " ViewProfile()">
+                                <span>USER TYPE</span>
+                                <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
                                 <i class="far fa-id-badge" style="color:#4285f4"></i>
                             </p>
-                            <p>
+                            <p onclick = " ViewProfile()">
                                 <span>National Id</span>
-                                <span>4561-6212-6932</span>
+                                <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
                                 <i class="far fa-address-card" style="color:#ea4335"></i>
                             </p>
-                            <p>
+                            <p onclick = " ViewProfile()">
                                 <span>Phone</span>
-                                <span>+91-9742225501</span>
+                                <span id="MOBILE_NO">+{{MOBILE_NO}}</span>
                                 <i class="fas fa-mobile-alt" style="color:#fbbc05"></i>
                             </p>
-                            <p>
+                            <p onclick = " ViewProfile()">
                                 <span>DOB</span>
-                                <span>15-03-1993</span>
+                                <span id="DOB">{{DOB}}</span>
                                 <i class="far fa-calendar-alt" style="color:#34a853"></i>
                             </p>
                         </div>
@@ -151,21 +200,21 @@
                     <img src="images/Premium.svg" id="imgPatientType">
                 </div>
                 <div class="themeRight">
-                    <div class="patientShortInfo">
+                    <div id="User_id" class="patientShortInfo" style="display: none;">
                         <p>
                             <span>Age:</span>
-                            </span>20</span>
+                            <span id="Age">{{Age}}</span>
                         </p>
                         <p>
                             <span>Sex:</span>
-                            </span>Male</span>
+                            <span id="Gender">{{Gender}}</span>
                         </p>
                         <p>
                             <span>Chronic Condition</span>
                         </p>
-                        <a href="#" title="Monitoring Protocol"><i class="fas fa-cog"></i></a>
-                        <a href="#" title="Groups"><i class="fas fa-user-friends"></i></a>
-                        <a href="#" title="Unknown Allergies"><i class="fas fa-virus"></i></a>
+                        <a href="#" title="Monitoring Protocol" style="display:none"><i class="fas fa-cog"></i></a>
+                        <a href="#" title="Groups" style="display:none"><i class="fas fa-user-friends"></i></a>
+                        <a href="#" title="Unknown Allergies" style="display:none"><i class="fas fa-virus"></i></a>
                     </div>
                     <div id="mydiv" class="notificationOnline">
                         <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left"
@@ -314,7 +363,6 @@
                     <div class="row">
                         <div class="col-sm-3 colorSettings">
 
-
                             <div class="colorGroup">
                                 <h1>Title Color</h1>
                                 <input type="color" id="title" name="title" />
@@ -458,7 +506,7 @@
         if (!saved) {
             if (confirm("Settings not yet saved do you want to close")) {
                 $('#colorSetting').modal('hide');
-                alert('after close again make api to get new values');
+                //alert('after close again make api to get new values');
                 applyStyle();
                 saved = false;
             }
@@ -530,7 +578,8 @@
 
     let applyStyle = () => {
         //alert('use this method when user logged in first time and use response object instead of getAPIObj')
-        $.get(baseUrl + "api/ColorPreference/List?UserId=35", function (data) {
+        // alert(@HttpContext.Current.Session["UserId"].ToString());
+        $.get(baseUrl + "api/ColorPreference/List?UserId=" + @HttpContext.Current.Session["UserId"].ToString(), function (data) {
             if (data["Status"]) {
                 getAPIObj["primary"] = data["ColorPreferences"]["Primary"];
                 getAPIObj["secondary"] = data["ColorPreferences"]["Secondary"];
@@ -557,27 +606,54 @@
                 getAPIObj["negativeHoverBtnText"] = data["ColorPreferences"]["NegativeHoverBtnText"];
                 getAPIObj["title"] = data["ColorPreferences"]["Title"];
                 getAPIObj["subTitle"] = data["ColorPreferences"]["SubTitle"];
-                console.log("applyStyle:" + getAPIObj[0])
-                for (key in getAPIObj) {
+            } else {
+                getAPIObj["primary"] = defaultValueObj["primary"];
+                getAPIObj["secondary"] = defaultValueObj["secondary"];
+                getAPIObj["headerBg"] = defaultValueObj["HeaderBg"];
+                getAPIObj["headerText"] = defaultValueObj["HeaderText"];
+                getAPIObj["TableHeaderBg"] = defaultValueObj["TableHeaderBg"];
+                getAPIObj["TableHeaderText"] = defaultValueObj["TableHeaderText"];
+                getAPIObj["TableAlternateRowBg"] = defaultValueObj["TableAlternateRowBg"];
+                getAPIObj["TableAlternateRowText"] = defaultValueObj["TableAlternateRowText"];
+                getAPIObj["TableRowHoverBg"] = defaultValueObj["TableRowHoverBg"];
+                getAPIObj["TableRowHoverText"] = defaultValueObj["TableRowHoverText"];
+                getAPIObj["linkText"] = defaultValueObj["LinkText"];
+                getAPIObj["positiveBtnBg"] = defaultValueObj["PositiveBtnBg"];
+                getAPIObj["positiveBtnBorder"] = defaultValueObj["PositiveBtnBorder"];
+                getAPIObj["positiveBtnText"] = defaultValueObj["PositiveBtnText"];
+                getAPIObj["positiveHoverBtnBg"] = defaultValueObj["PositiveHoverBtnBg"];
+                getAPIObj["positiveHoverBtnBorder"] = defaultValueObj["PositiveHoverBtnBorder"];
+                getAPIObj["positiveHoverBtnText"] = defaultValueObj["PositiveHoverBtnText"];
+                getAPIObj["negativeBtnBg"] = defaultValueObj["NegativeBtnBg"];
+                getAPIObj["negativeBtnBorder"] = defaultValueObj["NegativeBtnBorder"];
+                getAPIObj["negativeBtnText"] = defaultValueObj["NegativeBtnText"];
+                getAPIObj["negativeHoverBtnBg"] = defaultValueObj["NegativeHoverBtnBg"];
+                getAPIObj["negativeHoverBtnBorder"] = defaultValueObj["NegativeHoverBtnBorder"];
+                getAPIObj["negativeHoverBtnText"] = defaultValueObj["NegativeHoverBtnText"];
+                getAPIObj["title"] = defaultValueObj["Title"];
+                getAPIObj["subTitle"] = defaultValueObj["SubTitle"];
 
-                    if (getAPIObj[key] != null && getAPIObj[key] != "") {
-                        $(`#${key}`).val(getAPIObj[key]);
-                        document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);
+            }
+            console.log("applyStyle:" + getAPIObj[0])
+            for (key in getAPIObj) {
 
-                    }
+                if (getAPIObj[key] != null && getAPIObj[key] != "") {
+                    $(`#${key}`).val(getAPIObj[key]);
+                    document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);
 
                 }
+
             }
             //console.log(data)
             //alert(data["ColorPreferences"]["Primary"]);
         });
-        
+
     }
     applyStyle();
     let saveSettings = () => {
         let saveAPIObj = {
-            UserId: 35,
-            InstitutionId: 5,
+            UserId: @HttpContext.Current.Session["UserId"].ToString(),
+            InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString(),
             primary: $('#primary').val() || "#333",
             secondary: $('#secondary').val() || "#555",
             headerBg: $('#headerBg').val() || "#232f3e",
@@ -617,8 +693,8 @@
     let restoreSettings = () => {
         if (confirm("Click Ok Button to Restore Color Settings. If not Please click close button!")) {
             let restoreAPIObj = {
-                UserId: 35,
-                InstitutionId: 5,
+                UserId: @HttpContext.Current.Session["UserId"].ToString(),
+                InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString(),
                 primary: defaultValueObj["primary"],
                 secondary: defaultValueObj["secondary"],
                 headerBg: defaultValueObj["headerBg"],
@@ -658,8 +734,9 @@
             //applyStyle();
             //saved = false;
         }
-        
+
     };
+    
     (function ($) {
 
 
@@ -778,7 +855,11 @@
             $('#btnopenchat').attr("style", "display:none");
         }
     }
-
+    function ViewProfile() {
+        Id = window.localStorage['UserId'];
+        //window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + Id + "/2";
+        window.location.href = baseUrl + "/Home/Index#/PatientView/" + Id + "/2" + "/" + "3";
+    }
     function searchContact_onKeyPress() {
         $('#address-user > li:not(:contains(' + $('#contactSearch').val() + '))').hide();
         $('#address-user > li:contains(' + $('#contactSearch').val() + ')').show();
@@ -883,6 +964,7 @@
         }
 
     }
+    
 
     function makeResizableDiv(div) {
         // default size = 680 * 430

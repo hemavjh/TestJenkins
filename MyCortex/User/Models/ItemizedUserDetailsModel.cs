@@ -47,6 +47,7 @@ namespace MyCortex.User.Model
         public int StartRowNumber { get; set; }
         public int EndRowNumber { get; set; }
         public string SearchQuery { get; set; }
+        public bool Is_Master { get; set; }
     }
 
 }

@@ -150,8 +150,14 @@ namespace MyCortex.User.Controller
             var request = HttpContext.Current.Request.Url.Authority;
             if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
             {
-
-                userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
+                if (!string.IsNullOrEmpty(userObj.INSTITUTION_CODE))
+                {
+                    userObj.INSTITUTION_ID = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                }
+                //else
+                //{
+                //    userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
+                //}
                 //  return model;
                 //UserModel Ins_model = new UserModel();
                 //Ins_model = repository.GetInstitutionForWebURL(request);
@@ -159,7 +165,8 @@ namespace MyCortex.User.Controller
             }
             if (userObj.INSTITUTION_ID == 0)
             {
-                userObj.INSTITUTION_ID = InstitutionId;
+                // userObj.INSTITUTION_ID = InstitutionId;
+                return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Invalid Institution!");
             }
             string defaultPwd = "P@ssw0rd";
             AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", InstitutionId);
@@ -195,6 +202,15 @@ namespace MyCortex.User.Controller
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
+            //if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
+            //{
+            //    model.Status = "False";
+            //    model.Message = "Invalid Institution!";
+            //    model.Error_Code = "";
+            //    model.ReturnFlag = 0;
+            //    model.UserDetails = ModelData;
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            //}
             string messagestr = "";
             try
             {
@@ -241,6 +257,10 @@ namespace MyCortex.User.Controller
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
+                if (userObj.ApprovalFlag == "0")
+                {
+                    userObj.Patient_Type = 1;
+                }
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
 
                 if ((ModelData.flag == 1) == true)
@@ -285,7 +305,7 @@ namespace MyCortex.User.Controller
                 }
                 else if ((ModelData.flag == 4) == true)
                 {
-                    messagestr = "Admin already exist for this Institution, cannot be created";
+                    messagestr = "Master Admin already exist for this Institution, cannot be created";
                     model.ReturnFlag = 0;
                     model.Status = "False";
                 }
@@ -2929,61 +2949,45 @@ namespace MyCortex.User.Controller
             {
                 model.Status = "False";
                 model.Message = "Invalid data";
-                model.Error_Code = "";
+                model.Error_Code = "1";
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
-            string messagestr = "";
             try
             {
                 DataEncryption EncryptPassword = new DataEncryption();
-                string FormulaforFullName = "";
-                FormulaforFullName = "[L],[F]";
-                /*get full name formula*/
-                IList<AppConfigurationModel> modelLF_Formula;
-                modelLF_Formula = commonrepository.AppConfigurationDetails("FULLNAME_FORMULA", userObj.INSTITUTION_ID.Value);
-                if (modelLF_Formula[0].ConfigValue != null)
-                    FormulaforFullName = modelLF_Formula[0].ConfigValue;
-
-                string Replaced_FullName = "";
-                Replaced_FullName = FormulaforFullName.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
-                userObj.FullName = EncryptPassword.Encrypt(Replaced_FullName);
-                userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
-                userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
-                userObj.LastName = EncryptPassword.Encrypt(userObj.LastName);
-                userObj.DOB_Encrypt = EncryptPassword.Encrypt(userObj.DOB.ToString());
                 userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
-                userObj.INSURANCEID = EncryptPassword.Encrypt(userObj.INSURANCEID);
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
-                userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
-
-
-
+                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
+                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 ModelData = repository.Patient_Update(Login_Session_Id, userObj);
 
-                if ((ModelData.flag == 1) == true)
+                if (ModelData.flag > 0)
                 {
-                    messagestr = "User Updated Successfully";
                     model.ReturnFlag = 1;
-
+                    model.Status = "False";
+                    model.Error_Code = "1";
+                    model.UserDetails = ModelData;
+                    model.Message = "Email address already exists, cannot be duplicated";
+                }
+                else
+                {
+                    model.ReturnFlag = 0;
                     model.Status = "True";
+                    model.Error_Code = "";
+                    model.UserDetails = ModelData;
+                    model.Message = "User Updated successfully";
                 }
 
-                model.Error_Code = "";
-                model.UserDetails = ModelData;
-                model.Message = messagestr;// "User Updated successfully";
-
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
-                return response;
+                return Request.CreateResponse(HttpStatusCode.OK, model);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error in Updating User";
-                model.Error_Code = ex.Message;
+                model.Error_Code = "1";
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);

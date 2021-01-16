@@ -42,6 +42,8 @@ namespace MyCortexService
         }
         private void OnElapsedTime(object source, ElapsedEventArgs e)
         {
+            WriteToFile("Service started at " + DateTime.Now);
+
             try
             {
                 string Event_Code = "";
@@ -133,8 +135,8 @@ namespace MyCortexService
                 {
                     timeNow = DateTime.Now;
                     executedTimeNow = timeNow.ToString("dd/MM/yyyy HH:mm");
-                    //WriteToFile("appt " + executedTimeNow);
-                    //WriteToFile("modobj.Remainder_SentTime " + modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"));
+                    WriteToFile("appt " + executedTimeNow);
+                    WriteToFile("modobj.Remainder_SentTime " + modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"));
                     if (executedTimeNow==modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"))
                     { 
                         // get email list
@@ -149,10 +151,10 @@ namespace MyCortexService
                             EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Doctor_Id);
                         }
 
-                       // WriteToFile("PAT_APPOINTMENT_REMINDER");
+                       WriteToFile("PAT_APPOINTMENT_REMINDER");
                         // send email & notification
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Appointment_Id, (long)modobj.Institution_Id, EmailList);
-                        //WriteToFile("PAT_APPOINTMENT_REMINDER check mail status");
+                        WriteToFile("PAT_APPOINTMENT_REMINDER check mail status");
                         // update appointment schedule
                         alertrepository.Appointment_Schedule_UpdateList(modobj.Id);
                     }
@@ -162,7 +164,7 @@ namespace MyCortexService
             catch (Exception ex)
             {
                 WriteToFile(new String('-', 50));
-                WriteToFile(ex.Message);
+                WriteToFile(ex.StackTrace);
                 WriteToFile(new String('-', 50));
             }
         }

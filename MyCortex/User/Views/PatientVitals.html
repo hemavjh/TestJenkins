@@ -3,7 +3,7 @@
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <!--Hide by Yogeswaran Please-->
     <div class="patientCharts" style="display:none"
-         ng-init="PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();">
+         ng-init="getParameterList();getUnitGroupType_List();UnitGroupPreference();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();">
         <div class="patientCards ">
             <img src="../../Images/MRN.png" class="patientVitalscard" />
             <h1>MRN</h1>
@@ -474,7 +474,7 @@
                                    ng-class="{'chartActiveTab':LSType_Id=='7'}">All</a>
                             </li>
                         </ul>
-                        <div ng-show="VitalChart=='1'"
+                        <div ng-show="currentTab!='1' && VitalChart=='1'"
                              ng-click="TabClickDataLoad(currentTab)">
                             <ul class="chartTabs">
                                 <li>
@@ -564,7 +564,7 @@
 
                                     <div class="panel-body" ng-show="currentTab=='1'">
                                         <div id="zoomChart"></div>
-                                        <script>
+                                        <!--<script>
                                             Highcharts.chart('zoomChart', {
                                                 chart: {
                                                     zoomType: 'xy'
@@ -635,7 +635,7 @@
                                                 }
 
                                             });
-                                        </script>
+                                        </script>-->
                                         <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight">
                                             </>
                                     </div>

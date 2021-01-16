@@ -12,6 +12,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Login/Views/Login.html',
         controller: 'LoginController'
     }).
+    when('/signup/:InstitutionCode', {
+        templateUrl: baseUrl + 'Login/Views/Signup.html',
+        controller: 'SignupController'
+    }).
     otherwise({
         redirectTo: '/login'
     });
@@ -267,7 +271,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                     EMAILID: $scope.EmailId,
                     MOBILE_NO: $scope.MobileNo,
                     UserType_Id: $scope.UserTypeId,
-                    ApprovalFlag: 0
+                    ApprovalFlag: 0,
                     //, INSTITUTION_ID: 1
                 }
                 var config = {
@@ -684,4 +688,198 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
     });
 
 }
+]);
+
+/* THIS IS FOR SIGNUP CONTROLLER FUNCTION */
+MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService) {
+        //Declaration and initialization of Scope Variables.    
+        $scope.InstitutionCode = $routeParams.InstitutionCode;
+        $scope.Id = "0";
+        $scope.FirstName = "";
+        $scope.MiddleName = "";
+        $scope.LastName = "";
+        $scope.MNR_No = "";
+        $scope.PatientNo = "";
+        $scope.NationalId = "";
+        $scope.InsuranceId = "";
+        $scope.GenderId = "0";
+        $scope.NationalityId = "0";
+        $scope.EmailId = "";
+        $scope.MobileNo = "";
+        $scope.UserTypeId = 2;
+        $scope.NationalityList = [];
+        $scope.GenderList = [];
+        $window.localStorage['UserId'] = "0";
+
+        /*This is th eValidation for sign Up page 
+    The validations are FirstName,Last Name,MRN No,Gender,Nationality,DOB,Email and Mobile No.*/
+        $scope.SignupLogin_AddEdit_Validations = function () {
+            if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
+                alert("Please enter First Name");
+                return false;
+            }
+            else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
+                alert("Please enter Last Name");
+                return false;
+            }
+            else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
+                alert("Please enter MRN No.");
+                return false;
+            }
+            else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
+                alert("Please select Sex");
+                return false;
+            }
+            else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
+                alert("Please select Nationality");
+                return false;
+            }
+            else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
+                alert("Please select Date of Birth");
+                return false;
+            }
+            else if (isDate($scope.DOB) == false) {
+                alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
+                return false;
+            }
+            else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
+                alert("Please enter Email");
+                return false;
+            }
+            else if (EmailFormate($scope.EmailId) == false) {
+                alert("Invalid Email format");
+                return false;
+            }
+            else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
+                alert("Please enter Mobile No.");
+                return false;
+            }
+            return true;
+        };
+
+        $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
+            var ProductName = data;
+            $('#productname').val(ProductName["instanceId"]);
+            if ($('#productname').val() == "1") {
+                $scope.prdName = "MyHealth";
+                $scope.prductName = " MyHealth?";
+            } else if ($('#productname').val() == "2") {
+                $scope.prdName = "STC MyCortex";
+                $scope.prductName = " STC MyCortex?";
+            } else {
+                $scope.prdName = "MyCortex  ";
+                $scope.prductName = " MyCortex?";
+            }
+        });
+
+        /*This is Insert Function for SignUp */
+        $scope.SignupLogin_AddEdit = function () {
+            if ($scope.SignupLogin_AddEdit_Validations() == true) {
+                // window.location.href = baseUrl + "/Home/Index#;
+                $("#chatLoaderPV").show();
+                var tokendata = "UserName=admin&Password=admin&grant_type=password"
+                $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+
+                    var data = {
+                        Id: $scope.Id,
+                        INSTITUTION_CODE: $scope.InstitutionCode,
+                        FirstName: $scope.FirstName,
+                        MiddleName: $scope.MiddleName,
+                        LastName: $scope.LastName,
+                        NATIONALID: $scope.NationalId,
+                        INSURANCEID: $scope.InsuranceId,
+                        MNR_NO: $scope.MNR_No,
+                        GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
+                        NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                        DOB: $scope.DOB,
+                        EMAILID: $scope.EmailId,
+                        MOBILE_NO: $scope.MobileNo,
+                        UserType_Id: $scope.UserTypeId,
+                        ApprovalFlag: 0
+                        //, INSTITUTION_ID: 1
+                    }
+                    var config = {
+                        headers: {
+                            'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w==']
+                        }
+                    };
+                    //$http({
+                    //    method: 'POST',
+                    //    url: baseUrl + 'api/User/User_InsertUpdate/',
+                    //    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] },
+                    //    data: data
+                    //}).success(function (data) {
+                    $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        alert(data.Message);
+                        if (data.ReturnFlag == 1) {
+                            $scope.CancelSignUpPopup();
+                        }
+                        //if ($scope.MenuTypeId == 3) {
+                        //    $scope.ListRedirect();
+                        //}
+                    }).error(function (err) {
+                        $("#chatLoaderPV").hide();
+                        console.log(err);
+                        alert(err);
+                    });
+                    //$("#chatLoaderPV").hide();
+                }).error(function (err) {
+                    console.log(err);
+                    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                    alert('error');
+                });
+            }
+        };
+        //This is for Clear the values
+        $scope.CancelSignUpPopup = function () {
+            $scope.FirstName = "";
+            $scope.MiddleName = "";
+            $scope.LastName = "";
+            $scope.MNR_No = "";
+            $scope.PatientNo = "";
+            $scope.NationalId = "";
+            $scope.InsuranceId = "";
+            $scope.GenderId = "0";
+            $scope.NationalityId = "0";
+            $scope.EmailId = "";
+            $scope.MobileNo = "";
+            //$scope.HideSignUpModal();
+        }
+
+        // This is for to get Nationality List 
+        $http.get(baseUrl + 'api/Common/NationalityList/').success(function (data) {
+            $scope.NationalityList = data;
+        });
+
+        // This is for to get Gender List
+        $http.get(baseUrl + 'api/Common/GenderList/').success(function (data) {
+            $scope.GenderList = data;
+        });
+
+        var Login_Country = "";
+        var Login_City = "";
+        $http.get("http://ip-api.com/json").then(function (response) {
+            Login_Country = response.data.country;
+            Login_City = response.data.city
+        });
+
+        navigator.sayswho = (function () {
+            var ua = navigator.userAgent, tem,
+                M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+            if (/trident/i.test(M[1])) {
+                tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+                return 'IE ' + (tem[1] || '');
+            }
+            if (M[1] === 'Chrome') {
+                tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+                if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+            }
+            M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+            if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+            return M.join(' ');
+        })();
+    }
 ]);
