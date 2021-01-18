@@ -5,9 +5,11 @@
         User_id = window.localStorage['UserTypeId'];
         if (User_id == 1 || User_id == 3) {
             $('#User_id').hide();
+            $('#patient_profile').hide();
         }
         else {
             $('#User_id').show();
+            $('#patient_profile').show();
         }
         var imgSrc = document.getElementById('imgSrc');
         imgSrc.src = List[1];
@@ -122,7 +124,7 @@
                 <div class="themeLogo">
                     @*<img src="images/MyCortexLogo.JPG">*@
                     <img src="images/MyCortexLogo.JPG" id="InstLogo">
-                    <div class="patientHeaderProfile">
+                    <div id="patient_profile" class="patientHeaderProfile" style="display: none; margin-left: 10px;">
                         <p id="fullname">{{fullname}}</p>  <i class="fas fa-chevron-down"></i>
                         <div class="patientHeaderProfileDetails" style="display:none">
                             <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
