@@ -9,7 +9,7 @@ var EmpApp = angular.module('EmpApp', [
 EmpApp.config(['IdleProvider', function (IdleProvider) {
     // configure Idle settings
     //console.log('KeepaliveProvider')
-    IdleProvider.idle(window.localStorage['IdleDays']);
+    IdleProvider.idle(30);
    // IdleProvider.idle(60*10);
     IdleProvider.timeout(60);
     //KeepaliveProvider.interval(10);
@@ -39,10 +39,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
        templateUrl: baseUrl + 'Home/Views/HomePage.html',
        controller: 'GooglehomeController'
    }).
-	when('/Institution', {
+    when('/Institution', {
 	    templateUrl: baseUrl + 'Admin/Views/Institutionlist.html',
 	    controller: 'InstitutionController'
-	}).
+    }).
     when('/Institution_Subscription', {
         templateUrl: baseUrl + 'Admin/Views/InstitutionSubscriptionlist.html',
         controller: 'InstitutionSubscriptionController'
@@ -295,17 +295,16 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     var authInterceptorServiceFactory = {};
 
     var _request = function (config) {
-        config.headers = config.headers || {};      
+        config.headers = config.headers || {};
 
         //var authData = localStorageService.get('authorizationData');
         var token = '';
         token = $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='];
-        if (token!='')
-        {
+        if (token !== '') {
             config.headers.Authorization = 'Bearer ' + token;//authData.token;
         }
         return config;
-    }
+    };
 
     var _responseError = function (rejection) {
         if (rejection.status === 401) {
@@ -313,7 +312,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             $window.location.href = baseUrl + "/Home/LoginIndex#/";
         }
         return $q.reject(rejection);
-    }
+    };
 
     authInterceptorServiceFactory.request = _request;
     authInterceptorServiceFactory.responseError = _responseError;
@@ -326,7 +325,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         $('#divPatientType').attr('style', 'display : none');
         $rootScope.previousPage = oldLocation;
         // to handle back button after logout
-        if ($window.localStorage['UserId'] == "0")
+        if ($window.localStorage['UserId'] === "0")
         {
             $window.location.href = baseUrl + "/Home/LoginIndex#/";
         }          
@@ -351,7 +350,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             cancelButtonText: 'Stay',
             focusCancel: true,
             allowOutsideClick: false,
-            onOpen: () => {
+            didOpen: () => {
                 interval = setInterval(() => {
                     if (timeLeft > 0) {
                         timeLeft--;
@@ -367,10 +366,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                     }
                 }, 1000);
             },
-            onClose: () => {
+            willClose: () => {
                 timeLeft = 60;
                 clearInterval(interval);
-            },
+            }
         }).then((result) => {
             if (result.value) {
                 $window.location.href = baseUrl + "/Home/LoginIndex#/";
@@ -381,7 +380,8 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
                     } else {
                         timeLeft = 60;
                         clearInterval(interval);
-                        IdleProvider.resetTimer();
+                        Idle.resetTimer();
+                        //IdleProvider.resetTimer();
                     }
                 }
             }
