@@ -441,6 +441,26 @@
                                 <i class="fas fa-bell"></i>
                                 <span>10+</span>
                             </div>
+                            <div ng-show="currentTab=='2' || currentTab=='3' ">
+                                <div>
+                                    <div class="changeViews">
+                                        <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
+                                           ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
+                                            <i class="fas fa-chart-bar"></i></i>
+                                        </a>
+                                        <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
+                                           ng-click="VitalChart ='1';HistoryDetails(currentTab);">
+                                            <i class="fas fa-table" class="themeProfile"></i></i>
+                                        </a>
+                                        <a href="#" title="Current Time">
+                                            <i class="far fa-clock"></i>
+                                        </a>
+                                        <a href="#" title="English">
+                                            <i class="fas fa-language"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -710,7 +730,7 @@
                                             </div>
                                             End Here-->
                                             <!-- Added by yogesh-->
-                                            <div class="changeViews">
+                                            <!--<div class="changeViews">
                                                 <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
                                                    ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
                                                     <i class="fas fa-chart-bar"></i></i>
@@ -725,7 +745,7 @@
                                                 <a href="#" title="English">
                                                     <i class="fas fa-language"></i>
                                                 </a>
-                                            </div>
+                                            </div>-->
                                             <!-- End Here-->
                                             <!--<div class="dropdown">
                                                 <button class="btn btn-primary dropdown-toggle" type="button"
