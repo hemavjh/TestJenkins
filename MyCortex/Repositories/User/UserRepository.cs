@@ -972,14 +972,34 @@ namespace MyCortex.Repositories.Uesr
                                   Protocol_Id = p.Field<long?>("MONITORING_PROTOCOL_ID"),
                                   ProtocolName = p.Field<string>("NAME"),
                                   Patient_Type = p.Field<int?>("PATIENT_TYPE"),
-                                  
-
+                                  UserType = p.Field<string>("USERTYPE"),
+                                  PhotoBlob = p.IsNull("PHOTOBLOB") ? null : DecryptFields.DecryptFile(p.Field<byte[]>("PHOTOBLOB"))
                               }).FirstOrDefault();
             if (list.DOB_Encrypt != "")
             {
                 list.DOB = Convert.ToDateTime(list.DOB_Encrypt);
                 /*string[] tokens = list.DOB_Encrypt.Split('/');
                 list.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+            }
+            if (list.PhotoBlob != null)
+            {
+                //t.Add(i.PhotoBlob.ToString());                      
+                var base64 = Convert.ToBase64String(list.PhotoBlob);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                list.PhotoBlobs = imgSrc;
+
+            }
+            else if (((list.PhotoBlob == null)) && (list.GENDER_NAME.ToLower() == "male"))
+            {
+                list.PhotoBlobs = "Images/maleemp.png";
+            }
+            else if (((list.PhotoBlob == null)) && (list.GENDER_NAME.ToLower() == "female"))
+            {
+                list.PhotoBlobs = "Images/femaleemp.png";
+            }
+            else if (((list.GENDER_NAME.ToLower() != "male") && (list.GENDER_NAME.ToLower() != "female")) && ((list.PhotoBlob == null)))
+            {
+                list.PhotoBlobs = "Images/admin.png";
             }
             return list;
         }

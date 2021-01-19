@@ -3,49 +3,49 @@
 
     $(document).ready(function () {
         User_id = window.localStorage['UserTypeId'];
-        if (User_id == 1 || User_id == 3) {
-            $('#User_id').hide();
-            $('#patient_profile').hide();
-        }
-        else {
-            $('#User_id').show();
-            $('#patient_profile').show();
-        }
-        var imgSrc = document.getElementById('imgSrc');
-        imgSrc.src = List[1];
+        //if (User_id == 1 || User_id == 3) {
+        //    $('#User_id').hide();
+        //    $('#patient_profile').hide();
+        //}
+        //else {
+        //    $('#User_id').show();
+        //    $('#patient_profile').show();
+        //}
+        //var imgSrc = document.getElementById('imgSrc');
+        //imgSrc.src = List[1];
 
-        var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
-        NATIONALITY_ID.textContent = List[2];
+        //var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
+        //NATIONALITY_ID.textContent = List[2];
 
-        var USERTYPE_ID = document.getElementById('USERTYPE_ID');
-        USERTYPE_ID.textContent = List[4];
+        //var USERTYPE_ID = document.getElementById('USERTYPE_ID');
+        //USERTYPE_ID.textContent = List[4];
 
-        var MOBILE_NO = document.getElementById('MOBILE_NO');
-        MOBILE_NO.textContent = List[5];
+        //var MOBILE_NO = document.getElementById('MOBILE_NO');
+        //MOBILE_NO.textContent = List[5];
 
-        var DOB = document.getElementById('DOB');
-        DOB.textContent = List[3];
+        //var DOB = document.getElementById('DOB');
+        //DOB.textContent = List[3];
 
-        var fullname = document.getElementById('fullname');
-        fullname.textContent = List[6];
+        //var fullname = document.getElementById('fullname');
+        //fullname.textContent = List[6];
 
-        var Gender = document.getElementById('Gender');
-        Gender.textContent = List[7];
+        //var Gender = document.getElementById('Gender');
+        //Gender.textContent = List[7];
 
         $(document).ready(function () {
-            var dob = DOB.textContent;
-            dob = dob.replace(/-/gi, '');
-            var year = Number(dob.substr(4, 4));
-            var month = Number(dob.substr(2, 2));
-            var day = Number(dob.substr(0, 2));
-            var today = new Date();
-            var age = today.getFullYear() - year;
+            //var dob = DOB.textContent;
+            //dob = dob.replace(/-/gi, '');
+            //var year = Number(dob.substr(4, 4));
+            //var month = Number(dob.substr(2, 2));
+            //var day = Number(dob.substr(0, 2));
+            //var today = new Date();
+            //var age = today.getFullYear() - year;
 
-            //var Age = age.toString();
-            //$('#Age').val(age.toString());
+            ////var Age = age.toString();
+            ////$('#Age').val(age.toString());
 
-            Age = document.getElementById('Age');
-            Age.textContent = age.toString();
+            //Age = document.getElementById('Age');
+            //Age.textContent = age.toString();
 
 
         });

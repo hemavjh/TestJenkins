@@ -321,7 +321,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 }])
 .run(['$rootScope', 'Idle', '$window', function ($rootScope, Idle, $window) {
     $rootScope.$on('$locationChangeSuccess', function (e, newLocation, oldLocation) {
-        
+        if (oldLocation.includes("PatientVitals")) {
+            // alert("Yes");
+            $('#User_id').hide();
+            $('#patient_profile').hide();
+        }
         $('#divPatientType').attr('style', 'display : none');
         $rootScope.previousPage = oldLocation;
         // to handle back button after logout
