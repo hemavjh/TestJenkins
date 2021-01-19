@@ -76,7 +76,7 @@
 <table st-table="BusineessUseremptydata" style="width: 100%" st-safe-src="BusinessUserFilter"
        class="table themeTable">
     <thead>
-        <tr style="text-align: center">
+        <tr class="textalign">
             <th st-ratio="3">#</th>
             <th st-ratio="5"><input type="checkbox" ng-model="SelectedAllBuisnessUser" ng-click="BuisnessUsercheckAll()" /></th>
             <th st-ratio="17" st-sort="FullName">User Name</th>
@@ -91,12 +91,12 @@
     </thead>
     <tbody>
         <tr ng-if="BusinessUserflag==0 && BusinessUserFilter.length==0">
-            <td colspan="10" style="text-align: center">
+            <td colspan="10" class="textalign">
                 {{SearchMsg}}
             </td>
         </tr>
         <tr ng-repeat="row in BusineessUseremptydata">
-            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <td style="text-align: center"><input type="checkbox" ng-model="row.SelectedBuisnessuser" ng-disabled="row.UserType_Id==7" /></td>
             <td style="text-align: left" title="{{row.FullName}}">
                 <div class="textwrap">
