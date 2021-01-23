@@ -873,6 +873,21 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 });
             };
         }
+
+        /*
+        Calling the api method to insert the default data of the Institution
+        for the  Institution Id,
+        and redirected to the list page.
+        */
+        $scope.InsertDefaultData = function () {
+            $http.get(baseUrl + '/api/Institution/InstitutionDefaultData_Insert/?Id=' + $scope.Id).success(function (data) {
+                alert("Institution Default Data Inserted successfully");
+                // $scope.InstitutionDetailsListGo();
+            }).error(function (data) {
+                $scope.error = "An error has occurred while InsertInstitution Default Records" + data;
+            });
+
+        };
     }
 
 ]);
@@ -4789,11 +4804,45 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.GenderId = data.GenderId;
                 $scope.ViewGenderName = data.GENDER_NAME;
                 $scope.PatientType = data.Patient_Type;
+                $scope.showUserType = data.UserType;
+                $scope.PhotoBlobs = data.PhotoBlobs;
                 methodcnt = methodcnt - 1;
+                $('#User_id').show();
+                $('#patient_profile').show();
+                var imgSrc = document.getElementById('imgSrc');
+                imgSrc.src = $scope.PhotoBlobs;
+                var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
+                NATIONALITY_ID.textContent = $scope.NationalId;
+
+                var USERTYPE_ID = document.getElementById('USERTYPE_ID');
+                USERTYPE_ID.textContent = $scope.showUserType;
+                var MOBILE_NO = document.getElementById('MOBILE_NO');
+                MOBILE_NO.textContent = $scope.MobileNo;
+
+                var DOB = document.getElementById('DOB');
+                DOB.textContent = $scope.DOB;
+
+                var fullname = document.getElementById('fullname');
+                fullname.textContent = $scope.FullName;
+
+                var Gender = document.getElementById('Gender');
+                Gender.textContent = $scope.ViewGenderName;
+
+                var dob = DOB.textContent;
+                dob = dob.replace(/-/gi, '');
+                var year = Number(dob.substr(5, 9));
+                var month = Number(dob.substr(2, 2));
+                var day = Number(dob.substr(0, 2));
+                var today = new Date();
+                var age = today.getFullYear() - year;
+
+                Age = document.getElementById('Age');
+                Age.textContent = age.toString();
                 if (methodcnt == 0)
                     $scope.uploadview = true;
-                if ($scope.PatientType == 2)
+                if ($scope.PatientType == 2) {
                     $('#divPatientType').attr('style', 'display : block');
+                }
                 else
                     $('#divPatientType').attr('style', 'display : none');
                 if (data.Protocol_Id != null) {

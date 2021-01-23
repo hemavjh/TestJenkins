@@ -48,6 +48,9 @@ namespace MyCortex.User.Model
         public int EndRowNumber { get; set; }
         public string SearchQuery { get; set; }
         public bool Is_Master { get; set; }
+        public string UserType { get; set; }
+        public byte[] PhotoBlob { get; set; }
+        public string PhotoBlobs { get; set; }
     }
 
 }

@@ -16,6 +16,7 @@ namespace MyCortex.Repositories
         IList<InstitutionModel> InstitutionDetails_List(long? Id,int? IsActive);
         void InstitutionDetails_Delete(long Id);
         void InstitutionDetails_Active(long Id);
+        void InstitutionDefaultData_Insert(long Id);
         void Institution_PhotoUpload(byte[] imageFile, int Id);
         PhotoUploadModal Institution_GetPhoto(long Id);  
     }

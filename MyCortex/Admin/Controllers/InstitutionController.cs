@@ -220,6 +220,24 @@ namespace MyCortex.Admin.Controllers
 
         }
 
+        [HttpGet]
+        public HttpResponseMessage InstitutionDefaultData_Insert(long Id)
+        {
+            if (Id > 0)
+            {
+                repository.InstitutionDefaultData_Insert(Id);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+
+                return response;
+
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+        }
+
 
     }
 

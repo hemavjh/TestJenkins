@@ -95,17 +95,17 @@ namespace MyCortex.Notification.Firebase
 
         }
 
-        public async static void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
-        {            
+        public static void sendNotification(PushNotificationMessage message, long templateId, long User_Id, long NotificationFor)
+        {
             List<NotifictaionUserFCM> model = new List<NotifictaionUserFCM>();
             model = repository.UserFCMToken_Get_List(User_Id);
             string url = HttpContext.Current.Request.Url.Authority;
             foreach (NotifictaionUserFCM itemData in model)
             {
-                if ((NotificationFor == 2 && itemData.DeviceType == "web") || (NotificationFor == 3 && itemData.DeviceType != "web") || NotificationFor == 4)
-                { 
+                if ((NotificationFor == 3 && itemData.DeviceType == "web") || (NotificationFor == 2 && itemData.DeviceType != "web") || NotificationFor == 4)
+                {
                     message.FCMToken = itemData.FCMToken;
-                    await SendPushNotification(message, templateId, url);
+                    SendPushNotification(message, templateId, url);
                 }
             }
         }
