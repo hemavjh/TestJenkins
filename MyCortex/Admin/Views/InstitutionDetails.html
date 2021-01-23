@@ -10,6 +10,55 @@
             $("#InstitutionLogo").trigger('click');
         })
 
+        $(document).ready(function () {
+            var image = $('#InstitutionLogo').val();
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                url: image,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'square' //circle
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                },
+                points: {
+                    topLeftX: 0,
+                    topLeftY: 0,
+                    bottomRightX: 0,
+                    bottomRightY: 0
+                }
+            });
+
+            $('#InstitutionLogo').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function () {
+                        console.log('jQuery bind complete');
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#insertimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function (event) {
+                $image_crop.croppie('result', {
+                    type: 'base64',
+                    format: 'jpeg',
+                    //type: 'canvas',
+                    size: 'viewport'
+                    //size: {width: 150, height: 200}
+                }).then(function (response) {
+                    $('#item-img-output').attr('src', response);
+                    $('#insertimageModal').modal('hide');
+                });
+            });
+
+        });
 
         //$('.selectpicker').on('change', function () {
         //    var selected = []

@@ -144,7 +144,9 @@ MyCortexControllers.directive("fileread", [
                             //scope.filename = changeEvent.target.files[0].name;
                         });
                     }
-                    reader.readAsDataURL(changeEvent.target.files[0]);
+                    if (changeEvent.target.files[0].lenght !== 0) {
+                        reader.readAsDataURL(changeEvent.target.files[0]);
+                    } 
                 });
             }
         }
@@ -4134,7 +4136,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
         $scope.BlobFileName = "";
         $scope.Institution_AddEdit = function () {
             if ($scope.InstitutionAddEdit_Validations() == true) {
-
+                $scope.PhotoFullpath = $('#item-img-output').attr('src');
                 var obj = {
                     Id: $scope.InstituteId,
                     Institution_Name: $scope.Institution_Name,
@@ -4148,7 +4150,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     StateId: $scope.StateNameId,
                     CityId: $scope.LocationNameId,
                     FileName: $scope.FileName,
-                    Photo_Fullpath: "",
+                    Photo_Fullpath: $scope.PhotoFullpath,
                     Photo: $scope.InstitutionLogo,
                 };
                 $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
@@ -4165,7 +4167,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                         var fd = new FormData();
                         if ($('#InstitutionLogo')[0].files[0] != undefined) {
                             FileName = $('#InstitutionLogo')[0].files[0]['name'];
-                            imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                            imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
                             itemIndexLogo = 0;
                         }
                         if (itemIndexLogo != -1) {
