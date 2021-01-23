@@ -727,6 +727,14 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 alert("Please enter MRN No.");
                 return false;
             }
+            else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
+                alert("Please enter NationalId.");
+                return false;
+            }
+            else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
+                alert("Please enter InsuranceId.");
+                return false;
+            }
             else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
                 alert("Please select Sex");
                 return false;
@@ -739,10 +747,10 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 alert("Please select Date of Birth");
                 return false;
             }
-            else if (isDate($scope.DOB) == false) {
-                alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
-                return false;
-            }
+            //else if (isDate($scope.DOB) == false) {
+            //    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
             else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
                 alert("Please enter Email");
                 return false;
@@ -813,7 +821,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     //}).success(function (data) {
                     $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
                         $("#chatLoaderPV").hide();
-                        alert(data.Message);
+                        alert("You have been signed up successfully");
                         if (data.ReturnFlag == 1) {
                             $scope.CancelSignUpPopup();
                         }
@@ -846,6 +854,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.NationalityId = "0";
             $scope.EmailId = "";
             $scope.MobileNo = "";
+            $scope.DOB = "";
             //$scope.HideSignUpModal();
         }
 
