@@ -257,6 +257,7 @@
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Css\calnder.css" />
     <Content Include="Css\chat.css" />
+    <Content Include="Css\croppie.css" />
     <Content Include="Css\font-awesome.min.css" />
     <Content Include="Css\fullcalendar.css" />
     <Content Include="Css\fullcalendar.min.css" />
@@ -696,6 +697,8 @@
     <Content Include="scripts\bsDualListBox.js" />
     <Content Include="scripts\calendar.js" />
     <Content Include="scripts\Chatscripts.js" />
+    <Content Include="scripts\croppie.js" />
+    <Content Include="scripts\croppie.min.js" />
     <Content Include="scripts\jquery-ui.min.js" />
     <Content Include="scripts\jquery.mcautocomplete.js" />
     <Content Include="scripts\jquery.mCustomScrollbar.js" />

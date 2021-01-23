@@ -55,14 +55,14 @@
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">National ID</label>
+                    <label for="email">National ID<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
                            ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" />
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">Insurance ID</label>
+                    <label for="email">Insurance ID<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId"
                            ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
                 </div>
@@ -94,9 +94,8 @@
                 <div class="inputGroups">
                     <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
                     <div class="date" id="DOB">
-                        <input type="text" placeholder="" class="form-control dateIcon" ng-model="DOB" ng-init="DOB=''"
+                        <input type="date" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                ng-required="true">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
             </div>
@@ -197,14 +196,14 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="inputGroups">
-                                <label for="email">National ID</label>
+                                <label for="email">National ID<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
                                        ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" />
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="inputGroups">
-                                <label for="email">Insurance ID</label>
+                                <label for="email">Insurance ID<sup><font class='mandatory-field'>*</font></sup></label>
                                 <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId"
                                        ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
                             </div>
@@ -236,9 +235,9 @@
                             <div class="inputGroups">
                                 <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
                                 <div class="date" id="DOB">
-                                    <input type="text" placeholder="" class="form-control dateIcon" ng-model="DOB" ng-init="DOB=''"
+                                    <input type="date" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                             ng-required="true">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                    <!--<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
                                 </div>
                             </div>
                         </div>
@@ -328,13 +327,13 @@
             });
         })
 
-        $("#DOB").datepicker({
-            format: "dd-M-yyyy",
-            forceParse: true,
-            endDate: '+0d',
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
-        });
+        //$("#DOB").datepicker({
+        //    format: "dd-M-yyyy",
+        //    forceParse: true,
+        //    endDate: '+0d',
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
 </script>
