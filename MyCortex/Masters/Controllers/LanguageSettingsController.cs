@@ -12,6 +12,7 @@ using System.Web.Http;
 using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
+using System.Text;
 
 namespace MyCortex.Masters.Controllers
 {
@@ -80,6 +81,33 @@ namespace MyCortex.Masters.Controllers
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        [HttpGet]
+        [ActionName("ListIOS")]
+        public HttpResponseMessage LanguageKeyValue_ListIOS(int Institution_Id, Guid Login_Session_Id)
+        {
+            IList<LanguageKeyValueModel> model;
+            StringBuilder jsonOutput = new StringBuilder();
+            try
+            {
+                model = repository.LanguageKeyValue_List(Institution_Id, Login_Session_Id);
+                foreach (LanguageKeyValueModel item in model)
+                {
+                    if (jsonOutput.Length > 0)
+                        jsonOutput.Append(",");
+
+                    jsonOutput.Append("\"" + item.LANGUAGE_KEY + "\":\"" + item.LANGUAGE_VALUE + "\"");
+                }
+                var response = "{\"en\":[{" + jsonOutput + "}]}";
+
+                return Request.CreateErrorResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
