@@ -873,6 +873,21 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 });
             };
         }
+
+        /*
+        Calling the api method to insert the default data of the Institution
+        for the  Institution Id,
+        and redirected to the list page.
+        */
+        $scope.InsertDefaultData = function () {
+            $http.get(baseUrl + '/api/Institution/InstitutionDefaultData_Insert/?Id=' + $scope.Id).success(function (data) {
+                alert("Institution Default Data Inserted successfully");
+                // $scope.InstitutionDetailsListGo();
+            }).error(function (data) {
+                $scope.error = "An error has occurred while InsertInstitution Default Records" + data;
+            });
+
+        };
     }
 
 ]);

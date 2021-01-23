@@ -179,6 +179,19 @@ namespace MyCortex.Repositories.Admin
         }
 
         /// <summary>
+        /// Activate a Institution
+        /// </summary>
+        /// <param name="Id">Id of the institution</param>
+        /// <returns>Activated Institution details</returns>
+        public void InstitutionDefaultData_Insert(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTIONID", Id));
+            ClsDataBase.Update("[MYCORTEX].CREATEINSTITUTIONMASTER_SP", param);
+
+        }
+
+        /// <summary>
         /// upload a photo blob data in table
         /// </summary>
         /// <param name="Id">Id of institution</param>
