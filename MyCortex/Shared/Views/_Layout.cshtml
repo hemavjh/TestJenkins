@@ -117,6 +117,14 @@
         } else {
             usernamespan.innerText = nameList[8];
         }
+
+        var Show_UserType = document.getElementById('Show_UserType');
+
+        if ('textContent' in Show_UserType) {
+            Show_UserType.textContent = nameList[10];
+        } else {
+            Show_UserType.innerText = nameList[10];
+        }
         document.getElementById("profileIcon").src = nameList[1];
         document.getElementById("profileIcon").title = "Last Login: " + nameList[0];
         if (nameList[3] == "2")

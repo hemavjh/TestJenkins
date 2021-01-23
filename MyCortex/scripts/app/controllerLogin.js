@@ -821,9 +821,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     //}).success(function (data) {
                     $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
                         $("#chatLoaderPV").hide();
-                        alert("You have been signed up successfully");
                         if (data.ReturnFlag == 1) {
+                            alert("You have been signed up successfully");
                             $scope.CancelSignUpPopup();
+                        } else {
+                            alert(data.Message);
                         }
                         //if ($scope.MenuTypeId == 3) {
                         //    $scope.ListRedirect();
