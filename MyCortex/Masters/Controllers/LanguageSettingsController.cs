@@ -13,6 +13,7 @@ using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MyCortex.Masters.Controllers
 {
@@ -100,9 +101,9 @@ namespace MyCortex.Masters.Controllers
 
                     jsonOutput.Append("\"" + item.LANGUAGE_KEY + "\":\"" + item.LANGUAGE_VALUE + "\"");
                 }
-                var response = "{\"en\":[{" + jsonOutput + "}]}";
+                var response = JsonConvert.DeserializeObject("{\"en\":[{" + jsonOutput + "}]}");
 
-                return Request.CreateErrorResponse(HttpStatusCode.OK, response);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
