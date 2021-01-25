@@ -316,7 +316,15 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
     authInterceptorServiceFactory.request = _request;
     authInterceptorServiceFactory.responseError = _responseError;
-
+    $(document).ready(function () {
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $('.menuList button').on('click', function () {
+            $('.menuList button').removeClass('activeButton');
+            $(this).addClass('activeButton');
+        });
+    });
     return authInterceptorServiceFactory;
 }])
 .run(['$rootScope', 'Idle', '$window', function ($rootScope, Idle, $window) {

@@ -156,6 +156,10 @@ button.activeButton::after {
     width: 100%;
 }
 
+.boldtxt{
+ font-weight:bold !important;  
+}
+
 .profile_menu .dropdown-toggle {
     background: none !important;
     outline: none !important;
