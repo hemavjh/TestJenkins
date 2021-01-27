@@ -1511,8 +1511,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $location.path("/PatientVitals/" + $scope.Id + "/3");
             }
             else if ($scope.PageParameter == 5) {
-                // All Patient Page
-                $location.path("/PatientVitals/" + $scope.Id + "/4");
+                // User Profile Patient Vitals
+                    $location.path("/PatientVitals/" + $scope.Id + "/4");
             }
             else if ($scope.PageParameter == 6) {
                 // Diagostic Alert
@@ -4766,6 +4766,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.uploadview = false;
         $scope.unitgrouptype = 1;
         $scope.UnitGroupTypeList = [];
+        $scope.MyAppoinmentdata = [];
+        $scope.MyAppointment = [];
+
         $scope.getUnitGroupType_List = function () {
             $http.get(baseUrl + '/api/Common/getUnitGroupType/').success(function (data) {
                 $scope.UnitGroupTypeList = data;
@@ -4778,6 +4781,21 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             //})
 
         }
+
+        $scope.MyAppointments = function () {
+            $("#chatLoaderPV").show();
+            $http.get(baseUrl + '/api/User/DoctorAppoinmentHistoryList/?PatientId=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $("#chatLoaderPV").hide();
+                var Patient = parseInt(window.localStorage['SelectedPatientId']);
+                $scope.MyAppoinmentdata = data;
+                angular.forEach($scope.MyAppoinmentdata, function (value, index) {
+                    if (Patient === value.Patient_Id) {
+                        $scope.MyAppointment.push(value);
+                    }
+                });
+            });
+        }
+
         $scope.PatientBasicDetails_List = function () {
             $("#chatLoaderPV").show();
             photoview = true;
