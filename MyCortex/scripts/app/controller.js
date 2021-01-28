@@ -12431,12 +12431,12 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
           in edit.html and provide an option for select and modify the chat settings and save the chat settings record
           */
         $scope.ChatSettings_AddEdit = function () {
-            $("#chatLoaderPV").show();
+            
             $scope.SaveChatPreference();
 
             var savecnt = $scope.UserGroupList.length * 2;
             var lpcnt = 0;
-
+            $("#chatLoaderPV").show();
             angular.forEach($scope.UserGroupList, function (Ovalue, Oindex) {
                 angular.forEach($scope.UserGroupList, function (Ivalue, Iindex) {
                     var flagstatus = 0;
@@ -12464,20 +12464,23 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                         obj.Flag = 0;
                     };
 
-
+                    
                     $http.post(baseUrl + '/api/ChatSettings/ChatSettings_AddEdit/', obj).success(function (data) {
-
-                        lpcnt = lpcnt + 1
-                        if (savecnt == lpcnt) {
+                       
+                        lpcnt = lpcnt + 1 
+                        if (savecnt == lpcnt) { 
                             alert(data.Message);
                             $location.path("/EditChatSettings/" + $scope.Institution_Id);
                             //$scope.loading = false;
-                            //$rootScope.$broadcast('hide');
-                        }
+                            //$rootScope.$broadcast('hide'); 
+                            $("#chatLoaderPV").hide();
+                        } 
+                        
                     })
-                })
-                $("#chatLoaderPV").hide();
-            })
+                   
+                }) 
+            }) 
+            
         };
 
         /*Store Chat Preference*/
