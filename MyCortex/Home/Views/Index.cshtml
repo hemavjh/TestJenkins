@@ -863,9 +863,8 @@
         }
     }
     function ViewProfile() {
-        Id = window.localStorage['UserId'];
-        //window.location.href = baseUrl + "/Home/Index#/PatientVitals/" + Id + "/2";
-        window.location.href = baseUrl + "/Home/Index#/PatientView/" + Id + "/2" + "/" + "3";
+        Id = window.localStorage['SelectedPatientId'];
+        window.location.href = baseUrl + "/Home/Index#/PatientView/" + Id + "/" + "5" + "/" + "3";
     }
     function searchContact_onKeyPress() {
         $('#address-user > li:not(:contains(' + $('#contactSearch').val() + '))').hide();

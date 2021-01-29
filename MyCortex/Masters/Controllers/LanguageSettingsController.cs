@@ -13,6 +13,7 @@ using MyCortex.Repositories.Masters;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace MyCortex.Masters.Controllers
 {
@@ -93,16 +94,18 @@ namespace MyCortex.Masters.Controllers
             try
             {
                 model = repository.LanguageKeyValue_List(Institution_Id, Login_Session_Id);
-                foreach (LanguageKeyValueModel item in model)
+                var filter = model.Where(x => x.LANGUAGE_NAME == "en").Select(s => s);
+
+                foreach (LanguageKeyValueModel item in filter)
                 {
                     if (jsonOutput.Length > 0)
                         jsonOutput.Append(",");
 
                     jsonOutput.Append("\"" + item.LANGUAGE_KEY + "\":\"" + item.LANGUAGE_VALUE + "\"");
                 }
-                var response = "{\"en\":[{" + jsonOutput + "}]}";
+                var response = JsonConvert.DeserializeObject("{\"lng\":{" + jsonOutput + "}}");
 
-                return Request.CreateErrorResponse(HttpStatusCode.OK, response);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {

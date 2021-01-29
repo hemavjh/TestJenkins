@@ -3,7 +3,7 @@
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <!--Hide by Yogeswaran Please-->
     <div class="patientCharts" style="display:none"
-         ng-init="getParameterList();getUnitGroupType_List();UnitGroupPreference();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();">
+         ng-init="getParameterList();getUnitGroupType_List();UnitGroupPreference();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();MyAppointments()">
         <div class="patientCards ">
             <img src="../../Images/MRN.png" class="patientVitalscard" />
             <h1>MRN</h1>
@@ -336,40 +336,18 @@
                     <div class="panel-body">
 
                         <h1 class="title2 text-left">My Appointments</h1>
+                        <div class="myAppoinments" ng-show="MyAppointment.length==0">
+                            No Appointments
+                        </div>
                         <div class="myAppoinments">
-                            <marquee direction="up" height="150px" scrollamount="1">
-                                <p>
-                                    <span>15-03-2021</span>
-                                    <span>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.
-                                    </span>
-                                    <a href="">View Details</a>
-                                </p>
-                                <p>
-                                    <span>15-03-2021</span>
-                                    <span>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.
-                                    </span>
-                                    <a href="">View Details</a>
-                                </p>
-                                <p>
-                                    <span>15-03-2021</span>
-                                    <span>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.
-                                    </span>
-                                    <a href="">View Details</a>
-                                </p>
-                                <p>
-                                    <span>15-03-2021</span>
-                                    <span>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua.
-                                    </span>
-                                    <a href="">View Details</a>
-                                </p>
+                            <marquee ng-repeat="row in MyAppointment" direction="up" height="100px" scrollamount="1">
+                            <p>
+                                <span>{{row.Appointment_Date | date : format : "dd-MM-yyyy"}}</span>
+                                <span>
+                                    {{row.ReasonForVisit}}
+                                </span>
+                                <a href="">View Details</a>
+                            </p>
                             </marquee>
                         </div>
 
@@ -446,11 +424,11 @@
                                     <div class="changeViews" style="margin-left:450px;">
                                         <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
                                            ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
-                                            <i class="fas fa-chart-bar"></i></i>
+                                            <i class="fas fa-table"></i></i>
                                         </a>
                                         <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
                                            ng-click="VitalChart ='1';HistoryDetails(currentTab);">
-                                            <i class="fas fa-table" class="themeProfile"></i></i>
+                                            <i class="fas fa-chart-bar" class="themeProfile"></i></i>
                                         </a>
                                         <a href="#" title="Current Time">
                                             <i class="far fa-clock"></i>
@@ -1530,7 +1508,7 @@
                                                     <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
                                                 </div>
                                             </div>-->
-                                            di
+                                            <!--di-->
                                         </div>
                                     </div>
 
@@ -3865,19 +3843,19 @@
                                                             alt="">-->
                                         <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img class="patientDetimg" src="../../Images/male.png" />
+                                            <img width="200" height="200" class="patientDetimg" src="../../Images/male.png" />
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img class="patientDetimg" src="../../Images/female.png" />
+                                            <img width="200" height="200" class="patientDetimg" src="../../Images/female.png" />
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img class="patientDetimg" src="../../Images/Others.png" />
+                                            <img width="200" height="200" class="patientDetimg" src="../../Images/Others.png" />
                                         </div>
                                         <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!='')" valign="top"
                                              rowspan="6">
-                                            <img class="patientDetimg"
+                                            <img width="200" height="200" class="patientDetimg"
                                                  src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
                                         </div>
                                     </div>

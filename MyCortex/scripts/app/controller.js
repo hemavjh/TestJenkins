@@ -1511,8 +1511,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $location.path("/PatientVitals/" + $scope.Id + "/3");
             }
             else if ($scope.PageParameter == 5) {
-                // All Patient Page
-                $location.path("/PatientVitals/" + $scope.Id + "/4");
+                // User Profile Patient Vitals
+                    $location.path("/PatientVitals/" + $scope.Id + "/4");
             }
             else if ($scope.PageParameter == 6) {
                 // Diagostic Alert
@@ -4766,6 +4766,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.uploadview = false;
         $scope.unitgrouptype = 1;
         $scope.UnitGroupTypeList = [];
+        $scope.MyAppoinmentdata = [];
+        $scope.MyAppointment = [];
+
         $scope.getUnitGroupType_List = function () {
             $http.get(baseUrl + '/api/Common/getUnitGroupType/').success(function (data) {
                 $scope.UnitGroupTypeList = data;
@@ -4778,6 +4781,21 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             //})
 
         }
+
+        $scope.MyAppointments = function () {
+            $("#chatLoaderPV").show();
+            $http.get(baseUrl + '/api/User/DoctorAppoinmentHistoryList/?PatientId=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $("#chatLoaderPV").hide();
+                var Patient = parseInt(window.localStorage['SelectedPatientId']);
+                $scope.MyAppoinmentdata = data;
+                angular.forEach($scope.MyAppoinmentdata, function (value, index) {
+                    if (Patient === value.Patient_Id) {
+                        $scope.MyAppointment.push(value);
+                    }
+                });
+            });
+        }
+
         $scope.PatientBasicDetails_List = function () {
             $("#chatLoaderPV").show();
             photoview = true;
@@ -12413,12 +12431,12 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
           in edit.html and provide an option for select and modify the chat settings and save the chat settings record
           */
         $scope.ChatSettings_AddEdit = function () {
-            $("#chatLoaderPV").show();
+            
             $scope.SaveChatPreference();
 
             var savecnt = $scope.UserGroupList.length * 2;
             var lpcnt = 0;
-
+            $("#chatLoaderPV").show();
             angular.forEach($scope.UserGroupList, function (Ovalue, Oindex) {
                 angular.forEach($scope.UserGroupList, function (Ivalue, Iindex) {
                     var flagstatus = 0;
@@ -12446,20 +12464,23 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                         obj.Flag = 0;
                     };
 
-
+                    
                     $http.post(baseUrl + '/api/ChatSettings/ChatSettings_AddEdit/', obj).success(function (data) {
-
-                        lpcnt = lpcnt + 1
-                        if (savecnt == lpcnt) {
+                       
+                        lpcnt = lpcnt + 1 
+                        if (savecnt == lpcnt) { 
                             alert(data.Message);
                             $location.path("/EditChatSettings/" + $scope.Institution_Id);
                             //$scope.loading = false;
-                            //$rootScope.$broadcast('hide');
-                        }
+                            //$rootScope.$broadcast('hide'); 
+                            $("#chatLoaderPV").hide();
+                        } 
+                        
                     })
-                })
-                $("#chatLoaderPV").hide();
-            })
+                   
+                }) 
+            }) 
+            
         };
 
         /*Store Chat Preference*/
