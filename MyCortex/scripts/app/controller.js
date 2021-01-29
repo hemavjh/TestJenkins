@@ -6524,7 +6524,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
                     $scope.appointmentClear();
-
+                    $scope.MyAppointments();
                 })
             }
         }
