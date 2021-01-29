@@ -704,6 +704,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         }
         $scope.PhotoUplaodSelected = function () {
             $scope.PhotoValue = 1;
+            
         };
         /* Clear the uploaded image */
         $scope.imageclear = function () {
@@ -1698,7 +1699,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $location.path("/PatientCreate/" + "2" + "/" + "3");
-        }
+         }
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
                 $scope.InstitutionSubscriptionLicensecheck(3);
@@ -1933,7 +1934,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 function (data) {
                     $scope.GenderList = data;
                     $scope.tab1 = $scope.tab1 + 1;
-                    // $scope.PatientgetBase64Image();
+                    $scope.PatientgetBase64Image();
                 });
 
             $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {

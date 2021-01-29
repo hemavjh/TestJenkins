@@ -509,17 +509,11 @@
                                                                     multiselect-dropdown style="width: 230px;"></select>
                                                         </div>
                                                         <div class="inputGroups">
-                                                            <label>
-                                                                Date of Birth<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-
-                                                            <input id="DOB" type="text" class="form-control dateIcon" ng-model="DOB"
-                                                                   ng-init="DOB=''" ng-required="true">
-
-                                                        </div>
-
+                                                            <label for="email">DOB<sup><font class="mandatory-field">*</font></sup></label>
+                                                            <div class="date" id="DOB">
+                                                                <input type="date" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" ng-model="DOB" ng-init="DOB=''" ng-required="true" required="required">
+                                                            </div>
+                                                        </div> 
 
                                                     </div>
                                                 </div>
