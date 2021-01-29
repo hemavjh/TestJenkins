@@ -123,33 +123,7 @@
             <div class="themeHeader">
                 <div class="themeLogo">
                     @*<img src="images/MyCortexLogo.JPG">*@
-                    <img src="images/MyCortexLogo.JPG" id="InstLogo">
-                    <div id="patient_profile" class="patientHeaderProfile" style="display: none; margin-left: 10px;">
-                        <p id="fullname">{{fullname}}</p>  <i class="fas fa-chevron-down"></i>
-                        <div class="patientHeaderProfileDetails" style="display:none">
-                            <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
-                            <p onclick = " ViewProfile()">
-                                <span>USER TYPE</span>
-                                <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
-                                <i class="far fa-id-badge" style="color:#4285f4"></i>
-                            </p>
-                            <p onclick = " ViewProfile()">
-                                <span>National Id</span>
-                                <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
-                                <i class="far fa-address-card" style="color:#ea4335"></i>
-                            </p>
-                            <p onclick = " ViewProfile()">
-                                <span>Phone</span>
-                                <span id="MOBILE_NO">+{{MOBILE_NO}}</span>
-                                <i class="fas fa-mobile-alt" style="color:#fbbc05"></i>
-                            </p>
-                            <p onclick = " ViewProfile()">
-                                <span>DOB</span>
-                                <span id="DOB">{{DOB}}</span>
-                                <i class="far fa-calendar-alt" style="color:#34a853"></i>
-                            </p>
-                        </div>
-                    </div>
+                    <img src="images/MyCortexLogo.JPG" id="InstLogo"> 
                     <div class="themeMenu">
                         @{ var counter = 1; }
                         @foreach (var menu in Model)
@@ -217,6 +191,32 @@
                         <a href="#" title="Monitoring Protocol" style="display:none"><i class="fas fa-cog"></i></a>
                         <a href="#" title="Groups" style="display:none"><i class="fas fa-user-friends"></i></a>
                         <a href="#" title="Unknown Allergies" style="display:none"><i class="fas fa-virus"></i></a>
+                    </div>
+                    <div id="patient_profile" class="patientHeaderProfile" style="display: none; margin-right: 8px;">
+                        <p id="fullname">{{fullname}}</p>  <i class="fas fa-chevron-down"></i>
+                        <div class="patientHeaderProfileDetails" style="display:none">
+                            <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
+                            <p onclick=" ViewProfile()">
+                                <span>USER TYPE</span>
+                                <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
+                                <i class="far fa-id-badge" style="color:#4285f4"></i>
+                            </p>
+                            <p onclick=" ViewProfile()">
+                                <span>National Id</span>
+                                <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
+                                <i class="far fa-address-card" style="color:#ea4335"></i>
+                            </p>
+                            <p onclick=" ViewProfile()">
+                                <span>Phone</span>
+                                <span id="MOBILE_NO">+{{MOBILE_NO}}</span>
+                                <i class="fas fa-mobile-alt" style="color:#fbbc05"></i>
+                            </p>
+                            <p onclick=" ViewProfile()">
+                                <span>DOB</span>
+                                <span id="DOB">{{DOB}}</span>
+                                <i class="far fa-calendar-alt" style="color:#34a853"></i>
+                            </p>
+                        </div>
                     </div>
                     <div id="mydiv" class="notificationOnline">
                         <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left"
