@@ -325,6 +325,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             $(this).addClass('activeButton');
         });
     });
+
     return authInterceptorServiceFactory;
 }])
 .run(['$rootScope', 'Idle', '$window', function ($rootScope, Idle, $window) {
