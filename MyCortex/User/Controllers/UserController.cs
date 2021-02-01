@@ -1358,6 +1358,28 @@ namespace MyCortex.User.Controller
         }
 
         /// <summary>
+        /// to get Cronic history for a patient
+        /// </summary>
+        /// <param name="PatientId">Patient Id</param>
+        /// <returns>Cronic history for a patient</returns>
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId)
+        {
+            try
+            {
+                IList<PatientChronicCondition_List> model;
+                model = repository.Chronic_Conditions(PatientId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// to insert the protocol assigned to a patient
         /// </summary>
         /// <param name="model">protocol and patient</param>

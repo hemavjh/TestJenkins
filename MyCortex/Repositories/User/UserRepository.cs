@@ -1452,8 +1452,20 @@ namespace MyCortex.Repositories.Uesr
             ClsDataBase.Update("[MYCORTEX].TBLUPLOADUSER_SP_INSERTUPDATE", param);
 
         }
-
-
+        public IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@User_Id", PatientId));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CHRONIC_CONDITON", param);
+            List<PatientChronicCondition_List> INS = (from p in dt.AsEnumerable()
+                                                      select new PatientChronicCondition_List()
+                                                      { 
+                                                          Chronic_Id = p.Field<long>("CHRONIC_ID"),
+                                                          ChronicCondition = p.Field<string>("CHRONIC_NAME")
+                                                      }).ToList();
+            return INS;
+        }
+        
         public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id,int Created_By)
         {
             DataEncryption encrypt = new DataEncryption();

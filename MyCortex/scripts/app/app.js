@@ -325,6 +325,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             $(this).addClass('activeButton');
         });
     });
+
     return authInterceptorServiceFactory;
 }])
 .run(['$rootScope', 'Idle', '$window', function ($rootScope, Idle, $window) {
@@ -333,6 +334,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             // alert("Yes");
             $('#User_id').hide();
             $('#patient_profile').hide();
+            $('#chronic').hide();
         }
         $('#divPatientType').attr('style', 'display : none');
         $rootScope.previousPage = oldLocation;

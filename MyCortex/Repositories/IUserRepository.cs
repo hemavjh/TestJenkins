@@ -33,6 +33,7 @@ namespace MyCortex.Repositories
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id);
+        IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId);
         IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id);
         IList<PatientHealthDataModel> ParametersDetails_Delete(PatientHealthDataModel noteobj);
         IList<PatientHealthDataModel> ParametersDetails_Active(PatientHealthDataModel noteobj);
@@ -43,8 +44,8 @@ namespace MyCortex.Repositories
         PhotoUploadModal UserDetails_GetCertificate(long Id);
 
         IList<ProtocolModel> DoctorMonitoringProtocolView(long Patient_Id);
-        MonitoringProtocolModel ProtocolMonitoringProtocolView(long Patient_Id);
-        IList<PatientAppointmentsModel> DoctorAppoinmentHistoryList(long PatientId, Guid Login_Session_Id);
+        MonitoringProtocolModel ProtocolMonitoringProtocolView(long Patient_Id); 
+         IList<PatientAppointmentsModel> DoctorAppoinmentHistoryList(long PatientId, Guid Login_Session_Id);
 
         void PatientAssignedProtocol_InsertUpdate(ProtocolModel prtobj);
         IList<ProtocolModel> PatientAssignedProtocolHistorylist(long Patient_Id, Guid Login_Session_Id);

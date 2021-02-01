@@ -186,6 +186,7 @@ namespace MyCortex.User.Model
         public int? IsActive { get; set; }
     }
 
+
     public class PatientChronicCondition_List
     {
         public long? Id { get; set; }

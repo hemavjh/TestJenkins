@@ -4787,13 +4787,20 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/User/DoctorAppoinmentHistoryList/?PatientId=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $("#chatLoaderPV").hide();
-                var Patient = parseInt(window.localStorage['SelectedPatientId']);
+                //var Patient = parseInt(window.localStorage['SelectedPatientId']);
                 $scope.MyAppoinmentdata = data;
-                angular.forEach($scope.MyAppoinmentdata, function (value, index) {
-                    if (Patient === value.Patient_Id) {
-                        $scope.MyAppointment.push(value);
-                    }
-                });
+                //angular.forEach($scope.MyAppoinmentdata, function (value, index) {
+                //    if (Patient === value.Patient_Id) {
+                //        $scope.MyAppointment.push(value);
+                //    }
+                //});
+            });
+            $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
+                if (data.length !== 0) {
+                    $('#chronic').show();
+                } else {
+                    $('#chronic').hide();
+                }
             });
         }
 

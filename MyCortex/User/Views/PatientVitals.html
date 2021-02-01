@@ -336,11 +336,11 @@
                     <div class="panel-body">
 
                         <h1 class="title2 text-left">My Appointments</h1>
-                        <div class="myAppoinments" ng-show="MyAppointment.length==0">
+                        <div class="myAppoinments" ng-show="MyAppoinmentdata.length==0">
                             No Appointments
                         </div>
                         <div class="myAppoinments">
-                            <marquee ng-repeat="row in MyAppointment" direction="up" height="100px" scrollamount="1">
+                            <marquee ng-repeat="row in MyAppoinmentdata" direction="up" height="100px" scrollamount="1">
                             <p>
                                 <span>{{row.Appointment_Date | date : format : "dd-MM-yyyy"}}</span>
                                 <span>
@@ -422,11 +422,11 @@
                             <div ng-show="currentTab=='2' || currentTab=='3' ">
                                 <div>
                                     <div class="changeViews" style="margin-left:450px;">
-                                        <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
+                                        <a href="javascript:" ng-show="VitalChart=='1'" title="Grid View"
                                            ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
                                             <i class="fas fa-table"></i></i>
                                         </a>
-                                        <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
+                                        <a href="javascript:" ng-show="VitalChart=='2'" title="Chart View"
                                            ng-click="VitalChart ='1';HistoryDetails(currentTab);">
                                             <i class="fas fa-chart-bar" class="themeProfile"></i></i>
                                         </a>
@@ -509,45 +509,45 @@
 
                         <ul class="themeTabs">
                             <li>
-                                <a  ng-class="{'themeTabActive boldtxt':currentTab=='1'}" ng-click="currentTab='1';CancelLiveData();TabClickDataLoad(currentTab)">Lifestyle</a>
+                                <a  ng-class="{'themeTabActive boldtxtt':currentTab=='1'}" ng-click="currentTab='1';CancelLiveData();TabClickDataLoad(currentTab)">Lifestyle</a>
                             </li>
                             <li>
-                                <a   ng-class="{'themeTabActive boldtxt':currentTab=='2'}"
+                                <a   ng-class="{'themeTabActive boldtxtt':currentTab=='2'}"
                                    ng-click="currentTab='2';VitalChart='1';VitalsType_Id='2';Type_Id = '2';CancelLiveData();TabClickDataLoad(currentTab)">
                                     Vitals
                                 </a>
                             </li>
                             <li>
-                                <a  ng-class="{'themeTabActive boldtxt':currentTab=='3'}"
+                                <a  ng-class="{'themeTabActive boldtxtt':currentTab=='3'}"
                                    ng-click="currentTab='3';VitalChart='1';VitalsType_Id='2';Type_Id = '2';CancelLiveData();TabClickDataLoad(currentTab)">
                                     Lab
                                 </a>
                             </li>
                             <li>
-                                <a ng-class="{'themeTabActive boldtxt':currentTab=='4'}" ng-click="currentTab='4';CancelLiveData();ICD10TabLoadList()">
+                                <a ng-class="{'themeTabActive boldtxtt':currentTab=='4'}" ng-click="currentTab='4';CancelLiveData();ICD10TabLoadList()">
                                     ICD-10
                                 </a>
                             </li>
                             <li>
-                                <a  ng-class="{'themeTabActive boldtxt':currentTab=='5'}" ng-click="currentTab='5';CancelLiveData();MedicationTabLoadList()">MyPillBox</a>
+                                <a  ng-class="{'themeTabActive boldtxtt':currentTab=='5'}" ng-click="currentTab='5';CancelLiveData();MedicationTabLoadList()">MyPillBox</a>
                             </li>
                             <li>
-                                <a   ng-class="{'themeTabActive boldtxt':currentTab=='6'}" ng-click="currentTab='6';CancelLiveData();PatientAllergyList()">
+                                <a   ng-class="{'themeTabActive boldtxtt':currentTab=='6'}" ng-click="currentTab='6';CancelLiveData();PatientAllergyList()">
                                     Allergies
                                 </a>
                             </li>
                             <li>
-                                <a    ng-class="{'themeTabActive boldtxt':currentTab=='7'}" ng-click="currentTab='7';CancelLiveData();ClinicalNotesListData(currentTab);">
+                                <a    ng-class="{'themeTabActive boldtxtt':currentTab=='7'}" ng-click="currentTab='7';CancelLiveData();ClinicalNotesListData(currentTab);">
                                     Clinical Notes
                                 </a>
                             </li>
                             <li>
-                                <a  ng-class="{'themeTabActive boldtxt':currentTab=='8'}" ng-click="currentTab='8';CancelLiveData();OthersListData(currentTab);">
+                                <a  ng-class="{'themeTabActive boldtxtt':currentTab=='8'}" ng-click="currentTab='8';CancelLiveData();OthersListData(currentTab);">
                                     Others
                                 </a>
                             </li>
                             <li ng-show="UserTypeId==4 || UserTypeId==7">
-                                <a   ng-class="{'themeTabActive boldtxt':currentTab=='9'}" ng-click="currentTab='9';LiveTabClick()">
+                                <a   ng-class="{'themeTabActive boldtxtt':currentTab=='9'}" ng-click="currentTab='9';LiveTabClick()">
                                     Live
                                 </a>
                             </li>
