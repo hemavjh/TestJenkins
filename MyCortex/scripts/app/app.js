@@ -334,6 +334,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             // alert("Yes");
             $('#User_id').hide();
             $('#patient_profile').hide();
+            $('#chronic').hide();
         }
         $('#divPatientType').attr('style', 'display : none');
         $rootScope.previousPage = oldLocation;
