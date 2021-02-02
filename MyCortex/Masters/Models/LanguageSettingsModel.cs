@@ -29,4 +29,12 @@ namespace MyCortex.Masters.Models
         public string Message { get; set; }
         public IList<LanguageSettingsModel> LanguageSettings { get; set; }
     }
+
+    public class InstituteLanguageModel
+    {
+        public long ID { get; set; }
+        public string LANGUAGE_NAME { get; set; }
+        public string SHORT_CODE { get; set; }
+        public bool IS_DEFAULT { get; set; }
+    }
 }

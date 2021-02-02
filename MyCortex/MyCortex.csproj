@@ -1418,13 +1418,13 @@
     </Content>
     <Content Include="MyCortex.ruleset" />
     <Content Include="manifest.json" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\HRMS.pubxml" />
     <Content Include="scripts\bootstrap-select.min.js" />
     <Content Include="Shared\Views\_LayoutLogin.cshtml" />
     <Content Include="scripts\bootstrap-toggle.min.js" />
+    <None Include="Properties\PublishProfiles\IISPublish.pubxml" />
     <None Include="Properties\PublishProfiles\Mycortex.pubxml" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <Content Include="scripts\ckeditor\CHANGES.md" />
