@@ -40,6 +40,7 @@ namespace MyCortex.Repositories.Masters
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
         }
@@ -73,6 +74,32 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<InstituteLanguageModel> InstituteLanguage_List(int Institution_Id)
+        {
+            //  DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTION_LANGUAGE_SP_VIEW]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                List<InstituteLanguageModel> list = (from p in dt.AsEnumerable()
+                                                    select new InstituteLanguageModel()
+                                                    {
+                                                        ID = p.Field<long>("ID"),
+                                                        ShortCode = p.Field<string>("SHORT_CODE").ToLower(),
+                                                        LanguageName = p.Field<string>("LANGUAGE_NAME"),
+                                                        IsDefault = p.Field<bool>("IS_DEFAULT")
+                                                    }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Language_Id,int Institution_Id)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
@@ -87,15 +114,15 @@ namespace MyCortex.Repositories.Masters
                                                     select new LanguageKeyValueModel()
                                                     {
                                                         ID = p.Field<long>("ID"),
-                                                        LANGUAGE_NAME = p.Field<string>("SHORT_CODE").ToLower(),
-                                                        LANGUAGE_KEY = p.Field<string>("LANGUAGE_KEY"),
-                                                        LANGUAGE_VALUE = p.Field<string>("LANGUAGE_TEXT"),
+                                                        LanguageKey = p.Field<string>("LANGUAGE_KEY"),
+                                                        LanguageText = p.Field<string>("LANGUAGE_TEXT"),
 
                                                     }).ToList();
                 return list;
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
         }

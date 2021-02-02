@@ -72,6 +72,24 @@ namespace MyCortex.Masters.Controllers
 
         [AllowAnonymous]
         [HttpGet]
+        [ActionName("InstituteLanguages")]
+        public IList<InstituteLanguageModel> InstituteLanguage_List(int Institution_Id)
+        {
+            try
+            {
+                IList<InstituteLanguageModel> model;
+                model = repository.InstituteLanguage_List(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
         [ActionName("List")]
         public HttpResponseMessage LanguageKeyValue_List(int Language_Id=1, int Institution_Id = 0)
         {
@@ -86,7 +104,7 @@ namespace MyCortex.Masters.Controllers
                     if (jsonOutput.Length > 0)
                         jsonOutput.Append(",");
 
-                    jsonOutput.Append("\"" + item.LANGUAGE_KEY + "\":\"" + item.LANGUAGE_VALUE + "\"");
+                    jsonOutput.Append("\"" + item.LanguageKey + "\":\"" + item.LanguageText + "\"");
                 }
                 var response = JsonConvert.DeserializeObject("{\"lng\":{" + jsonOutput + "}}");
 
