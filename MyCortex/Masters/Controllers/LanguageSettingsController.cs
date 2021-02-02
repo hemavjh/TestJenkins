@@ -104,7 +104,7 @@ namespace MyCortex.Masters.Controllers
                     if (jsonOutput.Length > 0)
                         jsonOutput.Append(",");
 
-                    jsonOutput.Append("\"" + item.LANGUAGE_KEY + "\":\"" + item.LANGUAGE_VALUE + "\"");
+                    jsonOutput.Append("\"" + item.LanguageKey + "\":\"" + item.LanguageText + "\"");
                 }
                 var response = JsonConvert.DeserializeObject("{\"lng\":{" + jsonOutput + "}}");
 

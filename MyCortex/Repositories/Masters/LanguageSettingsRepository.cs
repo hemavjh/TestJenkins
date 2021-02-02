@@ -87,9 +87,9 @@ namespace MyCortex.Repositories.Masters
                                                     select new InstituteLanguageModel()
                                                     {
                                                         ID = p.Field<long>("ID"),
-                                                        SHORT_CODE = p.Field<string>("SHORT_CODE").ToLower(),
-                                                        LANGUAGE_NAME = p.Field<string>("LANGUAGE_NAME"),
-                                                        IS_DEFAULT = p.Field<bool>("IS_DEFAULT")
+                                                        ShortCode = p.Field<string>("SHORT_CODE").ToLower(),
+                                                        LanguageName = p.Field<string>("LANGUAGE_NAME"),
+                                                        IsDefault = p.Field<bool>("IS_DEFAULT")
                                                     }).ToList();
                 return list;
             }
@@ -114,9 +114,8 @@ namespace MyCortex.Repositories.Masters
                                                     select new LanguageKeyValueModel()
                                                     {
                                                         ID = p.Field<long>("ID"),
-                                                        LANGUAGE_NAME = p.Field<string>("SHORT_CODE").ToLower(),
-                                                        LANGUAGE_KEY = p.Field<string>("LANGUAGE_KEY"),
-                                                        LANGUAGE_VALUE = p.Field<string>("LANGUAGE_TEXT"),
+                                                        LanguageKey = p.Field<string>("LANGUAGE_KEY"),
+                                                        LanguageText = p.Field<string>("LANGUAGE_TEXT"),
 
                                                     }).ToList();
                 return list;

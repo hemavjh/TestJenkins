@@ -17,9 +17,8 @@ namespace MyCortex.Masters.Models
     public class LanguageKeyValueModel
     {
         public long ID { get; set; }
-        public string LANGUAGE_NAME { get; set; }
-        public string LANGUAGE_KEY { get; set; }
-        public string LANGUAGE_VALUE { get; set; }
+        public string LanguageKey { get; set; }
+        public string LanguageText { get; set; }
     }
 
     public class LanguageSettingsReturnModels
@@ -33,8 +32,8 @@ namespace MyCortex.Masters.Models
     public class InstituteLanguageModel
     {
         public long ID { get; set; }
-        public string LANGUAGE_NAME { get; set; }
-        public string SHORT_CODE { get; set; }
-        public bool IS_DEFAULT { get; set; }
+        public string LanguageName { get; set; }
+        public string ShortCode { get; set; }
+        public bool IsDefault { get; set; }
     }
 }
