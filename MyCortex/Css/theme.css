@@ -752,8 +752,8 @@ li.customDropdownlast-child:hover {
         padding: 0px 25px;
         cursor: pointer;
         display: block;
-        margin-right: 15px;
-        border-radius: 25px;
+        margin-right: 25px;
+        border-radius: 4px;
     }
 
         .chartTabs li a:hover {
@@ -1634,4 +1634,7 @@ li.customDropdownlast-child:hover {
 .userOnlineInfo.on::after {
     background: green;
 }
-
+ 
+.charTabsNone{
+    display:none;
+}

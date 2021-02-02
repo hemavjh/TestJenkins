@@ -1,8 +1,8 @@
 ﻿<script>
     var List = jQuery.parseJSON('@Html.Action("LoginDetails", "Home")');
-
+    var CountList = jQuery.parseJSON('@Html.Action("GetUnread_Notification_Count", "Home")');
     $(document).ready(function () {
-        User_id = window.localStorage['UserTypeId'];
+        User_id = window.localStorage['UserTypeId'];  
         //if (User_id == 1 || User_id == 3) {
         //    $('#User_id').hide();
         //    $('#patient_profile').hide();
@@ -31,6 +31,9 @@
 
         //var Gender = document.getElementById('Gender');
         //Gender.textContent = List[7];
+
+        var NotificationCount = document.getElementById('notificationCount');
+        NotificationCount.textContent = CountList[0];
 
         $(document).ready(function () {
             //var dob = DOB.textContent;
@@ -222,7 +225,7 @@
                         <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left"
                            data-toggle="tooltip" onclick="location.href = 'Home/Index#/NotificationView'"></i>
                         <i class="fas fa-video"></i>
-                        <span>10+</span>
+                        <span id="notificationCount">{{NotificationCount}}</span>
                     </div>
                     <div>
                         <span id="usernamespan">Admin</span><br />
