@@ -43,6 +43,11 @@ body {
     font-size: var(--baseFontSize);
 }
 
+.mainbody, .DataContainer {
+    max-width: 1390px;
+    margin: 0 auto;
+}
+
 a {
     color: var(--linkText);
 }
@@ -156,7 +161,7 @@ button.activeButton::after {
     width: 100%;
 }
 
-.boldtxtt {
+.boldtxt {
     font-weight: bold !important;
 }
 
@@ -233,7 +238,13 @@ li.customDropdownlast-child:hover {
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-basis: 100%;
+    margin-bottom: 10px;
 }
+
+    .patientHeaderProfile > i {
+        margin-left: 10px;
+    }
 
     .patientHeaderProfile p {
         margin: 0px;
@@ -251,17 +262,25 @@ li.customDropdownlast-child:hover {
     background: #fafafa;
 }
 
+.patientHeaderProfile p {
+    margin-right: 0px !important;
+}
+
 .patientHeaderProfileDetails {
     position: absolute;
-    background: #fff;
-    color: #555;
-    padding: 15px;
-    top: 38px;
+    top: 16px;
     width: 220px;
     z-index: 999;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 2px rgb(204 204 204 / 0.2);
 }
+
+    .patientHeaderProfileDetails > div {
+        margin-top: 13px;
+        background: #fff;
+        color: #555;
+        border: 1px solid #ccc;
+        padding: 15px;
+        box-shadow: 2px 2px 2px rgb(204 204 204 / 0.2);
+    }
 
     .patientHeaderProfileDetails img {
         width: 80px;
@@ -298,6 +317,7 @@ li.customDropdownlast-child:hover {
     align-items: center;
     justify-content: center;
     min-width: 460px;
+    flex-wrap: wrap;
 }
 
     .patientShortInfo p {
@@ -347,33 +367,40 @@ li.customDropdownlast-child:hover {
 .patientNotifications {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     margin: 15px 0px;
 }
 
-    .patientNotifications > div {
-        position: relative;
-        margin-right: 15px;
+
+.bellGroup > div {
+    position: relative;
+    margin-right: 15px;
+}
+
+    .bellGroup > div > i {
+        font-size: 25px;
     }
 
-        .patientNotifications > div > i {
-            font-size: 25px;
-        }
-
-        .patientNotifications > div > span {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            position: absolute;
-            top: -7px;
-            right: -8px;
-        }
+    .bellGroup > div > span {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        position: absolute;
+        top: -7px;
+        right: -8px;
+    }
 
 .bellYellow i {
     color: #ffbb00;
+}
+
+.bellGroup {
+    margin-right: auto;
+    display: flex;
 }
 
 .bellYellow span {
@@ -506,7 +533,6 @@ li.customDropdownlast-child:hover {
 .changeViews {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 5px;
 }
 
     .changeViews a {
@@ -736,6 +762,12 @@ li.customDropdownlast-child:hover {
     text-align: left !important;
 }
 
+.patientTabSections {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 .chartTabs {
     list-style-type: none;
     display: flex;
@@ -800,37 +832,41 @@ li.customDropdownlast-child:hover {
         margin-right: 5px;
     }
 
-    .themeTabs a.themeTabActive::after {
-        content: "";
-        border-top: 10px solid transparent;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid #fff;
-        position: absolute;
-        left: 50%;
-        bottom: -12px;
-        transform: translateX(-50%);
-    }
+.themeTabActive {
+    color: #002269 !important;
+}
 
-    .themeTabs a.themeTabActive::before {
-        content: "";
-        border-top: 10px solid transparent;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid #ccc;
-        position: absolute;
-        left: 50%;
-        bottom: -10px;
-        transform: translateX(-50%);
-    }
+.themeTabs a.themeTabActive::after {
+    content: "";
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #fff;
+    position: absolute;
+    left: 50%;
+    bottom: -12px;
+    transform: translateX(-50%);
+}
 
-    .themeTabs a:hover {
-        color: #35a9e4;
-    }
+.themeTabs a.themeTabActive::before {
+    content: "";
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ccc;
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+}
 
-    .themeTabs li:last-child a {
-        border-right: 0px !important;
-    }
+.themeTabs a:hover {
+    color: #35a9e4;
+}
+
+.themeTabs li:last-child a {
+    border-right: 0px !important;
+}
 
 .btn-link [ng-show="currentTab=='1'"] i {
     color: green;
@@ -929,26 +965,28 @@ li.customDropdownlast-child:hover {
     right: 25px;
     font-size: 16px;
 }
-.textalign {
-    text-align: center!important;
-}
-    .notificationsWarnings i {
-    }
 
-    .notificationsWarnings span {
-        position: absolute;
-        top: -13px;
-        right: -15px;
-        width: 25px;
-        height: 25px;
-        background: #4e70f7;
-        color: #fff;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-    }
+.textalign {
+    text-align: center !important;
+}
+
+.notificationsWarnings i {
+}
+
+.notificationsWarnings span {
+    position: absolute;
+    top: -13px;
+    right: -15px;
+    width: 25px;
+    height: 25px;
+    background: #4e70f7;
+    color: #fff;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
 
 .highBell {
     color: red !important;
@@ -1541,38 +1579,38 @@ li.customDropdownlast-child:hover {
 .hasAttachement {
 }
 
-.hasAttachement i {
-    position: static !important;
-    font-size: 16px !important;
-    padding-left: 5px;
-}
+    .hasAttachement i {
+        position: static !important;
+        font-size: 16px !important;
+        padding-left: 5px;
+    }
 
 .notificationList {
 }
 
-.notificationList > li {
-    padding: 10px;
-    border-bottom: 1px solid #efefef;
-}
+    .notificationList > li {
+        padding: 10px;
+        border-bottom: 1px solid #efefef;
+    }
 
-.notificationList > li > h1 {
-    font-size: 16px;
-}
+        .notificationList > li > h1 {
+            font-size: 16px;
+        }
 
-.notificationList > li > p {
-    margin: 0px;
-    padding: 0px;
-    background: transparent;
-    max-width: 100%;
-    text-align: left;
-    font-size: 13px;
-}
+        .notificationList > li > p {
+            margin: 0px;
+            padding: 0px;
+            background: transparent;
+            max-width: 100%;
+            text-align: left;
+            font-size: 13px;
+        }
 
-.notificationList > li > p i {
-    position: static;
-    padding-left: 10px;
-    color: red;
-}
+            .notificationList > li > p i {
+                position: static;
+                padding-left: 10px;
+                color: red;
+            }
 
 .selectContact {
     border: none !important;
@@ -1634,7 +1672,50 @@ li.customDropdownlast-child:hover {
 .userOnlineInfo.on::after {
     background: green;
 }
- 
-.charTabsNone{
-    display:none;
+
+.patientCard {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #efefef;
+}
+
+    .patientCard > div {
+        display: flex;
+        align-items: center;
+    }
+
+.docProfile img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.docInfo {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.docInfo {
+    display: flex;
+    align-items: center;
+}
+
+    .docInfo span {
+        display: block;
+        font-size: 15px;
+        text-transform: uppercase;
+        width: 220px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.centerScroll {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.charTabsNone {
+    display: none;
 }
