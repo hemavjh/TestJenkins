@@ -18,13 +18,13 @@ using Newtonsoft.Json;
 namespace MyCortex.Masters.Controllers
 {
     [System.Web.Http.Authorize]
-    [CheckSessionOutFilter]
     public class LanguageSettingsController : ApiController
     {
         static readonly ILanguageSettingsRepository repository = new LanguageSettingsRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public IList<LanguageSettingsModel> LanguageSettings_List(int Institution_Id, Guid Login_Session_Id)
         {
             IList<LanguageSettingsModel> model;
@@ -40,6 +40,7 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpPost]
+        [CheckSessionOutFilter]
         public HttpResponseMessage LanguageSettings_AddEdit(List<LanguageSettingsModel> model)
         {
             try
@@ -69,34 +70,18 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [ActionName("List")]
-        public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Institution_Id, Guid Login_Session_Id)
-        {
-            IList<LanguageKeyValueModel> model;
-            try
-            {
-                model = repository.LanguageKeyValue_List(Institution_Id, Login_Session_Id);
-                return model;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        [HttpGet]
-        [ActionName("ListIOS")]
-        public HttpResponseMessage LanguageKeyValue_ListIOS(int Institution_Id, Guid Login_Session_Id)
+        public HttpResponseMessage LanguageKeyValue_List(int Language_Id=1, int Institution_Id = 0)
         {
             IList<LanguageKeyValueModel> model;
             StringBuilder jsonOutput = new StringBuilder();
             try
             {
-                model = repository.LanguageKeyValue_List(Institution_Id, Login_Session_Id);
-                var filter = model.Where(x => x.LANGUAGE_NAME == "en").Select(s => s);
+                model = repository.LanguageKeyValue_List(Language_Id,Institution_Id);
 
-                foreach (LanguageKeyValueModel item in filter)
+                foreach (LanguageKeyValueModel item in model)
                 {
                     if (jsonOutput.Length > 0)
                         jsonOutput.Append(",");

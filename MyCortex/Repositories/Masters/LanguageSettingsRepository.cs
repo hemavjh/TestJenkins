@@ -73,11 +73,12 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Institution_Id, Guid Login_Session_Id)
+        public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Language_Id,int Institution_Id)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_TEXT_SP_LIST_KEYVALUE]", param);

@@ -10,7 +10,7 @@ namespace MyCortex.Repositories
     interface ILanguageSettingsRepository
     {
         IList<LanguageSettingsModel> LanguageSettings_List(int Institution_Id, Guid Login_Session_Id);
-        IList<LanguageKeyValueModel> LanguageKeyValue_List(int Institution_Id, Guid Login_Session_Id);
+        IList<LanguageKeyValueModel> LanguageKeyValue_List(int Language_Id,int Institution_Id);
         int LanguageSettings_InsertUpdate(List<LanguageSettingsModel> model);
     }
 }
