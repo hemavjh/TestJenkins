@@ -4461,6 +4461,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.PatientLiveDataList = [];
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
+            $('.chartTabs').addClass('charTabsNone');
             if ($scope.LiveDataCurrentTime == "") {
                 $scope.LiveDataCurrentTime = $filter('date')(new Date(), "dd-MMM-yyyy hh:mm:ss a");
             }
@@ -4869,7 +4870,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if (methodcnt == 0)
                     $scope.uploadview = true;
                 if ($scope.PatientType == 2) {
-                    $('#divPatientType').attr('style', 'display : block');
+                    $('#divPatientType').attr('style', 'display : none');
                 }
                 else
                     $('#divPatientType').attr('style', 'display : none');
@@ -5122,6 +5123,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.LabTab_Clicked = "0";
         $scope.TabClickDataLoad = function (TabClicked) {
             var callFunction = true;
+            $('.chartTabs').removeClass('charTabsNone');
             $scope.ParamGroup_Id = 0;
             if (TabClicked == "1" && $scope.LifestyleTab_Clicked == "0") {
                 callFunction = false
@@ -7136,6 +7138,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.ICDListpageTabCount = 1;
         $scope.ICD10TabLoadList = function () {
+            $('.chartTabs').addClass('charTabsNone');
             if ($scope.ICDListpageTabCount == 1) {
                 $scope.PatientICD10List();
             }
@@ -7432,6 +7435,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.MedicationListTabCount = 1;
         $scope.MedicationTabLoadList = function () {
+            $('.chartTabs').addClass('charTabsNone');
             if ($scope.MedicationListTabCount == 1) {
                 $scope.PatientMedicationList();
             }
@@ -8147,6 +8151,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.PatientAllergyList = function () {
             $("#chatLoaderPV").show();
+            $('.chartTabs').addClass('charTabsNone');
             $scope.ISact = 1;       // default active
             if ($scope.allergyActive == true) {
                 $scope.ISact = 1  //active
@@ -8413,6 +8418,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.ClinicalNotesListData = function (CurrentTab) {
             if (CurrentTab == 7) {
                 if ($scope.PatientNotesListTabCount == 1) {
+                    $('.chartTabs').addClass('charTabsNone');
                     $scope.patientnotelist();
                 }
                 $scope.PatientNotesListTabCount = $scope.PatientNotesListTabCount + 1;
@@ -8800,6 +8806,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.OthersListData = function (CurrentTab) {
             if (CurrentTab == 8) {
                 if ($scope.PatientOtherDataListTabCount == 1) {
+                    $('.chartTabs').addClass('charTabsNone');
                     $scope.Patient_OtherData_List();
                 }
                 $scope.PatientOtherDataListTabCount = $scope.PatientOtherDataListTabCount + 1;

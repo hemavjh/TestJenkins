@@ -346,7 +346,7 @@
                                 <span>
                                     {{row.ReasonForVisit}}
                                 </span>
-                                <a href="">View Details</a>
+                                <!--<a href="">View Details</a>-->
                             </p>
                             </marquee>
                         </div>
@@ -407,45 +407,123 @@
 
                         <div class="patientNotifications">
 
-                           <!-- <div class="bellBrown">
-                                <i class="fas fa-bell"></i>
-                                <span>10</span>
-                            </div>
-                            <div class="bellYellow">
-                                <i class="fas fa-bell"></i>
-                                <span>5</span>
-                            </div>
-                            <div class="bellGreen">
-                                <i class="fas fa-bell"></i>
-                                <span>10+</span>
-                            </div>-->
-                            <div ng-show="currentTab=='2' || currentTab=='3' ">
+                            <!-- <div class="bellBrown">
+                             <i class="fas fa-bell"></i>
+                             <span>10</span>
+                         </div>
+                         <div class="bellYellow">
+                             <i class="fas fa-bell"></i>
+                             <span>5</span>
+                         </div>
+                         <div class="bellGreen">
+                             <i class="fas fa-bell"></i>
+                             <span>10+</span>
+                         </div>-->
+                            <div ng-show="currentTab=='2' || currentTab=='3'">
                                 <div>
-                                    <div class="changeViews" style="margin-left:450px;">
+                                    <div class="changeViews" style="margin-left:650px;">
                                         <a href="javascript:" ng-show="VitalChart=='1'" title="Grid View"
-                                           ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
+                                           ng-click="VitalChart ='2';WeeKDetailsList(currentTab);GridAdd(currentTab)">
                                             <i class="fas fa-table"></i></i>
                                         </a>
                                         <a href="javascript:" ng-show="VitalChart=='2'" title="Chart View"
                                            ng-click="VitalChart ='1';HistoryDetails(currentTab);">
                                             <i class="fas fa-chart-bar" class="themeProfile"></i></i>
                                         </a>
-                                        <a href="" title="Current Time">
+                                        <!--<a href="" title="Current Time">
                                             <i class="far fa-clock"></i>
-                                        </a>
+                                        </a>-->
                                         <a href="" title="English">
                                             <i class="fas fa-language"></i>
                                         </a>
                                     </div>
+                                        <div ng-show="VitalChart=='2'">
+                                            <div class="inputGroups">
+                                                <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                       class="theme-btn-1" style="margin-left: 635px;"
+                                                       title='Add New Vitals'>Add New</a>
+                                                </div>
+                                                <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                       class="theme-btn-1 " style="margin-left: 635px;"
+                                                       title='Add New Lab'>Add New</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </span>
+
                                 </div>
                             </div>
-                        </div>
 
+                            <div style="margin-left:650px;">
+                                <!--<div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                       class="theme-btn-1"
+                                       title='Add New Vitals'>Add New</a>
+                                </div>
+
+                                <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                       class="theme-btn-1 ml-10"
+                                       title='Add New Lab'>Add New</a>
+                                </div>-->
+
+                                <div ng-show="currentTab=='4'">
+                                    <div class="inputGroups">
+                                        <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
+                                           ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
+                                            Add New
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div ng-show="currentTab == '5'">
+                                    <div class="inputGroups">
+                                        <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
+                                                ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                            Add New
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div ng-show="currentTab == '6'">
+                                    <div class="inputGroups">
+                                        <a href="javascript:" title="Add New Allergy" ng-show="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
+                                           ng-click="AddAllergyPopUp()"
+                                           class="theme-btn-1">Add New</a>
+                                    </div>
+                                </div>
+
+                                <div ng-show="currentTab == '7'">
+                                    <div class="inputGroups">
+                                        <!--<label>Active</label>
+                                            <input toggle-checkbox ng-model="NotesActive" type="checkbox"
+                                                   ng-change="patientnotelist();" title="Active / All">-->
+                                        <a href="javascript:" ng-click="PatientNotesAddPopup()" class="theme-btn-1"
+                                           title='Add New Patient Notes'>Add New</a>
+                                    </div>
+                                </div>
+
+                                <div ng-show="currentTab=='8'">
+                                    <div class="inputGroups">
+                                        <!--<label>Active</label>
+                                            <input toggle-checkbox ng-model="OtherData_IsActive" type="checkbox" ng-change="Patient_OtherData_List();"
+                                                   title="Active / All">-->
+                                        <a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
+                                           class="theme-btn-1" title='Add New Other Data' ng-show="(UserTypeId!= 6)">
+                                            Add New
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
 
                         <ul class="chartTabs" ng-show="currentTab=='1'">
                             <li>
                                 <a ng-click="DayDetailsList(currentTab)"
-                                   ng-class="{'chartActiveTab':LSType_Id=='1'}">Today</a>
+                                   ng-class="{'chartActiveTab':LSType_Id=='1'}" style="margin-left:10px;">Today</a>
                             </li>
                             <li>
                                 <a ng-click="WeeKDetailsList(currentTab)"
@@ -477,7 +555,7 @@
                             <ul class="chartTabs">
                                 <li>
                                     <a ng-click="DayDetailsList(currentTab)"
-                                       ng-class="{'chartActiveTab':VitalsType_Id=='1'}">Today</a>
+                                       ng-class="{'chartActiveTab':VitalsType_Id=='1'}" style="margin-left:10px;">Today</a>
                                 </li>
                                 <li>
                                     <a ng-click="WeeKDetailsList(currentTab)"
@@ -772,7 +850,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
-                                                            <div class="inputGroups">
+                                                            <!--<div class="inputGroups">
                                                                 <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                     <a href="javascript:" ng-click="AddVitalsPopUp()"
                                                                        class="theme-btn-1"
@@ -783,7 +861,7 @@
                                                                        class="theme-btn-1 ml-10"
                                                                        title='Add New Lab'>Add New</a>
                                                                 </div>
-                                                            </div>
+                                                            </div>-->
                                                         </div>
 
                                                     </div>
@@ -916,12 +994,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div class="inputGroups">
+                                                <!--<div class="inputGroups">
                                                     <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
                                                             ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                         Add New
                                                     </button>
-                                                </div>
+                                                </div>-->
                                             </div>
 
 
@@ -1051,12 +1129,12 @@
                                                     </div>
 
                                                     <div class="col-sm-4">
-                                                        <div class="inputGroups">
+                                                        <!--<div class="inputGroups">
                                                             <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
                                                                ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
                                                                 Add New
                                                             </a>
-                                                        </div>
+                                                        </div>-->
 
                                                     </div>
 
@@ -1158,11 +1236,11 @@
 
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div class="inputGroups">
+                                                    <!--<div class="inputGroups">
                                                         <a href="javascript:" title="Add New Allergy" ng-show="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
                                                            ng-click="AddAllergyPopUp()" width="55%"
                                                            class="theme-btn-1">Add New</a>
-                                                    </div>
+                                                    </div>-->
 
                                                 </div>
                                             </div>
@@ -1276,8 +1354,8 @@
                                                         <label>Active</label>
                                                         <input toggle-checkbox ng-model="NotesActive" type="checkbox"
                                                                ng-change="patientnotelist();" title="Active / All">
-                                                        <a href="javascript:" ng-click="PatientNotesAddPopup()" width="15%" class="ml-10 theme-btn-1"
-                                                           title='Add New Patient Notes'>Add New</a>
+                                                        <!--<a href="javascript:" ng-click="PatientNotesAddPopup()" width="15%" class="ml-10 theme-btn-1"
+                                                           title='Add New Patient Notes'>Add New</a>-->
                                                     </div>
                                                 </div>
 
@@ -1375,10 +1453,10 @@
                                                         <label>Active</label>
                                                         <input toggle-checkbox ng-model="OtherData_IsActive" type="checkbox" ng-change="Patient_OtherData_List();"
                                                                title="Active / All">
-                                                        <a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
+                                                        <!--<a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
                                                            class="theme-btn-1 ml-10" title='Add New Other Data' ng-show="(UserTypeId!= 6)">
                                                             Add New
-                                                        </a>
+                                                        </a>-->
                                                     </div>
                                                 </div>
 
@@ -1389,13 +1467,21 @@
                                             <table st-table="OtherDataEmptyData" style="width: 100%" st-safe-src="OtherData_ListData"
                                                    class="table themeTable">
                                                 <thead>
-                                                    <tr style="text-align: center">
+                                                    <!--<tr style="text-align: center">
                                                         <th width="5%">#</th>
                                                         <th width="20%">Document Name</th>
                                                         <th width="20%">File</th>
                                                         <th width="15%">Created By</th>
                                                         <th width="15%">Created On</th>
                                                         <th width="15%">Action</th>
+                                                    </tr>-->
+                                                    <tr style="text-align: center">
+                                                        <th st-ratio="5">#</th>
+                                                        <th st-ratio="20">Document Name</th>
+                                                        <th st-ratio="20">File</th>
+                                                        <th st-ratio="20">Created By</th>
+                                                        <th st-ratio="20">Created On</th>
+                                                        <th st-ratio="20">Action</th>
                                                     </tr>
 
                                                 </thead>
