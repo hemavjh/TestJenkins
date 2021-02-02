@@ -429,6 +429,38 @@ namespace MyCortex.Repositories.Login
             }
         }
 
+        public long Get_UserInstitution(string EmailId)
+        {
+            long InstitutionId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@EMAILID", EmailId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_INSTITUTION_GET]", param);
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        return InstitutionId = Convert.ToInt64(dt.Rows[0][0]);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
         /// <summary>      
         /// checking DB connection validity
         /// </summary>          

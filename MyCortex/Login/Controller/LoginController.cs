@@ -542,7 +542,9 @@ namespace MyCortex.Login.Controller
                     // UserModel Ins_model = new UserModel();
                     // Ins_model = userrepo.GetInstitutionForWebURL(request);
                     //long InstitutionId = Ins_model;
-                    long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
+                    DataEncryption EncryptPassword = new DataEncryption();
+                    long InstitutionId = repository.Get_UserInstitution(EncryptPassword.Encrypt(EmailId));
+                    // long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
 
                     EmailGeneration egmodel = new EmailGeneration();
                     generatedpwd = egmodel.GeneratePassword_ByPasswordPolicy(InstitutionId);
@@ -551,7 +553,7 @@ namespace MyCortex.Login.Controller
 
                     //NewPassword = Encrypt(NewPassword);
                     //ReenterPassword = Encrypt(ReenterPassword);
-                    DataEncryption EncryptPassword = new DataEncryption();
+                    
                     string NewPassword = EncryptPassword.Encrypt(generatedpwd);
                     long UserId = 0;
                     model = repository.ResetPassword(UserId, NewPassword, NewPassword, InstitutionId, UserId, EncryptPassword.Encrypt(EmailId));
@@ -573,18 +575,24 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         model.Status = "True";
 
-                        EmailConfigurationModel emailModel = new EmailConfigurationModel();
-                        emailModel = emailrepository.EmailConfiguration_View(InstitutionId);
-                         if (emailModel != null)
-                         {
-                             SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id,
-                                 productname,
-                                 "New Password is : " + generatedpwd,
-                                 model.ResetPassword.Username, EncryptPassword.Decrypt(model.ResetPassword.Email));
+                        string Event_Code = "";
+                        Event_Code = "RESET_PWD";
+                        AlertEvents AlertEventReturn = new AlertEvents();
+                        IList<EmailListModel> EmailList;
+                        EmailList = AlertEventReturn.UserCreateEvent((long)model.ResetPassword.UserId, InstitutionId);
+                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, (long)model.ResetPassword.UserId, InstitutionId, EmailList);
+                        //EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                        //emailModel = emailrepository.EmailConfiguration_View(InstitutionId);
+                        // if (emailModel != null)
+                        // {
+                        //     SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id,
+                        //         productname,
+                        //         "New Password is : " + generatedpwd,
+                        //         model.ResetPassword.Username, EncryptPassword.Decrypt(model.ResetPassword.Email));
 
-                             SendGridApiManager mail = new SendGridApiManager();
-                             var res = mail.SendEmailAsync(msg, 0);
-                         }
+                        //     SendGridApiManager mail = new SendGridApiManager();
+                        //     var res = mail.SendEmailAsync(msg, 0);
+                        // }
                          
                     }
                     model.Error_Code = "";
