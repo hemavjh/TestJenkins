@@ -279,7 +279,7 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input type="date" class="form-control date" ng-model="DOB" ng-init="DOB=''"
+                                    <input type="date" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
@@ -895,15 +895,15 @@
 </div>
 
 <script>
-    $(".date").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        endDate: '+0d',
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$(".date").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    endDate: '+0d',
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
     $(document).ready(function () {
         $("#Text5").bind('paste', function () {
             setTimeout(function () {

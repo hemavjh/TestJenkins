@@ -2475,11 +2475,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (isDate($scope.DOB) == false) {
-                    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
-                    $scope.currentTab = 2;
-                    return false;
-                }
+                //else if (isDate($scope.DOB) == false) {
+                //    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
+                //    $scope.currentTab = 2;
+                //    return false;
+                //}
                 else if ($scope.AgeRestrictioncalculation() == false) {
                     alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
                     $scope.currentTab = 2;
@@ -2607,11 +2607,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.currentTab = 2;
                     return false;
                 }
-                else if (isDate($scope.DOB) == false) {
-                    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
-                    $scope.currentTab = 2;
-                    return false;
-                }
+                //else if (isDate($scope.DOB) == false) {
+                //    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
+                //    $scope.currentTab = 2;
+                //    return false;
+                //}
                 else if ($scope.AgeRestrictioncalculation() == false) {
                     alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
                     $scope.currentTab = 2;
@@ -13994,18 +13994,18 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                 alert("Please select Period From");
                 return false;
             }
-            else if (isDate($scope.Period_From) == false) {
-                alert("Period From is in Invalid format, please enter dd-mm-yyyy");
-                return false;
-            }
+            //else if (isDate($scope.Period_From) == false) {
+            //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
             if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
                 alert("Please select Period To");
                 return false;
             }
-            else if (isDate($scope.Period_To) == false) {
-                alert("Period To is in Invalid format, please enter dd-mm-yyyy");
-                return false;
-            }
+            //else if (isDate($scope.Period_To) == false) {
+            //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
 
             var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
@@ -14542,18 +14542,18 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 alert("Please select Period From");
                 return false;
             }
-            else if (isDate($scope.Period_From) == false) {
-                alert("Period From is in Invalid format, please enter dd-mm-yyyy");
-                return false;
-            }
+            //else if (isDate($scope.Period_From) == false) {
+            //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
             if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
                 alert("Please select Period To");
                 return false;
             }
-            else if (isDate($scope.Period_To) == false) {
-                alert("Period To is in Invalid format, please enter dd-mm-yyyy");
-                return false;
-            }
+            //else if (isDate($scope.Period_To) == false) {
+            //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
             var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
@@ -15298,19 +15298,19 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 return false;
             }
 
-            else if (isDate($scope.Period_From) == false) {
-                alert("Period From is in Invalid format, please enter dd-mm-yyyy");
-                return false;
-            }
+            //else if (isDate($scope.Period_From) == false) {
+            //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
             if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
                 alert("Please select Period To");
                 return false;
             }
-            else if (isDate($scope.Period_To) == false) {
-                alert("Period To is in Invalid format, please enter dd-mm-yyyy");
-                return false;
-            }
-            var date1 = new Date($scope.Period_From);
+            //else if (isDate($scope.Period_To) == false) {
+            //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
+            //    return false;
+            //}
+            //var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

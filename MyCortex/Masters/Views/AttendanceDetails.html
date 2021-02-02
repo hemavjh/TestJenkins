@@ -159,7 +159,7 @@
                             </sup></label>
 
                         <div id="AttendanceFromDate">
-                            <input type="text" class="form-control date" ng-model="AttendanceFromDate"
+                            <input type="date" class="form-control date" ng-model="AttendanceFromDate"
                                 ng-init="AttendanceFromDate=''">
 
                         </div>
@@ -236,18 +236,18 @@
     </div>
 </div>
 <script>
-    // $('#timepicker1').timepicker();
-    // $('#timepicker2').timepicker();
-    $(".date").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        //endDate: '+0d',
-        startDate: new Date(),
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+     $('#timepicker1').timepicker();
+     $('#timepicker2').timepicker();
+    //$(".date").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    //endDate: '+0d',
+    //    startDate: new Date(),
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
     // $("#AttendanceToDate").bootstrapDP({
     //     format: "dd-M-yyyy",
     //     forceParse: false,

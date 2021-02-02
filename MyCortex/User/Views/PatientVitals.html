@@ -421,7 +421,7 @@
                          </div>-->
                             <div ng-show="currentTab=='2' || currentTab=='3'">
                                 <div>
-                                    <div class="changeViews" style="margin-left:650px;">
+                                    <div class="changeViews" style="margin-left:590px;">
                                         <a href="javascript:" ng-show="VitalChart=='1'" title="Grid View"
                                            ng-click="VitalChart ='2';WeeKDetailsList(currentTab);GridAdd(currentTab)">
                                             <i class="fas fa-table"></i></i>
@@ -437,26 +437,25 @@
                                             <i class="fas fa-language"></i>
                                         </a>
                                     </div>
-                                        <div ng-show="VitalChart=='2'">
-                                            <div class="inputGroups">
-                                                <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                       class="theme-btn-1" style="margin-left: 635px;"
-                                                       title='Add New Vitals'>Add New</a>
-                                                </div>
-                                                <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                       class="theme-btn-1 " style="margin-left: 635px;"
-                                                       title='Add New Lab'>Add New</a>
-                                                </div>
+                                    <div ng-show="VitalChart=='2'">
+                                        <div class="inputGroups">
+                                            <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                    class="theme-btn-1" style="margin-left: 575px;"
+                                                    title='Add New Vitals'>Add New</a>
+                                            </div>
+                                            <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                    class="theme-btn-1 " style="margin-left: 575px;"
+                                                    title='Add New Lab'>Add New</a>
                                             </div>
                                         </div>
-                                    </span>
+                                    </div>
 
                                 </div>
                             </div>
 
-                            <div style="margin-left:650px;">
+                            <div style="margin-left:584px;">
                                 <!--<div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                     <a href="javascript:" ng-click="AddVitalsPopUp()"
                                        class="theme-btn-1"
@@ -1809,12 +1808,12 @@
                                         </div>
                                         <div class="inputGroups">
                                             <label for="usr">Appointment Date</label>
-                                            <div class="input-group date">
+                                            <!--<div class="input-group date">-->
                                                 <input type="date" class="form-control" ng-model="AppointmentDate" ng-init="AppointmentDate=''">
                                                 <!--<span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-th"></i>
                                                 </span>-->
-                                            </div>
+                                            <!--</div>-->
                                         </div>
                                         <div class="inputGroups">
                                             <label for="usr">Appointment Time</label>
@@ -4550,29 +4549,29 @@
         </div>
     </div>
     <script>
-        $("#StartDate").bootstrapDP({
-            format: "dd-M-yyyy",
-            forceParse: false,
-            //endDate: '+0d',
-            startDate: new Date(),
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
-        });
+        //$("#StartDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
     </script>
 
     <script>
-        $("#EndDate").bootstrapDP({
-            format: "dd-M-yyyy",
-            forceParse: false,
-            //endDate: '+0d',
-            startDate: new Date(),
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
-        });
+        //$("#EndDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
     </script>
     <script>
 
@@ -4581,16 +4580,16 @@
         //    $(this).find('i').toggleClass('fa-arrow-up');
         //    $(this).find('i').toggleClass('fa-arrow-down');
         //})
-        $("#AppointmentDate").bootstrapDP({
-            format: "dd-M-yyyy",
-            forceParse: false,
-            //endDate: '+0d',
-            startDate: new Date(),
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
-        });
+        //$("#AppointmentDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
 
         // chat window
         function chatarrowclick() {
@@ -4602,35 +4601,35 @@
             document.getElementById('filechat').click();
         }
 
-        $("#ICDACtiveFrom").bootstrapDP({
-            format: "dd-M-yyyy",
-            forceParse: false,
-            //endDate: '+0d',
-            startDate: new Date(),
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
-        });
-        $("#ICDACtiveTo").bootstrapDP({
-            format: "dd-M-yyyy",
-            forceParse: false,
-            //endDate: '+0d',
-            startDate: new Date(),
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
-        });
-        $("#AllergyOnsetDate").bootstrapDP({
-            format: "dd-M-yyyy",
-            forceParse: false,
-            endDate: '+0d',
-            autoclose: true,
-            todayHighlight: true,
-            toggleActive: true,
-            todayBtn: true
-        });
+        //$("#ICDACtiveFrom").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+        //$("#ICDACtiveTo").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+        //$("#AllergyOnsetDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    endDate: '+0d',
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
         // this is not required
         function loadICDDate(idxval) {
             alert(1)

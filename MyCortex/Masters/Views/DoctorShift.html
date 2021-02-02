@@ -220,7 +220,7 @@
                             </sup></label>
 
                         <div id="FromDate">
-                            <input type="text" class="form-control date" ng-model="FromDate" ng-init="FromDate=''">
+                            <input type="date" class="form-control date" ng-model="FromDate" ng-init="FromDate=''">
 
                         </div>
                     </div>
@@ -230,7 +230,7 @@
                             </sup></label>
 
                         <div id="ToDate">
-                            <input type="text" class="form-control date" ng-model="ToDate" ng-init="ToDate=''">
+                            <input type="date" class="form-control date" ng-model="ToDate" ng-init="ToDate=''">
 
                         </div>
                     </div>
@@ -319,16 +319,16 @@
 <script>
     // $('#FromDate').timepicker();
     // $('#ToDate').timepicker();
-    $(".date").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        //endDate: '+0d',
-        startDate: new Date(),
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$(".date").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    //endDate: '+0d',
+    //    startDate: new Date(),
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
     // $("#ToDate").bootstrapDP({
     //     format: "dd-M-yyyy",
     //     forceParse: false,
