@@ -73,9 +73,9 @@ label {
     color: var(--warning);
 }
 
-.input-group-addon {
-    display: none;
-}
+/*.input-group-addon {
+    display: block;
+}*/
 
 .dateIcon {
     background-image: url(../Images/date.png);
