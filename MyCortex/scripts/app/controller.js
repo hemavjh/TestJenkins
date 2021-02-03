@@ -4521,7 +4521,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.LabParameterList_Data = [];
         $scope.ParameterId = "0";
         $scope.getParameterList = function () {
-
             $http.get(baseUrl + '/api/User/GroupParameterNameList/?Patient_Id=' + $scope.SelectedPatientId + '&UnitGroupType_Id=' + $scope.unitgrouptype).success(function (data) {
                 $scope.GroupParameterNameList = data;
 
