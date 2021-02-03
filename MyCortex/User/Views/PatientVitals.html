@@ -155,8 +155,9 @@
             </div>
             <!-- added by Yoges dummy data-->
             <div class="col-sm-3 p-15">
-                <div id="DemoChart" style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;">
-
+                <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
+                    <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
+                    </div>
                 </div>
                 <script>
 
@@ -232,7 +233,7 @@
                 </div>
                 <!-- added by yoges-->
                 <div class="row">
-                    <div class="col-sm-8 p-0">
+                    <div class="col-sm-8 p-0 centerScroll">
 
                         <div class="patientNotifications">
 
@@ -265,7 +266,7 @@
                                 Add New
                             </a>
                             <a href="javascript:" ng-click="PatientNotesAddPopup()" title="Add New"
-                                ng-show="currentTab=='7' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                                ng-show="currentTab=='7' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
                                 Add New
                             </a>
                             <a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())" title="Add New Other Data"
