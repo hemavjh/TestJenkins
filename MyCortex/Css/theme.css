@@ -5,7 +5,7 @@
 :root {
     --primary: 002269;
     --secondary: #555;
-    --headerBg: 002269;
+    --headerBg: #002269;
     --headerText: #fff;
     --footerBg: #f6f6f6;
     --headder: #555;
@@ -1719,4 +1719,7 @@ li.customDropdownlast-child:hover {
 
 .charTabsNone {
     display: none;
+}
+.width100 {
+    width: 100px;
 }
