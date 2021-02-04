@@ -1357,6 +1357,23 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public IList<PatientAppointmentsModel> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id)
+        {
+            try
+            {
+                IList<PatientAppointmentsModel> model;
+                model = repository.DoctorAppoinmentsList(PatientId, Login_Session_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// to get Cronic history for a patient
         /// </summary>

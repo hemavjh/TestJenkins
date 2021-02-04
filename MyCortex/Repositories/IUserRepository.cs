@@ -46,6 +46,7 @@ namespace MyCortex.Repositories
         IList<ProtocolModel> DoctorMonitoringProtocolView(long Patient_Id);
         MonitoringProtocolModel ProtocolMonitoringProtocolView(long Patient_Id); 
          IList<PatientAppointmentsModel> DoctorAppoinmentHistoryList(long PatientId, Guid Login_Session_Id);
+        IList<PatientAppointmentsModel> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id);
 
         void PatientAssignedProtocol_InsertUpdate(ProtocolModel prtobj);
         IList<ProtocolModel> PatientAssignedProtocolHistorylist(long Patient_Id, Guid Login_Session_Id);

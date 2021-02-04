@@ -1725,6 +1725,58 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        /// <summary>
+        /// to get appointment history for a patient
+        /// </summary>
+        /// <param name="PatientId">Patient Id</param>
+        /// <returns>appointment history for a patient</returns>
+        public IList<PatientAppointmentsModel> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PATIENTID", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DOCTORAPPOINMENTS_SP_VIEW]", param);
+                List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                      select new PatientAppointmentsModel()
+                                                      {
+                                                          Id = p.Field<long>("Id"),
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                          Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                          Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                          Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          Appointment_Type = p.Field<long>("APPOINTMENT_TYPE"),
+                                                          ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
+                                                          Remarks = p.Field<string>("REMARKS"),
+                                                          // Status = p.Field<int>("STATUS"),
+                                                          Cancelled_Date = p.Field<DateTime?>("CANCELED_DATE"),
+                                                          Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
+                                                          //IsActive = p.Field<int>("ISACTIVE"),
+                                                          Created_By = p.Field<int>("CREATED_BY"),
+                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          // DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          // PatientName = p.Field<string>("PATIENTNAME"),
+                                                          // Created_By_Name = p.Field<string>("CREATEDBYNAME"),
+                                                          Created_By_Name = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          Created_Dt = p.Field<DateTime>("CREATED_DT"),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// to insert the protocol assigned to a patient
