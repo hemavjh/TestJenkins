@@ -253,7 +253,7 @@
                                 Log Out From All Device
 
                             </li>
-                            <li class="customDropdownlast-child" style="padding: 5px 20px !important;" data-toggle="modal" data-target="#colorSetting">Color Settings</li>
+                            <li onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
                         </ul>
                     </div>
                 </div>
@@ -839,6 +839,9 @@
             $('#chatBox').attr("style", "display:none");
             $('#btnopenchat').attr("style", "display:none");
         }
+    }
+    function openColorSettingsWindow() {
+        $('#colorSetting').modal('show');
     }
     function ViewProfile() {
         Id = window.localStorage['SelectedPatientId'];
