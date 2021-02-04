@@ -185,7 +185,7 @@
                 </div>
             </div>
             <div class="col-sm-9">
-                <h1 class="page-title" ng-show="ParameterValueList.length>0">
+                <h1 class="page-title" ng-show="ParameterValueList.length>=0">
                     Alerts<sub>
                         <input type="image" src="../../Images/expand.gif"
                                title='Click to Collapse'
@@ -193,20 +193,20 @@
                                style="width: 20px;" id="tableid_img">
                     </sub>
                 </h1>
-                <div class="notificationsWarnings highposition" style="text-align:left;    left: 100px!important;" ng-show="(ParameterValueList |filter:{HighCount:1}).length>0">
-                    <i class="fas fa-bell highBell" style="width:100%" ng-show="(ParameterValueList |filter:{HighCount:1}).length>0"></i>
-                    <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>0" style="left: 13px!important;"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
+                <div class="notificationsWarnings highposition" style="text-align:left;    left: 100px!important;" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0">
+                    <i class="fas fa-bell highBell" style="width:100%" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"></i>
+                    <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" style="left: 13px!important;"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
                 </div>
-                <div class="notificationsWarnings mediumPosition" style="text-align:left;    left: 140px!important;" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>0">
-                    <i class="fas fa-bell mediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>0"></i>
-                    <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>0" style="left: 13px!important;">{{(ParameterValueList |filter:{MediumCount:1}).length}} </span>
+                <div class="notificationsWarnings mediumPosition" style="text-align:left;    left: 140px!important;" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0">
+                    <i class="fas fa-bell mediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
+                    <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" style="left: 13px!important;">{{(ParameterValueList |filter:{MediumCount:1}).length}} </span>
                 </div>
-                <div class="notificationsWarnings lowPosition" style="text-align:left;    left: 180px!important;" ng-show="(ParameterValueList |filter:{LowCount:1}).length>0">
-                    <i class="fas fa-bell lowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>0"></i>
-                    <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>0" style="left: 13px!important;"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
+                <div class="notificationsWarnings lowPosition" style="text-align:left;    left: 180px!important;" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0">
+                    <i class="fas fa-bell lowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
+                    <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" style="left: 13px!important;"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
                 </div>
-                <br ng-if="ParameterValueList.length>0" />
-                <div class="row" ng-show="ParameterValueList.length>0" style="display: none" id="tableid">
+                <br ng-if="ParameterValueList.length>=0" />
+                <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid">
                     <div class="col-sm-4" ng-repeat="row in ParameterValueList">
                         <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                             <div class="notificationsWarnings" ng-show="row.HighCount>0">
@@ -404,7 +404,7 @@
                                     Others
                                 </a>
                             </li>
-                            <li ng-show="UserTypeId==4 || UserTypeId==7">
+                            <li ng-show="UserTypeId==4 || UserTypeId==7 || UserTypeId==5 || UserTypeId==6 ">
                                 <a ng-class="{'themeTabActive boldtxtt':currentTab=='9'}" ng-click="currentTab='9';LiveTabClick()">
                                     Live
                                 </a>
@@ -1601,14 +1601,14 @@
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div class="input-group bootstrap-timepicker timepicker">
-                                                        <input id="timepicker1" type="text" class="form-control input-small" ng-model="AppointmentFromTime"
+                                                        <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentFromTime"
                                                                ng-init="AppointmentFromTime=''">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="input-group bootstrap-timepicker timepicker">
-                                                        <input id="timepicker2" type="text" class="form-control input-small" ng-model="AppointmentToTime"
+                                                        <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentToTime"
                                                                ng-init="AppointmentToTime=''">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                     </div>
@@ -3709,19 +3709,19 @@
                                                             alt="">-->
                                         <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img width="200" height="200" class="patientDetimg" src="../../Images/male.png" />
+                                            <img  style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/male.png" />
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img width="200" height="200" class="patientDetimg" src="../../Images/female.png" />
+                                            <img style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/female.png" />
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img width="200" height="200" class="patientDetimg" src="../../Images/Others.png" />
+                                            <img  style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/Others.png" />
                                         </div>
                                         <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!='')" valign="top"
                                              rowspan="6">
-                                            <img width="200" height="200" class="patientDetimg"
+                                            <img style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;"  class="patientDetimg"
                                                  src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
                                         </div>
                                     </div>
