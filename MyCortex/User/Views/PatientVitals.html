@@ -3710,19 +3710,19 @@
                                                             alt="">-->
                                         <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img  style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/male.png" />
+                                            <img  style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/male.png" />
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/female.png" />
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/female.png" />
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img  style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/Others.png" />
+                                            <img  style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/Others.png" />
                                         </div>
                                         <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!='')" valign="top"
                                              rowspan="6">
-                                            <img style="width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;"  class="patientDetimg"
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;"  class="patientDetimg"
                                                  src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
                                         </div>
                                     </div>
