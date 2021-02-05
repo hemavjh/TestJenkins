@@ -12,6 +12,7 @@ namespace MyCortex.Masters.Models
         public string LANGUAGE_KEY { get; set; }
         public string LANGUAGE_TEXT { get; set; }
         public string LANGUAGE_DEFAULT { get; set; }
+        public int LANGUAGE_ID { get; set; }
     }
 
     public class LanguageKeyValueModel

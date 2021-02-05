@@ -70,6 +70,22 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage LanguageDefault_Save(int Institution_Id, int Language_Id)
+        {
+            try
+            {
+                int id = repository.LanguageDefault_Save(Institution_Id, Language_Id);
+                return Request.CreateResponse(HttpStatusCode.OK, id);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+
         [AllowAnonymous]
         [HttpGet]
         [ActionName("InstituteLanguages")]
@@ -91,13 +107,13 @@ namespace MyCortex.Masters.Controllers
         [AllowAnonymous]
         [HttpGet]
         [ActionName("List")]
-        public HttpResponseMessage LanguageKeyValue_List(int Language_Id=1, int Institution_Id = 0)
+        public HttpResponseMessage LanguageKeyValue_List(int Language_Id = 1, int Institution_Id = 0)
         {
             IList<LanguageKeyValueModel> model;
             StringBuilder jsonOutput = new StringBuilder();
             try
             {
-                model = repository.LanguageKeyValue_List(Language_Id,Institution_Id);
+                model = repository.LanguageKeyValue_List(Language_Id, Institution_Id);
 
                 foreach (LanguageKeyValueModel item in model)
                 {

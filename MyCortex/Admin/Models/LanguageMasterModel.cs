@@ -10,5 +10,6 @@ namespace MyCortex.Admin.Models
         public long Id { get; set; }
         public string LanguageName { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDefault { get; set; }
     }
 }

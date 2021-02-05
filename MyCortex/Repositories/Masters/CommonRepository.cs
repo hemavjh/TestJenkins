@@ -588,7 +588,8 @@ namespace MyCortex.Repositories.Masters
                                                 select new LanguageMasterModel()
                                                 {
                                                     Id = p.Field<long>("LANGUAGE_ID"),
-                                                    LanguageName = p.Field<string>("LANGUAGE_NAME")
+                                                    LanguageName = p.Field<string>("LANGUAGE_NAME"),
+                                                    IsDefault = p.Field<bool>("IS_DEFAULT")
                                                 }).ToList();
                 return lst;
             }
@@ -598,8 +599,6 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
-
-
     }
 }
 

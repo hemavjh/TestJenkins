@@ -17260,6 +17260,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         $scope.IsActive = true;
         $scope.Id = 0;
         $scope.User_Id = 0;
+        $scope.selectedLanguage = "1";
         $scope.LanguageText = [];
         $scope.InstitutionLanguageList = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
@@ -17283,18 +17284,23 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         }
 
         $scope.searchqueryLanguageSettings = "";
-        /* Filter the master list function for Search*/
+        /* Filter the master list function for Search
         $scope.FilterLanguageSettingsList = function () {
+            var data = $scope.rowCollectionLanguageSettingsFilter.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
+
             var searchstring = angular.lowercase($scope.searchqueryLanguageSettings);
             if ($scope.searchqueryLanguageSettings == "") {
-                $scope.rowCollectionLanguageSettings = angular.copy($scope.rowCollectionLanguageSettingsFilter);
+                $scope.rowCollectionLanguageSettings = angular.copy(data);
             }
             else {
-                $scope.rowCollectionLanguageSettings = $ff($scope.rowCollectionLanguageSettingsFilter, function (value, index) {
+                $scope.rowCollectionLanguageSettings = $ff(data, function (value, index) {
                     return angular.lowercase(value.LANGUAGE_KEY).match(searchstring)
                 });
             }
-        };
+            angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                $scope.LanguageText[masterVal.ID] = masterVal.LANGUAGE_TEXT;
+            });
+        };*/
 
         /*THIS IS FOR LIST FUNCTION*/
         $scope.ViewParamList = [];
@@ -17303,7 +17309,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             $("#chatLoaderPV").show();
             $scope.emptydataLanguageSettings = [];
             $scope.rowCollectionLanguageSettings = [];
-
+            
             $scope.ISact = 1;       // default active
             if ($scope.IsActive == true) {
                 $scope.ISact = 1  //active
@@ -17311,29 +17317,31 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             else if ($scope.IsActive == false) {
                 $scope.ISact = 0 //all
             }
-
+            
             $http.get(baseUrl + '/api/LanguageSettings/LanguageSettings_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId
             ).success(function (data) {
+                
                 $scope.emptydataLanguageSettings = [];
                 $scope.rowCollectionLanguageSettings = [];
-                $scope.rowCollectionLanguageSettings = data;
-                $scope.rowCollectionLanguageSettingsFilter = angular.copy($scope.rowCollectionLanguageSettings);
+                $scope.rowCollectionLanguageSettings = data;// data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage))
+                $scope.rowCollectionLanguageSettingsFilter = angular.copy(data);
                 if ($scope.rowCollectionLanguageSettingsFilter.length > 0) {
                     $scope.flag = 1;
                 }
                 else {
                     $scope.flag = 0;
                 }
-                $("#chatLoaderPV").hide();
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     $scope.LanguageText[masterVal.ID] = masterVal.LANGUAGE_TEXT;
                 });
+                $("#chatLoaderPV").hide();
             }).error(function (data) {
                 $scope.error = "AN error has occured while Listing the records!" + data;
+                $("#chatLoaderPV").hide();
             })
         };
 
-        $scope.LanguageSettingsDetails = [];
+        /*$scope.LanguageSettingsDetails = [];
         $scope.LanguageSettings_AddEdit = function () {
             $("#chatLoaderPV").show();
             angular.forEach($scope.rowCollectionLanguageSettings, function (value, index) {
@@ -17355,7 +17363,19 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 $scope.IsEdit = false;
             });
 
-        };
+        };*/
+
+        $scope.LanguageDefaultSave = function () {
+            $http.get(baseUrl + '/api/LanguageSettings/LanguageDefault_Save/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Language_Id=' + $scope.selectedLanguage
+            ).success(function (data) {
+                if (data.returnval == 1) {
+                    alert("Saved successfully.");
+                }
+                else {
+                    alert("Error occurred.");
+                }
+            })
+        }
     }
 ]);
 

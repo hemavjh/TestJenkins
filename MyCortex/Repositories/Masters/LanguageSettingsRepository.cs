@@ -35,6 +35,7 @@ namespace MyCortex.Repositories.Masters
                                                         LANGUAGE_KEY = p.Field<string>("LANGUAGE_KEY"),
                                                         LANGUAGE_TEXT = p.Field<string>("LANGUAGE_TEXT"),
                                                         LANGUAGE_DEFAULT = p.Field<string>("LANGUAGE_DEFAULT"),
+                                                        LANGUAGE_ID = p.Field<int>("LANGUAGE_ID"),
                                                     }).ToList();
                 return list;
             }
@@ -66,6 +67,23 @@ namespace MyCortex.Repositories.Masters
 
                 }
                 return retid;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
+        public int LanguageDefault_Save(int institutionId, int languageId)
+        {
+            try
+            {
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@INSTITUTION_ID", institutionId));
+                param.Add(new DataParameter("@LANGUAGE_ID", languageId));
+                var retid = ClsDataBase.GetScalar("[MYCORTEX].[INSTITUTELANGUAGEDEFAULT_SAVE]", param).ToString();
+                return Int32.Parse(retid);
             }
             catch (Exception ex)
             {
