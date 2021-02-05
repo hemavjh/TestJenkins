@@ -3,34 +3,35 @@
 }
 
 :root {
-    --primary: #333;
-    --headerBg: #1d374e;
+    --primary: 002269;
+    --secondary: #555;
+    --headerBg: #002269;
     --headerText: #fff;
     --footerBg: #f6f6f6;
     --headder: #555;
     --warning: #ea4335;
     --baseFontSize: 14px;
-    --title: #1d374e;
-    --subTitle: #1d374e;
-    --TableHeaderBg: #1d374e;
+    --title: #032b5c;
+    --subTitle: #032b5c;
+    --TableHeaderBg: #35a9e4;
     --TableHeaderText: #fff;
     --TableAlternateRowBg: #7a8ddb1a;
     --TableAlternateRowText: #333;
     --TableRowHoverBg: #efefef;
     --TableRowHoverText: #333;
     --linkText: #337ab7;
-    --positiveBtnBg: #1d374e;
+    --positiveBtnBg: #35a9e4;
     --positiveBtnBorder: transparent;
     --positiveBtnText: #fff;
     --positiveHoverBtnBg: transparent;
-    --positiveHoverBtnBorder: #1d374e;
-    --positiveHoverBtnText: #1d374e;
-    --negativeBtnBg: #d3d5d8;
+    --positiveHoverBtnBorder: #35a9e4;
+    --positiveHoverBtnText: #35a9e4;
+    --negativeBtnBg: #35a9e4;
     --negativeBtnBorder: transparent;
-    --negativeBtnText: #000;
+    --negativeBtnText: #fff;
     --negativeHoverBtnBg: #fff;
-    --negativeHoverBtnBorder: #d3d5d8;
-    --negativeHoverBtnText: #000;
+    --negativeHoverBtnBorder: #35a9e4;
+    --negativeHoverBtnText: #35a9e4;
 }
 
 @font-face {
@@ -1059,7 +1060,7 @@ li.customDropdownlast-child:hover {
 }
 
 .institutionLogo {
-    max-height: 120px;
+    max-height: 100px;
 }
 
 .themeTable a {
@@ -1718,4 +1719,7 @@ li.customDropdownlast-child:hover {
 
 .charTabsNone {
     display: none;
+}
+.width100 {
+    width: 100px;
 }
