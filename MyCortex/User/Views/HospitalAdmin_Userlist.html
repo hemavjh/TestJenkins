@@ -792,20 +792,20 @@
                                                     </label>
                                                     <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img class="responsiveProfileImage" src="../../Images/male.png" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/male.png" />
                                                     </div>
                                                     <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
                                                          valign="top" rowspan="6">
 
-                                                        <img class="responsiveProfileImage" src="../../Images/female.png" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/female.png" />
                                                     </div>
                                                     <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/Others.png" />
                                                     </div>
                                                     <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="{{uploadme}}" />
                                                     </div>
                                                 </div>
                                             </div>
