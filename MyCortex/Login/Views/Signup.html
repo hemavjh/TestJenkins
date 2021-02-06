@@ -15,6 +15,24 @@
             display: none;
         }
 </style>
+    <script>
+        $(function () {
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
+
+            var maxDate = year + '-' + month + '-' + day;
+            //alert(maxDate);
+            $('#DOB').attr('max', maxDate);
+
+        });
+    </script>
 
 <div class="loginContainer">    
        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
@@ -93,8 +111,8 @@
             <div class="col-sm-6">
                 <div class="inputGroups">
                     <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
-                    <div class="date" id="DOB">
-                        <input type="date" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''"
+                    <div class="date">
+                        <input type="date" max="2099-12-31" id="DOB" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                ng-required="true">
                     </div>
                 </div>

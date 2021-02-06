@@ -1,4 +1,21 @@
 <!DOCTYPE HTML>
+<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#AppointmentDate').attr('min', maxDate);
+    });
+</script>
 <body>
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <!--Hide by Yogeswaran Please-->
@@ -249,14 +266,14 @@
                                 <i class="fas fa-bell"></i>
                                 <span>10+</span>
                             </div>-->
-                            
+
                             <div class="changeViews" ng-show="currentTab=='2' || currentTab=='3' ">
                                 <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
-                                    ng-click="VitalChart ='2';HistoryDetails(currentTab);">
+                                   ng-click="VitalChart ='2';HistoryDetails(currentTab);">
                                     <i class="fas fa-chart-bar"></i>
                                 </a>
                                 <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
-                                    ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
+                                   ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
                                     <i class="fas fa-table"></i>
                                 </a>
                                 <!--<a href="#" title="Current Time">
@@ -275,28 +292,28 @@
                                     <i class="fas fa-language"></i>
                                 </a>
                             </div>
-                            <a ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))" 
+                            <a ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
                                href="javascript:" ng-click="AddVitalsPopUp()" class="theme-btn-1 ml-20" title='Add New Vitals'>Add New</a>
-                            <a ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))" 
+                            <a ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
                                href="javascript:" ng-click="AddVitalsPopUp()" class="theme-btn-1 ml-20" title='Add New Lab'>Add New</a>
                             <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
-                                ng-show="currentTab=='4' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                               ng-show="currentTab=='4' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                                 Add New
                             </a>
                             <a href="javascript:" ng-click="AddMedicationPopUp()" title="Add New Medication"
-                                ng-show="currentTab=='5' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                               ng-show="currentTab=='5' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                                 Add New
                             </a>
                             <a href="javascript:" ng-click="AddAllergyPopUp()" title="Add New"
-                                ng-show="currentTab=='6' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                               ng-show="currentTab=='6' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                                 Add New
                             </a>
                             <a href="javascript:" ng-click="PatientNotesAddPopup()" title="Add New"
-                                ng-show="currentTab=='7' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
+                               ng-show="currentTab=='7' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
                                 Add New
                             </a>
                             <a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())" title="Add New Other Data"
-                                ng-show="currentTab=='8' && (UserTypeId!= 6)" class="theme-btn-1">
+                               ng-show="currentTab=='8' && (UserTypeId!= 6)" class="theme-btn-1">
                                 Add New
                             </a>
                         </div>
@@ -1591,7 +1608,7 @@
                                         <div class="inputGroups">
                                             <label for="usr">Appointment Date</label>
                                             <!--<div class="input-group date">-->
-                                            <input type="date" class="form-control" ng-model="AppointmentDate" ng-init="AppointmentDate=''">
+                                            <input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">
                                             <!--<span class="input-group-addon">
                                                 <i class="glyphicon glyphicon-th"></i>
                                             </span>-->
