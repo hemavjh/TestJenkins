@@ -1,4 +1,23 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#ToDate').attr('min', maxDate);
+        $('#FromDate').attr('min', maxDate);
+    });
+</script>
+
+<ul class="secondaryMenu">
     <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
     <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
     <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
@@ -219,8 +238,8 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
 
-                        <div id="FromDate">
-                            <input type="date" class="form-control date" ng-model="FromDate" ng-init="FromDate=''">
+                        <div>
+                            <input type="date" max="2099-12-31" id="FromDate" class="form-control date" ng-model="FromDate" ng-init="FromDate=''">
 
                         </div>
                     </div>
@@ -229,8 +248,8 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
 
-                        <div id="ToDate">
-                            <input type="date" class="form-control date" ng-model="ToDate" ng-init="ToDate=''">
+                        <div>
+                            <input type="date" max="2099-12-31" id="ToDate" class="form-control date" ng-model="ToDate" ng-init="ToDate=''">
 
                         </div>
                     </div>

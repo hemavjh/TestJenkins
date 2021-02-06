@@ -12725,7 +12725,11 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     $scope.Restrict_LastPassword = data.Restrict_LastPassword;
                     $scope.MaxLoginMins = data.MaxLoginMins;
                 }
+                $scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
+                $scope.NewPassword = "";
             });
+            $scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
+            $scope.NewPassword = "";
         };
         $scope.PasswordPolicyDetails();
 
@@ -13118,6 +13122,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $http.get(baseUrl + '/api/Login/Usertypedetailslist/').success(function (data) {
             //$scope.Usertypelist = data;
             $scope.Usertypelist = [];
+            $scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
+            $scope.NewPassword = "";
             angular.forEach(data, function (row, value) {
                 if (row.Id != 1 && row.Id != 3)
                     $scope.Usertypelist.push(row)
@@ -13241,6 +13247,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         //view function for password policy
         $scope.PasswordPolicyView = function () {
             $("#chatLoaderPV").show();
+            $scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
+            $scope.NewPassword = "";
             $http.get(baseUrl + '/api/Common/PasswordPolicy_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
                 if (data != null) {
                     $scope.policyExist = true;
@@ -13265,12 +13273,15 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     $scope.Created_Dt = data.Created_Dt;
                 }
                 $("#chatLoaderPV").hide();
+                $scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
+                $scope.NewPassword = "";
             });
         };
 
         //view function for password policy
         $scope.PasswordPolicyDetails = function () {
-
+            $scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
+            $scope.NewPassword = "";
             $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
                 $scope.Institution_Id = data.Institution_Id;
                 $scope.Insitution_Name = data.Insitution_Name;
