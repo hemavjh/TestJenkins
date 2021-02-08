@@ -37,7 +37,7 @@
                     <label>Period From<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="text" datepicker class="form-control date" ng-model="Period_From"
+                    <input type="date" max="2099-12-31" class="form-control" ng-model="Period_From"
                         ng-init="Period_From=''">
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     <label>Period To<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="text" class="form-control date" ng-model="Period_To" ng-init="Period_To=''">
+                    <input type="date" max="2099-12-31" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
                 </div>
             </div>
             <div class="col-sm-2">
