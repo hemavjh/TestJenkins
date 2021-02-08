@@ -100,7 +100,7 @@
     <script src="@Url.Content("~/scripts/ui-bootstrap.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/ui-bootstrap-tpls.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/app/app.js?v1.0")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/app/controller.js?v1.0")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/controller.js?v1.01")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/pageSelect.directive.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/smart-table.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.marquee.js")" type="text/javascript"></script>
@@ -109,7 +109,7 @@
     <script src="@Url.Content("~/scripts/Bootstrap-multiselect.js")"></script>
     <script src="@Url.Content("~/scripts/bootstrap-toggle.min.js")"></script>
     <script src="@Url.Content("~/scripts/highcharts-ng.js?v1.0")"></script>
-    <script src="@Url.Content("~/scripts/highcharts.js?v1.0")"></script>
+    <script src="@Url.Content("~/scripts/highcharts.js?v1.1")"></script>
     <script src="@Url.Content("~/scripts/highcharts-more.js?v1.0")"></script>
     <script src="@Url.Content("~/scripts/highchart.solid-gauge.js")"></script>
     <script src="@Url.Content("~/Scripts/angular-sanitize.js")"></script>
@@ -188,7 +188,7 @@
                             <span>Sex:</span>
                             <span id="Gender">{{Gender}}</span>
                         </p>
-                        <p id="chronic" style="display: none;">
+                        <p id="chronic" style="display: none; cursor:pointer;">
                             <span>Chronic Condition</span>
                         </p>
                         <a href="#" title="Monitoring Protocol" style="display:none"><i class="fas fa-cog"></i></a>
@@ -359,6 +359,22 @@
                 <a onclick="sendChatMessage()"><i class="fas fa-chevron-circle-right"></i></a>
             </div>
         </form>
+    </div>
+    <div id="ChronicModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 25%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="ChronicModalclose();">&times;</button>
+                    <h4 class="modal-title">Chronic Conditions</h4>
+                </div>
+                <div class="modal-body ">
+                    <ul id="Chronic_Condition">
+                        @*<li> {{row.ChronicCondition}}</li>*@
+                        <!--<li ng-repeat="row in Chronic_Condition">{{row.ChronicCondition}}</li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="colorSetting" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -860,6 +876,12 @@
         });*/
 
     }
+    function ChronicModalclose() {
+        $('#ChronicModal').modal('hide');
+    }
+    $('#chronic').click(function () {
+        $('#ChronicModal').modal('show');
+    });
     $('#chatBoxOpener').click(function () {
         $('.chatBox').toggleClass('chatBoxClose');
         if ($('#chatBox').hasClass('chatBoxClose') == true) {
