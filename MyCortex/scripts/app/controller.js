@@ -17439,18 +17439,20 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         $scope.IsActive = true;
         $scope.Id = 0;
         $scope.User_Id = 0;
-        $scope.selectedLanguage = "1";
         $scope.LanguageText = [];
         $scope.InstitutionLanguageList = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
-        $http.get(baseUrl + '/api/Common/getInstitutionLanguages/?Institution_Id=' + $window.localStorage['InstitutionId']
-        ).success(function (data) {
-            $scope.InstitutionLanguageList = [];
-            $scope.InstitutionLanguageList = data;
-        }).error(function (data) {
-            $scope.error = "AN error has occured while Listing the records!" + data;
-        })
+        $scope.LanguageList = function () {
+            $http.get(baseUrl + '/api/Common/getInstitutionLanguages/?Institution_Id=' + $window.localStorage['InstitutionId']
+            ).success(function (data) {
+                $scope.InstitutionLanguageList = [];
+                $scope.InstitutionLanguageList = data;
+                $scope.selectedLanguage = data[0].DefaultLanguageId.toString();
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            });
+        };
 
         $scope.IsEdit = false;
         $scope.LanguageSettingsEdit = function () {
@@ -17463,7 +17465,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         }
 
         $scope.searchqueryLanguageSettings = "";
-        /* Filter the master list function for Search
+        /* Filter the master list function for Search*/
         $scope.FilterLanguageSettingsList = function () {
             var data = $scope.rowCollectionLanguageSettingsFilter.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
 
@@ -17479,13 +17481,15 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                 $scope.LanguageText[masterVal.ID] = masterVal.LANGUAGE_TEXT;
             });
-        };*/
+        };
 
         /*THIS IS FOR LIST FUNCTION*/
         $scope.ViewParamList = [];
         $scope.ViewParamList1 = [];
         $scope.LanguageSettingsList = function () {
             $("#chatLoaderPV").show();
+            $scope.LanguageList();
+
             $scope.emptydataLanguageSettings = [];
             $scope.rowCollectionLanguageSettings = [];
             
@@ -17502,8 +17506,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 
                 $scope.emptydataLanguageSettings = [];
                 $scope.rowCollectionLanguageSettings = [];
-                $scope.rowCollectionLanguageSettings = data;// data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage))
                 $scope.rowCollectionLanguageSettingsFilter = angular.copy(data);
+                $scope.rowCollectionLanguageSettings = data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
                 if ($scope.rowCollectionLanguageSettingsFilter.length > 0) {
                     $scope.flag = 1;
                 }
@@ -17520,7 +17524,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             })
         };
 
-        /*$scope.LanguageSettingsDetails = [];
+        $scope.LanguageSettingsDetails = [];
         $scope.LanguageSettings_AddEdit = function () {
             $("#chatLoaderPV").show();
             angular.forEach($scope.rowCollectionLanguageSettings, function (value, index) {
@@ -17533,24 +17537,28 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             });
 
             $http.post(baseUrl + '/api/LanguageSettings/LanguageSettings_AddEdit/', $scope.LanguageSettingsDetails).success(function (data) {
-                $("#chatLoaderPV").hide();
-                alert("LanguageSettings Data saved successfully");
                 $scope.LanguageSettingsDetails = [];
                 $scope.LanguageText = [];
                 $scope.searchqueryLanguageSettings = "";
                 $scope.LanguageSettingsList();
+                $("#chatLoaderPV").hide();
+                alert("LanguageSettings Data saved successfully");
                 $scope.IsEdit = false;
             });
 
-        };*/
+        };
 
         $scope.LanguageDefaultSave = function () {
+            $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/LanguageSettings/LanguageDefault_Save/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Language_Id=' + $scope.selectedLanguage
             ).success(function (data) {
-                if (data.returnval == 1) {
+                if (data == 1) {
+                    $scope.LanguageList();
+                    $("#chatLoaderPV").hide();
                     alert("Saved successfully.");
                 }
                 else {
+                    $("#chatLoaderPV").hide();
                     alert("Error occurred.");
                 }
             })

@@ -589,7 +589,7 @@ namespace MyCortex.Repositories.Masters
                                                 {
                                                     Id = p.Field<long>("LANGUAGE_ID"),
                                                     LanguageName = p.Field<string>("LANGUAGE_NAME"),
-                                                    IsDefault = p.Field<bool>("IS_DEFAULT")
+                                                    DefaultLanguageId = p.Field<int>("LANGUAGE_PREFERENCE")
                                                 }).ToList();
                 return lst;
             }
