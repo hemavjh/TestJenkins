@@ -1,9 +1,26 @@
 <head>
-    <script>
-        $('#btnLogo').click(function () {
-            $("#UserLogo").trigger('click');
-        })
-    </script>
+<script>
+    $('#btnLogo').click(function () {
+        $("#UserLogo").trigger('click');
+    });
+</script>
+<script>
+    $(function() {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        console.log(maxDate);
+        $('#Date_Birth').attr('max', maxDate);
+    });
+</script>
 </head>
 <div class="row"
      ng-init="Patientcreatefunction();InstitutionBased_CountryStateList();Admin_View(3);PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
@@ -279,7 +296,7 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input type="date" class="form-control" ng-model="DOB" ng-init="DOB=''"
+                                    <input type="date" max="2099-12-31" id="Date_Birth" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>

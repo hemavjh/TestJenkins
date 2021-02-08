@@ -1,38 +1,38 @@
-﻿    <style>
-        .viewPassword {
-            position: relative;
-        }
+﻿<style>
+    .viewPassword {
+        position: relative;
+    }
 
-        .viewPassword i {
-            position: absolute;
-            right: 0px;
-            top: 0px;
-            color: #555;
-            padding: 10px;
-            cursor: pointer;
-        }
-        pre{
-            display: none;
-        }
+    .viewPassword i {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        color: #555;
+        padding: 10px;
+        cursor: pointer;
+    }
+    pre{
+        display: none;
+    }
 </style>
-    <script>
-        $(function () {
-            var dtToday = new Date();
+<script>
+    $(function () {
+        var dtToday = new Date();
 
-            var month = dtToday.getMonth() + 1;
-            var day = dtToday.getDate();
-            var year = dtToday.getFullYear();
-            if (month < 10)
-                month = '0' + month.toString();
-            if (day < 10)
-                day = '0' + day.toString();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
 
-            var maxDate = year + '-' + month + '-' + day;
-            //alert(maxDate);
-            $('#DOB').attr('max', maxDate);
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#DOB').attr('max', maxDate);
 
-        });
-    </script>
+    });
+</script>
 
 <div class="loginContainer">    
        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
