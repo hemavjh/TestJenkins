@@ -44,7 +44,8 @@ MyCortexControllers.run(['$rootScope', '$window',
       $window.fbAsyncInit = function () {
           console.log('FB API called');
           FB.init({
-              appId: '114164749908714',
+
+              appId: '907938093354960',
               channelUrl: 'app/channel.html',
               status: true,
               cookie: true,
@@ -547,7 +548,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                     var accessToken = response.authResponse.accessToken;
                     $scope.accessToken = accessToken;
 
-                    FB.api('/me?fields=id,name,email,first_name,last_name,age_range,picture.type(large)', { access_token: accessToken }, function (response) {
+                    FB.api('/me?fields=id,name,email,first_name,last_name(large)', { access_token: accessToken }, function (response) {
                         $scope.first_name = response.first_name;
                         $scope.last_name = response.last_name;
                         $scope.gender = response.gender;
