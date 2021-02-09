@@ -14,6 +14,23 @@
             $("#EditDocument").trigger('click');
         })
     </script>
+    <script>
+        $(function () {
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
+
+            var maxDate = year + '-' + month + '-' + day;
+            console.log(maxDate);
+            $('#Date_Birth').attr('max', maxDate);
+        });
+    </script>
 </head>
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
@@ -510,8 +527,8 @@
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label for="email">DOB<sup><font class="mandatory-field">*</font></sup></label>
-                                                            <div class="date" id="DOB">
-                                                                <input type="date" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" ng-model="DOB" ng-init="DOB=''" ng-required="true" required="required">
+                                                            <div class="date">
+                                                                <input type="date" id="Date_Birth" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required ng-touched" ng-model="DOB" ng-init="DOB=''" ng-required="true" required="required">
                                                             </div>
                                                         </div> 
 
