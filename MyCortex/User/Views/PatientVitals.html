@@ -187,7 +187,7 @@
                             No Appointments
                         </div>
                         <div class="myAppoinments">
-                            <marquee direction="up" height="150px" scrollamount="1">
+                            <marquee direction="up" height="150px" scrollamount="1" onmouseover="this.stop();" onmouseleave="this.start();>
                                 <p ng-repeat="row in MyAppoinmentdata" >
                                     <span>{{row.Appointment_Date | date : format : "dd-MM-yyyy"}}</span>
                                     <span>
