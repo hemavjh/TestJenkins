@@ -1070,8 +1070,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Institution_Id: $scope.Institution_Id,
                     Health_Care_Professionals: $scope.Health_Care_Professionals,
                     No_Of_Patients: $scope.Patients,
-                    Contract_PeriodFrom: $scope.Contract_Period_From,
-                    Contract_PeriodTo: $scope.Contract_Period_To,
+                    Contract_PeriodFrom: moment($scope.Contract_Period_From).format('DD-MMM-YYYY'),
+                    Contract_PeriodTo: moment($scope.Contract_Period_To).format('DD-MMM-YYYY'),
                     Subscription_Type: $scope.Subscription_Type,
                     Institution_Modules: $scope.InstitutionModule_List,
                     Module_List: $scope.InstitutiontypeList,
@@ -3256,7 +3256,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
                         NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
                         ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
-                        DOB: $scope.DOB,
+                        DOB:moment($scope.DOB).format('DD-MMM-YYYY'),
                         HOME_AREACODE: $scope.HomeAreaCode,
                         HOME_PHONENO: $scope.Home_PhoneNo,
                         MOBIL_AREACODE: $scope.MobileAreaCode,
@@ -6692,7 +6692,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Institution_Id: $scope.Institution_Id,
                     Doctor_Id: $scope.Doctor_Id,
                     Patient_Id: $scope.SelectedPatientId,
-                    Appointment_Date: $scope.AppointmentDate,
+                    Appointment_Date: moment($scope.AppointmentDate).format('DD-MMM-YYYY'),
                     AppointmentFromTime: $scope.AppointmentFromTime == '' ? null : $scope.Convert12To24Timeformat($scope.AppointmentFromTime),
                     AppointmentToTime: $scope.AppointmentToTime == '' ? null : $scope.Convert12To24Timeformat($scope.AppointmentToTime),
                     Appointment_Type: 1,
@@ -16047,8 +16047,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                     ShiftName: $scope.ShiftName,
                     ShiftFromTime: $scope.ShiftFromTime == '' ? null : $scope.Convert12To24Timeformat($scope.ShiftFromTime),
                     ShiftEndTime: $scope.ShiftEndTime == '' ? null : $scope.Convert12To24Timeformat($scope.ShiftEndTime),
-                    ShiftFromDate: $scope.ShiftFromDate,
-                    ShiftToDate: $scope.ShiftToDate,
+                    ShiftFromDate: moment($scope.ShiftFromDate).format('DD-MMM-YYYY'),
+                    ShiftToDate: moment($scope.ShiftToDate).format('DD-MMM-YYYY'),
                 };
                 $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     alert(data.Message);
@@ -16538,8 +16538,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             Id: $scope.Id,
                             Institution_Id: $window.localStorage['InstitutionId'],
                             Doctor_Id: Selected,
-                            FromDate: $scope.FromDate,
-                            ToDate: $scope.ToDate,
+                            FromDate: moment($scope.FromDate).format('DD-MMM-YYYY'),
+                            ToDate: moment($scope.ToDate).format('DD-MMM-YYYY'),
                             Created_By: $window.localStorage['UserId'],
                             Modified_By: $window.localStorage['UserId'],
                             SundayChildModuleList: $scope.SundayShiftDetails,
@@ -17020,8 +17020,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                         var obj = {
                             Id: $scope.Id,
                             Institution_Id: $window.localStorage['InstitutionId'],
-                            AttendanceFromDate: $scope.AttendanceFromDate,
-                            AttendanceToDate: $scope.AttendanceToDate,
+                            AttendanceFromDate: moment($scope.AttendanceFromDate).format('DD-MMM-YYYY'),
+                            AttendanceToDate: moment($scope.AttendanceToDate).format('DD-MMM-YYYY'),
                             Doctor_Id: value,
                             Remarks: $scope.Remarks
                         };
@@ -17032,8 +17032,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                     var obj = {
                         Id: $scope.Id,
                         Institution_Id: $window.localStorage['InstitutionId'],
-                        AttendanceFromDate: $scope.AttendanceFromDate,
-                        AttendanceToDate: $scope.AttendanceToDate,
+                        AttendanceFromDate: moment($scope.AttendanceFromDate).format('DD-MMM-YYYY'),
+                        AttendanceToDate: moment($scope.AttendanceToDate).format('DD-MMM-YYYY'),
                         Doctor_Id: $scope.EditSelectedAttendance,
                         Remarks: $scope.Remarks
                     };
