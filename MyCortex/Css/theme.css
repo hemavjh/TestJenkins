@@ -535,7 +535,7 @@ li.customDropdownlast-child:hover {
 .changeViews {
     display: flex;
     justify-content: flex-end;
-    margin-top:-62px;
+    
 
 }
 
@@ -970,8 +970,20 @@ li.customDropdownlast-child:hover {
     font-size: 16px;
 }
 
-.textalign {
-    text-align: center !important;
+.PatientNotification1 {
+    text-align: left;
+    left: 465px !important;
+    position: absolute;
+    top: 20px;
+    /* right: 25px; */
+    font-size: 16px;
+}
+.PatientNotification2 { 
+    text-align: left;
+    left: 530px !important;
+    position: absolute;
+    top: 20px; 
+    font-size: 14px;
 }
 
 .notificationsWarnings i {
