@@ -370,6 +370,7 @@ li.customDropdownlast-child:hover {
     align-items: center;
     justify-content: flex-end;
     margin: 15px 0px;
+    padding-right:34%;
 }
 
 
@@ -534,6 +535,8 @@ li.customDropdownlast-child:hover {
 .changeViews {
     display: flex;
     justify-content: flex-end;
+    margin-top:-62px;
+
 }
 
     .changeViews a {
