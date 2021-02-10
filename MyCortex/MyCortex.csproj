@@ -1213,6 +1213,7 @@
     <Compile Include="Provider\ActionFilterAttribute.cs" />
     <Compile Include="Provider\AuthorizationAttributes.cs" />
     <Compile Include="Provider\AuthorizationServiceProvider.cs" />
+    <Compile Include="Provider\NoDirectAccessAttribute.cs" />
     <Compile Include="Report\Controller\ReportDetailsController.cs" />
     <Compile Include="Report\Models\ReportDetailsModel.cs" />
     <Compile Include="Repositories\Admin\InstitutionRepository.cs" />
