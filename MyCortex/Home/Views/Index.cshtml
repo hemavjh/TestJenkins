@@ -253,7 +253,7 @@
                                 Log Out From All Device
 
                             </li>
-                            <li onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
+                            <li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3'" onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
                         </ul>
                     </div>
                 </div>
@@ -520,31 +520,31 @@
 
     };
     let getAPIObj = {
-        primary: "#1d374e",
+        primary: "#002269",
         secondary: "#555",
-        headerBg: "#1d374e",
+        headerBg: "#002269",
         headerText: "#fff",
-        TableHeaderBg: "#1d374e",
+        TableHeaderBg: "#35a9e4",
         TableHeaderText: "#fff",
         TableAlternateRowBg: "#7a8ddb1a",
         TableAlternateRowText: "#333",
         TableRowHoverBg: "#efefef",
         TableRowHoverText: "#333",
         linkText: "337ab7",
-        positiveBtnBg: "#1d374e",
+        positiveBtnBg: "#35a9e4",
         positiveBtnBorder: "transparent",
         positiveBtnText: "#fff",
         positiveHoverBtnBg: "transparent",
-        positiveHoverBtnBorder: "#1d374e",
-        positiveHoverBtnText: "#1d374e",
-        negativeBtnBg: "#d3d5d8",
+        positiveHoverBtnBorder: "#35a9e4",
+        positiveHoverBtnText: "#35a9e4",
+        negativeBtnBg: "#35a9e4",
         negativeBtnBorder: "transparent",
-        negativeBtnText: "#000",
+        negativeBtnText: "#fff",
         negativeHoverBtnBg: "#fff",
-        negativeHoverBtnBorder: "#d3d5d8",
+        negativeHoverBtnBorder: "#35a9e4",
         negativeHoverBtnText: "#000",
-        title: "#1d374e",
-        subTitle: "#1d374e"
+        title: "#032b5c",
+        subTitle: "#032b5c"
 
     };
 
@@ -579,8 +579,8 @@
 
     let applyStyle = () => {
         //alert('use this method when user logged in first time and use response object instead of getAPIObj')
-        // alert(@HttpContext.Current.Session["UserId"].ToString());
-        $.get(baseUrl + "api/ColorPreference/List?UserId=" + @HttpContext.Current.Session["UserId"].ToString(), function (data) {
+        //alert(@HttpContext.Current.Session["InstitutionId"].ToString());
+        $.get(baseUrl + "api/ColorPreference/List?UserId=" + @HttpContext.Current.Session["InstitutionId"].ToString(), function (data) {
             if (data["Status"]) {
                 getAPIObj["primary"] = data["ColorPreferences"]["Primary"];
                 getAPIObj["secondary"] = data["ColorPreferences"]["Secondary"];
@@ -655,31 +655,31 @@
         let saveAPIObj = {
             UserId: @HttpContext.Current.Session["UserId"].ToString(),
             InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString(),
-            primary: $('#primary').val() || "#1d374e",
+            primary: $('#primary').val() || "#002269",
             secondary: $('#secondary').val() || "#555",
-            headerBg: $('#headerBg').val() || "#1d374e",
+            headerBg: $('#headerBg').val() || "#002269",
             headerText: $('#headerText').val() || "#fff",
-            TableHeaderBg: $('#TableHeaderBg').val() || "#1d374e",
+            TableHeaderBg: $('#TableHeaderBg').val() || "#35a9e4",
             TableHeaderText: $('#TableHeaderText').val() || "#fff",
             TableAlternateRowBg: $('#TableAlternateRowBg').val() || "#7a8ddb1a",
             TableAlternateRowText: $('#TableAlternateRowText').val() || "#333",
             TableRowHoverBg: $('#TableRowHoverBg').val() || "#efefef",
             TableRowHoverText: $('#TableRowHoverText').val() || "#333",
             linkText: $('#linkText').val() || "337ab7",
-            positiveBtnBg: $('#positiveBtnBg').val() || "#1d374e",
+            positiveBtnBg: $('#positiveBtnBg').val() || "#35a9e4",
             positiveBtnBorder: $('#positiveBtnBorder').val() || "transparent",
             positiveBtnText: $('#positiveBtnText').val() || "#fff",
             positiveHoverBtnBg: $('#positiveHoverBtnBg').val() || "transparent",
-            positiveHoverBtnBorder: $('#positiveHoverBtnBorder').val() || "#1d374e",
-            positiveHoverBtnText: $('#positiveHoverBtnText').val() || "#1d374e",
-            negativeBtnBg: $('#negativeBtnBg').val() || "#d3d5d8",
+            positiveHoverBtnBorder: $('#positiveHoverBtnBorder').val() || "#35a9e4",
+            positiveHoverBtnText: $('#positiveHoverBtnText').val() || "#35a9e4",
+            negativeBtnBg: $('#negativeBtnBg').val() || "#35a9e4",
             negativeBtnBorder: $('#negativeBtnBorder').val() || "transparent",
-            negativeBtnText: $('#negativeBtnText').val() || "#000",
+            negativeBtnText: $('#negativeBtnText').val() || "#fff",
             negativeHoverBtnBg: $('#negativeHoverBtnBg').val() || "#fff",
-            negativeHoverBtnBorder: $('#negativeHoverBtnBorder').val() || "#d3d5d8",
+            negativeHoverBtnBorder: $('#negativeHoverBtnBorder').val() || "#35a9e4",
             negativeHoverBtnText: $('#negativeHoverBtnText').val() || "#000",
-            title: $('#title').val() || "#1d374e",
-            subTitle: $('#subTitle').val() || "#1d374e"
+            title: $('#title').val() || "#032b5c",
+            subTitle: $('#subTitle').val() || "#032b5c"
         }
         console.log("saveStyle:" + saveAPIObj);
         $.post(baseUrl + "api/ColorPreference/Save", saveAPIObj, function (data, status) {
