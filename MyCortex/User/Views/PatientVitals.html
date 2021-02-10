@@ -693,7 +693,7 @@
                                                             </tr>
 
                                                             <tr ng-repeat="row in emptydataVitalLab">
-                                                                <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                                 <td style="text-align: left">
                                                                     {{(row.Activity_DateTime| date:'dd-MMM-yyyy hh:mm a')}}
                                                                 </td>
@@ -820,7 +820,7 @@
                                                     </tr>
 
                                                     <tr ng-repeat="Medication in PatientMedicationEmptyData">
-                                                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                         <td style="text-align: left">
                                                             <div class="textwrap">
                                                                 {{Medication.Drug_Code}}
@@ -951,7 +951,7 @@
                                                             <td colspan="8" style="text-align: center">{{SearchMsg}} </td>
                                                         </tr>
                                                         <tr ng-repeat="row in rowcollectionfiltericd10emptyData">
-                                                            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                             <td style="text-align: left">{{row.ICD_Code}}</td>
                                                             <td style="text-align: left">
                                                                 <div class="textwrap">{{row.Description}}</div>
@@ -1058,7 +1058,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr ng-repeat="Allen in PatientAllergyemptydata">
-                                                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                         <td style="text-align: left">
                                                             {{Allen.AllergyTypeName}}
                                                         </td>
@@ -1168,7 +1168,7 @@
 
                                                 <tbody>
                                                     <tr ng-repeat="row in PatientNotesemptydata">
-                                                        <td style="text-align: right; width: 5%">
+                                                        <td style="width: 5%" class="textalign">
                                                             {{((current_page-1)*page_size)+$index+1}}
                                                         </td>
                                                         <td style="text-align: left; width: 10%" ng-if="row.Notes.length > 100">
@@ -1283,7 +1283,7 @@
                                                         </tr>
                                                         <tr ng-repeat="row in OtherDataEmptyData">
 
-                                                            <td style="text-align: right">{{$index+1}}</td>
+                                                            <td class="textalign">{{$index+1}}</td>
                                                             <td style="text-align: left">
                                                                 <div class="textwrap">
                                                                     {{row.DocumentName}}
@@ -1793,7 +1793,7 @@
                                     </td>
                                 </tr>
                                 <tr ng-repeat="Data in emptydata ">
-                                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                     <td style="text-align: left">
                                         {{Data.GroupName}}
                                     </td>
@@ -1844,7 +1844,7 @@
                                 </tr>
                                 <tr ng-repeat="Allen in PatientAllergyemptydataforLoading">
                                     <!--  |filter:'No Known Allergies'-->
-                                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                     <td style="text-align: left">
                                         {{Allen.AllergyTypeName}}
                                     </td>
@@ -1916,7 +1916,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in AddVitalParameters">
-                                <td style="text-align: right">{{$index+1}}</td>
+                                <td class="textalign">{{$index+1}}</td>
                                 <td style="text-align: center">
                                     <select ng-model="row.ParameterId"
                                             class="form-control"
@@ -1995,7 +1995,7 @@
                                     </td>
                                 </tr>
                                 <tr ng-repeat="row in emptydata">
-                                    <td style="text-align: right">{{$index+1}}</td>
+                                    <td class="textalign">{{$index+1}}</td>
                                     <td style="text-align: left">{{row.Activity_Date|date:"dd-MMM-yyyy" }}</td>
                                     <td style="text-align: left">{{row.Activity_Date|date:"HH:mm:ss"}}</td>
                                     <td style="text-align: left">{{row.ParameterName}}</td>
@@ -2406,7 +2406,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in AddMedicationDetails">
-                                <td style="text-align: right">{{$index+1}}</td>
+                                <td class="textalign">{{$index+1}}</td>
                                 <!-- <td style="text-align: center">
                                      <input type="text" class="form-control" id="Text14" ng-model="row.CodeSearch" ng-click="DrugcodeSearchPopup($index)"
                                          ng-readonly="true" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
@@ -2642,7 +2642,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="row in AddICD10List">
-                                    <td style="text-align: right">{{$index+1}}</td>
+                                    <td class="textalign">{{$index+1}}</td>
                                     <td>
                                         {{row.ICD_Code}} <a href="javascript:" title="Click to ICD Code"
                                                             ng-click="ICD10codeSearchPopup($index);Icd10Clear()">Select</a>
@@ -3438,7 +3438,7 @@
                                 </td>
                             </tr>
                             <tr ng-repeat="row in Patient_OtherData">
-                                <td style="text-align: right">{{$index+1}}</td>
+                                <td class="textalign">{{$index+1}}</td>
                                 <td style="text-align: left">
                                     <input type="text" class="form-control" ng-model="row.DocumentName" maxlength="100"
                                            ng-maxlength="100" />
@@ -3811,7 +3811,7 @@
 
                             <tr ng-repeat="row in FilterView">
 
-                                <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
 
                                 <td style="text-align: left">
                                     <div class="textwrap">{{row.CaregiverName}}</div>
@@ -3907,7 +3907,7 @@
                                 </tr>
 
                                 <tr ng-repeat="Protocol in MonitoringProtocolEmptyData| filter : query">
-                                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
 
                                     <td style="text-align: left">
                                         <div class="textwrap">{{Protocol.ProtocolName}}</div>
@@ -4000,7 +4000,7 @@
                                         </td>
                                     </tr>
                                     <tr ng-repeat="row in DoctorAppoinmentemptydata">
-                                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                         <td style="text-align: left">{{row.Appointment_Date| date :'dd-MMM-yyyy'}}</td>
                                         <td style="text-align: left">{{row.DoctorName}}</td>
                                         <td style="text-align: left">{{row.Appointment_FromTime | date :'hh:mm a'}}</td>
@@ -4087,7 +4087,7 @@
                                         </td>
                                     </tr>
                                     <tr ng-repeat="row in CareCoordinatorFilter">
-                                        <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                         <td style="text-align: left">{{row.Coordinator}}</td>
                                         <td style="text-align: left">{{row.CareGiver}}</td>
                                         <td style="text-align: left">{{row.CC_Remarks}}</td>
