@@ -455,7 +455,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                 //    alert('error');
                 //});
 
-                var UserName = $scope.Username;
+                var UserName = $scope.Username.toLowerCase();
                 var Password = $scope.Password;
                 var LoginType = $scope.LoginType;
                 var tokendata = "UserName=" + UserName + "&Password=" + Password +"&grant_type=password"

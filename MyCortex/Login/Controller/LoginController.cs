@@ -83,15 +83,19 @@ namespace MyCortex.Login.Controller
                     _logger.Info("Controller");
                 UserModel ModelData = new UserModel();
                 LoginModel model = new LoginModel();
-                if (!ModelState.IsValid)
+                if(loginObj.LoginType == 1)
                 {
-                    model.Status = "False";
-                    model.Message = "Invalid data";
-                    model.Error_Code = "";
-                    model.UserDetails = ModelData;
-                    model.ReturnFlag = 0;
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                    if (!ModelState.IsValid)
+                    {
+                        model.Status = "False";
+                        model.Message = "Invalid data";
+                        model.Error_Code = "";
+                        model.UserDetails = ModelData;
+                        model.ReturnFlag = 0;
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                    }
                 }
+                
                 _logger.Info("username:" + loginObj.Username + " " + loginObj.Password);
                 if (repository.CheckExpiryDate())
                 {
@@ -108,9 +112,10 @@ namespace MyCortex.Login.Controller
                 try
                 {
                     // encrypt the password
+                    var username = loginObj.Username.ToLower();
                     DataEncryption EncryptPassword = new DataEncryption();
                     loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
-                    loginObj.Username = EncryptPassword.Encrypt(loginObj.Username.ToLower());
+                    loginObj.Username = EncryptPassword.Encrypt(username);
                     model = repository.Userlogin_AddEdit(loginObj);
                     _logger.Info("Model:" + model.data + " " + model.UserId);
 
