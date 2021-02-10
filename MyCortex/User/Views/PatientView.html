@@ -180,8 +180,8 @@
                                                     <div class="inputGroups">
                                                         <label>Date of Birth</label>
                                                         <span>
-                                                            {{DOB_Encrypt}}
-                                                            {{DOB}}
+                                                            {{DOB_Encrypt | date : format : "dd-MM-yyyy"}}
+                                                            {{DOB | date : format : "dd-MM-yyyy"}}
                                                         </span>
                                                     </div>
                                                 </div>
