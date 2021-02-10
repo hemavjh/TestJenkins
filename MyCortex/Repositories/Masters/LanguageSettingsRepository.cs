@@ -2,10 +2,12 @@
 using MyCortex.Masters.Models;
 using MyCortex.Utilities;
 using MyCortexDB;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 
@@ -17,7 +19,13 @@ namespace MyCortex.Repositories.Masters
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-        public IList<LanguageSettingsModel> LanguageSettings_List(int Institution_Id, Guid Login_Session_Id)
+        public LanguageSettingsRepository()
+        {
+            db = new ClsDataBase();
+
+        }
+
+        public IList<LanguageSettingsModel> LanguageSettings_List(long Institution_Id, Guid Login_Session_Id)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
@@ -75,7 +83,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public int LanguageDefault_Save(int institutionId, int languageId)
+        public int LanguageDefault_Save(long institutionId, int languageId)
         {
             try
             {
@@ -92,7 +100,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<InstituteLanguageModel> InstituteLanguage_List(int Institution_Id)
+        public IList<InstituteLanguageModel> InstituteLanguage_List(long Institution_Id)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
@@ -118,10 +126,12 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Language_Id,int Institution_Id)
+        public object LanguageKeyValue_List(int Language_Id, long Institution_Id)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
+            StringBuilder jsonOutput = new StringBuilder();
+
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@LANGUAGE_ID", Language_Id));
             try
@@ -136,7 +146,17 @@ namespace MyCortex.Repositories.Masters
                                                         LanguageText = p.Field<string>("LANGUAGE_TEXT"),
 
                                                     }).ToList();
-                return list;
+
+                foreach (LanguageKeyValueModel item in list)
+                {
+                    if (jsonOutput.Length > 0)
+                        jsonOutput.Append(",");
+
+                    jsonOutput.Append("\"" + item.LanguageKey + "\":\"" + item.LanguageText + "\"");
+                }
+                var response = JsonConvert.DeserializeObject("{\"lng\":{" + jsonOutput + "}}");
+
+                return response;
             }
             catch (Exception ex)
             {

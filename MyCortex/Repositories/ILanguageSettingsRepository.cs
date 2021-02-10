@@ -9,11 +9,11 @@ namespace MyCortex.Repositories
 {
     interface ILanguageSettingsRepository
     {
-        IList<LanguageSettingsModel> LanguageSettings_List(int Institution_Id, Guid Login_Session_Id);
-        IList<LanguageKeyValueModel> LanguageKeyValue_List(int Language_Id,int Institution_Id);
+        IList<LanguageSettingsModel> LanguageSettings_List(long Institution_Id, Guid Login_Session_Id);
+        object LanguageKeyValue_List(int Language_Id,long Institution_Id);
         int LanguageSettings_InsertUpdate(List<LanguageSettingsModel> model);
-        int LanguageDefault_Save(int institutionId, int languageId);
-        IList<InstituteLanguageModel> InstituteLanguage_List(int Institution_Id);
+        int LanguageDefault_Save(long institutionId, int languageId);
+        IList<InstituteLanguageModel> InstituteLanguage_List(long Institution_Id);
 
     }
 }

@@ -25,7 +25,7 @@ namespace MyCortex.Masters.Controllers
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public IList<LanguageSettingsModel> LanguageSettings_List(int Institution_Id, Guid Login_Session_Id)
+        public IList<LanguageSettingsModel> LanguageSettings_List(long Institution_Id, Guid Login_Session_Id)
         {
             IList<LanguageSettingsModel> model;
             try
@@ -72,7 +72,7 @@ namespace MyCortex.Masters.Controllers
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage LanguageDefault_Save(int Institution_Id, int Language_Id)
+        public HttpResponseMessage LanguageDefault_Save(long Institution_Id, int Language_Id)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace MyCortex.Masters.Controllers
         [AllowAnonymous]
         [HttpGet]
         [ActionName("InstituteLanguages")]
-        public IList<InstituteLanguageModel> InstituteLanguage_List(int Institution_Id)
+        public IList<InstituteLanguageModel> InstituteLanguage_List(long Institution_Id)
         {
             try
             {
@@ -107,22 +107,12 @@ namespace MyCortex.Masters.Controllers
         [AllowAnonymous]
         [HttpGet]
         [ActionName("List")]
-        public HttpResponseMessage LanguageKeyValue_List(int Language_Id = 1, int Institution_Id = 0)
+        public HttpResponseMessage LanguageKeyValue_List(int Language_Id = 1, long Institution_Id = 0)
         {
-            IList<LanguageKeyValueModel> model;
             StringBuilder jsonOutput = new StringBuilder();
             try
             {
-                model = repository.LanguageKeyValue_List(Language_Id, Institution_Id);
-
-                foreach (LanguageKeyValueModel item in model)
-                {
-                    if (jsonOutput.Length > 0)
-                        jsonOutput.Append(",");
-
-                    jsonOutput.Append("\"" + item.LanguageKey + "\":\"" + item.LanguageText + "\"");
-                }
-                var response = JsonConvert.DeserializeObject("{\"lng\":{" + jsonOutput + "}}");
+                var response = repository.LanguageKeyValue_List(Language_Id, Institution_Id);
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }

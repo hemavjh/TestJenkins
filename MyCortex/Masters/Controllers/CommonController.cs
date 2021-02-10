@@ -28,6 +28,7 @@ namespace MyCortex.Masters.Controllers
     {
         static readonly ICommonRepository repository = new CommonRepository();
         static readonly IPasswordPolicyRepository pwdrepository = new PasswordPolicyRepository();
+        static readonly ILanguageSettingsRepository lngrepository = new LanguageSettingsRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IList<AppConfigurationModel> model;
         private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
@@ -826,6 +827,37 @@ namespace MyCortex.Masters.Controllers
             {
                 _logger.Error(ex.Message, ex);
                 return null;
+            }
+        }
+
+        /// <summary>      
+        /// to get password policy configuration of a institution
+        /// </summary>          
+        /// <returns>password policy configuration of a institution</returns>
+        [HttpGet]
+        public HttpResponseMessage MobileAppSettings(long Institution_Id,int Language_Id=1)
+        {
+            MobileSettingsModel model = new MobileSettingsModel();
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model.Status = "True";
+                model.Message = "Successfully created";
+                model.ReturnFlag = 1;
+                model.PasswordData = pwdrepository.PasswordPolicy_View(Institution_Id);
+                model.LanguageText = lngrepository.LanguageKeyValue_List(Language_Id, Institution_Id); 
+                return Request.CreateResponse(HttpStatusCode.OK, model); ;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Institution";
+                model.ReturnFlag = 0;
+                model.PasswordData = null;
+                model.LanguageText = string.Empty;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
 

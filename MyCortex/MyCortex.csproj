@@ -1197,6 +1197,7 @@
     <Compile Include="Masters\Models\LocationMasterModel.cs" />
     <Compile Include="Masters\Models\MasterICDModel.cs" />
     <Compile Include="Masters\Models\ParamaterSettingsModel.cs" />
+    <Compile Include="Masters\Models\MobileSettingsModel.cs" />
     <Compile Include="Masters\Models\PasswordPolicyModel.cs" />
     <Compile Include="Masters\Models\PhotoUploadModal.cs" />
     <Compile Include="Masters\Models\ProtocolParameterMasterModel.cs" />
