@@ -974,7 +974,7 @@ li.customDropdownlast-child:hover {
     text-align: left;
     left: 465px !important;
     position: absolute;
-    top: 20px;
+    top: 10px;
     /* right: 25px; */
     font-size: 16px;
 }
@@ -982,7 +982,7 @@ li.customDropdownlast-child:hover {
     text-align: left;
     left: 530px !important;
     position: absolute;
-    top: 20px; 
+    top: 10px; 
     font-size: 14px;
 }
 
