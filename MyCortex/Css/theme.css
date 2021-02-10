@@ -1738,3 +1738,7 @@ li.customDropdownlast-child:hover {
 .width100 {
     width: 100px;
 }
+.patientDetimg {
+    width: 150px;
+    height: 150px;
+}

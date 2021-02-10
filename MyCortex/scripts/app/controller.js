@@ -270,7 +270,7 @@ MyCortexControllers.controller("homeController", ['$scope', '$http', '$routePara
                     else if ($window.localStorage['UserTypeId'] == "2")
                         window.location.href = baseUrl + "/Home/Index#/PatientVitals/0/1";
                     else if ($window.localStorage['UserTypeId'] == "4")
-                        window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
+                        window.location.href = baseUrl + "/Home/Index#/Thirtydays_appointments";
                     else if ($window.localStorage['UserTypeId'] == "5")
                         window.location.href = baseUrl + "/Home/Index#/CareGiverAssignedPatients";
                     else if ($window.localStorage['UserTypeId'] == "6")
@@ -289,7 +289,7 @@ MyCortexControllers.controller("homeController", ['$scope', '$http', '$routePara
             else if ($window.localStorage['UserTypeId'] == "2")
                 window.location.href = baseUrl + "/Home/Index#/PatientVitals/0/1";
             else if ($window.localStorage['UserTypeId'] == "4")
-                window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
+                window.location.href = baseUrl + "/Home/Index#/Thirtydays_appointments";
             else if ($window.localStorage['UserTypeId'] == "5")
                 window.location.href = baseUrl + "/Home/Index#/CareGiverAssignedPatients";
             else if ($window.localStorage['UserTypeId'] == "6")
@@ -2858,8 +2858,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.GenderId = data.GENDER_ID.toString();
                     $scope.NationalityId = data.NATIONALITY_ID.toString();
                     $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                    //$scope.DOB=moment(data.DOB_Encrypt).format('DD-MMM-YYYY'),
-                    $scope.DOB = $filter('date')(data.DOB, "dd-MMM-yyyy");
+                    var Format_Date = DateFormat($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                    $scope.DOB = Format_Date;
                     $scope.HomeAreaCode = data.HOME_AREACODE;
                     $scope.Home_PhoneNo = data.HOME_PHONENO;
                     $scope.MobileAreaCode = data.MOBIL_AREACODE;

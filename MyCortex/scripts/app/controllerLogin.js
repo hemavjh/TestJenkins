@@ -212,10 +212,10 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
             alert("Please select Date of Birth");
             return false;
         }
-        else if (isDate($scope.DOB) == false) {
-            alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
-            return false;
-        }
+        //else if (isDate($scope.DOB) == false) {
+        //    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
+        //    return false;
+        //}
         else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
             alert("Please enter Email");
             return false;
@@ -606,16 +606,26 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                             //});
                             
 
+                            //var UserName = $scope.Username;
+                            //var Password = $scope.Password;
+                            //var LoginType = "3";
+                            //var tokendata = "UserName=" + UserName + "&Password=#1#" + "&grant_type=password"
+                            //$http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                            //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
+                            //}).error(function (err) {
+                            //    $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
+                            //    alert('error');
+                            //});
                             var UserName = $scope.Username;
                             var Password = $scope.Password;
-                            var LoginType = "3";
-                            var tokendata = "UserName=" + UserName + "&Password=#1#" + "&grant_type=password"
+                            var LoginType = $scope.LoginType;
+                            var tokendata = "UserName=" + UserName + "&Password=" + Password + "&grant_type=password"
                             $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
                                 $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
                             }).error(function (err) {
                                 $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                                alert('error');
-                            });
+                                console.log(err);
+                            });	
                             
                             if (data == "1") {
                                 $scope.errorlist = "Login Failed! \n Please check Email and Password ";

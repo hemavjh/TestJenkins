@@ -21,11 +21,11 @@ namespace MyCortex.Repositories.User
         {
             db = new ClsDataBase();
         }
-        public ColorPreferenceModel ColorPreference_List(long? UserId)
+        public ColorPreferenceModel ColorPreference_List(long? InstitutionId)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@USER_ID", UserId));
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLCOLOR_PREFERENCE_SP_LIST", param);
@@ -82,7 +82,7 @@ namespace MyCortex.Repositories.User
             {               
                 List<DataParameter> param = new List<DataParameter>();
                 param.Add(new DataParameter("@ID", insobj.ID));
-                param.Add(new DataParameter("@USER_ID", insobj.UserId));
+                //param.Add(new DataParameter("@USER_ID", insobj.UserId));
                 param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
                 param.Add(new DataParameter("@CREATED_BY", insobj.UserId));
                 param.Add(new DataParameter("@PRIMARY_COLOR", insobj.Primary));
