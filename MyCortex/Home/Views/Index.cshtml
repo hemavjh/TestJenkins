@@ -253,7 +253,8 @@
                                 Log Out From All Device
 
                             </li>
-                            <li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3'" onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
+                            <li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
+                                onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
                         </ul>
                     </div>
                 </div>
@@ -579,8 +580,8 @@
 
     let applyStyle = () => {
         //alert('use this method when user logged in first time and use response object instead of getAPIObj')
-        //alert(@HttpContext.Current.Session["InstitutionId"].ToString());
-        $.get(baseUrl + "api/ColorPreference/List?UserId=" + @HttpContext.Current.Session["InstitutionId"].ToString(), function (data) {
+        let InstitutionId = (@HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString());
+        $.get(baseUrl + "api/ColorPreference/List?UserId=" + InstitutionId, function (data) {
             if (data["Status"]) {
                 getAPIObj["primary"] = data["ColorPreferences"]["Primary"];
                 getAPIObj["secondary"] = data["ColorPreferences"]["Secondary"];
@@ -654,7 +655,7 @@
     let saveSettings = () => {
         let saveAPIObj = {
             UserId: @HttpContext.Current.Session["UserId"].ToString(),
-            InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString(),
+            InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString(),
             primary: $('#primary').val() || "#002269",
             secondary: $('#secondary').val() || "#555",
             headerBg: $('#headerBg').val() || "#002269",
@@ -695,7 +696,7 @@
         if (confirm("Click Ok Button to Restore Color Settings. If not Please click close button!")) {
             let restoreAPIObj = {
                 UserId: @HttpContext.Current.Session["UserId"].ToString(),
-                InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString(),
+                InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString(),
                 primary: defaultValueObj["primary"],
                 secondary: defaultValueObj["secondary"],
                 headerBg: defaultValueObj["headerBg"],
