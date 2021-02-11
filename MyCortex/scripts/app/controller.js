@@ -906,6 +906,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Patients = "";
         $scope.Contract_Period_From = "";
         $scope.Contract_Period_To = "";
+        $scope.V_Contract_Period_From = "";
+        $scope.V_Contract_Period_To = "";
         $scope.Subscription_Type = "1";
 
         $scope.InstitutionViewList = [];
@@ -1176,10 +1178,12 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $scope.Country = data.Institution.CountryName;
                 $scope.State = data.Institution.StateName;
                 $scope.City = data.Institution.CityName;
-                $scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
+                //$scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
+                $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
                 $scope.Health_Care_Professionals = data.Health_Care_Professionals;
                 $scope.Patients = data.No_Of_Patients;
-                $scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
+                //$scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
+                $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                 $scope.Subscription_Type = data.Subscription_Type;
                 $scope.InsSub_Id = data.SubscriptionId;
 
@@ -2858,8 +2862,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.GenderId = data.GENDER_ID.toString();
                     $scope.NationalityId = data.NATIONALITY_ID.toString();
                     $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                    var Format_Date = DateFormat($filter('date')(data.DOB, "dd-MMM-yyyy"));
-                    $scope.DOB = Format_Date;
+                    $scope.DOB  = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
                     $scope.HomeAreaCode = data.HOME_AREACODE;
                     $scope.Home_PhoneNo = data.HOME_PHONENO;
                     $scope.MobileAreaCode = data.MOBIL_AREACODE;
@@ -4832,7 +4835,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.MobileNo = data.MOBILE_NO;
                 $scope.Photo = data.Photo;
                 $scope.FileName = data.FileName;
-                $scope.DOB = $filter('date')(data.DOB, "dd-MMM-yyyy");
+                $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
                 $scope.MNR_No = data.MNR_NO;
                 $scope.NationalId = data.NATIONALID;
                 $scope.GenderId = data.GenderId;
