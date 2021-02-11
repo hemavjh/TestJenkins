@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using MyCortex.Masters.Models;
 
 namespace MyCortex.Admin.Models
 {
@@ -15,6 +15,8 @@ namespace MyCortex.Admin.Models
         public string Error_Code { get; set; }
         public int ReturnFlag { get; set; }
         public PasswordPolicyModel PasswordData { get; set; }
+        public IList<InstituteLanguageModel> Languages { get; set; }
         public object LanguageText { get; set; }
+        public IList<AppConfigurationModel> AppConfigurations { get; set; }
     }
 }

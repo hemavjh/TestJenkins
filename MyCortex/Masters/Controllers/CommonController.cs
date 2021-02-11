@@ -846,7 +846,9 @@ namespace MyCortex.Masters.Controllers
                 model.Message = "Successfully created";
                 model.ReturnFlag = 1;
                 model.PasswordData = pwdrepository.PasswordPolicy_View(Institution_Id);
-                model.LanguageText = lngrepository.LanguageKeyValue_List(Language_Id, Institution_Id); 
+                model.Languages = lngrepository.InstituteLanguage_List(Institution_Id);
+                model.LanguageText = lngrepository.LanguageKeyValue_List(Language_Id, Institution_Id);
+                model.AppConfigurations = repository.AppConfigurationDetails(string.Empty, Institution_Id);
                 return Request.CreateResponse(HttpStatusCode.OK, model); ;
             }
             catch (Exception ex)
