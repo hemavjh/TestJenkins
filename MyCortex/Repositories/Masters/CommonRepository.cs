@@ -536,20 +536,25 @@ namespace MyCortex.Repositories.Masters
         /// <returns>App configuration value</returns>
         public IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id)
         {
+            
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@CONFIGCODE", ConfigCode));
+            if (!string.IsNullOrEmpty(ConfigCode))
+            {
+                param.Add(new DataParameter("@CONFIGCODE", ConfigCode));
+            }
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[APPCONFIGURATION_SP_LIST]", param);
-            List<AppConfigurationModel> list = (from p in dt.AsEnumerable()
-                                                select new AppConfigurationModel()
-                                                          {
-                                                              Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                                              ConfigCode = p.Field<string>("CONFIGCODE"),
-                                                              ConfigInfo = p.Field<string>("CONFIGINFO"),
-                                                              ConfigValue = p.Field<string>("CONFIGVALUE"),
-                                                              ConfigTypeDefinition = p.Field<string>("CONFIG_TYPEDEFINITION")
-                                                          }).ToList();
-            return list;
+            var configList = (from p in dt.AsEnumerable()
+                                select new AppConfigurationModel()
+                                {
+                                    Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                    ConfigCode = p.Field<string>("CONFIGCODE"),
+                                    ConfigInfo = p.Field<string>("CONFIGINFO"),
+                                    ConfigValue = p.Field<string>("CONFIGVALUE"),
+                                    ConfigTypeDefinition = p.Field<string>("CONFIG_TYPEDEFINITION")
+                                }).ToList();
+               
+            return configList;
         }
 
         public IList<UnitGroupTypeModel> UnitGroupTypeList()
