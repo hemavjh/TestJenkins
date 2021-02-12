@@ -955,7 +955,7 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id">User id</param>
         /// <returns>success status of user deactivated</returns>
-        public void UserDetails_InActive(long Id)
+        public UserReturnModel UserDetails_InActive(long Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
