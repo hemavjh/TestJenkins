@@ -443,7 +443,27 @@ namespace MyCortex.Repositories.Uesr
                                 }).FirstOrDefault();
             if (insert.DOB_Encrypt != "")
             {
-                insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
+                var time = insert.DOB_Encrypt.Split(' ');
+
+                var time4 = time[0].Split('/');
+                var time1 = time4[0];
+                var time2 = time4[1];
+                var time3 = time4[2];
+
+                DateTime dt1 = new DateTime();
+                try
+                {
+                    var dateime = time2 + '/' + time1 + '/' + time3;
+                    dt1 = Convert.ToDateTime(dateime);
+                }
+                catch (Exception ex)
+                {
+                    var dateime = time1 + '/' + time2 + '/' + time3;
+                    dt1 = Convert.ToDateTime(dateime);
+                }
+                insert.DOB = dt1;
+
+                //insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
                 /*string[] tokens = insert.DOB_Encrypt.Split('/');
                 insert.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
             }
@@ -690,9 +710,28 @@ namespace MyCortex.Repositories.Uesr
                                   Approval_flag = p.Field<int>("APPROVAL_FLAG"),
                                   Createdby_ShortName = p.Field<string>("SHORTNAME_CODE")
                               }).FirstOrDefault();
+          
             if (View.DOB_Encrypt != "")
             {
-                View.DOB = Convert.ToDateTime(View.DOB_Encrypt);
+                var time = View.DOB_Encrypt.Split(' ');
+
+                var time4 = time[0].Split('/');
+                var time1 = time4[0];
+                var time2 = time4[1];
+                var time3 = time4[2];
+
+                DateTime dt1 = new DateTime();
+                try
+                {
+                    var dateime = time2 + '/' + time1 + '/' + time3;
+                    dt1 = Convert.ToDateTime(dateime);
+                }
+                catch(Exception ex)
+                {
+                    var dateime = time1 + '/' + time2 + '/' + time3;
+                    dt1 = Convert.ToDateTime(dateime);
+                }
+                View.DOB = dt1;
                 /*string[] tokens = View.DOB_Encrypt.Split('/');
                 View.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
                 //View.DOB= DateTime.ParseExact(View.DOB_Encrypt, "MM-dd-yyyy HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture);

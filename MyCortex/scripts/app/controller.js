@@ -3236,89 +3236,174 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     and saving the image uploaded in the local server. 
                     */
 
-
-                    var obj = {
-                        Id: $scope.Id,
-                        INSTITUTION_ID: $scope.InstitutionId == 0 ? null : $scope.InstitutionId,
-                        FirstName: $scope.FirstName,
-                        MiddleName: $scope.MiddleName,
-                        LastName: $scope.LastName,
-                        EMPLOYEMENTNO: $scope.Employee_No,
-                        DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
-                        EMAILID: $scope.EmailId,
-                        MOBILE_NO: $scope.MobileNo,
-                        FileName: $scope.FileName,
-                        Photo_Fullpath: "",
-                        Photo: $scope.UserLogo,
-                        UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
-                        TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
-                        HEALTH_LICENSE: $scope.Health_License,
-                        FILE_NAME: $scope.CertificateFileName,
-                        FILE_FULLPATH: "",
-                        UPLOAD_FILENAME: $scope.Resume,
-                        GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
-                        NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
-                        ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
-                        DOB:moment($scope.DOB).format('DD-MMM-YYYY'),
-                        HOME_AREACODE: $scope.HomeAreaCode,
-                        HOME_PHONENO: $scope.Home_PhoneNo,
-                        MOBIL_AREACODE: $scope.MobileAreaCode,
-                        POSTEL_ZIPCODE: $scope.PostalZipCode,
-                        EMR_AVAILABILITY: $scope.EMR_Avalability,
-                        ADDRESS1: $scope.Address1,
-                        ADDRESS2: $scope.Address2,
-                        ADDRESS3: $scope.Address3,
-                        COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
-                        STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
-                        CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
-                        MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
-                        BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
-                        PATIENTNO: $scope.PatientNo,
-                        INSURANCEID: $scope.InsuranceId,
-                        MNR_NO: $scope.MNR_No,
-                        NATIONALID: $scope.NationalId,
-                        SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
-                        DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
-                        HYPERTENSION: $scope.HyperTension == 0 ? null : $scope.HyperTension,
-                        CHOLESTEROL: $scope.Cholestrol == 0 ? null : $scope.Cholestrol,
-                        SelectedGroupList: $scope.UserGroupDetails_List,
-                        GroupTypeList: $scope.GroupTypeList,
-                        SelectedInstitutionList: $scope.UserInstitutionDetails_List,
-                        InstitutionList: $scope.DoctorInstitutionList,
-                        SelectedLanguageList: $scope.UserLanguageDetails_List,
-                        LanguageList: $scope.LanguageList,
-                        CURRENTLY_TAKEMEDICINE: $scope.CURRENTLY_TAKEMEDICINE,
-                        PAST_MEDICALHISTORY: $scope.PAST_MEDICALHISTORY,
-                        FAMILYHEALTH_PROBLEMHISTORY: $scope.FAMILYHEALTH_PROBLEMHISTORY,
-                        VACCINATIONS: $scope.VACCINATIONS,
-                        DIETDESCRIBE_ID: $scope.DIETDESCRIBE_ID == 0 ? null : $scope.DIETDESCRIBE_ID,
-                        EXCERCISE_SCHEDULEID: $scope.EXCERCISE_SCHEDULEID == 0 ? null : $scope.EXCERCISE_SCHEDULEID,
-                        EXCERCISE_TEXT: $scope.EXCERCISE_TEXT,
-                        ALERGYSUBSTANCE_ID: $scope.ALERGYSUBSTANCE_ID == 0 ? null : $scope.ALERGYSUBSTANCE_ID,
-                        ALERGYSUBSTANCE_TEXT: $scope.ALERGYSUBSTANCE_TEXT,
-                        SMOKESUBSTANCE_ID: $scope.SMOKESUBSTANCE_ID == 0 ? null : $scope.SMOKESUBSTANCE_ID,
-                        SMOKESUBSTANCE_TEXT: $scope.SMOKESUBSTANCE_TEXT,
-                        ALCOHALSUBSTANCE_ID: $scope.ALCOHALSUBSTANCE_ID == 0 ? null : $scope.ALCOHALSUBSTANCE_ID,
-                        ALCOHALSUBSTANCE_TEXT: $scope.ALCOHALSUBSTANCE_TEXT,
-                        CAFFEINATED_BEVERAGESID: $scope.CAFFEINATED_BEVERAGESID == 0 ? null : $scope.CAFFEINATED_BEVERAGESID,
-                        CAFFEINATEDBEVERAGES_TEXT: $scope.CAFFEINATEDBEVERAGES_TEXT,
-                        EMERG_CONT_FIRSTNAME: $scope.EMERG_CONT_FIRSTNAME,
-                        EMERG_CONT_MIDDLENAME: $scope.EMERG_CONT_MIDDLENAME,
-                        EMERG_CONT_LASTNAME: $scope.EMERG_CONT_LASTNAME,
-                        EMERG_CONT_RELATIONSHIP_ID: $scope.EMERG_CONT_RELATIONSHIP_ID == 0 ? null : $scope.EMERG_CONT_RELATIONSHIP_ID,
-                        SelectedChronicConnditionList: $scope.PatientChronicCondition_List,
-                        ChronicConditionList: $scope.ChronicConditionList,
-                        AddMedicines: $scope.AddMedicines,
-                        AddMedicalHistory: $scope.AddMedicalHistory,
-                        AddHealthProblem: $scope.AddHealthProblem,
-                        MenuType: $scope.MenuTypeId,
-                        GOOGLE_EMAILID: $scope.Google_EmailId,
-                        FB_EMAILID: $scope.FB_EmailId,
-                        CREATED_BY: $window.localStorage['UserId'],
-                        ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
-                        Patient_Type: $scope.Patient_Type,
-                        Emergency_MobileNo: $scope.Emergency_MobileNo,
-                        IS_MASTER: $scope.Is_Master
+                    if ($scope.DOB == "" || $scope.DOB == undefined || $scope.DOB == null) {
+                        var obj = {
+                            Id: $scope.Id,
+                            INSTITUTION_ID: $scope.InstitutionId == 0 ? null : $scope.InstitutionId,
+                            FirstName: $scope.FirstName,
+                            MiddleName: $scope.MiddleName,
+                            LastName: $scope.LastName,
+                            EMPLOYEMENTNO: $scope.Employee_No,
+                            DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
+                            EMAILID: $scope.EmailId,
+                            MOBILE_NO: $scope.MobileNo,
+                            FileName: $scope.FileName,
+                            Photo_Fullpath: "",
+                            Photo: $scope.UserLogo,
+                            UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
+                            TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
+                            HEALTH_LICENSE: $scope.Health_License,
+                            FILE_NAME: $scope.CertificateFileName,
+                            FILE_FULLPATH: "",
+                            UPLOAD_FILENAME: $scope.Resume,
+                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
+                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                            DOB: "",
+                            HOME_AREACODE: $scope.HomeAreaCode,
+                            HOME_PHONENO: $scope.Home_PhoneNo,
+                            MOBIL_AREACODE: $scope.MobileAreaCode,
+                            POSTEL_ZIPCODE: $scope.PostalZipCode,
+                            EMR_AVAILABILITY: $scope.EMR_Avalability,
+                            ADDRESS1: $scope.Address1,
+                            ADDRESS2: $scope.Address2,
+                            ADDRESS3: $scope.Address3,
+                            COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
+                            STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
+                            CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
+                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                            PATIENTNO: $scope.PatientNo,
+                            INSURANCEID: $scope.InsuranceId,
+                            MNR_NO: $scope.MNR_No,
+                            NATIONALID: $scope.NationalId,
+                            SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
+                            DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
+                            HYPERTENSION: $scope.HyperTension == 0 ? null : $scope.HyperTension,
+                            CHOLESTEROL: $scope.Cholestrol == 0 ? null : $scope.Cholestrol,
+                            SelectedGroupList: $scope.UserGroupDetails_List,
+                            GroupTypeList: $scope.GroupTypeList,
+                            SelectedInstitutionList: $scope.UserInstitutionDetails_List,
+                            InstitutionList: $scope.DoctorInstitutionList,
+                            SelectedLanguageList: $scope.UserLanguageDetails_List,
+                            LanguageList: $scope.LanguageList,
+                            CURRENTLY_TAKEMEDICINE: $scope.CURRENTLY_TAKEMEDICINE,
+                            PAST_MEDICALHISTORY: $scope.PAST_MEDICALHISTORY,
+                            FAMILYHEALTH_PROBLEMHISTORY: $scope.FAMILYHEALTH_PROBLEMHISTORY,
+                            VACCINATIONS: $scope.VACCINATIONS,
+                            DIETDESCRIBE_ID: $scope.DIETDESCRIBE_ID == 0 ? null : $scope.DIETDESCRIBE_ID,
+                            EXCERCISE_SCHEDULEID: $scope.EXCERCISE_SCHEDULEID == 0 ? null : $scope.EXCERCISE_SCHEDULEID,
+                            EXCERCISE_TEXT: $scope.EXCERCISE_TEXT,
+                            ALERGYSUBSTANCE_ID: $scope.ALERGYSUBSTANCE_ID == 0 ? null : $scope.ALERGYSUBSTANCE_ID,
+                            ALERGYSUBSTANCE_TEXT: $scope.ALERGYSUBSTANCE_TEXT,
+                            SMOKESUBSTANCE_ID: $scope.SMOKESUBSTANCE_ID == 0 ? null : $scope.SMOKESUBSTANCE_ID,
+                            SMOKESUBSTANCE_TEXT: $scope.SMOKESUBSTANCE_TEXT,
+                            ALCOHALSUBSTANCE_ID: $scope.ALCOHALSUBSTANCE_ID == 0 ? null : $scope.ALCOHALSUBSTANCE_ID,
+                            ALCOHALSUBSTANCE_TEXT: $scope.ALCOHALSUBSTANCE_TEXT,
+                            CAFFEINATED_BEVERAGESID: $scope.CAFFEINATED_BEVERAGESID == 0 ? null : $scope.CAFFEINATED_BEVERAGESID,
+                            CAFFEINATEDBEVERAGES_TEXT: $scope.CAFFEINATEDBEVERAGES_TEXT,
+                            EMERG_CONT_FIRSTNAME: $scope.EMERG_CONT_FIRSTNAME,
+                            EMERG_CONT_MIDDLENAME: $scope.EMERG_CONT_MIDDLENAME,
+                            EMERG_CONT_LASTNAME: $scope.EMERG_CONT_LASTNAME,
+                            EMERG_CONT_RELATIONSHIP_ID: $scope.EMERG_CONT_RELATIONSHIP_ID == 0 ? null : $scope.EMERG_CONT_RELATIONSHIP_ID,
+                            SelectedChronicConnditionList: $scope.PatientChronicCondition_List,
+                            ChronicConditionList: $scope.ChronicConditionList,
+                            AddMedicines: $scope.AddMedicines,
+                            AddMedicalHistory: $scope.AddMedicalHistory,
+                            AddHealthProblem: $scope.AddHealthProblem,
+                            MenuType: $scope.MenuTypeId,
+                            GOOGLE_EMAILID: $scope.Google_EmailId,
+                            FB_EMAILID: $scope.FB_EmailId,
+                            CREATED_BY: $window.localStorage['UserId'],
+                            ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
+                            Patient_Type: $scope.Patient_Type,
+                            Emergency_MobileNo: $scope.Emergency_MobileNo,
+                            IS_MASTER: $scope.Is_Master
+                        }
+                    } else {
+                        var obj = {
+                            Id: $scope.Id,
+                            INSTITUTION_ID: $scope.InstitutionId == 0 ? null : $scope.InstitutionId,
+                            FirstName: $scope.FirstName,
+                            MiddleName: $scope.MiddleName,
+                            LastName: $scope.LastName,
+                            EMPLOYEMENTNO: $scope.Employee_No,
+                            DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
+                            EMAILID: $scope.EmailId,
+                            MOBILE_NO: $scope.MobileNo,
+                            FileName: $scope.FileName,
+                            Photo_Fullpath: "",
+                            Photo: $scope.UserLogo,
+                            UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
+                            TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
+                            HEALTH_LICENSE: $scope.Health_License,
+                            FILE_NAME: $scope.CertificateFileName,
+                            FILE_FULLPATH: "",
+                            UPLOAD_FILENAME: $scope.Resume,
+                            GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
+                            NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
+                            ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
+                            DOB: moment($scope.DOB).format('DD-MMM-YYYY'),
+                            HOME_AREACODE: $scope.HomeAreaCode,
+                            HOME_PHONENO: $scope.Home_PhoneNo,
+                            MOBIL_AREACODE: $scope.MobileAreaCode,
+                            POSTEL_ZIPCODE: $scope.PostalZipCode,
+                            EMR_AVAILABILITY: $scope.EMR_Avalability,
+                            ADDRESS1: $scope.Address1,
+                            ADDRESS2: $scope.Address2,
+                            ADDRESS3: $scope.Address3,
+                            COUNTRY_ID: $scope.CountryId == 0 ? null : $scope.CountryId,
+                            STATE_ID: $scope.StateId == 0 ? null : $scope.StateId,
+                            CITY_ID: $scope.CityId == 0 ? null : $scope.CityId,
+                            MARITALSTATUS_ID: $scope.MaritalStatusId == 0 ? null : $scope.MaritalStatusId,
+                            BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
+                            PATIENTNO: $scope.PatientNo,
+                            INSURANCEID: $scope.InsuranceId,
+                            MNR_NO: $scope.MNR_No,
+                            NATIONALID: $scope.NationalId,
+                            SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
+                            DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
+                            HYPERTENSION: $scope.HyperTension == 0 ? null : $scope.HyperTension,
+                            CHOLESTEROL: $scope.Cholestrol == 0 ? null : $scope.Cholestrol,
+                            SelectedGroupList: $scope.UserGroupDetails_List,
+                            GroupTypeList: $scope.GroupTypeList,
+                            SelectedInstitutionList: $scope.UserInstitutionDetails_List,
+                            InstitutionList: $scope.DoctorInstitutionList,
+                            SelectedLanguageList: $scope.UserLanguageDetails_List,
+                            LanguageList: $scope.LanguageList,
+                            CURRENTLY_TAKEMEDICINE: $scope.CURRENTLY_TAKEMEDICINE,
+                            PAST_MEDICALHISTORY: $scope.PAST_MEDICALHISTORY,
+                            FAMILYHEALTH_PROBLEMHISTORY: $scope.FAMILYHEALTH_PROBLEMHISTORY,
+                            VACCINATIONS: $scope.VACCINATIONS,
+                            DIETDESCRIBE_ID: $scope.DIETDESCRIBE_ID == 0 ? null : $scope.DIETDESCRIBE_ID,
+                            EXCERCISE_SCHEDULEID: $scope.EXCERCISE_SCHEDULEID == 0 ? null : $scope.EXCERCISE_SCHEDULEID,
+                            EXCERCISE_TEXT: $scope.EXCERCISE_TEXT,
+                            ALERGYSUBSTANCE_ID: $scope.ALERGYSUBSTANCE_ID == 0 ? null : $scope.ALERGYSUBSTANCE_ID,
+                            ALERGYSUBSTANCE_TEXT: $scope.ALERGYSUBSTANCE_TEXT,
+                            SMOKESUBSTANCE_ID: $scope.SMOKESUBSTANCE_ID == 0 ? null : $scope.SMOKESUBSTANCE_ID,
+                            SMOKESUBSTANCE_TEXT: $scope.SMOKESUBSTANCE_TEXT,
+                            ALCOHALSUBSTANCE_ID: $scope.ALCOHALSUBSTANCE_ID == 0 ? null : $scope.ALCOHALSUBSTANCE_ID,
+                            ALCOHALSUBSTANCE_TEXT: $scope.ALCOHALSUBSTANCE_TEXT,
+                            CAFFEINATED_BEVERAGESID: $scope.CAFFEINATED_BEVERAGESID == 0 ? null : $scope.CAFFEINATED_BEVERAGESID,
+                            CAFFEINATEDBEVERAGES_TEXT: $scope.CAFFEINATEDBEVERAGES_TEXT,
+                            EMERG_CONT_FIRSTNAME: $scope.EMERG_CONT_FIRSTNAME,
+                            EMERG_CONT_MIDDLENAME: $scope.EMERG_CONT_MIDDLENAME,
+                            EMERG_CONT_LASTNAME: $scope.EMERG_CONT_LASTNAME,
+                            EMERG_CONT_RELATIONSHIP_ID: $scope.EMERG_CONT_RELATIONSHIP_ID == 0 ? null : $scope.EMERG_CONT_RELATIONSHIP_ID,
+                            SelectedChronicConnditionList: $scope.PatientChronicCondition_List,
+                            ChronicConditionList: $scope.ChronicConditionList,
+                            AddMedicines: $scope.AddMedicines,
+                            AddMedicalHistory: $scope.AddMedicalHistory,
+                            AddHealthProblem: $scope.AddHealthProblem,
+                            MenuType: $scope.MenuTypeId,
+                            GOOGLE_EMAILID: $scope.Google_EmailId,
+                            FB_EMAILID: $scope.FB_EmailId,
+                            CREATED_BY: $window.localStorage['UserId'],
+                            ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
+                            Patient_Type: $scope.Patient_Type,
+                            Emergency_MobileNo: $scope.Emergency_MobileNo,
+                            IS_MASTER: $scope.Is_Master
+                        }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
@@ -4499,6 +4584,34 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else { return false; }
         }
 
+        $scope.yellowcount = 1;
+        $scope.AlertCountDisplay = function () {
+            $('#tableid1').hide();
+            $scope.yellowcount++;
+            var x = document.getElementById(tableid1);
+            var y = document.getElementById(tableid2);
+
+            if ($scope.yellowcount == 2) {
+
+                $('#tableid1').show();
+
+            } else if ($scope.yellowcount == 3) {
+                $('#tableid1').hide();
+                $('#tableid2').show();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+                $('#tableid1').hide();
+                $('#tableid2').hide();
+                $scope.yellowcount = 1;
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };
+
         $scope.flag = 0;
         $scope.MNR_No = "";
         $scope.Type_Id = 0;
@@ -4835,7 +4948,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.MobileNo = data.MOBILE_NO;
                 $scope.Photo = data.Photo;
                 $scope.FileName = data.FileName;
-                $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                $scope.DOB = $filter('date')(data.DOB, "dd-MMM-yyyy");
                 $scope.MNR_No = data.MNR_NO;
                 $scope.NationalId = data.NATIONALID;
                 $scope.GenderId = data.GenderId;
@@ -4857,6 +4970,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 MOBILE_NO.textContent = $scope.MobileNo;
 
                 var DOB = document.getElementById('DOB');
+                $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY')
                 DOB.textContent = $scope.DOB;
 
                 var fullname = document.getElementById('fullname');
@@ -4865,11 +4979,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 var Gender = document.getElementById('Gender');
                 Gender.textContent = $scope.ViewGenderName;
 
-                var dob = DOB.textContent;
-                dob = dob.replace(/-/gi, '');
-                var year = Number(dob.substr(5, 9));
-                var month = Number(dob.substr(2, 2));
-                var day = Number(dob.substr(0, 2));
+                var dob = $scope.DOB;
+                var gt = DateFormat(dob);
+                dob = gt.replace(/-/gi, '');
+                var year = dob.substr(4, 9);
+                var month = dob.substr(2, 2);
+                var day = dob.substr(0, 2);
                 var today = new Date();
                 var age = today.getFullYear() - year;
 
@@ -6018,7 +6133,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.DoctorName = $scope.PatientData.DoctorName;
                     $scope.appointmentDoctorId = $scope.PatientData.Doctor_Id;
                     $scope.AppointmentTime = $scope.PatientData.Appointment_FromTime;
-                    $scope.AppointmentDate = $scope.PatientData.Appointment_Date;
+                    var Declare = moment($scope.PatientData.Appointment_Date).format('DD-MMM-YYYY');
+                    $scope.AppointmentDate = DateFormatEdit(Declare);
                     $scope.PhotoBlob = $scope.PatientData.PhotoBlob;
                     $scope.ViewGenderName = $scope.PatientData.ViewGenderName;
                     $window.localStorage['selectedDoctor'] = $scope.appointmentDoctorId;
@@ -15940,7 +16056,6 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
             $scope.current_page = p
         }
 
-
         $scope.ViewShiftTimingsSlot = function (CatId) {
             $scope.Id = CatId;
             $scope.ViewShiftTimings();
@@ -16140,8 +16255,10 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 $scope.DuplicatesId = data.Id;
                 $scope.Id = data.Id;
                 $scope.ShiftName = data.ShiftName;
-                $scope.ShiftFromDate = $filter('date')(data.ShiftFromDate, "dd-MMM-yyyy");
-                $scope.ShiftToDate = $filter('date')(data.ShiftToDate, "dd-MMM-yyyy");
+                var SFD = moment(data.ShiftFromDate).format('DD-MMM-YYYY');
+                $scope.ShiftFromDate = DateFormatEdit(SFD);
+                var STD = moment(data.ShiftToDate).format('DD-MMM-YYYY');
+                $scope.ShiftToDate = DateFormatEdit(STD);
                 $scope.ShiftFromTime = $filter('date')(data.ShiftFromTime, "hh:mm a");
                 $scope.ShiftEndTime = $filter('date')(data.ShiftEndTime, "hh:mm a");
             });
@@ -16712,8 +16829,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 //   $scope.Id = data.Id;
                 $scope.Doctor_Id1 = data.Doctor_Id.toString();
                 $scope.Doctor_Name = data.Doctor_Name;
-                $scope.FromDate = $filter('date')(data.FromDate, "dd-MMM-yyyy");
-                $scope.ToDate = $filter('date')(data.ToDate, "dd-MMM-yyyy");
+                var F_D = moment(data.FromDate, "dd-MMM-yyyy");
+                $scope.FromDate = DateFormatEdit(F_D);
+                var T_D = $filter('date')(data.ToDate, "dd-MMM-yyyy");
+                $scope.ToDate = DateFormatEdit(T_D);
                 $scope.EditSelectedDoctor.push(data.Doctor_Id);
                 $scope.Doctor_Id = $scope.EditSelectedDoctor;
 
@@ -17120,8 +17239,10 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 $scope.DuplicatesId = data.Id;
                 $scope.Doctor_Id = data.Doctor_Id.toString();
                 $scope.DoctorName = data.DoctorName;
-                $scope.AttendanceFromDate = $filter('date')(data.AttendanceFromDate, "dd-MMM-yyyy");
-                $scope.AttendanceToDate = $filter('date')(data.AttendanceToDate, "dd-MMM-yyyy");
+                var ATT_FROM = moment(data.AttendanceFromDate).format('DD-MMM-YYYY');
+                $scope.AttendanceFromDate = DateFormatEdit(ATT_FROM);
+                var ATT_TO = moment(data.AttendanceToDate).format('DD-MMM-YYYY');
+                $scope.AttendanceToDate = DateFormatEdit(ATT_TO);
                 $scope.Edit_SelectedDoctor.push(data.Doctor_Id);
                 $scope.EditSelectedAttendance = data.Doctor_Id.toString();
                 $scope.SelectedAttendance = $scope.Edit_SelectedDoctor;
