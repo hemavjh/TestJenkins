@@ -959,7 +959,14 @@ namespace MyCortex.Repositories.Uesr
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            ClsDataBase.Update("[MYCORTEX].USERDETAILS_SP_INACTIVE", param);
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_INACTIVE", param);
+            UserReturnModel Active = (from p in dt.AsEnumerable()
+                                      select new UserReturnModel()
+                                      {
+                                          ReturnFlag = p.Field<int>("flag"),
+                                      }).FirstOrDefault();
+            return Active;
+            //ClsDataBase.Update("[MYCORTEX].USERDETAILS_SP_INACTIVE", param);
         }
         /// <summary>
         /// to activate a user

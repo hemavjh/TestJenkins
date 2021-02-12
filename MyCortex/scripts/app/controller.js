@@ -3042,14 +3042,18 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             var del = confirm("Do you like to deactivate the selected User?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
-                    alert("User Details has been deactivated Successfully");
-                    if ($scope.MenuTypeId == 1)
-                        $scope.User_Admin_List($scope.MenuTypeId);
-                    else if ($scope.MenuTypeId == 2)
-                        $scope.BusinessUser_List($scope.MenuTypeId);
-                    else if ($scope.MenuTypeId == 3)
-                        $scope.Patient_List($scope.MenuTypeId);
-
+                    if (data.Status == "True") {
+                        alert(data.Message);
+                        if ($scope.MenuTypeId == 1)
+                            $scope.User_Admin_List($scope.MenuTypeId);
+                        else if ($scope.MenuTypeId == 2)
+                            $scope.BusinessUser_List($scope.MenuTypeId);
+                        else if ($scope.MenuTypeId == 3)
+                            $scope.Patient_List($scope.MenuTypeId);
+                    }
+                    else {
+                        alert(data.Message);
+                    }
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting User Details" + data;
                 });
