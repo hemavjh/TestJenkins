@@ -45,7 +45,7 @@ namespace MyCortex.Masters.Controllers
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error occured";
-                model.Error_Code = "1"
+                model.Error_Code = "1";
                 model.ReturnFlag = 0;
                 model.PasswordData = null;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
