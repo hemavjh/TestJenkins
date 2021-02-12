@@ -1,4 +1,22 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#AttendanceFromDate').attr('min', maxDate);
+        $('#AttendanceToDate').attr('min', maxDate);
+    });
+</script>
+<ul class="secondaryMenu">
     <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
     <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
     <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
@@ -158,8 +176,8 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
 
-                        <div id="AttendanceFromDate">
-                            <input type="date" class="form-control date" ng-model="AttendanceFromDate"
+                        <div >
+                            <input type="date" id="AttendanceFromDate" max="2099-12-31" class="form-control" ng-model="AttendanceFromDate"
                                 ng-init="AttendanceFromDate=''">
 
                         </div>
@@ -169,8 +187,8 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
 
-                        <div id="AttendanceToDate">
-                            <input type="date" class="form-control date" ng-model="AttendanceToDate"
+                        <div >
+                            <input type="date" class="form-control" max="2099-12-31" id="AttendanceToDate" ng-model="AttendanceToDate"
                                 ng-init="AttendanceToDate=''">
                             <!--<span class="input-group-addon">
                                 <i class="glyphicon glyphicon-th"></i>
@@ -212,12 +230,12 @@
                     <div class="inputGroups">
                         <label>From Date</label>
                            
-                        <span>{{AttendanceFromDate}}</span>
+                        <span>{{AttendanceFromDate | date:'dd-MMM-yyyy '}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>To Date</label>
                            
-                        <span>{{AttendanceToDate}}</span>
+                        <span>{{AttendanceToDate | date:'dd-MMM-yyyy '}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>Remarks</label>

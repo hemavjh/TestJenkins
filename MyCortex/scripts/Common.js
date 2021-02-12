@@ -175,7 +175,7 @@ function isDate(txtDate) {
 function DateFormatEdit(txtDate) {
     var currVal = txtDate;
     if (currVal == '' || currVal == null)
-        return true;
+        return;
 
     var rxDatePattern = /^(\d{1,2})(-)(\S{1,3})(-)(\d{4})$/; //Declare Regex
     var dtArray = currVal.match(rxDatePattern); // is format OK?
@@ -212,6 +212,43 @@ function DateFormatEdit(txtDate) {
             return false;
     }
     return ChagneDate;
+}
+
+function DateFormat(txtDate) {
+    var currVal = txtDate;
+    if (currVal == '' || currVal == null)
+        return;
+
+    var rxDatePattern = /^(\d{1,2})(-)(\S{1,3})(-)(\d{4})$/; //Declare Regex
+    var dtArray = currVal.match(rxDatePattern); // is format OK?
+
+    if (dtArray == null)
+        return false;
+
+    var monthList = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+    //Checks for mm/dd/yyyy format.
+    dtMonth = parseInt(monthList.indexOf(dtArray[3].toLowerCase())) + 1;
+    dtDay = dtArray[1];
+    dtYear = dtArray[5];
+    //var val_date = dtYear + '-' + dtMonth + '-' + dtDay
+    var val_date = dtDay + '-' + dtMonth + '-' + dtYear;
+    if (val_date.length == 9) {
+        //val_date = dtYear + '-' + '0' + dtMonth + '-' + dtDay
+        val_date = dtDay + '-' + '0' + dtMonth + '-' + dtYear;
+    } 
+    //if (dtMonth < 1 || dtMonth > 12)
+    //    return false;
+    //else if (dtDay < 1 || dtDay > 31)
+    //    return false;
+    //else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)
+    //    return false;
+    //else if (dtMonth == 2) {
+    //    var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+    //    if (dtDay > 29 || (dtDay == 29 && !isleap))
+    //        return false;
+    //}
+    return val_date;
 }
 
 function EmailFormate(EmailIds) {

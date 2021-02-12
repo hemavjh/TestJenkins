@@ -567,9 +567,44 @@ namespace MyCortex.User.Controller
         {
             if (Id > 0)
             {
-                repository.UserDetails_InActive(Id);
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-                return response;
+                string messagestr = "";
+                UserModel ModelData = new UserModel();
+                UserReturnModel model = new UserReturnModel();
+                try
+                {
+                    model = repository.UserDetails_InActive(Id);
+                    if ((model.ReturnFlag == 2) == true)
+                    {
+                        messagestr = "Master Admin Can't Be Deactivate!";
+                        model.ReturnFlag = 0;
+                        model.Status = "False";
+                    }
+                    else if ((model.ReturnFlag == 1) == true)
+                    {
+                        messagestr = "User Details has been Deactivated Successfully";
+                        model.ReturnFlag = 1;
+                        model.Status = "True";
+                    }
+
+                    model.Error_Code = "";
+                    model.UserDetails = ModelData;
+                    model.Message = messagestr;
+                    HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.Message, ex);
+                    model.Status = "False";
+                    model.Message = "Invalid data";
+                    model.Error_Code = ex.Message;
+                    model.ReturnFlag = 0;
+                    model.UserDetails = ModelData;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                }
+                //repository.UserDetails_InActive(Id);
+                //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                //return response;
             }
             else
             {
