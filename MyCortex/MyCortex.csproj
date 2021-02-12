@@ -1169,6 +1169,7 @@
     <Compile Include="Login\Model\UsersModel.cs" />
     <Compile Include="Masters\Controllers\AttendanceController.cs" />
     <Compile Include="Masters\Controllers\ChatSettingsController.cs" />
+    <Compile Include="Masters\Controllers\MobileController.cs" />
     <Compile Include="Masters\Controllers\CommonController.cs" />
     <Compile Include="Masters\Controllers\DoctorShiftController.cs" />
     <Compile Include="Masters\Controllers\DrugDBMasterController.cs" />

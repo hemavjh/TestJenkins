@@ -834,8 +834,9 @@ namespace MyCortex.Masters.Controllers
         /// to get password policy configuration of a institution
         /// </summary>          
         /// <returns>password policy configuration of a institution</returns>
+        [Authorize]
         [HttpGet]
-        public HttpResponseMessage MobileAppSettings(long Institution_Id,int Language_Id=1)
+        public HttpResponseMessage MobileAppSettings(long Institution_Id)
         {
             MobileSettingsModel model = new MobileSettingsModel();
             try
@@ -843,22 +844,21 @@ namespace MyCortex.Masters.Controllers
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
                 model.Status = "True";
-                model.Message = "Successfully created";
+                model.Message = "Success";
                 model.ReturnFlag = 1;
                 model.PasswordData = pwdrepository.PasswordPolicy_View(Institution_Id);
                 model.Languages = lngrepository.InstituteLanguage_List(Institution_Id);
-                model.LanguageText = lngrepository.LanguageKeyValue_List(Language_Id, Institution_Id);
-                model.AppConfigurations = repository.AppConfigurationDetails(string.Empty, Institution_Id);
+                //model.LanguageText = lngrepository.LanguageKeyValue_List(Language_Id, Institution_Id);
+                //model.AppConfigurations = repository.AppConfigurationDetails(string.Empty, Institution_Id);
                 return Request.CreateResponse(HttpStatusCode.OK, model); ;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
-                model.Message = "Error in creating Institution";
+                model.Message = "Error occured";
                 model.ReturnFlag = 0;
                 model.PasswordData = null;
-                model.LanguageText = string.Empty;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }

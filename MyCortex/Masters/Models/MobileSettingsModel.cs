@@ -16,7 +16,5 @@ namespace MyCortex.Admin.Models
         public int ReturnFlag { get; set; }
         public PasswordPolicyModel PasswordData { get; set; }
         public IList<InstituteLanguageModel> Languages { get; set; }
-        public object LanguageText { get; set; }
-        public IList<AppConfigurationModel> AppConfigurations { get; set; }
     }
 }
