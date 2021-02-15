@@ -6631,6 +6631,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.yellowcount = 1;
         $scope.AlertCountDisplay = function () {
             $('#tableid1').hide();
+            $('#tableid').hide();
             $scope.yellowcount++;
             var x = document.getElementById(tableid1);
             var y = document.getElementById(tableid2);
