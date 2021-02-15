@@ -302,19 +302,15 @@
                         </div>
                     </div>
                 </div>
-                <br ng-if="yellowcount===2" />
-                <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid1">
+                <br ng-if="yellowcount==2" />
+                <div class="row" ng-show="ParameterValueList.length>0" style="display: none" id="tableid1">
                     <div class="col-sm-4" ng-repeat="row in ParameterValueList">
                         <div ng-class="{'alert alert-warning nibp':row.MediumCount>0}">
-                            <!--<div class="notificationsWarnings" ng-show="row.HighCount>0">
-                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
-                </div>-->
+                         
                             <div class="notificationsWarnings" ng-show="row.MediumCount>0">
                                 <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                             </div>
-                            <!--<div class="notificationsWarnings" ng-show="row.LowCount>0">
-                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
-                </div>-->
+                            
                             <strong>{{row.PageType}}:</strong>
                             <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
                             <label>Set Value</label>
@@ -328,19 +324,19 @@
                         </div>
                     </div>
                 </div>
-                <br ng-if="yellowcount===3" />
+                <br ng-if="yellowcount==3" />
                 <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid2">
                     <div class="col-sm-4" ng-repeat="row in ParameterValueList">
-                        <div ng-class="{'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
+                        <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                              <div class="notificationsWarnings" ng-show="row.HighCount>0">
                              <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                              </div> 
                             <div class="notificationsWarnings" ng-show="row.MediumCount>0">
                                 <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                             </div>
-                            <!--<div class="notificationsWarnings" ng-show="row.LowCount>0">
-                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
-                </div>-->
+                            <div class="notificationsWarnings" ng-show="row.LowCount>0">
+                                <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
+                            </div>
                             <strong>{{row.PageType}}:</strong>
                             <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
                             <label>Set Value</label>

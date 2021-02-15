@@ -346,6 +346,8 @@ function divcollapse(tableid, imageId) {
 
     var x = document.getElementById(tableid);
     var i = document.getElementById(imageId);
+    $('#tableid1').hide();
+    $('#tableid2').hide();
 
     if (x.style.display === "none") {
         i.src = "../../Images/collapse.gif"

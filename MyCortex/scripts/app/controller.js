@@ -2787,8 +2787,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Admin_View = function (MenuType) {
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                 $scope.DropDownListValue = 4;
-            }
-
+            } 
+           
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
             photoview = true;
@@ -2799,7 +2799,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.Id = $routeParams.Id;
                     $scope.DuplicatesId = $routeParams.Id;
                 }
-            }
+            } 
             $scope.EditSelectedGroup = [];
             $scope.SelectedGroup = [];
             $scope.EditSelectedInstitution = [];
@@ -3018,7 +3018,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     //$scope.Country_onChange();
                     //$scope.State_onChange();
 
-                    $("#chatLoaderPV").hide();
+                    $("#chatLoaderPV").hide(); 
                 });
             }
             else {
@@ -4588,33 +4588,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else { return false; }
         }
 
-        $scope.yellowcount = 1;
-        $scope.AlertCountDisplay = function () {
-            $('#tableid1').hide();
-            $scope.yellowcount++;
-            var x = document.getElementById(tableid1);
-            var y = document.getElementById(tableid2);
-
-            if ($scope.yellowcount == 2) {
-
-                $('#tableid1').show();
-
-            } else if ($scope.yellowcount == 3) {
-                $('#tableid1').hide();
-                $('#tableid2').show();
-
-            } else {
-
-                //i.src = "../../Images/expand.gif"
-                $('#tableid1').hide();
-                $('#tableid2').hide();
-                $scope.yellowcount = 1;
-                //document.getElementById(tableid + '_img').title = 'Click to Expand';
-                //count = $scope.yellowcount - 3;
-
-            }
-            return true;
-        };
+       
 
         $scope.flag = 0;
         $scope.MNR_No = "";
@@ -6643,6 +6617,46 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
             });
         }
+
+        $scope.yellowcount = 1;
+        $scope.AlertCountDisplay = function () {
+            $('#tableid1').hide();
+            $scope.yellowcount++;
+            var x = document.getElementById(tableid1);
+            var y = document.getElementById(tableid2);
+            var MediumCountVital;
+            
+            if ($scope.yellowcount == 2) {
+                angular.forEach($scope.ParameterValueList, function (value, index) {
+                    console.log(value);
+                    if (value.MediumCount != 0) {
+                        MediumCountVital = value.MediumCount;
+                        console.log(MediumCountVital);
+                    }
+                });
+                if (MediumCountVital > 0) {
+                    $('#tableid1').show();
+                    return true;
+                } else {
+                    return true;
+                }
+
+            } else if ($scope.yellowcount == 3) {
+                $('#tableid1').hide();
+                $('#tableid2').show();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+                $('#tableid1').hide();
+                $('#tableid2').hide();
+                $scope.yellowcount = 1; 
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };
         $scope.Assign_CareGiver_Id = "0";
         $scope.CC_Remarks = "";
         $scope.CareGiver_Id = "0";
