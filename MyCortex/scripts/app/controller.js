@@ -2760,15 +2760,25 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             return deferred.promise;
         };
 
+        //$scope.AgeRestrictioncalculation = function () {
+        //    $scope.Today_Date = $filter('date')(new Date(), 'DD-MMM-YYYY');
+        //    $scope.Join_Day = moment(ParseDate($scope.Today_Date).subtract($scope.JAge, 'years')).format("DD-MMM-YYYY");
+        //    if ((ParseDate($scope.DOB)) > (ParseDate($scope.Join_Day))) {
+        //        return false;
+        //    }
+        //    return true;
+        //};
         $scope.AgeRestrictioncalculation = function () {
             $scope.Today_Date = $filter('date')(new Date(), 'DD-MMM-YYYY');
             $scope.Join_Day = moment(ParseDate($scope.Today_Date).subtract($scope.JAge, 'years')).format("DD-MMM-YYYY");
+            $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY');
             if ((ParseDate($scope.DOB)) > (ParseDate($scope.Join_Day))) {
+                $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
                 return false;
             }
+            $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
             return true;
         };
-
         //$scope.Country_onChange = function () {
         //    $scope.StateNameList = [];            
         //    $scope.StateNameList = $ff($scope.StateList, { CountryId: $scope.CountryId });
@@ -7522,8 +7532,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'ICD_Code': data.ICD_Code,
                     'ICD_Description': data.Description,
                     'Created_By': data.Doctor_Name,
-                    'Active_From': $filter('date')(data.Active_From, "dd-MMM-yyyy"),
-                    'Active_To': $filter('date')(data.Active_To, "dd-MMM-yyyy"),
+                    'Active_From': DateFormatEdit($filter('date')(data.Active_From, "dd-MMM-yyyy")),
+                    'Active_To': DateFormatEdit($filter('date')(data.Active_To, "dd-MMM-yyyy")),
                     'ICD_Remarks': data.Remarks
                 }];
 
@@ -7534,8 +7544,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.ICD_Code = data.ICD_Code;
                 $scope.ICD_Description = data.Description;
                 $scope.Created_By = data.Doctor_Name;
-                $scope.Active_From = $filter('date')(data.Active_From, "dd-MMM-yyyy");
-                $scope.Active_To = $filter('date')(data.Active_To, "dd-MMM-yyyy");
+                $scope.Active_From = DateFormatEdit($filter('date')(data.Active_From, "dd-MMM-yyyy"));
+                $scope.Active_To = DateFormatEdit($filter('date')(data.Active_To, "dd-MMM-yyyy"));
                 $scope.ICD_Remarks = data.Remarks;
                 //$scope.Icd10Clear();
                 // $scope.ICD10CodeByCategory($scope.Category_ID);
@@ -8196,8 +8206,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'FrequencyId': data.FrequencyId.toString(),
                     'NoOfDays': data.NoOfDays,
                     'RouteId': data.RouteId.toString(),
-                    'StartDate': $filter('date')(data.StartDate, "dd-MMM-yyyy"),
-                    'EndDate': $filter('date')(data.EndDate, "dd-MMM-yyyy")
+                    'StartDate': DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy")),
+                    'EndDate': DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"))
                 }];
                 $scope.Id = data.Id,
                     $scope.DrugId = data.DrugId.toString();
@@ -8215,8 +8225,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.RouteId = data.RouteId.toString(),
                     $scope.RouteDuplicateId = $scope.RouteId;
                 $scope.ViewRouteName = data.RouteName,
-                    $scope.StartDate = $filter('date')(data.StartDate, "dd-MMM-yyyy");
-                $scope.EndDate = $filter('date')(data.EndDate, "dd-MMM-yyyy");
+                    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy"));
+                    $scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
                 if ($scope.DrugDropDown == 2) {
                     $scope.DrugbasedDetails($scope.DrugId);
                 }
@@ -8592,7 +8602,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AllergyOnsetId = data.AllergyOnsetId.toString();
                 }
                 $scope.ViewOnset = data.AllergyOnsetName,
-                    $scope.OnSetDate = $filter('date')(data.OnSetDate, "dd-MMM-yyyy");
+                $scope.OnSetDate = DateFormatEdit($filter('date')(data.OnSetDate, "dd-MMM-yyyy"));
                 $scope.Remarks = data.Remarks;
                 $scope.ViewAllergyReactionName = data.AllergyReactionName;
                 // For Multiselect dropdown	

@@ -2392,9 +2392,9 @@
                                     <label>Onset Date</label>
                                 </td>
                                 <td>
-                                    <div class="col-xs-11 input-group date">
-                                        <input type="date" class="form-control" ng-model="OnSetDate" ng-init="OnSetDate=''"
-                                               style="width: 152px">
+                                    <div class="input-group date">
+                                        <input type="date" id="SD_Date" class="form-control" ng-model="OnSetDate" ng-init="OnSetDate=''"
+                                        style="width: 165px">
                                         <!--<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
                                     </div>
                                 </td>
@@ -2705,30 +2705,25 @@
                                                   ng-maxlength="250" />
                                     </td>
                                     <td>
-                                        <div class="col-md-10 input-group date">
-                                            <input type="date" class="form-control" ng-model="row.Active_From" ng-init="row.Active_From=''"
-                                                   style="width: 165px">
+                                        <div class="input-group">
+                                            <input type="date" id="AFDate" max="2099-12-31" class="form-control" ng-model="row.Active_From" ng-init="row.Active_From=''"
+                                            style="width: 165px">
                                             <!--<span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-th"></i>
+                                            <i class="glyphicon glyphicon-th"></i>
                                             </span>-->
-                                        </div>
+                                         </div>
                                     </td>
                                     <td>
-                                        <div class="col-md-10 input-group date">
-                                            <input type="date" class="form-control" ng-model="row.Active_To" ng-init="row.Active_To=''"
-                                                   style="width: 165px">
+                                       <div class="input-group">
+                                            <input type="date" id="ATDate" max="2099-12-31" class="form-control" ng-model="row.Active_To" ng-init="row.Active_To=''"
+                                            style="width: 165px">
                                             <!--<span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-th"></i>
+                                            <i class="glyphicon glyphicon-th"></i>
                                             </span>-->
-                                        </div>
+                                       </div>
                                     </td>
 
-                                    <!--  <td>
-                                            <input type="text" datepicker ng-model="row.Active_From" ng-init="Active_From=''"  />
-                                      </td>
-                                      <td>
-                                            <input type="text" datepicker ng-model="row.Active_To" ng-init="Active_To=''"  />-->
-                                    </td>
+                                   
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"
                                                title='Click to Delete'
@@ -2739,6 +2734,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </form>
                         <a href="javascript:" title="Click to Add"
                            ng-click="PatientICD10Insert()">|Add|</a>
                 </div>
@@ -2900,9 +2896,9 @@
 
                             </tr>
                         </table>
-
+                    </form>
                 </div>
-                </form>
+              
 
                 <div class="modal-footer" style="text-align: center;">
                     <div class="col-sm-offset-2 col-sm-9">
@@ -2920,7 +2916,7 @@
 
 
     </div>
-    </div>
+    
 
     <!--Edit Modal for ICD10-->
     <div id="EditICD10Modal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
@@ -2932,11 +2928,9 @@
                     <h4 class="modal-title">ICD10</h4>
                 </div>
                 <div class="modal-body">
-
-
-                    >
+ 
                     <form>
-                        >
+                    
                         <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
 
                             <!-- <tr ng-repeat="row in AddICD10List">
@@ -2952,7 +2946,7 @@
 
                             <tr ng-repeat="row in AddICD10List">
                                 <td><label>ICD Code</label></td>
-                                td
+                             
                                 <td>
 
                                     {{row.ICD_Code}}
@@ -2963,7 +2957,7 @@
 
                             <tr ng-repeat="row in AddICD10List">
 
-                                dI
+                            
 
                                 <td><label>Category Name</label></td>
                                 <td>
@@ -2975,18 +2969,13 @@
                                 </td>
                             </tr>
 
-                            </
+                          
 
                             <tr ng-repeat="row in AddICD10List">
-                                w
-                                >
-
+                                
                                 <td><label>ICD Description</label></td>
-                                >
-
-                                <td>
-                                    >
-                                    td
+                              
+                                <td>  
                                     {{row.ICD_Description}}
                                 </td>
                             </tr>
@@ -3374,18 +3363,18 @@
                                 <!--<input type="text" datepicker ng-model="row.StartDate" ng-init="StartDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 93px" />
                                 <input type="text" datepicker ng-model="row.EndDate" ng-init="EndDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 91px" />                                                                                                    -->
 
-                                <div class="col-md-10 input-group date">
-                                    <input type="date" class="form-control" ng-model="StartDate"
-                                           style="width: 165px">
-                                    <!--<span class="input-group-addon">
+                                 <div class="input-group date">
+                                        <input type="date" id="S_Date" class="form-control" max="2099-12-31" ng-model="StartDate"
+                                        style="width: 165px">
+                                        <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
-                                    </span>-->
+                                        </span>-->
                                 </div>
-                                <div class="col-md-10 input-group date">
-                                    <input type="date" class="form-control" ng-model="EndDate"
-                                           style="width: 165px">
+                                <div class="input-group date">
+                                    <input type="date" id="E_Date" class="form-control" max="2099-12-31" ng-model="EndDate"
+                                    style="width: 165px">
                                     <!--<span class="input-group-addon">
-                                        <i class="glyphicon glyphicon-th"></i>
+                                    <i class="glyphicon glyphicon-th"></i>
                                     </span>-->
                                 </div>
                                 <!--<input type="text" datepicker ng-model="row.StartDate" ng-init="StartDate=''" style="margin-bottom: 0px; width: 100px;"  />-->
