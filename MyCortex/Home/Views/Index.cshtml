@@ -850,7 +850,7 @@
 
     function openChatWindow() {
         if (window.localStorage['UserTypeId'] != "1" && window.localStorage['UserTypeId'] != "3") {
-            utilService.openChatPage("");
+            chatService.openChatfromOtherPage();
         }
         else {
             $('#chatBox').attr("style", "display:none");

@@ -12,8 +12,7 @@ using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
 {
-    [Authorize]
-    [CheckSessionOutFilter]
+    
     public class MobileController : ApiController
     {
         static readonly IPasswordPolicyRepository pwdrepository = new PasswordPolicyRepository();
@@ -24,6 +23,8 @@ namespace MyCortex.Masters.Controllers
         /// to get settings configuration of a institution
         /// </summary>          
         /// <returns>settings configuration of a institution</returns>
+        [Authorize]
+        [CheckSessionOutFilter]
         [HttpGet]
         public HttpResponseMessage Settings(long Institution_Id)
         {
