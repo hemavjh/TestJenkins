@@ -2760,15 +2760,25 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             return deferred.promise;
         };
 
+        //$scope.AgeRestrictioncalculation = function () {
+        //    $scope.Today_Date = $filter('date')(new Date(), 'DD-MMM-YYYY');
+        //    $scope.Join_Day = moment(ParseDate($scope.Today_Date).subtract($scope.JAge, 'years')).format("DD-MMM-YYYY");
+        //    if ((ParseDate($scope.DOB)) > (ParseDate($scope.Join_Day))) {
+        //        return false;
+        //    }
+        //    return true;
+        //};
         $scope.AgeRestrictioncalculation = function () {
             $scope.Today_Date = $filter('date')(new Date(), 'DD-MMM-YYYY');
             $scope.Join_Day = moment(ParseDate($scope.Today_Date).subtract($scope.JAge, 'years')).format("DD-MMM-YYYY");
+            $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY');
             if ((ParseDate($scope.DOB)) > (ParseDate($scope.Join_Day))) {
+                $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
                 return false;
             }
+            $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
             return true;
         };
-
         //$scope.Country_onChange = function () {
         //    $scope.StateNameList = [];            
         //    $scope.StateNameList = $ff($scope.StateList, { CountryId: $scope.CountryId });
@@ -2787,8 +2797,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Admin_View = function (MenuType) {
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                 $scope.DropDownListValue = 4;
-            }
-
+            } 
+           
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
             photoview = true;
@@ -2799,7 +2809,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.Id = $routeParams.Id;
                     $scope.DuplicatesId = $routeParams.Id;
                 }
-            }
+            } 
             $scope.EditSelectedGroup = [];
             $scope.SelectedGroup = [];
             $scope.EditSelectedInstitution = [];
@@ -3018,7 +3028,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     //$scope.Country_onChange();
                     //$scope.State_onChange();
 
-                    $("#chatLoaderPV").hide();
+                    $("#chatLoaderPV").hide(); 
                 });
             }
             else {
@@ -4588,33 +4598,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else { return false; }
         }
 
-        $scope.yellowcount = 1;
-        $scope.AlertCountDisplay = function () {
-            $('#tableid1').hide();
-            $scope.yellowcount++;
-            var x = document.getElementById(tableid1);
-            var y = document.getElementById(tableid2);
-
-            if ($scope.yellowcount == 2) {
-
-                $('#tableid1').show();
-
-            } else if ($scope.yellowcount == 3) {
-                $('#tableid1').hide();
-                $('#tableid2').show();
-
-            } else {
-
-                //i.src = "../../Images/expand.gif"
-                $('#tableid1').hide();
-                $('#tableid2').hide();
-                $scope.yellowcount = 1;
-                //document.getElementById(tableid + '_img').title = 'Click to Expand';
-                //count = $scope.yellowcount - 3;
-
-            }
-            return true;
-        };
+       
 
         $scope.flag = 0;
         $scope.MNR_No = "";
@@ -6643,6 +6627,47 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
             });
         }
+
+        $scope.yellowcount = 1;
+        $scope.AlertCountDisplay = function () {
+            $('#tableid1').hide();
+            $('#tableid').hide();
+            $scope.yellowcount++;
+            var x = document.getElementById(tableid1);
+            var y = document.getElementById(tableid2);
+            var MediumCountVital;
+            
+            if ($scope.yellowcount == 2) {
+                angular.forEach($scope.ParameterValueList, function (value, index) {
+                    console.log(value);
+                    if (value.MediumCount != 0) {
+                        MediumCountVital = value.MediumCount;
+                        console.log(MediumCountVital);
+                    }
+                });
+                if (MediumCountVital > 0) {
+                    $('#tableid1').show();
+                    return true;
+                } else {
+                    return true;
+                }
+
+            } else if ($scope.yellowcount == 3) {
+                $('#tableid1').hide();
+                $('#tableid2').show();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+                $('#tableid1').hide();
+                $('#tableid2').hide();
+                $scope.yellowcount = 1; 
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };
         $scope.Assign_CareGiver_Id = "0";
         $scope.CC_Remarks = "";
         $scope.CareGiver_Id = "0";
@@ -7508,8 +7533,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'ICD_Code': data.ICD_Code,
                     'ICD_Description': data.Description,
                     'Created_By': data.Doctor_Name,
-                    'Active_From': $filter('date')(data.Active_From, "dd-MMM-yyyy"),
-                    'Active_To': $filter('date')(data.Active_To, "dd-MMM-yyyy"),
+                    'Active_From': DateFormatEdit($filter('date')(data.Active_From, "dd-MMM-yyyy")),
+                    'Active_To': DateFormatEdit($filter('date')(data.Active_To, "dd-MMM-yyyy")),
                     'ICD_Remarks': data.Remarks
                 }];
 
@@ -7520,8 +7545,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.ICD_Code = data.ICD_Code;
                 $scope.ICD_Description = data.Description;
                 $scope.Created_By = data.Doctor_Name;
-                $scope.Active_From = $filter('date')(data.Active_From, "dd-MMM-yyyy");
-                $scope.Active_To = $filter('date')(data.Active_To, "dd-MMM-yyyy");
+                $scope.Active_From = DateFormatEdit($filter('date')(data.Active_From, "dd-MMM-yyyy"));
+                $scope.Active_To = DateFormatEdit($filter('date')(data.Active_To, "dd-MMM-yyyy"));
                 $scope.ICD_Remarks = data.Remarks;
                 //$scope.Icd10Clear();
                 // $scope.ICD10CodeByCategory($scope.Category_ID);
@@ -8182,8 +8207,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'FrequencyId': data.FrequencyId.toString(),
                     'NoOfDays': data.NoOfDays,
                     'RouteId': data.RouteId.toString(),
-                    'StartDate': $filter('date')(data.StartDate, "dd-MMM-yyyy"),
-                    'EndDate': $filter('date')(data.EndDate, "dd-MMM-yyyy")
+                    'StartDate': DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy")),
+                    'EndDate': DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"))
                 }];
                 $scope.Id = data.Id,
                     $scope.DrugId = data.DrugId.toString();
@@ -8201,8 +8226,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.RouteId = data.RouteId.toString(),
                     $scope.RouteDuplicateId = $scope.RouteId;
                 $scope.ViewRouteName = data.RouteName,
-                    $scope.StartDate = $filter('date')(data.StartDate, "dd-MMM-yyyy");
-                $scope.EndDate = $filter('date')(data.EndDate, "dd-MMM-yyyy");
+                    $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy"));
+                    $scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
                 if ($scope.DrugDropDown == 2) {
                     $scope.DrugbasedDetails($scope.DrugId);
                 }
@@ -8578,7 +8603,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AllergyOnsetId = data.AllergyOnsetId.toString();
                 }
                 $scope.ViewOnset = data.AllergyOnsetName,
-                    $scope.OnSetDate = $filter('date')(data.OnSetDate, "dd-MMM-yyyy");
+                $scope.OnSetDate = DateFormatEdit($filter('date')(data.OnSetDate, "dd-MMM-yyyy"));
                 $scope.Remarks = data.Remarks;
                 $scope.ViewAllergyReactionName = data.AllergyReactionName;
                 // For Multiselect dropdown	
