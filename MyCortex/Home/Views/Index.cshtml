@@ -3,60 +3,14 @@
     var CountList = jQuery.parseJSON('@Html.Action("GetUnread_Notification_Count", "Home")');
     $(document).ready(function () {
         User_id = window.localStorage['UserTypeId'];
-        //if (User_id == 1 || User_id == 3) {
-        //    $('#User_id').hide();
-        //    $('#patient_profile').hide();
-        //}
-        //else {
-        //    $('#User_id').show();
-        //    $('#patient_profile').show();
-        //}
-        //var imgSrc = document.getElementById('imgSrc');
-        //imgSrc.src = List[1];
-
-        //var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
-        //NATIONALITY_ID.textContent = List[2];
-
-        //var USERTYPE_ID = document.getElementById('USERTYPE_ID');
-        //USERTYPE_ID.textContent = List[4];
-
-        //var MOBILE_NO = document.getElementById('MOBILE_NO');
-        //MOBILE_NO.textContent = List[5];
-
-        //var DOB = document.getElementById('DOB');
-        //DOB.textContent = List[3];
-
-        //var fullname = document.getElementById('fullname');
-        //fullname.textContent = List[6];
-
-        //var Gender = document.getElementById('Gender');
-        //Gender.textContent = List[7];
+        
         document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + CountList[0];
         if (CountList[1] == 1 || CountList[1] == 3) {
             document.getElementById("mydiv").style.display = "none";
         }
-        $(document).ready(function () {
-            //var dob = DOB.textContent;
-            //dob = dob.replace(/-/gi, '');
-            //var year = Number(dob.substr(4, 4));
-            //var month = Number(dob.substr(2, 2));
-            //var day = Number(dob.substr(0, 2));
-            //var today = new Date();
-            //var age = today.getFullYear() - year;
+   
+        $('[data-toggle="tooltip"]').tooltip();
 
-            ////var Age = age.toString();
-            ////$('#Age').val(age.toString());
-
-            //Age = document.getElementById('Age');
-            //Age.textContent = age.toString();
-
-
-        });
-    });
-    $(document).ready(function () {
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
         $('.menuList button').on('click', function () {
             $('.menuList button').removeClass('activeButton');
             $(this).addClass('activeButton');
@@ -515,10 +469,7 @@
             $('#colorSetting').modal('hide');
             applyStyle();
             saved = false;
-
         }
-
-
     };
     let getAPIObj = {
         primary: "#002269",
@@ -575,7 +526,6 @@
         negativeHoverBtnText: "#000",
         title: "#032b5c",
         subTitle: "#032b5c"
-
     };
 
     let applyStyle = () => {
@@ -835,7 +785,7 @@
         $("#call-page").attr("style", "display:none");
         $('.chatBox').toggleClass('chatBoxBig')
         chatService.scrollToBottom();
-    })
+    });
 
     $('#btnCreateGroup').click(function (e) {
         e.preventDefault()
@@ -846,7 +796,7 @@
         $("#groupcreateLoader").attr("style", "display:block")
         chatService.createGroup($("#groupname").val());
         $("#groupcreateLoader").attr("style", "display:none")
-    })
+    });
 
     function openChatWindow() {
         if (window.localStorage['UserTypeId'] != "1" && window.localStorage['UserTypeId'] != "3") {
@@ -956,9 +906,22 @@
     function videoCallUser() {
         chatService.initiateVideCall();
     }
-    function openUserChat(userType, viewUser) {
+    function openUserChat(userType, viewUser, userValidity)
+    {
+
         chatService.fetchMessages(userType, viewUser.toString());
-        //chatService.getaddressbookDetails($('#contactSearch').val());
+        if (userValidity == "false") {
+            $('#linkcallIcon').hide();
+            $('#linkvideoIcon').hide();
+            $('#input-text').prop('disabled', true);
+            $("#btnfilechat").attr("style", "display:none")
+        }
+        else {
+            $('#linkcallIcon').show();
+            $('#linkvideoIcon').show();
+            $('#input-text').prop('disabled', false);
+            $("#btnfilechat").attr("style", "display:block")
+        }
     }
 
     function callAccept() {
@@ -970,6 +933,7 @@
     function showchatOnCall() {
         $('.contactList').toggle();
         $('#groupsList').hide();
+        $('#addressBook').hide();
         if ($("#showchatIcon").hasClass("aqua") == false) {
             $("#call-page").attr("style", "display:none")
             $('#showchatIcon').toggleClass('aqua');
