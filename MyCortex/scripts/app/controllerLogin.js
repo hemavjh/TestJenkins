@@ -725,6 +725,9 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         /*This is th eValidation for sign Up page 
     The validations are FirstName,Last Name,MRN No,Gender,Nationality,DOB,Email and Mobile No.*/
         $scope.SignupLogin_AddEdit_Validations = function () {
+            $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY');
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+
             if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
                 alert("Please enter First Name");
                 return false;
@@ -757,6 +760,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 alert("Please select Date of Birth");
                 return false;
             }
+            if ($scope.DOB > today) {
+                alert("DOB Can Be Only select past date");
+                $scope.DOB = DateFormatEdit($scope.DOB);
+                return false;
+            }
             //else if (isDate($scope.DOB) == false) {
             //    alert("Date of Birth is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
@@ -773,6 +781,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 alert("Please enter Mobile No.");
                 return false;
             }
+            $scope.DOB = DateFormatEdit($scope.DOB);
             return true;
         };
 
