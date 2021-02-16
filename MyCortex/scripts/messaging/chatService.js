@@ -825,8 +825,8 @@ const chatService = function() {
 				            /* this method can be use to display message or perform any actions if someone leaving the call */
 			            },
 			            onCallEnded: call => {
-			                /* Notification received here if current ongoing call is ended. */    
-			            
+                            /* Notification received here if current ongoing call is ended. */
+                            checkCallStatus = false;
 			                //CometChat.removeCallListener(listenerID);
 			                $('#addressBook').show();
                             $('.chatBody').removeClass('chatBodyHalf');
