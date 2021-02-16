@@ -1,4 +1,23 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#P_From').attr('max', maxDate);
+        $('#P_To').attr('max', maxDate);
+    });
+</script>
+
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/Notification/2">Notification Template</a>
     </li>
@@ -39,7 +58,7 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
                         <div id="Div13">
-                            <input type="date" class="form-control" ng-model="Period_From"
+                            <input type="date" id="P_From" max="2099-12-31" class="form-control" ng-model="Period_From"
                                 ng-init="Period_From=''">
 
 
@@ -52,7 +71,7 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
                         <div id="Div14">
-                            <input type="date" class="form-control" ng-model="Period_To"
+                            <input type="date" id="P_To" max="2099-12-31" class="form-control" ng-model="Period_To"
                                 ng-init="Period_To=''">
 
                         </div>

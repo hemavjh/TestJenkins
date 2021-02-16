@@ -1026,12 +1026,21 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 return false;
             }
             if (($scope.Contract_Period_From != "0") && ($scope.Contract_Period_To != "0")) {
+
+                $scope.Contract_Period_From = moment($scope.Contract_Period_From).format('DD-MMM-YYYY');
+                $scope.Contract_Period_To = moment($scope.Contract_Period_To).format('DD-MMM-YYYY');
+
                 if ((ParseDate($scope.Contract_Period_To) < ParseDate($scope.Contract_Period_From))) {
-                    alert("Contract Period From should not be greater than Contract Period To");
-                    return To_Year;
+                alert("Contract Period From should not be greater than Contract Period To");
+                    $scope.Contract_Period_From = DateFormatEdit($scope.Contract_Period_From);
+                    $scope.Contract_Period_To = DateFormatEdit($scope.Contract_Period_To);
+                    return false;
                 }
+                $scope.Contract_Period_From = DateFormatEdit($scope.Contract_Period_From);
+                $scope.Contract_Period_To = DateFormatEdit($scope.Contract_Period_To);
             }
-            return true;
+        
+        return true;
         };
         /*on click Save calling the insert update function for Institution Subscription */
         $scope.InstitutionAddList = [];
@@ -1042,7 +1051,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.InstitutionModule_List = [];
             $scope.InstitutionLanguage_List = [];
             if ($scope.Institution_SubscriptionAddEditValidations() == true) {
-                $("#chatLoaderPV").show();
+                //$("#chatLoaderPV").show();
                 angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
@@ -1081,16 +1090,16 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Language_List: $scope.LanguageList
                 }
 
-                $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                    alert(data.Message);
-                    if (data.ReturnFlag == "1") {
-                        $scope.CancelIntstitutionSubPopup();
-                        $scope.InstitutionSubscriptionDetailsListTemplate();
-                    }
-                    $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while adding InstitutionSubcription details" + data.ExceptionMessage;
-                });
+                //$http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                //    alert(data.Message);
+                //    if (data.ReturnFlag == "1") {
+                //        $scope.CancelIntstitutionSubPopup();
+                //        $scope.InstitutionSubscriptionDetailsListTemplate();
+                //    }
+                //    $("#chatLoaderPV").hide();
+                //}).error(function (data) {
+                //    $scope.error = "An error has occurred while adding InstitutionSubcription details" + data.ExceptionMessage;
+                //});
             }
         }
         $scope.searchquery = "";
@@ -6795,6 +6804,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         /* Validating the create page Appointment From Time Should not be greater than Appointment to time
        */
         $scope.PatientAppointment_InsertUpdateValidations = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.AppointmentDate = moment($scope.AppointmentDate).format('DD-MMM-YYYY');
 
             if ($scope.Doctor_Id == "") {
                 alert("Please select Doctor");
@@ -6816,9 +6827,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert("Appointment From Time should not be greater than Appointment To Time");
                 return false;
             }*/
-            else if (moment($scope.AppointmentDate + " " + $scope.AppointmentFromTime) > moment($scope.AppointmentDate + " " + $scope.AppointmentToTime)) {
-                alert("Appointment From Time should not be greater than Appointment To Time");
+            else if ($scope.AppointmentDate < today) {
+                alert("Appointment Date Can Be Booked Only For Future");
                 return false;
+            }
+            else if ($scope.AppointmentDate != "") {
+                if (moment($scope.AppointmentDate + " " + $scope.AppointmentFromTime) > moment($scope.AppointmentDate + " " + $scope.AppointmentToTime)) {
+                    alert("Appointment From Time should not be greater than Appointment To Time");
+                    $scope.AppointmentDate = DateFormatEdit($scope.AppointmentDate);
+                    return false;
+                }
             }
             else if (moment().diff(moment($scope.AppointmentDate + " " + $scope.AppointmentFromTime), 'minute') > 0) {
                 alert("Appointment can be booked only for future");
@@ -6828,6 +6846,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert("Please enter Reason for Visit");
                 return false;
             }
+            $scope.AppointmentDate = DateFormatEdit($scope.AppointmentDate);
             return true;
         };
         $scope.Institution_Id = $window.localStorage['InstitutionId'];
@@ -7366,9 +7385,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         /* This is for PatientICD10 Insert and update Validations */
         $scope.PatientICD10_InsertUpdateValidations = function () {
+            
             var validateflag = true;
             var validationMsg = "";
             angular.forEach($scope.AddICD10List, function (value, index) {
+                value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
 
                 if (value.Code_ID == 0 || value.Code_ID == "") {
                     validationMsg = validationMsg + "Please select ICD Code";
@@ -7389,6 +7411,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if ((value.Active_From !== null) && (value.Active_To !== null)) {
                     if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
                         validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
+                        value.Active_From = DateFormatEdit(value.Active_From);
+                        value.Active_To = DateFormatEdit(value.Active_To);
                         validateflag = false;
                         return false;
                     }
@@ -7414,6 +7438,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert(validationMsg);
                 return false;
             }
+            value.Active_From = DateFormatEdit(value.Active_From);
+            value.Active_To = DateFormatEdit(value.Active_To);
             return true;
         }
 
@@ -7918,6 +7944,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var validateflag = true;
             var validationMsg = "";
             angular.forEach($scope.AddMedicationDetails, function (value, index) {
+                value.StartDate = moment(value.StartDate).format('DD-MMM-YYYY');
+                value.EndDate = moment(value.EndDate).format('DD-MMM-YYYY');
+
                 if (value.DrugCodeId == null) {
                     Drugflag = 1;
                 }
@@ -7934,8 +7963,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Enddate = 1;
                 }
                 if ((value.StartDate !== null) && (value.EndDate !== null)) {
+
                     if ((ParseDate(value.EndDate) < ParseDate(value.StartDate))) {
                         dateval = 1;
+                        value.StartDate = DateFormatEdit(value.StartDate);
+                        value.EndDate = DateFormatEdit(value.EndDate);
                     }
                 }
             });
@@ -7963,6 +7995,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert("Start Date Should not be greater than End Date");
                 return false;
             };
+            value.StartDate = DateFormatEdit(value.StartDate);
+            value.EndDate = DateFormatEdit(value.EndDate);
             return true;
         }
 
@@ -8081,10 +8115,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 return false;
             }
             else if (($scope.StartDate !== null) && ($scope.EndDate !== null)) {
+                $scope.StartDate = moment($scope.StartDate).format('DD-MMM-YYYY');
+                $scope.EndDate = moment($scope.EndDate).format('DD-MMM-YYYY');
+
                 if ((ParseDate($scope.EndDate) < ParseDate($scope.StartDate))) {
                     alert("Start Date Should not be greater than End Date");
+                    $scope.StartDate = DateFormatEdit($scope.StartDate);
+                    $scope.EndDate = DateFormatEdit($scope.EndDate);
                     return false;
                 }
+                $scope.StartDate = DateFormatEdit($scope.StartDate);
+                $scope.EndDate = DateFormatEdit($scope.EndDate);
             }
             return true;
         };
@@ -14328,6 +14369,10 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             });
 
         $scope.FilterValidation = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
+            $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
+
             if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
                 alert("Please select Period From");
                 return false;
@@ -14363,13 +14408,35 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                 return false;
             }*/
             var retval = true;
+            if ($scope.Period_From > today) {
+                alert("FromDate Can Be Booked Only For Past");
+                $scope.Period_From = DateFormatEdit($scope.Period_From);
+                $scope.Period_To = DateFormatEdit($scope.Period_To);
+                retval = false;
+                return false;
+            }
+
+            if ($scope.Period_To > today) {
+                alert("To Date Can Be Booked Only For Past");
+                $scope.Period_From = DateFormatEdit($scope.Period_From);
+                $scope.Period_To = DateFormatEdit($scope.Period_To);
+                retval = false;
+                return false;
+            }
+
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     alert("From Date should not be greater than To Date");
+                    $scope.Period_From = DateFormatEdit($scope.Period_From);
+                    $scope.Period_To = DateFormatEdit($scope.Period_To);
                     retval = false;
                     return false;
                 }
             }
+
+            $scope.Period_From = DateFormatEdit($scope.Period_From);
+            $scope.Period_To = DateFormatEdit($scope.Period_To);
             return retval;
         };
 
@@ -14876,6 +14943,10 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             };
             */
         $scope.FilterValidation = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
+            $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
+
             if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
                 alert("Please select Period From");
                 return false;
@@ -14900,12 +14971,28 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 alert("14 days only allowed to filter");
                 return false;
             }
+            if ($scope.Period_From > today) {
+                alert("FromDate Can Be Booked Only For Past");
+                $scope.Period_From = DateFormatEdit($scope.Period_From);
+                $scope.Period_To = DateFormatEdit($scope.Period_From);
+                return false;
+            }
+            if ($scope.Period_To > today) {
+                alert("To Date Can Be Booked Only For Past");
+                $scope.Period_From = DateFormatEdit($scope.Period_From);
+                $scope.Period_To = DateFormatEdit($scope.Period_From);
+                return false;
+            }
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     alert("From Date should not be greater than To Date");
+                    $scope.Period_From = DateFormatEdit($scope.Period_From);
+                    $scope.Period_To = DateFormatEdit($scope.Period_To);
                     return false;
-                }
+                } 
             }
+            $scope.Period_From = DateFormatEdit($scope.Period_From);
+            $scope.Period_To = DateFormatEdit($scope.Period_To);
             return true;
         };
 
@@ -15584,8 +15671,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
         $scope.UserName_listdata = [];
         $scope.ShortNameId = "";
 
-        $scope.Period_From = $filter('date')(new Date(), 'dd-MMM-yyyy');
-        $scope.Period_To = $filter('date')(new Date(), 'dd-MMM-yyyy');
+        $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
 
         $scope.InstituteId = $window.localStorage['InstitutionId'];
 
@@ -15649,6 +15736,7 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
             //    return false;
             //}
             //var date1 = new Date($scope.Period_From);
+            var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -15658,11 +15746,18 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
             }
             var retval = true;
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+                $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
+                $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
+
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     alert("From Date should not be greater than To Date");
+                    $scope.Period_From = DateFormatEdit($scope.Period_From);
+                    $scope.Period_To = DateFormatEdit($scope.Period_To);
                     retval = false;
                     return false;
                 }
+                $scope.Period_From = DateFormatEdit($scope.Period_From);
+                $scope.Period_To = DateFormatEdit($scope.Period_To);
             }
 
             return retval;
@@ -15699,8 +15794,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
             if ($scope.patientReportValidation() == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/ReportDetails/PatientReportDetails_List?' +
-                    'Period_From=' + $scope.Period_From +
-                    '&Period_To=' + $scope.Period_To +
+                    'Period_From=' + moment($scope.Period_From).format('DD-MMM-YYYY') +
+                    '&Period_To=' + moment($scope.Period_To).format('DD-MMM-YYYY') +
                     '&ShortNameId=' + $scope.ShortNameId +
                     '&UserNameId=' + $scope.UserNameId
                     + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
@@ -16150,9 +16245,43 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
         };
 
         $scope.ShiftTimings_InsertUpdateValidations = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.ShiftFromDate = moment($scope.ShiftFromDate).format('DD-MMM-YYYY');
+            $scope.ShiftToDate = moment($scope.ShiftToDate).format('DD-MMM-YYYY');
+
             if ($scope.ShiftName == "") {
                 alert("Please enter Shift");
                 return false;
+            }
+            else if (($scope.ShiftFromDate < today)) {
+                alert("Shift Timing From Date Can Be Booked Only For Future");
+                $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
+                $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
+                return false;
+            }  
+            else if (($scope.ShiftToDate < today)) {
+                alert("Shift Timing ToDate Can Be Booked Only For Future");
+                $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
+                $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
+                return false;
+            } 
+            else if ((typeof ($scope.ShiftFromDate) != "") && (typeof ($scope.ShiftToDate) != "")) {
+
+                if (moment($scope.ShiftFromDate + " " + $scope.ShiftFromTime) > moment($scope.ShiftToDate + " " + $scope.ShiftEndTime)) {
+                    if (($scope.ShiftFromDate !== null) && ($scope.ShiftToDate !== null)) {
+                        if ((ParseDate($scope.ShiftToDate) < ParseDate($scope.ShiftFromDate))) {
+                            alert("From Date Should not be greater than To Date");
+                            $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
+                            $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
+                            return false;
+                        }
+                        alert("Shift From Time should not be greater than Shift To Time");
+                        $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
+                        $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
+                        return false;
+                    }
+
+                }
             }
             else if ($scope.ShiftFromTime == "") {
                 alert("Please select Shift From time");
@@ -16163,17 +16292,6 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 return false;
             }
 
-            else if (moment($scope.ShiftFromDate + " " + $scope.ShiftFromTime) > moment($scope.ShiftToDate + " " + $scope.ShiftEndTime)) {
-                if (($scope.ShiftFromDate !== null) && ($scope.ShiftToDate !== null)) {
-                    if ((ParseDate($scope.ShiftToDate) < ParseDate($scope.ShiftFromDate))) {
-                        alert("From Date Should not be greater than To Date");
-                        return false;
-                    }
-                    alert("Shift From Time should not be greater than Shift To Time");
-                    return false;
-                }
-
-            }
             else if (typeof ($scope.ShiftFromDate) == "undefined" || $scope.ShiftFromDate == 0) {
                 alert("Please select From Date");
                 return false;
@@ -16182,6 +16300,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 alert("Please select To Date");
                 return false;
             }
+            $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
+            $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
             return true;
         };
 
@@ -16524,6 +16644,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
            and showing alert message when it is null.
            */
         $scope.DoctorShiftAddEdit_Validations = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.FromDate = moment($scope.FromDate).format('DD-MMM-YYYY');
+            $scope.ToDate = moment($scope.ToDate).format('DD-MMM-YYYY');
 
             if (($scope.Doctor_Id.length == 0) && $scope.Id == 0) {
                 alert("Please select Doctor");
@@ -16569,12 +16692,28 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please select To Date");
                 return false;
             }
+            else if ($scope.FromDate < today) {
+                alert("FromDate Can Be Booked Only For Past");
+                $scope.FromDate = DateFormatEdit($scope.FromDate);
+                $scope.ToDate = DateFormatEdit($scope.ToDate);
+                return false;
+            }
+            else if ($scope.ToDate < today) {
+                alert("To Date Can Be Booked Only For Past");
+                $scope.FromDate = DateFormatEdit($scope.FromDate);
+                $scope.ToDate = DateFormatEdit($scope.ToDate);
+                return false;
+            }
             if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
                 if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
                     alert("From Date should not be greater than To Date");
+                    $scope.FromDate = DateFormatEdit($scope.FromDate);
+                    $scope.ToDate = DateFormatEdit($scope.ToDate);
                     return false;
                 }
             }
+            $scope.FromDate = DateFormatEdit($scope.FromDate);
+            $scope.ToDate = DateFormatEdit($scope.ToDate);
             return true;
         }
 
@@ -17136,6 +17275,10 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
            and showing alert message when it is null.
            */
         $scope.DoctorAttendance_InsertUpdateValidations = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.AttendanceFromDate = moment($scope.AttendanceFromDate).format('DD-MMM-YYYY');
+            $scope.AttendanceToDate = moment($scope.AttendanceToDate).format('DD-MMM-YYYY');
+
             if ($scope.SelectedAttendance == "" || $scope.SelectedAttendance == undefined) {
                 alert("Please select Doctor");
                 return false;
@@ -17149,12 +17292,29 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 alert("Please select To Date");
                 return false;
             }
+            else if ($scope.AttendanceFromDate < today) {
+                alert("From Date Can Be Booked Only For Future");
+                $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
+                $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
+                return false;
+            }
+            else if ($scope.AttendanceToDate < today) {
+                alert("To Date Can Be Booked Only For Future");
+                $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
+                $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
+                return false;
+            }
+
             else if (($scope.AttendanceFromDate !== null) && ($scope.AttendanceToDate !== null)) {
                 if ((ParseDate($scope.AttendanceToDate) < ParseDate($scope.AttendanceFromDate))) {
-                    alert("Start Date Should not be greater than End Date");
+                    alert("From Date Should not be greater than To Date");
+                    $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
+                    $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
                     return false;
                 }
             }
+            $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
+            $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
             return true;
         };
         /*on click Save calling the insert update function for Doctor Holiday
@@ -17163,9 +17323,9 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         $scope.SelectedAttendance = [];
         $scope.DoctorAttendanceDetails = [];
         $scope.AttendanceAddEdit = function () {
-            $("#chatLoaderPV").show();
             $scope.DoctorAttendanceDetails = [];
             if ($scope.DoctorAttendance_InsertUpdateValidations() == true) {
+                $("#chatLoaderPV").show();
                 if ($scope.Id == 0) {
                     angular.forEach($scope.SelectedAttendance, function (value, index) {
                         var obj = {

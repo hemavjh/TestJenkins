@@ -1,4 +1,23 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#Period_From').attr('max', maxDate);
+        $('#Period_To').attr('max', maxDate);
+    });
+</script>
+
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/EmailTemplate/1">Email Template</a>
     </li>
@@ -37,7 +56,7 @@
                     <label>Period From<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="date" class="form-control" ng-model="Period_From" ng-init="Period_From=''">
+                    <input type="date" id="Period_From" max="2099-12-31" class="form-control" ng-model="Period_From" ng-init="Period_From=''">
                 </div>
             </div>
             <div class="col-sm-2">
@@ -45,7 +64,7 @@
                     <label>Period To<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="date" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
+                    <input type="date" id="Period_To" max="2099-12-31" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
                 </div>
             </div>
             <div class="col-sm-2">

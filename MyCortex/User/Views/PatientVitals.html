@@ -12,8 +12,14 @@
             day = '0' + day.toString();
 
         var maxDate = year + '-' + month + '-' + day;
-        //alert(maxDate);
-        $('#AppointmentDate').attr('min', maxDate);
+        $('#AppointmentDate').attr('min', maxDate); 
+        $('#AFDate').attr('min', maxDate);
+        $('#ATDate').attr('min', maxDate);
+        $('#S_Date').attr('min', maxDate);
+        $('#E_Date').attr('min', maxDate);
+        $('#SD_Date').attr('min', maxDate);
+        $('#start_Date').attr('min', maxDate);
+        $('#End_Date').attr('min', maxDate);
     });
 </script>
 <body>
@@ -2392,8 +2398,8 @@
                                     <label>Onset Date</label>
                                 </td>
                                 <td>
-                                    <div class="input-group date">
-                                        <input type="date" id="SD_Date" class="form-control" ng-model="OnSetDate" ng-init="OnSetDate=''"
+                                    <div class="inputGroups">
+                                        <input type="date" id="SD_Date" max="2099-12-31" class="form-control" ng-model="OnSetDate" ng-init="OnSetDate=''"
                                         style="width: 165px">
                                         <!--<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
                                     </div>
@@ -2503,14 +2509,14 @@
 
                                 <td>
                                     <div class="col-md-10 input-group date">
-                                        <input type="date" class="form-control" ng-model="row.StartDate" ng-init="row.StartDate=''"
+                                        <input type="date" id="start_Date" max="2099-12-31" class="form-control" ng-model="row.StartDate" ng-init="row.StartDate=''"
                                                style="width: 165px">
                                         <!--<span class="input-group-addon">
                                             <i class="glyphicon glyphicon-th"></i>
                                         </span>-->
                                     </div>
                                     <div class="col-md-10 input-group date">
-                                        <input type="date" class="form-control" ng-model="row.EndDate" ng-init="row.EndDate=''"
+                                        <input type="date" id="End_Date" max="2099-12-31" class="form-control" ng-model="row.EndDate" ng-init="row.EndDate=''"
                                                style="width: 165px">
                                         <!--<span class="input-group-addon">
                                             <i class="glyphicon glyphicon-th"></i>
@@ -2705,7 +2711,7 @@
                                                   ng-maxlength="250" />
                                     </td>
                                     <td>
-                                        <div class="input-group">
+                                        <div class="inputGroups">
                                             <input type="date" id="AFDate" max="2099-12-31" class="form-control" ng-model="row.Active_From" ng-init="row.Active_From=''"
                                             style="width: 165px">
                                             <!--<span class="input-group-addon">
@@ -2714,7 +2720,7 @@
                                          </div>
                                     </td>
                                     <td>
-                                       <div class="input-group">
+                                       <div class="inputGroups">
                                             <input type="date" id="ATDate" max="2099-12-31" class="form-control" ng-model="row.Active_To" ng-init="row.Active_To=''"
                                             style="width: 165px">
                                             <!--<span class="input-group-addon">
@@ -2991,7 +2997,7 @@
 
                                 <td>
                                     <div class="col-md-10 input-group date">
-                                        <input type="date" class="form-control" ng-model="row.Active_From"
+                                        <input type="date" id="AFDate" max="2099-12-31" class="form-control" ng-model="row.Active_From"
                                                style="width: 165px" ng-init="row.Active_From=Active_From">
                                         <!--<span class="input-group-addon">
                                             <i class="glyphicon glyphicon-th"></i>
@@ -3003,7 +3009,7 @@
                                 <td>Active To</td>
                                 <td>
                                     <div class="col-md-10 input-group date">
-                                        <input type="date" class="form-control" ng-model="row.Active_To"
+                                        <input type="date" id="ATDate" max="2099-12-31" class="form-control" ng-model="row.Active_To"
                                                style="width: 165px" ng-init="row.Active_To=Active_To">
                                         <!--<span class="input-group-addon">
                                             <i class="glyphicon glyphicon-th"></i>
@@ -3363,14 +3369,14 @@
                                 <!--<input type="text" datepicker ng-model="row.StartDate" ng-init="StartDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 93px" />
                                 <input type="text" datepicker ng-model="row.EndDate" ng-init="EndDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 91px" />                                                                                                    -->
 
-                                 <div class="input-group date">
+                                 <div class="inputGroups">
                                         <input type="date" id="S_Date" class="form-control" max="2099-12-31" ng-model="StartDate"
                                         style="width: 165px">
                                         <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
                                         </span>-->
                                 </div>
-                                <div class="input-group date">
+                                <div class="inputGroups">
                                     <input type="date" id="E_Date" class="form-control" max="2099-12-31" ng-model="EndDate"
                                     style="width: 165px">
                                     <!--<span class="input-group-addon">
