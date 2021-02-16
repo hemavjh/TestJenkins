@@ -446,22 +446,46 @@ namespace MyCortex.Repositories.Uesr
                 var time = insert.DOB_Encrypt.Split(' ');
 
                 var time4 = time[0].Split('/');
-                var time1 = time4[0];
-                var time2 = time4[1];
-                var time3 = time4[2];
-
-                DateTime dt1 = new DateTime();
                 try
                 {
-                    var dateime = time2 + '/' + time1 + '/' + time3;
-                    dt1 = Convert.ToDateTime(dateime);
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
                 }
-                catch (Exception ex)
+                catch (Exception ex1)
                 {
-                    var dateime = time1 + '/' + time2 + '/' + time3;
-                    dt1 = Convert.ToDateTime(dateime);
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
                 }
-                insert.DOB = dt1;
 
                 //insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
                 /*string[] tokens = insert.DOB_Encrypt.Split('/');
@@ -611,26 +635,28 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW", param);
+            
             UserModel View = (from p in dt.AsEnumerable()
-                              select
-                              new UserModel()
-                              {
+                              select 
+                                new UserModel()
+                                { 
+                                   
                                   Id = p.Field<long>("Id"),
                                   INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
                                   FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                  MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
+                                  MiddleName = DecryptFields.Decrypt(p.IsNull("MiddleName") ? "" : p.Field<string>("MiddleName")),
                                   LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
-                                  EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
+                                  EMPLOYEMENTNO = p.IsNull("EMPLOYEMENTNO") ? "":p.Field<string>("EMPLOYEMENTNO"),
                                   EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
                                   DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                   MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
                                   DOB = p.Field<DateTime?>("DOB"),
                                   DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
-                                  Department_Name = p.Field<string>("Department_Name"),
+                                  Department_Name = p.IsNull("Department_Name")? "" :p.Field<string>("Department_Name"),
                                   InstitutionName = p.Field<string>("InstitutionName"),
                                   IsActive = p.Field<int?>("IsActive"),
-                                  Photo = p.Field<string>("PHOTO_NAME"),
-                                  Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH"),
+                                  Photo = p.IsNull("PHOTO_NAME")? "" :p.Field<string>("PHOTO_NAME"),
+                                  Photo_Fullpath = p.IsNull("PHOTO_FULLPATH")?"":p.Field<string>("PHOTO_FULLPATH"),
                                   FileName = p.Field<string>("PHOTO_FILENAME"),
                                   FILE_NAME = p.Field<string>("FILE_NAME"),
                                   FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
@@ -709,29 +735,64 @@ namespace MyCortex.Repositories.Uesr
                                   Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
                                   Approval_flag = p.Field<int>("APPROVAL_FLAG"),
                                   Createdby_ShortName = p.Field<string>("SHORTNAME_CODE")
-                              }).FirstOrDefault();
-          
+                               
+                                }).FirstOrDefault();
+            
+
             if (View.DOB_Encrypt != "")
             {
                 var time = View.DOB_Encrypt.Split(' ');
 
-                var time4 = time[0].Split('/');
-                var time1 = time4[0];
-                var time2 = time4[1];
-                var time3 = time4[2];
+             
 
-                DateTime dt1 = new DateTime();
+                var time4 = time[0].Split('/');
                 try
                 {
-                    var dateime = time2 + '/' + time1 + '/' + time3;
-                    dt1 = Convert.ToDateTime(dateime);
+
+
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    View.DOB = dt1;
                 }
-                catch(Exception ex)
+                catch (Exception ex1)
                 {
-                    var dateime = time1 + '/' + time2 + '/' + time3;
-                    dt1 = Convert.ToDateTime(dateime);
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2]; 
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    View.DOB = dt1;
                 }
-                View.DOB = dt1;
+               
                 /*string[] tokens = View.DOB_Encrypt.Split('/');
                 View.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
                 //View.DOB= DateTime.ParseExact(View.DOB_Encrypt, "MM-dd-yyyy HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture);
