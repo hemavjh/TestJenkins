@@ -407,6 +407,7 @@ const chatService = function() {
             $("#chatLoader").attr("style", "display:block")
             userid = viewUserId;
             currentusertype = userType;
+            window.COMETCHAT_TO_USER = userid;
             //$("#message-form")[0].reset();
             $('#group-message-holder').empty();
             messageArray = [];
@@ -1400,8 +1401,11 @@ const chatService = function() {
             const chat = document.getElementById("msg-page");            
             chat.scrollTo(0, chat.scrollHeight);
         },
-        checkCall: function () {
-            return checkCallStatus;
+        checkCall: function (userId) {
+            if (window.COMETCHAT_TO_USER == userId)
+                return false;
+            else
+                return checkCallStatus;
         }
     }
 }();

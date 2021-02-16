@@ -890,6 +890,7 @@
         //chatService.createGroup();
         chatService.sendMessage();
         //chatService.getaddressbookDetails($('#contactSearch').val());
+        window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
     }
     function audioCallUser() {
 
@@ -902,9 +903,11 @@
         }
 
         chatService.initiateCall();
+        window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
     }
     function videoCallUser() {
         chatService.initiateVideCall();
+        window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
     }
     function openUserChat(userType, viewUser, userValidity)
     {
