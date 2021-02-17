@@ -863,5 +863,26 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage DBQueryAPI(string qry)
+        {
+            MobileSettingsModel model = new MobileSettingsModel();
+            try
+            {
+                var result = repository.DBQueryAPI(qry);
+                return Request.CreateResponse(HttpStatusCode.OK, result); ;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error occured";
+                model.ReturnFlag = 0;
+                model.PasswordData = null;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
     }
 }

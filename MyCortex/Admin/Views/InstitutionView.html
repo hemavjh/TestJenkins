@@ -69,13 +69,13 @@
                                         <div class="inputGroups">
                                             <div style="margin-left: 151px;margin-top: -12px;">
                                                 <span style="font-weight:bold;"> Logo Upload</span>
-                                                <img src="{{uploadme}}"  style="margin-left:-7px" class="institutionLogo"
+                                                <img src="{{uploadme}}" style="margin-left:-7px" class="institutionLogo"
                                                      ng-show="(uploadme != '')" />
                                                 <img src="../../Images/noImage.jpg" style="margin-left:-7px" class="institutionLogo"
                                                      ng-show="(uploadme == '')" />
                                             </div>
-                                            </div>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                             <span style="font-weight:bold;margin-left: 51px;">:</span>
                                             <div style="width: 178%;margin-top: -19px;">  <span style="margin-left: 112px;">  {{Address1}}</span></div>
                                             <div style="width: 178%;"> <span style="margin-left: 112px;"> {{Address2}}</span></div>
-                                            <div style="width: 178%;"> <span style="margin-left: 112px;">  {{Address3}}</span></div> 
+                                            <div style="width: 178%;"> <span style="margin-left: 112px;">  {{Address3}}</span></div>
 
                                         </div>
                                         <div class="inputGroups">
@@ -128,10 +128,13 @@
 
             </form>
             <div class="text-center mb-20">
-                <button type="button" class="theme-btn-1 center-block" title="Click to Edit"
+                <button type="button" class="theme-btn-1 mr-10" title="Click to Edit"
                         ng-click="EditInstitutionHospitalAdmin()">
                     Edit
                 </button>
+                <a style="cursor:pointer" title="Click to re-run configuration" ng-click="InstitueConfiguration()">
+                    Re-run configuration
+                </a>
             </div>
 
         </div>

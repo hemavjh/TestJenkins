@@ -10,6 +10,7 @@ using log4net;
 using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Admin.Models;
+using Newtonsoft.Json;
 
 namespace MyCortex.Repositories.Masters
 {
@@ -597,6 +598,23 @@ namespace MyCortex.Repositories.Masters
                                                     DefaultLanguageId = p.Field<int>("LANGUAGE_PREFERENCE")
                                                 }).ToList();
                 return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public object DBQueryAPI(string qry)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Qry", qry));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DBQueryAPI", param);
+                string json = JsonConvert.SerializeObject(dt);
+                return json;
             }
             catch (Exception ex)
             {
