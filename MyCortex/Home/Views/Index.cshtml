@@ -21,12 +21,10 @@
         });
         var element1 = document.getElementById(sessionStorage.getItem('key'));
         $('.menuList button').removeClass('activeButton'); 
-        if (element1 == undefined) {
-            
+        if (element1 == undefined) { 
            
             if (User_id == 1) {
-                element1 = document.getElementById('Institution');
-
+                element1 = document.getElementById('Institution'); 
             } else if (User_id == 3) {
                 element1 = document.getElementById('Home');
             } else if (User_id == 5) {
