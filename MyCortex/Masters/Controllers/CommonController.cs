@@ -884,5 +884,52 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
+        public HttpResponseMessage DefaultConfig_InsertUpdate(int Step,[FromBody]long Institution_Id)
+        {
+            PasswordPolicyReturnModel model = new PasswordPolicyReturnModel();
+            if (Institution_Id <= 0)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                //model.PasswordData = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            try
+            {
+                model.ReturnFlag = repository.DefaultConfig_InsertUpdate(Institution_Id, Step);
+                //ModelData = pwdrepository.PasswordPolicy_InsertUpdate(obj);
+                //if (ModelData.Any(item => item.flag == 1) == true)
+                //{
+                //    messagestr = "Password created successfully";
+                //    model.ReturnFlag = 1;
+
+                //}
+                //else if (ModelData.Any(item => item.flag == 2) == true)
+                //{
+                //    messagestr = "Password updated Successfully";
+                //    model.ReturnFlag = 2;
+
+                //}
+                //model.PasswordData = ModelData;
+                model.Message = "";// "Password data created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Password Policy";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                //model.PasswordData = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
     }
 }

@@ -1090,16 +1090,16 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Language_List: $scope.LanguageList
                 }
 
-                //$http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                //    alert(data.Message);
-                //    if (data.ReturnFlag == "1") {
-                //        $scope.CancelIntstitutionSubPopup();
-                //        $scope.InstitutionSubscriptionDetailsListTemplate();
-                //    }
-                //    $("#chatLoaderPV").hide();
-                //}).error(function (data) {
-                //    $scope.error = "An error has occurred while adding InstitutionSubcription details" + data.ExceptionMessage;
-                //});
+                $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                    alert(data.Message);
+                    if (data.ReturnFlag == "1") {
+                        $scope.CancelIntstitutionSubPopup();
+                        $scope.InstitutionSubscriptionDetailsListTemplate();
+                    }
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while adding InstitutionSubcription details" + data.ExceptionMessage;
+                });
             }
         }
         $scope.searchquery = "";
@@ -4363,6 +4363,164 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
         $scope.CancelInstitutionHospitalAdmin = function () {
             $location.path("/InstitutionHospitalAdmin_view/");
             //$scope.ClearInstitutionPopup();
+        };
+
+        $scope.InstitueConfiguration = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).success(function (data) {
+                alert("Step 1 Completed Out of 16!");
+                $scope.InstitueConfigurationStep2();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep2();
+            });
+        };
+
+        $scope.InstitueConfigurationStep2 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstituteId).success(function (data) {
+                alert("Step 2 Completed Out of 16!");
+                $scope.InstitueConfigurationStep3();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep3();
+            });
+        };
+
+        $scope.InstitueConfigurationStep3 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstituteId).success(function (data) {
+                alert("Step 3 Completed Out of 16!");
+                $scope.InstitueConfigurationStep4();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep4();
+            });
+        };
+
+        $scope.InstitueConfigurationStep4 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstituteId).success(function (data) {
+                alert("Step 4 Completed Out of 16!");
+                $scope.InstitueConfigurationStep5();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep5();
+            });
+        };
+
+        $scope.InstitueConfigurationStep5 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstituteId).success(function (data) {
+                alert("Step 5 Completed Out of 16!");
+                $scope.InstitueConfigurationStep6();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep6();
+            });
+        };
+
+        $scope.InstitueConfigurationStep6 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstituteId).success(function (data) {
+                alert("Step 6 Completed Out of 16!");
+                $scope.InstitueConfigurationStep7();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep7();
+            });
+        };
+
+        $scope.InstitueConfigurationStep7 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstituteId).success(function (data) {
+                alert("Step 7 Completed Out of 16!");
+                $scope.InstitueConfigurationStep8();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep8();
+            });
+        };
+
+        $scope.InstitueConfigurationStep8 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstituteId).success(function (data) {
+                alert("Step 8 Completed Out of 16!");
+                $scope.InstitueConfigurationStep9();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep9();
+            });
+        };
+
+        $scope.InstitueConfigurationStep9 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstituteId).success(function (data) {
+                alert("Step 9 Completed Out of 16!");
+                $scope.InstitueConfigurationStep10();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep10();
+            });
+        };
+
+        $scope.InstitueConfigurationStep10 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstituteId).success(function (data) {
+                alert("Step 10 Completed Out of 16!");
+                $scope.InstitueConfigurationStep11();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep11();
+            });
+        };
+
+        $scope.InstitueConfigurationStep11 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstituteId).success(function (data) {
+                alert("Step 11 Completed Out of 16!");
+                $scope.InstitueConfigurationStep12();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep12();
+            });
+        };
+
+        $scope.InstitueConfigurationStep12 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstituteId).success(function (data) {
+                alert("Step 12 Completed Out of 16!");
+                $scope.InstitueConfigurationStep13();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep13();
+            });
+        };
+
+        $scope.InstitueConfigurationStep13 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstituteId).success(function (data) {
+                alert("Step 13 Completed Out of 16!");
+                $scope.InstitueConfigurationStep14();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep14();
+            });
+        };
+
+        $scope.InstitueConfigurationStep14 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstituteId).success(function (data) {
+                alert("Step 14 Completed Out of 16!");
+                $scope.InstitueConfigurationStep15();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep15();
+            });
+        };
+
+        $scope.InstitueConfigurationStep15 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstituteId).success(function (data) {
+                alert("Step 15 Completed Out of 16!");
+                $scope.InstitueConfigurationStep16();
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+                $scope.InstitueConfigurationStep16();
+            });
+        };
+
+        $scope.InstitueConfigurationStep16 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
+                alert("Step 16 Completed Out of 16!");
+            }).error(function (data) {
+                alert("Error In Creating Default Data");
+            });
         };
 
     }

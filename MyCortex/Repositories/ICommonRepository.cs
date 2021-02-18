@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MyCortex.Admin.Models;
+using System.Threading.Tasks;
 
 namespace MyCortex.Repositories
 {
@@ -34,6 +35,7 @@ namespace MyCortex.Repositories
         IList<UnitGroupTypeModel> UnitGroupTypeList();
         IList<LanguageMasterModel> InstitutionLanguages(long Institution_Id);
         object DBQueryAPI(string qry);
+        int DefaultConfig_InsertUpdate(long Institution_Id, int Step);
 
     }
 }

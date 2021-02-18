@@ -11,6 +11,7 @@ using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Admin.Models;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace MyCortex.Repositories.Masters
 {
@@ -621,6 +622,17 @@ namespace MyCortex.Repositories.Masters
                 _logger.Error(ex.Message, ex);
                 return null;
             }
+        }
+
+        public int DefaultConfig_InsertUpdate(long Institution_Id, int Step)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTIONID", Institution_Id));
+            param.Add(new DataParameter("@STEP", Step));
+            retid = ClsDataBase.Insert("[MYCORTEX].CREATEINSTITUTIONMASTER_SP", param, true);
+            //await Task.Delay(1000);
+            return retid;
         }
     }
 }
