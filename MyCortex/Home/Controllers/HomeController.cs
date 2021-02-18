@@ -34,7 +34,7 @@ namespace MyCortex.Home.Controllers
         private CommonMenuRepository db = new CommonMenuRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         private LoginRepository login = new LoginRepository();
-        private UserRepository repository = new UserRepository();
+        private UserRepository repository = new UserRepository();  
 
         private InstitutionRepository Insrepository = new InstitutionRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -132,11 +132,11 @@ namespace MyCortex.Home.Controllers
                 string SessionId = Convert.ToString(Session["Login_Session_Id"].ToString());
                 login.User_LogOut(UserID, SessionId);
                 Session["UserId"] = "0";
-
+                Session["key"] = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
                 Response.Cache.SetNoStore();
-                Session.Abandon();
+                Session.Abandon(); 
 
                 //var claimsIdentity = (ClaimsIdentity)User.Identity;
                 //IEnumerable<Claim> claims = claimsIdentity.Claims;
@@ -171,7 +171,7 @@ namespace MyCortex.Home.Controllers
                 long UserID = Convert.ToInt32(Session["UserId"].ToString());
                 login.User_LogOutAllDevice(UserID);
                 Session["UserId"] = "0";
-
+                Session["key"] = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
                 Response.Cache.SetNoStore();
@@ -309,7 +309,7 @@ namespace MyCortex.Home.Controllers
                 _logger.Error(ex.Message, ex);
                 return null;
             }
-        }
+        } 
         /// <summary>
         /// Institution logo of the logged in user
         /// </summary>

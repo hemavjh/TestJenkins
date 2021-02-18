@@ -316,15 +316,20 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
 
     authInterceptorServiceFactory.request = _request;
     authInterceptorServiceFactory.responseError = _responseError;
-    $(document).ready(function () {
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-        $('.menuList button').on('click', function () {
-            $('.menuList button').removeClass('activeButton');
-            $(this).addClass('activeButton');
-        });
-    });
+    //$(document).ready(function () {
+        
+           
+      
+    //    $('.menuList button').on('click', function () {
+    //        localStorage.setItem('key', this.id);
+    //        $('.menuList button').removeClass('activeButton');
+    //        //var id = localStorage.getItem('key');
+    //        var element = document.getElementById(localStorage.getItem('key'));
+    //        element.className += '  activeButton';
+
+    //    });
+
+    //});
 
     return authInterceptorServiceFactory;
 }])
