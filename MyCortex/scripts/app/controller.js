@@ -4370,7 +4370,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 1 Completed Out of 16!");
                 $scope.InstitueConfigurationStep2();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 1");
                 $scope.InstitueConfigurationStep2();
             });
         };
@@ -4380,7 +4380,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 2 Completed Out of 16!");
                 $scope.InstitueConfigurationStep3();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 2");
                 $scope.InstitueConfigurationStep3();
             });
         };
@@ -4390,7 +4390,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 3 Completed Out of 16!");
                 $scope.InstitueConfigurationStep4();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 3");
                 $scope.InstitueConfigurationStep4();
             });
         };
@@ -4400,7 +4400,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 4 Completed Out of 16!");
                 $scope.InstitueConfigurationStep5();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 4");
                 $scope.InstitueConfigurationStep5();
             });
         };
@@ -4410,7 +4410,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 5 Completed Out of 16!");
                 $scope.InstitueConfigurationStep6();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 5");
                 $scope.InstitueConfigurationStep6();
             });
         };
@@ -4420,7 +4420,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 6 Completed Out of 16!");
                 $scope.InstitueConfigurationStep7();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 6");
                 $scope.InstitueConfigurationStep7();
             });
         };
@@ -4430,7 +4430,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 7 Completed Out of 16!");
                 $scope.InstitueConfigurationStep8();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 7");
                 $scope.InstitueConfigurationStep8();
             });
         };
@@ -4440,7 +4440,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 8 Completed Out of 16!");
                 $scope.InstitueConfigurationStep9();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 8");
                 $scope.InstitueConfigurationStep9();
             });
         };
@@ -4450,7 +4450,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 9 Completed Out of 16!");
                 $scope.InstitueConfigurationStep10();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 9");
                 $scope.InstitueConfigurationStep10();
             });
         };
@@ -4460,7 +4460,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 10 Completed Out of 16!");
                 $scope.InstitueConfigurationStep11();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 10");
                 $scope.InstitueConfigurationStep11();
             });
         };
@@ -4470,7 +4470,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 11 Completed Out of 16!");
                 $scope.InstitueConfigurationStep12();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 11");
                 $scope.InstitueConfigurationStep12();
             });
         };
@@ -4480,7 +4480,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 12 Completed Out of 16!");
                 $scope.InstitueConfigurationStep13();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 12");
                 $scope.InstitueConfigurationStep13();
             });
         };
@@ -4490,7 +4490,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 13 Completed Out of 16!");
                 $scope.InstitueConfigurationStep14();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 13");
                 $scope.InstitueConfigurationStep14();
             });
         };
@@ -4500,7 +4500,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 14 Completed Out of 16!");
                 $scope.InstitueConfigurationStep15();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 14");
                 $scope.InstitueConfigurationStep15();
             });
         };
@@ -4510,7 +4510,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Step 15 Completed Out of 16!");
                 $scope.InstitueConfigurationStep16();
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 15");
                 $scope.InstitueConfigurationStep16();
             });
         };
@@ -4519,7 +4519,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
                 alert("Step 16 Completed Out of 16!");
             }).error(function (data) {
-                alert("Error In Creating Default Data");
+                alert("Error In Step 16");
             });
         };
 

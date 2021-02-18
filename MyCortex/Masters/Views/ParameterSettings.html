@@ -38,8 +38,8 @@
                     <div class="inputGroups">
                         <label>Unit Group Type</label>
                         <div class="modernSearch">
-                            <input style="margin-left: 5px !important" type="radio" value="1" ng-model="UnitGroupType" ng-init="SetUnitGroupPreference();ChatSettings_ViewEdit()" ng-change="ChatSettings_ViewEdit()"> Metric
-                            <input style="margin-left: 5px !important" type="radio" value="2" ng-model="UnitGroupType" ng-change="ChatSettings_ViewEdit()"> English
+                            <input style="margin-left: 5px !important" type="radio" value="1" ng-disabled="IsEdit==true" ng-model="UnitGroupType" ng-init="SetUnitGroupPreference();ChatSettings_ViewEdit()" ng-change="ChatSettings_ViewEdit()"> Metric
+                            <input style="margin-left: 5px !important" type="radio" value="2" ng-disabled="IsEdit==true" ng-model="UnitGroupType" ng-change="ChatSettings_ViewEdit()"> English
                         </div>
                     </div>
                 </div>

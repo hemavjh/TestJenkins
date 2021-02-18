@@ -126,7 +126,12 @@
                                                     <td>
                                                         <div class="row">
                                                             <div class="col-sm-6" ng-repeat="(key,value) in LanguageList">
-                                                                <input type="checkbox" ng-model="InstitutionAddLanguageList[$index]" />{{value.LanguageName}}
+                                                                <div ng-if="value.LanguageName == 'English'" >
+                                                                    <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" /> {{value.LanguageName}}
+                                                                </div>
+                                                                <div ng-if="value.LanguageName !== 'English'">
+                                                                    <input  type="checkbox" ng-model="InstitutionAddLanguageList[$index]" />{{value.LanguageName}}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </td>
