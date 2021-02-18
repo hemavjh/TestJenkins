@@ -1745,3 +1745,8 @@ li.customDropdownlast-child:hover {
 .textalign {
     text-align: center !important;
 }
+
+a.disabled {
+    pointer-events: none;
+    color: #ccc;
+}

@@ -4366,160 +4366,185 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
         };
 
         $scope.InstitueConfiguration = function () {
-            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).success(function (data) {
-                alert("Step 1 Completed Out of 16!");
-                $scope.InstitueConfigurationStep2();
-            }).error(function (data) {
-                alert("Error In Step 1");
-                $scope.InstitueConfigurationStep2();
-            });
+            if (confirm("Are you sure you want to Run this Configuration Settings?")) {
+                $("#runConfig").text('Processing(0%)....');
+                $("#runConfig").addClass('disabled');
+                $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).success(function (data) {
+                    $("#runConfig").text('Processing(5%)....');
+                    $scope.InstitueConfigurationStep2();
+                }).error(function (data) {
+                    alert("Error In Step 1");
+                    $("#runConfig").text('Processing(5%)....');
+                    $scope.InstitueConfigurationStep2();
+                });
+            }
         };
 
         $scope.InstitueConfigurationStep2 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstituteId).success(function (data) {
-                alert("Step 2 Completed Out of 16!");
+                $("#runConfig").text('Processing(10%)....');
                 $scope.InstitueConfigurationStep3();
             }).error(function (data) {
                 alert("Error In Step 2");
+                $("#runConfig").text('Processing(10%)....');
                 $scope.InstitueConfigurationStep3();
             });
         };
 
         $scope.InstitueConfigurationStep3 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstituteId).success(function (data) {
-                alert("Step 3 Completed Out of 16!");
+                $("#runConfig").text('Processing(15%)....');
                 $scope.InstitueConfigurationStep4();
             }).error(function (data) {
                 alert("Error In Step 3");
+                $("#runConfig").text('Processing(15%)....');
                 $scope.InstitueConfigurationStep4();
             });
         };
 
         $scope.InstitueConfigurationStep4 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstituteId).success(function (data) {
-                alert("Step 4 Completed Out of 16!");
+                $("#runConfig").text('Processing(20%)....');
                 $scope.InstitueConfigurationStep5();
             }).error(function (data) {
                 alert("Error In Step 4");
+                $("#runConfig").text('Processing(20%)....');
                 $scope.InstitueConfigurationStep5();
             });
         };
 
         $scope.InstitueConfigurationStep5 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstituteId).success(function (data) {
-                alert("Step 5 Completed Out of 16!");
+                $("#runConfig").text('Processing(25%)....');
                 $scope.InstitueConfigurationStep6();
             }).error(function (data) {
                 alert("Error In Step 5");
+                $("#runConfig").text('Processing(25%)....');
                 $scope.InstitueConfigurationStep6();
             });
         };
 
         $scope.InstitueConfigurationStep6 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstituteId).success(function (data) {
-                alert("Step 6 Completed Out of 16!");
+                $("#runConfig").text('Processing(30%)....');
                 $scope.InstitueConfigurationStep7();
             }).error(function (data) {
                 alert("Error In Step 6");
+                $("#runConfig").text('Processing(30%)....');
                 $scope.InstitueConfigurationStep7();
             });
         };
 
         $scope.InstitueConfigurationStep7 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstituteId).success(function (data) {
-                alert("Step 7 Completed Out of 16!");
+                $("#runConfig").text('Processing(35%)....');
                 $scope.InstitueConfigurationStep8();
             }).error(function (data) {
                 alert("Error In Step 7");
+                $("#runConfig").text('Processing(35%)....');
                 $scope.InstitueConfigurationStep8();
             });
         };
 
         $scope.InstitueConfigurationStep8 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstituteId).success(function (data) {
-                alert("Step 8 Completed Out of 16!");
+                $("#runConfig").text('Processing(40%)....');
                 $scope.InstitueConfigurationStep9();
             }).error(function (data) {
                 alert("Error In Step 8");
+                $("#runConfig").text('Processing(40%)....');
                 $scope.InstitueConfigurationStep9();
             });
         };
 
         $scope.InstitueConfigurationStep9 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstituteId).success(function (data) {
-                alert("Step 9 Completed Out of 16!");
+                $("#runConfig").text('Processing(50%)....');
                 $scope.InstitueConfigurationStep10();
             }).error(function (data) {
                 alert("Error In Step 9");
+                $("#runConfig").text('Processing(50%)....');
                 $scope.InstitueConfigurationStep10();
             });
         };
 
         $scope.InstitueConfigurationStep10 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstituteId).success(function (data) {
-                alert("Step 10 Completed Out of 16!");
+                $("#runConfig").text('Processing(55%)....');
                 $scope.InstitueConfigurationStep11();
             }).error(function (data) {
                 alert("Error In Step 10");
+                $("#runConfig").text('Processing(55%)....');
                 $scope.InstitueConfigurationStep11();
             });
         };
 
         $scope.InstitueConfigurationStep11 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstituteId).success(function (data) {
-                alert("Step 11 Completed Out of 16!");
+                $("#runConfig").text('Processing(60%)....');
                 $scope.InstitueConfigurationStep12();
             }).error(function (data) {
                 alert("Error In Step 11");
+                $("#runConfig").text('Processing(60%)....');
                 $scope.InstitueConfigurationStep12();
             });
         };
 
         $scope.InstitueConfigurationStep12 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstituteId).success(function (data) {
-                alert("Step 12 Completed Out of 16!");
+                $("#runConfig").text('Processing(70%)....');
                 $scope.InstitueConfigurationStep13();
             }).error(function (data) {
                 alert("Error In Step 12");
+                $("#runConfig").text('Processing(70%)....');
                 $scope.InstitueConfigurationStep13();
             });
         };
 
         $scope.InstitueConfigurationStep13 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstituteId).success(function (data) {
-                alert("Step 13 Completed Out of 16!");
+                $("#runConfig").text('Processing(80%)....');
                 $scope.InstitueConfigurationStep14();
             }).error(function (data) {
                 alert("Error In Step 13");
+                $("#runConfig").text('Processing(80%)....');
                 $scope.InstitueConfigurationStep14();
             });
         };
 
         $scope.InstitueConfigurationStep14 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstituteId).success(function (data) {
-                alert("Step 14 Completed Out of 16!");
+                $("#runConfig").text('Processing(90%)....');
                 $scope.InstitueConfigurationStep15();
             }).error(function (data) {
                 alert("Error In Step 14");
+                $("#runConfig").text('Processing(90%)....');
                 $scope.InstitueConfigurationStep15();
             });
         };
 
         $scope.InstitueConfigurationStep15 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstituteId).success(function (data) {
-                alert("Step 15 Completed Out of 16!");
+                $("#runConfig").text('Processing(95%)....');
                 $scope.InstitueConfigurationStep16();
             }).error(function (data) {
                 alert("Error In Step 15");
+                $("#runConfig").text('Processing(95%)....');
                 $scope.InstitueConfigurationStep16();
             });
         };
 
         $scope.InstitueConfigurationStep16 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
-                alert("Step 16 Completed Out of 16!");
+                $("#runConfig").text('Processing(100%)....');
+                alert("Configuration Steps Completed!");
+                $("#runConfig").text('Re-run configuration');
+                $("#runConfig").removeClass('disabled');
             }).error(function (data) {
+                $("#runConfig").text('Processing(100%)....');
                 alert("Error In Step 16");
+                $("#runConfig").text('Re-run configuration');
+                $("#runConfig").removeClass('disabled');
             });
         };
 
