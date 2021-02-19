@@ -1750,3 +1750,180 @@ a.disabled {
     pointer-events: none;
     color: #ccc;
 }
+/*<!------My Appointments code start-------! >*/
+.myAppoinmentspart {
+    width: 100%;
+    display: inline-block
+}
+
+.myAppoinmentsfull {
+    width: 100%;
+    display: inline-block
+}
+
+.myAppoinmentleft {
+    width: 32%;
+    float: left;
+}
+
+    .myAppoinmentleft img {
+        width: 100%;
+        border-radius: 50px;
+        box-shadow: 3px 4px 3px #ddd;
+    }
+
+.myAppoinmentright {
+    width: 65%;
+    float: right;
+}
+
+    .myAppoinmentright h3 {
+        width: 100%;
+        float: left;
+        padding: 0 0 4px 0;
+        margin: 0;
+        color: #032B7E;
+        font-size: 21px;
+    }
+
+    .myAppoinmentright p {
+        width: 20%;
+        float: left;
+        padding: 0 0 4px 0;
+        margin: 0;
+        color: #000000;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .myAppoinmentright span {
+        width: 80%;
+        float: left;
+        padding: 0 0 4px 0;
+        margin: 0;
+        color: #000000;
+        font-weight: normal;
+        font-size: 14px;
+    }
+
+.myAppoinmentsdayscountfull {
+    width: 100%;
+    display: inline-block
+}
+
+.myAppoinmentsdayscountleft {
+    width: 40%;
+    float: left;
+    padding: 5px 0 4px 0;
+    margin: 0;
+    color: #666666;
+    font-weight: normal;
+}
+
+.myAppoinmentsdayscountrite {
+    width: 60%;
+    float: left;
+    padding: 0 0 4px 0;
+    margin: 0;
+    color: #666666;
+    font-weight: normal;
+}
+
+.kutticon {
+    padding: 7px 0 0 5px;
+}
+
+.chats {
+    width: 33px !important;
+    height: 33px !important;
+    float: left;
+    background: #39B60A;
+    border-radius: 33px;
+}
+
+.phones {
+    width: 33px !important;
+    height: 33px !important;
+    float: left;
+    background: #039395;
+    border-radius: 33px;
+    margin: 0 0 0 3px;
+}
+
+.trashs {
+    width: 33px !important;
+    height: 33px !important;
+    float: left;
+    background: #FF6C00;
+    border-radius: 33px;
+    margin: 0 0 0 3px;
+}
+
+.homepadamicon {
+    position: relative;
+    overflow: hidden;
+    width: auto;
+    display: inline-block;
+    transition: 0.5s all ease-in-out;
+}
+
+    .homepadamicon:after {
+        content: "";
+        position: absolute;
+        top: -110%;
+        left: -210%;
+        width: 200%;
+        height: 200%;
+        opacity: 0;
+        transform: rotate(30deg);
+        background: rgba(255, 255, 255, 0.13);
+        background: linear-gradient( to right, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.13) 77%, rgba(255, 255, 255, 0.5) 92%, rgba(255, 255, 255, 0.0) 100% );
+    }
+
+    .homepadamicon:hover:after {
+        opacity: 1;
+        top: -30%;
+        left: -30%;
+        transition-property: left, top, opacity;
+        transition-duration: 0.9s, 0.9s, 0.18s;
+        transition-timing-function: ease;
+    }
+
+    .homepadamicon:active:after {
+        opacity: 0;
+    }
+
+.leadtile {
+    width: 100%;
+    float: left;
+    margin: 12px 0 0 0;
+}
+
+.apoileft {
+    text-align: left;
+    float: left;
+}
+
+.apoiright {
+    text-align: right;
+    float: right;
+}
+
+.slides {
+    position: relative;
+    overflow: hidden;
+}
+
+    .slides ul {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    .slides li {
+        float: right;
+        list-style: none;
+    }
+/*<!-- ----My Appointments code end-------! >*/

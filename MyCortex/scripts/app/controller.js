@@ -6369,7 +6369,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.appointmentDoctorId = $scope.PatientData.Doctor_Id;
             $scope.DoctorName = $scope.PatientData.DoctorName;
             $scope.AppointmentTime = $scope.PatientData.Appointment_FromTime;
-            $scope.AppointmentDate = $scope.PatientData.Appointment_Date;
+            $scope.AppointmentDate = DateFormatEdit(moment($scope.PatientData.Appointment_Date).format('DD-MMM-YYYY'));
             $window.localStorage['selectedDoctor'] = $scope.appointmentDoctorId;
             //$scope.TimeDifference = $scope.PatientData.TimeDifference;
 

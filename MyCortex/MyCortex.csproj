@@ -699,6 +699,7 @@
     <Content Include="scripts\Chatscripts.js" />
     <Content Include="scripts\croppie.js" />
     <Content Include="scripts\croppie.min.js" />
+    <Content Include="scripts\jquery-proper-slider.js" />
     <Content Include="scripts\jquery-ui.min.js" />
     <Content Include="scripts\jquery.mcautocomplete.js" />
     <Content Include="scripts\jquery.mCustomScrollbar.js" />
@@ -1127,6 +1128,7 @@
     <Content Include="scripts\jquery.min.js" />
     <Content Include="scripts\jquery.playSound.js" />
     <Content Include="scripts\jquery.tabletojson.js" />
+    <Content Include="scripts\mixer.js" />
     <Content Include="scripts\moment.min.js" />
     <Content Include="scripts\multiselect.core.js" />
     <Content Include="scripts\multiselect.js" />
