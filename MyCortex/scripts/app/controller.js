@@ -15763,8 +15763,9 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailAlertPopUP = function () {
             angular.element('#EmailAlertModal').modal('show');
-            //  $scope.ClearPopup();
-        }
+             //$scope.ClearPopup();
+            $scope.Eventselected();
+        } 
 
         /* THIS IS OPENING POP WINDOW FORM VIEW */
         $scope.ViewEmailAlertPopUP = function (CatId) {
