@@ -292,6 +292,8 @@
     <Content Include="Images\admin2.png" />
     <Content Include="Images\ajax_loader.gif" />
     <Content Include="Images\ajax_loader1.gif" />
+    <Content Include="Images\appointment-left.jpg" />
+    <Content Include="Images\appointment-right.jpg" />
     <Content Include="Images\assetmanagement.png" />
     <Content Include="Images\attendtance.png" />
     <Content Include="Images\callaccept.png" />
@@ -301,6 +303,7 @@
     <Content Include="Images\CC_Male.png" />
     <Content Include="Images\CG_Female.png" />
     <Content Include="Images\CG_Male.png" />
+    <Content Include="Images\chats-icon.png" />
     <Content Include="Images\chat_icon.png" />
     <Content Include="Images\Clinician_Female.png" />
     <Content Include="Images\Clinician_Male.png" />
@@ -311,6 +314,9 @@
     <Content Include="Images\DOB.png" />
     <Content Include="Images\document.png" />
     <Content Include="Images\downloadimage.png" />
+    <Content Include="Images\dr1.jpg" />
+    <Content Include="Images\dr2.jpg" />
+    <Content Include="Images\dr3.jpg" />
     <Content Include="Images\excel.png" />
     <Content Include="Images\exit.png" />
     <Content Include="Images\expand.gif" />
@@ -368,6 +374,7 @@
     <Content Include="Images\pdf.jpg" />
     <Content Include="Images\pdf.png" />
     <Content Include="Images\Phone.png" />
+    <Content Include="Images\phones-icon.png" />
     <Content Include="Images\plus.png" />
     <Content Include="Images\plusIcon.png" />
     <Content Include="Images\Premium.svg" />
@@ -380,6 +387,7 @@
     <Content Include="Images\save.png" />
     <Content Include="Images\skill.png" />
     <Content Include="Images\spinner.gif" />
+    <Content Include="Images\trashs-icon.png" />
     <Content Include="Images\txt.jpg" />
     <Content Include="Images\unknownAllergy.png" />
     <Content Include="Images\uploadIcon.png" />
