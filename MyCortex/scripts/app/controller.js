@@ -6366,41 +6366,42 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.index = $scope.index - 1;
             }
             $scope.PatientData = $scope.PatientListData[$scope.index];
-            $scope.appointmentDoctorId = $scope.PatientData.Doctor_Id;
-            $scope.DoctorName = $scope.PatientData.DoctorName;
-            $scope.AppointmentTime = $scope.PatientData.Appointment_FromTime;
-            $scope.AppointmentDate = DateFormatEdit(moment($scope.PatientData.Appointment_Date).format('DD-MMM-YYYY'));
-            $window.localStorage['selectedDoctor'] = $scope.appointmentDoctorId;
-            //$scope.TimeDifference = $scope.PatientData.TimeDifference;
+            if ($scope.PatientData !== undefined && $scope.PatientData !== null) {
+                $scope.appointmentDoctorId = $scope.PatientData.Doctor_Id;
+                $scope.DoctorName = $scope.PatientData.DoctorName;
+                $scope.AppointmentTime = $scope.PatientData.Appointment_FromTime;
+                $scope.AppointmentDate = DateFormatEdit(moment($scope.PatientData.Appointment_Date).format('DD-MMM-YYYY'));
+                $window.localStorage['selectedDoctor'] = $scope.appointmentDoctorId;
+                //$scope.TimeDifference = $scope.PatientData.TimeDifference;
 
-            if ($scope.AppointmentTime != null) {
-                var startdate = moment(new Date($scope.AppointmentTime));
-                var enddate = moment(new Date());
-                var diff = Math.abs(enddate - startdate);
-                var days = Math.floor(diff / (60 * 60 * 24 * 1000));
-                var hours = Math.floor(diff / (60 * 60 * 1000)) - (days * 24);
-                var minutes = Math.floor(diff / (60 * 1000)) - ((days * 24 * 60) + (hours * 60));
-                var seconds = Math.floor(diff / 1000) - ((days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60));
+                if ($scope.AppointmentTime != null) {
+                    var startdate = moment(new Date($scope.AppointmentTime));
+                    var enddate = moment(new Date());
+                    var diff = Math.abs(enddate - startdate);
+                    var days = Math.floor(diff / (60 * 60 * 24 * 1000));
+                    var hours = Math.floor(diff / (60 * 60 * 1000)) - (days * 24);
+                    var minutes = Math.floor(diff / (60 * 1000)) - ((days * 24 * 60) + (hours * 60));
+                    var seconds = Math.floor(diff / 1000) - ((days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60));
 
-                var timeDiffString = "";
-                if (days != 0) {
-                    timeDiffString = timeDiffString + days + ' day ';
+                    var timeDiffString = "";
+                    if (days != 0) {
+                        timeDiffString = timeDiffString + days + ' day ';
+                    }
+                    else if (hours != 0) {
+                        timeDiffString = timeDiffString + hours + ' hr ';
+                    }
+                    else if (minutes != 0) {
+                        timeDiffString = timeDiffString + minutes + ' min ';
+                    }
+                    else if (seconds != 0) {
+                        timeDiffString = timeDiffString + seconds + ' sec';
+                    }
+                    $scope.TimeDifference = timeDiffString;
                 }
-                else if (hours != 0) {
-                    timeDiffString = timeDiffString + hours + ' hr ';
-                }
-                else if (minutes != 0) {
-                    timeDiffString = timeDiffString + minutes + ' min ';
-                }
-                else if (seconds != 0) {
-                    timeDiffString = timeDiffString + seconds + ' sec';
-                }
-                $scope.TimeDifference = timeDiffString;
+                    $scope.PhotoBlob = $scope.PatientData.PhotoBlob;
+                    $scope.ViewGenderName = $scope.PatientData.ViewGenderName;
+                    $scope.Appointment_Id = $scope.PatientData.Id;
             }
-
-            $scope.PhotoBlob = $scope.PatientData.PhotoBlob;
-            $scope.ViewGenderName = $scope.PatientData.ViewGenderName;
-            $scope.Appointment_Id = $scope.PatientData.Id;
             if ($scope.UserTypeId == 4 || $scope.UserTypeId == 7) {
                 $scope.chattingWith = $scope.DoctorName;
             }
