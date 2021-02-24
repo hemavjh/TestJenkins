@@ -291,7 +291,15 @@ namespace MyCortex.User.Controller
                     }
                     model.ReturnFlag = 0;
                     model.Status = "False";
-                }  else if ((ModelData.flag == 2) == true)
+                }
+                else if ((ModelData.flag == 11) == true)
+                {
+                    messagestr = "Employment Number already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+
+                else if ((ModelData.flag == 2) == true)
                 {
                     messagestr = "User created successfully";
                     model.ReturnFlag = 1;
