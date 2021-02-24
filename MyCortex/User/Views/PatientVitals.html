@@ -22,6 +22,8 @@
         $('#End_Date').attr('min', maxDate);
     });
 </script>
+<!--<script src='Scripts/jquery-proper-slider.js'></script>
+<script src='Scripts/mixer.js'></script>-->
 <body>
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <!--Hide by Yogeswaran Please-->
@@ -209,72 +211,72 @@
             </div>-->
             <!--<div class="mainbody resBody ng-scope">
                 <div class="rows">-->
-        <div class="col-sm-3 p-15">
-            <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
-                <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
+            <div class="col-sm-3 p-15">
+                <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
+                    <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
+                    </div>
                 </div>
-            </div>
-            <script>
+                <script>
 
-            </script>
-            <div class="panel panel-default patientProfileInfo mt-10">
-                <div class="panel-body">
-                    <!--<h1 class="title2 text-left">My Appointments</h1>-->
-                    <h3 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
-                        My Appointments({{PatientAppointmentCount}})
-                    </h3>
-                    <h3 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
-                        My Appointments
-                    </h3>
-                    <div class="myAppoinmentspart">
-                        <div id="slides1" class="slides" style="width: 300px; height: 120px;">
-                            <ul>
-                                <li class="slides" style="width: 300px; height: 120px;">
-                                    <div class="myAppoinmentsfull">
-                                        <div class="myAppoinmentleft">
-                                            <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')" valign="top" rowspan="6">
-                                                <img class="patientDetimg" src="../../Images/male.png" />
+                </script>
+                <div class="panel panel-default patientProfileInfo mt-10">
+                    <div class="panel-body">
+                        <!--<h1 class="title2 text-left">My Appointments</h1>-->
+                        <h3 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
+                            My Appointments({{PatientAppointmentCount}})
+                        </h3>
+                        <h3 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
+                            My Appointments
+                        </h3>
+                        <div class="myAppoinmentspart">
+                            <div id="slides1" class="slides" style="width: 300px; height: 120px;">
+                                <ul>
+                                    <li class="slides" style="width: 300px; height: 120px;">
+                                        <div class="myAppoinmentsfull">
+                                            <div class="myAppoinmentleft">
+                                                <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')" valign="top" rowspan="6">
+                                                    <img class="patientDetimg" src="../../Images/male.png" />
+                                                </div>
+                                                <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
+                                                     valign="top" rowspan="6">
+                                                    <img class="patientDetimg" src="../../Images/female.png" />
+                                                </div>
+                                                <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                                     valign="top" rowspan="6">
+                                                    <img class="patientDetimg" src="../../Images/Others.png" />
+                                                </div>
+                                                <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                                    <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                </div>
                                             </div>
-                                            <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
-                                                 valign="top" rowspan="6">
-                                                <img class="patientDetimg" src="../../Images/female.png" />
-                                            </div>
-                                            <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                                 valign="top" rowspan="6">
-                                                <img class="patientDetimg" src="../../Images/Others.png" />
-                                            </div>
-                                            <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                                <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                            </div>
-                                        </div>
-                                        <div class="myAppoinmentright">
-                                            <!--<h3>Jegan Nathan</h3>-->
-                                            <h3>{{DoctorName}}</h3>
-                                            <p>Date</p> <span>- {{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
-                                            <p>Time</p> <span>- {{AppointmentTime | date :'hh:mm a'}}</span>
-                                            <div class="myAppoinmentsdayscountfull">
-                                                <div class="myAppoinmentsdayscountleft">{{TimeDifference}} Left</div>
-                                                <div class="myAppoinmentsdayscountrite">
-                                                    <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                                                    <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
-                                                    <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                                            <div class="myAppoinmentright">
+                                                <!--<h3>Jegan Nathan</h3>-->
+                                                <h3>{{DoctorName}}</h3>
+                                                <p>Date</p> <span>- {{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
+                                                <p>Time</p> <span>- {{AppointmentTime | date :'hh:mm a'}}</span>
+                                                <div class="myAppoinmentsdayscountfull">
+                                                    <div class="myAppoinmentsdayscountleft">{{TimeDifference}} Left</div>
+                                                    <div class="myAppoinmentsdayscountrite">
+                                                        <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                                                        <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
+                                                        <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <p class="leadtile">
+                                <a id="prev" ng-hide="index==0" title="Previous Appointment" ng-click="Next_PatientAppointment(2)"><img class="apoileft" src="images/appointment-left.jpg"></a>
+                                <a id="next" title="Next Appointment" ng-click="Next_PatientAppointment(1)"
+                                   ng-hide="index+1==PatientAppointmentCount"><img class="apoiright" src="images/appointment-right.jpg"></a>
+                            </p>
                         </div>
-                        <p class="leadtile">
-                            <a id="prev" ng-hide="index==0" title="Previous Appointment" ng-click="Next_PatientAppointment(2)"><img class="apoileft" src="images/appointment-left.jpg"></a>
-                            <a id="next" title="Next Appointment" ng-click="Next_PatientAppointment(1)"
-                               ng-hide="index+1==PatientAppointmentCount"><img class="apoiright" src="images/appointment-right.jpg"></a>
-                        </p>
                     </div>
                 </div>
             </div>
-        </div>
-                <!--</div>
+            <!--</div>
             </div>-->
             <div class="col-sm-9">
                 <h1 class="page-title" ng-show="ParameterValueList.length>=0">
@@ -1587,36 +1589,33 @@
                                         <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                     </div>
                                     <h1>{{DoctorName}}</h1>-->
+                        <!--<span style="text-align: center"></span>-->
+                        <!--<div class="row" style="margin-left: 0px!important;">
+                            <div class="column" style="float:left;">
+                                <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
+                                 height 30px;
+                                 width 30px;
+                                 display flex; cursor:pointer;border: 0px!important;">
+                            </div><div class="column" style="float:left;">
+                                <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
+                                 height 30px;
+                                 width 30px;
+                                 display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
+                            </div><div class="column" style="float:left;">
+                                <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
+                                 height 30px;
+                                 width 30px;
+                                 display flex; cursor:pointer;border: 0px!important;">
+                            </div>
+                        </div>-->
+                        <!--<i class="fa fa-comments my-float" style="font-size: 25px" onclick="openChatWindow()"></i>
+                        &nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
 
-                                    <!--<span style="text-align: center"></span>-->
-                                    <!--<div class="row" style="margin-left: 0px!important;">
-                                        <div class="column" style="float:left;">
-                                            <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
-                                             height 30px;
-                                             width 30px;
-                                             display flex; cursor:pointer;border: 0px!important;">
-                                        </div><div class="column" style="float:left;">
-                                            <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
-                                             height 30px;
-                                             width 30px;
-                                             display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
-                                        </div><div class="column" style="float:left;">
-                                            <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
-                                             height 30px;
-                                             width 30px;
-                                             display flex; cursor:pointer;border: 0px!important;">
-                                        </div>
-                                    </div>-->
-
-                                    <!--<i class="fa fa-comments my-float" style="font-size: 25px" onclick="openChatWindow()"></i>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
-
-                                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
-                                           ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
-                                           id="Image4" />-->
-
-                                <!--</div>
+                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                               ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
+                               id="Image4" />-->
+                        <!--</div>
                                 <div class="col-sm-6">
                                     <label>Date</label>
                                     <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
@@ -1637,7 +1636,6 @@
                                 </div>
                             </div>
                         </div>-->
-
                         <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -3830,7 +3828,7 @@
                                                             alt="">-->
                                         <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img  style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/male.png" />
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/male.png" />
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
@@ -3838,11 +3836,11 @@
                                         </div>
                                         <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
                                              valign="top" rowspan="6">
-                                            <img  style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/Others.png" />
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/Others.png" />
                                         </div>
                                         <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!='')" valign="top"
                                              rowspan="6">
-                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;"  class="patientDetimg"
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg"
                                                  src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
                                         </div>
                                     </div>
