@@ -380,12 +380,10 @@
                 <br ng-if="yellowcount==2" />
                 <div class="row" ng-show="ParameterValueList.length>0" style="display: none" id="tableid1">
                     <div class="col-sm-4" ng-repeat="row in ParameterValueList">
-                        <div ng-class="{'alert alert-warning nibp':row.MediumCount>0}">
-
+                        <div ng-class="{'alert alert-warning nibp':row.MediumCount>0}" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>0"> 
                             <div class="notificationsWarnings" ng-show="row.MediumCount>0">
                                 <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
-                            </div>
-
+                            </div> 
                             <strong>{{row.PageType}}:</strong>
                             <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
                             <label>Set Value</label>

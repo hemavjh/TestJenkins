@@ -15464,6 +15464,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         $scope.Patient_Id = $window.localStorage['UserId'];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
+        
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
             if (typeof ($scope.Event) == "undefined" || $scope.Event == "0") {
@@ -15506,7 +15507,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         $scope.TempalteTypeList = [];
 
         $scope.Eventselected = function () {
-            $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=0').success(function (data) {
+            $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
+                +'&status='+$scope.status).success(function (data) {
                 $scope.AlertListTemp = [];
                 $scope.AlertListTemp = data;
                 var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
@@ -15577,6 +15579,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             $scope.EventCC = "";
             $scope.EventTo = "";
         }
+
+
 
         $scope.EmailTemplate = "0";
         $scope.AppTemplate = "0";
@@ -15762,9 +15766,11 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailAlertPopUP = function () {
-            angular.element('#EmailAlertModal').modal('show');
+             angular.element('#EmailAlertModal').modal('show');
+             $scope.status = 1;
              //$scope.ClearPopup();
-            $scope.Eventselected();
+             $scope.Eventselected();
+             
         } 
 
         /* THIS IS OPENING POP WINDOW FORM VIEW */
@@ -15777,9 +15783,11 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
         /* THIS IS OPENING POP WINDOW FORM EDIT */
         $scope.EditEmailAlert = function (CatId) {
-            $scope.Id = CatId;
+            $scope.Id = CatId; 
             $scope.EventClear();
             $scope.ViewEmailAlert();
+            $scope.status = 0;
+            $scope.Eventselected(); 
             angular.element('#EmailAlertModal').modal('show');
         }
 
@@ -15807,6 +15815,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             $scope.EmailTempId = -1;
             $scope.EventCC = "";
             $scope.EventTo = "";
+            
         };
 
         /* THIS IS CLEAR POPUP FUNCTION */
