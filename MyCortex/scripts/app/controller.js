@@ -7022,7 +7022,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert("Appointment From Time should not be greater than Appointment To Time");
                 return false;
             }*/
-            else if ($scope.AppointmentDate < today) {
+            else if ((ParseDate($scope.AppointmentDate) < ParseDate(today))) {
                 alert("Appointment Date Can Be Booked Only For Future");
                 return false;
             }
@@ -14603,7 +14603,7 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                 return false;
             }*/
             var retval = true;
-            if ($scope.Period_From > today) {
+            if ((ParseDate($scope.Period_From) < ParseDate(today)))  {
                 alert("FromDate Can Be Booked Only For Past");
                 $scope.Period_From = DateFormatEdit($scope.Period_From);
                 $scope.Period_To = DateFormatEdit($scope.Period_To);
@@ -14611,7 +14611,7 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                 return false;
             }
 
-            if ($scope.Period_To > today) {
+            if ((ParseDate($scope.Period_To) < ParseDate(today)))  {
                 alert("To Date Can Be Booked Only For Past");
                 $scope.Period_From = DateFormatEdit($scope.Period_From);
                 $scope.Period_To = DateFormatEdit($scope.Period_To);
@@ -15166,13 +15166,13 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 alert("14 days only allowed to filter");
                 return false;
             }
-            if ($scope.Period_From > today) {
+            if ((ParseDate($scope.Period_From) < ParseDate(today))) {
                 alert("FromDate Can Be Booked Only For Past");
                 $scope.Period_From = DateFormatEdit($scope.Period_From);
                 $scope.Period_To = DateFormatEdit($scope.Period_From);
                 return false;
             }
-            if ($scope.Period_To > today) {
+            if ((ParseDate($scope.Period_To) < ParseDate(today))) {
                 alert("To Date Can Be Booked Only For Past");
                 $scope.Period_From = DateFormatEdit($scope.Period_From);
                 $scope.Period_To = DateFormatEdit($scope.Period_From);
@@ -16460,13 +16460,13 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 alert("Please enter Shift");
                 return false;
             }
-            else if (($scope.ShiftFromDate < today)) {
+            else if ((ParseDate($scope.ShiftFromDate) < ParseDate(today))) {
                 alert("Shift Timing From Date Can Be Booked Only For Future");
                 $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                 $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
                 return false;
             }  
-            else if (($scope.ShiftToDate < today)) {
+            else if ((ParseDate($scope.ShiftToDate) < ParseDate(today))) {
                 alert("Shift Timing ToDate Can Be Booked Only For Future");
                 $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                 $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
@@ -16899,13 +16899,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please select To Date");
                 return false;
             }
-            else if ($scope.FromDate < today) {
+            else if ((ParseDate($scope.FromDate) < ParseDate(today)))  {
                 alert("FromDate Can Be Booked Only For Past");
                 $scope.FromDate = DateFormatEdit($scope.FromDate);
                 $scope.ToDate = DateFormatEdit($scope.ToDate);
                 return false;
             }
-            else if ($scope.ToDate < today) {
+            else if ((ParseDate($scope.ToDate) < ParseDate(today))) {
                 alert("To Date Can Be Booked Only For Past");
                 $scope.FromDate = DateFormatEdit($scope.FromDate);
                 $scope.ToDate = DateFormatEdit($scope.ToDate);
@@ -17401,7 +17401,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 $scope.ClearAttendancePopUp();
                 $scope.Id = CatId;
                 $scope.ViewAttendanceList();
-                if ($scope.Today_Date <= $scope.AttendanceTo_Date) {
+                if ((ParseDate($scope.Today_Date) < ParseDate($scope.AttendanceTo_Date)))  {
                     angular.element('#AttendanceAddModal').modal('show');
                 }
                 else {
@@ -17499,13 +17499,13 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 alert("Please select To Date");
                 return false;
             }
-            else if ($scope.AttendanceFromDate < today) {
+            else if ((ParseDate($scope.AttendanceFromDate) < ParseDate(today)))  {
                 alert("From Date Can Be Booked Only For Future");
                 $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
                 $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
                 return false;
             }
-            else if ($scope.AttendanceToDate < today) {
+            else if ((ParseDate($scope.AttendanceToDate) < ParseDate(today)))  {
                 alert("To Date Can Be Booked Only For Future");
                 $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
                 $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
