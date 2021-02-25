@@ -15770,6 +15770,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
              angular.element('#EmailAlertModal').modal('show');
              $scope.status = 1;
              //$scope.ClearPopup();
+             $('[data-id="select1"]').prop('disabled', false);
              $scope.Eventselected();
              
         } 
@@ -15788,7 +15789,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             $scope.EventClear();
             $scope.ViewEmailAlert();
             $scope.status = 0;
-            $scope.Eventselected(); 
+            $('[data-id="select1"]').prop('disabled', true);
+            $scope.Eventselected();  
             angular.element('#EmailAlertModal').modal('show');
         }
 
