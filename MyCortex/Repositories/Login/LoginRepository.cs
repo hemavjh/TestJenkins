@@ -142,7 +142,50 @@ namespace MyCortex.Repositories.Login
                               }).FirstOrDefault();
             if (lst.UserDetails.DOB_Encrypt != "")
             {
-                lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
+                var time = lst.UserDetails.DOB_Encrypt.Split(' ');
+
+                var time4 = time[0].Split('/');
+                try
+                {
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    lst.UserDetails.DOB = dt1;
+                }
+                catch (Exception ex1)
+                {
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    lst.UserDetails.DOB = dt1;
+                }
+                //lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
                 /*_logger.Info(lst.UserDetails.DOB_Encrypt);
                 string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
                 
@@ -255,12 +298,49 @@ namespace MyCortex.Repositories.Login
                                   }).FirstOrDefault();
                 if (lst.UserDetails.DOB_Encrypt != "")
                 {
-                    lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                    /*
-                    _logger.Info(lst.UserDetails.DOB_Encrypt);
-                    //lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                    string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
-                    lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+                    var time = lst.UserDetails.DOB_Encrypt.Split(' ');
+
+                    var time4 = time[0].Split('/');
+                    try
+                    {
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '/' + time1 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex)
+                        {
+                            var dateime = time1 + '/' + time2 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
+                    catch (Exception ex1)
+                    {
+                        time4 = time[0].Split('-');
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '-' + time1 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex2)
+                        {
+                            var dateime = time1 + '-' + time2 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
                 }
                 return lst;
             }
@@ -375,9 +455,49 @@ namespace MyCortex.Repositories.Login
                                   }).FirstOrDefault();
                 if (lst.UserDetails.DOB_Encrypt != "")
                 {
-                    lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                    /*string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
-                    lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+                    var time = lst.UserDetails.DOB_Encrypt.Split(' ');
+
+                    var time4 = time[0].Split('/');
+                    try
+                    {
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '/' + time1 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex)
+                        {
+                            var dateime = time1 + '/' + time2 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
+                    catch (Exception ex1)
+                    {
+                        time4 = time[0].Split('-');
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '-' + time1 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex2)
+                        {
+                            var dateime = time1 + '-' + time2 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
                 }
                 return lst;
             }

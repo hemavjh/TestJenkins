@@ -229,9 +229,9 @@
                             My Appointments
                         </h3>
                         <div class="myAppoinmentspart">
-                            <div id="slides1" class="slides" style="width: 300px; height: 120px;">
+                            <div id="slides1" class="slides" ng-hide="PatientAppointmentCount==0">
                                 <ul>
-                                    <li class="slides" style="width: 300px; height: 120px;">
+                                    <li>
                                         <div class="myAppoinmentsfull">
                                             <div class="myAppoinmentleft">
                                                 <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')" valign="top" rowspan="6">
@@ -267,7 +267,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <p class="leadtile">
+                            <div class="myAppoinments" ng-hide="PatientAppointmentCount !== 0">
+                                No Appointments
+                            </div>
+                            <p class="leadtile" ng-hide="PatientAppointmentCount==0">
                                 <a id="prev" ng-hide="index==0" title="Previous Appointment" ng-click="Next_PatientAppointment(2)"><img class="apoileft" src="images/appointment-left.jpg"></a>
                                 <a id="next" title="Next Appointment" ng-click="Next_PatientAppointment(1)"
                                    ng-hide="index+1==PatientAppointmentCount"><img class="apoiright" src="images/appointment-right.jpg"></a>
@@ -623,8 +626,8 @@
 
                                             });
                                         </script>-->
-                                        <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight">
-                                            </>
+                                        <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight"
+                                            />
                                     </div>
                                     <div class="panel-body" ng-show="currentTab=='1'">
                                         <highchart id="Chart2" config="DistanceCoveredChartConfig"

@@ -4791,7 +4791,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
        
-
+        $scope.Tick = false;
         $scope.flag = 0;
         $scope.MNR_No = "";
         $scope.Type_Id = 0;
@@ -4817,7 +4817,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.LabParameterList_Data = [];
         $scope.ParameterId = "0";
         $scope.getParameterList = function () {
+            $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/User/GroupParameterNameList/?Patient_Id=' + $scope.SelectedPatientId + '&UnitGroupType_Id=' + $scope.unitgrouptype).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.Tick = true;
                 $scope.GroupParameterNameList = data;
 
             });
@@ -5315,6 +5318,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.PatientHealthDataChartList = [];
             $scope.ParamGroup_Id = ParamGroup_Id;
             $("#chatLoaderPV").show();
+            $scope.getParameterList();
             $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.SearchMsg = "No Data Available";
@@ -5324,32 +5328,39 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.Parameter_List = [];
                     $scope.ParameterChild_List = [];
 
-                    angular.forEach($ff($scope.GroupParameterNameList, { Group_Id: $scope.ParamGroup_Id }, true), function (valueparam, indexparam) {
-                        if (valueparam.ParameterParent_Id == "0") {
-                            var currentParam = {
-                                Id: valueparam.ParameterId,
-                                Name: 'Chart' + valueparam.ParameterId,
-                                hadChild: valueparam.ParameterHas_Child,
-                                ParamName: valueparam.ParameterName,
-                                GroupId: valueparam.Group_Id
-                            };
-                            $scope.Parameter_List.push(currentParam);
-                        }
-                        else {
-                            var currentParamChild = {
-                                Id: valueparam.ParameterId,
-                                Parent_Id: valueparam.ParameterParent_Id,
-                                Name: 'Chart' + valueparam.ParameterId,
-                                GroupId: valueparam.Group_Id,
-                                ParamName: valueparam.ParameterName,
-                            };
-                            $scope.ParameterChild_List.push(currentParamChild);
-                        }
+                    if ($scope.GroupParameterNameList.length != '0') {
+                        angular.forEach($ff($scope.GroupParameterNameList, { Group_Id: $scope.ParamGroup_Id }, true), function (valueparam, indexparam) {
+                            if (valueparam.ParameterParent_Id == "0") {
+                                var currentParam = {
+                                    Id: valueparam.ParameterId,
+                                    Name: 'Chart' + valueparam.ParameterId,
+                                    hadChild: valueparam.ParameterHas_Child,
+                                    ParamName: valueparam.ParameterName,
+                                    GroupId: valueparam.Group_Id
+                                };
+                                $scope.Parameter_List.push(currentParam);
+                            }
+                            else {
+                                var currentParamChild = {
+                                    Id: valueparam.ParameterId,
+                                    Parent_Id: valueparam.ParameterParent_Id,
+                                    Name: 'Chart' + valueparam.ParameterId,
+                                    GroupId: valueparam.Group_Id,
+                                    ParamName: valueparam.ParameterName,
+                                };
+                                $scope.ParameterChild_List.push(currentParamChild);
+                            }
 
 
-                    });
-
-                    $scope.PatientHealthRecordDetailsList($ff($scope.Parameter_List, { GroupId: ParamGroup_Id }, true), $scope.PatientHealthDataChartList, $scope.ParameterChild_List);
+                        });
+                    } else if ($scope.Tick == false) {
+                        5356
+                        $scope.getParameterList();
+                        $scope.GeneralFunction(ParamGroup_Id, ChartORData);
+                    }
+                    if ($scope.Tick == true) {
+                        $scope.PatientHealthRecordDetailsList($ff($scope.Parameter_List, { GroupId: ParamGroup_Id }, true), $scope.PatientHealthDataChartList, $scope.ParameterChild_List);
+                    }
                 }
                 // all active&inactive items for tableview/detail view
                 else if (ChartORData == 2) {
