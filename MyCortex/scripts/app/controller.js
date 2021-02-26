@@ -6835,7 +6835,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.yellowcount = 1;
         $scope.AlertCountDisplay = function () {
             $('#tableid1').hide();
-            $('#tableid').hide();
+            $('#tableid2').hide();
             $scope.yellowcount++;
             var x = document.getElementById(tableid1);
             var y = document.getElementById(tableid2);
@@ -6872,6 +6872,88 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             return true;
         };
+
+        $scope.redcount = 1;
+        $scope.AlertCountredDisplay = function () {
+            $('#tableid3').hide();
+            $('#tableid4').hide();
+            $scope.redcount++;
+           
+            var HighCountVital;
+
+            if ($scope.redcount == 2) {
+                angular.forEach($scope.ParameterValueList, function (value, index) {
+                    console.log(value);
+                    if (value.HighCount != 0) {
+                        HighCountVital = value.HighCount;
+                        console.log(HighCountVital);
+                    }
+                });
+                if (HighCountVital > 0) {
+                    $('#tableid3').show();
+                    return true;
+                } else {
+                    return true;
+                }
+
+            } else if ($scope.redcount == 3) {
+                $('#tableid3').hide();
+                $('#tableid4').show();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+                $('#tableid3').hide();
+                $('#tableid4').hide();
+                $scope.redcount = 1;
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };
+
+        $scope.greencount = 1;
+        $scope.AlertCountgreenDisplay = function () {
+            $('#tableid5').hide();
+            $('#tableid6').hide();
+            $scope.greencount++;
+            
+            var LowCountVital;
+
+            if ($scope.greencount == 2) {
+                angular.forEach($scope.ParameterValueList, function (value, index) {
+                    console.log(value);
+                    if (value.LowCount != 0) {
+                        LowCountVital = value.LowCount;
+                        console.log(LowCountVital);
+                    }
+                });
+                if (LowCountVital > 0) {
+                    $('#tableid5').show();
+                    return true;
+                } else {
+                    return true;
+                }
+
+            } else if ($scope.greencount == 3) {
+                $('#tableid5').hide();
+                $('#tableid6').show();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+                $('#tableid5').hide();
+                $('#tableid6').hide();
+                $scope.greencount = 1;
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };
+
+
         $scope.Assign_CareGiver_Id = "0";
         $scope.CC_Remarks = "";
         $scope.CareGiver_Id = "0";
