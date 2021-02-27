@@ -6849,16 +6849,22 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         console.log(MediumCountVital);
                     }
                 });
-                if (MediumCountVital > 0) {
+                if (MediumCountVital > 0) { 
                     $('#tableid1').show();
+                    $('#tableid3').hide();
+                    $('#tableid5').hide();
                     return true;
                 } else {
                     return true;
                 }
 
             } else if ($scope.yellowcount == 3) {
+                $('#tableid3').hide();
+                $('#tableid5').hide();
                 $('#tableid1').hide();
                 $('#tableid2').show();
+                $('#tableid4').hide();
+                $('#tableid6').hide();
 
             } else {
 
@@ -6890,19 +6896,26 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
                 });
                 if (HighCountVital > 0) {
+                    $('#tableid1').hide();
                     $('#tableid3').show();
+                    $('#tableid5').hide();
                     return true;
                 } else {
                     return true;
                 }
 
             } else if ($scope.redcount == 3) {
+                $('#tableid1').hide();
+                $('#tableid5').hide();
                 $('#tableid3').hide();
                 $('#tableid4').show();
+                $('#tableid2').hide();
+                $('#tableid6').hide();
 
             } else {
 
                 //i.src = "../../Images/expand.gif"
+               
                 $('#tableid3').hide();
                 $('#tableid4').hide();
                 $scope.redcount = 1;
@@ -6929,20 +6942,27 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         console.log(LowCountVital);
                     }
                 });
-                if (LowCountVital > 0) {
+                if (LowCountVital > 0) { 
                     $('#tableid5').show();
+                    $('#tableid1').hide(); 
+                    $('#tableid4').hide();
                     return true;
                 } else {
                     return true;
                 }
 
             } else if ($scope.greencount == 3) {
+                $('#tableid1').hide();
+                $('#tableid4').hide();
                 $('#tableid5').hide();
                 $('#tableid6').show();
+                $('#tableid2').hide();
+                $('#tableid4').hide();
 
             } else {
 
                 //i.src = "../../Images/expand.gif"
+                
                 $('#tableid5').hide();
                 $('#tableid6').hide();
                 $scope.greencount = 1;
