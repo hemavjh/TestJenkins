@@ -74,7 +74,7 @@ namespace MyCortex.Home.Controllers
         /// 
         //   [CheckSessionOut]
         [CheckSessionOutFilter]
-        [NoDirectAccess]
+        //[NoDirectAccess]
         public ActionResult Index()
         {
             try
