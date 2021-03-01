@@ -340,7 +340,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             } else if (User_id == 6) {
                 element1 = document.getElementById('Diagnostic Alert');
             } else if (User_id == 4) {
-                element1 = document.getElementById('Next 30 Days Appointments');
+                element1 = document.getElementById('Appointment');
             } else if (User_id == 7) {
                 element1 = document.getElementById('Appointment');
             }
