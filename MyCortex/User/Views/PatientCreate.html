@@ -165,6 +165,12 @@
                                            ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                                 </div>
                                 <div class="inputGroups">
+                                    <label>Apple Email</label>
+                                    <input type="text" class="form-control" id="auid" name="appleUserID"
+                                           ng-model="appleUserID" ng-init="appleUserID=''" ng-required="true"
+                                           placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
+                                </div>
+                                <div class="inputGroups">
                                     <label>
                                         Mobile No.<sup>
                                             <font class='mandatory-field'>*</font>
@@ -179,8 +185,7 @@
                                     <div ng-hide="Pat_UserTypeId==2">
                                         <select ng-model="SelectedGroup" multiple="multiple"
                                                 ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
-                                                multiselect-dropdown style="width: 230px;">
-                                        </select>
+                                                multiselect-dropdown style="width: 230px;"></select>
                                     </div>
                                     <span ng-show="Pat_UserTypeId==2">
                                         {{ViewGroupName}}

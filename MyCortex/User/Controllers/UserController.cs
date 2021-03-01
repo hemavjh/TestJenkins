@@ -257,6 +257,7 @@ namespace MyCortex.User.Controller
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
+                userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
                 if (userObj.ApprovalFlag == "0")
                 {
                     userObj.Patient_Type = 1;
@@ -3043,6 +3044,7 @@ namespace MyCortex.User.Controller
                 userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
+                userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
                 ModelData = repository.Patient_Update(Login_Session_Id, userObj);
 
                 if (ModelData.flag > 0)

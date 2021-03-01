@@ -24,6 +24,7 @@ namespace MyCortex.User.Model
         public string EMAILID { get; set; }
         public string GOOGLE_EMAILID { get; set; }
         public string FB_EMAILID { get; set; }
+        public string appleUserID { get; set; }
         public string ApprovalFlag { get; set; }
         public int? Patient_Type { get; set; }
 

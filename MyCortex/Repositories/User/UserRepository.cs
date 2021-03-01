@@ -189,6 +189,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             //param.Add(new DataParameter("@CREATED_DT", insobj.CREATED_DT));
+            param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
             List<DataParameter> param_1 = new List<DataParameter>();
             param_1.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
 
@@ -440,6 +441,7 @@ namespace MyCortex.Repositories.Uesr
                                     Patient_Type = p.Field<int?>("Patient_Type"),
                                     Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
                                     FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                    appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID"))
                                 }).FirstOrDefault();
             if (insert.DOB_Encrypt != "")
             {
@@ -734,8 +736,9 @@ namespace MyCortex.Repositories.Uesr
                                   Patient_Type = p.Field<int?>("Patient_Type"),
                                   Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
                                   Approval_flag = p.Field<int>("APPROVAL_FLAG"),
-                                  Createdby_ShortName = p.Field<string>("SHORTNAME_CODE")
-                               
+                                  Createdby_ShortName = p.Field<string>("SHORTNAME_CODE"),
+                                  appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID"))
+
                                 }).FirstOrDefault();
             
 
@@ -3317,6 +3320,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
             param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
             param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
+            param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_UPDATE]", param);
 
@@ -3332,6 +3336,7 @@ namespace MyCortex.Repositories.Uesr
                 insobj.MOBILE_NO = DecryptFields.Decrypt(insobj.MOBILE_NO);
                 insobj.GOOGLE_EMAILID = DecryptFields.Decrypt(insobj.GOOGLE_EMAILID);
                 insobj.FB_EMAILID = DecryptFields.Decrypt(insobj.FB_EMAILID);
+                insobj.appleUserID = DecryptFields.Decrypt(insobj.appleUserID);
                 insobj.flag = int.Parse((dr["flag"].ToString()));
             }
             

@@ -1845,6 +1845,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Editresumedoc = "";
             $('#EditDocument').val('');
             $scope.CertificateFileName = "";
+            $scope.appleUserID = "";
         }
 
 
@@ -2589,6 +2590,10 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     alert("Invalid Facebook Email format");
                     $scope.currentTab = 1;
                     return false;
+                } else if (EmailFormate($scope.appleUserID) == false) {
+                    alert("Invalid Apple Email format");
+                    $scope.currentTab = 1;
+                    return false;
                 }
                 else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
                     alert("Please enter Mobile No.");
@@ -2977,6 +2982,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.Emergency_MobileNo = data.Emergency_MobileNo;
                     $scope.Google_EmailId = data.GOOGLE_EMAILID;
                     $scope.FB_EmailId = data.FB_EMAILID;
+                    $scope.appleUserID = data.appleUserID;
                     $scope.Patient_Type = data.Patient_Type;
 
                     $scope.Diabetic = data.DIABETIC.toString();
@@ -3341,7 +3347,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
                             Patient_Type: $scope.Patient_Type,
                             Emergency_MobileNo: $scope.Emergency_MobileNo,
-                            IS_MASTER: $scope.Is_Master
+                            IS_MASTER: $scope.Is_Master,
+                            appleUserID: $scope.appleUserID
                         }
                     } else {
                         var obj = {
@@ -3425,7 +3432,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             ApprovalFlag: "1",      //  USER APPROVED WHEN IT IS CREATED BY HOSPITAL ADMIN OR SUPER ADMIN
                             Patient_Type: $scope.Patient_Type,
                             Emergency_MobileNo: $scope.Emergency_MobileNo,
-                            IS_MASTER: $scope.Is_Master
+                            IS_MASTER: $scope.Is_Master,
+                            appleUserID: $scope.appleUserID
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {

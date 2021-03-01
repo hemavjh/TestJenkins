@@ -55,6 +55,9 @@ namespace MyCortex.Login.Model
         public string Browser_Version { get; set; }	
         public string Login_Country { get; set; }	
         public string Login_City { get; set; }
+        public string GOOGLE_EMAILID { get; set; }
+        public string FB_EMAILID { get; set; }
+        public string appleUserID { get; set; }
     }
     public class GmailToken
     {
