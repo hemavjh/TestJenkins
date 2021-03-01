@@ -110,7 +110,8 @@ namespace MyCortex.Home.Controllers
         public ActionResult LoginIndex()
         {
              
-            Session["UserId"] = "0"; 
+            Session["UserId"] = "0";
+            Session["key"] = "";
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             Response.Cache.SetNoStore();
