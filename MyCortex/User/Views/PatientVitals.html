@@ -252,7 +252,7 @@
                                             <div class="myAppoinmentright">
                                                 <!--<h3>Jegan Nathan</h3>-->
                                                 <h3>{{DoctorName}}</h3>
-                                                <p>Date</p> <span>- {{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
+                                                <p>Date</p> <span>- {{Appointmentdate | date :'dd-MMM-yyyy'}}</span>
                                                 <p>Time</p> <span>- {{AppointmentTime | date :'hh:mm a'}}</span>
                                                 <div class="myAppoinmentsdayscountfull">
                                                     <div class="myAppoinmentsdayscountleft">{{TimeDifference}} Left</div>
@@ -290,18 +290,27 @@
                                style="width: 20px;" id="tableid_img">
                     </sub>
                 </h1>
-                <div class="notificationsWarnings highposition" style="text-align:left;    left: 100px!important;" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" ng-click="AlertCountredDisplay()">
-                    <i class="fas fa-bell highBell" style="width:100%" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"></i>
-                    <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" style="left: 13px!important;"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
+                <div class="mynotificationsWarnings myhighposition" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" ng-click="AlertCountredDisplay()">
+                    <div class="jinglebelllow">
+                        <i id="Highcount" class="fa fa-bell-o myhighBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
+                        <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
+                    </div>
                 </div>
-                <div class="notificationsWarnings mediumPosition" style="text-align:left;    left: 140px!important;" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" ng-click="AlertCountDisplay()">
-                    <i class="fas fa-bell mediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
-                    <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" style="left: 13px!important;">{{(ParameterValueList |filter:{MediumCount:1}).length}}</span>
+
+                <div class="mynotificationsWarnings mymediumPosition" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" ng-click="AlertCountDisplay()">
+                    <div class="jinglebellmedium">
+                        <i id="Medcount" class="fa fa-bell-o mymediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
+                        <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0">{{(ParameterValueList |filter:{MediumCount:1}).length}}</span>
+                    </div>
                 </div>
-                <div class="notificationsWarnings lowPosition" style="text-align:left;    left: 180px!important;" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" ng-click="AlertCountgreenDisplay()">
-                    <i class="fas fa-bell lowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
-                    <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" style="left: 13px!important;"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
+
+                <div class="mynotificationsWarnings mylowPosition" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" ng-click="AlertCountgreenDisplay()">
+                    <div class="jinglebellhigh">
+                        <i id="Lowcount" class="fa fa-bell-o mylowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
+                        <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
+                    </div>
                 </div>
+
                 <div class="PatientNotification1">
 
                     <div class="changeViews" ng-show="currentTab=='2' || currentTab=='3' ">
@@ -384,11 +393,11 @@
                 </div>
 
 
-                
+
                 <br ng-if="redcount==2" />
                 <div class="row" ng-show="ParameterValueList.length>0" style="display: none" id="tableid3">
                     <div class="col-sm-4" ng-repeat="row in ParameterValueList">
-                        <div ng-class="{'alert alert-danger nibp':row.HighCount>0"> 
+                        <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                             <div class="notificationsWarnings" ng-show="row.HighCount>0">
                                 <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                             </div>
@@ -435,10 +444,10 @@
                 <br ng-if="yellowcount==2" />
                 <div class="row" ng-show="ParameterValueList.length>0" style="display: none" id="tableid1">
                     <div class="col-sm-4" ng-repeat="row in ParameterValueList">
-                        <div ng-class="{'alert alert-warning nibp':row.MediumCount>0}"> 
+                        <div ng-class="{'alert alert-warning nibp':row.MediumCount>0}">
                             <div class="notificationsWarnings" ng-show="row.MediumCount>0">
                                 <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
-                            </div> 
+                            </div>
                             <strong>{{row.PageType}}:</strong>
                             <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
                             <label>Set Value</label>
@@ -651,79 +660,78 @@
                                     <div class="panel-body" ng-show="currentTab=='1'">
                                         <div id="zoomChart"></div>
                                         <!--<script>
-                                            Highcharts.chart('zoomChart', {
-                                                chart: {
-                                                    zoomType: 'xy'
-                                                },
-                                                title: {
-                                                    text: 'Life Styles'
-                                                },
+                                Highcharts.chart('zoomChart', {
+                                    chart: {
+                                        zoomType: 'xy'
+                                    },
+                                    title: {
+                                        text: 'Life Styles'
+                                    },
 
 
 
-                                                yAxis: {
-                                                    title: {
-                                                        text: 'Activities'
-                                                    }
-                                                },
+                                    yAxis: {
+                                        title: {
+                                            text: 'Activities'
+                                        }
+                                    },
 
-                                                xAxis: {
-                                                    accessibility: {
-                                                        rangeDescription: 'Range: 2010 to 2017'
-                                                    }
-                                                },
+                                    xAxis: {
+                                        accessibility: {
+                                            rangeDescription: 'Range: 2010 to 2017'
+                                        }
+                                    },
 
+                                    legend: {
+                                        layout: 'vertical',
+                                        align: 'right',
+                                        verticalAlign: 'middle'
+                                    },
+
+                                    plotOptions: {
+                                        series: {
+                                            label: {
+                                                connectorAllowed: false
+                                            },
+                                            pointStart: 2010
+                                        }
+                                    },
+
+                                    series: [{
+                                        name: 'Walks',
+                                        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                                    }, {
+                                        name: 'Sleep',
+                                        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                                    }, {
+                                        name: 'Stand',
+                                        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+                                    }, {
+                                        name: 'exercise',
+                                        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+                                    }, {
+                                        name: 'Other',
+                                        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                                    }],
+
+                                    responsive: {
+                                        rules: [{
+                                            condition: {
+                                                maxWidth: 500
+                                            },
+                                            chartOptions: {
                                                 legend: {
-                                                    layout: 'vertical',
-                                                    align: 'right',
-                                                    verticalAlign: 'middle'
-                                                },
-
-                                                plotOptions: {
-                                                    series: {
-                                                        label: {
-                                                            connectorAllowed: false
-                                                        },
-                                                        pointStart: 2010
-                                                    }
-                                                },
-
-                                                series: [{
-                                                    name: 'Walks',
-                                                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-                                                }, {
-                                                    name: 'Sleep',
-                                                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-                                                }, {
-                                                    name: 'Stand',
-                                                    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                                                }, {
-                                                    name: 'exercise',
-                                                    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                                                }, {
-                                                    name: 'Other',
-                                                    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                                                }],
-
-                                                responsive: {
-                                                    rules: [{
-                                                        condition: {
-                                                            maxWidth: 500
-                                                        },
-                                                        chartOptions: {
-                                                            legend: {
-                                                                layout: 'horizontal',
-                                                                align: 'center',
-                                                                verticalAlign: 'bottom'
-                                                            }
-                                                        }
-                                                    }]
+                                                    layout: 'horizontal',
+                                                    align: 'center',
+                                                    verticalAlign: 'bottom'
                                                 }
+                                            }
+                                        }]
+                                    }
 
-                                            });
-                                        </script>-->
-                                        <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight"
-                                            />
+                                });
+                            </script>-->
+                                        <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight" />
                                     </div>
                                     <div class="panel-body" ng-show="currentTab=='1'">
                                         <highchart id="Chart2" config="DistanceCoveredChartConfig"
@@ -766,76 +774,76 @@
                                     <div ng-show="currentTab=='2' || currentTab=='3' ">
                                         <div>
                                             <!-- Commented by yogesh
-                                            <div class="dropdown profile_menu">
-                                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fas fa-chart-line" class="themeProfile"
-                                                       ng-show="VitalChart=='1'"></i>
-                                                    <i class="fas fa-table" class="themeProfile"
-                                                       ng-show="VitalChart=='2'"></i>
+                                <div class="dropdown profile_menu">
+                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                            data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-chart-line" class="themeProfile"
+                                           ng-show="VitalChart=='1'"></i>
+                                        <i class="fas fa-table" class="themeProfile"
+                                           ng-show="VitalChart=='2'"></i>
 
-                                                </button>
-                                                <ul class="dropdown-menu customDropdown">
-                                                    <li class="customDropdownlast-child">
-                                                        <a href="javascript:"
-                                                           style="text-decoration: underline"
-                                                           ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
-                                                            <i class="fas fa-chart-line"
-                                                               class="themeProfile"></i>Chart<i class="fas fa-check"
-                                                                                                ng-show="VitalChart=='1'"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li class="customDropdownlast-child">
-                                                        <a href="javascript:" style="text-decoration: underline"
-                                                           ng-click="VitalChart ='2';HistoryDetails(currentTab);">
-                                                            <i class="fas fa-table"
-                                                               class="themeProfile"></i>Detail<i class="fas fa-check" ng-show="VitalChart=='2'"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            End Here-->
+                                    </button>
+                                    <ul class="dropdown-menu customDropdown">
+                                        <li class="customDropdownlast-child">
+                                            <a href="javascript:"
+                                               style="text-decoration: underline"
+                                               ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
+                                                <i class="fas fa-chart-line"
+                                                   class="themeProfile"></i>Chart<i class="fas fa-check"
+                                                                                    ng-show="VitalChart=='1'"></i>
+                                            </a>
+                                        </li>
+                                        <li class="customDropdownlast-child">
+                                            <a href="javascript:" style="text-decoration: underline"
+                                               ng-click="VitalChart ='2';HistoryDetails(currentTab);">
+                                                <i class="fas fa-table"
+                                                   class="themeProfile"></i>Detail<i class="fas fa-check" ng-show="VitalChart=='2'"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                End Here-->
                                             <!-- Added by yogesh-->
                                             <!--<div class="changeViews">
-                                                <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
-                                                   ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
-                                                    <i class="fas fa-chart-bar"></i></i>
-                                                </a>
-                                                <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
-                                                   ng-click="VitalChart ='1';HistoryDetails(currentTab);">
-                                                    <i class="fas fa-table" class="themeProfile"></i></i>
-                                                </a>
-                                                <a href="#" title="Current Time">
-                                                    <i class="far fa-clock"></i>
-                                                </a>
-                                                <a href="#" title="English">
-                                                    <i class="fas fa-language"></i>
-                                                </a>
-                                            </div>-->
+                                    <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
+                                       ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
+                                        <i class="fas fa-chart-bar"></i></i>
+                                    </a>
+                                    <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
+                                       ng-click="VitalChart ='1';HistoryDetails(currentTab);">
+                                        <i class="fas fa-table" class="themeProfile"></i></i>
+                                    </a>
+                                    <a href="#" title="Current Time">
+                                        <i class="far fa-clock"></i>
+                                    </a>
+                                    <a href="#" title="English">
+                                        <i class="fas fa-language"></i>
+                                    </a>
+                                </div>-->
                                             <!-- End Here-->
                                             <!--<div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                                    data-toggle="dropdown">Change View
-                                                    <span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="javascript:" style="text-decoration: underline"
-                                                            ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
-                                                            <i class="fas fa-chart-line" class="themeProfile"></i>
-                                                            Chart <i class="fas fa-check"
-                                                                ng-show="VitalChart=='1'"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:" style="text-decoration: underline"
-                                                            ng-click="VitalChart ='2';HistoryDetails(currentTab);">
-                                                            <i class="fas fa-table" class="themeProfile"></i>
-                                                            Detail <i class="fas fa-check"
-                                                                ng-show="VitalChart=='2'"></i>
-                                                        </a>
-                                                    </li>
+                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                        data-toggle="dropdown">Change View
+                                        <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:" style="text-decoration: underline"
+                                                ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
+                                                <i class="fas fa-chart-line" class="themeProfile"></i>
+                                                Chart <i class="fas fa-check"
+                                                    ng-show="VitalChart=='1'"></i></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:" style="text-decoration: underline"
+                                                ng-click="VitalChart ='2';HistoryDetails(currentTab);">
+                                                <i class="fas fa-table" class="themeProfile"></i>
+                                                Detail <i class="fas fa-check"
+                                                    ng-show="VitalChart=='2'"></i>
+                                            </a>
+                                        </li>
 
-                                                </ul>
-                                            </div>-->
+                                    </ul>
+                                </div>-->
                                             <div ng-show="VitalChart=='2'">
 
                                                 <div id="table1">
@@ -861,17 +869,17 @@
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <!--<div class="inputGroups">
-                                                                <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                       class="theme-btn-1"
-                                                                       title='Add New Vitals'>Add New</a>
-                                                                </div>
-                                                                <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                       class="theme-btn-1 ml-10"
-                                                                       title='Add New Lab'>Add New</a>
-                                                                </div>
-                                                            </div>-->
+                                                    <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                        <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                           class="theme-btn-1"
+                                                           title='Add New Vitals'>Add New</a>
+                                                    </div>
+                                                    <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                        <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                           class="theme-btn-1 ml-10"
+                                                           title='Add New Lab'>Add New</a>
+                                                    </div>
+                                                </div>-->
                                                         </div>
 
                                                     </div>
@@ -1005,11 +1013,11 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <!--<div class="inputGroups">
-                                                    <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
-                                                            ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
-                                                        Add New
-                                                    </button>
-                                                </div>-->
+                                        <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
+                                                ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                            Add New
+                                        </button>
+                                    </div>-->
                                             </div>
 
 
@@ -1140,11 +1148,11 @@
 
                                                     <div class="col-sm-4">
                                                         <!--<div class="inputGroups">
-                                                            <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
-                                                               ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
-                                                                Add New
-                                                            </a>
-                                                        </div>-->
+                                                <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
+                                                   ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
+                                                    Add New
+                                                </a>
+                                            </div>-->
 
                                                     </div>
 
@@ -1196,10 +1204,10 @@
                                                                 <img src="../../Images/EditIcon.png" />
                                                             </a>
                                                             <!--<a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
-                                                                <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
-                                                            <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
-                                                                <img
-                                                                    src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
+                                                    <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
+                                                <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
+                                                    <img
+                                                        src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
                                                             <a href="javascript:" title="Active" title="Active" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                 <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                             </a>
@@ -1247,10 +1255,10 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <!--<div class="inputGroups">
-                                                        <a href="javascript:" title="Add New Allergy" ng-show="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
-                                                           ng-click="AddAllergyPopUp()" width="55%"
-                                                           class="theme-btn-1">Add New</a>
-                                                    </div>-->
+                                            <a href="javascript:" title="Add New Allergy" ng-show="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
+                                               ng-click="AddAllergyPopUp()" width="55%"
+                                               class="theme-btn-1">Add New</a>
+                                        </div>-->
 
                                                 </div>
                                             </div>
@@ -1300,8 +1308,8 @@
 
 
                                                     <!-- <td style="text-align: left">
-                                                        {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
-                                                    </td>-->
+                                            {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                        </td>-->
                                                     <td style="text-align: left">
                                                         {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                         <
@@ -1365,7 +1373,7 @@
                                                         <input toggle-checkbox ng-model="NotesActive" type="checkbox"
                                                                ng-change="patientnotelist();" title="Active / All">
                                                         <!--<a href="javascript:" ng-click="PatientNotesAddPopup()" width="15%" class="ml-10 theme-btn-1"
-                                                        title='Add New Patient Notes'>Add New</a>-->
+                                            title='Add New Patient Notes'>Add New</a>-->
                                                     </div>
                                                 </div>
 
@@ -1464,9 +1472,9 @@
                                                         <input toggle-checkbox ng-model="OtherData_IsActive" type="checkbox" ng-change="Patient_OtherData_List();"
                                                                title="Active / All">
                                                         <!--<a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
-                                                           class="theme-btn-1 ml-10" title='Add New Other Data' ng-show="(UserTypeId!= 6)">
-                                                            Add New
-                                                        </a>-->
+                                               class="theme-btn-1 ml-10" title='Add New Other Data' ng-show="(UserTypeId!= 6)">
+                                                Add New
+                                            </a>-->
                                                     </div>
                                                 </div>
 
@@ -1478,13 +1486,13 @@
                                                    class="table themeTable">
                                                 <thead>
                                                     <!--<tr style="text-align: center">
-                                                        <th width="5%">#</th>
-                                                        <th width="20%">Document Name</th>
-                                                        <th width="20%">File</th>
-                                                        <th width="15%">Created By</th>
-                                                        <th width="15%">Created On</th>
-                                                        <th width="15%">Action</th>
-                                                    </tr>-->
+                                            <th width="5%">#</th>
+                                            <th width="20%">Document Name</th>
+                                            <th width="20%">File</th>
+                                            <th width="15%">Created By</th>
+                                            <th width="15%">Created On</th>
+                                            <th width="15%">Action</th>
+                                        </tr>-->
                                                     <tr style="text-align: center">
                                                         <th st-ratio="5">#</th>
                                                         <th st-ratio="20">Document Name</th>
@@ -1597,13 +1605,13 @@
                                             </div>
 
                                             <!--<div class="col-sm-4" ng-repeat="row in PatientLiveDataList">
-                                                <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
-                                                    <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
-                                                </div>
-                                                <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
-                                                    <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
-                                                </div>
-                                            </div>-->
+                                    <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
+                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
+                                    </div>
+                                    <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
+                                        <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
+                                    </div>
+                                </div>-->
                                             <!--di-->
                                         </div>
                                     </div>
@@ -1661,87 +1669,87 @@
 
                         </div>
                         <!--<h1 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
-                            My Appointments({{PatientAppointmentCount}})
-                        </h1>
-                        <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
+                My Appointments({{PatientAppointmentCount}})
+            </h1>
+            <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
 
 
-                            My Appoint
-                            ments
-                        </h1>-->
+                My Appoint
+                ments
+            </h1>-->
                         <!--<div class="patientCard" ng-hide="PatientAppointmentCount==0">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                         valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="../../Images/male.png" />
-                                    </div>
-                                    <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
-                                         valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="../../Images/female.png" />
-                                    </div>
-                                    <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                         valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="../../Images/Others.png" />
-                                    </div>
-                                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                    </div>
-                                    <h1>{{DoctorName}}</h1>-->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
+                         valign="top" rowspan="6">
+                        <img class="patientDetimg" src="../../Images/male.png" />
+                    </div>
+                    <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
+                         valign="top" rowspan="6">
+                        <img class="patientDetimg" src="../../Images/female.png" />
+                    </div>
+                    <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
+                         valign="top" rowspan="6">
+                        <img class="patientDetimg" src="../../Images/Others.png" />
+                    </div>
+                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                        <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                    </div>
+                    <h1>{{DoctorName}}</h1>-->
                         <!--<span style="text-align: center"></span>-->
                         <!--<div class="row" style="margin-left: 0px!important;">
-                            <div class="column" style="float:left;">
-                                <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
-                                 height 30px;
-                                 width 30px;
-                                 display flex; cursor:pointer;border: 0px!important;">
-                            </div><div class="column" style="float:left;">
-                                <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
-                                 height 30px;
-                                 width 30px;
-                                 display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
-                            </div><div class="column" style="float:left;">
-                                <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
-                                 height 30px;
-                                 width 30px;
-                                 display flex; cursor:pointer;border: 0px!important;">
-                            </div>
-                        </div>-->
+                <div class="column" style="float:left;">
+                    <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
+                     height 30px;
+                     width 30px;
+                     display flex; cursor:pointer;border: 0px!important;">
+                </div><div class="column" style="float:left;">
+                    <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
+                     height 30px;
+                     width 30px;
+                     display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
+                </div><div class="column" style="float:left;">
+                    <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
+                     height 30px;
+                     width 30px;
+                     display flex; cursor:pointer;border: 0px!important;">
+                </div>
+            </div>-->
                         <!--<i class="fa fa-comments my-float" style="font-size: 25px" onclick="openChatWindow()"></i>
-                        &nbsp;&nbsp;&nbsp;
-                        <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
+            &nbsp;&nbsp;&nbsp;
+            <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
 
-                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
-                               ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
-                               id="Image4" />-->
+            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                   ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
+                   id="Image4" />-->
                         <!--</div>
-                                <div class="col-sm-6">
-                                    <label>Date</label>
-                                    <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
-                                    <label>Time</label>
-                                    <span>{{AppointmentTime | date :'hh:mm a'}}</span>
+                    <div class="col-sm-6">
+                        <label>Date</label>
+                        <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
+                        <label>Time</label>
+                        <span>{{AppointmentTime | date :'hh:mm a'}}</span>
 
-                                    <span style="text-align: right">
-                                        <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
-                                           title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
-                                           ng-hide="index==0"></i>&nbsp;&nbsp;
-                                        <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
-                                           title="Next Appointment" ng-click="Next_PatientAppointment(1)"
-                                           ng-hide="index+1==PatientAppointmentCount"></i>
-                                    </span>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h2>{{TimeDifference}} Left</h2>
-                                </div>
-                            </div>
-                        </div>-->
+                        <span style="text-align: right">
+                            <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
+                               title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
+                               ng-hide="index==0"></i>&nbsp;&nbsp;
+                            <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
+                               title="Next Appointment" ng-click="Next_PatientAppointment(1)"
+                               ng-hide="index+1==PatientAppointmentCount"></i>
+                        </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <h2>{{TimeDifference}} Left</h2>
+                    </div>
+                </div>
+            </div>-->
                         <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    No doctor appointments scheduled
-                                </div>
-                            </div>
-                        </div>-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        No doctor appointments scheduled
+                    </div>
+                </div>
+            </div>-->
                     </div>
                     <div ng-show="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
                         <div class="panel panel-default">
@@ -1821,8 +1829,8 @@
                                             <!--<div class="input-group date">-->
                                             <input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">
                                             <!--<span class="input-group-addon">
-                                                <i class="glyphicon glyphicon-th"></i>
-                                            </span>-->
+                                    <i class="glyphicon glyphicon-th"></i>
+                                </span>-->
                                             <!--</div>-->
                                         </div>
                                         <div class="inputGroups">

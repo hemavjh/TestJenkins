@@ -5086,6 +5086,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/User/DoctorAppoinmentsList/?PatientId=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $("#chatLoaderPV").hide();
+                $scope.getMyAppointments();
                 //var Patient = parseInt(window.localStorage['SelectedPatientId']);
                 $scope.MyAppoinmentdata = data;
                 //angular.forEach($scope.MyAppoinmentdata, function (value, index) {
@@ -6324,8 +6325,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.DoctorName = $scope.PatientData.DoctorName;
                     $scope.appointmentDoctorId = $scope.PatientData.Doctor_Id;
                     $scope.AppointmentTime = $scope.PatientData.Appointment_FromTime;
-                    var Declare = moment($scope.PatientData.Appointment_Date).format('DD-MMM-YYYY');
-                    $scope.AppointmentDate = DateFormatEdit(Declare);
+                    $scope.Appointmentdate = DateFormatEdit(moment($scope.PatientData.Appointment_Date).format('DD-MMM-YYYY'));
+	                //$scope.AppointmentDate = DateFormatEdit(Declare);
                     $scope.PhotoBlob = $scope.PatientData.PhotoBlob;
                     $scope.ViewGenderName = $scope.PatientData.ViewGenderName;
                     $window.localStorage['selectedDoctor'] = $scope.appointmentDoctorId;
@@ -6834,6 +6835,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.yellowcount = 1;
         $scope.AlertCountDisplay = function () {
+            $('.jinglebelllow').removeClass('active');
+            $('#Highcount').addClass('fa fa-bell-o myhighBell');
+            $('.jinglebellhigh').removeClass('active');
+            $('#Lowcount').addClass('fa fa-bell-o myhighBell');
+            $('.jinglebellmedium').addClass('active');
+            $('#Medcount').removeClass('fa fa-bell-o myhighBell');
+            $('#Medcount').addClass('fas fa-bell myhighBell');	
             $('#tableid1').hide();
             $('#tableid2').hide();
             $scope.yellowcount++;
@@ -6881,6 +6889,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.redcount = 1;
         $scope.AlertCountredDisplay = function () {
+            $('.jinglebellmedium').removeClass('active');
+            $('#Medcount').addClass('fa fa-bell-o myhighBell');
+            $('.jinglebellhigh').removeClass('active');
+            $('#Lowcount').addClass('fa fa-bell-o myhighBell');
+
+            $('.jinglebelllow').addClass('active');
+            $('#Highcount').removeClass('fa fa-bell-o myhighBell');
+            $('#Highcount').addClass('fas fa-bell myhighBell');
             $('#tableid3').hide();
             $('#tableid4').hide();
             $scope.redcount++;
@@ -6928,6 +6944,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.greencount = 1;
         $scope.AlertCountgreenDisplay = function () {
+            $('.jinglebelllow').removeClass('active');
+            $('#Highcount').addClass('fa fa-bell-o myhighBell');
+            $('.jinglebellmedium').removeClass('active');
+            $('#Medcount').addClass('fa fa-bell-o myhighBell');
+
+            $('.jinglebellhigh').addClass('active');
+            $('#Lowcount').removeClass('fa fa-bell-o myhighBell');
+            $('#Lowcount').addClass('fas fa-bell myhighBell');
             $('#tableid5').hide();
             $('#tableid6').hide();
             $scope.greencount++;
@@ -7169,6 +7193,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $("#chatLoaderPV").show();
                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
+                    $scope.getMyAppointments();
                     alert(data.Message);
                     $scope.appointmentClear();
                     $scope.MyAppointments();
@@ -9673,6 +9698,7 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
         $scope.Doctor_Id = $window.localStorage['UserId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.AppointmentDate = "";
+        $scope.Appointmentdate = "";
         $scope.ReasonTypeId = 0;
 
         $scope.ViewPatientPopUp = function (eventId) {

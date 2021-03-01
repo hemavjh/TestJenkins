@@ -1927,3 +1927,109 @@ a.disabled {
         list-style: none;
     }
 /*<!-- ----My Appointments code end-------! >*/
+/*<!------Alert section code start-------! >*/
+.mynotificationsWarnings {
+    position: absolute;
+    top: 10px;
+    /*right: 25px;*/
+    font-size: 16px;
+}
+
+    .mynotificationsWarnings i {
+        padding: 0 0 0 8px;
+    }
+
+    .mynotificationsWarnings span {
+        position: absolute;
+        top: 1px;
+        left: 27px;
+        width: 25px;
+        height: 25px;
+        color: #000;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+.myhighposition {
+    text-align: left;
+    left: 100px !important;
+}
+
+.mymediumPosition {
+    text-align: left;
+    left: 170px !important;
+}
+
+.mylowPosition {
+    text-align: left;
+    left: 240px !important;
+}
+
+.jinglebelllow {
+    width: 61px;
+    float: left;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    padding: 3px 5px 3px 5px;
+}
+
+    .jinglebelllow:hover {
+        border: 1px solid #f00;
+    }
+
+    .jinglebelllow.active {
+        border: 1px solid #f00;
+    }
+
+.jinglebellmedium {
+    width: 61px;
+    float: left;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    padding: 3px 5px 3px 5px;
+}
+
+    .jinglebellmedium:hover {
+        border: 1px solid #ffd300;
+    }
+
+    .jinglebellmedium.active {
+        border: 1px solid #ffd300;
+    }
+
+.jinglebellhigh {
+    width: 61px;
+    float: left;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    padding: 3px 5px 3px 5px;
+}
+
+    .jinglebellhigh:hover {
+        border: 1px solid #008000;
+    }
+
+    .jinglebellhigh.active {
+        border: 1px solid #008000;
+    }
+
+.myhighBell {
+    color: red !important;
+    font-size: 19px;
+}
+
+.mymediumBell {
+    color: #ffd300 !important;
+    font-size: 19px;
+}
+
+.mylowBell {
+    color: green !important;
+    font-size: 19px;
+}
+/*<!------Alert section code end-------! >*/
