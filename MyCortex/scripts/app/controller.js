@@ -18246,7 +18246,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 var obj = {
                     ID: value.ID,
                     INSTITUTION_ID: $window.localStorage['InstitutionId'],
-                    LANGUAGE_TEXT: $scope.LanguateText[value.ID],
+                    LANGUAGE_ID: parseInt($scope.selectedLanguage),
+                    LANGUAGE_TEXT: $scope.LanguageText[value.ID],
                 }
                 $scope.LanguageSettingsDetails.push(obj);
             });
