@@ -747,7 +747,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     $scope.error = "AN error has occured while Listing the records!" + data;
                 })
             } else {
-                window.location.href = baseUrl + "/Home/LoginOut"; 
+                window.location.href = baseUrl + "/Home/LoginIndex"; 
             }
         };
 
@@ -1127,25 +1127,29 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
 
         /*THIS IS FOR LIST FUNCTION*/
         $scope.InstitutionSubscriptionDetailsListTemplate = function () {
-            $("#chatLoaderPV").show();
-            $scope.rowCollectionTemplate = [];
-            $scope.Institution_Id = "0";
-            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_List/Id?=' + $scope.Institution_Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.rowCollectionTemplate = data;
-                $scope.rowCollection = $ff($scope.rowCollectionTemplate, function (value) {
-                    return value.Institution.IsActive == "1";
-                });
-                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                if ($scope.rowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-                $("#chatLoaderPV").hide();
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
-            })
+            if ($window.localStorage['UserTypeId'] == 1) {
+                $("#chatLoaderPV").show();
+                $scope.rowCollectionTemplate = [];
+                $scope.Institution_Id = "0";
+                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_List/Id?=' + $scope.Institution_Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.rowCollectionTemplate = data;
+                    $scope.rowCollection = $ff($scope.rowCollectionTemplate, function (value) {
+                        return value.Institution.IsActive == "1";
+                    });
+                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) {
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                })
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
         };
         /*THIS IS FOR LIST FUNCTION*/
         $scope.InstitutionSubscriptionDetailsFilter = function () {
@@ -1171,19 +1175,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.InstitutionLanguageList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
-            if ($window.localStorage['UserTypeId'] == 1) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 2) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 4) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 5) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 6) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 7) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else {
+            if ($window.localStorage['UserTypeId'] == 3) {
+
                 $("#chatLoaderPV").show();
                 if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                     $scope.Id = $routeParams.Id;
@@ -1239,6 +1232,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     })
                     $("#chatLoaderPV").hide();
                 });
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex"; 
             }
         };
 
@@ -2150,44 +2145,52 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         }
 
         $scope.User_Admin_List = function (MenuType) {
-            $("#chatLoaderPV").show();
-            $scope.MenuTypeId = MenuType;
-            $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-            $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.emptydata = [];
-                $scope.UserDetailsList = [];
-                $scope.UserDetailsList = data;
-                $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
-                if ($scope.rowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-                $("#chatLoaderPV").hide();
-                $scope.SearchMsg = "No Data Available";
-            });
+            if ($window.localStorage['UserTypeId'] == 1 || $window.localStorage['UserTypeId'] == 3) {
+                $("#chatLoaderPV").show();
+                $scope.MenuTypeId = MenuType;
+                $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.emptydata = [];
+                    $scope.UserDetailsList = [];
+                    $scope.UserDetailsList = data;
+                    $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $("#chatLoaderPV").hide();
+                    $scope.SearchMsg = "No Data Available";
+                });
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
         }
 
         $scope.BusinessUser_List = function (MenuType) {
-            $("#chatLoaderPV").show();
-            $scope.MenuTypeId = MenuType;
-            $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-            $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            if ($window.localStorage['UserTypeId'] == 3) {
+                $("#chatLoaderPV").show();
+                $scope.MenuTypeId = MenuType;
+                $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+                $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.MenuTypeId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
 
-                $scope.BusineessUseremptydata = [];
-                $scope.BusinessUserList = [];
-                $scope.BusinessUserList = data;
-                $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
-                if ($scope.BusinessUserFilter.length > 0) {
-                    $scope.BusinessUserflag = 1;
-                }
-                else {
-                    $scope.BusinessUserflag = 0;
-                }
-                $("#chatLoaderPV").hide();
-                $scope.SearchMsg = "No Data Available";
-            });
+                    $scope.BusineessUseremptydata = [];
+                    $scope.BusinessUserList = [];
+                    $scope.BusinessUserList = data;
+                    $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
+                    if ($scope.BusinessUserFilter.length > 0) {
+                        $scope.BusinessUserflag = 1;
+                    }
+                    else {
+                        $scope.BusinessUserflag = 0;
+                    }
+                    $("#chatLoaderPV").hide();
+                    $scope.SearchMsg = "No Data Available";
+                });
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
         }
 
 
@@ -2828,19 +2831,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //    $scope.CityId = "0";
         //};
         $scope.Admin_View = function (MenuType) { 
-            if ($window.localStorage['UserTypeId'] == 1) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 3) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 4) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 5) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 6) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else if ($window.localStorage['UserTypeId'] == 7) {
-                window.location.href = baseUrl + "/Home/LoginOut";
-            } else {
+            if ($window.localStorage['UserTypeId'] == 2) {
+
                 if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                     $scope.DropDownListValue = 4;
                 }
@@ -3082,6 +3074,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $("#chatLoaderPV").hide();
                     photoview = false
                 }
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex"; 
             }
         }
 
@@ -4687,7 +4681,7 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     })
                 });
             } else {
-                window.location.href = baseUrl + "/Home/LoginOut"; 
+                window.location.href = baseUrl + "/Home/LoginIndex"; 
             }
         }; 
 
@@ -9992,7 +9986,7 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
                         cache: false
                     });
             } else {
-                window.location.href = baseUrl + "/Home/LoginOut";
+                window.location.href = baseUrl + "/Home/LoginIndex";
             }
         });
 
@@ -10569,7 +10563,7 @@ MyCortexControllers.controller("CareCoordinatorController", ['$scope', '$http', 
                     });
                 });
             } else {
-                window.location.href = baseUrl + "/Home/LoginOut"; 
+                window.location.href = baseUrl + "/Home/LoginIndex"; 
             }
 
         }
@@ -10853,7 +10847,7 @@ MyCortexControllers.controller("CareGiverAssignedPatientsController", ['$scope',
                     });
                 });
             } else {
-                window.location.href = baseUrl + "/Home/LoginOut"; 
+                window.location.href = baseUrl + "/Home/LoginIndex"; 
             }
         }
         $scope.Next_CareGiver_PatientListFunction = function (PageNumber) {
