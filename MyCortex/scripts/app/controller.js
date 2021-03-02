@@ -2831,7 +2831,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //    $scope.CityId = "0";
         //};
         $scope.Admin_View = function (MenuType) { 
-            if ($window.localStorage['UserTypeId'] == 2) {
+            if ($window.localStorage['UserTypeId'] == 1 || $window.localStorage['UserTypeId'] == 3) {
 
                 if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                     $scope.DropDownListValue = 4;
