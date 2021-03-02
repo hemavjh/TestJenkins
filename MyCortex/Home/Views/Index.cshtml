@@ -90,7 +90,7 @@
     <script src="@Url.Content("~/scripts/ui-bootstrap.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/ui-bootstrap-tpls.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/app/app.js?v1.03")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/app/controller.js?v1.19")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/controller.js?v1.20")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/pageSelect.directive.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/smart-table.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.marquee.js")" type="text/javascript"></script>
@@ -126,7 +126,7 @@
                             if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    <button id="@menu.Menu_Name" oncopy="return false;" onpaste="return false;" oncut="return false;" class="activeButton" onclick="location.href = '@menu.Menu_URL'"
+                                    <button id="@menu.Menu_Name"   class="activeButton" onclick="location.href = '@menu.Menu_URL'"
                                             type="button" aria-expanded="false">
                                         @menu.Menu_Name
                                     </button>
@@ -135,7 +135,7 @@
                             else if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    <button id="@menu.Menu_Name" oncopy="return false;" onpaste="return false;" oncut="return false;" onclick="location.href = '@menu.Menu_URL'"
+                                    <button id="@menu.Menu_Name"   onclick="location.href = '@menu.Menu_URL'"
                                             type="button" aria-expanded="false">
                                         @menu.Menu_Name
                                     </button>
