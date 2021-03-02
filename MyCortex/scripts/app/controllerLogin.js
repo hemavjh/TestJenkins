@@ -759,8 +759,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
                 alert("Please select Date of Birth");
                 return false;
-            }
-            if ($scope.DOB > today) {
+            } 
+            if ((ParseDate($scope.DOB)) > (ParseDate(today))) {
                 alert("DOB Can Be Only select past date");
                 $scope.DOB = DateFormatEdit($scope.DOB);
                 return false;
