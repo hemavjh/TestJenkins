@@ -4724,42 +4724,46 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
         }
 
         $scope.AllergyMasterList_Details = function () {
-            $("#chatLoaderPV").show();
-            $scope.ISact = 1;       // default active
-            if ($scope.AllergyMasterIsActive == true) {
-                $scope.ISact = 1  //active
-            }
-            else if ($scope.AllergyMasterIsActive == false) {
-                $scope.ISact = 0 //all
-            }
+            if ($window.localStorage['UserTypeId'] == 3) {
+                $("#chatLoaderPV").show();
+                $scope.ISact = 1;       // default active
+                if ($scope.AllergyMasterIsActive == true) {
+                    $scope.ISact = 1  //active
+                }
+                else if ($scope.AllergyMasterIsActive == false) {
+                    $scope.ISact = 0 //all
+                }
 
-            $scope.ConfigCode = "PATIENTPAGE_COUNT";
-            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                $scope.page_size = data1[0].ConfigValue;
-                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
-                $scope.PageEnd = $scope.current_page * $scope.page_size;
-                $http.get(baseUrl + '/api/User/AllergtMaster_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.Institution_Id + '&StartRowNumber=' + $scope.PageStart +
-                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                        $("#chatLoaderPV").hide();
-                        $scope.AllergyMasteremptydata = [];
-                        $scope.AllergyMasterListData = [];
-                        $scope.AllergyMasterListData = data;
-                        $scope.AllergyCount = $scope.AllergyMasterListData[0].TotalRecord;
-                        $scope.AllergyMasterListFilterData = data;
-                        $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);
-                        if ($scope.AllergyMasterList.length > 0) {
-                            $scope.flag = 1;
-                        }
-                        else {
-                            $scope.flag = 0;
-                        }
-                        $scope.Allergt_pages = Math.ceil(($scope.AllergyCount) / ($scope.page_size));
+                $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                    $scope.page_size = data1[0].ConfigValue;
+                    $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                    $scope.PageEnd = $scope.current_page * $scope.page_size;
+                    $http.get(baseUrl + '/api/User/AllergtMaster_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.Institution_Id + '&StartRowNumber=' + $scope.PageStart +
+                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                            $("#chatLoaderPV").hide();
+                            $scope.AllergyMasteremptydata = [];
+                            $scope.AllergyMasterListData = [];
+                            $scope.AllergyMasterListData = data;
+                            $scope.AllergyCount = $scope.AllergyMasterListData[0].TotalRecord;
+                            $scope.AllergyMasterListFilterData = data;
+                            $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);
+                            if ($scope.AllergyMasterList.length > 0) {
+                                $scope.flag = 1;
+                            }
+                            else {
+                                $scope.flag = 0;
+                            }
+                            $scope.Allergt_pages = Math.ceil(($scope.AllergyCount) / ($scope.page_size));
 
-                    })
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
-            })
+                        })
+                }).error(function (data) {
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                })
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
         };
 
         /*  This is for Allergy searchquery*/
@@ -13685,7 +13689,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
     and display the record of selected change password when Id is greater than 0
     in edit.html and provide an option for create and modify the change password and save the change password record
     */
-        $scope.ChangePassword = function () {
+        $scope.ChangePassword = function () { 
             if ($scope.Validationcontrolspassword() == true) {
                 $("#chatLoaderPV").show();
                 $scope.changepasswordId = $window.localStorage['UserId'];
