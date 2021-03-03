@@ -336,7 +336,7 @@ namespace MyCortex.Home.Controllers
                 }
                 else
                 {
-                    t.Add("images/MyCortexLogo.JPG");
+                    t.Add("images/MyCortexlogotheme.JPG");
                 }
 
                 var json = jsonSerialiser.Serialize(t);

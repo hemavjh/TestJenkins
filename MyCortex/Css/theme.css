@@ -2033,3 +2033,23 @@ a.disabled {
     font-size: 19px;
 }
 /*<!------Alert section code end-------! >*/
+#DataToggle {
+    margin: 5px 0 0 0;
+}
+
+
+
+.mythemeLogo {
+    display: flex;
+    margin: 0px 20px;
+}
+
+    .mythemeLogo img {
+        max-height: 50px;
+    }
+
+.mythemeMenu {
+    display: flex;
+    flex-basis: 100%;
+    margin: 40px 0 0 18px;
+}
