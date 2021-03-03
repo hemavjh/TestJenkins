@@ -1175,7 +1175,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.InstitutionLanguageList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+            if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 1) {
 
                 $("#chatLoaderPV").show();
                 if ($routeParams.Id != undefined && $routeParams.Id > 0) {
