@@ -359,6 +359,7 @@
     <Content Include="Images\monitoringProtocol.jpeg" />
     <Content Include="Images\MRN.png" />
     <Content Include="Images\MyCortexLogo.jpg" />
+    <Content Include="Images\MyCortexlogotheme.jpg" />
     <Content Include="Images\NatId.png" />
     <Content Include="Images\navLogo.png" />
     <Content Include="Images\noAllergy.png" />
