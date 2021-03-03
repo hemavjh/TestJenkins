@@ -2835,7 +2835,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //    $scope.CityId = "0";
         //};
         $scope.Admin_View = function (MenuType) { 
-            if ($window.localStorage['UserTypeId'] == 1 || $window.localStorage['UserTypeId'] == 3) {
+            
 
                 if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                     $scope.DropDownListValue = 4;
@@ -3078,9 +3078,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $("#chatLoaderPV").hide();
                     photoview = false
                 }
-            } else {
-                window.location.href = baseUrl + "/Home/LoginIndex"; 
-            }
+             
         }
 
         $scope.PhotoUplaodSelected = function () {
@@ -5159,7 +5157,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.PatientBasicDetails_List = function () {
-        
+            if ($window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                 $("#chatLoaderPV").show();
                 photoview = true;
                 var methodcnt = 2;
@@ -5240,7 +5238,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.chattingWith = data.FullName;
                     }
                 });
-             
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
         }
 
         $scope.myMeetingURL = '';
