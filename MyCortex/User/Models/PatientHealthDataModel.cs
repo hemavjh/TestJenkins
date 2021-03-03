@@ -83,5 +83,9 @@ namespace MyCortex.User.Model
         public long Patient_Id { get; set; }
         public IList<PatientHealthDataModel> PatientHealthDataModel { get; set; }
     }
+    public class PatientInstituteModel
+    {
+        public long Institution_Id { get; set; }
+    }
 
 }

@@ -1490,6 +1490,32 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+
+        public IList<PatientInstituteModel> GETPATIENTINSTITUTION(long ID)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                // List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@Id", ID)); 
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPATIENTINSTITUTION]", param);
+                IList<PatientInstituteModel> list = (from p in dt.AsEnumerable()
+                                                      select new PatientInstituteModel()
+                                                      {
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID")
+                                                      }).ToList();
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+
         /// <summary>
         /// Parameters - Parameters Details List - Action - Active
         /// activate Selected Parameters (LS,  details 

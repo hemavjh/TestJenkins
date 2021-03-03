@@ -35,6 +35,7 @@ namespace MyCortex.Repositories
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id);
         IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId);
         IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id);
+        IList<PatientInstituteModel> GETPATIENTINSTITUTION(long ID);
         IList<PatientHealthDataModel> ParametersDetails_Delete(PatientHealthDataModel noteobj);
         IList<PatientHealthDataModel> ParametersDetails_Active(PatientHealthDataModel noteobj);
         void UserDetails_PhotoUpload(byte[] imageFile, int Id);

@@ -2836,7 +2836,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //};
         $scope.Admin_View = function (MenuType) { 
             
-
+                $("#chatLoaderPV").show();
                 if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                     $scope.DropDownListValue = 4;
                 }
@@ -2885,193 +2885,200 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
                         })
                     }
-
-                    $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                        $scope.Id = data.Id;
-                        $scope.InstitutionId = data.INSTITUTION_ID.toString();
-                        $scope.DepartmentId = data.DEPARTMENT_ID.toString();
-                        $scope.FirstName = data.FirstName;
-                        $scope.MiddleName = data.MiddleName;
-                        $scope.LastName = data.LastName;
-                        $scope.Employee_No = data.EMPLOYEMENTNO;
-                        $scope.EmailId = data.EMAILID;
-                        $scope.MobileNo = data.MOBILE_NO;
-                        $scope.ViewDepartmentName = data.Department_Name;
-                        $scope.ViewInstitutionName = data.InstitutionName;
-                        $scope.Photo = data.Photo;
-                        $scope.UserLogo = data.Photo;
-                        //$scope.uploadme = data.Photo;
-                        $scope.FileName = data.FileName;
-                        $scope.PhotoFullpath = data.Photo_Fullpath;
-                        $scope.UserTypeId = data.UserType_Id.toString();
-                        $scope.Health_License = data.HEALTH_LICENSE;
-                        $scope.File_Name = data.FILE_NAME;
-                        $scope.CertificateFileName = data.FILE_NAME;
-                        $scope.Resume = data.FILE_NAME;
-                        $scope.resumedoc = data.FILE_NAME;
-                        $scope.File_FullPath = data.FILE_FULLPATH;
-                        $scope.Upload_FileName = data.UPLOAD_FILENAME;
-                        $scope.GenderId = data.GENDER_ID.toString();
-                        $scope.NationalityId = data.NATIONALITY_ID.toString();
-                        $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                        $scope.DOB  = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
-                        $scope.HomeAreaCode = data.HOME_AREACODE;
-                        $scope.Home_PhoneNo = data.HOME_PHONENO;
-                        $scope.MobileAreaCode = data.MOBIL_AREACODE;
-                        $scope.PostalZipCode = data.POSTEL_ZIPCODE;
-                        $scope.EMR_Avalability = data.EMR_AVAILABILITY;
-                        $scope.Address1 = data.ADDRESS1;
-                        $scope.Address2 = data.ADDRESS2;
-                        $scope.Address3 = data.ADDRESS3;
-                        $scope.CountryId = data.COUNTRY_ID.toString();
-                        $scope.StateId = data.STATE_ID.toString();
-                        $scope.CityId = data.CITY_ID.toString();
-
-                        $scope.CountryDuplicateId = $scope.CountryId;
-                        $scope.CountryFlag = true;
-                        $scope.StateDuplicateId = $scope.StateId;
-                        $scope.StateFlag = true;
-                        $scope.LocationDuplicateId = $scope.CityId;
-                        $scope.CityFlag = true;
-                        if ($scope.DropDownListValue == 4) {
-
-                            $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                                $scope.CountryNameList = data;
-                                if ($scope.CountryFlag == true) {
-                                    $scope.CountryId = $scope.CountryDuplicateId;
-                                    $scope.CountryFlag = false;
-                                    $scope.loadCount = $scope.loadCount - 1;
-                                }
-                            });
-                            $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.COUNTRY_ID.toString()).success(function (data) {
-                                $scope.StateName_List = data;
-                                if ($scope.StateFlag == true) {
-                                    $scope.StateId = $scope.StateDuplicateId;
-                                    $scope.StateFlag = false;
-                                    $scope.loadCount = $scope.loadCount - 1;
-                                }
-                            });
-                            $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.COUNTRY_ID.toString() + '&StateId=' + data.STATE_ID.toString()).success(function (data) {
-                                //$scope.LocationName_List =data ;    
-                                $scope.LocationName_List = data;
-                                if ($scope.CityFlag == true) {
-                                    $scope.CityId = $scope.LocationDuplicateId;
-                                    $scope.CityFlag = false;
-                                    $scope.loadCount = $scope.loadCount - 1;
-                                }
-                            });
-                        }
-                        $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                        $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
-                        $scope.PatientNo = data.PATIENTNO;
-                        $scope.Createdby_ShortName = data.Createdby_ShortName;
-                        $scope.InsuranceId = data.INSURANCEID;
-                        $scope.MNR_No = data.MNR_NO;
-                        $scope.NationalId = data.NATIONALID;
-                        $scope.EthnicGroup = data.EthnicGroup;
-                        $scope.ViewGender = data.GENDER_NAME;
-                        $scope.ViewNationality = data.Nationality;
-                        $scope.ViewUserName = data.UserName;
-                        $scope.ViewGroupName = data.GroupName;
-                        $scope.ViewCountryName = data.COUNTRY_NAME;
-                        $scope.ViewStateName = data.StateName;
-                        $scope.ViewLocationName = data.LocationName;
-                        $scope.Institution = data.Institution;
-                        $scope.LanguageKnown = data.LanguageKnown;
-                        $scope.MaritalStatus = data.MaritalStatus;
-                        $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
-                        $scope.RelationShipName = data.RelationShipName;
-                        $scope.DietDescribe = data.DietDescribe;
-                        $scope.AlergySubstance = data.AlergySubstance;
-                        $scope.ChronicCondition = data.ChronicCondition;
-                        $scope.EXCERCISE_SCHEDULE = data.EXCERCISE_SCHEDULE;
-                        $scope.SMOKESUBSTANCE = data.SMOKESUBSTANCE;
-                        $scope.ALCOHALSUBSTANCE = data.ALCOHALSUBSTANCE;
-                        $scope.CAFFEINATED_BEVERAGES = data.CAFFEINATED_BEVERAGES;
-                        $scope.DIETDESCRIBE_ID = data.DIETDESCRIBE_ID.toString();
-                        $scope.EXCERCISE_SCHEDULEID = data.EXCERCISE_SCHEDULEID.toString();
-                        $scope.ALERGYSUBSTANCE_ID = data.ALERGYSUBSTANCE_ID.toString();
-                        $scope.SMOKESUBSTANCE_ID = data.SMOKESUBSTANCE_ID.toString();
-                        $scope.ALCOHALSUBSTANCE_ID = data.ALCOHALSUBSTANCE_ID.toString();
-                        $scope.CAFFEINATED_BEVERAGESID = data.CAFFEINATED_BEVERAGESID.toString();
-                        $scope.EMERG_CONT_RELATIONSHIP_ID = data.EMERG_CONT_RELATIONSHIP_ID.toString();
-                        $scope.CURRENTLY_TAKEMEDICINE = data.CURRENTLY_TAKEMEDICINE;
-                        $scope.PAST_MEDICALHISTORY = data.PAST_MEDICALHISTORY;
-                        $scope.FAMILYHEALTH_PROBLEMHISTORY = data.FAMILYHEALTH_PROBLEMHISTORY;
-                        $scope.VACCINATIONS = data.VACCINATIONS;
-                        $scope.EXCERCISE_TEXT = data.EXCERCISE_TEXT;
-                        $scope.ALERGYSUBSTANCE_TEXT = data.ALERGYSUBSTANCE_TEXT;
-                        $scope.SMOKESUBSTANCE_TEXT = data.SMOKESUBSTANCE_TEXT;
-                        $scope.ALCOHALSUBSTANCE_TEXT = data.ALCOHALSUBSTANCE_TEXT;
-                        $scope.CAFFEINATEDBEVERAGES_TEXT = data.CAFFEINATEDBEVERAGES_TEXT;
-                        $scope.EMERG_CONT_FIRSTNAME = data.EMERG_CONT_FIRSTNAME;
-                        $scope.EMERG_CONT_MIDDLENAME = data.EMERG_CONT_MIDDLENAME;
-                        $scope.EMERG_CONT_LASTNAME = data.EMERG_CONT_LASTNAME;
-                        $scope.Emergency_MobileNo = data.Emergency_MobileNo;
-                        $scope.Google_EmailId = data.GOOGLE_EMAILID;
-                        $scope.FB_EmailId = data.FB_EMAILID;
-                        $scope.appleUserID = data.appleUserID;
-                        $scope.Patient_Type = data.Patient_Type;
-
-                        $scope.Diabetic = data.DIABETIC.toString();
-                        $scope.HyperTension = data.HYPERTENSION.toString();
-                        $scope.Cholestrol = data.CHOLESTEROL.toString();
-
-                        $scope.ViewDiabetic = data.Diabetic_Option;
-                        $scope.ViewCholestrol = data.Cholesterol_Option;
-                        $scope.ViewHyperTension = data.HyperTension_Option;
-
-                        $scope.AddMedicines = data.AddMedicines;
-                        $scope.AddMedicalHistory = data.AddMedicalHistory;
-                        $scope.AddHealthProblem = data.AddHealthProblem;
-                        $scope.ApprovalFlag = data.Approval_flag;
-                        methodcnt = methodcnt - 1;
-                        if (methodcnt == 0)
-                            $scope.uploadview = true;
-
-                        if ($scope.UserTypeId == 2) {
-                            if ($scope.AddMedicines.length > 0) {
-                                $scope.CurrentMedicineflag = 1;
-                            }
-                            else {
-                                $scope.CurrentMedicineflag = 0;
-                            }
-                            if ($scope.AddMedicalHistory.length > 0) {
-                                $scope.PastMedicineflag = 1;
-                            }
-                            else {
-                                $scope.PastMedicineflag = 0;
-                            }
-
-                            if ($scope.AddHealthProblem.length > 0) {
-                                $scope.MedicalHistoryflag = 1;
-                            }
-                            else {
-                                $scope.MedicalHistoryflag = 0;
-                            }
-                        }
-                        angular.forEach(data.SelectedGroupList, function (value, index) {
-                            $scope.EditSelectedGroup.push(value.Group_Id);
-                            $scope.SelectedGroup = $scope.EditSelectedGroup;
-                        });
-                        angular.forEach(data.SelectedInstitutionList, function (value, index) {
-                            $scope.EditSelectedInstitution.push(value.Institution_Id);
-                            $scope.SelectedInstitution = $scope.EditSelectedInstitution;
-                        });
-                        angular.forEach(data.SelectedLanguageList, function (value, index) {
-                            $scope.EditSelectedLanguage.push(value.Language_Id);
-                            $scope.SelectedLanguage = $scope.EditSelectedLanguage;
-                        });
-                        angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
-                            $scope.EditSelectedChronicondition.push(value.Chronic_Id);
-                            $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
-                        });
-                        //$scope.CountryBased_StateFunction();
-                        //$scope.StateBased_CityFunction();
-                        //$scope.Country_onChange();
-                        //$scope.State_onChange();
-
+                    $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.Id).success(function (data) {
                         $("#chatLoaderPV").hide();
+                        var PatientInstituteId = data[0].Institution_Id;
+                        if (PatientInstituteId == $window.localStorage['InstitutionId']) {
+                            $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                                $scope.Id = data.Id;
+                                $scope.InstitutionId = data.INSTITUTION_ID.toString();
+                                $scope.DepartmentId = data.DEPARTMENT_ID.toString();
+                                $scope.FirstName = data.FirstName;
+                                $scope.MiddleName = data.MiddleName;
+                                $scope.LastName = data.LastName;
+                                $scope.Employee_No = data.EMPLOYEMENTNO;
+                                $scope.EmailId = data.EMAILID;
+                                $scope.MobileNo = data.MOBILE_NO;
+                                $scope.ViewDepartmentName = data.Department_Name;
+                                $scope.ViewInstitutionName = data.InstitutionName;
+                                $scope.Photo = data.Photo;
+                                $scope.UserLogo = data.Photo;
+                                //$scope.uploadme = data.Photo;
+                                $scope.FileName = data.FileName;
+                                $scope.PhotoFullpath = data.Photo_Fullpath;
+                                $scope.UserTypeId = data.UserType_Id.toString();
+                                $scope.Health_License = data.HEALTH_LICENSE;
+                                $scope.File_Name = data.FILE_NAME;
+                                $scope.CertificateFileName = data.FILE_NAME;
+                                $scope.Resume = data.FILE_NAME;
+                                $scope.resumedoc = data.FILE_NAME;
+                                $scope.File_FullPath = data.FILE_FULLPATH;
+                                $scope.Upload_FileName = data.UPLOAD_FILENAME;
+                                $scope.GenderId = data.GENDER_ID.toString();
+                                $scope.NationalityId = data.NATIONALITY_ID.toString();
+                                $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                                $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                                $scope.HomeAreaCode = data.HOME_AREACODE;
+                                $scope.Home_PhoneNo = data.HOME_PHONENO;
+                                $scope.MobileAreaCode = data.MOBIL_AREACODE;
+                                $scope.PostalZipCode = data.POSTEL_ZIPCODE;
+                                $scope.EMR_Avalability = data.EMR_AVAILABILITY;
+                                $scope.Address1 = data.ADDRESS1;
+                                $scope.Address2 = data.ADDRESS2;
+                                $scope.Address3 = data.ADDRESS3;
+                                $scope.CountryId = data.COUNTRY_ID.toString();
+                                $scope.StateId = data.STATE_ID.toString();
+                                $scope.CityId = data.CITY_ID.toString();
+
+                                $scope.CountryDuplicateId = $scope.CountryId;
+                                $scope.CountryFlag = true;
+                                $scope.StateDuplicateId = $scope.StateId;
+                                $scope.StateFlag = true;
+                                $scope.LocationDuplicateId = $scope.CityId;
+                                $scope.CityFlag = true;
+                                if ($scope.DropDownListValue == 4) {
+
+                                    $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
+                                        $scope.CountryNameList = data;
+                                        if ($scope.CountryFlag == true) {
+                                            $scope.CountryId = $scope.CountryDuplicateId;
+                                            $scope.CountryFlag = false;
+                                            $scope.loadCount = $scope.loadCount - 1;
+                                        }
+                                    });
+                                    $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.COUNTRY_ID.toString()).success(function (data) {
+                                        $scope.StateName_List = data;
+                                        if ($scope.StateFlag == true) {
+                                            $scope.StateId = $scope.StateDuplicateId;
+                                            $scope.StateFlag = false;
+                                            $scope.loadCount = $scope.loadCount - 1;
+                                        }
+                                    });
+                                    $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.COUNTRY_ID.toString() + '&StateId=' + data.STATE_ID.toString()).success(function (data) {
+                                        //$scope.LocationName_List =data ;    
+                                        $scope.LocationName_List = data;
+                                        if ($scope.CityFlag == true) {
+                                            $scope.CityId = $scope.LocationDuplicateId;
+                                            $scope.CityFlag = false;
+                                            $scope.loadCount = $scope.loadCount - 1;
+                                        }
+                                    });
+                                }
+                                $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                                $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                                $scope.PatientNo = data.PATIENTNO;
+                                $scope.Createdby_ShortName = data.Createdby_ShortName;
+                                $scope.InsuranceId = data.INSURANCEID;
+                                $scope.MNR_No = data.MNR_NO;
+                                $scope.NationalId = data.NATIONALID;
+                                $scope.EthnicGroup = data.EthnicGroup;
+                                $scope.ViewGender = data.GENDER_NAME;
+                                $scope.ViewNationality = data.Nationality;
+                                $scope.ViewUserName = data.UserName;
+                                $scope.ViewGroupName = data.GroupName;
+                                $scope.ViewCountryName = data.COUNTRY_NAME;
+                                $scope.ViewStateName = data.StateName;
+                                $scope.ViewLocationName = data.LocationName;
+                                $scope.Institution = data.Institution;
+                                $scope.LanguageKnown = data.LanguageKnown;
+                                $scope.MaritalStatus = data.MaritalStatus;
+                                $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
+                                $scope.RelationShipName = data.RelationShipName;
+                                $scope.DietDescribe = data.DietDescribe;
+                                $scope.AlergySubstance = data.AlergySubstance;
+                                $scope.ChronicCondition = data.ChronicCondition;
+                                $scope.EXCERCISE_SCHEDULE = data.EXCERCISE_SCHEDULE;
+                                $scope.SMOKESUBSTANCE = data.SMOKESUBSTANCE;
+                                $scope.ALCOHALSUBSTANCE = data.ALCOHALSUBSTANCE;
+                                $scope.CAFFEINATED_BEVERAGES = data.CAFFEINATED_BEVERAGES;
+                                $scope.DIETDESCRIBE_ID = data.DIETDESCRIBE_ID.toString();
+                                $scope.EXCERCISE_SCHEDULEID = data.EXCERCISE_SCHEDULEID.toString();
+                                $scope.ALERGYSUBSTANCE_ID = data.ALERGYSUBSTANCE_ID.toString();
+                                $scope.SMOKESUBSTANCE_ID = data.SMOKESUBSTANCE_ID.toString();
+                                $scope.ALCOHALSUBSTANCE_ID = data.ALCOHALSUBSTANCE_ID.toString();
+                                $scope.CAFFEINATED_BEVERAGESID = data.CAFFEINATED_BEVERAGESID.toString();
+                                $scope.EMERG_CONT_RELATIONSHIP_ID = data.EMERG_CONT_RELATIONSHIP_ID.toString();
+                                $scope.CURRENTLY_TAKEMEDICINE = data.CURRENTLY_TAKEMEDICINE;
+                                $scope.PAST_MEDICALHISTORY = data.PAST_MEDICALHISTORY;
+                                $scope.FAMILYHEALTH_PROBLEMHISTORY = data.FAMILYHEALTH_PROBLEMHISTORY;
+                                $scope.VACCINATIONS = data.VACCINATIONS;
+                                $scope.EXCERCISE_TEXT = data.EXCERCISE_TEXT;
+                                $scope.ALERGYSUBSTANCE_TEXT = data.ALERGYSUBSTANCE_TEXT;
+                                $scope.SMOKESUBSTANCE_TEXT = data.SMOKESUBSTANCE_TEXT;
+                                $scope.ALCOHALSUBSTANCE_TEXT = data.ALCOHALSUBSTANCE_TEXT;
+                                $scope.CAFFEINATEDBEVERAGES_TEXT = data.CAFFEINATEDBEVERAGES_TEXT;
+                                $scope.EMERG_CONT_FIRSTNAME = data.EMERG_CONT_FIRSTNAME;
+                                $scope.EMERG_CONT_MIDDLENAME = data.EMERG_CONT_MIDDLENAME;
+                                $scope.EMERG_CONT_LASTNAME = data.EMERG_CONT_LASTNAME;
+                                $scope.Emergency_MobileNo = data.Emergency_MobileNo;
+                                $scope.Google_EmailId = data.GOOGLE_EMAILID;
+                                $scope.FB_EmailId = data.FB_EMAILID;
+                                $scope.appleUserID = data.appleUserID;
+                                $scope.Patient_Type = data.Patient_Type;
+
+                                $scope.Diabetic = data.DIABETIC.toString();
+                                $scope.HyperTension = data.HYPERTENSION.toString();
+                                $scope.Cholestrol = data.CHOLESTEROL.toString();
+
+                                $scope.ViewDiabetic = data.Diabetic_Option;
+                                $scope.ViewCholestrol = data.Cholesterol_Option;
+                                $scope.ViewHyperTension = data.HyperTension_Option;
+
+                                $scope.AddMedicines = data.AddMedicines;
+                                $scope.AddMedicalHistory = data.AddMedicalHistory;
+                                $scope.AddHealthProblem = data.AddHealthProblem;
+                                $scope.ApprovalFlag = data.Approval_flag;
+                                methodcnt = methodcnt - 1;
+                                if (methodcnt == 0)
+                                    $scope.uploadview = true;
+
+                                if ($scope.UserTypeId == 2) {
+                                    if ($scope.AddMedicines.length > 0) {
+                                        $scope.CurrentMedicineflag = 1;
+                                    }
+                                    else {
+                                        $scope.CurrentMedicineflag = 0;
+                                    }
+                                    if ($scope.AddMedicalHistory.length > 0) {
+                                        $scope.PastMedicineflag = 1;
+                                    }
+                                    else {
+                                        $scope.PastMedicineflag = 0;
+                                    }
+
+                                    if ($scope.AddHealthProblem.length > 0) {
+                                        $scope.MedicalHistoryflag = 1;
+                                    }
+                                    else {
+                                        $scope.MedicalHistoryflag = 0;
+                                    }
+                                }
+                                angular.forEach(data.SelectedGroupList, function (value, index) {
+                                    $scope.EditSelectedGroup.push(value.Group_Id);
+                                    $scope.SelectedGroup = $scope.EditSelectedGroup;
+                                });
+                                angular.forEach(data.SelectedInstitutionList, function (value, index) {
+                                    $scope.EditSelectedInstitution.push(value.Institution_Id);
+                                    $scope.SelectedInstitution = $scope.EditSelectedInstitution;
+                                });
+                                angular.forEach(data.SelectedLanguageList, function (value, index) {
+                                    $scope.EditSelectedLanguage.push(value.Language_Id);
+                                    $scope.SelectedLanguage = $scope.EditSelectedLanguage;
+                                });
+                                angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
+                                    $scope.EditSelectedChronicondition.push(value.Chronic_Id);
+                                    $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
+                                });
+                                //$scope.CountryBased_StateFunction();
+                                //$scope.StateBased_CityFunction();
+                                //$scope.Country_onChange();
+                                //$scope.State_onChange();
+
+                                $("#chatLoaderPV").hide();
+                            });
+                        } else {
+                            window.location.href = baseUrl + "/Home/LoginIndex";
+                        }
                     });
                 }
                 else {
@@ -5365,62 +5372,71 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
 
         $scope.GeneralFunction = function (ParamGroup_Id, ChartORData) {
-            $scope.ParameterList = [];
-            $scope.PatientHealthDataChartList = [];
-            $scope.ParamGroup_Id = ParamGroup_Id;
             $("#chatLoaderPV").show();
-            $scope.getParameterList();
-            $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype).success(function (data) {
-                $("#chatLoaderPV").hide();
-                $scope.SearchMsg = "No Data Available";
-                // only active items for Chart
-                if (ChartORData == 1) {
-                    $scope.PatientHealthDataChartList = $ff(data.PatientHealthDataList, { IsActive: 1 }, true);
-                    $scope.Parameter_List = [];
-                    $scope.ParameterChild_List = [];
+            $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.SelectedPatientId).success(function (data) {
+                   $("#chatLoaderPV").hide();
+                    var PatientInstituteId = data[0].Institution_Id;
+                    $scope.ParameterList = [];
+                    $scope.PatientHealthDataChartList = [];
+                    $scope.ParamGroup_Id = ParamGroup_Id;
+                    $("#chatLoaderPV").show();
+                    $scope.getParameterList();
+                if (PatientInstituteId == $window.localStorage['InstitutionId']) {
+                    $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.SearchMsg = "No Data Available";
+                        // only active items for Chart
+                        if (ChartORData == 1) {
+                            $scope.PatientHealthDataChartList = $ff(data.PatientHealthDataList, { IsActive: 1 }, true);
+                            $scope.Parameter_List = [];
+                            $scope.ParameterChild_List = [];
 
-                    if ($scope.GroupParameterNameList.length != '0') {
-                        angular.forEach($ff($scope.GroupParameterNameList, { Group_Id: $scope.ParamGroup_Id }, true), function (valueparam, indexparam) {
-                            if (valueparam.ParameterParent_Id == "0") {
-                                var currentParam = {
-                                    Id: valueparam.ParameterId,
-                                    Name: 'Chart' + valueparam.ParameterId,
-                                    hadChild: valueparam.ParameterHas_Child,
-                                    ParamName: valueparam.ParameterName,
-                                    GroupId: valueparam.Group_Id
-                                };
-                                $scope.Parameter_List.push(currentParam);
+                            if ($scope.GroupParameterNameList.length != '0') {
+                                angular.forEach($ff($scope.GroupParameterNameList, { Group_Id: $scope.ParamGroup_Id }, true), function (valueparam, indexparam) {
+                                    if (valueparam.ParameterParent_Id == "0") {
+                                        var currentParam = {
+                                            Id: valueparam.ParameterId,
+                                            Name: 'Chart' + valueparam.ParameterId,
+                                            hadChild: valueparam.ParameterHas_Child,
+                                            ParamName: valueparam.ParameterName,
+                                            GroupId: valueparam.Group_Id
+                                        };
+                                        $scope.Parameter_List.push(currentParam);
+                                    }
+                                    else {
+                                        var currentParamChild = {
+                                            Id: valueparam.ParameterId,
+                                            Parent_Id: valueparam.ParameterParent_Id,
+                                            Name: 'Chart' + valueparam.ParameterId,
+                                            GroupId: valueparam.Group_Id,
+                                            ParamName: valueparam.ParameterName,
+                                        };
+                                        $scope.ParameterChild_List.push(currentParamChild);
+                                    }
+
+
+                                });
+                            } else if ($scope.Tick == false) {
+                                5356
+                                $scope.getParameterList();
+                                $scope.GeneralFunction(ParamGroup_Id, ChartORData);
                             }
-                            else {
-                                var currentParamChild = {
-                                    Id: valueparam.ParameterId,
-                                    Parent_Id: valueparam.ParameterParent_Id,
-                                    Name: 'Chart' + valueparam.ParameterId,
-                                    GroupId: valueparam.Group_Id,
-                                    ParamName: valueparam.ParameterName,
-                                };
-                                $scope.ParameterChild_List.push(currentParamChild);
+                            if ($scope.Tick == true) {
+                                $scope.PatientHealthRecordDetailsList($ff($scope.Parameter_List, { GroupId: ParamGroup_Id }, true), $scope.PatientHealthDataChartList, $scope.ParameterChild_List);
                             }
+                        }
+                        // all active&inactive items for tableview/detail view
+                        else if (ChartORData == 2) {
+                            //$scope.PatientHealthDataChartList = data.PatientHealthDataList;
+                            $scope.PatientHealthDataChartList = data.PatientHealthDataList;
+                            $scope.vitalsFilterAllItem();
 
-
-                        });
-                    } else if ($scope.Tick == false) {
-                        5356
-                        $scope.getParameterList();
-                        $scope.GeneralFunction(ParamGroup_Id, ChartORData);
-                    }
-                    if ($scope.Tick == true) {
-                        $scope.PatientHealthRecordDetailsList($ff($scope.Parameter_List, { GroupId: ParamGroup_Id }, true), $scope.PatientHealthDataChartList, $scope.ParameterChild_List);
-                    }
+                        }
+                    })
+                } else {
+                    window.location.href = baseUrl + "/Home/LoginIndex";
                 }
-                // all active&inactive items for tableview/detail view
-                else if (ChartORData == 2) {
-                    //$scope.PatientHealthDataChartList = data.PatientHealthDataList;
-                    $scope.PatientHealthDataChartList = data.PatientHealthDataList;
-                    $scope.vitalsFilterAllItem();
-
-                }
-            })
+            });
         };
         $scope.VitalsIsActive = true;
         $scope.vitalsFilterAllItem = function () {

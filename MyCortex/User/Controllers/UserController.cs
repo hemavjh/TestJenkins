@@ -1126,6 +1126,19 @@ namespace MyCortex.User.Controller
         }
 
         /// <summary>
+        /// Parameter list of a patient
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IList<PatientInstituteModel> GETPATIENTINSTITUTION(long ID)
+        {
+            IList<PatientInstituteModel> model;
+            model = repository.GETPATIENTINSTITUTION(ID);
+            return model;
+        }
+
+        /// <summary>
         /// Parameters - Parameters Details List - Action - Inactive
         /// Selected Parameters details to be deactivated  by Id
         /// </summary>
