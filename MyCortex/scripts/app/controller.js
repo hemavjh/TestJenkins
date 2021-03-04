@@ -6945,6 +6945,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 //i.src = "../../Images/expand.gif"
                 $('#tableid1').hide();
                 $('#tableid2').hide();
+                $('.jinglebellmedium').removeClass('active');
+                $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+                $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
                 $scope.yellowcount = 1; 
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
@@ -7000,6 +7003,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                
                 $('#tableid3').hide();
                 $('#tableid4').hide();
+                $('.jinglebellhigh').removeClass('active');
+                $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+                $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell');
                 $scope.redcount = 1;
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
@@ -7055,6 +7061,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 
                 $('#tableid5').hide();
                 $('#tableid6').hide();
+                $('.jinglebellmedium').removeClass('active');
+                $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+                $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
                 $scope.greencount = 1;
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
@@ -17496,10 +17505,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 //   $scope.Id = data.Id;
                 $scope.Doctor_Id1 = data.Doctor_Id.toString();
                 $scope.Doctor_Name = data.Doctor_Name;
-                var F_D = moment(data.FromDate, "dd-MMM-yyyy");
-                $scope.FromDate = DateFormatEdit(F_D);
-                var T_D = $filter('date')(data.ToDate, "dd-MMM-yyyy");
-                $scope.ToDate = DateFormatEdit(T_D);
+                $scope.FromDate = DateFormatEdit($filter('date')(data.FromDate, "dd-MMM-yyyy"));
+                $scope.ToDate = DateFormatEdit($filter('date')(data.ToDate, "dd-MMM-yyyy"));
                 $scope.EditSelectedDoctor.push(data.Doctor_Id);
                 $scope.Doctor_Id = $scope.EditSelectedDoctor;
 
