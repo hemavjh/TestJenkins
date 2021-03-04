@@ -15664,7 +15664,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 $scope.current_page = p
             }
             $scope.changeBackColor = [];
-            $scope.NotificationUpdate = function (index1, SendEmailId, MessageSubject, MessageContent, ReadFlag) {
+            $scope.NotificationUpdate = function (index1, SendEmailId, MessageSubject, MessageContent, ReadFlag) { 
                 $scope.changeBackColor = [];
                 angular.element('#NotificationViewModel').modal('show');
                 $scope.SendEmail_Id = SendEmailId;
@@ -15676,8 +15676,12 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                             if (index == index1)
                                 row.ReadFlag = "2";
                         });
-                    });
+                        $scope.NotificationList(); 
+                    }); 
+                    
                 }
+               
+                
             }
             $scope.UserNotificationList = [];
             $scope.flag = 0;
@@ -15694,8 +15698,11 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                     else {
                         $scope.flag = 0;
                     }
+                    document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + data.NotificationUnread;
+                    var NotificationCount = document.getElementById('notificationCount');
+                    NotificationCount.textContent = data.NotificationUnread;
                 });
-                 
+                
             }
             $scope.ListFilter = function () {
                 $scope.ResultListFiltered = [];
