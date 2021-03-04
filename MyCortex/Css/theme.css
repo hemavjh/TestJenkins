@@ -48,7 +48,10 @@ body {
     max-width: 1390px;
     margin: 0 auto;
 }
-
+.jnmainbody, .DataContainer {
+    max-width: 1900px;
+    margin: 0 auto;
+}
 a {
     color: var(--linkText);
 }

@@ -6904,10 +6904,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebelllow').removeClass('active');
             $('#Highcount').addClass('fa fa-bell-o myhighBell');
             $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o myhighBell');
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
             $('.jinglebellmedium').addClass('active');
-            $('#Medcount').removeClass('fa fa-bell-o myhighBell');
-            $('#Medcount').addClass('fas fa-bell myhighBell');	
+            $('#Medcount').removeClass('fa fa-bell-o mymediumBell');
+            $('#Medcount').addClass('fas fa-bell mymediumBell');
             $('#tableid1').hide();
             $('#tableid2').hide();
             $scope.yellowcount++;
@@ -6956,9 +6956,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.redcount = 1;
         $scope.AlertCountredDisplay = function () {
             $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o myhighBell');
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
             $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o myhighBell');
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
 
             $('.jinglebelllow').addClass('active');
             $('#Highcount').removeClass('fa fa-bell-o myhighBell');
@@ -7013,11 +7013,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebelllow').removeClass('active');
             $('#Highcount').addClass('fa fa-bell-o myhighBell');
             $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o myhighBell');
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
 
             $('.jinglebellhigh').addClass('active');
-            $('#Lowcount').removeClass('fa fa-bell-o myhighBell');
-            $('#Lowcount').addClass('fas fa-bell myhighBell');
+            $('#Lowcount').removeClass('fa fa-bell-o mylowBell');
+            $('#Lowcount').addClass('fas fa-bell mylowBell');
             $('#tableid5').hide();
             $('#tableid6').hide();
             $scope.greencount++;
