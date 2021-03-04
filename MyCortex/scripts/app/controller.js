@@ -15653,7 +15653,7 @@ MyCortexControllers.controller("CommonController", ['$scope', '$http', '$filter'
 ]);
 MyCortexControllers.controller("NotificationViewController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
-        if ($window.localStorage['UserTypeId'] == 3) {
+        if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 7 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 6) {
             $scope.User_Id = $window.localStorage['UserId'];
             $scope.listdata = [];
             $scope.current_page = 1;
@@ -15695,6 +15695,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                         $scope.flag = 0;
                     }
                 });
+                 
             }
             $scope.ListFilter = function () {
                 $scope.ResultListFiltered = [];
@@ -15717,10 +15718,11 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 }
             }
             $scope.closeNotification = function () {
-                window.location.href = baseUrl + "/Home/Index#/home";
+                window.location.href = baseUrl + "/Home/Index#/home"; 
             }
             $scope.CancelModel = function () {
                 angular.element('#NotificationViewModel').modal('hide');
+                 
             }
         } else {
             window.location.href = baseUrl + "/Home/LoginIndex";
