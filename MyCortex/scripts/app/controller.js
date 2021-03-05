@@ -7003,9 +7003,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                
                 $('#tableid3').hide();
                 $('#tableid4').hide();
-                $('.jinglebellhigh').removeClass('active');
-                $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
-                $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell');
+                $('.jinglebelllow').removeClass('active');
+                $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
+                $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell');
                 $scope.redcount = 1;
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
@@ -7061,9 +7061,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 
                 $('#tableid5').hide();
                 $('#tableid6').hide();
-                $('.jinglebellmedium').removeClass('active');
-                $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
-                $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
+                $('.jinglebellhigh').removeClass('active');
+                $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+                $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell');
                 $scope.greencount = 1;
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
