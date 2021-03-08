@@ -13054,7 +13054,7 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
 
 
         $scope.PatientListFunction = function (PageNumber) {
-            if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 7) {
+            if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                 $("#chatLoaderPV").show();
                 $scope.PageNumber = PageNumber;
                 $scope.PageCountArray = [];
