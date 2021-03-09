@@ -44,7 +44,8 @@ MyCortexControllers.run(['$rootScope', '$window',
       $window.fbAsyncInit = function () {
           console.log('FB API called');
           FB.init({
-              appId: '907938093354960',
+              //appId: '907938093354960',
+              appId: '114164749908714',
               channelUrl: 'app/channel.html',
               status: true,
               cookie: true,
