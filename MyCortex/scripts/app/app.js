@@ -358,6 +358,23 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         });
 
     });
+    $(document).click(function (e) { //Here is when you click in your entire document
+        if ($(e.target).closest('.jinglebelllow').length == 0) { // If click is not paragraph
+            $('.jinglebelllow').removeClass('active');
+            $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
+            $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell'); //It removes this class existed from any paragraph
+        }
+        if ($(e.target).closest('.jinglebellmedium').length == 0) { // If click is not paragraph
+            $('.jinglebellmedium').removeClass('active');
+            $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+            $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell'); //It removes this class existed from any paragraph
+        }
+        if ($(e.target).closest('.jinglebellhigh').length == 0) { // If click is not paragraph
+            $('.jinglebellhigh').removeClass('active');
+            $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+            $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell'); //It removes this class existed from any paragraph
+        }
+    })
 
     return authInterceptorServiceFactory;
 }])

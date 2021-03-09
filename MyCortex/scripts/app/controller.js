@@ -6904,10 +6904,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebelllow').removeClass('active');
             $('#Highcount').addClass('fa fa-bell-o myhighBell');
             $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o myhighBell');
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
             $('.jinglebellmedium').addClass('active');
-            $('#Medcount').removeClass('fa fa-bell-o myhighBell');
-            $('#Medcount').addClass('fas fa-bell myhighBell');	
+            $('#Medcount').removeClass('fa fa-bell-o mymediumBell');
+            $('#Medcount').addClass('fas fa-bell mymediumBell');
             $('#tableid1').hide();
             $('#tableid2').hide();
             $scope.yellowcount++;
@@ -6945,6 +6945,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 //i.src = "../../Images/expand.gif"
                 $('#tableid1').hide();
                 $('#tableid2').hide();
+                $('.jinglebellmedium').removeClass('active');
+                $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+                $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
                 $scope.yellowcount = 1; 
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
@@ -6956,9 +6959,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.redcount = 1;
         $scope.AlertCountredDisplay = function () {
             $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o myhighBell');
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
             $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o myhighBell');
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
 
             $('.jinglebelllow').addClass('active');
             $('#Highcount').removeClass('fa fa-bell-o myhighBell');
@@ -7000,6 +7003,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                
                 $('#tableid3').hide();
                 $('#tableid4').hide();
+                $('.jinglebelllow').removeClass('active');
+                $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
+                $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell');
                 $scope.redcount = 1;
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
@@ -7013,11 +7019,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebelllow').removeClass('active');
             $('#Highcount').addClass('fa fa-bell-o myhighBell');
             $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o myhighBell');
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
 
             $('.jinglebellhigh').addClass('active');
-            $('#Lowcount').removeClass('fa fa-bell-o myhighBell');
-            $('#Lowcount').addClass('fas fa-bell myhighBell');
+            $('#Lowcount').removeClass('fa fa-bell-o mylowBell');
+            $('#Lowcount').addClass('fas fa-bell mylowBell');
             $('#tableid5').hide();
             $('#tableid6').hide();
             $scope.greencount++;
@@ -7055,6 +7061,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 
                 $('#tableid5').hide();
                 $('#tableid6').hide();
+                $('.jinglebellhigh').removeClass('active');
+                $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+                $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell');
                 $scope.greencount = 1;
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
@@ -13045,7 +13054,7 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
 
 
         $scope.PatientListFunction = function (PageNumber) {
-            if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 7) {
+            if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                 $("#chatLoaderPV").show();
                 $scope.PageNumber = PageNumber;
                 $scope.PageCountArray = [];
@@ -17503,10 +17512,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 //   $scope.Id = data.Id;
                 $scope.Doctor_Id1 = data.Doctor_Id.toString();
                 $scope.Doctor_Name = data.Doctor_Name;
-                var F_D = moment(data.FromDate, "dd-MMM-yyyy");
-                $scope.FromDate = DateFormatEdit(F_D);
-                var T_D = $filter('date')(data.ToDate, "dd-MMM-yyyy");
-                $scope.ToDate = DateFormatEdit(T_D);
+                $scope.FromDate = DateFormatEdit($filter('date')(data.FromDate, "dd-MMM-yyyy"));
+                $scope.ToDate = DateFormatEdit($filter('date')(data.ToDate, "dd-MMM-yyyy"));
                 $scope.EditSelectedDoctor.push(data.Doctor_Id);
                 $scope.Doctor_Id = $scope.EditSelectedDoctor;
 
