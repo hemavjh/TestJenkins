@@ -44,8 +44,8 @@ MyCortexControllers.run(['$rootScope', '$window',
       $window.fbAsyncInit = function () {
           console.log('FB API called');
           FB.init({
-              //appId: '907938093354960',
-              appId: '114164749908714',
+              appId: '907938093354960',
+              //appId: '114164749908714',
               channelUrl: 'app/channel.html',
               status: true,
               cookie: true,
@@ -68,8 +68,7 @@ MyCortexControllers.run(['$rootScope', '$window',
           js = d.createElement('script');
           js.id = id;
           js.async = true;
-          js.src = "https://connect.facebook.net/en_US/sdk.js";
-
+          js.src = "https://connect.facebook.net/en_US/sdk.js"; 
           ref.parentNode.insertBefore(js, ref);
 
       }(document));  
@@ -538,7 +537,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
     }
 
     $scope.getAccessToken = function () {
-        var offsetTime = new Date().getTimezoneOffset();
+        var offsetTime = new Date().getTimezoneOffset(); 
         FB.login(function (response) {
 
             $scope.loginStatus = response.status;
