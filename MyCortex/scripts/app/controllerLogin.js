@@ -40,20 +40,24 @@ MyCortexControllers.run(['$rootScope', '$window',
               console.log('page reloaded');
           }
       };
-
-      $window.fbAsyncInit = function () {
-          console.log('FB API called');
-          FB.init({
-              appId: '907938093354960',
-              //appId: '114164749908714',
-              channelUrl: 'app/channel.html',
-              status: true,
-              cookie: true,
-              xfbml: true,
-              version: 'v2.8'
+      jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FB_CONFIG&Institution_Id=' + window.localStorage.getItem('InstitutionId'))
+          .done(function (data) {
+              var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
+              $window.fbAsyncInit = function () {
+                  console.log('FB API called');
+                  FB.init({
+                      //appId: '907938093354960',
+                      //appId: '114164749908714',
+                      appId: jsonobj.appId,
+                      channelUrl: jsonobj.channelUrl,
+                      status: jsonobj.status,
+                      cookie: jsonobj.cookie,
+                      xfbml: jsonobj.xfbml,
+                      version: jsonobj.version
+                  });
+                  console.log('sync it function is over');
+              };
           });
-          console.log('sync it function is over');
-      };
 
 
       (function (d) {
