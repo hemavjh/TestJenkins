@@ -305,7 +305,7 @@ MyCortexControllers.controller("homeController", ['$scope', '$http', '$routePara
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
 MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService) {
-
+        
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.page_size = 0;
         $scope.ConfigCode = "PAGINATION";
@@ -4579,9 +4579,13 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
         };
 
         $scope.InstitueConfigurationStep16 = function () {
+            $("#runConfig").text('Processing(100%)....');
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
                 $("#runConfig").text('Processing(100%)....');
-                alert("Configuration Steps Completed!");
+                setTimeout(function () {
+                    alert("Configuration Steps Completed!");
+                }, 5000);
+
                 $("#runConfig").text('Re-run configuration');
                 $("#runConfig").removeClass('disabled');
             }).error(function (data) {

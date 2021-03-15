@@ -42,21 +42,23 @@ MyCortexControllers.run(['$rootScope', '$window',
       };
       jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FB_CONFIG&Institution_Id=' + window.localStorage.getItem('InstitutionId'))
           .done(function (data) {
-              var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
-              $window.fbAsyncInit = function () {
-                  console.log('FB API called');
-                  FB.init({
-                      //appId: '907938093354960',
-                      //appId: '114164749908714',
-                      appId: jsonobj.appId,
-                      channelUrl: jsonobj.channelUrl,
-                      status: jsonobj.status,
-                      cookie: jsonobj.cookie,
-                      xfbml: jsonobj.xfbml,
-                      version: jsonobj.version
-                  });
-                  console.log('sync it function is over');
-              };
+              if (data.length > 0) {
+                  var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
+                  $window.fbAsyncInit = function () {
+                      console.log('FB API called');
+                      FB.init({
+                          //appId: '907938093354960',
+                          //appId: '114164749908714',
+                          appId: jsonobj.appId,
+                          channelUrl: jsonobj.channelUrl,
+                          status: jsonobj.status,
+                          cookie: jsonobj.cookie,
+                          xfbml: jsonobj.xfbml,
+                          version: jsonobj.version
+                      });
+                      console.log('sync it function is over');
+                  };
+              }
           });
 
 
@@ -691,7 +693,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         var redirect = baseUrl + 'Home/LoginUsingGoogle/?Sys_TimeDifference=' + offsetTime + '&Browser_Version=' + navigator.sayswho + '&Login_Country=' + Login_Country
             + '&Login_City=' + Login_City + '&IPAdddress=' + IpAddress;
         // $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
-        window.location.href = redirect;
+        window.location.href = redirect; 
     }
 
     $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
