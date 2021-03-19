@@ -203,6 +203,60 @@ namespace MyCortex.Home.Controllers
             }
         }
 
+
+
+
+
+
+        /// <summary>
+        /// Patient Chronic details - SelectedPatient
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [CheckSessionOutFilter]
+        public ActionResult ChronicList()
+        {
+            long Patient_Id = Convert.ToInt32(Session["UserId"].ToString());
+            //long Patient_Id = Convert.ToInt32(Session["SelectedPatientId"].ToString());
+            var res = "";
+
+            List<string> t = new List<string>();
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            {
+                IList<PatientChronicCondition_List> lst = repository.Chronic_Conditions(Patient_Id);
+                //foreach (var i in lst)
+                //{
+                    
+                //}
+                var json = jsonSerialiser.Serialize(lst);
+                return Content(json);
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// logged in user basic details - user name, last login, user photo, patient type
         /// </summary>

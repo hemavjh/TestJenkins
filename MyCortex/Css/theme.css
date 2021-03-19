@@ -48,10 +48,12 @@ body {
     max-width: 1390px;
     margin: 0 auto;
 }
+
 .jnmainbody, .DataContainer {
     max-width: 1900px;
     margin: 0 auto;
 }
+
 a {
     color: var(--linkText);
 }
@@ -236,9 +238,18 @@ li.customDropdownlast-child:hover {
     left: 0px;
     z-index: 5;
 }
+.chronictIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-basis: 100%;
+    margin-bottom: 10px;
+}
 
 .patientHeaderProfile {
-    display: flex;
+    display: inline-flex;
+    float: left;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -271,6 +282,7 @@ li.customDropdownlast-child:hover {
 }
 
 .patientHeaderProfileDetails {
+    right: 304px;
     position: absolute;
     top: 16px;
     width: 220px;
@@ -278,7 +290,7 @@ li.customDropdownlast-child:hover {
 }
 
     .patientHeaderProfileDetails > div {
-        margin-top: 13px;
+        margin-top: 25px;
         background: #fff;
         color: #555;
         border: 1px solid #ccc;
@@ -373,7 +385,7 @@ li.customDropdownlast-child:hover {
     align-items: center;
     justify-content: flex-end;
     margin: 15px 0px;
-    padding-right:34%;
+    padding-right: 34%;
 }
 
 
@@ -538,8 +550,6 @@ li.customDropdownlast-child:hover {
 .changeViews {
     display: flex;
     justify-content: flex-end;
-    
-
 }
 
     .changeViews a {
@@ -981,11 +991,12 @@ li.customDropdownlast-child:hover {
     /* right: 25px; */
     font-size: 16px;
 }
-.PatientNotification2 { 
+
+.PatientNotification2 {
     text-align: left;
     left: 530px !important;
     position: absolute;
-    top: 10px; 
+    top: 10px;
     font-size: 14px;
 }
 
@@ -1738,13 +1749,16 @@ li.customDropdownlast-child:hover {
 .charTabsNone {
     display: none;
 }
+
 .width100 {
     width: 100px;
 }
+
 .patientDetimg {
     width: 100px;
     height: 100px;
 }
+
 .textalign {
     text-align: center !important;
 }
@@ -2056,3 +2070,71 @@ a.disabled {
     flex-basis: 100%;
     margin: 40px 0 0 18px;
 }
+
+
+
+
+
+/*<!------Tiny icon code start-------! >*/
+.tinyiconsonefull {
+    width: auto;
+    float: left;
+    padding: 0 0 10px 10px;
+}
+
+    .tinyiconsonefull span {
+        width: auto;
+        float: left;
+        padding: 0 6px 0 1px;
+    }
+
+.tinyiconsfull {
+    width: auto;
+    float: left;
+    padding: 0 0 0 1px;
+    cursor: pointer;
+}
+
+    .tinyiconsfull span {
+        width: auto;
+        float: left;
+        padding: 0 6px 0 1px;
+    }
+.messages {
+    max-width: 50px;
+    min-width: 150px;
+    background: #fcfcfc;
+    padding: 2px;
+    margin: 3px;
+    border-radius: 2px;
+    border: 0px solid #fcfcfc;
+    float: left;
+    clear: left;
+    position: absolute;
+    top: 75px;
+}
+.letter {
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    padding-left: 25px;
+}
+.LetFont1 {
+    color: black;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px;
+}
+.LetFont {
+    color: #808080;
+    font-size: 12px;
+}
+.LetsFont {
+    padding-left: 1px;
+    padding-bottom: 9px;
+    padding-top: 1px;
+}
+.namealign {
+    padding-left: 30px;
+}
+/*<!------Tiny icon code end-------! >*/

@@ -1597,7 +1597,8 @@ namespace MyCortex.Repositories.Uesr
                                                       select new PatientChronicCondition_List()
                                                       { 
                                                           Chronic_Id = p.Field<long>("CHRONIC_ID"),
-                                                          ChronicCondition = p.Field<string>("CHRONIC_NAME")
+                                                          ChronicCondition = p.Field<string>("CHRONIC_NAME"),
+                                                          ChronicGroup = p.Field<string>("ChronicGroup")
                                                       }).ToList();
             return INS;
         }

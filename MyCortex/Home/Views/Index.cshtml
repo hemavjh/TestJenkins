@@ -1,32 +1,170 @@
 ﻿<script>
     var List = jQuery.parseJSON('@Html.Action("LoginDetails", "Home")');
     var CountList = jQuery.parseJSON('@Html.Action("GetUnread_Notification_Count", "Home")');
+    var ChronicList = jQuery.parseJSON('@Html.Action("ChronicList", "Home")');
     var element = "";
+    var Chronic = [];
+    var Chronic_Name = "";
     $(document).ready(function () {
         User_id = window.localStorage['UserTypeId'];
-        
+
         document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + CountList[0];
         var NotificationCount = document.getElementById('notificationCount');
         NotificationCount.textContent = CountList[0];
         if (CountList[1] == 1 || CountList[1] == 3) {
             document.getElementById("mydiv").style.display = "none";
         }
-   
+
         $('[data-toggle="tooltip"]').tooltip();
+
+        $('#Brain').on('click', function () {
+            $('#ChronicIcon_Lungs').hide();
+            $('#ChronicIcon_Heart').hide();
+            var x = document.getElementById("ChronicIcon_Brain");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                if (ChronicList != null && ChronicList != "") {
+                    for (let i = 0; i < ChronicList.length; i++) {
+                        if (ChronicList[i].ChronicCondition === "Alzheimer") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Alzheimer');
+                            var oldinnerhtml = "<label class='LetFont1'>Alzheimer</label>";
+                            detail.innerHTML = "<img src='images/image004Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Arthritis") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Arthritis');
+                            var oldinnerhtml = "<label class='LetFont1'>Arthritis</label>";
+                            detail.innerHTML = "<img src='images/image004Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Epilepsy") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Epilepsy');
+                            var oldinnerhtml = "<label class='LetFont1'>Epilepsy</label>";
+                            detail.innerHTML = "<img src='images/image004Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Parkinson Disease") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Parkinson_Disease');
+                            var oldinnerhtml = "<label class='LetFont1'>Parkinson Disease</label>";
+                            detail.innerHTML = "<img src='images/image004Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Sclerosis") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Sclerosis');
+                            var oldinnerhtml = "<label class='LetFont1'>Sclerosis</label>";
+                            detail.innerHTML = "<img src='images/image004Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Stroke") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Stroke');
+                            var oldinnerhtml = "<label class='LetFont1'>Stroke</label>";
+                            detail.innerHTML = "<img src='images/image004Active.png' />" + oldinnerhtml;
+                        }
+                    }
+                } else {
+                    x.style.display = "none";
+                }
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Lungs').on('click', function () {
+            $('#ChronicIcon_Brain').hide();
+            $('#ChronicIcon_Heart').hide();
+            var x = document.getElementById("ChronicIcon_Lungs");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                if (ChronicList != null && ChronicList != "") {
+                    for (let i = 0; i < ChronicList.length; i++) {
+                        if (ChronicList[i].ChronicCondition === "Pulmonary Disease") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Pulmonary_Disease');
+                            var oldinnerhtml = "<label class='LetFont1'>Pulmonary Disease</label>";
+                            detail.innerHTML = "<img src='images/image006Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Lung Disease") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Lung_Disease');
+                            var oldinnerhtml = "<label class='LetFont1'>Lung Disease</label>";
+                            detail.innerHTML = "<img src='images/image006Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Asthma") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Asthma');
+                            var oldinnerhtml = "<label class='LetFont1'>Asthma</label>";
+                            detail.innerHTML = "<img src='images/image006Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Cancer") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Cancer');
+                            var oldinnerhtml = "<label class='LetFont1'>Cancer</label>";
+                            detail.innerHTML = "<img src='images/image006Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Diabetes") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Diabetes');
+                            var oldinnerhtml = "<label class='LetFont1'>Diabetes</label>";
+                            detail.innerHTML = "<img src='images/image006Active.png' />" + oldinnerhtml;
+                        }
+                    }
+                } else {
+                    x.style.display = "none";
+                }
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Heart').on('click', function () {
+            $('#ChronicIcon_Lungs').hide();
+            $('#ChronicIcon_Brain').hide();
+            var x = document.getElementById("ChronicIcon_Heart");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                if (ChronicList != null && ChronicList != "") {
+                    for (let i = 0; i < ChronicList.length; i++) {
+                        if (ChronicList[i].ChronicCondition === "Heart Disease") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Heart_Disease');
+                            var oldinnerhtml = "<label class='LetFont1'>Heart Disease</label>";
+                            detail.innerHTML = "<img src='images/image009Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Hypertension") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Hypertension');
+                            var oldinnerhtml = "<label class='LetFont1'>Hypertension</label>";
+                            detail.innerHTML = "<img src='images/image009Active.png' />" + oldinnerhtml;
+                        }
+                        else if (ChronicList[i].ChronicCondition === "Kidney Disease") {
+                            var oldinnerhtml = "";
+                            var detail = document.getElementById('Kidney_Disease');
+                            var oldinnerhtml = "<label class='LetFont1'>Kidney Disease</label>";
+                            detail.innerHTML = "<img src='images/image009Active.png' />" + oldinnerhtml;
+                        }
+                    }
+                } else {
+                    x.style.display = "none";
+                }
+            } else {
+                x.style.display = "none";
+            }
+        });
 
         $('.menuList button').on('click', function () {
             sessionStorage.setItem('key', this.id);
-            $('.menuList button').removeClass('activeButton'); 
+            $('.menuList button').removeClass('activeButton');
             element = document.getElementById(sessionStorage.getItem('key'));
-            element.className += '  activeButton'; 
-             
+            element.className += '  activeButton';
+
         });
         var element1 = document.getElementById(sessionStorage.getItem('key'));
-        $('.menuList button').removeClass('activeButton'); 
-        if (element1 == undefined) { 
-           
+        $('.menuList button').removeClass('activeButton');
+        if (element1 == undefined) {
+
             if (User_id == 1) {
-                element1 = document.getElementById('Institution'); 
+                element1 = document.getElementById('Institution');
             } else if (User_id == 3) {
                 element1 = document.getElementById('Home');
             } else if (User_id == 5) {
@@ -50,7 +188,7 @@
         $('#logoutalldevice').on('click',function () {
             sessionStorage.clear();
         });
-         
+
     });
 </script>
 <style>
@@ -126,7 +264,7 @@
                             if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    <button id="@menu.Menu_Name"   class="activeButton" onclick="location.href = '@menu.Menu_URL'"
+                                    <button id="@menu.Menu_Name" class="activeButton" onclick="location.href = '@menu.Menu_URL'"
                                             type="button" aria-expanded="false">
                                         @menu.Menu_Name
                                     </button>
@@ -135,7 +273,7 @@
                             else if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    <button id="@menu.Menu_Name"   onclick="location.href = '@menu.Menu_URL'"
+                                    <button id="@menu.Menu_Name" onclick="location.href = '@menu.Menu_URL'"
                                             type="button" aria-expanded="false">
                                         @menu.Menu_Name
                                     </button>
@@ -171,23 +309,10 @@
                     <img src="images/Premium.svg" id="imgPatientType">
                 </div>
                 <div class="themeRight">
-                    <div id="User_id" class="patientShortInfo" style="display: none;">
-                        <p>
-                            <span>Age:</span>
-                            <span id="Age">{{Age}}</span>
-                        </p>
-                        <p>
-                            <span>Sex:</span>
-                            <span id="Gender">{{Gender}}</span>
-                        </p>
-                        <p id="chronic" style="display: none; cursor:pointer;">
-                            <span>Chronic Condition</span>
-                        </p>
-                        <a href="#" title="Monitoring Protocol" style="display:none"><i class="fas fa-cog"></i></a>
-                        <a href="#" title="Groups" style="display:none"><i class="fas fa-user-friends"></i></a>
-                        <a href="#" title="Unknown Allergies" style="display:none"><i class="fas fa-virus"></i></a>
+                    <div id="User_id" class="patientShortInfo">
                         <div id="patient_profile" class="patientHeaderProfile" style="display: none;">
-                            <p id="fullname">{{fullname}}</p>  <i class="fas fa-chevron-down"></i>
+                            <p id="fullname" style="margin-left: -68px;margin-left: -220px;margin-bottom: -52px;padding-bottom: 10px;">{{fullname}}</p>
+                            <i style="margin-bottom: -54px;padding-bottom: 10px;" class="fas fa-chevron-down"></i>
                             <div class="patientHeaderProfileDetails" style="display:none">
                                 <div>
                                     <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
@@ -214,6 +339,106 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="tinyiconsonefull"><span><img src="images/image001.png" /></span>  <span><img src="images/image002.png" /></span> <span><img src="images/image003.png" /></span></div>
+
+                        <div id="BrainGroup" class="chronictIcon" style="display:none">
+                            <p>
+                                <span id="Gender"> {{Gender}}</span> , <span id="Age">{{Age}} </span> Years <i></i>
+                            </p>
+
+                            <div class="tinyiconsfull">
+                                <span id="Brain"><img src="images/image004.png" /></span>
+                                <span><img src="images/image005.png" /></span>
+                                <span id="Lungs"><img src="images/image006.png" /></span>
+                                <span><img src="images/image007.png" /></span>
+                                <span><img src="images/image008.png" /></span>
+                                <span id="Heart"><img src="images/image009.png" /></span>
+                                <span><img src="images/image0010.png" /></span>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Brain" style="display:none" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Brain Group</h6>
+                                        <ul style="padding: 5px; list-style: none;">
+                                            <li id="Alzheimer">
+                                                <label class="LetFont namealign">Alzheimer</label>
+                                            </li>
+                                            <li id="Arthritis">
+                                                <label class="LetFont namealign">Arthritis</label>
+                                            </li>
+                                            <li id="Epilepsy">
+                                                <label class="LetFont namealign">Epilepsy</label>
+                                            </li>
+                                            <li id="Parkinson_Disease">
+                                                <label class="LetFont namealign">Parkinson Disease</label>
+                                            </li>
+                                            <li id="Sclerosis">
+                                                <label class="LetFont namealign">Sclerosis</label>
+                                            </li>
+                                            <li id="Stroke">
+                                                <label class="LetFont namealign">Stroke</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Lungs" style="display:none;right: 387px;" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Lung Group</h6>
+                                        <ul style="padding: 1px; list-style: none;">
+                                            <li id="Pulmonary_Disease">
+                                                <label class="LetFont namealign">Pulmonary Disease</label>
+                                            </li>
+                                            <li id="Lung_Disease">
+                                                <label class="LetFont namealign">Lung Disease</label>
+                                            </li>
+                                            <li id="Asthma">
+                                                <label class="LetFont namealign">Asthma</label>
+                                            </li>
+                                            <li id="Cancer">
+                                                <label class="LetFont namealign">Cancer</label>
+                                            </li>
+                                            <li id="Diabetes">
+                                                <label class="LetFont namealign">Diabetes</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Heart" style="display:none; right: 256px;" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Heart Group</h6>
+                                        <ul style="padding: 3px; list-style: none;">
+                                            <li id="Heart_Disease">
+                                                <label class="LetFont namealign">Heart Disease</label>
+                                            </li>
+                                            <li id="Hypertension">
+                                                <label class="LetFont namealign">Hypertension</label>
+                                            </li>
+                                            <li id="Kidney_Disease">
+                                                <label class="LetFont namealign">Kidney Disease</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" title="Monitoring Protocol" style="display:none"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                        <a href="#" title="Groups" style="display:none"><i class="fas fa-user-friends" aria-hidden="true"></i></a>
+                        <a href="#" title="Unknown Allergies" style="display:none"><i class="fas fa-virus" aria-hidden="true"></i></a>
+
                     </div>
 
                     <div id="mydiv" class="notificationOnline">

@@ -1412,6 +1412,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //List Page Pagination.
         $scope.current_page = 1;
         $scope.total_pages = 1;
+        $scope.Chronic = [];
+        $scope.Chronic_Details = [];
+        $scope.Chronic_Name = "";
 
         $scope.loadCount = 3;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -5154,15 +5157,33 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             });
             $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
                 if (data.length !== 0) {
-                    $('#chronic').show();
+                    //$('#chronic').show();
+                    $scope.Chronic_Details = data;
                     var Chronic_Condition = document.getElementById('Chronic_Condition');
-                    let innerHtmlData = ""
+                    let innerHtmlData = "";
                     for (let i = 0; i < data.length; i++) {
-                        innerHtmlData = innerHtmlData + "<li>" + data[i].ChronicCondition + "</li>";
+                        innerHtmlData = innerHtmlData + "<li style='color: black'>" + data[i].ChronicCondition + "</li>";
+                        if (data[i].ChronicCondition === "Alzheimer" || data[i].ChronicCondition === "Arthritis" || data[i].ChronicCondition === "Epilepsy"
+                            || data[i].ChronicCondition === "Parkinson Disease" || data[i].ChronicCondition === "Sclerosis" || data[i].ChronicCondition === "Stroke") {
+                            var Brain = document.getElementById('Brain');     /* Chronic Img Icon Change */
+                            Brain.innerHTML = '<img src="images/image004Active.png">';
+                            $scope.Chronic_Name = 'Brain Group'
+                        }
+                        if (data[i].ChronicCondition === "Pulmonary Disease" || data[i].ChronicCondition === "Lung Disease" || data[i].ChronicCondition === "Asthma"
+                            || data[i].ChronicCondition === "Cancer" || data[i].ChronicCondition === "Diabetes") {
+                            var Brain = document.getElementById('Lungs');     /* Chronic Img Icon Change */
+                            Brain.innerHTML = '<img src="images/image006Active.png">';
+                            $scope.Chronic_Name = 'Lungs Group'
+                        }
+                        if (data[i].ChronicCondition === "Heart Disease" || data[i].ChronicCondition === "Hypertension" || data[i].ChronicCondition === "Kidney Disease") {
+                            var Brain = document.getElementById('Heart');     /* Chronic Img Icon Change */
+                            Brain.innerHTML = '<img src="images/image009Active.png">';
+                            $scope.Chronic_Name = 'Heart Group'
+                        }
                     }
                     Chronic_Condition.innerHTML = innerHtmlData;
                 } else {
-                    $('#chronic').hide();
+                    //$('#chronic').hide();
                 }
             });
         }
@@ -5201,6 +5222,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     methodcnt = methodcnt - 1;
                     $('#User_id').show();
                     $('#patient_profile').show();
+                    $('#BrainGroup').show();
                     var imgSrc = document.getElementById('imgSrc');
                     imgSrc.src = $scope.PhotoBlobs;
                     var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
