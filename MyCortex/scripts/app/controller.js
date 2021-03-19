@@ -18420,6 +18420,14 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
     }
 ]);
 
+MyCortexControllers.controller("DirectCallController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+        $scope.CallSessionId = $routeParams.CallSessionId;
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        chatService.initiateDirectCall($scope.CallSessionId);
+    }
+]);
+
 angular.module("angular-bootstrap-select", [])
     .directive("selectpicker",
         [

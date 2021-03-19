@@ -663,45 +663,67 @@ const chatService = function() {
                 })
             )            
         },
-		initiateCall: function()
-		{
-			var receiverID = userid;
-			var callType = CometChat.CALL_TYPE.AUDIO;
-			//var receiverType = CometChat.RECEIVER_TYPE.USER;/
-			let receiverType;
-			if(currentusertype=="u")
-			    receiverType = CometChat.RECEIVER_TYPE.USER;
-			else if(currentusertype=="g")
-			    receiverType = CometChat.RECEIVER_TYPE.GROUP;
+        initiateCall: function () {
+            var receiverID = userid;
+            var callType = CometChat.CALL_TYPE.AUDIO;
+            //var receiverType = CometChat.RECEIVER_TYPE.USER;/
+            let receiverType;
+            if (currentusertype === "u")
+                receiverType = CometChat.RECEIVER_TYPE.USER;
+            else if (currentusertype === "g")
+                receiverType = CometChat.RECEIVER_TYPE.GROUP;
 
-			var call = new CometChat.Call(receiverID, callType, receiverType);
+            var call = new CometChat.Call(receiverID, callType, receiverType);
 
-			CometChat.initiateCall(call).then(
-			  outGoingCall => {
-			        callAcceptedStatus=false;
+            CometChat.initiateCall(call).then(
+                outGoingCall => {
+                    callAcceptedStatus = false;
                     callInitiatorFlag = true;
                     checkCallStatus = true;
-			        $.playSound('/images/vivo-ringtone.mp3');
-			        messageList =  `<p><i class="fas fa-phone-alt"></i> call</p><br/>`
-                    $('#group-message-holder').append(messageList);			
-			        $('#callSessionID').val(outGoingCall.sessionId)	; 
-			        $("#add-book").hide()
-			        $("#groupsList").hide()			        
-			        $("#msg-page").attr("style", "display:none")
-                    $("#call-reject").attr("style", "display:flex")
-			        $("#call-accept").attr("style", "display:none")
-			        $("#call-page").attr("style", "display:flex")
-			        $("#showchatIcon").show();
-			        $('#addressBook').hide();
-                
-				//console.log("Call initiated successfully:", outGoingCall);
-				// perform action on success. Like show your calling screen.
-			  },
-			  error => {
-				console.log("Call initialization failed with exception:", error);
-			  }
-			);
-            },
+                    $.playSound('/images/vivo-ringtone.mp3');
+                    messageList = `<p><i class="fas fa-phone-alt"></i> call</p><br/>`;
+                    $('#group-message-holder').append(messageList);
+                    $('#callSessionID').val(outGoingCall.sessionId);
+                    $("#add-book").hide();
+                    $("#groupsList").hide();
+                    $("#msg-page").attr("style", "display:none");
+                    $("#call-reject").attr("style", "display:flex");
+                    $("#call-accept").attr("style", "display:none");
+                    $("#call-page").attr("style", "display:flex");
+                    $("#showchatIcon").show();
+                    $('#addressBook').hide();
+
+                    //console.log("Call initiated successfully:", outGoingCall);
+                    // perform action on success. Like show your calling screen.
+                },
+                error => {
+                    console.log("Call initialization failed with exception:", error);
+                }
+            );
+        },
+        initiateDirectCall: function (SessionId) {
+            let sessionID = SessionId;
+            let audioOnly = true;
+            let deafaultLayout = true;
+
+            let callSettings = new CometChat.CallSettingsBuilder()
+                .enableDefaultLayout(deafaultLayout)
+                .setSessionID(sessionID)
+                .setIsAudioOnlyCall(audioOnly)
+                .build();
+            CometChat.startCall(
+                callSettings,
+                document.getElementById("directCall-Page"),
+                new CometChat.OngoingCallListener({
+                    onCallEnded: call => {
+                        console.log("Call ended:", call);
+                    },
+                    onError: error => {
+                        console.log("Error :", error);
+                    }
+                })
+            );
+        },
         initiateVideCall: function()
         {
             var receiverID = userid;

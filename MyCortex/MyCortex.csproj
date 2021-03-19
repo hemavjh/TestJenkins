@@ -284,6 +284,7 @@
     <Content Include="Css\TreeStructure.css" />
     <Content Include="default.css" />
     <Content Include="firebase-messaging-sw.js" />
+    <Content Include="Home\Views\DirectCall.html" />
     <Content Include="Images\activeIcon.png" />
     <Content Include="Images\activeIcon1.png" />
     <Content Include="Images\activeIcon2.png" />
@@ -1385,6 +1386,7 @@
     <Content Include="User\Views\CareCoordinator.html" />
     <Content Include="User\Views\CareCoordinator_Compliance.html" />
     <Content Include="User\Views\CareGiverAssignedPatients.html" />
+    <Content Include="User\Views\DirectCall.html" />
     <Content Include="User\Views\HospitalAdmin_Userlist.html" />
     <Content Include="User\Views\PatientAppointments.html" />
     <Content Include="User\Views\PatientApproval.html" />

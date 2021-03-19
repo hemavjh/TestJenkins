@@ -284,6 +284,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
              templateUrl: baseUrl + 'Masters/Views/AllergyMasterlist.html',
              controller: 'AllergyMasterList'
          }).
+        when('/DirectCall/:CallSessionId', {
+            templateUrl: baseUrl + 'User/Views/DirectCall.html',
+            controller: 'DirectCallController'
+        }).
 
     otherwise({
         redirectTo: '/Googlehome'
