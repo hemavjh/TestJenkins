@@ -288,6 +288,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'User/Views/DirectCall.html',
             controller: 'DirectCallController'
         }).
+        when('/DirectVideoCall/:CallSessionId', {
+            templateUrl: baseUrl + 'User/Views/DirectVideoCall.html',
+            controller: 'DirectVideoCallController'
+        }).
 
     otherwise({
         redirectTo: '/Googlehome'

@@ -18428,6 +18428,14 @@ MyCortexControllers.controller("DirectCallController", ['$scope', '$http', '$rou
     }
 ]);
 
+MyCortexControllers.controller("DirectVideoCallController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+        $scope.CallSessionId = $routeParams.CallSessionId;
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        chatService.initiateDirectVideoCall($scope.CallSessionId);
+    }
+]);
+
 angular.module("angular-bootstrap-select", [])
     .directive("selectpicker",
         [

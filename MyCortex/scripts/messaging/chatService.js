@@ -43,11 +43,11 @@ const utilService = function()
             $('#addressBook').show();
             $('.chatBody').removeClass('chatBodyHalf');
             $('#addressBook').addClass('aqua');
-            $('.chatBox').removeClass('chatBoxBig')
-            $("#msg-page").attr("style", "display:block")                    
-            $("#call-accept").attr("style", "display:none")
-            $("#call-reject").attr("style", "display:none")
-            $("#call-page").attr("style", "display:none")
+            $('.chatBox').removeClass('chatBoxBig');
+            $("#msg-page").attr("style", "display:block");                  
+            $("#call-accept").attr("style", "display:none");
+            $("#call-reject").attr("style", "display:none");
+            $("#call-page").attr("style", "display:none");
             $("#showchatIcon").hide();
         },
         callEndAction: function()
@@ -56,11 +56,11 @@ const utilService = function()
             $('#addressBook').show();
             $('.chatBody').removeClass('chatBodyHalf');
             $('#addressBook').addClass('aqua');
-            $('.chatBox').removeClass('chatBoxBig')
-            $("#msg-page").attr("style", "display:block")                    
-            $("#call-accept").attr("style", "display:none")
-            $("#call-reject").attr("style", "display:none")
-            $("#call-page").attr("style", "display:none")
+            $('.chatBox').removeClass('chatBoxBig');
+            $("#msg-page").attr("style", "display:block");                  
+            $("#call-accept").attr("style", "display:none");
+            $("#call-reject").attr("style", "display:none");
+            $("#call-page").attr("style", "display:none");
             $("#showchatIcon").hide();
         },
         initializeChat: function()
@@ -90,7 +90,7 @@ const utilService = function()
             window.COMETCHAT_MSGCOUNT = 100;
             $.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=CHATMSGHISTORY_COUNT&Institution_Id=' + window.localStorage['InstitutionId'])
             .done(function (data) {
-                if (data[0] != undefined) {
+                if (data[0] !== undefined) {
                     window.COMETCHAT_MSGCOUNT = parseInt(data[0].ConfigValue);
                 }
 
@@ -98,32 +98,30 @@ const utilService = function()
             });
             
             $.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=COMETCHAT_APPID&Institution_Id=0')
-                    .done(function (data) {
-                        window.COMETCHAT_APP_ID = data[0].ConfigValue;
+                .done(function (data) {
+                    window.COMETCHAT_APP_ID = data[0].ConfigValue;
 
-                        $.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=COMETCHAT_APPKEY&Institution_Id=0')
+                    $.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=COMETCHAT_APPKEY&Institution_Id=0')
                         .done(function (data1) {
                             window.COMETCHAT_API_KEY = data1[0].ConfigValue;
                             chatService.initializeApp();
-                            
-                        })
-                    });
+
+                        });
+                });
 
         },
-        openChatPage: function (callId, userDataLoad)
-        {            
+        openChatPage: function (callId, userDataLoad) {
             $('#btnopenchat').attr("style", "display:none");
             $('#chatBox').attr("style", "display:block");
 
-            window.COMETCHAT_FROM_USER = window.localStorage['UserId']
-            window.COMETCHAT_TO_USER="";
+            window.COMETCHAT_FROM_USER = window.localStorage['UserId'];
+            window.COMETCHAT_TO_USER = "";
             // CC, CG, Clinician - open the selected patient id
             // for patient - appointment selected doctor id
-            if(callId!="")
-                window.COMETCHAT_TO_USER=callId;
-            else
-            {
-                if (window.localStorage['UserTypeId'] != "2") {
+            if (callId !== "")
+                window.COMETCHAT_TO_USER = callId;
+            else {
+                if (window.localStorage['UserTypeId'] !== "2") {
                     window.COMETCHAT_TO_USER = window.localStorage['SelectedPatientId'];
                 }
                 else {
@@ -132,192 +130,178 @@ const utilService = function()
             }
 
             //chatService.initializeApp();
-            if (window.COMETCHAT_TO_USER != undefined) {
-                if (window.COMETCHAT_TO_USER != "" && window.COMETCHAT_FROM_USER != window.COMETCHAT_TO_USER)
+            if (window.COMETCHAT_TO_USER !== undefined) {
+                if (window.COMETCHAT_TO_USER !== "" && window.COMETCHAT_FROM_USER !== window.COMETCHAT_TO_USER)
                     var vuser = false;
-                        $.each(userDataLoad, function (contIndex, contValue) {
-                            if (window.COMETCHAT_TO_USER == contValue.User_Id) {
-                                vuser = true;
-                            }
-                        })
-                        openUserChat("u", window.COMETCHAT_TO_USER, vuser);
-                        if (vuser == false) {
-                            $('#linkcallIcon').hide();
-                            $('#linkvideoIcon').hide();
-                            $('#input-text').prop('disabled', true);
-                            $("#btnfilechat").attr("style", "display:none")
-                        }
-                        else {
-                            $('#linkcallIcon').show();
-                            $('#linkvideoIcon').show();
-                            $('#input-text').prop('disabled', false);
-                            $("#btnfilechat").attr("style", "display:block")
-                        }
+                $.each(userDataLoad, function (contIndex, contValue) {
+                    if (window.COMETCHAT_TO_USER === contValue.User_Id) {
+                        vuser = true;
+                    }
+                })
+                openUserChat("u", window.COMETCHAT_TO_USER, vuser);
+                if (vuser === false) {
+                    $('#linkcallIcon').hide();
+                    $('#linkvideoIcon').hide();
+                    $('#input-text').prop('disabled', true);
+                    $("#btnfilechat").attr("style", "display:none");
+                }
+                else {
+                    $('#linkcallIcon').show();
+                    $('#linkvideoIcon').show();
+                    $('#input-text').prop('disabled', false);
+                    $("#btnfilechat").attr("style", "display:block");
+                }
             }
-            else
-            {
+            else {
                 chatService.getaddressbookDetails($('#contactSearch').val());
             }
             // if chat window minimized, open it
-            if ($(".chatBox").hasClass("chatBoxClose") == true) {
+            if ($(".chatBox").hasClass("chatBoxClose") === true) {
                 chatarrowclick();
             }
 
         },
-        convertMessageArrayTODisplay: function(messageArray, FromUser, ToUser)
-        {
+        convertMessageArrayTODisplay: function (messageArray, FromUser, ToUser) {
             //console.log(messageArray);
             //<i class="fas fa-check-double msgRead"></i>
             //               <i class="fas fa-check msgSend"></i>
             var sentDate = "";
             var lastCallDetails = "";
             var callStartTime = "";
-            $.each(messageArray, function(index, value) {
-                if(value.receiverType=="group")
+            $.each(messageArray, function (index, value) {
+                if (value.receiverType === "group")
                     CometChat.markAsRead(value.id, ToUser, value.receiverType);
                 else
                     CometChat.markAsRead(value.id, ToUser, value.receiverType);
 
                 var messageList;
                 var currentLoggedUID = FromUser;
-                messageList="";            
-                if(sentDate!=utilService.convertOnlyDate(value.sentAt))
-                {
-                    messageList =  `<li><p>` + utilService.convertOnlyDate(value.sentAt) + `</p></li>`;
+                messageList = "";
+                if (sentDate !== utilService.convertOnlyDate(value.sentAt)) {
+                    messageList = `<li><p>` + utilService.convertOnlyDate(value.sentAt) + `</p></li>`;
                     $('#group-message-holder').append(messageList);
                 }
-                messageList="";
-                sentDate = utilService.convertOnlyDate(value.sentAt)
-                if(`${value.category}`=="message" && `${value.type}`=="text")
-                {
-                    if (value.sender.uid != currentLoggedUID) {
-                        messageList =  `<li class="chatBodyRight">
+                messageList = "";
+                sentDate = utilService.convertOnlyDate(value.sentAt);
+                if (`${value.category}` === "message" && `${value.type}` === "text") {
+                    if (value.sender.uid !== currentLoggedUID) {
+                        messageList = `<li class="chatBodyRight">
                                     <div class="chatBodyRightDiv">
                                     ${value.data.text} 
-                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
+                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
                     } else {
-                        messageList =  `<li class="chatBodyLeft">
+                        messageList = `<li class="chatBodyLeft">
                                         <div class="chatBodyLeftDiv">
-                                        ${value.data.text} <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
+                                        ${value.data.text} <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
                     }
                 }
-                else if(`${value.category}`=="message" && `${value.type}`=="image")
-                {
-                if (value.sender.uid != currentLoggedUID) {
-                    messageList =  `<li class="chatBodyRight">
+                else if (`${value.category}` === "message" && `${value.type}` === "image") {
+                    if (value.sender.uid !== currentLoggedUID) {
+                        messageList = `<li class="chatBodyRight">
                                 <div class="chatBodyRightDiv">
                                 <a href=${value.data.url} target="_blank" class="hasAttachement"><img style="width:100%;height:100%" src=${value.data.url} /></a>
-                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
-                } else {
-                    messageList =  `<li class="chatBodyLeft">
+                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
+                    } else {
+                        messageList = `<li class="chatBodyLeft">
                                     <div class="chatBodyLeftDiv">
                                     <a href=${value.data.url} target="_blank" class="hasAttachement"><img style="width:100%;height:100%" src=${value.data.url} /></a>
-                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
+                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
+                    }
                 }
-            }
-            else if(`${value.category}`=="message" && `${value.type}`=="audio")
-            {
-                if (value.sender.uid != currentLoggedUID) {
-                    messageList =  `<li class="chatBodyRight">
+                else if (`${value.category}` === "message" && `${value.type}` === "audio") {
+                    if (value.sender.uid !== currentLoggedUID) {
+                        messageList = `<li class="chatBodyRight">
                                 <div class="chatBodyRightDiv">
                                 <a href=${value.data.url} target="_blank" class="hasAttachement">${value.attachment.fileName}<i class="fas fa-paperclip"></i></a>
-                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
+                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
                     } else {
-                    messageList =  `<li class="chatBodyLeft">
+                        messageList = `<li class="chatBodyLeft">
                                     <div class="chatBodyLeftDiv">\
                                     <a href=${value.data.url} target="_blank" class="hasAttachement">${value.attachment.fileName}<i class="fas fa-paperclip"></i></a>
-                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
-                                    }
-            }
-            else if(`${value.category}`=="message" && `${value.type}`=="video")
-            {
-                if (value.sender.uid != currentLoggedUID) {
-                    messageList =  `<li class="chatBodyRight">
+                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
+                    }
+                }
+                else if (`${value.category}` === "message" && `${value.type}` === "video") {
+                    if (value.sender.uid !== currentLoggedUID) {
+                        messageList = `<li class="chatBodyRight">
                                 <div class="chatBodyRightDiv">
                                 <a href=${value.data.url} target="_blank" class="hasAttachement">${value.attachment.fileName}<i class="fas fa-paperclip"></i></a>
-                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
+                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
                     } else {
-                    messageList =  `<li class="chatBodyLeft">
+                        messageList = `<li class="chatBodyLeft">
                                     <div class="chatBodyLeftDiv">
                                     <a href=${value.data.url} target="_blank" class="hasAttachement">${value.attachment.fileName}<i class="fas fa-paperclip"></i></a>
-                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
-                                    }
-            }  
-            else if(`${value.category}`=="call" && `${value.type}`=="audio" && `${value.action}`=="initiated")
-            {
-                lastCallDetails = `<li><p><i class="fas fa-phone-alt"></i> call{calltime}<br/>` + utilService.convertStringToDate(value.initiatedAt) + `</p></li>`
-            }
-            else if(`${value.category}`=="call" && `${value.type}`=="video" && `${value.action}`=="initiated")
-            {
-                lastCallDetails = `<li><p><i class="fas fa-video"></i> call{calltime}<br/>` + utilService.convertStringToDate(value.initiatedAt) + `</p></li>`
-            }          
-            else if( `${value.type}`=="file")
-            {
-                if (value.sender.uid != currentLoggedUID) {
-                    messageList =  `<li class="chatBodyRight">
+                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
+                    }
+                }
+                else if (`${value.category}` === "call" && `${value.type}` === "audio" && `${value.action}` === "initiated") {
+                    lastCallDetails = `<li><p><i class="fas fa-phone-alt"></i> call{calltime}<br/>` + utilService.convertStringToDate(value.initiatedAt) + `</p></li>`;
+                }
+                else if (`${value.category}` === "call" && `${value.type}` === "video" && `${value.action}` === "initiated") {
+                    lastCallDetails = `<li><p><i class="fas fa-video"></i> call{calltime}<br/>` + utilService.convertStringToDate(value.initiatedAt) + `</p></li>`;
+                }
+                else if (`${value.type}` === "file") {
+                    if (value.sender.uid !== currentLoggedUID) {
+                        messageList = `<li class="chatBodyRight">
                                 <div class="chatBodyRightDiv">
                                 <a href=${value.data.url} target="_blank" class="hasAttachement">${value.attachment.fileName}<i class="fas fa-paperclip"></i></a>
-                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
+                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
                     } else {
-                    messageList =  `<li class="chatBodyLeft">
+                        messageList = `<li class="chatBodyLeft">
                                     <div class="chatBodyLeftDiv">
                                     <a href=${value.data.url} target="_blank" class="hasAttachement">${value.attachment.fileName}<i class="fas fa-paperclip"></i></a>
-                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`
-                                    }
-            }
-            if (`${value.category}` == "call" && (`${value.type}` == "audio" || `${value.type}` == "video") && (`${value.action}` == "cancelled" || `${value.action}` == "rejected" || `${value.action}` == "unanswered" ))
-            {
-                if (lastCallDetails != "")
-                {
-                    lastCallDetails = lastCallDetails.replace("{calltime}", " " + `${value.action}`);
+                                    <span>` + utilService.convertStringToDate(value.sentAt) + `</span><i class="fas fa-check-double msgDelivered"></i></div></li>`;
+                    }
                 }
-                if (lastCallDetails != "") {
-                    $('#group-message-holder').append(lastCallDetails);
-                    lastCallDetails = "";
+                if (`${value.category}` === "call" && (`${value.type}` === "audio" || `${value.type}` === "video") && (`${value.action}` === "cancelled" || `${value.action}` === "rejected" || `${value.action}` === "unanswered")) {
+                    if (lastCallDetails !== "") {
+                        lastCallDetails = lastCallDetails.replace("{calltime}", " " + `${value.action}`);
+                    }
+                    if (lastCallDetails !== "") {
+                        $('#group-message-holder').append(lastCallDetails);
+                        lastCallDetails = "";
+                    }
                 }
-            }
-            else if (lastCallDetails!="" & (`${value.category}` == "message" || `${value.type}` == "file"))
-            {
-                lastCallDetails = lastCallDetails.replace("{calltime}", "");
+                else if (lastCallDetails !== "" & (`${value.category}` === "message" || `${value.type}` === "file")) {
+                    lastCallDetails = lastCallDetails.replace("{calltime}", "");
 
-                if (lastCallDetails != "") {
-                    $('#group-message-holder').append(lastCallDetails);
-                    lastCallDetails = "";
+                    if (lastCallDetails !== "") {
+                        $('#group-message-holder').append(lastCallDetails);
+                        lastCallDetails = "";
+                    }
                 }
-            }
-            else if (`${value.category}` == "call" && (`${value.type}` == "audio" || `${value.type}` == "video") && (`${value.action}` == "ended")) {
+                else if (`${value.category}` === "call" && (`${value.type}` === "audio" || `${value.type}` === "video") && (`${value.action}` === "ended")) {
 
-                var starttime = Number(`${value.data.entities.on.entity.initiatedAt}`) * 1000;
-                var endtime = Number(`${value.data.entities.on.entity.endedAt}`) * 1000;
-                
-                var timeDiff="";
-                var diff = Math.abs(new Date(endtime) - new Date(starttime));
-                var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-                
-                var minutes = Math.floor(seconds / 60);
-                seconds = seconds % 60;
-                var hours = Math.floor(minutes / 60);
-                minutes = minutes % 60;
-                if(hours>0) timeDiff = hours + "h "
-                if(minutes>0) timeDiff = timeDiff + minutes + "m "
-                if(seconds>0) timeDiff =timeDiff +  seconds + "s"
+                    var starttime = Number(`${value.data.entities.on.entity.initiatedAt}`) * 1000;
+                    var endtime = Number(`${value.data.entities.on.entity.endedAt}`) * 1000;
 
-                if (lastCallDetails != "") {
-                    lastCallDetails = lastCallDetails.replace("{calltime}", " " + timeDiff);
+                    var timeDiff = "";
+                    var diff = Math.abs(new Date(endtime) - new Date(starttime));
+                    var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+
+                    var minutes = Math.floor(seconds / 60);
+                    seconds = seconds % 60;
+                    var hours = Math.floor(minutes / 60);
+                    minutes = minutes % 60;
+                    if (hours > 0) timeDiff = hours + "h ";
+                    if (minutes > 0) timeDiff = timeDiff + minutes + "m ";
+                    if (seconds > 0) timeDiff = timeDiff + seconds + "s";
+
+                    if (lastCallDetails !== "") {
+                        lastCallDetails = lastCallDetails.replace("{calltime}", " " + timeDiff);
+                    }
+
+                    if (lastCallDetails !== "") {
+                        $('#group-message-holder').append(lastCallDetails);
+                        lastCallDetails = "";
+                    }
+                }
+                else if (messageList !== "") {
+                    if (messageList !== "")
+                        $('#group-message-holder').append(messageList);
                 }
 
-                if (lastCallDetails != "") {
-                    $('#group-message-holder').append(lastCallDetails);
-                    lastCallDetails = "";
-                }
-            }
-            else if (messageList != "")
-            {
-                if (messageList!="")
-                    $('#group-message-holder').append(messageList);                
-            }
-            
-            }); 
+            });
             $("#chatLoader").attr("style", "display:none");
         }
 
@@ -340,10 +324,10 @@ const chatService = function() {
     let userDataLoad = "";
     //let userid="";
     return {
-        initializeApp: function() {
-              let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('eu').build();
+        initializeApp: function () {
+            let cometChatSettings = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion('eu').build();
 
-              CometChat.init(COMETCHAT_APP_ID, cometChatSettings).then(
+            CometChat.init(COMETCHAT_APP_ID, cometChatSettings).then(
                 () => {
                     //console.log("Initialization completed successfully");
                     //const username = prompt(`Welcome to our jQuery chat demo powered by CometChat. Login with the username superhero1 or superhero2 and test the chat out. To create your own user, copy this link 'https://prodocs.cometchat.com/reference#createuser' and paste into your address-bar`);
@@ -356,9 +340,9 @@ const chatService = function() {
                     console.log("Initialization failed with error:", error);
 
                 }
-            )
+            );
         },
-        authLoginUser: function(username) {
+        authLoginUser: function (username) {
             let apiKey = COMETCHAT_API_KEY;
             $('#loading-message-container').show();
 
@@ -369,27 +353,27 @@ const chatService = function() {
                     this.getLoggedInUser();
                     //console.log($('#contactSearch').val());
                     //this.getaddressbookDetails($('#contactSearch').val());
-            
+
                     $.get(baseUrl + '/api/User/UserBasedDept_List?User_Id=' + username)
-                      .done(function (data) {
-                          userDataLoad = data;
-                      })
+                        .done(function (data) {
+                            userDataLoad = data;
+                        });
 
                     this.getUserOnlineStatus();
                     this.onMessageReceived();
                     this.callReceiving();
                 },
                 error => {
-                    alert("Chat login is not created for this User, please contact Admin")
+                    alert("Chat login is not created for this User, please contact Admin");
                     console.log("Login failed with error:", error.code);
                 }
-            )
+            );
         },
-        getLoggedInUser: function() {
+        getLoggedInUser: function () {
             CometChat.getLoggedinUser().then(
                 user => {
                     $('#loggedInUsername').text(user.name);
-                    $('#loggedInUserAvatar').attr("src", user.avatar)
+                    $('#loggedInUserAvatar').attr("src", user.avatar);
                     $('#loggedInUID').val(user.uid);
 
                     $('#loading-message-container').hide();
@@ -401,10 +385,10 @@ const chatService = function() {
                 error => {
                     console.log(error);
                 }
-            )
+            );
         },
-        fetchMessages: function(userType, viewUserId) {      
-            $("#chatLoader").attr("style", "display:block")
+        fetchMessages: function (userType, viewUserId) {
+            $("#chatLoader").attr("style", "display:block");
             userid = viewUserId;
             currentusertype = userType;
             window.COMETCHAT_TO_USER = userid;
@@ -412,65 +396,63 @@ const chatService = function() {
             $('#group-message-holder').empty();
             messageArray = [];
             this.getUserDetails(userType, userid, "");
-            if(userType=="u")
-            {
+            if (userType === "u") {
                 $("#deleteGroup").hide();
                 const messagesRequest = new CometChat.MessagesRequestBuilder()
-                .setUID(userid)
-                .setLimit(window.COMETCHAT_MSGCOUNT)
-                .build();
+                    .setUID(userid)
+                    .setLimit(window.COMETCHAT_MSGCOUNT)
+                    .build();
                 messagesRequest.fetchPrevious().then(
                     messages => {
                         messageArray = [...messageArray, ...messages];
                         utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
-                    
+
                         this.getaddressbookDetails($('#contactSearch').val());
-                        this.scrollToBottom();     
+                        this.scrollToBottom();
                     },
                     error => {
                         console.log("Message fetching failed with error:", error);
                     }
-                )
+                );
                 //$("#chatLoader").attr("style", "display:none")
             }
-            else if(userType=="g")
-            {
-                    $("#deleteGroup").show();
-                    const messagesRequest = new CometChat.MessagesRequestBuilder()
+            else if (userType === "g") {
+                $("#deleteGroup").show();
+                const messagesRequest = new CometChat.MessagesRequestBuilder()
                     .setGUID(userid)
                     .setLimit(window.COMETCHAT_MSGCOUNT)
                     .build();
-                    messagesRequest.fetchPrevious().then(
-                        messages => {
-                            //console.log(messages);
-                            messageArray = [...messageArray, ...messages];
-                            utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
-                    
-                            this.getaddressbookDetails($('#contactSearch').val());
-                            this.scrollToBottom();     
-                            },
-                        error => {
-                            console.log("Message fetching failed with error:", error);
-                        }
-                        )                        
+                messagesRequest.fetchPrevious().then(
+                    messages => {
+                        //console.log(messages);
+                        messageArray = [...messageArray, ...messages];
+                        utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
+
+                        this.getaddressbookDetails($('#contactSearch').val());
+                        this.scrollToBottom();
+                    },
+                    error => {
+                        console.log("Message fetching failed with error:", error);
+                    }
+                );
             }
-            
+
         },
-        sendMessage: function(){
+        sendMessage: function () {
             $('#send-message-spinner').show();
             let receiverID = userid;
             let messageText = $('#input-text').val();
             let messageType = CometChat.MESSAGE_TYPE.TEXT;
             let receiverType;
-            if(currentusertype=="u")
+            if (currentusertype === "u")
                 receiverType = CometChat.RECEIVER_TYPE.USER;
-            else if(currentusertype=="g")
+            else if (currentusertype === "g")
                 receiverType = CometChat.RECEIVER_TYPE.GROUP;
 
             let textMessage = new CometChat.TextMessage(
                 receiverID, messageText, receiverType
             );
-            $("#chatLoader").attr("style", "display:block")
+            $("#chatLoader").attr("style", "display:block");
             CometChat.sendMessage(textMessage).then(
                 message => {
                     //$('#message-form').trigger('reset');
@@ -490,23 +472,22 @@ const chatService = function() {
                 }
             );
         },
-        sendMediaMessage: function(){
-            $("#chatLoader").attr("style", "display:block")
+        sendMediaMessage: function () {
+            $("#chatLoader").attr("style", "display:block");
             let receiverID = userid;
             let messageobj = document.getElementById('filechat').files[0];
-            
+
             let receiverType;
-            if(currentusertype=="u")
+            if (currentusertype === "u")
                 receiverType = CometChat.RECEIVER_TYPE.USER;
-            else if(currentusertype=="g")
+            else if (currentusertype === "g")
                 receiverType = CometChat.RECEIVER_TYPE.GROUP;
-            if(messageobj['type'].split('/')[0]=='image')
-            {
+            if (messageobj['type'].split('/')[0] === 'image') {
                 let messageType = CometChat.MESSAGE_TYPE.IMAGE;
                 let mediaMessage = new CometChat.MediaMessage(
                     receiverID, messageobj, messageType, receiverType
                 );
-                
+
                 CometChat.sendMessage(mediaMessage).then(
                     message => {
                         //$('#message-form').trigger('reset');
@@ -516,7 +497,7 @@ const chatService = function() {
                         utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
                         this.getaddressbookDetails($('#contactSearch').val());
                         //this.onMessageReceived();
-					
+
                         this.scrollToBottom();
 
                     },
@@ -524,84 +505,81 @@ const chatService = function() {
                         console.log("Message sending failed with error:", error);
                     }
                 );
-                }
-                else if(messageobj['type'].split('/')[0]=='audio')
-                {
-                    let messageType = CometChat.MESSAGE_TYPE.AUDIO;
-                    let mediaMessage = new CometChat.MediaMessage(
-                        receiverID, messageobj, messageType, receiverType
-                    );
-                    CometChat.sendMessage(mediaMessage).then(
-                        message => {
-                            //$('#message-form').trigger('reset');
-                            //$("#message-form")[0].reset();
+            }
+            else if (messageobj['type'].split('/')[0] === 'audio') {
+                let messageType = CometChat.MESSAGE_TYPE.AUDIO;
+                let mediaMessage = new CometChat.MediaMessage(
+                    receiverID, messageobj, messageType, receiverType
+                );
+                CometChat.sendMessage(mediaMessage).then(
+                    message => {
+                        //$('#message-form').trigger('reset');
+                        //$("#message-form")[0].reset();
                         $('#group-message-holder').empty();
                         messageArray = [...messageArray, message];
                         utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
 
-                    //this.onMessageReceived();
-					
-                    this.scrollToBottom();
+                        //this.onMessageReceived();
+
+                        this.scrollToBottom();
 
                     },
-                        error => {
-                            console.log("Message sending failed with error:", error);
+                    error => {
+                        console.log("Message sending failed with error:", error);
                     }
-                    );
+                );
+            }
+            else if (messageobj['type'].split('/')[0] === 'video') {
+                let messageType = CometChat.MESSAGE_TYPE.VIDEO;
+                let mediaMessage = new CometChat.MediaMessage(
+                    receiverID, messageobj, messageType, receiverType
+                );
+                CometChat.sendMessage(mediaMessage).then(
+                    message => {
+                        //$('#message-form').trigger('reset');
+                        //$("#message-form")[0].reset();
+                        $('#group-message-holder').empty();
+                        messageArray = [...messageArray, message];
+                        utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
+
+                        //this.onMessageReceived();
+
+                        this.scrollToBottom();
+
+                    },
+                    error => {
+                        console.log("Message sending failed with error:", error);
                     }
-                    else if(messageobj['type'].split('/')[0]=='video')
-                    {
-                        let messageType = CometChat.MESSAGE_TYPE.VIDEO;
-                        let mediaMessage = new CometChat.MediaMessage(
-                            receiverID, messageobj, messageType, receiverType
-                        );
-                        CometChat.sendMessage(mediaMessage).then(
-                            message => {
-                                //$('#message-form').trigger('reset');
-                                //$("#message-form")[0].reset();
-                            $('#group-message-holder').empty();
-                            messageArray = [...messageArray, message];
-                            utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
+                );
+                $("#chatLoader").attr("style", "display:none");
+            }
+            else {
+                let messageType = CometChat.MESSAGE_TYPE.FILE;
+                let mediaMessage = new CometChat.MediaMessage(
+                    receiverID, messageobj, messageType, receiverType
+                );
+                CometChat.sendMessage(mediaMessage).then(
+                    message => {
+                        //$('#message-form').trigger('reset');
+                        //$("#message-form")[0].reset();
+                        $('#group-message-holder').empty();
+                        messageArray = [...messageArray, message];
+                        utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
 
-                            //this.onMessageReceived();
-					
-                            this.scrollToBottom();
+                        //this.onMessageReceived();
 
-                            },
-                            error => {
-                                console.log("Message sending failed with error:", error);
-                            }
-                        );
-                        $("#chatLoader").attr("style", "display:none")
-                        }
-                        else 
-                        {
-                            let messageType = CometChat.MESSAGE_TYPE.FILE;
-                            let mediaMessage = new CometChat.MediaMessage(
-                                receiverID, messageobj, messageType, receiverType
-                            );
-                            CometChat.sendMessage(mediaMessage).then(
-                                message => {
-                                    //$('#message-form').trigger('reset');
-                                    //$("#message-form")[0].reset();
-                                    $('#group-message-holder').empty();
-                                    messageArray = [...messageArray, message];
-                                    utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
+                        this.scrollToBottom();
 
-                                    //this.onMessageReceived();
-					
-                                    this.scrollToBottom();
+                    },
+                    error => {
+                        console.log("Message sending failed with error:", error);
+                    }
+                );
+            }
 
-                                },
-                                error => {
-                                    console.log("Message sending failed with error:", error);
-                                }
-                                );
-                        }
-
-            $("#chatLoader").attr("style", "display:none")
+            $("#chatLoader").attr("style", "display:none");
         },
-        onMessageReceived: function() {
+        onMessageReceived: function () {
             $('#empty-chat').hide();
             $('#group-message-holder').show();
             $('#send-message-spinner').hide();
@@ -610,33 +588,31 @@ const chatService = function() {
             CometChat.addMessageListener(
                 listenerID,
                 new CometChat.MessageListener({
-					onTypingStarted: typingIndicator => {
-					    //console.log("Typing started :", typingIndicator);
-                        if(typingIndicator.sender.uid==userid)
+                    onTypingStarted: typingIndicator => {
+                        //console.log("Typing started :", typingIndicator);
+                        if (typingIndicator.sender.uid === userid)
                             this.getUserDetails(currentusertype, userid, "(typing...)");
-					},
-					onTypingEnded: typingIndicator => {
-					    //console.log("Typing ended :", typingIndicator);
-                        if(typingIndicator.sender.uid==userid)
+                    },
+                    onTypingEnded: typingIndicator => {
+                        //console.log("Typing ended :", typingIndicator);
+                        if (typingIndicator.sender.uid === userid)
                             this.getUserDetails(currentusertype, userid, "");
 
-					},
+                    },
                     onMediaMessageReceived: mediaMessage => {
                         //console.log("Media message received successfully", mediaMessage);
                         messageArray = [...messageArray, mediaMessage];
                         //CometChat.markAsRead(mediaMessage.id, mediaMessage.receiverId, mediaMessage.receiverType);
-                        if($("#chatBox").attr("style")=="display:none")
-                        {
+                        if ($("#chatBox").attr("style") === "display:none") {
                             utilService.openChatPage(mediaMessage.sender.uid, userDataLoad);
                         }
-                        if((mediaMessage.sender.uid==userid && mediaMessage.receiverType=="user")||((mediaMessage.receiverId==userid && mediaMessage.receiverType=="group")))
-                        {
-                            $("#chatLoader").attr("style", "display:block")
+                        if ((mediaMessage.sender.uid === userid && mediaMessage.receiverType === "user") || ((mediaMessage.receiverId === userid && mediaMessage.receiverType === "group"))) {
+                            $("#chatLoader").attr("style", "display:block");
                             //$('#message-form').trigger('reset');
                             $('#group-message-holder').empty();
                             utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
                             this.scrollToBottom();
-                            $("#chatLoader").attr("style", "display:none")
+                            $("#chatLoader").attr("style", "display:none");
                         }
                         this.getaddressbookDetails($('#contactSearch').val());
                     },
@@ -644,24 +620,22 @@ const chatService = function() {
                         messageArray = [...messageArray, textMessage];
                         //$('.old-chats').remove();
                         //console.log(textMessage);
-                        if($("#chatBox").attr("style")=="display:none")
-                        {
+                        if ($("#chatBox").attr("style") === "display:none") {
                             utilService.openChatPage(mediaMessage.sender.uid, userDataLoad);
                         }
                         //CometChat.markAsRead(mediaMessage.id, mediaMessage.receiverId, mediaMessage.receiverType);
-                        if((textMessage.sender.uid==userid && textMessage.receiverType=="user")||((textMessage.receiverId==userid && textMessage.receiverType=="group")))
-                        {
-                            $("#chatLoader").attr("style", "display:block")
+                        if ((textMessage.sender.uid === userid && textMessage.receiverType === "user") || ((textMessage.receiverId === userid && textMessage.receiverType === "group"))) {
+                            $("#chatLoader").attr("style", "display:block");
                             //$('#message-form').trigger('reset');
                             $('#group-message-holder').empty();
                             utilService.convertMessageArrayTODisplay(messageArray, COMETCHAT_FROM_USER, userid);
                             this.scrollToBottom();
-                            $("#chatLoader").attr("style", "display:none")
+                            $("#chatLoader").attr("style", "display:none");
                         }
                         this.getaddressbookDetails($('#contactSearch').val());
                     }
                 })
-            )            
+            );
         },
         initiateCall: function () {
             var receiverID = userid;
@@ -724,275 +698,289 @@ const chatService = function() {
                 })
             );
         },
-        initiateVideCall: function()
-        {
+        initiateDirectVideoCall: function (SessionId) {
+            let sessionID = SessionId;
+            let audioOnly = false;
+            let deafaultLayout = true;
+
+            let callSettings = new CometChat.CallSettingsBuilder()
+                .enableDefaultLayout(deafaultLayout)
+                .setSessionID(sessionID)
+                .setIsAudioOnlyCall(audioOnly)
+                .build();
+            CometChat.startCall(
+                callSettings,
+                document.getElementById("directVideoCall-Page"),
+                new CometChat.OngoingCallListener({
+                    onCallEnded: call => {
+                        console.log("Call ended:", call);
+                    },
+                    onError: error => {
+                        console.log("Error :", error);
+                    }
+                })
+            );
+        },
+        initiateVideCall: function () {
             var receiverID = userid;
             var callType = CometChat.CALL_TYPE.VIDEO;
             //var receiverType = CometChat.RECEIVER_TYPE.USER;
-                
+
             let receiverType;
-            if(currentusertype=="u")
+            if (currentusertype === "u")
                 receiverType = CometChat.RECEIVER_TYPE.USER;
-            else if(currentusertype=="g")
+            else if (currentusertype === "g")
                 receiverType = CometChat.RECEIVER_TYPE.GROUP;
 
             var call = new CometChat.Call(receiverID, callType, receiverType);
 
             CometChat.initiateCall(call).then(
                 outGoingCall => {
-                    callAcceptedStatus=false;
+                    callAcceptedStatus = false;
                     callInitiatorFlag = true;
                     checkCallStatus = true;
-		            messageList =  `<p><i class="fas fa-video"></i> call</p><br />`
+                    messageList = `<p><i class="fas fa-video"></i> call</p><br />`;
                     $('#group-message-holder').append(messageList);
-                    $('#callSessionID').val(outGoingCall.sessionId)	;    
-                    $("#add-book").hide()
-                    $("#groupsList").hide()
-                    $("#msg-page").attr("style", "display:none")
-                    $("#call-accept").attr("style", "display:none")
-                    $("#call-reject").attr("style", "display:flex")
-                    $("#call-page").attr("style", "display:flex")
+                    $('#callSessionID').val(outGoingCall.sessionId);
+                    $("#add-book").hide();
+                    $("#groupsList").hide();
+                    $("#msg-page").attr("style", "display:none");
+                    $("#call-accept").attr("style", "display:none");
+                    $("#call-reject").attr("style", "display:flex");
+                    $("#call-page").attr("style", "display:flex");
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
-                    $.playSound('/images/vivo-ringtone.mp3')
+                    $.playSound('/images/vivo-ringtone.mp3');
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
-                    },
-			            error => {
-			                console.log("Call initialization failed with exception:", error);
-        }
-			        );
+                },
+                error => {
+                    console.log("Call initialization failed with exception:", error);
+                }
+            );
         },
-		callReceiving: function()
-		{            
-		    //console.log("callReceiving");
-			var listnerID = "UNIQUE_LISTENER_ID";
-			CometChat.addCallListener(
-			  listnerID,
-			  new CometChat.CallListener({
-			      onIncomingCallReceived(call) {
-                    //console.log("Incoming call:", call);
-			        if($("#chatBox").attr("style")=="display:none")
-			        {
-			            utilService.openChatPage(call.sender.uid, userDataLoad);
-			        }
+        callReceiving: function () {
+            //console.log("callReceiving");
+            var listnerID = "UNIQUE_LISTENER_ID";
+            CometChat.addCallListener(
+                listnerID,
+                new CometChat.CallListener({
+                    onIncomingCallReceived(call) {
+                        //console.log("Incoming call:", call);
+                        if ($("#chatBox").attr("style") === "display:none") {
+                            utilService.openChatPage(call.sender.uid, userDataLoad);
+                        }
 
-			        if ($('.chatBox').hasClass("chatBoxClose") == true) {
-			            $('.chatBox').toggleClass('chatBoxClose');
-			            $('#chatBoxOpener').find('i').toggleClass('fa-arrow-up');
-			            $('#chatBoxOpener').find('i').toggleClass('fa-arrow-down');
-			        }
-			        if ($("#addressBook").hasClass("aqua") == true) {
-			            $('.chatBody').toggleClass('chatBodyHalf');
-			            $('.contactList').toggle();
-			            $('#groupsList').hide();
-			            $('#addressBook').toggleClass('aqua');
-			            $('.chatBox').toggleClass('chatBoxBig');
-			        }
-                    messageList =  `<p><i class="fas fa-video"></i> call</p><br />`
-                    if(call.type=="audio")
-                    {
-                        messageList =  `<p><i class="fas fa-phone-alt"></i> call</p><br />`
-                    }
-                    else if(call.type=="video")
-                    {
-                        messageList =  `<p><i class="fas fa-video"></i> call</p><br />`
-                    }
-                    $('#group-message-holder').append(messageList);
+                        if ($('.chatBox').hasClass("chatBoxClose") === true) {
+                            $('.chatBox').toggleClass('chatBoxClose');
+                            $('#chatBoxOpener').find('i').toggleClass('fa-arrow-up');
+                            $('#chatBoxOpener').find('i').toggleClass('fa-arrow-down');
+                        }
+                        if ($("#addressBook").hasClass("aqua") === true) {
+                            $('.chatBody').toggleClass('chatBodyHalf');
+                            $('.contactList').toggle();
+                            $('#groupsList').hide();
+                            $('#addressBook').toggleClass('aqua');
+                            $('.chatBox').toggleClass('chatBoxBig');
+                        }
+                        messageList = `<p><i class="fas fa-video"></i> call</p><br />`;
+                        if (call.type === "audio") {
+                            messageList = `<p><i class="fas fa-phone-alt"></i> call</p><br />`;
+                        }
+                        else if (call.type === "video") {
+                            messageList = `<p><i class="fas fa-video"></i> call</p><br />`;
+                        }
+                        $('#group-message-holder').append(messageList);
 
-                    $.playSound('/images/vivo-ringtone.mp3')
+                        $.playSound('/images/vivo-ringtone.mp3');
 
-                    $('#callinitiatorname').empty();
-                    $('#callinitiatorname').append(call.callInitiator.name);
-                    $('#callinitiatorname').append( `<span> calling...</span>`);
+                        $('#callinitiatorname').empty();
+                        $('#callinitiatorname').append(call.callInitiator.name);
+                        $('#callinitiatorname').append(`<span> calling...</span>`);
 
-				    $('#callSessionID').val(call.sessionId)	;    
-				    $("#add-book").hide()
-				    $("#groupsList").hide()
-			        $("#msg-page").attr("style", "display:none")
-			        $("#call-accept").attr("style", "display:flex")
-			        $("#call-reject").attr("style", "display:flex")
-			        $("#call-page").attr("style", "display:flex")
-			        $("#showchatIcon").show();
-				  // Handle incoming call
-		            },
-		        onOutgoingCallAccepted(call) {
-                    callAcceptedStatus = true;
-                    checkCallStatus = true;
-		            $.stopSound();
-		            //console.log("Outgoing call accepted:", call);
-		            //$('#callSessionID').val(call.sessionId)	;   
-			        //var sessionID = $('#callSessionID').val();
-		            //console.log(sessionID);
-		            $("#add-book").hide()
-		            $("#groupsList").hide()
-			        $("#msg-page").attr("style", "display:none")
-			        $("#call-reject").attr("style", "display:none")
-			        $("#call-accept").attr("style", "display:none")
-			        $("#call-page").attr("style", "display:flex")
-			        $("#showchatIcon").show();
+                        $('#callSessionID').val(call.sessionId);
+                        $("#add-book").hide();
+                        $("#groupsList").hide();
+                        $("#msg-page").attr("style", "display:none");
+                        $("#call-accept").attr("style", "display:flex");
+                        $("#call-reject").attr("style", "display:flex");
+                        $("#call-page").attr("style", "display:flex");
+                        $("#showchatIcon").show();
+                        // Handle incoming call
+                    },
+                    onOutgoingCallAccepted(call) {
+                        callAcceptedStatus = true;
+                        checkCallStatus = true;
+                        $.stopSound();
+                        //console.log("Outgoing call accepted:", call);
+                        //$('#callSessionID').val(call.sessionId)	;   
+                        //var sessionID = $('#callSessionID').val();
+                        //console.log(sessionID);
+                        $("#add-book").hide();
+                        $("#groupsList").hide();
+                        $("#msg-page").attr("style", "display:none");
+                        $("#call-reject").attr("style", "display:none");
+                        $("#call-accept").attr("style", "display:none");
+                        $("#call-page").attr("style", "display:flex");
+                        $("#showchatIcon").show();
 
-			        CometChat.startCall(
-			        call.sessionId,
-			        document.getElementById("call-page"),
-			        new CometChat.OngoingCallListener({
-			            onUserJoined: user => {
-				            /* Notification received here if another user joins the call. */
-				            //console.log("User joined call:", user);
-				            /* this method can be use to display message or perform any actions if someone joining the call */
-			            },
-			            onUserLeft: user => {
-				            /* Notification received here if another user left the call. */
-				            //console.log("User left call:", user);
-				            /* this method can be use to display message or perform any actions if someone leaving the call */
-			            },
-			            onCallEnded: call => {
-                            /* Notification received here if current ongoing call is ended. */
-                            checkCallStatus = false;
-			                //CometChat.removeCallListener(listenerID);
-			                $('#addressBook').show();
-                            $('.chatBody').removeClass('chatBodyHalf');
-                            $('#addressBook').addClass('aqua');
-                            $('.chatBox').removeClass('chatBoxBig')
-			                $("#msg-page").attr("style", "display:block")   
-			                $("#call-page").attr("style", "display:none")
-			                $("#showchatIcon").hide();
-                            //CometChat.removeCallListener(listnerID);
-                            CometChat.endCall(call.sessionId).then(
-                                call => {
-                                    //console.log("Call ended: endCall", call);
-                                },err => {
-                                    console.log("error while ending call", err);
+                        CometChat.startCall(
+                            call.sessionId,
+                            document.getElementById("call-page"),
+                            new CometChat.OngoingCallListener({
+                                onUserJoined: user => {
+                                    /* Notification received here if another user joins the call. */
+                                    //console.log("User joined call:", user);
+                                    /* this method can be use to display message or perform any actions if someone joining the call */
+                                },
+                                onUserLeft: user => {
+                                    /* Notification received here if another user left the call. */
+                                    //console.log("User left call:", user);
+                                    /* this method can be use to display message or perform any actions if someone leaving the call */
+                                },
+                                onCallEnded: call => {
+                                    /* Notification received here if current ongoing call is ended. */
+                                    checkCallStatus = false;
+                                    //CometChat.removeCallListener(listenerID);
+                                    $('#addressBook').show();
+                                    $('.chatBody').removeClass('chatBodyHalf');
+                                    $('#addressBook').addClass('aqua');
+                                    $('.chatBox').removeClass('chatBoxBig');
+                                    $("#msg-page").attr("style", "display:block");
+                                    $("#call-page").attr("style", "display:none");
+                                    $("#showchatIcon").hide();
+                                    //CometChat.removeCallListener(listnerID);
+                                    CometChat.endCall(call.sessionId).then(
+                                        call => {
+                                            //console.log("Call ended: endCall", call);
+                                        }, err => {
+                                            console.log("error while ending call", err);
+                                        }
+                                    );
+                                    //console.log("Call ended:onCallEnded", call);
+                                    /* hiding/closing the call screen can be done here. */
                                 }
-                            )
-                                //console.log("Call ended:onCallEnded", call);
-				            /* hiding/closing the call screen can be done here. */
-			            }
-			        })
-			    );				
-				// Outgoing Call Accepted
-			    },
-                onOutgoingCallRejected(call) {
-                    $.stopSound();
-                    //CometChat.removeCallListener(listenerID);
-                    utilService.callEndAction();
-				    //console.log("Outgoing call rejected:", call);
-				    // Outgoing Call Rejected
-			    },
-			    onIncomingCallCancelled(call) {    
-			        $.stopSound();
-			        //CometChat.removeCallListener(listenerID);
-			        utilService.callEndAction();
-				    //console.log("Incoming call cancelled:", call);
-				    var fromutype, toutype;
-				    $.each(userDataLoad, function (index, value) {
-				        if (call.callReceiver.uid == value.User_Id)
-				            fromutype = value.GroupName;
-				        if (call.callInitiator.uid == value.User_Id)
-				            toutype = value.GroupName;
-				    });
+                            })
+                        );
+                        // Outgoing Call Accepted
+                    },
+                    onOutgoingCallRejected(call) {
+                        $.stopSound();
+                        //CometChat.removeCallListener(listenerID);
+                        utilService.callEndAction();
+                        //console.log("Outgoing call rejected:", call);
+                        // Outgoing Call Rejected
+                    },
+                    onIncomingCallCancelled(call) {
+                        $.stopSound();
+                        //CometChat.removeCallListener(listenerID);
+                        utilService.callEndAction();
+                        //console.log("Incoming call cancelled:", call);
+                        var fromutype, toutype;
+                        $.each(userDataLoad, function (index, value) {
+                            if (call.callReceiver.uid === value.User_Id)
+                                fromutype = value.GroupName;
+                            if (call.callInitiator.uid === value.User_Id)
+                                toutype = value.GroupName;
+                        });
 
-			        $.get(baseUrl + '/api/User/userCallMissed_Alert?UserId=' + call.callReceiver.uid + '&from=' + fromutype + '&missedby=' + toutype + '&Institution_Id=' + window.localStorage['InstitutionId'])
-                      .done(function (data) {
-                          var result = data;
-                      })
+                        $.get(baseUrl + '/api/User/userCallMissed_Alert?UserId=' + call.callReceiver.uid + '&from=' + fromutype + '&missedby=' + toutype + '&Institution_Id=' + window.localStorage['InstitutionId'])
+                            .done(function (data) {
+                                var result = data;
+                            });
 
-			    }
-			    })
-		);
-		},
-		callAccept: function()
-		{
+                    }
+                })
+            );
+        },
+        callAccept: function () {
             var sessionID = $('#callSessionID').val();
             checkCallStatus = true;
-			CometChat.acceptCall(sessionID).then(
-			  call => {
-				//console.log("Call accepted successfully:", call);
-			    $.stopSound();
-				CometChat.startCall(
-				  call.sessionId,
-				  document.getElementById("call-page"),
-				  new CometChat.OngoingCallListener({
-					onUserJoined: user => {
-					  /* Notification received here if another user joins the call. */
-					    //console.log("User joined call:", user);
-				        $("#add-book").hide();
-				        $("#groupsList").hide();
-				        $("#msg-page").attr("style", "display:none")                    
-				        $("#call-accept").attr("style", "display:none")
-				        $("#call-reject").attr("style", "display:none")
-				        $("#call-page").attr("style", "display:flex")
-				        $("#showchatIcon").show();
-				        $('#callinitiatorname').empty();
-					    /* this method can be use to display message or perform any actions if someone joining the call */
-					},
-					onUserLeft: user => {
-					  /* Notification received here if another user left the call. */
-					    //console.log("User left call:", user);
-                        
-                        utilService.callEndAction();
-                        
-					  /* this method can be use to display message or perform any actions if someone leaving the call */
-					},
-                    onCallEnded: call => {
+            CometChat.acceptCall(sessionID).then(
+                call => {
+                    //console.log("Call accepted successfully:", call);
+                    $.stopSound();
+                    CometChat.startCall(
+                        call.sessionId,
+                        document.getElementById("call-page"),
+                        new CometChat.OngoingCallListener({
+                            onUserJoined: user => {
+                                /* Notification received here if another user joins the call. */
+                                //console.log("User joined call:", user);
+                                $("#add-book").hide();
+                                $("#groupsList").hide();
+                                $("#msg-page").attr("style", "display:none");
+                                $("#call-accept").attr("style", "display:none");
+                                $("#call-reject").attr("style", "display:none");
+                                $("#call-page").attr("style", "display:flex");
+                                $("#showchatIcon").show();
+                                $('#callinitiatorname').empty();
+                                /* this method can be use to display message or perform any actions if someone joining the call */
+                            },
+                            onUserLeft: user => {
+                                /* Notification received here if another user left the call. */
+                                //console.log("User left call:", user);
 
-                        utilService.callEndAction();
-                        CometChat.endCall(call.sessionId).then(
-                            call => {
-                                //console.log("Call ended: endCall", call);
-                        },err => {
-                            console.log("error while ending call", err);
-                        }
-                        )
-					  /* Notification received here if current ongoing call is ended. */
-					  //console.log("Call ended:", call);
-					  /* hiding/closing the call screen can be done here. */
-					}
-				  })
-				);
-				// start the call using the startCall() method
-			  },
-			  error => {              
-			      utilService.callEndAction();
-				console.log("Call acceptance failed with error", error);
-				// handle exception
-			  }
-			);
+                                utilService.callEndAction();
+
+                                /* this method can be use to display message or perform any actions if someone leaving the call */
+                            },
+                            onCallEnded: call => {
+
+                                utilService.callEndAction();
+                                CometChat.endCall(call.sessionId).then(
+                                    call => {
+                                        //console.log("Call ended: endCall", call);
+                                    }, err => {
+                                        console.log("error while ending call", err);
+                                    }
+                                );
+                                /* Notification received here if current ongoing call is ended. */
+                                //console.log("Call ended:", call);
+                                /* hiding/closing the call screen can be done here. */
+                            }
+                        })
+                    );
+                    // start the call using the startCall() method
+                },
+                error => {
+                    utilService.callEndAction();
+                    console.log("Call acceptance failed with error", error);
+                    // handle exception
+                }
+            );
         },
-        callReject: function()
-		{
+        callReject: function () {
             var sessionID = $('#callSessionID').val();
             var status;
             checkCallStatus = false;
-            if(callAcceptedStatus==false)
+            if (callAcceptedStatus === false)
                 status = CometChat.CALL_STATUS.CANCELLED;
             else
                 status = CometChat.CALL_STATUS.REJECTED;
 
             CometChat.rejectCall(sessionID, status).then(
-                call => {                  
+                call => {
                     //console.log("Call rejected successfully", call);
 
-                        if(callInitiatorFlag==true)
-                        {
-                            CometChat.endCall(call.sessionId).then(
-                                    call => {
-                                        //console.log("Call ended: endCall", call);
-                            },err => {
+                    if (callInitiatorFlag === true) {
+                        CometChat.endCall(call.sessionId).then(
+                            call => {
+                                //console.log("Call ended: endCall", call);
+                            }, err => {
                                 console.log("error while ending call", err);
-                                })
-                        }
+                            });
+                    }
 
-                    utilService.callRejectAction(); 
-                    },
+                    utilService.callRejectAction();
+                },
                 error => {
                     console.log("Call rejection failed with error:", error);
                     utilService.callRejectAction();
-                    }
+                }
             );
         },
-        groupMemberDetails: function(groupGUID)
-        {
+        groupMemberDetails: function (groupGUID) {
             var GUID = groupGUID;
             var limit = 30;
             var groupMemberRequest = new CometChat.GroupMembersRequestBuilder(GUID)
@@ -1002,143 +990,133 @@ const chatService = function() {
             groupMemberRequest.fetchNext().then(
                 groupMembers => {
                     //console.log("Group Member list fetched successfully:", groupMembers);
-                        var memberList="Members in the group are,\n";
+                    var memberList = "Members in the group are,\n";
 
-                        $.each(groupMembers, function (index, value) {
-                            memType = "";
-                            $.each(userDataLoad, function (m_index, m_value) {
-                                if (m_value.User_Id == value.uid)
-                                {
-                                    memType = m_value.GroupName;
-                                }
-                            });
-                            memberList = memberList + value.name + '(' + memType + ')' + '\n';
-                        });
-
-                        alert(memberList);
-
-                        },
-                        error => {
-                            console.log("Group Member list fetching failed with exception:", error);
-                        }
-                );
-        },
-        getUserDetails: function(userType, UserId, msgToDisplay)
-        {
-            if(userType=="u")
-            {
-                CometChat.getUser(UserId).then(
-                  user => {
-                      //console.log("User details fetched for user:", user);
-                            $('#h1user').empty();
-                            $('#h1user').append(user.name);
-                            $('#h1user').append( `<br/><span>` + user.status + msgToDisplay + `</span>`);
-                            },
-                      error => {
-                          console.log("User details fetching failed with error:", error);
+                    $.each(groupMembers, function (index, value) {
+                        memType = "";
+                        $.each(userDataLoad, function (m_index, m_value) {
+                            if (m_value.User_Id === value.uid) {
+                                memType = m_value.GroupName;
                             }
-                    );
+                        });
+                        memberList = memberList + value.name + '(' + memType + ')' + '\n';
+                    });
+
+                    alert(memberList);
+
+                },
+                error => {
+                    console.log("Group Member list fetching failed with exception:", error);
+                }
+            );
+        },
+        getUserDetails: function (userType, UserId, msgToDisplay) {
+            if (userType === "u") {
+                CometChat.getUser(UserId).then(
+                    user => {
+                        //console.log("User details fetched for user:", user);
+                        $('#h1user').empty();
+                        $('#h1user').append(user.name);
+                        $('#h1user').append(`<br/><span>` + user.status + msgToDisplay + `</span>`);
+                    },
+                    error => {
+                        console.log("User details fetching failed with error:", error);
+                    }
+                );
             }
-            else if(userType=="g")
-            {
+            else if (userType === "g") {
                 CometChat.getGroup(UserId).then(
-                  group => {
+                    group => {
                         $('#h1user').empty();
                         $('#h1user').append(group.name);
-                        $('#h1user').append( `<br/><span style="cursor:pointer" onclick="chatService.groupMemberDetails('` + UserId + `')">` + group.membersCount + ` participants</span>`);
+                        $('#h1user').append(`<br/><span style="cursor:pointer" onclick="chatService.groupMemberDetails('` + UserId + `')">` + group.membersCount + ` participants</span>`);
                         //console.log("Group details fetched successfully:", group);
-                  },
-                  error => {
-                    console.log("Group details fetching failed with exception:", error);
-                  }
+                    },
+                    error => {
+                        console.log("Group details fetching failed with exception:", error);
+                    }
                 );
             }
 
         },
-        deleteGroupDetails: function()
-        {
-            var conf=confirm("Are you sure to delete this group?");
-            if(conf==true)
-            {
+        deleteGroupDetails: function () {
+            var conf = confirm("Are you sure to delete this group?");
+            if (conf === true) {
                 var GUID = userid;
-                
+
                 CometChat.deleteGroup(GUID).then(
-                  response => {
-                      //console.log("Groups deleted successfully:", response);
+                    response => {
+                        //console.log("Groups deleted successfully:", response);
                         this.getaddressbookDetails($('#contactSearch').val());
-                        },
-                        error => {
-                        
+                    },
+                    error => {
+
                         CometChat.leaveGroup(GUID).then(
-                              hasLeft => {
-                                  //console.log("Group left successfully:", hasLeft);
-                                    this.getaddressbookDetails($('#contactSearch').val());
-                                },
-                                            error => {
-                                                console.log("Group leaving failed with exception:", error);
+                            hasLeft => {
+                                //console.log("Group left successfully:", hasLeft);
+                                this.getaddressbookDetails($('#contactSearch').val());
+                            },
+                            error => {
+                                console.log("Group leaving failed with exception:", error);
                                 alert("Error in deleting the group");
-                                }
-                                 );
-                      console.log("Group delete failed with exception:", error);
-                        }
+                            }
+                        );
+                        console.log("Group delete failed with exception:", error);
+                    }
                 );
             }
         },
-        getaddressbookDetails: function(searchContact)
-        {
+        getaddressbookDetails: function (searchContact) {
             var validuser = true;
-            $("#chatLoader_add").attr("style", "display:block")
+            $("#chatLoader_add").attr("style", "display:block");
             var conversationsRequest = new CometChat.ConversationsRequestBuilder()
-            .setLimit(50)
-            .build();
-            
+                .setLimit(50)
+                .build();
+
             conversationsRequest.fetchNext().then(
                 conversationList => {
                     $('#address-user').empty();
                     //console.log("Conversations list received:", conversationList);
                     $.each(conversationList, function (index, value) {
-                        if(value.conversationWith.name.toLowerCase().indexOf(searchContact.toLowerCase())!=-1)
-                        {
+                        if (value.conversationWith.name.toLowerCase().indexOf(searchContact.toLowerCase()) !== -1) {
                             var messageList;
-                            var messagedisplay="";
-                            var uid="";
-                            var lastsent="";
+                            var messagedisplay = "";
+                            var uid = "";
+                            var lastsent = "";
                             var userType = "";
 
                             var useronlinestatus = "on";
                             var gendername = "male.png";
-                            if(value.conversationType=="user")
-                            {
-                                userType="u";
+                            if (value.conversationType === "user") {
+                                userType = "u";
                                 lastsent = utilService.convertStringToDate(value.lastMessage.sentAt);
                                 uid = value.conversationWith.uid;
-                                if(value.lastMessage.category=="message" && value.lastMessage.type=="text")
-                                    messagedisplay = value.lastMessage.text
-                                else if(value.lastMessage.category=="message" && value.lastMessage.type=="image")
-                                    messagedisplay = value.lastMessage.attachment.fileName
-                                else if(value.lastMessage.category=="message" && value.lastMessage.type=="audio")
-                                    messagedisplay = value.lastMessage.attachment.fileName
-                                else if(value.lastMessage.category=="message" && value.lastMessage.type=="video")
-                                    messagedisplay = value.lastMessage.attachment.fileName
-                                else if(value.lastMessage.category=="call" && value.lastMessage.type=="audio")
-                                    messagedisplay = "call"
-                                else if(value.lastMessage.category=="call" && value.lastMessage.type=="video")
-                                    messagedisplay = "call"
-                                else if( value.lastMessage.type=="file")
-                                    messagedisplay = value.lastMessage.attachment.fileName
+                                if (value.lastMessage.category === "message" && value.lastMessage.type === "text")
+                                    messagedisplay = value.lastMessage.text;
+                                else if (value.lastMessage.category === "message" && value.lastMessage.type === "image")
+                                    messagedisplay = value.lastMessage.attachment.fileName;
+                                else if (value.lastMessage.category === "message" && value.lastMessage.type === "audio")
+                                    messagedisplay = value.lastMessage.attachment.fileName;
+                                else if (value.lastMessage.category === "message" && value.lastMessage.type === "video")
+                                    messagedisplay = value.lastMessage.attachment.fileName;
+                                else if (value.lastMessage.category === "call" && value.lastMessage.type === "audio")
+                                    messagedisplay = "call";
+                                else if (value.lastMessage.category === "call" && value.lastMessage.type === "video")
+                                    messagedisplay = "call";
+                                else if (value.lastMessage.type === "file")
+                                    messagedisplay = value.lastMessage.attachment.fileName;
 
 
-                                if (value.conversationWith.status == "offline")
+                                if (value.conversationWith.status === "offline")
                                     useronlinestatus = "off";
-                                
+
                                 validuser = false;
                                 $.each(userDataLoad, function (contIndex, contValue) {
-                                    if (value.conversationWith.uid == contValue.User_Id)
-                                    {
-                                        if (contValue.GenderName.toLowerCase() == "male") {
+                                    if (value.conversationWith.uid === contValue.User_Id) {
+                                        if (contValue.GenderName.toLowerCase() === "male") {
                                             gendername = "male.png";
                                         }
-                                        else if (contValue.GenderName.toLowerCase() == "female") {
+                                        else if (contValue.GenderName.toLowerCase() === "female") {
                                             gendername = "female.png";
                                         }
                                         else {
@@ -1146,31 +1124,29 @@ const chatService = function() {
                                         }
                                         validuser = true;
                                     }
-                                })
+                                });
 
                             }
-                            else if(value.conversationType=="group")
-                            {
-                                userType="g";
+                            else if (value.conversationType === "group") {
+                                userType = "g";
                                 lastsent = "";//utilService.convertStringToDate(value.lastMessage.sentAt);
                                 uid = value.conversationWith.guid;
-                                if(value.lastMessage!=undefined)
-                                {
+                                if (value.lastMessage !== undefined) {
                                     lastsent = utilService.convertStringToDate(value.lastMessage.sentAt);
-                                    if(value.lastMessage.category=="message" && value.lastMessage.type=="text")
-                                        messagedisplay = value.lastMessage.text
-                                    else if(value.lastMessage.category=="message" && value.lastMessage.type=="image")
-                                        messagedisplay = value.lastMessage.attachment.fileName
-                                    else if(value.lastMessage.category=="message" && value.lastMessage.type=="audio")
-                                        messagedisplay = value.lastMessage.attachment.fileName
-                                    else if(value.lastMessage.category=="message" && value.lastMessage.type=="video")
-                                        messagedisplay = value.lastMessage.attachment.fileName
-                                    else if(value.lastMessage.category=="call" && value.lastMessage.type=="audio")
-                                        messagedisplay = "call"
-                                    else if(value.lastMessage.category=="call" && value.lastMessage.type=="video")
-                                        messagedisplay = "call"
-                                    else if( value.lastMessage.type=="file")
-                                        messagedisplay = value.lastMessage.attachment.fileName
+                                    if (value.lastMessage.category === "message" && value.lastMessage.type === "text")
+                                        messagedisplay = value.lastMessage.text;
+                                    else if (value.lastMessage.category === "message" && value.lastMessage.type === "image")
+                                        messagedisplay = value.lastMessage.attachment.fileName;
+                                    else if (value.lastMessage.category === "message" && value.lastMessage.type === "audio")
+                                        messagedisplay = value.lastMessage.attachment.fileName;
+                                    else if (value.lastMessage.category === "message" && value.lastMessage.type === "video")
+                                        messagedisplay = value.lastMessage.attachment.fileName;
+                                    else if (value.lastMessage.category === "call" && value.lastMessage.type === "audio")
+                                        messagedisplay = "call";
+                                    else if (value.lastMessage.category === "call" && value.lastMessage.type === "video")
+                                        messagedisplay = "call";
+                                    else if (value.lastMessage.type === "file")
+                                        messagedisplay = value.lastMessage.attachment.fileName;
                                 }
 
                                 validuser = true;
@@ -1181,14 +1157,12 @@ const chatService = function() {
                                 })*/
                             }
 
-                            var msgcountdisplay="";
-                            if(value.unreadMessageCount>0)
-                            {
-                                msgcountdisplay=`<label class="chatCount">` +  value.unreadMessageCount + `</label>`
+                            var msgcountdisplay = "";
+                            if (value.unreadMessageCount > 0) {
+                                msgcountdisplay = `<label class="chatCount">` + value.unreadMessageCount + `</label>`;
                             }
-                            else
-                            {
-                                msgcountdisplay=`<label class="chatNoCount"></label>`
+                            else {
+                                msgcountdisplay = `<label class="chatNoCount"></label>`;
                             }
                             messageList = `<li id=` + $.trim(uid) + ` style="cursor:pointer" onclick="openUserChat('` + userType + `', '` + $.trim(uid) + `', '` + validuser + `')">
                                 <div class = "userOnlineInfo ` + useronlinestatus + `" >
@@ -1196,16 +1170,16 @@ const chatService = function() {
                                 </div>
                                <section>
                                    <span>` + value.conversationWith.name + `</span>
-                                   ` +  msgcountdisplay + `
-                                   <article>` +  messagedisplay + `<span>` + lastsent + `</span></article>
+                                   ` + msgcountdisplay + `
+                                   <article>` + messagedisplay + `<span>` + lastsent + `</span></article>
                                    </section>
-                               </li>`
+                               </li>`;
                             $('#address-user').append(messageList);
                         }
                     });
-            
+
                     var baseUrl = $("base").first().attr("href");
-                    if (baseUrl == "/") {
+                    if (baseUrl === "/") {
                         baseUrl = "";
                     }
                     validuser = true;
@@ -1214,22 +1188,22 @@ const chatService = function() {
                     $.each(userDataLoad, function (index, value) {
                         contactExist = false;
                         $.each(conversationList, function (contIndex, contValue) {
-                            if (contValue.conversationType == "user") {
-                                if (contValue.conversationWith.uid == value.User_Id)
+                            if (contValue.conversationType === "user") {
+                                if (contValue.conversationWith.uid === value.User_Id)
                                     contactExist = true;
                             }
-                        })
+                        });
 
-                        if (value.GenderName.toLowerCase() == "male") {
+                        if (value.GenderName.toLowerCase() === "male") {
                             gendername = "male.png";
                         }
-                        else if (value.GenderName.toLowerCase() == "female") {
+                        else if (value.GenderName.toLowerCase() === "female") {
                             gendername = "female.png";
                         }
                         else {
                             gendername = "others.png";
                         }
-                        if (value.UserName.toLowerCase().indexOf(searchContact.toLowerCase()) != -1 && contactExist == false && value.User_Id != username) {
+                        if (value.UserName.toLowerCase().indexOf(searchContact.toLowerCase()) !== -1 && contactExist === false && value.User_Id !== username) {
                             messageList = `<li id=` + value.User_Id + `  style="cursor:pointer" onclick="openUserChat('u', '` + value.User_Id + `', '` + validuser + `')">
                                     <div class="userOnlineInfo off">
                                         <img src= "../../Images/` + gendername + `" alt="Profile">
@@ -1239,44 +1213,42 @@ const chatService = function() {
                                        <label class="chatNoCount"></label>
                                        <article><span></span></article>
                                        </section>
-                                   </li>`
-                                $('#address-user').append(messageList);
+                                   </li>`;
+                            $('#address-user').append(messageList);
                         }
                     });
-                   
-            },
-              error => {
-                  console.log("Conversations list fetching failed with error:", error);
-                    }
-            );
-            $("#chatLoader_add").attr("style", "display:none")
 
-            },
-        groupaddressbookDetails: function()
-        {
-               
+                },
+                error => {
+                    console.log("Conversations list fetching failed with error:", error);
+                }
+            );
+            $("#chatLoader_add").attr("style", "display:none");
+
+        },
+        groupaddressbookDetails: function () {
+
             $('#group-user').empty();
             var baseUrl = $("base").first().attr("href");
-            if (baseUrl == "/") {
+            if (baseUrl === "/") {
                 baseUrl = "";
             }
             var gendername = "";
-            var contactExist =false;
-                
+            var contactExist = false;
+
             $.each(userDataLoad, function (index, value) {
 
-                    if (value.GenderName.toLowerCase() == "male") {
-                        gendername = "male.png";
-                    }
-                    else if (value.GenderName.toLowerCase() == "female") {
-                        gendername = "female.png";
-                    }
-                    else {
-                        gendername = "others.png";
-                    }
-                        if(value.User_Id!=username)
-                        {
-                            messageList =  `<li id=` + value.User_Id + `  style="cursor:pointer">       
+                if (value.GenderName.toLowerCase() === "male") {
+                    gendername = "male.png";
+                }
+                else if (value.GenderName.toLowerCase() === "female") {
+                    gendername = "female.png";
+                }
+                else {
+                    gendername = "others.png";
+                }
+                if (value.User_Id !== username) {
+                    messageList = `<li id=` + value.User_Id + `  style="cursor:pointer">       
                         <div class="selectContact">
                             <input type="checkbox" id="chk` + value.User_Id + `"/>
                         </div>
@@ -1288,146 +1260,138 @@ const chatService = function() {
                                    
                                 <article><span></span></article>
                                 </section>
-                            </li>`
-                                $('#group-user').append(messageList);
-                        }
-                    });
-                
+                            </li>`;
+                    $('#group-user').append(messageList);
+                }
+            });
+
 
         },
-        createGroup: function(groupname)
-        {
-            var GUID =utilService.createGUID();
+        createGroup: function (groupname) {
+            var GUID = utilService.createGUID();
             var groupName = groupname;
             var groupType = CometChat.GROUP_TYPE.PUBLIC;
             var password = "";
-            var userlist="";
-            var validGroup=false;
+            var userlist = "";
+            var validGroup = false;
             var baseUrl = $("base").first().attr("href");
-            if (baseUrl == "/") {
+            if (baseUrl === "/") {
                 baseUrl = "";
             }
             var contactExist = false;
 
-                  $.each(userDataLoad, function (index, value) {
-                      if(value.User_Id!=username && document.getElementById("chk" + value.User_Id).checked==true)
-                      {
-                          if(userlist!="")
-                          {
-                              userlist=userlist+",";
-                              validGroup=true;
-                          }
-                          userlist=userlist+value.User_Id.toString()
-                                   
-                      }
-                  });
-                  if(validGroup==false)
-                  {
-                      alert("Minimum two users to be selected to create group");
-                      return false;
-                  }                  
-                  
-                  var group = new CometChat.Group(GUID, groupName, groupType, password);
+            $.each(userDataLoad, function (index, value) {
+                if (value.User_Id !== username && document.getElementById("chk" + value.User_Id).checked === true) {
+                    if (userlist !== "") {
+                        userlist = userlist + ",";
+                        validGroup = true;
+                    }
+                    userlist = userlist + value.User_Id.toString();
 
-                  var userarray = userlist.split(',');
+                }
+            });
+            if (validGroup === false) {
+                alert("Minimum two users to be selected to create group");
+                return false;
+            }
 
-                  let membersList = [];
-                  $.each(userarray, function(ui, uv) {
-                      membersList.push(new CometChat.GroupMember(uv, CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT))
-                  })
-                  //console.log(membersList);
-                  CometChat.createGroup(group).then(
-                      group => {
-                          //console.log("Group created successfully:", group);
-                          //let GUID = "GUID";
-                          let membersList = [];
-                          $.each(userarray, function(ui, uv) {
-                              membersList.push(new CometChat.GroupMember(uv, CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT))
-                          })
-                          CometChat.addMembersToGroup(GUID, membersList, []).then(
-                              response => {
-                                              alert("Group created successfully");
-                                                
-                                              $('#addGroup').click();
-                                          },
-                                error => {
-                                    console.log("Something went wrong", error);
-                                        }
-                                    );
+            var group = new CometChat.Group(GUID, groupName, groupType, password);
 
+            var userarray = userlist.split(',');
 
-                          },
-                  error => {
-                      console.log("Group creation failed with exception:", error);
-                  }
+            let membersList = [];
+            $.each(userarray, function (ui, uv) {
+                membersList.push(new CometChat.GroupMember(uv, CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT));
+            });
+            //console.log(membersList);
+            CometChat.createGroup(group).then(
+                group => {
+                    //console.log("Group created successfully:", group);
+                    //let GUID = "GUID";
+                    let membersList = [];
+                    $.each(userarray, function (ui, uv) {
+                        membersList.push(new CometChat.GroupMember(uv, CometChat.GROUP_MEMBER_SCOPE.PARTICIPANT));
+                    });
+                    CometChat.addMembersToGroup(GUID, membersList, []).then(
+                        response => {
+                            alert("Group created successfully");
+
+                            $('#addGroup').click();
+                        },
+                        error => {
+                            console.log("Something went wrong", error);
+                        }
                     );
-            
-        },
-		startTypeingNot: function()
-		{
-		    let receiverId = userid;
 
-		    let receiverType;
-		    if(currentusertype=="u")
-		        receiverType = CometChat.RECEIVER_TYPE.USER;
-		    else if(currentusertype=="g")
-		        receiverType = CometChat.RECEIVER_TYPE.GROUP;
 
-			let typingNotification = new CometChat.TypingIndicator(
-			  receiverId,
-			  receiverType
-			);
-			CometChat.startTyping(typingNotification);
-		},
-		endTypeingNot: function()
-		{
-			let receiverId = userid;
-			let receiverType;
-			if(currentusertype=="u")
-			    receiverType = CometChat.RECEIVER_TYPE.USER;
-			else if(currentusertype=="g")
-			    receiverType = CometChat.RECEIVER_TYPE.GROUP;
-
-			let typingNotification = new CometChat.TypingIndicator(
-			  receiverId,
-			  receiverType
-			);
-			CometChat.endTyping(typingNotification);
-		},
-		openChatfromOtherPage: function()
-		{
-		    utilService.openChatPage("", userDataLoad);
-		},
-		getUserOnlineStatus: function()
-		{
-		    var listenerID = "UNIQUE_LISTENER_ID";
-		    CometChat.addUserListener(
-              listenerID,
-              new CometChat.UserListener({
-                  onUserOnline: onlineUser => {
-                      if ($("#" + onlineUser.uid) != undefined)
-                          $("#" + onlineUser.uid).find("div.userOnlineInfo").attr("class", "userOnlineInfo on")
-                      /* when someuser/friend comes online, user will be received here */
-                      //console.log("On User Online:", { onlineUser });
-                  },
-                  onUserOffline: offlineUser => {
-                      /* when someuser/friend went offline, user will be received here */
-                      if ($("#" + offlineUser.uid) != undefined)
-                          $("#" + offlineUser.uid).find("div.userOnlineInfo").attr("class", "userOnlineInfo off")
-                      //console.log("On User Offline:", { offlineUser });
-                  }
-              })
+                },
+                error => {
+                    console.log("Group creation failed with exception:", error);
+                }
             );
-		},
+
+        },
+        startTypeingNot: function () {
+            let receiverId = userid;
+
+            let receiverType;
+            if (currentusertype === "u")
+                receiverType = CometChat.RECEIVER_TYPE.USER;
+            else if (currentusertype === "g")
+                receiverType = CometChat.RECEIVER_TYPE.GROUP;
+
+            let typingNotification = new CometChat.TypingIndicator(
+                receiverId,
+                receiverType
+            );
+            CometChat.startTyping(typingNotification);
+        },
+        endTypeingNot: function () {
+            let receiverId = userid;
+            let receiverType;
+            if (currentusertype === "u")
+                receiverType = CometChat.RECEIVER_TYPE.USER;
+            else if (currentusertype === "g")
+                receiverType = CometChat.RECEIVER_TYPE.GROUP;
+
+            let typingNotification = new CometChat.TypingIndicator(
+                receiverId,
+                receiverType
+            );
+            CometChat.endTyping(typingNotification);
+        },
+        openChatfromOtherPage: function () {
+            utilService.openChatPage("", userDataLoad);
+        },
+        getUserOnlineStatus: function () {
+            var listenerID = "UNIQUE_LISTENER_ID";
+            CometChat.addUserListener(
+                listenerID,
+                new CometChat.UserListener({
+                    onUserOnline: onlineUser => {
+                        if ($("#" + onlineUser.uid) !== undefined)
+                            $("#" + onlineUser.uid).find("div.userOnlineInfo").attr("class", "userOnlineInfo on");
+                        /* when someuser/friend comes online, user will be received here */
+                        //console.log("On User Online:", { onlineUser });
+                    },
+                    onUserOffline: offlineUser => {
+                        /* when someuser/friend went offline, user will be received here */
+                        if ($("#" + offlineUser.uid) !== undefined)
+                            $("#" + offlineUser.uid).find("div.userOnlineInfo").attr("class", "userOnlineInfo off");
+                        //console.log("On User Offline:", { offlineUser });
+                    }
+                })
+            );
+        },
         scrollToBottom() {
-            const chat = document.getElementById("msg-page");            
+            const chat = document.getElementById("msg-page");
             chat.scrollTo(0, chat.scrollHeight);
         },
         checkCall: function (userId) {
-            if (window.COMETCHAT_TO_USER == userId)
+            if (window.COMETCHAT_TO_USER === userId)
                 return false;
             else
                 return checkCallStatus;
         }
-    }
+    };
 }();
