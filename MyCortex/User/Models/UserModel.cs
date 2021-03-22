@@ -192,6 +192,7 @@ namespace MyCortex.User.Model
     {
         public long? Id { get; set; }
         public long? User_Id { get; set; }
+        public string ChronicGroup { get; set; }
         public long? Chronic_Id { get; set; }
         public string ChronicCondition { get; set; }
 
