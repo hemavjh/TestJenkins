@@ -5223,6 +5223,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $('#User_id').show();
                     $('#patient_profile').show();
                     $('#BrainGroup').show();
+                    $('#KnownGroup').show();
                     var imgSrc = document.getElementById('imgSrc');
                     imgSrc.src = $scope.PhotoBlobs;
                     var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
