@@ -6093,7 +6093,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 .setOpacity(0.3)
                                 .get(),
                             borderWidth: 0
-                        }]
+                            },
+                            {// Track for sleep
+                                outerRadius: '37%',
+                                innerRadius: '13%',
+                                backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
+                                    .setOpacity(0.3)
+                                    .get(),
+                                borderWidth: 0
+                            }]
                     },
 
                     yAxis: {
@@ -6138,6 +6146,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 radius: '62%',
                                 innerRadius: '38%',
                                 y: $scope.ActualDistanceCoveredList[0]["data"][0].y
+                            }]
+                        },
+                        {
+                            name: 'sleep',
+                            data: [{
+                                color: Highcharts.getOptions().colors[3],
+                                radius: '37%',
+                                innerRadius: '13%',
+                                y: $scope.ActualSleepingList[0]["data"][0].y
                             }]
                         }]
                 });
