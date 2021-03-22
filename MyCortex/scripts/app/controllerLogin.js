@@ -40,7 +40,8 @@ MyCortexControllers.run(['$rootScope', '$window',
               console.log('page reloaded');
           }
       };
-      jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FB_CONFIG&Institution_Id=' + window.localStorage.getItem('InstitutionId'))
+       
+      jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FB_CONFIG&Institution_Id=-1')
           .done(function (data) {
               if (data.length > 0) {
                   var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
