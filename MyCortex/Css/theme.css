@@ -1944,6 +1944,7 @@ a.disabled {
         list-style: none;
     }
 /*<!-- ----My Appointments code end-------! >*/
+
 /*<!------Alert section code start-------! >*/
 .mynotificationsWarnings {
     position: absolute;
@@ -2052,10 +2053,7 @@ a.disabled {
 /*<!------Alert section code end-------! >*/
 #DataToggle {
     margin: 5px 0 0 0;
-}
-
-
-
+} 
 .mythemeLogo {
     display: flex;
     margin: 0px 20px;
@@ -2071,11 +2069,8 @@ a.disabled {
     margin: 40px 0 0 18px;
 }
 
+/*<!------Tiny icon code start-------! >*/ 
 
-
-
-
-/*<!------Tiny icon code start-------! >*/
 .tinyiconsonefull {
     width: auto;
     float: left;
