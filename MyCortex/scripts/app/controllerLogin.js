@@ -42,8 +42,7 @@ MyCortexControllers.run(['$rootScope', '$window',
       };
        
       jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FB_CONFIG&Institution_Id=-1')
-          .done(function (data) {
-              if (data.length > 0) {
+          .done(function (data) { 
                   var jsonobj = jQuery.parseJSON(data[0].ConfigValue);
                   $window.fbAsyncInit = function () {
                       console.log('FB API called');
@@ -59,7 +58,7 @@ MyCortexControllers.run(['$rootScope', '$window',
                       });
                       console.log('sync it function is over');
                   };
-              }
+               
           });
 
 
@@ -633,39 +632,24 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                                 $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                                 console.log(err);
                             });	
-                            
-                            if (data == "1") {
-                                $scope.errorlist = "Login Failed! \n Please check Email and Password ";
-                            }
-                            else if (data == "2") {
-                                $scope.errorlist = "Contract period expired, cannot login";
-                            }
-                            else if (data == "3") {
-                                //$scope.errorlist = "Contract Time Exceed,contact admin";
-                                alert("Contract period expired, Please contact Admin for renewal");
-                                window.location.href = baseUrl + "/Home/Index#/home";
-                            }
-                            else if (data == "4" || data == "5") {
-                                window.location.href = baseUrl + "/Home/Index#/home";
-                            }
-                            else if (data == "6") {
-                                $window.localStorage['UserTypeId'] = $scope.UserTypeId;
-                                $window.localStorage['UserId'] = $scope.UserId;
-
-                                window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
-                                $scope.errorlist = Message;
-                            }
-                            else if (data == "7") {
-                                $scope.errorlist = Message;
-                            }
-                            else if (data == "8") {
-                                $scope.errorlist = Message;
-                            }
-                            else if (data == "9") {
-                                $scope.errorlist = "Inactive User, Cannot Login";
-                            }
-                            else
-                                $scope.errorlist = "Login Failed! \n Please check Email and Password ";
+                            $scope.ConfigCode = "WEBIDLETIME";
+                            var IdleDays = 0;
+                            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId'])
+                                .success(function (data1) {
+                                    if (data1[0] != undefined) {
+                                        IdleDays = parseInt(data1[0].ConfigValue);
+                                        $window.localStorage['IdleDays'] = IdleDays;
+                                        $scope.UserLogin(data);
+                                    } else {
+                                        IdleDays = 600;
+                                        $window.localStorage['IdleDays'] = IdleDays;
+                                        $scope.UserLogin(data);
+                                    }
+                                }).error(function (err) {
+                                    IdleDays = 600;
+                                    $window.localStorage['IdleDays'] = 600;
+                                    $scope.UserLogin(data);
+                                });  
                         });
 
                     });
@@ -691,17 +675,20 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
             Login_City: Login_City,
             Login_IpAddress: IpAddress
         };
+           
+                             
         var redirect = baseUrl + 'Home/LoginUsingGoogle/?Sys_TimeDifference=' + offsetTime + '&Browser_Version=' + navigator.sayswho + '&Login_Country=' + Login_Country
-            + '&Login_City=' + Login_City + '&IPAdddress=' + IpAddress;
+            + '&Login_City=' + Login_City + '&IPAdddress=' + IpAddress; 
         // $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
-        window.location.href = redirect; 
-    }
+        window.location.href = redirect;  
+     }
 
     $http.get(baseUrl + '/api/Login/CheckExpiryDate/').success(function (data) {
         if (data == true) {
             $scope.errorlist = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
             $scope.isExpired = true;
         }
+
     });
 
 }
