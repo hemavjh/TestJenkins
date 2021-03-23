@@ -2133,3 +2133,102 @@ a.disabled {
     padding-left: 30px;
 }
 /*<!------Tiny icon code end-------! >*/
+
+/*<!------color  setting start-------! >*/
+.monis {
+    cursor: pointer;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 0 3px #000;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 4px;
+}
+
+    .sidenav .closebtn {
+        border-bottom: none;
+        padding: 5px;
+        line-height: 24px;
+        background: #fff;
+        color: #000;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 36px;
+        margin-left: 5px;
+        margin-top: 8px;
+    }
+
+.nosrow {
+    width: 100%;
+    padding: 0 0 0 0;
+    text-align: center;
+    color: #000;
+    font-size: 24px;
+}
+
+.clearancesfull {
+    width: 100%;
+    padding: 1px 14px 3px 14px;
+}
+
+.clearances {
+    width: 100%;
+    float: left;
+    margin: 12px 0 0 0;
+}
+
+.colpr-footer {
+    width: 100%;
+    float: left;
+    padding: 12px 0 9px 0;
+    text-align: left;
+    border-top: 1px solid #e5e5e5;
+}
+
+.theme-btny-1 {
+    color: var(--positiveBtnText);
+    background: var(--positiveBtnBg);
+    border: 2px solid var(--positiveBtnBorder);
+    padding: 5px 9px;
+    border-radius: 5px;
+    float: left !important;
+    text-decoration: none;
+    outline: none;
+}
+
+    .theme-btny-1:hover {
+        color: var(--positiveHoverBtnText) !important;
+        background: var(--positiveHoverBtnBg);
+        border: 2px solid var(--positiveHoverBtnBorder);
+        text-decoration: none;
+        outline: none;
+    }
+
+.theme-btnz-1 {
+    color: var(--positiveBtnText);
+    background: var(--positiveBtnBg);
+    border: 2px solid var(--positiveBtnBorder);
+    padding: 5px 9px;
+    border-radius: 5px;
+    float: right !important;
+    text-decoration: none;
+    outline: none;
+}
+
+    .theme-btnz-1:hover {
+        color: var(--positiveHoverBtnText) !important;
+        background: var(--positiveHoverBtnBg);
+        border: 2px solid var(--positiveHoverBtnBorder);
+        text-decoration: none;
+        outline: none;
+    }
+/*<!------color  setting ends-------! >*/

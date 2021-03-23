@@ -470,8 +470,10 @@
                                 Log Out From All Device
 
                             </li>
+                            @*<li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
+                                onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>*@
                             <li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
-                                onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
+                                onclick="openNav()" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
                         </ul>
                     </div>
                 </div>
@@ -592,8 +594,128 @@
                     </ul>
                 </div>
             </div>
-        </div> 
-    </div> 
+        </div>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="clearancesfull">
+            <div class="nosrow"> Color Setting </div>
+            <div class="clearances">
+                <div id="colorSetting">
+                    <div class="modal-body ">
+                        <div class="row">
+                            <div class="col-sm-12 colorSettings">
+                                <div class="colorGroup">
+                                    <h1>Title Color</h1>
+                                    <input type="color" id="title" name="title" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Sub-Title Color</h1>
+                                    <input type="color" id="subTitle" name="subTitle" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Header Background Color</h1>
+                                    <input type="color" id="headerBg" name="headerBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Header Text Color</h1>
+                                    <input type="color" id="headerText" name="headerText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Header Background Color</h1>
+                                    <input type="color" id="TableHeaderBg" name="TableHeaderBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Header Text Color</h1>
+                                    <input type="color" id="TableHeaderText" name="TableHeaderText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Background Color</h1>
+                                    <input type="color" id="TableAlternateRowBg" name="TableAlternateRowBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Text Color</h1>
+                                    <input type="color" id="TableAlternateRowText" name="TableAlternateRowText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Hover Background Color</h1>
+                                    <input type="color" id="TableRowHoverBg" name="TableRowHoverBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Hover Text Color</h1>
+                                    <input type="color" id="TableRowHoverText" name="TableRowHoverText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Link Text</h1>
+                                    <input type="color" id="linkText" name="linkText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Background Color</h1>
+                                    <input type="color" id="positiveBtnBg" name="positiveBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Border Color</h1>
+                                    <input type="color" id="positiveBtnBorder" name="positiveBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Text Color</h1>
+                                    <input type="color" id="positiveBtnText" name="positiveBtnText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>PostPositiveive Action Button Hover Background Color</h1>
+                                    <input type="color" id="positiveHoverBtnBg" name="positiveHoverBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Hover Border Color</h1>
+                                    <input type="color" id="positiveHoverBtnBorder" name="positiveHoverBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Hover Text Color</h1>
+                                    <input type="color" id="positiveHoverBtnText" name="positiveHoverBtnText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Background Color</h1>
+                                    <input type="color" id="negativeBtnBg" name="negativeBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Border Color</h1>
+                                    <input type="color" id="negativeBtnBorder" name="negativeBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Text Color</h1>
+                                    <input type="color" id="negativeBtnText" name="negativeBtnText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Hover Background Color</h1>
+                                    <input type="color" id="negativeHoverBtnBg" name="negativeHoverBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Hover Border Color</h1>
+                                    <input type="color" id="negativeHoverBtnBorder" name="negativeHoverBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Hover Text Color</h1>
+                                    <input type="color" id="negativeHoverBtnText" name="negativeHoverBtnText" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="colpr-footer">
+                    <button type="button" class="theme-btny-1 mr-8" onclick="saveSettings();">Save Settings</button>
+                    <button type="button" class="theme-btnz-1 mr-8" onclick="restoreSettings();">Restore Default</button>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
     <div id="colorSetting" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
             <!-- Modal content-->
@@ -723,14 +845,16 @@
 
         if (!saved) {
             if (confirm("Settings not yet saved do you want to close")) {
-                $('#colorSetting').modal('hide');
+                //$('#colorSetting').modal('hide');
+                document.getElementById("mySidenav").style.width = "0";
                 //alert('after close again make api to get new values');
                 applyStyle();
                 saved = false;
             }
         }
         else {
-            $('#colorSetting').modal('hide');
+            //$('#colorSetting').modal('hide');
+            document.getElementById("mySidenav").style.width = "0";
             applyStyle();
             saved = false;
         }
@@ -1070,6 +1194,13 @@
             $('#chatBox').attr("style", "display:none");
             $('#btnopenchat').attr("style", "display:none");
         }
+    }
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "290px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
     }
     function openColorSettingsWindow() {
         $('#colorSetting').modal('show');
