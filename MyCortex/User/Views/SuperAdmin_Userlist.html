@@ -196,7 +196,7 @@
                                                        accept="image/x-png,image/gif,image/jpeg" ng-click="PhotoUplaodSelected()" />
 
                                                 <div valign="top" rowspan="6">
-                                                    <img class="responsiveProfileImage" src="{{uploadme}}" style="width:200px;height:200px;"/>
+                                                    <img class="responsiveProfileImage" src="{{uploadme}}" style="width:200px;height:200px;" />
                                                 </div>
 
                                                 <div class="uploadIconContainer">
@@ -354,6 +354,18 @@
                                                        ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    RowId
+                                                </label>
+                                            </td>
+                                            <td width="36%">
+                                                <input type="text" class="form-control" id="spradminrowid"
+                                                       ng-model="Id" ng-init="Id=''" maxlength="50"
+                                                       ng-maxlength="50" placeholder="" onkeypress="">
+                                            </td>
+                                        </tr>
                                     </table>
                                 </form>
                             </div>
@@ -491,6 +503,7 @@
                                 <span>{{MobileNo}}</span>
                             </td>
                         </tr>
+                        
                     </table>
                 </form>
             </div>

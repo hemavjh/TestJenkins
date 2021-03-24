@@ -344,7 +344,7 @@
                                                                 </option>
                                                             </select>
                                                         </div>
-
+                                                        
                                                     </div>
                                                     <div class="col-sm-4">
 
@@ -527,10 +527,15 @@
                                                         <div class="inputGroups">
                                                             <label for="email">DOB<sup><font class="mandatory-field">*</font></sup></label>
                                                             <!--<div class="date">-->
-                                                                <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">
+                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">
                                                             <!--</div>-->
-                                                        </div> 
-
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label valign="top">RowId</label>
+                                                            <input type="text" class="form-control" id="hosadminrowid" ng-model="Id"
+                                                                   ng-init="Id=''" ng-maxlength="50"
+                                                                   maxlength="50" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

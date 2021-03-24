@@ -430,8 +430,9 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 $scope.InstitutionClear();
                 $scope.Id = CatId;
                 $scope.DropDownListValue = 1;
-                $scope.InstitutionDetails_View();
+                $scope.InstitutionDetails_View(); 
                 angular.element('#InstitutionCreateModal').modal('show');
+                $('#rowid').prop('disabled', true);
             }
             else {
                 alert("Inactive record cannot be edited");
@@ -940,6 +941,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $scope.Id = InsSubId;
                 $scope.InstitutionSubscriptionDetails_View();
                 angular.element('#InstitutionSubscriptionCreateModal').modal('show');
+                $('#subscriptionrowid').prop('disabled', true);
             }
             else {
                 alert("Inactive Institution's Subscription cannot be edited")
@@ -1521,6 +1523,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Admin_View($scope.MenuTypeId);
             $scope.currentTab = "1";
             angular.element('#UserModal').modal('show');
+            $('#spradminrowid').prop('disabled', true);
+            $('#hosadminrowid').prop('disabled', true);
         }
 
         $scope.PatientView_Cancel = function () {
