@@ -2891,7 +2891,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.Id).success(function (data) {
                         $("#chatLoaderPV").hide();
                         var PatientInstituteId = data[0].Institution_Id;
-                        if (PatientInstituteId == $window.localStorage['InstitutionId']) {
+                         
+                        if ($window.localStorage['UserTypeId'] == 1 || PatientInstituteId == $window.localStorage['InstitutionId']) {
                             $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                                 $scope.Id = data.Id;
                                 $scope.InstitutionId = data.INSTITUTION_ID.toString();
