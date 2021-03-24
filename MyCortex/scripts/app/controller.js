@@ -1279,6 +1279,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.StateDuplicateId = "0";
         $scope.LocationDuplicateId = "0";
         $scope.Id = "0";
+        $scope.rowId ="0"
         $scope.UserType = "0";
         $scope.InstitutionId = "0";
         $scope.FirstName = "";
@@ -1774,6 +1775,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.AppConfigurationProfileImageList();
             //$scope.Admin_View($scope.MenuTypeId);
             $location.path("/PatientEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
+             
         }
 
         $scope.ClearPopUp = function () {
@@ -2892,13 +2894,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
                         })
                     }
+                    
                     $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.Id).success(function (data) {
                         $("#chatLoaderPV").hide();
                         var PatientInstituteId = data[0].Institution_Id;
                          
                         if ($window.localStorage['UserTypeId'] == 1 || PatientInstituteId == $window.localStorage['InstitutionId']) {
                             $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                                $scope.Id = data.Id;
+                                $scope.Id = data.Id; 
+                                $scope.rowId = data.Id;
                                 $scope.InstitutionId = data.INSTITUTION_ID.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                                 $scope.FirstName = data.FirstName;
@@ -3081,7 +3085,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 //$scope.StateBased_CityFunction();
                                 //$scope.Country_onChange();
                                 //$scope.State_onChange();
-
+                                $('#patientrowid').prop('disabled', true);     
                                 $("#chatLoaderPV").hide();
                             });
                         } else {

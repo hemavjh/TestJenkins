@@ -413,30 +413,36 @@
                                 <div class="col-sm-6">
                                     <div class="inputGroups">
                                         <label>Street Address Line 2</label>
-                                            <input type="text" class="form-control" id="Text16" ng-model="Address3"
-                                                   ng-init="Addres3=''" maxlength="50" ng-maxlength="50" placeholder="" ng-disabled="Pat_UserTypeId==2">
+                                        <input type="text" class="form-control" id="Text16" ng-model="Address3"
+                                               ng-init="Addres3=''" maxlength="50" ng-maxlength="50" placeholder="" ng-disabled="Pat_UserTypeId==2">
                                     </div>
                                     <div class="inputGroups">
                                         <label>Postel/Zip Code</label>
-                                            <input type="text" class="form-control" id="PostalZipCode"
-                                                   ng-model="PostalZipCode" ng-init="PostalZipCode=''" maxlength="20"
-                                                   ng-maxlength="20" placeholder="" onkeypress="SomeSpec(event)" ng-disabled="Pat_UserTypeId==2">
+                                        <input type="text" class="form-control" id="PostalZipCode"
+                                               ng-model="PostalZipCode" ng-init="PostalZipCode=''" maxlength="20"
+                                               ng-maxlength="20" placeholder="" onkeypress="SomeSpec(event)" ng-disabled="Pat_UserTypeId==2">
                                     </div>
                                     <div class="inputGroups">
-                                       <label> State<sup>
-                                            <font class='mandatory-field'>*</font>
-                                        </sup>
+                                        <label>
+                                            State<sup>
+                                                <font class='mandatory-field'>*</font>
+                                            </sup>
                                         </label>
-                                            <select class="" data-style="form-control" id="stateselectpicker"
-                                                    data-live-search="true" data-selectpicker
-                                                    data-collection-name="StateName_List" ng-model="StateId"
-                                                    ng-change="StateBased_CityFunction();" ng-disabled="Pat_UserTypeId==2">
-                                                <option value="0">Select</option>
-                                                <option ng-repeat="sel in StateName_List" ng-required="true"
-                                                        value="{{sel.Id}}">
-                                                    {{sel.StateName}}
-                                                </option>
-                                            </select>
+                                        <select class="" data-style="form-control" id="stateselectpicker"
+                                                data-live-search="true" data-selectpicker
+                                                data-collection-name="StateName_List" ng-model="StateId"
+                                                ng-change="StateBased_CityFunction();" ng-disabled="Pat_UserTypeId==2">
+                                            <option value="0">Select</option>
+                                            <option ng-repeat="sel in StateName_List" ng-required="true"
+                                                    value="{{sel.Id}}">
+                                                {{sel.StateName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="inputGroups">
+                                        <label>RowId</label>
+                                        <input type="text" class="form-control" id="patientrowid" ng-model="rowId"
+                                               ng-init="rowId=''" maxlength="50" ng-maxlength="50" placeholder="">
                                     </div>
                                 </div>
                             </div>
