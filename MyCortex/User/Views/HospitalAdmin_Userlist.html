@@ -530,12 +530,7 @@
                                                             <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">
                                                             <!--</div>-->
                                                         </div>
-                                                        <div class="inputGroups">
-                                                            <label valign="top">RowId</label>
-                                                            <input type="text" class="form-control" id="hosadminrowid" ng-model="Id"
-                                                                   ng-init="Id=''" ng-maxlength="50"
-                                                                   maxlength="50" />
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -869,6 +864,11 @@
                                                             {{DOB |date:"dd-MMM-yyyy"}}
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label valign="top">RowId</label>
+                                                        <span id="hosadminrowid">{{Id}}</span>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>
