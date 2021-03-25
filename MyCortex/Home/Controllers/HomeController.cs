@@ -24,6 +24,7 @@ using MyCortex.Repositories.Admin;
 using MyCortex.Provider;
 using MyCortex.Repositories.Masters;
 using MyCortex.Repositories;
+using MyCortex.Utilities;
 
 namespace MyCortex.Home.Controllers
 {
@@ -424,8 +425,9 @@ namespace MyCortex.Home.Controllers
         /// <param name="state"></param>
         /// <param name="session_state"></param>
         /// <returns></returns>
-        public async Task<ActionResult> SaveGoogleUser(string code, string state, string session_state, Guid Login_Session_Id, int Sys_TimeDifference, string Browser_Version, string Login_Country, string Login_City)
+        public async Task<ActionResult> SaveGoogleUser(string code, string state, string scope)
         {
+            DataEncryption Encrypt = new DataEncryption();
             if (string.IsNullOrEmpty(code))
             {
                 return RedirectToRoute("Default");
@@ -452,9 +454,9 @@ namespace MyCortex.Home.Controllers
 
             LoginModel model;
             LoginModel model1 = new LoginModel();
-            model1.Username = (Session["EmailId"].ToString());
+            model1.Username = Encrypt.Encrypt(Session["EmailId"].ToString());
             model1.DeviceType = "Web";
-            model1.Username = "2";
+            model1.LoginType = 2;
             model1.Sys_TimeDifference = Convert.ToInt32(Session["Sys_TimeDifference"].ToString());
             model1.Browser_Version = (Session["Browser_Version"].ToString());
             model1.Login_Country = (Session["Login_Country"].ToString());
@@ -554,7 +556,7 @@ namespace MyCortex.Home.Controllers
             try
             { 
                
-                string[] list  = new string[3] { "MyHealth", "STC MyCortex", "MyCortex" }; 
+                string[] list  = new string[3] { "MyHealth", "STC MyCortex", "MyCortex.health" }; 
                  
                 if(InstanceNameId == 1)
                 {
