@@ -3648,16 +3648,19 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 })
                         }
                         if (data.ReturnFlag == "1") {
+                            $scope.UserTypeId = $window.localStorage['UserTypeId'];
                             if ($scope.MenuTypeId == 1) {
                                 $scope.User_Admin_List($scope.MenuTypeId);
                             }
                             if ($scope.MenuTypeId == 2) {
                                 $scope.BusinessUser_List($scope.MenuTypeId);
                             }
-                            $scope.CancelPopup();
                             if ($scope.MenuTypeId == 3) {
-                                $scope.ListRedirect();
+                                if ($scope.UserTypeId != 2) {
+                                    $scope.ListRedirect();
+                                }
                             }
+                            $scope.CancelPopup();
                             if ($scope.PageParameter == 1) {
                                 $scope.Cancel_PatientData_Edit();
                             }
