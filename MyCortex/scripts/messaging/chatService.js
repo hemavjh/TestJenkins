@@ -137,7 +137,7 @@ const utilService = function()
                     if (window.COMETCHAT_TO_USER === contValue.User_Id) {
                         vuser = true;
                     }
-                })
+                });
                 openUserChat("u", window.COMETCHAT_TO_USER, vuser);
                 if (vuser === false) {
                     $('#linkcallIcon').hide();
@@ -438,6 +438,32 @@ const chatService = function() {
             }
 
         },
+        sendCustomMessage: function (customData, customType) {
+            let receiverID = customData.ReceiverId;
+            //var customData = {
+            //    latitude: "50.6192171633316",
+            //    longitude: "-72.68182268750002"
+            //};
+
+            //var customType = "location";
+            var receiverType = CometChat.RECEIVER_TYPE.USER;
+            var customMessage = new CometChat.CustomMessage(
+                receiverID,
+                receiverType,
+                customType,
+                customData
+            );
+            CometChat.sendCustomMessage(customMessage).then(
+                message => {
+                    // Message sent successfully.
+                    console.log("custom message sent successfully", message);
+                },
+                error => {
+                    console.log("custom message sending failed with error", error);
+                    // Handle exception.
+                }
+            );
+        },
         sendMessage: function () {
             $('#send-message-spinner').show();
             let receiverID = userid;
@@ -633,6 +659,27 @@ const chatService = function() {
                             $("#chatLoader").attr("style", "display:none");
                         }
                         this.getaddressbookDetails($('#contactSearch').val());
+                    },
+                    onCustomMessageReceived: customMessage => {
+                        console.log("Custom message received successfully", customMessage);
+                        if (customMessage.type === "Join Request") {
+                            var proceed = confirm(customMessage.sender.name + " wants to joins the call.");
+                            if (proceed) {
+                                var CustomData = {
+                                    UserId: $scope.UserId,
+                                    CallSessionId: $scope.CallSessionId,
+                                    ReceiverId: "754",
+                                    ResponseAnswer: "Yes"
+                                };
+                                var CustomType = "Join Response";
+                                this.sendCustomMessage(CustomData, CustomType);
+                            }
+                        } else if (customMessage.type === "Join Response") {
+                            $("#WaitingCall-Page").hide();
+                            $("#directCall-Page").show();
+                            this.initiateDirectCall($scope.CallSessionId);
+                        }
+                        // Handle custom message
                     }
                 })
             );
