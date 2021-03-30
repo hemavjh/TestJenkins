@@ -70,7 +70,14 @@ a {
     border: 0px;
     padding: 10px 15px;
 }
-
+.modal-header1 {
+    background: var(--primary);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-radius: 0px;
+    border: 0px;
+    padding: 10px 15px;
+}
 label {
     font-weight: 500;
 }
@@ -696,6 +703,29 @@ li.customDropdownlast-child:hover {
         border: 2px solid #fff;
     }
 
+.modal-header1 .close {
+    /*/color: #fff;*/
+    opacity: 1;
+    font-size: 22px;
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    padding: 0px;
+    border: 2px solid transparent;
+    border-radius: 15px;
+    line-height: 15px;
+    width: 30px;
+    height: 30px;
+    display: block;
+    /* align-items: center; */
+    /* justify-content: center; */
+    text-shadow: none;
+    outline: none !important;
+    float: none;
+}
+.modal-header1 .close:hover {
+    border: 2px solid #fff;
+}
 .footerBg p {
     margin-bottom: 0px;
 }
