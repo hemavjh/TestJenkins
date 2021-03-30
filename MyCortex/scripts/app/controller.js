@@ -13814,7 +13814,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
             angular.forEach(data, function (row, value) {
-                if (row.Id != 1 && row.Id != 3)
+                if (row.Id != 1)
                     $scope.Usertypelist.push(row)
             });
             $("#chatLoaderPV").hide();
