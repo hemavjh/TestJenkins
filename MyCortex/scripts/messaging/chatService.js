@@ -666,8 +666,8 @@ const chatService = function() {
                             var proceed = confirm(customMessage.sender.name + " wants to joins the call.");
                             if (proceed) {
                                 var CustomData = {
-                                    UserId: $scope.UserId,
-                                    CallSessionId: $scope.CallSessionId,
+                                    UserId: customMessage.sender.uid,
+                                    CallSessionId: "1234-1234",
                                     ReceiverId: "754",
                                     ResponseAnswer: "Yes"
                                 };
@@ -677,7 +677,7 @@ const chatService = function() {
                         } else if (customMessage.type === "Join Response") {
                             $("#WaitingCall-Page").hide();
                             $("#directCall-Page").show();
-                            this.initiateDirectCall($scope.CallSessionId);
+                            this.initiateDirectCall(customMessage.data.customData.CallSessionId);
                         }
                         // Handle custom message
                     }
