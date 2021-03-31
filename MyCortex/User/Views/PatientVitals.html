@@ -862,10 +862,16 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="inputGroups">
+                                                                <div class="inputGroups" ng-show="currentTab=='2'">
                                                                     <label>Active</label>
                                                                     <input toggle-checkbox ng-model="VitalsIsActive"
-                                                                           type="checkbox" ng-change="vitalsFilterAllItem();"
+                                                                           type="checkbox" ng-change="GeneralFunction(2,2);"
+                                                                           title="Active / All">
+                                                                </div>
+                                                                <div class="inputGroups" ng-show="currentTab=='3'">
+                                                                    <label>Active</label>
+                                                                    <input toggle-checkbox ng-model="VitalsIsActive"
+                                                                           type="checkbox" ng-change="GeneralFunction(3,2);"
                                                                            title="Active / All">
                                                                 </div>
                                                             </div>
@@ -917,7 +923,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr ng-if="PatientHealthDataTableList.length==0">
+                                                            <tr ng-if="emptydataVitalLab.length==0">
                                                                 <td colspan="7" class="textalign">
                                                                     {{SearchMsg}}
                                                                 </td>
@@ -976,15 +982,29 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-                                                        <tfoot style="align: center"
-                                                               ng-show="PatientHealthDataTableList.length >page_size">
+                                                        <tfoot  ng-show="patientvitals_pages>1">
                                                             <tr>
                                                                 <td colspan="7" class="text-center">
-                                                                    <div st-items-by-page="page_size"
+                                                                    <!--<div st-items-by-page="page_size"
                                                                          st-page-change="rembemberCurrentPage(newPage)"
                                                                          st-pagination=""
                                                                          st-template="Masters/Views/pagination.custom.html">
-                                                                    </div>
+                                                                    </div>-->
+                                                                    <ul class="pagination" style="margin-left:110px;">
+                                                                        <li>
+                                                                            <a ng-click="setPage(1)">First</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage(current_page - 1)">&lt;</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{patientvitals_pages}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{patientvitals_pages}}</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage(current_page + 1)">&gt;</a>
+                                                                        </li>
+                                                                        <li><a ng-click="setPage(patientvitals_pages)">Last</a></li>
+                                                                    </ul>
                                                                 </td>
                                                             </tr>
                                                         </tfoot>

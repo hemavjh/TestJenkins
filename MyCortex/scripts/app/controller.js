@@ -4877,6 +4877,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.Doctor_Id = "";
         //List Page Pagination.
         $scope.current_page = 1;
+        $scope.patientvitals_pages = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.allergyActive = true;
         $scope.rembemberCurrentPage = function (p) {
@@ -5410,67 +5411,121 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
 
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else {
+                $scope.inputPageNo = PageNo;
+            }
+
+            $scope.current_page = PageNo;
+            $scope.GeneralFunction($scope.ParamGroup_Id, 2);
+        }
         $scope.GeneralFunction = function (ParamGroup_Id, ChartORData) {
             $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.SelectedPatientId).success(function (data) {
-                   $("#chatLoaderPV").hide();
-                    var PatientInstituteId = data[0].Institution_Id;
-                    $scope.ParameterList = [];
-                    $scope.PatientHealthDataChartList = [];
-                    $scope.ParamGroup_Id = ParamGroup_Id;
-                    $("#chatLoaderPV").show();
-                    $scope.getParameterList();
+                $("#chatLoaderPV").hide();
+                var PatientInstituteId = data[0].Institution_Id;
+                $scope.ParameterList = [];
+                $scope.PatientHealthDataChartList = [];
+                $scope.ParamGroup_Id = ParamGroup_Id;
+                $("#chatLoaderPV").show();
+                $scope.getParameterList();
                 if (PatientInstituteId == $window.localStorage['InstitutionId']) {
-                    $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype).success(function (data) {
+                    $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                    $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                    $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                        $scope.page_size = data1[0].ConfigValue;
+                        $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                        $scope.PageEnd = $scope.current_page * $scope.page_size;
+                        $scope.Active = 1;       // default active
+                        if ($scope.VitalsIsActive == true) {
+                            $scope.Active = 1  //active
+                        }
+                        else if ($scope.VitalsIsActive == false) {
+                            $scope.Active = -1 //all
+                        }
+                        $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype + '&StartRowNumber=' + $scope.PageStart +
+                            '&EndRowNumber=' + $scope.PageEnd + '&Active='+$scope.Active).success(function (data) {
+                                $("#chatLoaderPV").hide();
+                                $scope.SearchMsg = "No Data Available";
+                                // only active items for Chart
+                                if (ChartORData == 1) {
+                                    $scope.PatientHealthDataChartList = $ff(data.PatientHealthDataList, { IsActive: 1 }, true);
+                                    $scope.Parameter_List = [];
+                                    $scope.ParameterChild_List = [];
+
+                                    if ($scope.GroupParameterNameList.length != '0') {
+                                        angular.forEach($ff($scope.GroupParameterNameList, { Group_Id: $scope.ParamGroup_Id }, true), function (valueparam, indexparam) {
+                                            if (valueparam.ParameterParent_Id == "0") {
+                                                var currentParam = {
+                                                    Id: valueparam.ParameterId,
+                                                    Name: 'Chart' + valueparam.ParameterId,
+                                                    hadChild: valueparam.ParameterHas_Child,
+                                                    ParamName: valueparam.ParameterName,
+                                                    GroupId: valueparam.Group_Id
+                                                };
+                                                $scope.Parameter_List.push(currentParam);
+                                            }
+                                            else {
+                                                var currentParamChild = {
+                                                    Id: valueparam.ParameterId,
+                                                    Parent_Id: valueparam.ParameterParent_Id,
+                                                    Name: 'Chart' + valueparam.ParameterId,
+                                                    GroupId: valueparam.Group_Id,
+                                                    ParamName: valueparam.ParameterName,
+                                                };
+                                                $scope.ParameterChild_List.push(currentParamChild);
+                                            }
+
+
+                                        });
+                                    } else if ($scope.Tick == false) {
+                                        //5356
+                                        $scope.getParameterList();
+                                        $scope.GeneralFunction(ParamGroup_Id, ChartORData);
+                                    }
+                                    if ($scope.Tick == true) {
+                                        $scope.PatientHealthRecordDetailsList($ff($scope.Parameter_List, { GroupId: ParamGroup_Id }, true), $scope.PatientHealthDataChartList, $scope.ParameterChild_List);
+                                    }
+                                }
+                                // all active&inactive items for tableview/detail view
+                                else if (ChartORData == 2) {
+                                    //$scope.PatientHealthDataChartList = data.PatientHealthDataList;
+
+                                    $scope.PatientHealthDataChartList = data.PatientHealthDataList;
+                                    //$scope.vitalsFilterAllItem();
+                                    $scope.emptydataVitalLab = [];
+                                    $scope.emptydataVitalLab = $scope.PatientHealthDataChartList;
+                                    $scope.PatientHealthCount = $scope.emptydataVitalLab[0].TotalRecord;
+                                    if ($scope.VitalsIsActive == true) {
+                                        $scope.PatientHealthDataTableList = $scope.filterExcludeBMI(($filter('orderBy')(angular.copy($ff($scope.emptydataVitalLab, { IsActive: 1 }, true)), 'Id', true)));
+                                        $scope.PatientHealthActiveCount = $scope.PatientHealthDataTableList;
+
+                                        if ($scope.PatientHealthActiveCount.length > 0) {
+                                            $scope.flag = 1;
+                                        }
+                                        else {
+                                            $scope.flag = 0;
+                                        }
+                                    } else {
+                                        $scope.PatientHealthDataTableList = $scope.filterExcludeBMI(($scope.filterExcludeBMI($filter('orderBy')(angular.copy($scope.emptydataVitalLab), 'Id', true))));
+                                        $scope.PatientHealthActiveCount = $scope.PatientHealthDataTableList;
+
+                                        if ($scope.PatientHealthActiveCount.length > 0) {
+                                            $scope.flag = 1;
+                                        }
+                                        else {
+                                            $scope.flag = 0;
+                                        }
+                                    } 
+                                    $scope.patientvitals_pages = Math.ceil(($scope.PatientHealthCount) / ($scope.page_size));    
+                                }
+                            })
+                    }).error(function (data) {
                         $("#chatLoaderPV").hide();
-                        $scope.SearchMsg = "No Data Available";
-                        // only active items for Chart
-                        if (ChartORData == 1) {
-                            $scope.PatientHealthDataChartList = $ff(data.PatientHealthDataList, { IsActive: 1 }, true);
-                            $scope.Parameter_List = [];
-                            $scope.ParameterChild_List = [];
-
-                            if ($scope.GroupParameterNameList.length != '0') {
-                                angular.forEach($ff($scope.GroupParameterNameList, { Group_Id: $scope.ParamGroup_Id }, true), function (valueparam, indexparam) {
-                                    if (valueparam.ParameterParent_Id == "0") {
-                                        var currentParam = {
-                                            Id: valueparam.ParameterId,
-                                            Name: 'Chart' + valueparam.ParameterId,
-                                            hadChild: valueparam.ParameterHas_Child,
-                                            ParamName: valueparam.ParameterName,
-                                            GroupId: valueparam.Group_Id
-                                        };
-                                        $scope.Parameter_List.push(currentParam);
-                                    }
-                                    else {
-                                        var currentParamChild = {
-                                            Id: valueparam.ParameterId,
-                                            Parent_Id: valueparam.ParameterParent_Id,
-                                            Name: 'Chart' + valueparam.ParameterId,
-                                            GroupId: valueparam.Group_Id,
-                                            ParamName: valueparam.ParameterName,
-                                        };
-                                        $scope.ParameterChild_List.push(currentParamChild);
-                                    }
-
-
-                                });
-                            } else if ($scope.Tick == false) {
-                                5356
-                                $scope.getParameterList();
-                                $scope.GeneralFunction(ParamGroup_Id, ChartORData);
-                            }
-                            if ($scope.Tick == true) {
-                                $scope.PatientHealthRecordDetailsList($ff($scope.Parameter_List, { GroupId: ParamGroup_Id }, true), $scope.PatientHealthDataChartList, $scope.ParameterChild_List);
-                            }
-                        }
-                        // all active&inactive items for tableview/detail view
-                        else if (ChartORData == 2) {
-                            //$scope.PatientHealthDataChartList = data.PatientHealthDataList;
-                            $scope.PatientHealthDataChartList = data.PatientHealthDataList;
-                            $scope.vitalsFilterAllItem();
-
-                        }
+                        $scope.error = "AN error has occured while Listing the records!" + data;
                     })
                 } else {
                     window.location.href = baseUrl + "/Home/LoginIndex";
@@ -5481,21 +5536,51 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.vitalsFilterAllItem = function () {
             $("#chatLoaderPV").show();
             if ($scope.VitalsIsActive == true) {
+                $scope.Active = 1
+                $scope.GeneralFunction($scope.ParamGroup_Id, 2);
                 // if active   - filter only active        
                 //$scope.PatientHealthDataTableList = $filter('orderBy')(angular.copy($ff($scope.PatientHealthDataChartList, {IsActive :1}, true)), 'Id', true);
-                $scope.PatientHealthDataTableList = $scope.filterExcludeBMI(($filter('orderBy')(angular.copy($ff($scope.PatientHealthDataChartList, { IsActive: 1 }, true)), 'Id', true)));
+                //$scope.emptydataVitalLab = [];
+                //$scope.emptydataVitalLab = $scope.PatientHealthDataChartList;
+                //$scope.PatientHealthCount = $scope.emptydataVitalLab[0].TotalRecord;
+                //$scope.PatientHealthDataTableList = $scope.filterExcludeBMI(($filter('orderBy')(angular.copy($ff($scope.emptydataVitalLab, { IsActive: 1 }, true)), 'Id', true)));
+                ////$scope.patientvitals_pages = Math.ceil(($scope.PatientHealthDataTableList) / ($scope.page_size));
+                //$scope.PatientHealthActiveCount = $scope.PatientHealthDataTableList;
+
+                //if ($scope.PatientHealthActiveCount.length > 0) {
+                //    $scope.flag = 1;
+                //}
+                //else {
+                //    $scope.flag = 0;
+                //}
+                //$scope.patientvitals_pages = Math.ceil(($scope.PatientHealthCount) / ($scope.page_size));
 
             }
             else {
                 // if inactive - filter all
-                $scope.PatientHealthDataTableList = $scope.filterExcludeBMI(($scope.filterExcludeBMI($filter('orderBy')(angular.copy($scope.PatientHealthDataChartList), 'Id', true))));
+                $scope.Active = -1 //all  
+                //$scope.GeneralFunction($scope.ParamGroup_Id, 2);
+                 $scope.GeneralFunction($scope.ParamGroup_Id, 2);
+                //$scope.emptydataVitalLab = [];
+                //$scope.emptydataVitalLab = $scope.PatientHealthDataChartList;
+                //$scope.PatientHealthCount = $scope.emptydataVitalLab[0].TotalRecord;
+                //$scope.PatientHealthDataTableList = $scope.filterExcludeBMI(($scope.filterExcludeBMI($filter('orderBy')(angular.copy($scope.emptydataVitalLab), 'Id', true))));
+                //$scope.PatientHealthActiveCount = $scope.PatientHealthDataTableList;
+
+                //if ($scope.PatientHealthActiveCount.length > 0) {
+                //    $scope.flag = 1;
+                //}
+                //else {
+                //    $scope.flag = 0;
+                //}
+                //$scope.patientvitals_pages = Math.ceil(($scope.PatientHealthCount) / ($scope.page_size));
             }
             // to refresh sorting
-            setTimeout(function () {
-                $scope.$apply(function () {
-                    $scope.PatientHealthDataTableList = angular.copy($scope.PatientHealthDataTableList);
-                });
-            }, 100);
+            //setTimeout(function () {
+            //    $scope.$apply(function () {
+            //        $scope.PatientHealthDataTableList = angular.copy($scope.PatientHealthDataTableList);
+            //    });
+            //}, 100);
             angular.forEach($scope.PatientHealthDataTableList, function (value2, index2) {
                 $scope.EditVitalRow_EditFlag[index2] = 1;
             });
@@ -5531,6 +5616,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 setTimeout(function () {
                     $scope.$apply(function () {
                         $scope.PatientHealthDataTableList = angular.copy($scope.PatientHealthDataTableList);
+                        if ($scope.PatientHealthDataTableList.length > 0) {
+                            $scope.flag = 1;
+                        } else {
+                            $scope.flag = 0;
+                        }
+                        $scope.patientvitals_pages = Math.ceil(($scope.PatientHealthDataTableList.length) / ($scope.page_size));
                     });
                 }, 100);
             }
@@ -6085,21 +6176,21 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     pane: {
                         startAngle: 0,
                         endAngle: 360,
-                        background: [{ // Track for Move
+                        background: [{ // Track for Move --steps
                             outerRadius: '112%',
                             innerRadius: '88%',
                             backgroundColor: Highcharts.color(Highcharts.getOptions().colors[0])
                                 .setOpacity(0.3)
                                 .get(),
                             borderWidth: 0
-                        }, { // Track for Exercise
+                        }, { // Track for Exercise--calories
                             outerRadius: '87%',
                             innerRadius: '63%',
                             backgroundColor: Highcharts.color(Highcharts.getOptions().colors[1])
                                 .setOpacity(0.3)
                                 .get(),
                             borderWidth: 0
-                        }, { // Track for Stand
+                        }, { // Track for Stand -- workout
                             outerRadius: '62%',
                             innerRadius: '38%',
                             backgroundColor: Highcharts.color(Highcharts.getOptions().colors[2])
@@ -6136,7 +6227,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     },
 
                     series: [{
-                            name: 'Move',
+                            name: 'Steps',
                             data: [{
                                 color: Highcharts.getOptions().colors[0],
                                 radius: '112%',
@@ -6145,7 +6236,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             }]
                         },
                         {
-                            name: 'Exercise',
+                            name: 'Calories',
                             data: [{
                                 color: Highcharts.getOptions().colors[1],
                                 radius: '87%',
@@ -6153,7 +6244,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 y: $scope.ActualCaloriesExpandedList[0]["data"][0].y
                             }]
                         }, {
-                            name: 'Stand',
+                            name: 'Workout',
                             data: [{
                                 color: Highcharts.getOptions().colors[2],
                                 radius: '62%',
@@ -6162,7 +6253,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             }]
                         },
                         {
-                            name: 'sleep',
+                            name: 'Sleep',
                             data: [{
                                 color: Highcharts.getOptions().colors[3],
                                 radius: '37%',

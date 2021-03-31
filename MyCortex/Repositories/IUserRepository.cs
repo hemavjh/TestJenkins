@@ -28,7 +28,7 @@ namespace MyCortex.Repositories
         IList<PatientAllergiesNameListModels> PatientAllergiesNameList(long? PatientId);
         long GetInstitutionForWebURL(string request);
         long GetInstitutionFromShortName(string INSTITUTION_CODE);
-        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id);
+        IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id,int StartRowNumber, int EndRowNumber,int Active);
         IList<PatientHealthDataModel> GoalDataDetails_List(long Patient_Id, Guid Login_Session_Id);
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);

@@ -1164,9 +1164,12 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id)
+        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber,int Active)
         {
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Active", Active));
             param.Add(new DataParameter("@PATIENTID", Patient_Id));
             param.Add(new DataParameter("@TYPE", OptionType_Id));
             param.Add(new DataParameter("@PARAMGROUP_ID", Group_Id));
@@ -1177,6 +1180,7 @@ namespace MyCortex.Repositories.Uesr
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                  select new PatientHealthDataModel()
                                                  {
+                                                     TotalRecord = p.Field<string>("TotalRecords"),
                                                      ParameterId = p.Field<long>("PARAMETER"),
                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
                                                      XAxis = p.Field<string>("xaxis") ?? "",

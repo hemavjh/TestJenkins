@@ -8,6 +8,7 @@ namespace MyCortex.User.Model
 {
     public class PatientHealthDataModel
     {
+        public string TotalRecord { get; set; }
         public long Id { get; set; }
         public long Patient_Id { get; set; }
         public int Type_Id { get; set; }

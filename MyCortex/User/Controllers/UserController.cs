@@ -783,13 +783,13 @@ namespace MyCortex.User.Controller
         /// <returns>List of Health Data</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, Guid Login_Session_Id, long UnitsGroupType = 1)
+        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, int StartRowNumber,int EndRowNumber,int Active, Guid Login_Session_Id, long UnitsGroupType = 1)
         {
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
             try
             {
-                model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, UnitsGroupType, Login_Session_Id);
+                model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active);
 
                 modelReturn.Status = "True";
                 modelReturn.Message = "List of Patient Health Data";
