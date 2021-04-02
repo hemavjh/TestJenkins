@@ -13884,8 +13884,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 $scope.changepasswordId = $window.localStorage['UserId'];
                 $scope.ModifiedUser_Id = $window.localStorage['UserId'];
                 $scope.InstituteId = $window.localStorage['InstitutionId'];
-                $scope.NewPassword = $scope.NewPassword.replace(/(&|#)/g, "amp");
-                $scope.confirmpassword = $scope.confirmpassword.replace(/(&|#)/g, "amp");
+                $scope.NewPassword = $scope.NewPassword.replace(/(#|&)/g, "amp");
+                $scope.confirmpassword = $scope.confirmpassword.replace(/(#|&)/g, "amp");
                 var obj = {
                     UserId: $scope.changepasswordId,
                     InstitutionId: $window.localStorage['InstitutionId'],
@@ -13960,8 +13960,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     $scope.User_Id = $scope.User_Selected.originalObject.Id;
                     {
                         $scope.ResetpasswordId = $window.localStorage['UserId'];
-                        $scope.NewPassword = $scope.NewPassword.replace(/(&|#)/g, "amp");
-                        $scope.ReenterPassword = $scope.ReenterPassword.replace(/(&|#)/g, "amp");
+                        $scope.NewPassword = $scope.NewPassword.replace(/(#|&)/g, "amp");
+                        $scope.ReenterPassword = $scope.ReenterPassword.replace(/(#|&)/g, "amp");
                         $http.get(baseUrl + '/api/Login/ResetPassword/?Id=' + $scope.User_Id
                             + '&NewPassword=' + $scope.NewPassword
                             + '&ReenterPassword=' + $scope.ReenterPassword

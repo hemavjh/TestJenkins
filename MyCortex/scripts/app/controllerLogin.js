@@ -413,7 +413,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         });
 
         if ($scope.Validationcontrols() == true) {
-            $scope.Password = $scope.Password.replace(/(&|#)/g, "amp"); 
+            $scope.Password = $scope.Password.replace(/(#|&)/g, "amp"); 
             var obj = {
                 UserName: $scope.Username,
                 Password: $scope.Password,
@@ -464,7 +464,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 
                 var UserName = $scope.Username.toLowerCase();
                 var Password1 = $scope.Password;
-                var Password = Password1.replace(/(&|#)/g, "amp");
+                var Password = Password1.replace(/(#|&)/g, "amp");
                 var LoginType = $scope.LoginType;
                 var tokendata = "UserName=" + UserName + "&Password=" + Password +"&grant_type=password"
                 $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
