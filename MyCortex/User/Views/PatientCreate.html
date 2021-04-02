@@ -3,6 +3,56 @@
     $('#btnLogo').click(function () {
         $("#UserLogo").trigger('click');
     });
+
+    $(document).ready(function () {
+        var image = $('#UserLogo').val();
+        $image_crop = $('#image_demo').croppie({
+            enableExif: true,
+            url: image,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'rectangle' //rectangle
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            },
+            points: {
+                topLeftX: 0,
+                topLeftY: 0,
+                bottomRightX: 0,
+                bottomRightY: 0
+            }
+        });
+
+        $('#UserLogo').on('change', function () {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                $image_crop.croppie('bind', {
+                    url: event.target.result
+                }).then(function () {
+                });
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#insertimageModal').modal('show');
+        });
+
+        $('.crop_image').click(function (event) {
+            $image_crop.croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                //type: 'canvas',
+                size: 'viewport'
+                //size: {width: 150, height: 200}
+            }).then(function (response) {
+                $('#item-img-output').attr('src', response);
+                $('#insertimageModal').modal('hide');
+            });
+        });
+
+    });
+
 </script>
 <script>
     $(function() {
@@ -204,26 +254,9 @@
                                                name="FileName" title="Click to Upload Photo "
                                                style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
                                                ng-click="PhotoUplaodSelected()" />
-                                        <!--<div ng-if="!uploadme==0 ||!uploadme==null">
-                                            <img src="{{uploadme}}" class="responsiveProfileImage" />
-                                        </div>
-                                        <div ng-if="(uploadme==0 || uploadme == null)">
-                                            <img src="../../Images/Others.png"
-                                                class="responsiveProfileImage" />
-                                        </div>-->
-                                        <!--<div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null || uploadme==0)"
-                                                            valign="top" rowspan="6">
-                                                            <img class="responsiveProfileImage" src="../../Images/male.png" />
-                                                        </div>
-                                                        <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null || uploadme==0)"
-                                                            <img class="responsiveProfileImage" src="../../Images/female.png" />
-                                        </div>
-                                        <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male'"
-                                            valign="top" rowspan="6">
-                                            <img class="responsiveProfileImage" src="../../Images/Others.png" />
-                                        </div>-->
+
                                         <div ng-if="(uploadme!=null || uploadme!='')" valign="top" rowspan="6">
-                                            <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                            <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}" />
                                         </div>
 
                                         <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatient();"
@@ -236,6 +269,29 @@
                                                 <span>Upload Photo</span>
                                             </label>
 
+                                        </div>
+                                    </div>
+                                    <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
+                                        <div class="modal-dialog" role="document" style="min-width: 700px">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Crop Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div id="image_demo"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary crop_image">Crop and Save</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

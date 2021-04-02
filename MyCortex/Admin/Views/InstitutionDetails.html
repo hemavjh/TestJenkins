@@ -8,7 +8,7 @@
     <script>
         $('#btnLogo').click(function () {
             $("#InstitutionLogo").trigger('click');
-        })
+        });
 
         $(document).ready(function () {
             var image = $('#InstitutionLogo').val();
@@ -16,9 +16,9 @@
                 enableExif: true,
                 url: image,
                 viewport: {
-                    width: 200,
+                    width: 300,
                     height: 200,
-                    type: 'square' //circle
+                    type: 'rectangle' //rectangle
                 },
                 boundary: {
                     width: 300,
@@ -34,12 +34,10 @@
 
             $('#InstitutionLogo').on('change', function () {
                 var reader = new FileReader();
-                console.log('jQuery');
                 reader.onload = function (event) {
                     $image_crop.croppie('bind', {
                         url: event.target.result
                     }).then(function () {
-                        console.log('jQuery bind complete');
                     });
                 }
                 reader.readAsDataURL(this.files[0]);

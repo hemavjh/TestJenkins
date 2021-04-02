@@ -572,6 +572,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         $scope.Institution_AddEdit = function () {
             if ($scope.InstitutionAddEdit_Validations() == true) {
                 $("#chatLoaderPV").show();
+                $scope.PhotoFullpath = $('#item-img-output').attr('src');
                 var FileName = "";
                 var Licensefilename = "";
                 var fd = new FormData();
@@ -624,7 +625,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     StateId: $scope.StateNameId,
                     CityId: $scope.LocationNameId,
                     FileName: $scope.FileName,
-                    Photo_Fullpath: "",
+                    Photo_Fullpath: $scope.PhotoFullpath,
                     Photo: $scope.InstitutionLogo,
                     Created_by: $scope.CreatedBy
                 };
@@ -635,7 +636,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     if ($scope.PhotoValue == 1) {
                         if ($('#InstitutionLogo')[0].files[0] != undefined) {
                             FileName = $('#InstitutionLogo')[0].files[0]['name'];
-                            imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                            imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
                             itemIndexLogo = 0;
                         }
 
@@ -3258,6 +3259,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
                 if ($scope.User_Admin_AddEdit_Validations() == true) {
                     $("#chatLoaderPV").show();
+                    $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
                         var Institutionobj = {
@@ -3325,7 +3327,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             EMAILID: $scope.EmailId,
                             MOBILE_NO: $scope.MobileNo,
                             FileName: $scope.FileName,
-                            Photo_Fullpath: "",
+                            Photo_Fullpath: $scope.PhotoFullpath,
                             Photo: $scope.UserLogo,
                             UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
                             TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
@@ -3410,7 +3412,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             EMAILID: $scope.EmailId,
                             MOBILE_NO: $scope.MobileNo,
                             FileName: $scope.FileName,
-                            Photo_Fullpath: "",
+                            Photo_Fullpath: $scope.PhotoFullpath,
                             Photo: $scope.UserLogo,
                             UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
                             TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
@@ -3501,7 +3503,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         if (photoview == false) {
                             photoview = true;
 
-                            imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                            imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
                             itemIndexLogo = 0;
 
                             if (itemIndexLogo != -1) {
@@ -3535,7 +3537,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
                             if ($('#UserLogo')[0].files[0] != undefined) {
                                 FileName = $('#UserLogo')[0].files[0]['name'];
-                                imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                                imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
                                 itemIndexLogo = 0;
                             }
                             if (itemIndexLogo != -1) {
@@ -3568,8 +3570,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         else if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
                             if ($('#UserLogo')[0].files[0] != undefined) {
                                 FileName = $('#UserLogo')[0].files[0]['name'];
-                                imgBlob = $scope.dataURItoBlob($scope.uploadme);
+                                imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
                                 itemIndexLogo = 0;
+
+                                if ($scope.MenuTypeId == 1) {
+                                    document.getElementById("profileIcon").src = $scope.PhotoFullpath;
+                                }
                             }
 
                             if (itemIndexLogo != -1) {
@@ -5169,7 +5175,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 //});
             });
             $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
-                if (data.length !== 0) {
+                if (data.length !== 0 && data.lenght != null) {
                     //$('#chronic').show();
                     $scope.Chronic_Details = data;
                     var Chronic_Condition = document.getElementById('Chronic_Condition');
