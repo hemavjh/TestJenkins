@@ -5175,7 +5175,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 //});
             });
             $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
-                if (data.length !== 0 || data.lenght != null || data.lenght != undefined) {
+                if (data.length !== 0 || data != null || data != undefined) {
                     //$('#chronic').show();
                     $scope.Chronic_Details = data;
                     var Chronic_Condition = document.getElementById('Chronic_Condition');
@@ -7955,9 +7955,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             
             var validateflag = true;
             var validationMsg = "";
+            var Active_From = "";
+            var Active_To = "";
+
             angular.forEach($scope.AddICD10List, function (value, index) {
                 value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
                 value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
 
                 if (value.Code_ID == 0 || value.Code_ID == "") {
                     validationMsg = validationMsg + "Please select ICD Code";
@@ -7984,6 +7989,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         return false;
                     }
                 }
+
+                value.Active_From = DateFormatEdit(value.Active_From);
+                value.Active_To = DateFormatEdit(value.Active_To);
+
             });
 
             var TSDuplicate = 0;
@@ -8005,8 +8014,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert(validationMsg);
                 return false;
             }
-            value.Active_From = DateFormatEdit(value.Active_From);
-            value.Active_To = DateFormatEdit(value.Active_To);
+
             return true;
         }
 
@@ -8126,8 +8134,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'ICD_Code': data.ICD_Code,
                     'ICD_Description': data.Description,
                     'Created_By': data.Doctor_Name,
-                    'Active_From': DateFormatEdit($filter('date')(data.Active_From, "dd-MMM-yyyy")),
-                    'Active_To': DateFormatEdit($filter('date')(data.Active_To, "dd-MMM-yyyy")),
+                    'Active_From': DateFormatEdit(moment(data.Active_From).format('DD-MMM-YYYY')),
+                    'Active_To': DateFormatEdit(moment(data.Active_To).format('DD-MMM-YYYY')),
                     'ICD_Remarks': data.Remarks
                 }];
 
@@ -8137,9 +8145,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.CategoryName = data.CategoryName;
                 $scope.ICD_Code = data.ICD_Code;
                 $scope.ICD_Description = data.Description;
-                $scope.Created_By = data.Doctor_Name;
-                $scope.Active_From = DateFormatEdit($filter('date')(data.Active_From, "dd-MMM-yyyy"));
-                $scope.Active_To = DateFormatEdit($filter('date')(data.Active_To, "dd-MMM-yyyy"));
+                $scope.Created_By = data.Doctor_Name; 
+                $scope.Active_From = DateFormatEdit(moment(data.Active_From).format('DD-MMM-YYYY'));
+                $scope.Active_To   = DateFormatEdit(moment(data.Active_To).format('DD-MMM-YYYY'));
                 $scope.ICD_Remarks = data.Remarks;
                 //$scope.Icd10Clear();
                 // $scope.ICD10CodeByCategory($scope.Category_ID);
@@ -8511,8 +8519,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var validateflag = true;
             var validationMsg = "";
             angular.forEach($scope.AddMedicationDetails, function (value, index) {
-                value.StartDate = moment(value.StartDate).format('DD-MMM-YYYY');
-                value.EndDate = moment(value.EndDate).format('DD-MMM-YYYY');
 
                 if (value.DrugCodeId == null) {
                     Drugflag = 1;
@@ -8530,12 +8536,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Enddate = 1;
                 }
                 if ((value.StartDate !== null) && (value.EndDate !== null)) {
+                    value.StartDate = moment(value.StartDate).format('DD-MMM-YYYY');
+                    value.EndDate = moment(value.EndDate).format('DD-MMM-YYYY');
 
                     if ((ParseDate(value.EndDate) < ParseDate(value.StartDate))) {
                         dateval = 1;
-                        value.StartDate = DateFormatEdit(value.StartDate);
-                        value.EndDate = DateFormatEdit(value.EndDate);
                     }
+                    value.StartDate = DateFormatEdit(value.StartDate);
+                    value.EndDate = DateFormatEdit(value.EndDate);
                 }
             });
             if (Drugflag == 1) {
@@ -8562,8 +8570,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert("Start Date Should not be greater than End Date");
                 return false;
             };
-            value.StartDate = DateFormatEdit(value.StartDate);
-            value.EndDate = DateFormatEdit(value.EndDate);
             return true;
         }
 
@@ -9930,10 +9936,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
             };
         }
-
-
-
-
     }
 ]);
 
