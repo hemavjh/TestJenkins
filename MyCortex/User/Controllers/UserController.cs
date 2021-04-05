@@ -1641,7 +1641,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<MasterICDModel> PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id)
+        public IList<MasterICDModel> PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber)
         {
 
             IList<MasterICDModel> model;
@@ -1649,7 +1649,7 @@ namespace MyCortex.User.Controller
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.PatientICD10Details_List(Patient_Id, Isactive, Login_Session_Id);
+                model = repository.PatientICD10Details_List(Patient_Id, Isactive, Login_Session_Id, StartRowNumber,EndRowNumber);
                 return model;
             }
             catch (Exception ex)
@@ -2240,14 +2240,14 @@ namespace MyCortex.User.Controller
         /// <returns>Clinical notes list of a patient</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<DoctorNotesModel> PatientNotes_List(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<DoctorNotesModel> PatientNotes_List(long Patient_Id, int IsActive, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber)
         {
             IList<DoctorNotesModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.PatientNotes_List(Patient_Id, IsActive, Login_Session_Id);
+                model = repository.PatientNotes_List(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
                 return model;
             }
             catch (Exception ex)
@@ -2522,14 +2522,14 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<DrugDBMasterModel> MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<DrugDBMasterModel> MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id,int StartRowNumber, int EndRowNumber)
         {
             IList<DrugDBMasterModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.MedicationList(Patient_Id, IsActive, Login_Session_Id);
+                model = repository.MedicationList(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
                 return model;
             }
             catch (Exception ex)

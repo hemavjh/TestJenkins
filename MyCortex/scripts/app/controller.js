@@ -4883,12 +4883,21 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.Doctor_Id = "";
         //List Page Pagination.
         $scope.current_page = 1;
+        $scope.current_pageNote = 1;
+        $scope.current_pageICD = 1;
+        $scope.current_pagePillBox = 1;
         $scope.patientvitals_pages = 1;
+        $scope.PatientNotes_pages = 1;
+        $scope.PatientPillBoxPages = 1;
+        $scope.PatientIcdPages = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.allergyActive = true;
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
+            $scope.current_pageNote = p;
+            $scope.current_pagePillBox = p;
         }
+         
 
         // $scope.ParamGroup_Id=2;    
         $scope.GroupParameterNameList = [];
@@ -8068,29 +8077,60 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.ICDListpageTabCount = $scope.ICDListpageTabCount + 1;
         }
 
+        $scope.setPage2 = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageICD;
+            }
+            else {
+                $scope.inputPageICD = PageNo;
+            } 
+            $scope.current_pageICD = PageNo;
+            $scope.PatientICD10List();
+
+        }
+
         /* Patient ICD10 Details list function*/
         $scope.ICDListTabCount = 1;
         $scope.PatientICD10List = function () {
             $scope.ICD10_flag = 0;
             $scope.DiagnosisICD10List = [];
             $scope.rowcollectionfiltericd10 = [];
-            $scope.ISact = 1;
-            if ($scope.allergyActive == true) {
-                $scope.ISact = 1
-            }
-            else if ($scope.allergyActive == false) {
-                $scope.ISact = -1
-            }
-            $("#chatLoaderPV").show();
-            $scope.SearchMsg = "No Data Available"
-            $http.get(baseUrl + 'api/User/PatientICD10_Details_List/?Patient_Id=' + $scope.SelectedPatientId + '&Isactive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $("#chatLoaderPV").hide();
-                $scope.DiagnosisICD10List = [];
-                $scope.DiagnosisICD10List = data;
-                $scope.rowcollectionfiltericd10 = angular.copy($scope.DiagnosisICD10List);
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_pageICD - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_pageICD * $scope.page_size;
+                $scope.ISact = 1;
+                if ($scope.allergyActive == true) {
+                    $scope.ISact = 1
+                }
+                else if ($scope.allergyActive == false) {
+                    $scope.ISact = -1
+                }
+                $("#chatLoaderPV").show();
+                $scope.SearchMsg = "No Data Available"
+                $http.get(baseUrl + 'api/User/PatientICD10_Details_List/?Patient_Id=' + $scope.SelectedPatientId + '&Isactive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.DiagnosisICD10List = [];
+                    $scope.DiagnosisICD10List = data;
+                    $scope.ICD10Count = $scope.DiagnosisICD10List[0].TotalRecord;
+                    $scope.rowcollectionfiltericd10 = angular.copy($scope.DiagnosisICD10List);
+                    if ($scope.rowcollectionfiltericd10.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                   $scope.PatientIcdPages = Math.ceil(($scope.ICD10Count) / ($scope.page_size));
+                }).error(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.error = "the error occured! " + data;
+                })
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
-                $scope.error = "the error occured! " + data;
+                $scope.error = "AN error has occured while Listing the records!" + data;
             })
             $scope.SearchMsg = "No Data Available";
         }
@@ -8116,6 +8156,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         angular.lowercase($filter('date')(value.Active_From, "dd-MMM-yyyy")).match(searchstring) ||
                         angular.lowercase($filter('date')(value.Active_To, "dd-MMM-yyyy")).match(searchstring);
                 });
+                $scope.PatientIcdPages = Math.ceil(($scope.rowcollectionfiltericd10) / ($scope.page_size));
             }
         }
 
@@ -8774,6 +8815,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
         }
 
+        $scope.setPage3 = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageBox;
+            }
+            else {
+                $scope.inputPageBox = PageNo;
+            }
+            $scope.current_pagePillBox = PageNo;
+            $scope.PatientMedicationList();
+
+        }
+
         //MedicationList
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.Medication_flag = 0;
@@ -8782,30 +8835,43 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.PatientMedicationListData = [];
         $scope.PatientMedicationListFilterData = [];
         $scope.PatientMedicationList = function () {
-            $scope.ISact = 1;       // default active
-            if ($scope.MedicationActive == true) {
-                $scope.ISact = 1  //active
-            }
-            else if ($scope.MedicationActive == false) {
-                $scope.ISact = -1 //all
-            }
-            $("#chatLoaderPV").show();
-            $http.get(baseUrl + 'api/User/MedicationList/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_pagePillBox - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_pagePillBox * $scope.page_size;
 
+                $scope.ISact = 1;       // default active
+                if ($scope.MedicationActive == true) {
+                    $scope.ISact = 1  //active
+                }
+                else if ($scope.MedicationActive == false) {
+                    $scope.ISact = -1 //all
+                }
+                $("#chatLoaderPV").show();
+                $http.get(baseUrl + 'api/User/MedicationList/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+
+                    $("#chatLoaderPV").hide();
+                    $scope.SearchMsg = "No Data Available";
+                    $scope.PatientMedicationEmptyData = [];
+                    $scope.PatientMedicationDataList = [];
+                    $scope.PatientMedicationListData = data;
+                    $scope.PatientMedicationcount = $scope.PatientMedicationListData[0].TotalRecord;
+                    $scope.PatientMedicationListFilterData = data;
+                    $scope.PatientMedicationDataList = angular.copy($scope.PatientMedicationListData);
+                    if ($scope.PatientMedicationDataList.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                     $scope.PatientPillBoxPages = Math.ceil(($scope.PatientMedicationcount) / ($scope.page_size)); 
+                })
+            }).error(function (data) {
                 $("#chatLoaderPV").hide();
-                $scope.SearchMsg = "No Data Available";
-                $scope.PatientMedicationEmptyData = [];
-                $scope.PatientMedicationDataList = [];
-                $scope.PatientMedicationListData = data;
-                $scope.PatientMedicationListFilterData = data;
-                $scope.PatientMedicationDataList = angular.copy($scope.PatientMedicationListData);
-                if ($scope.PatientMedicationDataList.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-
+                $scope.error = "AN error has occured while Listing the records!" + data;
             })
         }
         //Medication View	
@@ -9360,37 +9426,62 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.PatientNotesListTabCount = $scope.PatientNotesListTabCount + 1;
             }
         }
+        $scope.setPage1 = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNote;
+            }
+            else {
+                $scope.inputPageNote = PageNo;
+            }
+            $scope.current_pageNote = PageNo;
+            $scope.patientnotelist();
+
+        }
+
         $scope.NotesActive = true;
 
         //List function for doctor Notes   
         $scope.patientnotelist = function () {
             $scope.PatientNotesemptydata = [];
             $scope.PatientNotesrowCollection = [];
-            $scope.ISact = 1;
-            if ($scope.NotesActive == true) {
-                $scope.ISact = 1
-            }
-            else if ($scope.NotesActive == false) {
-                $scope.ISact = -1
-            }
-            $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/User/PatientNotes_List/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $("#chatLoaderPV").hide();
-                $scope.PatientNotesemptydata = [];
-                $scope.PatientNotesrowCollection = [];
-                $scope.PatientNotesrowCollection = data;
-                $scope.PatientNotesrowCollectionFilter = angular.copy($scope.PatientNotesrowCollection);
-                if ($scope.PatientNotesrowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_pageNote - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_pageNote * $scope.page_size;
+                $scope.ISact = 1;
+                if ($scope.NotesActive == true) {
+                    $scope.ISact = 1
                 }
-                else {
-                    $scope.flag = 0;
+                else if ($scope.NotesActive == false) {
+                    $scope.ISact = -1
                 }
-                $("#chatLoaderPV").hide();
-                $scope.SearchMsg = "No Data Available";
+                $("#chatLoaderPV").show();
+                $http.get(baseUrl + '/api/User/PatientNotes_List/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.SearchMsg = "No Data Available";
+                    $scope.PatientNotesemptydata = [];
+                    $scope.PatientNotesrowCollection = [];
+                    $scope.PatientNotesrowCollection = data;
+                    $scope.NotesCount = $scope.PatientNotesrowCollection[0].TotalRecord;
+                    $scope.NotesCountFilterData = data; 
+                    $scope.PatientNotesrowCollectionFilter = angular.copy($scope.PatientNotesrowCollection);
+                    if ($scope.PatientNotesrowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $scope.PatientNotes_pages = Math.ceil(($scope.NotesCount) / ($scope.page_size));
+                }).error(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.error = "the error occured! " + data;
+                })
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
-                $scope.error = "the error occured! " + data;
+                $scope.error = "AN error has occured while Listing the records!" + data;
             })
         }
 
@@ -9407,6 +9498,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         angular.lowercase(value.Created_By_Name).match(searchstring) ||
                         angular.lowercase(($filter('date')(value.Created_Dt, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
                 });
+                $scope.PatientNotes_pages = Math.ceil(($scope.PatientNotesrowCollectionFilter) / ($scope.page_size));
             }
         }
 

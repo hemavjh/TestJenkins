@@ -1071,7 +1071,7 @@
                                                     </tr>
 
                                                     <tr ng-repeat="Medication in PatientMedicationEmptyData">
-                                                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                        <td class="textalign">{{((current_pagePillBox-1)*page_size)+$index+1}}</td>
                                                         <td style="text-align: left">
                                                             <div class="textwrap">
                                                                 {{Medication.Drug_Code}}
@@ -1130,13 +1130,28 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <tfoot ng-show="PatientMedicationDataList.length >page_size">
+                                                <tfoot ng-show="PatientPillBoxPages>1">
                                                     <tr>
                                                         <td colspan="7" class="text-center">
-                                                            <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
+                                                            <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
                                                                  st-pagination=""
                                                                  st-template="Masters/Views/pagination.custom.html">
-                                                            </div>
+                                                            </div>-->
+                                                            <ul class="pagination" style="margin-left:110px;">
+                                                                        <li>
+                                                                            <a ng-click="setPage3(1)">First</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage3(current_pagePillBox - 1)">&lt;</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientPillBoxPages}}" step="1" ng-model="inputPageBox" ng-value="current_pagePillBox" ng-change="setPage3(0);"> of {{PatientPillBoxPages}}</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage3(current_pagePillBox+ 1)">&gt;</a>
+                                                                        </li>
+                                                                        <li><a ng-click="setPage3(PatientPillBoxPages)">Last</a></li>
+                                                            </ul>
                                                         </td>
                                                     </tr>
                                                 </tfoot>
@@ -1202,7 +1217,7 @@
                                                             <td colspan="8" style="text-align: center">{{SearchMsg}} </td>
                                                         </tr>
                                                         <tr ng-repeat="row in rowcollectionfiltericd10emptyData">
-                                                            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                            <td class="textalign">{{((current_pageICD-1)*page_size)+$index+1}}</td>
                                                             <td style="text-align: left">{{row.ICD_Code}}</td>
                                                             <td style="text-align: left">
                                                                 <div class="textwrap">{{row.Description}}</div>
@@ -1240,12 +1255,27 @@
                                                             </td>
                                                         </tr>
                                                     </tbody>
-                                                    <tfoot style="align: center" ng-show="rowcollectionfiltericd10.length >page_size">
+                                                    <tfoot style="align: center" ng-show="PatientIcdPages>1">
                                                         <tr>
                                                             <td colspan="8" class="text-center">
-                                                                <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
+                                                                <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
                                                                      st-pagination="" st-template="Masters/Views/pagination.custom.html">
-                                                                </div>
+                                                                </div>-->
+                                                                <ul class="pagination" style="margin-left:110px;">
+                                                                        <li>
+                                                                            <a ng-click="setPage2(1)">First</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage2(current_pageICD - 1)">&lt;</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientIcdPages}}" step="1" ng-model="inputPageICD" ng-value="current_pageICD" ng-change="setPage2(0);"> of {{PatientIcdPages}}</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a ng-click="setPage2(current_pageICD+ 1)">&gt;</a>
+                                                                        </li>
+                                                                        <li><a ng-click="setPage2(PatientIcdPages)">Last</a></li>
+                                                                </ul>
                                                             </td>
                                                         </tr>
                                                     </tfoot>
@@ -1420,7 +1450,7 @@
                                                 <tbody>
                                                     <tr ng-repeat="row in PatientNotesemptydata">
                                                         <td style="width: 5%" class="textalign">
-                                                            {{((current_page-1)*page_size)+$index+1}}
+                                                            {{((current_pageNote-1)*page_size)+$index+1}}
                                                         </td>
                                                         <td style="text-align: left; width: 10%" ng-if="row.Notes.length > 100">
                                                             <div class="textwrap">
@@ -1463,11 +1493,26 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <tfoot ng-show="PatientNotesrowCollectionFilter.length >10">
+                                                <tfoot ng-show="PatientNotes_pages>1">
                                                     <tr>
                                                         <td colspan="7" class="text-center">
-                                                            <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                                                                 st-template="Masters/Views/pagination.custom.html"></div>
+                                                            <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                                                        mplate="Masters/Views/pagination.custom.html"></div>-->
+                                                            <ul class="pagination" style="margin-left:110px;">
+                                                                <li>
+                                                                    <a ng-click="setPage1(1)">First</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a ng-click="setPage1(current_pageNote - 1)">&lt;</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientNotes_pages}}" step="1" ng-model="inputPageNote" ng-value="current_pageNote" ng-change="setPage1(0);"> of {{PatientNotes_pages}}</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a ng-click="setPage1(current_pageNote + 1)">&gt;</a>
+                                                                </li>
+                                                                <li><a ng-click="setPage1(PatientNotes_pages)">Last</a></li>
+                                                            </ul>
                                                         </td>
                                                     </tr>
                                                 </tfoot>

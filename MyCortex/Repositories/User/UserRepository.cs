@@ -2113,17 +2113,20 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="Isactive"></param>
         /// <returns></returns>
-        public IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id)
+        public IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", Isactive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_LIST ", param);
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_LIST", param);
             List<MasterICDModel> list = (from p in dt.AsEnumerable()
                                          select new MasterICDModel()
                                          {
+                                             TotalRecord = p.Field<string>("TotalRecords"),
                                              Id = p.Field<long>("ID"),
                                              CategoryName = p.Field<string>("CATEGORY_NAME"),
                                              ICD_Code = p.Field<string>("ICDCODE"),
@@ -2413,12 +2416,14 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active flag</param>
         /// <returns></returns>
-        public IList<DrugDBMasterModel> MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<DrugDBMasterModel> MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_LIST", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<DrugDBMasterModel> lst = (from p in dt.AsEnumerable()
@@ -2830,7 +2835,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="IsActive"></param>
         /// <returns>Clinical notes list of a patient</returns>
-        public IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id)
+        public IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -2840,11 +2845,14 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@patientid", idval));
                 param.Add(new DataParameter("@ISACTIVE", IsActive));
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+                param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+                param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDOCTORNOTES_SP_LIST ", param);
 
                 List<DoctorNotesModel> list = (from p in dt.AsEnumerable()
                                                select new DoctorNotesModel()
                                                {
+                                                   TotalRecord = p.Field<string>("TotalRecords"),
                                                    Id = p.Field<long>("ID"),
                                                    PatientId = p.Field<long>("PATIENT_ID"),
                                                    Notes = p.Field<string>("NOTES"),

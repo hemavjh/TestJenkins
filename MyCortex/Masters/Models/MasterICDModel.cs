@@ -30,6 +30,8 @@ namespace MyCortex.Masters.Models
         public long Code_ID { get; set; }
         public string Remarks { get; set; }
         public string Created_By_Name { get; set; }
+        public int StartRowNumber { get; set; }
+        public int EndRowNumber { get; set; }
     }
     public class MasterICDReturnModels
     {
