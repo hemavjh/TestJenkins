@@ -18695,7 +18695,8 @@ MyCortexControllers.controller("DirectCallController", ['$scope', '$http', '$rou
             var CustomData = {
                 UserId: $scope.UserId,
                 CallSessionId: $scope.CallSessionId,
-                ReceiverId: "779"
+                ReceiverId: "779",
+                CallType: "Audio"
             };
             var CustomType = "Join Request";
             chatService.sendCustomMessage(CustomData, CustomType);
@@ -18709,10 +18710,24 @@ MyCortexControllers.controller("DirectCallController", ['$scope', '$http', '$rou
 
 MyCortexControllers.controller("DirectVideoCallController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+        $scope.UserId = $window.localStorage['UserId'];
+        $scope.UserTypeId = $window.localStorage['UserTypeId'];
         $scope.CallSessionId = $routeParams.CallSessionId;
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-        chatService.initiateDirectVideoCall($scope.CallSessionId);
-    }
+        if ($scope.UserTypeId !== "2") {
+            $("#directCall-Page").show();
+            chatService.initiateDirectVideoCall($scope.CallSessionId);
+        } else {
+            $("#WaitingCall-Page").show();
+            var CustomData = {
+                UserId: $scope.UserId,
+                CallSessionId: $scope.CallSessionId,
+                ReceiverId: "779",
+                CallType: "Video"
+            };
+            var CustomType = "Join Request";
+            chatService.sendCustomMessage(CustomData, CustomType);
+        }    }
 ]);
 
 angular.module("angular-bootstrap-select", [])

@@ -664,20 +664,55 @@ const chatService = function() {
                         console.log("Custom message received successfully", customMessage);
                         if (customMessage.type === "Join Request") {
                             var proceed = confirm(customMessage.sender.name + " wants to joins the call.");
+                            var CustomData, CustomType;
                             if (proceed) {
-                                var CustomData = {
+                                if (customMessage.data.CustomData.CallType === "Audio") {
+                                    CustomData = {
+                                        UserId: customMessage.sender.uid,
+                                        CallSessionId: "1234-1234",
+                                        ReceiverId: "754",
+                                        ResponseAnswer: "Yes",
+                                        CallType: "Audio"
+                                    };
+                                    CustomType = "Join Response";
+                                    this.sendCustomMessage(CustomData, CustomType);
+                                } else {
+                                    CustomData = {
+                                        UserId: customMessage.sender.uid,
+                                        CallSessionId: "1234-1234",
+                                        ReceiverId: "754",
+                                        ResponseAnswer: "Yes",
+                                        CallType: "Video"
+                                    };
+                                    CustomType = "Join Response";
+                                    this.sendCustomMessage(CustomData, CustomType);
+                                }
+                            } else {
+                                CustomData = {
                                     UserId: customMessage.sender.uid,
                                     CallSessionId: "1234-1234",
                                     ReceiverId: "754",
-                                    ResponseAnswer: "Yes"
+                                    ResponseAnswer: "No"
                                 };
-                                var CustomType = "Join Response";
+                                CustomType = "Join Response";
                                 this.sendCustomMessage(CustomData, CustomType);
                             }
                         } else if (customMessage.type === "Join Response") {
-                            $("#WaitingCall-Page").hide();
-                            $("#directCall-Page").show();
-                            this.initiateDirectCall(customMessage.data.customData.CallSessionId);
+                            if (customMessage.data.customData.ResponseAnswer === "Yes") {
+                                if (customMessage.data.CustomData.CallType === "Audio") {
+                                    $("#WaitingCall-Page").hide();
+                                    $("#directCall-Page").show();
+                                    this.initiateDirectCall(customMessage.data.customData.CallSessionId);
+                                } else {
+                                    $("#WaitingCall-Page").hide();
+                                    $("#directCall-Page").show();
+                                    this.initiateDirectVideoCall(customMessage.data.customData.CallSessionId);
+                                }
+                            } else {
+                                $("#WaitingCall-Page").hide();
+                                $("#directCall-Page").hide();
+                                $("#RejectCall-Page").show();
+                            }
                         }
                         // Handle custom message
                     }
