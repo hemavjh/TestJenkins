@@ -792,7 +792,7 @@ const chatService = function() {
                 .build();
             CometChat.startCall(
                 callSettings,
-                document.getElementById("directVideoCall-Page"),
+                document.getElementById("directCall-Page"),
                 new CometChat.OngoingCallListener({
                     onCallEnded: call => {
                         console.log("Call ended:", call);
