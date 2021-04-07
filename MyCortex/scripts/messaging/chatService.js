@@ -666,7 +666,7 @@ const chatService = function() {
                             var proceed = confirm(customMessage.sender.name + " wants to joins the call.");
                             var CustomData, CustomType;
                             if (proceed) {
-                                if (customMessage.data.CustomData.CallType === "Audio") {
+                                if (customMessage.data.customData.CallType === "Audio") {
                                     CustomData = {
                                         UserId: customMessage.sender.uid,
                                         CallSessionId: "1234-1234",
@@ -699,7 +699,7 @@ const chatService = function() {
                             }
                         } else if (customMessage.type === "Join Response") {
                             if (customMessage.data.customData.ResponseAnswer === "Yes") {
-                                if (customMessage.data.CustomData.CallType === "Audio") {
+                                if (customMessage.data.customData.CallType === "Audio") {
                                     $("#WaitingCall-Page").hide();
                                     $("#directCall-Page").show();
                                     this.initiateDirectCall(customMessage.data.customData.CallSessionId);
