@@ -5184,34 +5184,82 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 //});
             });
             $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
-                if (data.length !== 0 || data != null || data != undefined) {
-                    //$('#chronic').show();
-                    $scope.Chronic_Details = data;
-                    var Chronic_Condition = document.getElementById('Chronic_Condition');
-                    let innerHtmlData = "";
+                if (data.length !== 0 && data != null && data != undefined) {
                     for (let i = 0; i < data.length; i++) {
-                        innerHtmlData = innerHtmlData + "<li style='color: black'>" + data[i].ChronicCondition + "</li>";
-                        if (data[i].ChronicCondition === "Alzheimer" || data[i].ChronicCondition === "Arthritis" || data[i].ChronicCondition === "Epilepsy"
-                            || data[i].ChronicCondition === "Parkinson Disease" || data[i].ChronicCondition === "Sclerosis" || data[i].ChronicCondition === "Stroke") {
+                        if (data[i].ChronicGroup == 1) {
                             var Brain = document.getElementById('Brain');     /* Chronic Img Icon Change */
                             Brain.innerHTML = '<img src="images/image004Active.png">';
-                            $scope.Chronic_Name = 'Brain Group'
+
+                            if (data[i].ChronicCondition === "Alzheimer") {
+                                var detail = document.getElementById('Alzheimer');
+                                detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Alzheimer</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Arthritis") {
+                                var detail = document.getElementById('Arthritis');
+                                detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Arthritis</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Epilepsy") {
+                                var detail = document.getElementById('Epilepsy');
+                                detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Epilepsy</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Parkinson Disease") {
+                                var detail = document.getElementById('Parkinson_Disease');
+                                detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Parkinson Disease</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Sclerosis") {
+                                var detail = document.getElementById('Sclerosis');
+                                detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Sclerosis</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Stroke") {
+                                var detail = document.getElementById('Stroke');
+                                detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Stroke</label>";
+                            }
                         }
-                        if (data[i].ChronicCondition === "Pulmonary Disease" || data[i].ChronicCondition === "Lung Disease" || data[i].ChronicCondition === "Asthma"
-                            || data[i].ChronicCondition === "Cancer" || data[i].ChronicCondition === "Diabetes") {
-                            var Brain = document.getElementById('Lungs');     /* Chronic Img Icon Change */
-                            Brain.innerHTML = '<img src="images/image006Active.png">';
-                            $scope.Chronic_Name = 'Lungs Group'
+
+                        if (data[i].ChronicGroup == 2) {
+                            var Lungs = document.getElementById('Lungs');     /* Chronic Img Icon Change */
+                            Lungs.innerHTML = '<img src="images/image006Active.png">';
+
+                            if (data[i].ChronicCondition === "Pulmonary Disease") {
+                                var detail = document.getElementById('Pulmonary_Disease');
+                                detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Pulmonary Disease</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Lung Disease") {
+                                var detail = document.getElementById('Lung_Disease');
+                                detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Lung Disease</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Asthma") {
+                                var detail = document.getElementById('Asthma');
+                                detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Asthma</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Cancer") {
+                                var detail = document.getElementById('Cancer');
+                                detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Cancer</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Diabetes") {
+                                var detail = document.getElementById('Diabetes');
+                                detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Diabetes</label>";
+                            }
                         }
-                        if (data[i].ChronicCondition === "Heart Disease" || data[i].ChronicCondition === "Hypertension" || data[i].ChronicCondition === "Kidney Disease") {
-                            var Brain = document.getElementById('Heart');     /* Chronic Img Icon Change */
-                            Brain.innerHTML = '<img src="images/image009Active.png">';
-                            $scope.Chronic_Name = 'Heart Group'
+
+                        if (data[i].ChronicGroup == 3) {
+                            var Heart = document.getElementById('Heart');     /* Chronic Img Icon Change */
+                            Heart.innerHTML = '<img src="images/image009Active.png">';
+
+                            if (data[i].ChronicCondition === "Heart Disease") {
+                                var detail = document.getElementById('Heart_Disease');
+                                detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Heart Disease</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Hypertension") {
+                                var detail = document.getElementById('Hypertension');
+                                detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Hypertension</label>";
+                            }
+                            else if (data[i].ChronicCondition === "Kidney Disease") {
+                                var detail = document.getElementById('Kidney_Disease');
+                                detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Kidney Disease</label>";
+                            }
                         }
                     }
-                    Chronic_Condition.innerHTML = innerHtmlData;
-                } else {
-                    //$('#chronic').hide();
                 }
             });
         }
@@ -7398,6 +7446,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 alert("Please select Appointment To time");
                 return false;
             }
+            else if ($scope.ReasonForVisit == "" || $scope.ReasonForVisit == undefined) {
+                alert("Please enter Reason for Visit");
+                return false;
+            }
             /*else if (($scope.AppointmentToTime) < ($scope.AppointmentFromTime)) {
                 alert("Appointment From Time should not be greater than Appointment To Time");
                 return false;
@@ -7415,10 +7467,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             else if (moment().diff(moment($scope.AppointmentDate + " " + $scope.AppointmentFromTime), 'minute') > 0) {
                 alert("Appointment can be booked only for future");
-                return false;
-            }
-            else if ($scope.ReasonForVisit == "" || $scope.ReasonForVisit == undefined) {
-                alert("Please enter Reason for Visit");
                 return false;
             }
             $scope.AppointmentDate = DateFormatEdit($scope.AppointmentDate);
