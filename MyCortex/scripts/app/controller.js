@@ -16471,6 +16471,7 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
         if ($window.localStorage['UserTypeId'] == 3) {
         $scope.current_page = 1;
+        $scope.TotalPageAuditReport = 1;  
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.rembemberCurrentPage = function (p) {
@@ -16487,6 +16488,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
 
         $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.PeriodFromTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
+        $scope.PeriodToTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
 
         $scope.InstituteId = $window.localStorage['InstitutionId'];
 
@@ -16536,6 +16539,14 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 alert("Please select User Name");
                 return false;
             }
+            else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
+                alert("Please select Period To Time");
+                return false;
+            }
+            else if (typeof ($scope.PeriodToTime) == "undefined" || $scope.PeriodToTime  == "") {
+                alert("Please select Period To Time");
+                return false;
+            }
 
             //else if (isDate($scope.Period_From) == false) {
             //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
@@ -16563,7 +16574,7 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
                 $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
 
-                if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
+                if ((ParseDate($scope.Period_From + " " + $scope.PeriodFromTime) > ParseDate($scope.Period_To + " " + $scope.PeriodToTime))) {
                     alert("From Date should not be greater than To Date");
                     $scope.Period_From = DateFormatEdit($scope.Period_From);
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
@@ -16601,32 +16612,102 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 });
             }
         };
+            $scope.Convert24to12Timeformat = function (inputTime) {
+                var outputTime = null;
+                if (inputTime != '' && inputTime != null) {
+                    inputTime = inputTime.toString(); //value to string for splitting
+                    var splitTime = inputTime.split(':');
+                    splitTime.splice(2, 1);
+                    var ampm = (splitTime[0] >= 12 ? ' PM' : ' AM'); //determine AM or PM
+                    splitTime[0] = splitTime[0] % 12;
+                    splitTime[0] = (splitTime[0] == 0 ? 12 : splitTime[0]); //adjust for 0 = 12
+                    outputTime = splitTime.join(':') + ampm;
+                }
+                return outputTime;
+            };
+            $scope.Convert12To24Timeformat = function (timeval) {
+                var outputTime = null;
+                if (timeval != '' && timeval != null) {
+                    var time = timeval;
+                    var hours = Number(time.match(/^(\d+)/)[1]);
+                    var minutes = Number(time.match(/:(\d+)/)[1]);
+                    var AMPM = time.match(/\s(.*)$/)[1];
+                    if (AMPM == "PM" && hours < 12) hours = hours + 12;
+                    if (AMPM == "AM" && hours == 12) hours = hours - 12;
+                    var sHours = hours.toString();
+                    var sMinutes = minutes.toString();
+                    if (hours < 10) sHours = "0" + sHours;
+                    if (minutes < 10) sMinutes = "0" + sMinutes;
+                    outputTime = sHours + ":" + sMinutes;
+                }
+                return outputTime;
+            };
+            $scope.setPage = function (PageNo) {
+                if (PageNo == 0) {
+                    PageNo = $scope.inputPage;
+                }
+                else {
+                    $scope.inputPage = PageNo;
+                }
+                $scope.current_page = PageNo;
+                $scope.PatientReportDetailslist();
+
+            }
 
         $scope.ReportDetailsemptydata = [];
-        $scope.PatientDetailsFilteredDataList = [];
-        $scope.PatientReportDetailslist = function () {
-            if ($scope.patientReportValidation() == true) {
-                $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/ReportDetails/PatientReportDetails_List?' +
-                    'Period_From=' + moment($scope.Period_From).format('DD-MMM-YYYY') +
-                    '&Period_To=' + moment($scope.Period_To).format('DD-MMM-YYYY') +
-                    '&ShortNameId=' + $scope.ShortNameId +
-                    '&UserNameId=' + $scope.UserNameId
-                    + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+        $scope.ReportPatienAudit = [];
+            $scope.PatientDetailsFilteredDataList = [];
+            $scope.PatientReportDetailslist = function () {
+                if ($scope.patientReportValidation() == true) {
+                    $("#chatLoaderPV").show();
+                    $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                    $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                    $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                        $scope.page_size = data1[0].ConfigValue;
+                        $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                        $scope.PageEnd = $scope.current_page * $scope.page_size;
+                        var obj = {
+                            PeriodFromTime: $scope.PeriodFromTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodFromTime),
+                            PeriodToTime: $scope.PeriodToTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodToTime),
+                        };
+                        $scope.ReportPatienAudit.push(obj);
+                        var fromtime = $scope.ReportPatienAudit[0]
+                        var fromtime1 = fromtime.PeriodFromTime.split(',');
+                        var fromtime2 = fromtime1[0]; 
+                        var totime = fromtime.PeriodToTime
 
-                        $scope.ReportDetails_ListOrder = [];
-                        $scope.ReportDetails_ListOrder = data;
-                        $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
-                        if ($scope.PatientDetailsFilteredDataList.length > 0) {
-                            $scope.Reportflag = 1;
-                        }
-                        else {
-                            $scope.Reportflag = 0;
-                        }
+                        $http.get(baseUrl + '/api/ReportDetails/PatientReportDetails_List?' +
+                            'Period_From=' + moment($scope.Period_From).format('DD-MMM-YYYY') +
+                            '&Period_To=' + moment($scope.Period_To).format('DD-MMM-YYYY') +
+                            '&PeriodFromTime=' + fromtime2+
+                            '&PeriodToTime=' + totime +
+                            '&ShortNameId=' + $scope.ShortNameId +
+                            '&UserNameId=' + $scope.UserNameId
+                            + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber='
+                            + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                                $("#chatLoaderPV").hide();
+                                $scope.SearchMsg = "No Data Available";
+                                $scope.ReportDetails_ListOrder = [];
+                                $scope.ReportDetails_ListOrder = data;
+                                $scope.ReportDetailsCount = $scope.ReportDetails_ListOrder[0].TotalRecord;
+                                $scope.ReportDetailsCountFilterData = data;
+                                $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
+                                if ($scope.PatientDetailsFilteredDataList.length > 0) {
+                                    $scope.Reportflag = 1;
+                                }
+                                else {
+                                    $scope.Reportflag = 0;
+                                }
+                                $scope.TotalPageAuditReport = Math.ceil(($scope.ReportDetailsCount) / ($scope.page_size));
+                            })
+                    }).error(function (data) {
                         $("#chatLoaderPV").hide();
-                    });
-            }
-        };
+                        $scope.error = "AN error has occured while Listing the records!" + data;
+                    })
+                }
+        }
+
+           
     }else {
         window.location.href = baseUrl + "/Home/LoginIndex";    
     }

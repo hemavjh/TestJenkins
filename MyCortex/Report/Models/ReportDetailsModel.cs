@@ -7,6 +7,7 @@ namespace MyCortex.Masters.Models
 {
     public class ReportDetailsModel
     {
+        public string TotalRecord { get; set; }
         public long UserTypeId { get; set; }
         public string TypeName { get; set; }
         public int IsActive { get; set; }
@@ -21,6 +22,7 @@ namespace MyCortex.Masters.Models
         public string Details { get; set; }
         public string Action { get; set; }
         public string ColumnOrder { get; set; }
-
+     
     }
+    
 }

@@ -52,12 +52,12 @@ namespace MyCortex.Masters.Controllers
         /// <param name="UserNameId">User</param>
         /// <returns></returns>
         [HttpGet]
-        public IList<ReportDetailsModel> PatientReportDetails_List(DateTime Period_From, DateTime Period_To, string ShortNameId, long UserNameId, Guid Login_Session_Id)
+        public IList<ReportDetailsModel> PatientReportDetails_List(DateTime Period_From, DateTime Period_To,string PeriodFromTime, string PeriodToTime, int StartRowNumber,int EndRowNumber, string ShortNameId, long UserNameId, Guid Login_Session_Id)
         {
             IList<ReportDetailsModel> model;
             try
             {
-                model = repository.PatientReportDetails_List(Period_From, Period_To, ShortNameId, UserNameId, Login_Session_Id);
+                model = repository.PatientReportDetails_List(Period_From, Period_To, PeriodFromTime, PeriodToTime,ShortNameId, UserNameId, Login_Session_Id, StartRowNumber, EndRowNumber);
                 return model;
             }
             catch (Exception ex)
