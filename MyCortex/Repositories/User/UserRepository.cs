@@ -2429,6 +2429,7 @@ namespace MyCortex.Repositories.Uesr
             List<DrugDBMasterModel> lst = (from p in dt.AsEnumerable()
                                            select new DrugDBMasterModel()
                                            {
+                                               TotalRecord = p.Field<string>("TotalRecords"),
                                                Id = p.Field<long>("ID"),
                                                FrequencyName = p.Field<string>("FREQUENCYNAME"),
                                                RouteName = p.Field<string>("ROUTENAME"),
