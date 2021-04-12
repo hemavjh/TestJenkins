@@ -16666,16 +16666,13 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                         $scope.page_size = data1[0].ConfigValue;
                         $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                         $scope.PageEnd = $scope.current_page * $scope.page_size;
-                        var obj = {
-                            PeriodFromTime: $scope.PeriodFromTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodFromTime),
-                            PeriodToTime: $scope.PeriodToTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodToTime),
-                        };
-                        $scope.ReportPatienAudit.push(obj);
-                        var fromtime = $scope.ReportPatienAudit[0]
-                        var fromtime1 = fromtime.PeriodFromTime.split(',');
-                        var fromtime2 = fromtime1[0]; 
-                        var totime = fromtime.PeriodToTime
-
+                        
+                        
+                        var PeriodFromTime = $scope.PeriodFromTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodFromTime);
+                        var PeriodToTime  =  $scope.PeriodToTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodToTime);   
+                        var fromtime2 = PeriodFromTime; 
+                        var totime = PeriodToTime;
+                         
                         $http.get(baseUrl + '/api/ReportDetails/PatientReportDetails_List?' +
                             'Period_From=' + moment($scope.Period_From).format('DD-MMM-YYYY') +
                             '&Period_To=' + moment($scope.Period_To).format('DD-MMM-YYYY') +
@@ -16685,20 +16682,31 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                             '&UserNameId=' + $scope.UserNameId
                             + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber='
                             + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                                $("#chatLoaderPV").hide();
-                                $scope.SearchMsg = "No Data Available";
-                                $scope.ReportDetails_ListOrder = [];
-                                $scope.ReportDetails_ListOrder = data;
-                                $scope.ReportDetailsCount = $scope.ReportDetails_ListOrder[0].TotalRecord;
-                                $scope.ReportDetailsCountFilterData = data;
-                                $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
-                                if ($scope.PatientDetailsFilteredDataList.length > 0) {
-                                    $scope.Reportflag = 1;
+                                if (data.length == 0) {
+                                    $("#chatLoaderPV").hide();  
+                                    $scope.TotalPageAuditReport = 1;
+                                    $scope.ReportDetailsemptydata = "";
+                                    if ($scope.PatientDetailsFilteredDataList.length > 0) {
+
+                                    } else {
+                                        $scope.Reportflag = 0;
+                                    } 
+                                    $scope.SearchMsg = "No Data Available";
+                                } else { 
+                                    $scope.ReportDetails_ListOrder = [];
+                                    $scope.ReportDetails_ListOrder = data;
+                                    $scope.ReportDetailsCount = $scope.ReportDetails_ListOrder[0].TotalRecord;
+                                    $scope.ReportDetailsCountFilterData = data;
+                                    $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
+                                    if ($scope.PatientDetailsFilteredDataList.length > 0) {
+                                        $scope.Reportflag = 1;
+                                    }
+                                    else {
+                                        $scope.Reportflag = 0;
+                                    }
+                                    $scope.TotalPageAuditReport = Math.ceil(($scope.ReportDetailsCount) / ($scope.page_size));
+                                    $("#chatLoaderPV").hide();
                                 }
-                                else {
-                                    $scope.Reportflag = 0;
-                                }
-                                $scope.TotalPageAuditReport = Math.ceil(($scope.ReportDetailsCount) / ($scope.page_size));
                             })
                     }).error(function (data) {
                         $("#chatLoaderPV").hide();
