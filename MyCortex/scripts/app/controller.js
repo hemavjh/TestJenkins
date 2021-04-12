@@ -16539,6 +16539,10 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 alert("Please select User Name");
                 return false;
             }
+            else if ($scope.ShortNameId == "" || $scope.ShortNameId == "0") {
+                alert("Please select Short Name");
+                return false;
+            }
             else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
                 alert("Please select Period To Time");
                 return false;
