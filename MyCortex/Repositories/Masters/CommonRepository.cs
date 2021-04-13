@@ -596,7 +596,8 @@ namespace MyCortex.Repositories.Masters
                                                 {
                                                     Id = p.Field<long>("LANGUAGE_ID"),
                                                     LanguageName = p.Field<string>("LANGUAGE_NAME"),
-                                                    DefaultLanguageId = p.Field<int>("LANGUAGE_PREFERENCE")
+                                                    DefaultLanguageId = p.Field<int>("LANGUAGE_PREFERENCE"),
+                                                    ISRTL = p.Field<bool>("ISRTL")
                                                 }).ToList();
                 return lst;
             }
