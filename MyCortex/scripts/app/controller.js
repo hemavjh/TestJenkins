@@ -16149,7 +16149,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             }
             if ($scope.AlertDays != null) {
                 if ($scope.AlertDays.split(".")) {
-                    if (($scope.AlertDays + "").split(".")[1] == "") {
+                    if (($scope.AlertDays + "") == "") {
                         alert("Please enter valid values");
                         return false;
                     }
@@ -16585,7 +16585,7 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 return false;
             }
             else if ($scope.ShortNameId == "" || $scope.ShortNameId == "0") {
-                alert("Please select Short Name");
+                alert("Please select Table Short Name");
                 return false;
             }
             else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
