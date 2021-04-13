@@ -5172,6 +5172,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.MyAppointments = function () {
             $("#chatLoaderPV").show();
+            $scope.ChronicDetails();
             $http.get(baseUrl + '/api/User/DoctorAppoinmentsList/?PatientId=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.getMyAppointments();
@@ -5183,11 +5184,55 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 //    }
                 //});
             });
+        }
+
+        $scope.DefaultChronic = function () {
+            var Brain = document.getElementById('Brain');
+            Brain.innerHTML = '<img src="images/image004.png">';
+
+            var detail = document.getElementById('Alzheimer');
+            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Alzheimer</label>";
+            var detail = document.getElementById('Arthritis');
+            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Arthritis</label>";
+            var detail = document.getElementById('Epilepsy');
+            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Epilepsy</label>";
+            var detail = document.getElementById('Parkinson_Disease');
+            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Parkinson Disease</label>";
+            var detail = document.getElementById('Sclerosis');
+            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Sclerosis</label>";
+            var detail = document.getElementById('Stroke');
+            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Stroke</label>";
+
+            var Lungs = document.getElementById('Lungs');
+            Lungs.innerHTML = '<img src="images/image006.png">';
+            var detail = document.getElementById('Pulmonary_Disease');
+            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Pulmonary Disease</label>";
+            var detail = document.getElementById('Lung_Disease');
+            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Lung Disease</label>";
+            var detail = document.getElementById('Asthma');
+            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Asthma</label>";
+            var detail = document.getElementById('Cancer');
+            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Cancer</label>";
+            var detail = document.getElementById('Diabetes');
+            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Diabetes</label>";
+
+            var Heart = document.getElementById('Heart');
+            Heart.innerHTML = '<img src="images/image009.png">';
+            var detail = document.getElementById('Heart_Disease');
+            detail.innerHTML = "<img src='images/image009.png'/> <label class='LetFont'>Heart Disease</label>";
+            var detail = document.getElementById('Hypertension');
+            detail.innerHTML = "<img src='images/image009.png'/> <label class='LetFont'>Hypertension</label>";
+            var detail = document.getElementById('Kidney_Disease');
+            detail.innerHTML = "<img src='images/image009.png' /> <label class='LetFont'>Kidney Disease</label>";
+        }
+
+        $scope.ChronicDetails = function () {
             $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
                 if (data.length !== 0 && data != null && data != undefined) {
+                    $scope.DefaultChronic();
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].ChronicGroup == 1) {
-                            var Brain = document.getElementById('Brain');     /* Chronic Img Icon Change */
+                            var Brain = document.getElementById('Brain');
                             Brain.innerHTML = '<img src="images/image004Active.png">';
 
                             if (data[i].ChronicCondition === "Alzheimer") {
@@ -5217,7 +5262,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         }
 
                         if (data[i].ChronicGroup == 2) {
-                            var Lungs = document.getElementById('Lungs');     /* Chronic Img Icon Change */
+                            var Lungs = document.getElementById('Lungs');
                             Lungs.innerHTML = '<img src="images/image006Active.png">';
 
                             if (data[i].ChronicCondition === "Pulmonary Disease") {
@@ -5243,7 +5288,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         }
 
                         if (data[i].ChronicGroup == 3) {
-                            var Heart = document.getElementById('Heart');     /* Chronic Img Icon Change */
+                            var Heart = document.getElementById('Heart');
                             Heart.innerHTML = '<img src="images/image009Active.png">';
 
                             if (data[i].ChronicCondition === "Heart Disease") {

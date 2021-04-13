@@ -2147,15 +2147,15 @@ a.disabled {
 .LetFont1 {
     color: black;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 15px;
     padding: 4px;
 }
 .LetFont {
     color: #808080;
-    font-size: 12px;
+    font-size: 10px;
 }
 .LetsFont {
-    padding-left: 1px;
+    padding-left: 5px;
     padding-bottom: 9px;
     padding-top: 1px;
 }
