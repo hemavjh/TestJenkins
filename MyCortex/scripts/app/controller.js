@@ -16147,13 +16147,12 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                 alert("Please select Email or App or Web for alert");
                 return false;
             }
-            if ($scope.AlertDays != null) {
-                if ($scope.AlertDays.split(".")) {
-                    if (($scope.AlertDays + "") == "") {
-                        alert("Please enter valid values");
-                        return false;
-                    }
+            if ($scope.AlertDays != null) { 
+                if (($scope.AlertDays + "") == "") {
+                    alert("Please enter valid values");
+                    return false;
                 }
+               
             }
             return true;
         };
