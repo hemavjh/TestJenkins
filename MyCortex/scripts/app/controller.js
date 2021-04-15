@@ -14240,7 +14240,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
         //view function for password policy
         $scope.PasswordPolicyView = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+             
                 $("#chatLoaderPV").show();
                 //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
                 //  $scope.NewPassword = "";
@@ -14271,7 +14271,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
                     //$scope.NewPassword = "";
                 });
-            }
+            
         };
 
         //view function for password policy
