@@ -33,5 +33,6 @@ namespace MyCortex.Notification.Model
         public int NotificationUnread { get; set; }
         public List<UserNotificationModel> usernotification { get; set; }
     }
+    
 }
 

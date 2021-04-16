@@ -505,6 +505,42 @@ namespace MyCortex.Repositories.Template
             }
         }
         /// <summary>
+        /// to get Notification list of a user
+        /// </summary>
+        /// <param name="User_Id">User Id</param>
+        /// <returns>Notification list of a user</returns>
+        public UserNotificationListModel ClearNotification_Update(long User_Id)
+        {
+            UserNotificationListModel model = new UserNotificationListModel();
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@USER_ID", User_Id)); 
+                //Clear Notification
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Clear_NOTIFICATION_SP_UPDATE]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                List<UserNotificationModel> lst = (from p in dt.AsEnumerable()
+                                                   select new UserNotificationModel()
+                                                   {
+                                                       Id = p.Field<long>("ID"),
+                                                       UserId = p.Field<long>("USERID"),
+                                                       MessageSubject = p.Field<string>("EMAIL_SUBJECT"),
+                                                       MessageBody = p.Field<string>("EMAIL_BODY"),
+                                                       SentDate = p.Field<DateTime>("SEND_DATE"),
+                                                       ReadFlag = p.Field<int>("READ_FLAG")
+                                                   }).ToList();
+                model.UserId = User_Id; 
+                model.usernotification = lst;
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return model;
+            }
+        }
+        /// <summary>
         /// to insert/update a notification for a user
         /// </summary>
         /// <param name="SendEmail_Id">Email config id</param>
@@ -537,6 +573,7 @@ namespace MyCortex.Repositories.Template
                 return null;
             }
         }
+
         public IList<SendEmailModel> SendArchivedetails()
         {
             List<DataParameter> param = new List<DataParameter>();

@@ -16094,6 +16094,20 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
             $scope.closeNotification = function () {
                 window.location.href = baseUrl + "/Home/Index#/home"; 
             }
+            $scope.clearAllNotification = function () {
+                $http.get(baseUrl + '/api/SendEmail/ClearNotification_Update/?User_Id=' + $scope.User_Id).success(function (data) {
+                    alert("Cleared All Notificaton has been Successfully");
+                    $scope.emptydata = "";
+                    if ($scope.emptydata == "") {
+                        $scope.UserNotificationList_Filter.length = 0;
+                        $scope.flag = 0;
+                      
+                    }
+                    document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + data.NotificationUnread;
+                    var NotificationCount = document.getElementById('notificationCount');
+                    NotificationCount.textContent = data.NotificationUnread;
+                }); 
+            }
             $scope.CancelModel = function () {
                 angular.element('#NotificationViewModel').modal('hide');
                  

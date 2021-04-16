@@ -516,6 +516,32 @@ namespace MyCortex.Template.Controllers
                 return null;
             }
         }
+
+        /// <summary>
+        /// to get Notification list of a user
+        /// </summary>
+        /// <param name="User_Id">User Id</param>
+        /// <returns>Notification list of a user</returns>
+        [HttpGet]
+        public UserNotificationListModel ClearNotification_Update(long User_Id)
+        {
+            UserNotificationListModel model = new UserNotificationListModel();
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            try
+            {
+                model = repository.ClearNotification_Update(User_Id);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>
         /// to insert/update a notification for a user
         /// </summary>
