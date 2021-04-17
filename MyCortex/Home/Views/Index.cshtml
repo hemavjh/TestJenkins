@@ -256,7 +256,7 @@
             <div class="themeHeader">
                 <div class="mythemeLogo">
                     @*<img src="images/MyCortexLogo.JPG">*@
-                    <img src="images/MyCortexlogotheme.JPG" id="InstLogo">
+                    <img src="images/MyCortexlogotheme.JPG" id="InstLogo" onclick="ImageClick()">
                     <div class="mythemeMenu">
                         @*@{ var counter = 1;}*@
                         @foreach (var menu in Model)
@@ -316,27 +316,27 @@
                             <div class="patientHeaderProfileDetails" style="display:none">
                                 <div>
                                     <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
-                                    <p onclick=" ViewProfile()">
-                                        <span>USER TYPE</span>
-                                        <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
-                                        <i class="far fa-id-badge" style="color:#4285f4"></i>
-                                    </p>
-                                    <p onclick=" ViewProfile()">
-                                        <span>National Id</span>
-                                        <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
-                                        <i class="far fa-address-card" style="color:#ea4335"></i>
-                                    </p>
-                                    <p onclick=" ViewProfile()">
-                                        <span>Phone</span>
-                                        <span id="MOBILE_NO">+{{MOBILE_NO}}</span>
-                                        <i class="fas fa-mobile-alt" style="color:#fbbc05"></i>
-                                    </p>
-                                    <p onclick=" ViewProfile()">
-                                        <span>DOB</span>
-                                        <span id="DOB">{{DOB}}</span>
-                                        <i class="far fa-calendar-alt" style="color:#34a853"></i>
-                                    </p>
-                                </div>
+                                        <p onclick=" ViewProfile()">
+                                                <span>USER TYPE</span>
+                                                <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
+                                                <i class="far fa-id-badge" style="color:#4285f4"></i>
+                                        </p>
+                                        <p onclick=" ViewProfile()">
+                                            <span>National Id</span>
+                                            <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
+                                            <i class="far fa-address-card" style="color:#ea4335"></i>
+                                        </p>
+                                        <p onclick=" ViewProfile()">
+                                            <span>Phone</span>
+                                            <span id="MOBILE_NO">+{{MOBILE_NO}}</span>
+                                            <i class="fas fa-mobile-alt" style="color:#fbbc05"></i>
+                                        </p>
+                                        <p onclick=" ViewProfile()">
+                                            <span>DOB</span>
+                                            <span id="DOB">{{DOB}}</span>
+                                            <i class="far fa-calendar-alt" style="color:#34a853"></i>
+                                        </p>
+                                    </div>
                             </div>
                         </div>
 
@@ -1215,6 +1215,62 @@
         }
         
         
+    }
+
+    function ImageClick() {
+        Id = window.localStorage['SelectedPatientId']; 
+        if (User_id == "1") {
+            window.location.href = baseUrl + "/Home/Index#/Institution";
+            sessionStorage.removeItem('key');
+            element1 = document.getElementById('Institution');
+            element1.className += '  activeButton';
+            $('.menuList button').removeClass('activeButton');
+        }
+        else if (User_id == "3") {
+            window.location.href = baseUrl + "/Home/Index#/InstitutionSubscriptionHospitalAdmin_view";
+            sessionStorage.removeItem('key');
+            $('.menuList button').removeClass('activeButton');
+            element1 = document.getElementById('Home');
+            element1.className += '  activeButton';
+             
+
+        }
+        else if (User_id == "2") {
+            window.location.href = baseUrl + "/Home/Index#/PatientVitals/0/1"; 
+            
+        }
+        else if (User_id == "4") {
+            window.location.href = baseUrl + "/Home/Index#/Thirtydays_appointments";
+            sessionStorage.removeItem('key');
+            $('.menuList button').removeClass('activeButton');
+            element1 = document.getElementById('Appointment');
+            element1.className += '  activeButton';
+          
+        }
+        else if (User_id == "5") {
+            window.location.href = baseUrl + "/Home/Index#/CareGiverAssignedPatients";
+            sessionStorage.removeItem('key');
+            $('.menuList button').removeClass('activeButton');
+            element1 = document.getElementById('Assigned Patients');
+            element1.className += '  activeButton';
+            
+        }
+        else if (User_id == "6") {
+            window.location.href = baseUrl + "/Home/Index#/Carecoordinator/1";
+            sessionStorage.removeItem('key');
+            $('.menuList button').removeClass('activeButton');
+            element1 = document.getElementById('Diagnostic Alert');
+            element1.className += '  activeButton';
+            
+        }
+        else if (User_id == "7") {
+            window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
+            sessionStorage.removeItem('key');
+            $('.menuList button').removeClass('activeButton');
+            element1 = document.getElementById('Appointment');
+            element1.className += '  activeButton';
+            
+        }
     }
     function searchContact_onKeyPress() {
         $('#address-user > li:not(:contains(' + $('#contactSearch').val() + '))').hide();
