@@ -16042,8 +16042,14 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                         angular.forEach($scope.UserNotificationList_Filter, function (row, index) {
                             if (index == index1)
                                 row.ReadFlag = "2";
+                            $('#id'+index1).removeClass('tdBackColor');
+                            $('#msubj'+index1).removeClass('tdBackColor');
+                            $('#mbody'+ index1).removeClass('tdBackColor');
+                            $('#msend'+ index1).removeClass('tdBackColor');
+                            $('#viewid'+ index1).removeClass('tdBackColor');
+                         
                         });
-                        $scope.NotificationList(); 
+                        //$scope.NotificationList(); 
                     }); 
                     
                 }

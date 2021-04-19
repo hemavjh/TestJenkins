@@ -37,19 +37,19 @@
             </td>
         </tr>
         <tr ng-repeat="row in emptydata">
-            <td style="text-align: right" ng-class="{tdBackColor: row.ReadFlag==1}">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
+            <td id="id{{$index}}" style="text-align: right" ng-class="{tdBackColor: row.ReadFlag==1}">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td id="msubj{{$index}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <div class="textwrap">{{row.MessageSubject}}</div>
             </td>
-            <td style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
+            <td id="mbody{{$index}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <div class="textwrap">
                     {{ row.MessageBody.length > 100 ? row.MessageBody.substring(0,100)+"..." : row.MessageBody}}
                 </div>
             </td>
-            <td ng-class="{tdBackColor: row.ReadFlag==1}" style="text-align: left">
+            <td id="msend{{$index}}" ng-class="{tdBackColor: row.ReadFlag==1}" style="text-align: left">
                 {{row.SentDate| date :'dd-MMM-yyyy hh:mm a'}}
             </td>
-            <td style="text-align: center" ng-class="{tdBackColor: row.ReadFlag==1}">
+            <td id="viewid{{$index}}" style="text-align: center" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <a href="javascript:" ng-click="NotificationUpdate($index, row.Id, row.MessageSubject, row.MessageBody, row.ReadFlag)" title="Click to Read Notification">
                     <img src="../../Images/ViewIcon.png" />
                 </a>
