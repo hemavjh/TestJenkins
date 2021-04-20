@@ -7201,6 +7201,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $('#tableid5').hide();
                     return true;
                 } else {
+                    $('#tableid3').hide();
+                    $('#tableid5').hide();
                     return true;
                 }
 
@@ -7230,6 +7232,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.redcount = 1;
         $scope.AlertCountredDisplay = function () {
+            $scope.yellowcount = 1;
+            $scope.greencount = 1;
             $('.jinglebellmedium').removeClass('active');
             $('#Medcount').addClass('fa fa-bell-o mymediumBell');
             $('.jinglebellhigh').removeClass('active');
@@ -7258,6 +7262,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $('#tableid5').hide();
                     return true;
                 } else {
+                    $('#tableid1').hide();
+                    $('#tableid5').hide();
                     return true;
                 }
 
@@ -7288,6 +7294,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.greencount = 1;
         $scope.AlertCountgreenDisplay = function () {
+            $scope.redcount = 1;
+            $scope.yellowcount = 1;
             $('.jinglebelllow').removeClass('active');
             $('#Highcount').addClass('fa fa-bell-o myhighBell');
             $('.jinglebellmedium').removeClass('active');
@@ -7316,6 +7324,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $('#tableid4').hide();
                     return true;
                 } else {
+                    $('#tableid1').hide();
+                    $('#tableid4').hide();
                     return true;
                 }
 
