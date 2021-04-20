@@ -541,6 +541,35 @@ namespace MyCortex.Repositories.Template
             }
         }
         /// <summary>
+        /// to get Notification list of a user
+        /// </summary>
+        /// <param name="User_Id">User Id</param>
+        /// <returns>Notification list of a user</returns>
+        public UserNotificationListModel CountNotification_Update(long User_Id)
+        {
+            UserNotificationListModel model = new UserNotificationListModel();
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@USER_ID", User_Id)); 
+                // count notification  
+                DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[NOTIFICATION_UNREAD_COUNT]", param);
+                DataRow dr = dt1.Rows[0];
+                int TotalCount = int.Parse(dr["TotalCount"].ToString());
+                int UnreadCount = int.Parse(dr["UnreadCount"].ToString());
+
+                model.NotificationTotal = TotalCount;
+                model.NotificationUnread = UnreadCount;
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return model;
+            }
+        }
+        /// <summary>
         /// to insert/update a notification for a user
         /// </summary>
         /// <param name="SendEmail_Id">Email config id</param>
@@ -551,8 +580,9 @@ namespace MyCortex.Repositories.Template
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                param.Add(new DataParameter("@SendEmail_Id", SendEmail_Id));
+                param.Add(new DataParameter("@SendEmail_Id", SendEmail_Id)); 
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+             
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[NOTIFICATION_SP_UPDATE]", param);
                 DataEncryption DecryptFields = new DataEncryption();
                 UserNotificationModel lst = (from p in dt.AsEnumerable()
@@ -563,7 +593,7 @@ namespace MyCortex.Repositories.Template
                                                  MessageSubject = p.Field<string>("EMAIL_SUBJECT"),
                                                  MessageBody = p.Field<string>("EMAIL_BODY"),
                                                  SentDate = p.Field<DateTime>("SEND_DATE"),
-                                                 ReadFlag = p.Field<int>("READ_FLAG")
+                                                 ReadFlag = p.Field<int>("READ_FLAG")  
                                              }).FirstOrDefault();
                 return lst;
             }

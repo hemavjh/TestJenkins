@@ -16038,7 +16038,8 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 $scope.MessageSubject = MessageSubject;
                 $scope.MessageContent = MessageContent;
                 if (ReadFlag == 1) {
-                    $http.post(baseUrl + '/api/SendEmail/Notification_Update/?SendEmail_Id=' + $scope.SendEmail_Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $http.post(baseUrl + '/api/SendEmail/Notification_Update/?SendEmail_Id=' + $scope.SendEmail_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&User_Id=' + $scope.User_Id).success(function (data) {
+                         
                         angular.forEach($scope.UserNotificationList_Filter, function (row, index) {
                             if (index == index1)
                                 row.ReadFlag = "2";
@@ -16046,10 +16047,15 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                             $('#msubj'+index1).removeClass('tdBackColor');
                             $('#mbody'+ index1).removeClass('tdBackColor');
                             $('#msend'+ index1).removeClass('tdBackColor');
-                            $('#viewid'+ index1).removeClass('tdBackColor');
-                         
-                        });
-                        //$scope.NotificationList(); 
+                            $('#viewid' + index1).removeClass('tdBackColor');
+                           
+                            
+                        });  
+                    });  
+                    $http.get(baseUrl + '/api/SendEmail/CountNotification_Update/?User_Id=' + $scope.User_Id).success(function (data) {
+                          document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + data.NotificationUnread;
+                        var NotificationCount = document.getElementById('notificationCount');
+                        NotificationCount.textContent = data.NotificationUnread;
                     }); 
                     
                 }

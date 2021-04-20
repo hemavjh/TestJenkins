@@ -21,6 +21,7 @@ namespace MyCortex.Repositories
         List<NotifictaionUserFCM> UserFCMToken_Get_List(long User_Id);
         UserNotificationListModel User_get_NotificationList(long User_Id, Guid Login_Session_Id);
         UserNotificationListModel ClearNotification_Update (long User_Id);
+        UserNotificationListModel CountNotification_Update(long User_Id);
         UserNotificationModel Notification_Update(long SendEmail_Id, Guid Login_Session_Id);
         void SendEmail_DeliveryStatus(string StatusEvent, string Sender_MessageId, string errorReason);
         IList<SendEmailModel> SendArchivedetails();
