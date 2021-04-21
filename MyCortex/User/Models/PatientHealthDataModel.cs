@@ -57,6 +57,7 @@ namespace MyCortex.User.Model
         
         public int ReturnFlag { get; set; }
         public PatientHealthDataModel PatientHealthDataDetails { get; set; }
+        public PatientHealthDataPagination _metadata { get; set; }
         public IList<PatientHealthDataModel> PatientHealthDataList { get; set; }
     }
     public class ParametersListModel
@@ -87,6 +88,25 @@ namespace MyCortex.User.Model
     public class PatientInstituteModel
     {
         public long Institution_Id { get; set; }
+    }
+
+    public class PatientHealthDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public PatientHealthDataLinks Links { get; set; }
+
+    }
+
+    public class PatientHealthDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
     }
 
 }

@@ -783,18 +783,54 @@ namespace MyCortex.User.Controller
         /// <returns>List of Health Data</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, int StartRowNumber,int EndRowNumber,int Active, Guid Login_Session_Id, long UnitsGroupType = 1)
+        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id,int Active, Guid Login_Session_Id, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
+            IList<AppConfigurationModel> configList;
+            PatientHealthDataPagination _metadata = new PatientHealthDataPagination();
             try
             {
+                configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
+                _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
+                if (Page != 0)
+                {
+                    _metadata.page = Page;
+                    StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
+                    EndRowNumber = Page * _metadata.per_page;
+                }
+                
                 model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active);
+                if (model != null)
+                {
+                    if(model.Count > 0)
+                    {
+                        _metadata.total_count = Convert.ToInt64(model[0].TotalRecord);
+                        _metadata.page_count = Convert.ToInt64(Math.Ceiling(Convert.ToDecimal(model[0].TotalRecord) / _metadata.per_page));
+                        _metadata.Links = new PatientHealthDataLinks();
+                        _metadata.Links.self = "/api/User/PatientHealthDataDetails_List?Patient_Id=" + Patient_Id + "&OptionType_Id=" + OptionType_Id +
+                            "&Group_Id=" + Group_Id + "&Active=" + Active + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + Page;
+                        _metadata.Links.first = "/api/User/PatientHealthDataDetails_List?Patient_Id=" + Patient_Id + "&OptionType_Id=" + OptionType_Id +
+                            "&Group_Id=" + Group_Id + "&Active=" + Active + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=1";
+                        _metadata.Links.last = "/api/User/PatientHealthDataDetails_List?Patient_Id=" + Patient_Id + "&OptionType_Id=" + OptionType_Id +
+                            "&Group_Id=" + Group_Id + "&Active=" + Active + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + _metadata.page_count;
+                        int previous = Page > 1 ? Page - 1 : 1;
+                        _metadata.Links.previous = "/api/User/PatientHealthDataDetails_List?Patient_Id=" + Patient_Id + "&OptionType_Id=" + OptionType_Id +
+                           "&Group_Id=" + Group_Id + "&Active=" + Active + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + previous;
+                        int next = Page == _metadata.page_count ? Page : Page + 1;
+                        _metadata.Links.next = "/api/User/PatientHealthDataDetails_List?Patient_Id=" + Patient_Id + "&OptionType_Id=" + OptionType_Id +
+                           "&Group_Id=" + Group_Id + "&Active=" + Active + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + next;
+                    }
+                }
 
                 modelReturn.Status = "True";
                 modelReturn.Message = "List of Patient Health Data";
                 modelReturn.Error_Code = "";
                 modelReturn.ReturnFlag = 0;
+                if (Page != 0 & model.Count > 0)
+                {
+                    modelReturn._metadata = _metadata;
+                }
                 modelReturn.PatientHealthDataList = model;
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, modelReturn);

@@ -1164,7 +1164,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber,int Active)
+        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber,int Active)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
