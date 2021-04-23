@@ -228,7 +228,7 @@
     <script src="@Url.Content("~/scripts/ui-bootstrap.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/ui-bootstrap-tpls.js?v1.0")" type="text/javascript"></script>  
     <script src="@Url.Content("~/Scripts/app/app.js?v1.06")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/app/controller.js?v1.65")" type="text/javascript"></script> 
+    <script src="@Url.Content("~/Scripts/app/controller.js?v1.66")" type="text/javascript"></script> 
     <script src="@Url.Content("~/Scripts/pageSelect.directive.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/smart-table.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.marquee.js")" type="text/javascript"></script>
@@ -445,7 +445,8 @@
                         <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left"
                            data-toggle="tooltip" onclick="location.href = 'Home/Index#/NotificationView'"></i>
                         <i class="fas fa-video"></i>
-                        <span id="notificationCount">{{NotificationCount}}</span>
+                        <span id="notificationCount">{{notificationCount}}</span>
+                        
                     </div>
                     <div>
                         <span id="usernamespan">Admin</span><br />
@@ -704,8 +705,8 @@
                     </div>
                 </div>
                 <div class="colpr-footer">
-                    <button type="button" class="theme-btny-1 mr-8" onclick="saveSettings();">Save Settings</button>
-                    <button type="button" class="theme-btnz-1 mr-8" onclick="restoreSettings();">Restore Default</button>
+                 <button type="button" class="theme-btny-1 mr-8" onclick="saveSettings();">Save Settings</button>
+                 <button type="button" class="theme-btnz-1 mr-8" onclick="restoreSettings();">Restore Default</button>
                 </div>
 
             </div>
@@ -836,7 +837,7 @@
         </div>
     </div>
     <input type="hidden" id="menuListid" name="menuListid" value="" style="display:none;">
-</body>
+    </body>
 </html>
 <script type="text/javascript">
     let saved = false;

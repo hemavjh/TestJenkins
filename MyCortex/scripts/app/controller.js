@@ -4846,6 +4846,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 })
             }, 10000) // 10000 ms execution
 
+           
             /*cancel timer
             
             if (angular.isDefined($scope.LiveDataPromise)) {
@@ -5308,7 +5309,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
             });
         }
+        $http.get(baseUrl + '/api/SendEmail/User_get_NotificationList/?User_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
 
+            var NotificationCount = document.getElementById('notificationCount');
+            NotificationCount.textContent = data.NotificationUnread;
+        });
         $scope.PatientBasicDetails_List = function () {
             if ($window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                 $("#chatLoaderPV").show();
