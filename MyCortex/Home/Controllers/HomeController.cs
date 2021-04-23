@@ -270,7 +270,7 @@ namespace MyCortex.Home.Controllers
             var res = "";
 
             List<string> t = new List<string>();
-            var jsonSerialiser = new JavaScriptSerializer();
+            var jsonSerialiser = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue, RecursionLimit = 100 };
             try
             {
                 IList<EmployeeLoginModel> lst = login.UserLogged_Details(EmployeeId);
