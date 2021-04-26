@@ -2099,12 +2099,12 @@ a.disabled {
     margin: 40px 0 0 18px;
 }
 
-/*<!------Tiny icon code start-------! >*/ 
+/*<!------Tiny icon code start-------! >*/
 
 .tinyiconsonefull {
     width: auto;
     float: left;
-    padding: 0 0 10px 10px;
+    padding: 0 0 10px 120px;
 }
 
     .tinyiconsonefull span {
@@ -2147,7 +2147,7 @@ a.disabled {
 .LetFont1 {
     color: black;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 12px;
     padding: 4px;
 }
 .LetFont {

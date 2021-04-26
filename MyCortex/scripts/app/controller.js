@@ -5192,39 +5192,40 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             Brain.innerHTML = '<img src="images/image004.png">';
 
             var detail = document.getElementById('Alzheimer');
-            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Alzheimer</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Arthritis');
-            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Arthritis</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Epilepsy');
-            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Epilepsy</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Parkinson_Disease');
-            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Parkinson Disease</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Sclerosis');
-            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Sclerosis</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Stroke');
-            detail.innerHTML = "<img src='images/image004.png'/><label class='LetFont'>Stroke</label>";
+            detail.innerHTML = "";
 
             var Lungs = document.getElementById('Lungs');
             Lungs.innerHTML = '<img src="images/image006.png">';
+
             var detail = document.getElementById('Pulmonary_Disease');
-            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Pulmonary Disease</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Lung_Disease');
-            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Lung Disease</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Asthma');
-            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Asthma</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Cancer');
-            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Cancer</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Diabetes');
-            detail.innerHTML = "<img src='images/image006.png'/> <label class='LetFont'>Diabetes</label>";
+            detail.innerHTML = "";
 
             var Heart = document.getElementById('Heart');
             Heart.innerHTML = '<img src="images/image009.png">';
             var detail = document.getElementById('Heart_Disease');
-            detail.innerHTML = "<img src='images/image009.png'/> <label class='LetFont'>Heart Disease</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Hypertension');
-            detail.innerHTML = "<img src='images/image009.png'/> <label class='LetFont'>Hypertension</label>";
+            detail.innerHTML = "";
             var detail = document.getElementById('Kidney_Disease');
-            detail.innerHTML = "<img src='images/image009.png' /> <label class='LetFont'>Kidney Disease</label>";
+            detail.innerHTML = "";
         }
 
         $scope.ChronicDetails = function () {
@@ -5241,8 +5242,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Alzheimer</label>";
                             }
                             else if (data[i].ChronicCondition === "Arthritis") {
+                                var Arthritis = document.getElementById('Bone');
+                                Arthritis.innerHTML = '<img src="images/image005Active.png">';
+
                                 var detail = document.getElementById('Arthritis');
-                                detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Arthritis</label>";
+                                detail.innerHTML = "<img src='images/image005Active.png' /> <label class='LetFont1'>Arthritis</label>";
                             }
                             else if (data[i].ChronicCondition === "Epilepsy") {
                                 var detail = document.getElementById('Epilepsy');
@@ -5279,12 +5283,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Asthma</label>";
                             }
                             else if (data[i].ChronicCondition === "Cancer") {
+                                var Cancer = document.getElementById('Ribbon');
+                                Cancer.innerHTML = '<img src="images/image007Active.png">';
+
                                 var detail = document.getElementById('Cancer');
-                                detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Cancer</label>";
+                                detail.innerHTML = "<img src='images/image007Active.png' /> <label class='LetFont1'>Cancer</label>";
                             }
                             else if (data[i].ChronicCondition === "Diabetes") {
-                                var detail = document.getElementById('Diabetes');
-                                detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Diabetes</label>";
+                                var Diabetes = document.getElementById('Diabetes');
+                                Diabetes.innerHTML = '<img src="images/image008Active.png">';
+
+                                var detail = document.getElementById('sugarblood');
+                                detail.innerHTML = "<img src='images/image008Active.png' /> <label class='LetFont1'>Diabetes</label>";
                             }
                         }
 
@@ -5301,8 +5311,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Hypertension</label>";
                             }
                             else if (data[i].ChronicCondition === "Kidney Disease") {
+                                var Diabetes = document.getElementById('Kidney');
+                                Diabetes.innerHTML = '<img src="images/image0010Active.png">';
+
                                 var detail = document.getElementById('Kidney_Disease');
-                                detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Kidney Disease</label>";
+                                detail.innerHTML = "<img src='images/image0010Active.png' /> <label class='LetFont1'>Kidney Disease</label>";
                             }
                         }
                     }
@@ -9275,6 +9288,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.PatientAssignedAllergyDataList = [];
                 $scope.PatientAllergyListData = data;
                 $scope.PatientAllergyListFilterData = data;
+                for (i = 0; i < $scope.PatientAllergyListFilterData.length; i++) {
+                    if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No known allergies") {
+                        document.getElementById("IconAllergy").style.color = '#32CD32';
+                    }
+                    else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
+                        document.getElementById("IconAllergy").style.color = '#FFD700';
+                    }
+                    else {
+                        document.getElementById("IconAllergy").style.color = '#FF0000';
+                    }
+                }
                 $scope.PatientAssignedAllergyDataList = angular.copy($scope.PatientAllergyListData);
 
                 // $scope.PatientAssignedknownAllergyDataList =angular.copy($scope.PatientAssignedAllergyDataList);
