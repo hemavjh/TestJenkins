@@ -39,6 +39,26 @@ namespace MyCortex.Masters.Models
         public string Status { get; set; }
         public string Message { get; set; }
         public IList<MasterICDModel> MasterICD { get; set; }
+        public MasterICDDataPagination _metadata { get; set; }
         public int ReturnFlag { get; set; }
+    }
+
+    public class MasterICDDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public MasterICDDataLinks Links { get; set; }
+
+    }
+
+    public class MasterICDDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
     }
 }

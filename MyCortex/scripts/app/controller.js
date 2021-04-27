@@ -8235,8 +8235,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.DiagnosisICD10List = [];
-                    $scope.DiagnosisICD10List = data;
-                    $scope.ICD10Count = $scope.DiagnosisICD10List[0].TotalRecord;
+                    $scope.DiagnosisICD10List = data.MasterICD;
+                    if ($scope.DiagnosisICD10List.length > 0) {
+                        $scope.ICD10Count = $scope.DiagnosisICD10List[0].TotalRecord;
+                    } else {
+                        $scope.ICD10Count = 0
+                    }
                     $scope.rowcollectionfiltericd10 = angular.copy($scope.DiagnosisICD10List);
                     if ($scope.rowcollectionfiltericd10.length > 0) {
                         $scope.flag = 1;

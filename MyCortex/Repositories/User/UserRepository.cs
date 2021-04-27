@@ -2113,7 +2113,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="Isactive"></param>
         /// <returns></returns>
-        public IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber)
+        public IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,long StartRowNumber,long EndRowNumber, long Institution_Id, long Page)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();

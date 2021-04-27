@@ -56,7 +56,7 @@ namespace MyCortex.Repositories
         IList<MasterICDModel> ICD10CategoryList();
         IList<MasterICDModel> ICD10CodeList(long Institution_ID);
         long PatientICD10Details_AddEdit(Guid Login_Session_Id, List<MasterICDModel> obj);
-        IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber);
+        IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, long Institution_Id, long Page);
         MasterICDModel PatientICD10Details_View(long ID, Guid Login_Session_Id);
         void PatientICD10Details_Active(long ID);
         void PatientICD10Details_InActive(long ID);

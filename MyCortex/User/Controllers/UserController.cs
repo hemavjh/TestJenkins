@@ -1677,16 +1677,54 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<MasterICDModel> PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber)
+        public HttpResponseMessage PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,long StartRowNumber = 0,long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
 
-            IList<MasterICDModel> model;
+            IList<MasterICDModel> model = new List<MasterICDModel>();
+            MasterICDReturnModels modelReturn = new MasterICDReturnModels();
+            IList<AppConfigurationModel> configList;
+            MasterICDDataPagination _metadata = new MasterICDDataPagination();
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.PatientICD10Details_List(Patient_Id, Isactive, Login_Session_Id, StartRowNumber,EndRowNumber);
-                return model;
+                configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
+                _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
+                if (Page != 0)
+                {
+                    _metadata.page = Page;
+                    StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
+                    EndRowNumber = Page * _metadata.per_page;
+                }
+
+                model = repository.PatientICD10Details_List(Patient_Id, Isactive, Login_Session_Id, StartRowNumber,EndRowNumber,Institution_Id,Page);
+                if (model != null)
+                {
+                    if (model.Count > 0)
+                    {
+                        _metadata.total_count = Convert.ToInt64(model[0].TotalRecord);
+                        _metadata.page_count = Convert.ToInt64(Math.Ceiling(Convert.ToDecimal(model[0].TotalRecord) / _metadata.per_page));
+                        _metadata.Links = new MasterICDDataLinks();
+                        _metadata.Links.self = "/api/User/PatientICD10_Details_List?Patient_Id=" + Patient_Id + "&Active=" + Isactive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + Page;
+                        _metadata.Links.first = "/api/User/PatientICD10_Details_List?Patient_Id=" + Patient_Id + "&Active=" + Isactive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=1";
+                        _metadata.Links.last = "/api/User/PatientICD10_Details_List?Patient_Id=" + Patient_Id + "&Active=" + Isactive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + _metadata.page_count;
+                        int previous = Page > 1 ? Page - 1 : 1;
+                        _metadata.Links.previous = "/api/User/PatientICD10_Details_List?Patient_Id=" + Patient_Id + "&Active=" + Isactive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + previous;
+                        int next = Page == _metadata.page_count ? Page : Page + 1;
+                        _metadata.Links.next = "/api/User/PatientICD10_Details_List?Patient_Id=" + Patient_Id + "&Active=" + Isactive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + next;
+                    }
+                }
+                modelReturn.Status = "True";
+                modelReturn.Message = "List of MasterICD10 Data";
+                modelReturn.ReturnFlag = 0;
+                if (Page != 0 & model.Count > 0)
+                {
+                    modelReturn._metadata = _metadata;
+                }
+                modelReturn.MasterICD = model;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, modelReturn);
+                return response;
             }
             catch (Exception ex)
             {
