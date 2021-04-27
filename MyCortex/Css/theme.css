@@ -151,6 +151,7 @@ label {
     color: inherit;
     margin-right: 10px;
     position: relative;
+    white-space: nowrap;
 }
 
     .menuList button:hover::after {
@@ -339,7 +340,7 @@ li.customDropdownlast-child:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 460px;
+    /*min-width: 460px;*/
     flex-wrap: wrap;
 }
 
