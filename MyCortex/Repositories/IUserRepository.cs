@@ -78,7 +78,7 @@ namespace MyCortex.Repositories
         DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id);
 
         long MedicationInsertUpdate(Guid Login_Session_Id, List<DrugDBMasterModel> insobj);
-        IList<DrugDBMasterModel> MedicationList(long Patient_Id, int Isactive, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber);
+        IList<DrugDBMasterModel> MedicationList(long Patient_Id, int Isactive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
         DrugDBMasterModel MedicationView(long Id, Guid Login_Session_Id);
         IList<DrugDBMasterModel> DrugCodeList();
         IList<DrugDBMasterModel> DrugCodeBased_DrugDetails(long DrugCodeId, long Institution_Id);

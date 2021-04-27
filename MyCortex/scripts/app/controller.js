@@ -8982,9 +8982,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.SearchMsg = "No Data Available";
                     $scope.PatientMedicationEmptyData = [];
                     $scope.PatientMedicationDataList = [];
-                    $scope.PatientMedicationListData = data;
-                    $scope.PatientMedicationcount = $scope.PatientMedicationListData[0].TotalRecord;
-                    $scope.PatientMedicationListFilterData = data;
+                    $scope.PatientMedicationListData = data.DrugDBMaster;
+                    if ($scope.PatientMedicationListData.length > 0) {
+                        $scope.PatientMedicationcount = $scope.PatientMedicationListData[0].TotalRecord;
+                    } else {
+                        $scope.PatientMedicationcount = 0
+                    }
+                    $scope.PatientMedicationListFilterData = data.DrugDBMaster;
                     $scope.PatientMedicationDataList = angular.copy($scope.PatientMedicationListData);
                     if ($scope.PatientMedicationDataList.length > 0) {
                         $scope.flag = 1;
