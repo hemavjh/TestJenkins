@@ -366,7 +366,9 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         else {
             $scope.ModeType = $routeParams.ModeType;
         }
-
+        if ($scope.CreatedBy == 1 || $scope.CreatedBy == 3) {
+            document.getElementById("mydiv").style.display = "none";
+        }
         $scope.loadCount = 3;
         $scope.DropDownListValue = 2;
         //List Page Pagination.
@@ -10493,11 +10495,14 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
                     },
 
                     dayClick: function (date, allDay, jsEvent, view) {
-                        if (moment(date).isBetween(moment(dueStartDate).add(-1, "days"), moment(dueEndDate)) == false) {
+                        var startdate = moment(dueStartDate).format('YYYY-MM-DD');
+                        var date1 = moment(date).format('YYYY-MM-DD');
+                        var EndDate = moment(dueEndDate).format('YYYY-MM-DD');
+                        if (moment(date1).isBetween(startdate, EndDate) == false) {
                             alert("Appointment is only for 30 days, cannot view this date");
-                            $('#calendar1').fullCalendar('gotoDate', dueStartDate);
+                            $('#calendar1').fullCalendar('gotoDate', date1);
                             return false;
-                        }
+                        }	
 
                         $scope.dayClicked(date);
                     },
