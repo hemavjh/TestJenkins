@@ -37,20 +37,20 @@
             </td>
         </tr>
         <tr ng-repeat="row in emptydata">
-            <td id="id{{$index}}" style="text-align: right" ng-class="{tdBackColor: row.ReadFlag==1}">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td id="msubj{{$index}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
+            <td id="id{{((current_page-1)*page_size)+$index+1}}" style="text-align: right" ng-class="{tdBackColor: row.ReadFlag==1}">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td id="msubj{{((current_page-1)*page_size)+$index+1}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <div class="textwrap">{{row.MessageSubject}}</div>
             </td>
-            <td id="mbody{{$index}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
+            <td id="mbody{{((current_page-1)*page_size)+$index+1}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <div class="textwrap">
                     {{ row.MessageBody.length > 100 ? row.MessageBody.substring(0,100)+"..." : row.MessageBody}}
                 </div>
             </td>
-            <td id="msend{{$index}}" ng-class="{tdBackColor: row.ReadFlag==1}" style="text-align: left">
+            <td id="msend{{((current_page-1)*page_size)+$index+1}}" ng-class="{tdBackColor: row.ReadFlag==1}" style="text-align: left">
                 {{row.SentDate| date :'dd-MMM-yyyy hh:mm a'}}
             </td>
-            <td id="viewid{{$index}}" style="text-align: center" ng-class="{tdBackColor: row.ReadFlag==1}">
-                <a href="javascript:" ng-click="NotificationUpdate($index, row.Id, row.MessageSubject, row.MessageBody, row.ReadFlag)" title="Click to Read Notification">
+            <td id="viewid{{((current_page-1)*page_size)+$index+1}}" style="text-align: center" ng-class="{tdBackColor: row.ReadFlag==1}">
+                <a href="javascript:" ng-click="NotificationUpdate(((current_page-1)*page_size)+$index+1, row.Id, row.MessageSubject, row.MessageBody, row.ReadFlag)" title="Click to Read Notification">
                     <img src="../../Images/ViewIcon.png" />
                 </a>
             </td>
