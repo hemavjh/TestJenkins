@@ -1364,14 +1364,13 @@
                                                         </td>-->
                                                         <td style="text-align: left">
                                                             {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
-                                                            <
                                                         </td>
                                                         <td>
                                                             <a href="javascript:" ng-click="PatientAllergyViewPopUp(Allen.Id)" title="View">
                                                                 <img src="../../Images/ViewIcon.png" />
                                                             </a>
                                                             <a href="javascript:" ng-click="EditAllergy(Allen.Id, Allen.Created_Dt)" title="Edit"
-                                                               ng-show="Allen.IsActive == 1 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2))">
+                                                               ng-show="Allen.IsActive == 1 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7))">
                                                                 <img src="../../Images/EditIcon.png" />
                                                             </a>
                                                             <a href="javascript:" ng-click="ErrorFunction()" title="Edit"
@@ -3350,7 +3349,7 @@
                                                     <label>Onset Date</label>
                                                 </td>
                                                 <td>
-                                                    {{OnSetDate}}
+                                                    {{OnSetDate| date:'dd-MMM-yyyy'}}
                                                 </td>
 
                                             </tr>
