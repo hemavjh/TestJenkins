@@ -10434,7 +10434,7 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
             $('#calendar').fullCalendar('gotoDate', date);
         }
 
-        var dueStartDate = moment().add(1, 'days');
+        var dueStartDate = moment().subtract(1, 'days');
         var dueEndDate = moment().add(30, 'days');
 
         $scope.getMonthlyAppointment = function () {
