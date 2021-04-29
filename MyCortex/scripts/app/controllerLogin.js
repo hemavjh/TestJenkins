@@ -697,10 +697,11 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
 ]);
 
 /* THIS IS FOR SIGNUP CONTROLLER FUNCTION */
-MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService) {
+MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'filterFilter',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff) {
         //Declaration and initialization of Scope Variables.    
         $scope.InstitutionCode = $routeParams.InstitutionCode;
+        $scope.InstitutionId = 0;
         $scope.Id = "0";
         $scope.FirstName = "";
         $scope.MiddleName = "";
@@ -717,6 +718,143 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.NationalityList = [];
         $scope.GenderList = [];
         $window.localStorage['UserId'] = "0";
+        $scope.SelectedLanguage = 0;
+        $scope.InstitutionLanguageList = [];
+        $scope.emptydataLanguageSettings = [];
+        $scope.rowCollectionLanguageSettings = [];
+
+        $scope.firstname = "First Name";
+        $scope.middlename = "Middle Name";
+        $scope.lastname = "Last Name";
+        $scope.mrnnumber = "MRN number";
+        $scope.nationalityid = "Nationality ID";
+        $scope.insuranceid = "Insurance ID";
+        $scope.gender = "Gender";
+        $scope.nationality = "Nationality";
+        $scope.dob = "DOB";
+        $scope.email = "Email";
+        $scope.mobilenumber = "Mobile Number";
+        $scope.changelanguage = "Change Language";
+        $scope.signupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
+
+        $http.get(baseUrl + 'api/User/GetInstitutionFromCode/?Code=' + $scope.InstitutionCode).success(function (data) {
+            if (data !== 0) {
+                $scope.InstitutionId = data;
+                $http.get(baseUrl + '/api/Common/getInstitutionLanguages/?Institution_Id=' + $scope.InstitutionId
+                ).success(function (data) {
+                    $scope.InstitutionLanguageList = [];
+                    $scope.InstitutionLanguageList = data;
+                    $scope.selectedLanguage = data[0].DefaultLanguageId.toString();
+                    sessionid = $scope.uuid4();
+                    $http.get(baseUrl + '/api/LanguageSettings/LanguageSettings_List/?Institution_Id=' + $scope.InstitutionId + '&Login_Session_Id=' + sessionid
+                    ).success(function (data) {
+                        $scope.emptydataLanguageSettings = [];
+                        $scope.rowCollectionLanguageSettings = [];
+                        $scope.rowCollectionLanguageSettingsFilter = angular.copy(data);
+                        $scope.rowCollectionLanguageSettings = data.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
+                        angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                            if (masterVal.LANGUAGE_KEY === "firstname") {
+                                $scope.firstname = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "middlename") {
+                                $scope.middlename = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "lastname") {
+                                $scope.lastname = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "mrnnumber") {
+                                $scope.mrnnumber = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "nationalityid") {
+                                $scope.nationalityid = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "insuranceid") {
+                                $scope.insuranceid = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "gender") {
+                                $scope.gender = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "nationality") {
+                                $scope.nationality = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "dob") {
+                                $scope.dob = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "email") {
+                                $scope.email = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "mobilenumber") {
+                                $scope.mobilenumber = masterVal.LANGUAGE_TEXT;
+                            }
+                            if (masterVal.LANGUAGE_KEY === "signupacknowledgement") {
+                                $scope.signupacknowledgement = masterVal.LANGUAGE_TEXT;
+                            }
+                        });
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while Listing the records!" + data;
+                        //$("#chatLoaderPV").hide();
+                    })
+                }).error(function (data) {
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                });
+            }
+            else {
+                alert("There is no Institution for this code!!!");
+            }
+        }).error(function (data) {
+            $scope.error = "AN error has occured while Listing the records!" + data;
+        });
+
+        $scope.uuid4 = function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        $scope.FilterLanguageSettingsList = function () {
+            var data = $scope.rowCollectionLanguageSettingsFilter.filter(item => item.LANGUAGE_ID === parseInt($scope.selectedLanguage));
+            $scope.rowCollectionLanguageSettings = angular.copy(data);
+            angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                if (masterVal.LANGUAGE_KEY === "firstname") {
+                    $scope.firstname = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "middlename") {
+                    $scope.middlename = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "lastname") {
+                    $scope.lastname = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "mrnnumber") {
+                    $scope.mrnnumber = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "nationalityid") {
+                    $scope.nationalityid = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "insuranceid") {
+                    $scope.insuranceid = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "gender") {
+                    $scope.gender = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "nationality") {
+                    $scope.nationality = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "dob") {
+                    $scope.dob = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "email") {
+                    $scope.email = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "mobilenumber") {
+                    $scope.mobilenumber = masterVal.LANGUAGE_TEXT;
+                }
+                if (masterVal.LANGUAGE_KEY === "signupacknowledgement") {
+                    $scope.signupacknowledgement = masterVal.LANGUAGE_TEXT;
+                }
+            });
+            
+        };
 
         /*This is th eValidation for sign Up page 
     The validations are FirstName,Last Name,MRN No,Gender,Nationality,DOB,Email and Mobile No.*/
@@ -725,11 +863,19 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             var today = moment(new Date()).format('DD-MMM-YYYY');
 
             if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
-                alert("Please enter First Name");
+                angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                    if (masterVal.LANGUAGE_KEY === "pleaseenteravalidfirstName") {
+                        alert(masterVal.LANGUAGE_TEXT);
+                    }
+                });
                 return false;
             }
             else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
-                alert("Please enter Last Name");
+                angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                    if (masterVal.LANGUAGE_KEY === "pleaseenteravalidlastName") {
+                        alert(masterVal.LANGUAGE_TEXT);
+                    }
+                });
                 return false;
             }
             else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
@@ -741,11 +887,19 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 return false;
             }
             else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
-                alert("Please enter InsuranceId.");
+                angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                    if (masterVal.LANGUAGE_KEY === "pleaseenteravalidinsuranceid") {
+                        alert(masterVal.LANGUAGE_TEXT);
+                    }
+                });
                 return false;
             }
             else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
-                alert("Please select Sex");
+                angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
+                    if (masterVal.LANGUAGE_KEY === "selectgender") {
+                        alert(masterVal.LANGUAGE_TEXT);
+                    }
+                });
                 return false;
             }
             else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {

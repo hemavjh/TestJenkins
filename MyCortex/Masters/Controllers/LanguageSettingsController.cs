@@ -23,8 +23,8 @@ namespace MyCortex.Masters.Controllers
         static readonly ILanguageSettingsRepository repository = new LanguageSettingsRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        [AllowAnonymous]
         [HttpGet]
-        [CheckSessionOutFilter]
         public IList<LanguageSettingsModel> LanguageSettings_List(long Institution_Id, Guid Login_Session_Id)
         {
             IList<LanguageSettingsModel> model;
