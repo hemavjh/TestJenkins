@@ -133,6 +133,14 @@ namespace MyCortex.User.Controller
             return model;
         }
 
+        [AllowAnonymous]
+        public long GetInstitutionFromCode(string Code)
+        {
+            long InstitutionId = 0;
+            InstitutionId = repository.GetInstitutionFromShortName(Code);
+            return InstitutionId;
+        }
+
 
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution
