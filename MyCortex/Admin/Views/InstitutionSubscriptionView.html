@@ -17,6 +17,12 @@
             $("#companyphoto").trigger('click');
         })
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 </head>
 <div class="mainbody">
     <ul class="secondaryMenu">
@@ -26,7 +32,7 @@
             </a>
         </li>
         <li>
-            <a class="secondaryMenuActive" href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
+            <a class="secondaryMenuActive" href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view" data-menu="Home">Subscription</a>
         </li>
         <li><a href="Home/Index#/HospitalAdmin_UserList/2">Clinical user</a></li>
         <li><a href="Home/Index#/PatientList/3">All Patient</a></li>

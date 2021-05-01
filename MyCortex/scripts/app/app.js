@@ -326,37 +326,6 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     authInterceptorServiceFactory.responseError = _responseError;
     $(document).ready(function () {
         User_id = window.localStorage['UserTypeId'];
-           
-      
-        $('.menuList button').on('click', function () {
-            sessionStorage.setItem('key', this.id);
-            $('.menuList button').removeClass('activeButton');
-            element = document.getElementById(sessionStorage.getItem('key'));
-            element.className += '  activeButton';
-
-        });
-        var element1 = document.getElementById(sessionStorage.getItem('key'));
-        $('.menuList button').removeClass('activeButton');
-        if (element1 == undefined) {
-
-            if (User_id == 1) {
-                element1 = document.getElementById('Institution');
-            } else if (User_id == 3) {
-                element1 = document.getElementById('Home');
-            } else if (User_id == 5) {
-                element1 = document.getElementById('Assigned Patients');
-            } else if (User_id == 6) {
-                element1 = document.getElementById('Diagnostic Alert');
-            } else if (User_id == 4) {
-                element1 = document.getElementById('Appointment');
-            } else if (User_id == 7) {
-                element1 = document.getElementById('Appointment');
-            }
-            element1.className += '  activeButton';
-        } else {
-            element1.className += '  activeButton';
-        }
-
 
         $('#logout').on('click', function () {
             sessionStorage.clear();

@@ -8,6 +8,8 @@
     $(document).ready(function () {
         User_id = window.localStorage['UserTypeId'];
 
+        $('.menuList button').removeClass('activeButton');
+
         document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + CountList[0];
         var NotificationCount = document.getElementById('notificationCount');
         NotificationCount.textContent = CountList[0];
@@ -121,35 +123,7 @@
             }
         });
 
-        $('.menuList button').on('click', function () {
-            sessionStorage.setItem('key', this.id);
-            $('.menuList button').removeClass('activeButton');
-            element = document.getElementById(sessionStorage.getItem('key'));
-            element.className += '  activeButton';
-
-        });
-        var element1 = document.getElementById(sessionStorage.getItem('key'));
-        $('.menuList button').removeClass('activeButton');
-        if (element1 == undefined) {
-
-            if (User_id == 1) {
-                element1 = document.getElementById('Institution');
-            } else if (User_id == 3) {
-                element1 = document.getElementById('Home');
-            } else if (User_id == 5) {
-                element1 = document.getElementById('Assigned Patients');
-            } else if (User_id == 6) {
-                element1 = document.getElementById('Diagnostic Alert');
-            } else if (User_id == 4) {
-                element1 = document.getElementById('Appointment');
-            } else if (User_id == 7) {
-                element1 = document.getElementById('Appointment');
-            }
-            element1.className += '  activeButton';
-        } else {
-            element1.className += '  activeButton';
-        }
-
+        
 
         $('#logout').on('click',function () {
             sessionStorage.clear();
@@ -233,7 +207,7 @@
                             if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
                             {
                                 <div class="menuList">
-                                    <button id="@menu.Menu_Name" class="activeButton" onclick="location.href = '@menu.Menu_URL'"
+                                    <button id="@menu.Menu_Name" onclick="location.href = '@menu.Menu_URL'"
                                             type="button" aria-expanded="false">
                                         @menu.Menu_Name
                                     </button>
@@ -849,6 +823,7 @@
     </body>
 </html>
 <script type="text/javascript">
+
     let saved = false;
     // let baseUrl = $("base").first().attr("href");
     let removeStyles = () => {
@@ -1088,8 +1063,6 @@
     };
 
     (function ($) {
-
-
         //$('.frameController iframe').attr('src', location.href);
         $('.colorGroup input[type="color"]').change(function () {
 
@@ -1245,19 +1218,9 @@
         Id = window.localStorage['SelectedPatientId']; 
         if (User_id == "1") {
             window.location.href = baseUrl + "/Home/Index#/Institution";
-            sessionStorage.removeItem('key');
-            element1 = document.getElementById('Institution');
-            element1.className += '  activeButton';
-            $('.menuList button').removeClass('activeButton');
         }
         else if (User_id == "3") {
             window.location.href = baseUrl + "/Home/Index#/InstitutionSubscriptionHospitalAdmin_view";
-            sessionStorage.removeItem('key');
-            $('.menuList button').removeClass('activeButton');
-            element1 = document.getElementById('Home');
-            element1.className += '  activeButton';
-             
-
         }
         else if (User_id == "2") {
             window.location.href = baseUrl + "/Home/Index#/PatientVitals/0/1"; 
@@ -1265,35 +1228,15 @@
         }
         else if (User_id == "4") {
             window.location.href = baseUrl + "/Home/Index#/Thirtydays_appointments";
-            sessionStorage.removeItem('key');
-            $('.menuList button').removeClass('activeButton');
-            element1 = document.getElementById('Appointment');
-            element1.className += '  activeButton';
-          
         }
         else if (User_id == "5") {
             window.location.href = baseUrl + "/Home/Index#/CareGiverAssignedPatients";
-            sessionStorage.removeItem('key');
-            $('.menuList button').removeClass('activeButton');
-            element1 = document.getElementById('Assigned Patients');
-            element1.className += '  activeButton';
-            
         }
         else if (User_id == "6") {
             window.location.href = baseUrl + "/Home/Index#/Carecoordinator/1";
-            sessionStorage.removeItem('key');
-            $('.menuList button').removeClass('activeButton');
-            element1 = document.getElementById('Diagnostic Alert');
-            element1.className += '  activeButton';
-            
         }
         else if (User_id == "7") {
             window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
-            sessionStorage.removeItem('key');
-            $('.menuList button').removeClass('activeButton');
-            element1 = document.getElementById('Appointment');
-            element1.className += '  activeButton';
-            
         }
     }
     function searchContact_onKeyPress() {
@@ -1525,6 +1468,7 @@
     }
 
     makeResizableDiv('.resizable')
+
 </script>
 <link rel="manifest" href="manifest.json" />
 <!-- The core Firebase JS SDK is always required and must be listed first -->
