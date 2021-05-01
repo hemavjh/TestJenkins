@@ -1222,6 +1222,7 @@
     <Compile Include="Masters\Models\EmailConfigurationModel.cs" />
     <Compile Include="Masters\Models\EmailGenerateModel.cs" />
     <Compile Include="Masters\Models\EmailTemplateModel.cs" />
+    <Compile Include="Masters\Models\MyHomeModel .cs" />
     <Compile Include="Masters\Models\LanguageSettingsModel.cs" />
     <Compile Include="Masters\Models\LocationMasterModel.cs" />
     <Compile Include="Masters\Models\MasterICDModel.cs" />
@@ -1250,6 +1251,7 @@
     <Compile Include="Repositories\Admin\ProtocolRepository.cs" />
     <Compile Include="Repositories\IAlertEventRepository.cs" />
     <Compile Include="Repositories\IAllPatientRepository.cs" />
+    <Compile Include="Repositories\IMyHomeRepository.cs" />
     <Compile Include="Repositories\IAppoinmentSlotRepository.cs" />
     <Compile Include="Repositories\IAttendanceRepository.cs" />
     <Compile Include="Repositories\ICarecoordinatorRepository.cs" />
@@ -1281,6 +1283,7 @@
     <Compile Include="Repositories\IColorPreferenceRepository.cs" />
     <Compile Include="Repositories\IWebConfigurationRepository.cs" />
     <Compile Include="Repositories\Login\LoginRepository.cs" />
+    <Compile Include="Repositories\Masters\MyHomeRepository.cs" />
     <Compile Include="Repositories\Masters\AttendanceRepository.cs" />
     <Compile Include="Repositories\Masters\ChatSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\CommonRepository.cs" />
@@ -1318,6 +1321,7 @@
     <Compile Include="Template\Models\EmailTemplateTagModel.cs" />
     <Compile Include="Template\Models\SendEmailModel.cs" />
     <Compile Include="User\Controllers\AllPatientListController.cs" />
+    <Compile Include="Masters\Controllers\MyHomeController.cs" />
     <Compile Include="User\Controllers\AppoinmentSlotController.cs" />
     <Compile Include="User\Controllers\CareCoordinnatorController.cs" />
     <Compile Include="User\Controllers\CareGiverController.cs" />
@@ -1398,6 +1402,7 @@
     </Content>
     <Content Include="underconstruction.html" />
     <Content Include="User\Views\AllPatientList.html" />
+    <Content Include="Masters\Views\Myhome.html" />
     <Content Include="User\Views\AppointmentSlot.html" />
     <Content Include="User\Views\CareCoordinator.html" />
     <Content Include="User\Views\CareCoordinator_Compliance.html" />

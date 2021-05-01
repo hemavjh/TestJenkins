@@ -18993,6 +18993,91 @@ MyCortexControllers.controller("DirectVideoCallController", ['$scope', '$http', 
         }    }
 ]);
 
+MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+        $scope.IsActive = true;
+        $scope.Id = 0;
+        $scope.User_Id = 0;
+        $scope.LanguageText = [];
+        $scope.InstitutionLanguageList = [];
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.InstitutionId = $window.localStorage['InstitutionId'];
+        $scope.IsEdit = false;
+
+        $scope.AddTabPopUP = function () {
+            $("#chatLoaderPV").show();
+            $scope.emptydataTab = [];
+            $scope.rowCollectionTab = [];
+
+            $scope.ISact = 1;       // default active
+            if ($scope.IsActive == true) {
+                $scope.ISact = 1  //active
+            }
+            else if ($scope.IsActive == false) {
+                $scope.ISact = 0 //all
+            }
+
+            $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstitutionId + '&Login_Session_Id=' + $scope.LoginSessionId
+            ).success(function (data) {
+                $scope.emptydataTab = [];
+                $scope.rowCollectionTab = [];
+                $scope.rowCollectionTab = data;
+                $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
+                if ($scope.rowCollectionTabFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                }
+                $("#chatLoaderPV").hide();
+
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            })
+        }
+        $scope.CancelTabPopUP = function () {
+            $scope.Id = 0;
+            // $scope.AppoinmentSlotClear();
+            angular.element('#TabAddModal').modal('hide');
+        }
+
+        /*THIS IS FOR LIST FUNCTION*/
+        $scope.ViewParamList = [];
+        $scope.ViewParamList1 = [];
+        $scope.TabList = function () {
+            $("#chatLoaderPV").show();
+            $scope.emptydataTab = [];
+            $scope.rowCollectionTab = [];
+
+            $scope.ISact = 1;       // default active
+            if ($scope.IsActive == true) {
+                $scope.ISact = 1  //active
+            }
+            else if ($scope.IsActive == false) {
+                $scope.ISact = 0 //all
+            }
+
+            $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.LoginSessionId
+            ).success(function (data) {
+                $scope.emptydataTab = [];
+                $scope.rowCollectionTab = [];
+                $scope.rowCollectionTab = data;
+                $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
+                if ($scope.rowCollectionTabFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                }
+                $("#chatLoaderPV").hide();
+                    
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            })
+        }
+    }
+]);
+
 angular.module("angular-bootstrap-select", [])
     .directive("selectpicker",
         [
