@@ -7206,16 +7206,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var x = document.getElementById(tableid1);
             var y = document.getElementById(tableid2);
             var MediumCountVital;
-            
+            $scope.MediumCountVitalList = [];
             if ($scope.yellowcount == 2) {
                 angular.forEach($scope.ParameterValueList, function (value, index) {
                     console.log(value);
                     if (value.MediumCount != 0) {
                         MediumCountVital = value.MediumCount;
                         console.log(MediumCountVital);
+                        $scope.MediumCountVitalList.push(value);
                     }
                 });
-                if (MediumCountVital > 0) { 
+                if ($scope.MediumCountVitalList.length > 0) { 
                     $('#tableid1').show();
                     $('#tableid3').hide();
                     $('#tableid5').hide();
@@ -7257,7 +7258,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebellmedium').removeClass('active');
             $('#Medcount').addClass('fa fa-bell-o mymediumBell');
             $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');;
 
             $('.jinglebelllow').addClass('active');
             $('#Highcount').removeClass('fa fa-bell-o myhighBell');
@@ -7267,16 +7268,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.redcount++;
            
             var HighCountVital;
-
+            $scope.HighCountVitalList = [];
             if ($scope.redcount == 2) {
                 angular.forEach($scope.ParameterValueList, function (value, index) {
                     console.log(value);
                     if (value.HighCount != 0) {
                         HighCountVital = value.HighCount;
                         console.log(HighCountVital);
+                        $scope.HighCountVitalList.push(value);
                     }
                 });
-                if (HighCountVital > 0) {
+                if ($scope.HighCountVitalList.length > 0) {
                     $('#tableid1').hide();
                     $('#tableid3').show();
                     $('#tableid5').hide();
@@ -7329,16 +7331,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.greencount++;
             
             var LowCountVital;
-
+            $scope.LowCountVitalList = [];
             if ($scope.greencount == 2) {
                 angular.forEach($scope.ParameterValueList, function (value, index) {
                     console.log(value);
                     if (value.LowCount != 0) {
                         LowCountVital = value.LowCount;
                         console.log(LowCountVital);
+                        $scope.LowCountVitalList.push(value);
                     }
                 });
-                if (LowCountVital > 0) { 
+                if ($scope.LowCountVitalList.length > 0) { 
                     $('#tableid5').show();
                     $('#tableid1').hide(); 
                     $('#tableid4').hide();
