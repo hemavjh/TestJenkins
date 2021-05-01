@@ -369,7 +369,7 @@
 
                     <br ng-if="ParameterValueList.length>=0" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid">
-                        <div class="col-sm-4" ng-repeat="row in ParameterValueList">
+                        <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
                                     <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
@@ -398,7 +398,7 @@
 
                     <br ng-if="redcount==2" />
                     <div class="row" ng-show="HighCountVitalList.length>0" style="display: none" id="tableid3">
-                        <div class="col-sm-4" ng-repeat="row in HighCountVitalList">
+                        <div class="col-sm-3" ng-repeat="row in HighCountVitalList">
                             <div ng-class="{'alert alert-danger nibp':row.HighCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
                                     <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
@@ -418,7 +418,7 @@
                     </div>
                     <br ng-if="redcount==3" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid4">
-                        <div class="col-sm-4" ng-repeat="row in ParameterValueList">
+                        <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
                                     <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
@@ -445,7 +445,7 @@
 
                     <br ng-if="yellowcount==2" />
                     <div class="row" ng-show="MediumCountVitalList.length>0" style="display: none" id="tableid1">
-                        <div class="col-sm-4" ng-repeat="row in MediumCountVitalList">
+                        <div class="col-sm-3" ng-repeat="row in MediumCountVitalList">
                             <div ng-class="{'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.MediumCount>0">
                                     <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
@@ -465,7 +465,7 @@
                     </div>
                     <br ng-if="yellowcount==3" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid2">
-                        <div class="col-sm-4" ng-repeat="row in ParameterValueList">
+                        <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
                                     <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
@@ -491,7 +491,7 @@
                     </div>
                     <br ng-if="greencount==2" />
                     <div class="row" ng-show="LowCountVitalList.length>0" style="display: none" id="tableid5">
-                        <div class="col-sm-4" ng-repeat="row in LowCountVitalList">
+                        <div class="col-sm-3" ng-repeat="row in LowCountVitalList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.LowCount>0">
                                     <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
@@ -511,7 +511,7 @@
                     </div>
                     <br ng-if="greencount==3" />
                     <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid6">
-                        <div class="col-sm-4" ng-repeat="row in ParameterValueList">
+                        <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
                                 <div class="notificationsWarnings" ng-show="row.HighCount>0">
                                     <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
