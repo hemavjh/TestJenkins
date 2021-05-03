@@ -4012,7 +4012,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.BuisnessuserAssignGroup = function () {
             var cnt = ($filter('filter')($scope.BusinessUserFilter, 'true')).length;
             if (cnt == 0) {
-                alert("Please select atleast one Business User to Assign Group");
+                alert("Please select atleast one Clinical User to Assign Group");
             }
             else if (typeof ($scope.AssignedGroup) == "undefined" || $scope.AssignedGroup == "0") {
                 alert("Please select Group");
@@ -5269,18 +5269,24 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         }
 
                         if (data[i].ChronicGroup == 2) {
-                            var Lungs = document.getElementById('Lungs');
-                            Lungs.innerHTML = '<img src="images/image006Active.png">';
-
                             if (data[i].ChronicCondition === "Pulmonary Disease") {
+                                var Lungs = document.getElementById('Lungs');
+                                Lungs.innerHTML = '<img src="images/image006Active.png">';
+
                                 var detail = document.getElementById('Pulmonary_Disease');
                                 detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Pulmonary Disease</label>";
                             }
                             else if (data[i].ChronicCondition === "Lung Disease") {
+                                var Lungs = document.getElementById('Lungs');
+                                Lungs.innerHTML = '<img src="images/image006Active.png">';
+
                                 var detail = document.getElementById('Lung_Disease');
                                 detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Lung Disease</label>";
                             }
                             else if (data[i].ChronicCondition === "Asthma") {
+                                var Lungs = document.getElementById('Lungs');
+                                Lungs.innerHTML = '<img src="images/image006Active.png">';
+
                                 var detail = document.getElementById('Asthma');
                                 detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Asthma</label>";
                             }
@@ -16185,18 +16191,20 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 window.location.href = baseUrl + "/Home/Index#/home"; 
             }
             $scope.clearAllNotification = function () {
-                $http.get(baseUrl + '/api/SendEmail/ClearNotification_Update/?User_Id=' + $scope.User_Id).success(function (data) {
-                    alert("Cleared All Notifications!");
-                    $scope.emptydata = "";
-                    if ($scope.emptydata == "") {
-                        $scope.UserNotificationList_Filter.length = 0;
-                        $scope.flag = 0;
-                      
-                    }
-                    document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + data.NotificationUnread;
-                    var NotificationCount = document.getElementById('notificationCount');
-                    NotificationCount.textContent = data.NotificationUnread;
-                }); 
+                if ($scope.UserNotificationList_Filter.length !== 0) {
+                    $http.get(baseUrl + '/api/SendEmail/ClearNotification_Update/?User_Id=' + $scope.User_Id).success(function (data) {
+                        alert("Cleared All Notifications!");
+                        $scope.emptydata = "";
+                        if ($scope.emptydata == "") {
+                            $scope.UserNotificationList_Filter.length = 0;
+                            $scope.flag = 0;
+
+                        }
+                        document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + data.NotificationUnread;
+                        var NotificationCount = document.getElementById('notificationCount');
+                        NotificationCount.textContent = data.NotificationUnread;
+                    });
+                }
             }
             $scope.CancelModel = function () {
                 angular.element('#NotificationViewModel').modal('hide');
