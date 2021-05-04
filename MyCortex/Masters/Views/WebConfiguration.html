@@ -1,4 +1,10 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
     </li>
@@ -13,7 +19,7 @@
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
-    <li><a class="secondaryMenuActive" href="Home/Index#/WebConfiguration">Configuration</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/WebConfiguration" data-menu="Settings">Configuration</a></li>
     <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
 </ul>
 

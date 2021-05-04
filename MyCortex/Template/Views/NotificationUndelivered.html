@@ -16,7 +16,12 @@
         $('#P_To').attr('max', maxDate);
     });
 </script>
-
+   <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 <ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/Notification/2">Notification Template</a>
@@ -25,7 +30,7 @@
         <a href="Home/Index#/NotificationSend/2">Send Notification</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/NotificationUndelivered/2">Resend Notification</a>
+        <a class="secondaryMenuActive" href="Home/Index#/NotificationUndelivered/2" data-menu="Bulk Notification">Resend Notification</a>
     </li>
     <li>
         <a href="Home/Index#/NotificationHistory/2">Notification History</a>

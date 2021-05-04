@@ -1,4 +1,10 @@
-﻿<ul class="secondaryMenu">
+﻿  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/EmailTemplate/1">Email Template</a>
     </li>
@@ -9,7 +15,7 @@
         <a href="Home/Index#/MessagingUndelivered/1">Resend Email</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/MessagingHistory/1">Email History</a>
+        <a class="secondaryMenuActive" href="Home/Index#/MessagingHistory/1" data-menu="Bulk Email">Email History</a>
     </li>
 </ul>
 <h1 class="page-title">Email History</h1>

@@ -80,6 +80,12 @@
             $('#Date_Birth').attr('max', maxDate);
         });
     </script>
+      <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 </head>
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
@@ -87,7 +93,7 @@
         <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/HospitalAdmin_UserList/2">
+        <a class="secondaryMenuActive" href="Home/Index#/HospitalAdmin_UserList/2" data-menu="Home">
             Clinical
             User
         </a>

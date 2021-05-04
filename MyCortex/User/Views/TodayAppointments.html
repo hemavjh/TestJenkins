@@ -10,10 +10,15 @@
 <script src="scripts/gcal.js"></script>
 <script src='scripts/jquery.tabletojson.js'></script>
 
-
+   <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
     <ul class="secondaryMenu">
         <li>
-            <a  class="secondaryMenuActive" href="Home/Index#/TodaysAppoint_ments" title="Today Appointment Page">Today's
+            <a  class="secondaryMenuActive" href="Home/Index#/TodaysAppoint_ments" title="Today Appointment Page" data-menu="Appointment">Today's
                 Appointment</a>
         </li>
         <li><a href="Home/Index#/Thirtydays_appointments" title="Click here to go Next 30 Days Appointment Page">Next 30

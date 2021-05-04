@@ -12,19 +12,25 @@
     <style>
         .toggle {
             border-radius: 20px;
-        }
+        } 
             .toggle.ios .toggle-handle {
                 border-radius: 20px;
-            }
+            } 
         .linkhead {
             margin-left: -16px;
         }
     </style>
-    
+
     <script>
         $(function () {
             $('#toggle-one').bootstrapToggle();
         })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
     </script>
 </head>
 <ul class="secondaryMenu">
@@ -38,7 +44,7 @@
     </li>
     <li><a href="Home/Index#/HospitalAdmin_UserList/2">Clinical user</a></li>
     <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/PatientApproval">Patient Approval</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/PatientApproval" data-menu="Home">Patient Approval</a></li>
     <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
 </ul>
 <div class="container">

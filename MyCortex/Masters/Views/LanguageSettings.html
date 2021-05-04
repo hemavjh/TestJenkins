@@ -1,4 +1,10 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
     </li>
@@ -14,7 +20,7 @@
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/LanguageSettings">Language Settings</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/LanguageSettings" data-menu="Settings">Language Settings</a></li>
 </ul>
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">

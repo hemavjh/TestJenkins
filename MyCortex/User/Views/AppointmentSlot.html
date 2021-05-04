@@ -1,5 +1,11 @@
-﻿<ul class="secondaryMenu">
-    <li><a href="Home/Index#/AppointmentSlot" class="secondaryMenuActive">Appointment Slot</a></li>
+﻿  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
+<ul class="secondaryMenu">
+    <li><a href="Home/Index#/AppointmentSlot" class="secondaryMenuActive" data-menu="Appointment Setting">Appointment Slot</a></li>
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>

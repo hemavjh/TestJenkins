@@ -1,4 +1,10 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ICD10Master">ICD 10</a>
     </li>
@@ -6,82 +12,82 @@
         <a href="Home/Index#/DrugDBMaster">Drug DB</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/AllergyMaster">Allergies</a>
+        <a class="secondaryMenuActive" href="Home/Index#/AllergyMaster" data-menu="Master">Allergies</a>
     </li>
 </ul>
 <h1 class="page-title">Allergies</h1>
 
 
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-    <div ng-init="AllergyMasterList_Details()">
-        <div class="panel panel-default" id="AMid">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="inputGroups">
-                            <label>Search</label>
-                            <div class="modernSearch">
-                                <input type="text" ng-model="AllergyMastersearchquery" ng-change="filterAllergyMasterList()"
-                                       placeholder="" />
-                                <i class="fa fa-search"></i>
-                            </div>
+<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+<div ng-init="AllergyMasterList_Details()">
+    <div class="panel panel-default" id="AMid">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="inputGroups">
+                        <label>Search</label>
+                        <div class="modernSearch">
+                            <input type="text" ng-model="AllergyMastersearchquery" ng-change="filterAllergyMasterList()"
+                                   placeholder="" />
+                            <i class="fa fa-search"></i>
                         </div>
                     </div>
                 </div>
             </div>
-           
-
         </div>
+
+
     </div>
-    
-        <table st-table="AllergyMasteremptydata" style="width: 100%" st-safe-src="AllergyMasterList"
-               class="table themeTable">
-            <thead>
-                <tr>
-                    <th st-ratio="3" st-sort="Id">#</th>
-                    <th st-ratio="12" st-sort="AllergyType">Allergy Type</th>
-                    <th st-ratio="12" st-sort="AllergyenName">Allergen Name</th>
+</div>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-if="AllergyMasterList.length==0">
-                    <td colspan="8" style="text-align: center">
-                        No Data Available
-                    </td>
-                </tr>
-                <tr ng-repeat="row in AllergyMasteremptydata">
-                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                    <td style="text-align: left">
-                        {{row.AllergyTypeName}}
-                    </td>
-                    <td style="text-align: left">
-                        {{row.AllergenName}}
-                    </td>
+<table st-table="AllergyMasteremptydata" style="width: 100%" st-safe-src="AllergyMasterList"
+       class="table themeTable">
+    <thead>
+        <tr>
+            <th st-ratio="3" st-sort="Id">#</th>
+            <th st-ratio="12" st-sort="AllergyType">Allergy Type</th>
+            <th st-ratio="12" st-sort="AllergyenName">Allergen Name</th>
 
-                </tr>
-            </tbody>
-            <tfoot ng-show="Allergt_pages>1">
-                <tr>
-                    <td colspan="8" class="text-center">
-                        <ul class="pagination">
-                            <li>
-                                <a ng-click="setPage(1)">First</a>
-                            </li>
-                            <li>
-                                <a ng-click="setPage(current_page - 1)">&lt;</a>
-                            </li>
-                            <li>
-                                <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{Allergt_pages}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{Allergt_pages}}</a>
-                            </li>
-                            <li>
-                                <a ng-click="setPage(current_page + 1)">&gt;</a>
-                            </li>
-                            <li><a ng-click="setPage(Allergt_pages)">Last</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-   
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="AllergyMasterList.length==0">
+            <td colspan="8" style="text-align: center">
+                No Data Available
+            </td>
+        </tr>
+        <tr ng-repeat="row in AllergyMasteremptydata">
+            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: left">
+                {{row.AllergyTypeName}}
+            </td>
+            <td style="text-align: left">
+                {{row.AllergenName}}
+            </td>
+
+        </tr>
+    </tbody>
+    <tfoot ng-show="Allergt_pages>1">
+        <tr>
+            <td colspan="8" class="text-center">
+                <ul class="pagination">
+                    <li>
+                        <a ng-click="setPage(1)">First</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page - 1)">&lt;</a>
+                    </li>
+                    <li>
+                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{Allergt_pages}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{Allergt_pages}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page + 1)">&gt;</a>
+                    </li>
+                    <li><a ng-click="setPage(Allergt_pages)">Last</a></li>
+                </ul>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
 

@@ -1,6 +1,12 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/ICD10Master">ICD 10</a>
+        <a class="secondaryMenuActive" href="Home/Index#/ICD10Master" data-menu="Master">ICD 10</a>
     </li>
     <li>
         <a href="Home/Index#/DrugDBMaster">Drug DB</a>
@@ -10,11 +16,11 @@
     </li>
 </ul>
 
-<h1 class="page-title">ICD 10</h1>      
+<h1 class="page-title">ICD 10</h1>
 <div class="container">
     <div class="row">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-          <div class="" ng-init="ICD10list()">
+        <div class="" ng-init="ICD10list()">
             <div class="panel panel-default" id="ICD10Id">
                 <form class="form-horizontal" role="form">
                     <div class="panel-body">
@@ -43,75 +49,75 @@
                             </div>
                         </div>
                     </div>
-           </form>
-        </div> 
-      </div>
-            <!-- <a href="javascript:" ng-click="AddICD10PopUP()" class="btn btn-autosize pull-right mb-15" title="Click to Add New ICD 10">Add New</a>-->
+                </form>
+            </div>
+        </div>
+        <!-- <a href="javascript:" ng-click="AddICD10PopUP()" class="btn btn-autosize pull-right mb-15" title="Click to Add New ICD 10">Add New</a>-->
         <div class="">
             <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
                 <thead>
-                   <tr style="text-align: center">
+                    <tr style="text-align: center">
                         <th st-ratio="5">#</th>
-                        <th st-ratio="29" st-sort="ICD_Code">ICD Code</th>        
-                       <th st-ratio="29" st-sort="Description">Description</th>                    
-                        <th st-ratio="29" st-sort="CategoryName">Category</th>                   
-                        <th st-ratio="8" >Action</th>                        
-                   </tr>
+                        <th st-ratio="29" st-sort="ICD_Code">ICD Code</th>
+                        <th st-ratio="29" st-sort="Description">Description</th>
+                        <th st-ratio="29" st-sort="CategoryName">Category</th>
+                        <th st-ratio="8" >Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-                      <tr ng-if="rowCollectionFilter.length==0">
+                    <tr ng-if="rowCollectionFilter.length==0">
                         <td colspan="6" class="text-center">
                             No Data Available
                         </td>
-                   </tr>
-                    <tr ng-repeat="row in emptydata">
-                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                    <td style="text-align: left">{{row.ICD_Code}}</td>                 
-                        <td style="text-align: left"> <div class="textwrap">{{row.Description}}</div></td>
-                    <td style="text-align: left">{{row.CategoryName}}</td>
-                      <td st-ratio="10">
-
-                     <a href="javascript:" ng-click="ViewICD1OPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
-
-                     <a href="javascript:" ng-click="row.IsActive == 0 ||  EditICD10PopUP(row.Id)" title="Edit">
-                         <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                         <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-
-                         </a>
-                     </a>
-                         <a href="javascript:" ng-click="DeleteICD10(row.Id)" title="Active">
-                             <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                            <a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
-                                
-                             </a>
-                         </a>
-</td>                 
                     </tr>
-                     </tbody>
+                    <tr ng-repeat="row in emptydata">
+                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                        <td style="text-align: left">{{row.ICD_Code}}</td>
+                        <td style="text-align: left"> <div class="textwrap">{{row.Description}}</div></td>
+                        <td style="text-align: left">{{row.CategoryName}}</td>
+                        <td st-ratio="10">
+
+                            <a href="javascript:" ng-click="ViewICD1OPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                            <a href="javascript:" ng-click="row.IsActive == 0 ||  EditICD10PopUP(row.Id)" title="Edit">
+                                <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+
+                                </a>
+                            </a>
+                            <a href="javascript:" ng-click="DeleteICD10(row.Id)" title="Active">
+                                <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                <a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
+
+                                </a>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
                 <tfoot ng-show="total_page>1">
-                  <tr>
-                      <td colspan="6" class="text-center">
-                          <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
-                          <ul class="pagination">
-                              <li>
-                                  <a ng-click="setPage(1)">First</a>
-                              </li>
-                              <li>
-                                  <a ng-click="setPage(current_page - 1)">&lt;</a>
-                              </li>
-                              <li>
-                                  <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
-                              </li>
-                              <li>
-                                  <a ng-click="setPage(current_page + 1)">&gt;</a>
-                              </li>
-                              <li><a ng-click="setPage(total_page)">Last</a></li>
-                          </ul>
-                      </td>
-               </tr>
-            </tfoot>
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
+                            <ul class="pagination">
+                                <li>
+                                    <a ng-click="setPage(1)">First</a>
+                                </li>
+                                <li>
+                                    <a ng-click="setPage(current_page - 1)">&lt;</a>
+                                </li>
+                                <li>
+                                    <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                                </li>
+                                <li>
+                                    <a ng-click="setPage(current_page + 1)">&gt;</a>
+                                </li>
+                                <li><a ng-click="setPage(total_page)">Last</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
-         </div>
+        </div>
     </div>
 </div>
 
@@ -136,10 +142,10 @@
                     <div class="inputGroups">
                         <label>Category</label>
                         <select class="" data-style="form-control" ng-model="Category_ID" id="selectpicker" data-live-search="true" data-selectpicker data-collection-name="CategoryIDList">
-                                <option ng-repeat="sel in CategoryIDList" value="{{sel.Id}}">{{sel.Name}}</option>
-                            </select>
+                            <option ng-repeat="sel in CategoryIDList" value="{{sel.Id}}">{{sel.Name}}</option>
+                        </select>
                     </div>
-                   
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
@@ -169,9 +175,9 @@
                     </div>
                     <div class="inputGroups">
                         <label>Category</label>
-                       <span>{{ViewCategoryName}}</span>
+                        <span>{{ViewCategoryName}}</span>
                     </div>
-                    
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
@@ -182,10 +188,10 @@
 </div>
 
 
-   
 
 
 
 
 
-                    
+
+

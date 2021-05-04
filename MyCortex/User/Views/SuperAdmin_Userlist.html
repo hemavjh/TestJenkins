@@ -58,6 +58,12 @@
         });
 
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 </head>
 <style>
     .toggle {
@@ -72,7 +78,7 @@
     $(function () {
         $('#toggle-one').bootstrapToggle();
     })
-</script>-->
+</script>--> 
 <ul class="secondaryMenu" ng-show="LoginType == 3">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
     <li>
@@ -86,9 +92,10 @@
     </li>
     <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3"  data-menu="Home">Hospital Admin</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
+
 <h1 class="page-title">Admin</h1>
 <div ng-init="User_Admin_List(1);">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>

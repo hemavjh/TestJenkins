@@ -1,4 +1,10 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
     </li>
@@ -7,7 +13,7 @@
     </li>
     <li><a href="Home/Index#/Password_Policy">Password Policy</a></li>
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/MasterEmailConfigurationList" data-menu="Settings">Email setup</a></li>
     <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
     <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
@@ -35,28 +41,28 @@
                                     <font class='mandatory-field'>*</font>
                                 </sup></label>
                             <input type="text" class="form-control" id="Text3" ng-model="Sender_Email_Id"
-                                ng-maxlength="150" maxlength="150">
+                                   ng-maxlength="150" maxlength="150">
                         </div>
                         <div class="inputGroups">
                             <label>Password<sup>
                                     <font class='mandatory-field'>*</font>
                                 </sup></label>
                             <input type="password" class="form-control" id="Text10" ng-model="Password"
-                                ng-maxlength="30" maxlength="30">
+                                   ng-maxlength="30" maxlength="30">
                         </div>
                         <div class="inputGroups">
                             <label>Port No<sup>
                                     <font class='mandatory-field'>*</font>
                                 </sup></label>
                             <input type="text" class="form-control" id="Text4" ng-model="PortNo"
-                                onkeypress="varifyNumberPositive(this.PortNo)" ng-maxlength="10" maxlength="10">
+                                   onkeypress="varifyNumberPositive(this.PortNo)" ng-maxlength="10" maxlength="10">
                         </div>
                         <div class="inputGroups">
                             <label>Display Name<sup>
                                     <font class='mandatory-field'>*</font>
                                 </sup></label>
                             <input type="text" class="form-control" id="Text5" ng-model="DisplayName" ng-maxlength="50"
-                                maxlength="50">
+                                   maxlength="50">
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -65,14 +71,14 @@
                                     <font class='mandatory-field'>*</font>
                                 </sup></label>
                             <input type="text" class="form-control" id="Text2" ng-model="UserName" ng-maxlength="50"
-                                maxlength="50">
+                                   maxlength="50">
                         </div>
                         <div class="inputGroups">
                             <label>Server Name(SMTP)<sup>
                                     <font class='mandatory-field'>*</font>
                                 </sup></label>
                             <input type="text" class="form-control" id="Text1" ng-model="ServerName" ng-maxlength="100"
-                                maxlength="100">
+                                   maxlength="100">
                         </div>
                         <div class="inputGroups">
                             <label>SSL Enable<sup>
@@ -90,7 +96,7 @@
                         <div class="inputGroups">
                             <label>Remarks</label>
                             <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks" ng-maxlength="250"
-                                maxlength="250"></textarea>
+                                      maxlength="250"></textarea>
                         </div>
                     </div>
                 </div>
@@ -102,9 +108,9 @@
     </div>
     <div style="text-align: center;">
         <button type="button" class="theme-btn-1 mr-10" id="save" title="Click to Save"
-            ng-click="EmailConfiguration_AddEdit()">Save</button>
+                ng-click="EmailConfiguration_AddEdit()">Save</button>
         <button type="button" class="theme-btn-2" id="reset" title="Click to Reset"
-            ng-click="ClearFields()">Reset</button>
+                ng-click="ClearFields()">Reset</button>
     </div>
 
 

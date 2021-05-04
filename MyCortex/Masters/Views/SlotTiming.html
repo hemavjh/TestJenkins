@@ -15,10 +15,16 @@
         $('#ShiftFromDate').attr('min', maxDate);
         $('#ShiftToDate').attr('min', maxDate);
     });
-</script>
+</script> 
+  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming" class="secondaryMenuActive">Shift Timing</a></li>
+    <li><a href="Home/Index#/SlotTiming" class="secondaryMenuActive" data-menu="Appointment Setting">Shift Timing</a></li>
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
     <!--<li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>

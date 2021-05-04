@@ -15,10 +15,16 @@
         //ev.target.appendChild(data);
         ev.preventDefault();
     }
-</script>
+</script> 
+  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 <ul class="secondaryMenu">
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/Notification/2">Notification Template</a>
+        <a class="secondaryMenuActive" href="Home/Index#/Notification/2" data-menu="Bulk Notification">Notification Template</a>
     </li>
     <li>
         <a href="Home/Index#/NotificationSend/2">Send Notification</a>

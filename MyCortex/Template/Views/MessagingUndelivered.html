@@ -16,7 +16,13 @@
         $('#Period_To').attr('max', maxDate);
     });
 </script>
-
+  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
+ 
 <ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/EmailTemplate/1">Email Template</a>
@@ -25,7 +31,7 @@
         <a href="Home/Index#/MessagingSend/1">Send Email</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/MessagingUndelivered/1">Resend Email</a>
+        <a class="secondaryMenuActive" href="Home/Index#/MessagingUndelivered/1" data-menu="Bulk Email">Resend Email</a>
     </li>
     <li>
         <a href="Home/Index#/MessagingHistory/1">Email History</a>

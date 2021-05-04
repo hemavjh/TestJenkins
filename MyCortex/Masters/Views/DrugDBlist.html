@@ -1,9 +1,15 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ICD10Master">ICD 10</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/DrugDBMaster">Drug DB</a>
+        <a class="secondaryMenuActive" href="Home/Index#/DrugDBMaster" data-menu="Master">Drug DB</a>
     </li>
     <li>
         <a href="Home/Index#/AllergyMaster">Allergies</a>
