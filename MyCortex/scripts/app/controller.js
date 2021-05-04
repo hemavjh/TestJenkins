@@ -16193,7 +16193,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
             $scope.clearAllNotification = function () {
                 if ($scope.UserNotificationList_Filter.length !== 0) {
                     $http.get(baseUrl + '/api/SendEmail/ClearNotification_Update/?User_Id=' + $scope.User_Id).success(function (data) {
-                        alert("Clear All Notifications!");
+                        alert("Cleared All Notifications!");
                         $scope.emptydata = "";
                         if ($scope.emptydata == "") {
                             $scope.UserNotificationList_Filter.length = 0;
