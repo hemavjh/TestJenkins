@@ -1327,7 +1327,7 @@
                                                         <th st-ratio="14" st-sort="Severity">Severity</th>
                                                         <th st-ratio="15" st-sort="Reaction">Reaction</th>
                                                         <th st-ratio="14" st-sort="OnSet">Onset Name/ Onset Date</th>
-                                                        <!--                                                        <th st-ratio="15" st-sort="OnSetDate">Onset Date</th>-->
+                                                        <!--<th st-ratio="15" st-sort="OnSetDate">Onset Date</th>-->
                                                         <th st-ratio="15" st-sort="OnSetDate">Created By/ Created On</th>
                                                         <th st-ratio="5">Action</th>
                                                     </tr>
@@ -1339,7 +1339,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr ng-repeat="Allen in PatientAllergyemptydata">
-                                                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                                        <td class="textalign">{{((current_PatientAllergyPages-1)*page_size)+$index+1}}</td>
                                                         <td style="text-align: left">
                                                             {{Allen.AllergyTypeName}}
                                                         </td>
@@ -1389,13 +1389,28 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <tfoot ng-show="PatientAssignedAllergyDataList.length >page_size">
+                                                <tfoot ng-show="PatientAllergyPages > 1">
                                                     <tr>
                                                         <td colspan="9" class="text-center">
-                                                            <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
+                                                            <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
                                                                  st-pagination=""
                                                                  st-template="Masters/Views/pagination.custom.html">
-                                                            </div>
+                                                            </div>-->
+                                                            <ul class="pagination" style="margin-left:110px;">
+                                                                <li>
+                                                                    <a ng-click="setPage4(1)">First</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a ng-click="setPage4(current_PatientAllergyPages - 1)">&lt;</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{PatientAllergyPages}}" step="1" ng-model="inputPageAllergy" ng-value="current_PatientAllergyPages" ng-change="setPage4(0);"> of {{PatientAllergyPages}}</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a ng-click="setPage4(current_PatientAllergyPages + 1)">&gt;</a>
+                                                                </li>
+                                                                <li><a ng-click="setPage4(PatientAllergyPages)">Last</a></li>
+                                                            </ul>
                                                         </td>
                                                     </tr>
                                                 </tfoot>

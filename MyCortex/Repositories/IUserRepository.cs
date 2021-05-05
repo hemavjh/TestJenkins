@@ -69,7 +69,7 @@ namespace MyCortex.Repositories
         IList<AllergySeverityModel> AllergySeverityList(long Institution_Id);
         IList<AllergyReactionModel> AllergyReactionList(long Institution_Id);
         IList<AllergyModel> Allergy_AddEdit(Guid Login_Session_Id,AllergyModel insobj);
-        IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id);
+        IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
         AllergyModel PatientAllergyView(long Id, Guid Login_Session_Id);
         IList<AllergyModel> AllergyDetails_InActive(AllergyModel noteobj);
         IList<AllergyModel> AllergyDetails_Active(AllergyModel noteobj);

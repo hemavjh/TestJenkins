@@ -38,6 +38,7 @@ namespace MyCortex.User.Model
         public DateTime Created_Dt { get; set; }
         public long Modified_By { get; set; }
         public long Institution_Id { get; set; }
+        
     }
 
     public class AllergyTypeModel
@@ -79,7 +80,7 @@ namespace MyCortex.User.Model
         public string Message { get; set; }
         public int ReturnFlag { get; set; }
         public IList<AllergyModel> PatientAllergyDetails { get; set; }
-
+        public AllergyDataPagination _metadata { get; set; }
     }
     public class AllergyDetailsChildModels
     {
@@ -89,6 +90,24 @@ namespace MyCortex.User.Model
         public long ChildId { get; set; }
         public string ReactionName { get; set; }
 
+    }
+    public class AllergyDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public AllergyDataLinks Links { get; set; }
+
+    }
+
+    public class AllergyDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
     }
 }
 

@@ -2711,17 +2711,20 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active Flag</param>
         /// <returns>allergy list of a patient</returns>
-        public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber)); 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ALLERGY_DETAILS_SP_LIST", param);
             List<AllergyModel> lst = (from p in dt.AsEnumerable()
                                       select new AllergyModel()
                                       {
+                                          TotalRecord = p.Field<String>("TotalRecords"),
                                           Id = p.Field<long>("ID"),
                                           AllergenName = p.Field<string>("ALLERGENNAME"),
                                           AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
