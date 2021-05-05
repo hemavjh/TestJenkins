@@ -144,7 +144,11 @@ namespace MyCortex.User.Model
         public string PHOTOBLOB_LOW { get; set; }
         public string PHOTOBLOB_THUMB { get; set; }
         public bool IS_MASTER { get; set; }
-        
+        public string TAB_PIN { get; set; }
+        public string TAB_PHOTO { get; set; }
+        public string TAB_FINGERPRINT { get; set; }
+
+
     }
 
     public class UserReturnModel

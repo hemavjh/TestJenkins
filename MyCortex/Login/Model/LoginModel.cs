@@ -1,4 +1,5 @@
-﻿using MyCortex.User.Model;
+﻿using MyCortex.Masters.Models;
+using MyCortex.User.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -52,12 +53,16 @@ namespace MyCortex.Login.Model
         public string Login_IpAddress { get; set; }
         public Guid? Login_Session_Id { get; set; }
         public int Sys_TimeDifference { get; set; }
-        public string Browser_Version { get; set; }	
-        public string Login_Country { get; set; }	
+        public string Browser_Version { get; set; }
+        public string Login_Country { get; set; }
         public string Login_City { get; set; }
         public string GOOGLE_EMAILID { get; set; }
         public string FB_EMAILID { get; set; }
         public string appleUserID { get; set; }
+        public bool isTab { get; set; }
+        public string Tab_Ref_ID { get; set; }
+        public IList<TabDevicesModel> TabDevices { get; set; }
+        public IList<TabUserModel> TabUsers { get; set; }
     }
     public class GmailToken
     {

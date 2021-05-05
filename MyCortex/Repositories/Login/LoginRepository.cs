@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Utilities;
 using MyCortex.Notification.Model;
+using MyCortex.Masters.Models;
 
 namespace MyCortex.Repositories.Login
 {
@@ -193,6 +194,74 @@ namespace MyCortex.Repositories.Login
                 lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
             }
             return lst;
+        }
+
+        public IList<TabDevicesModel> Get_TabDevices(long Institution_ID, string Ref_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
+            param.Add(new DataParameter("@REF_ID", Ref_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_DEVICE_LIST]", param);
+                List<TabDevicesModel> lst = (from p in dt.AsEnumerable()
+                                             select new TabDevicesModel()
+                                             {
+                                                 ID = p.Field<long>("ID"),
+                                                 DEVICE_ID = p.Field<long>("ID"),
+                                                 DEVICENAME = p.Field<string>("DEVICE_NAME"),
+                                                 MANUFACTURE = p.Field<string>("MANUFACTURE"),
+                                                 MAKE = p.Field<string>("MAKE"),
+                                                 BRAND_NAME = p.Field<string>("BRAND_NAME"),
+                                                 SERIES = p.Field<string>("SERIES"),
+                                                 MODEL_NUMBER = p.Field<string>("MODEL_NUMBER"),
+                                                 PURPOSE = p.Field<string>("PURPOSE"),
+                                                 PARAMETER = p.Field<string>("PARAMETER")
+                                             }).ToList();
+                return lst;
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<TabUserModel> Get_TabUsers(long Institution_ID, string Ref_Id)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
+            param.Add(new DataParameter("@REF_ID", Ref_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_USERS_LIST]", param);
+                List<TabUserModel> lst = (from p in dt.AsEnumerable()
+                                             select new TabUserModel()
+                                             {
+                                                 ID = p.Field<long>("ID"),
+                                                 USER_ID = p.Field<long>("USER_ID"),
+                                                 PIN = p.Field<string>("PIN"),
+                                                 //PHOTO = p.Field<string>("PHOTO"),
+                                                 FINGERPRINT = p.Field<string>("FINGERPRINT"),
+                                                 ISACTIVE = p.Field<bool>("ISACTIVE"),
+                                                 FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
+                                                 MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
+                                                 LASTNAME = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
+                                                 EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                 USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
+                                                 GENDER_ID = p.Field<long>("GENDER_ID"),
+                                                 GENDER_NAME = p.Field<string>("GENDER_NAME")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
         }
 
         /// <summary>

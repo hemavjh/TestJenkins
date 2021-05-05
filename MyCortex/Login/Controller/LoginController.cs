@@ -83,7 +83,9 @@ namespace MyCortex.Login.Controller
                     _logger.Info("Controller");
                 UserModel ModelData = new UserModel();
                 LoginModel model = new LoginModel();
-                if(loginObj.LoginType == 1)
+                //IList<TabDevicesModel> tabDevices;
+                //IList<TabUserModel> tabUsers;
+                if (loginObj.LoginType == 1)
                 {
                     if (!ModelState.IsValid)
                     {
@@ -141,6 +143,11 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         messagestr = "Login  Successfully";
                         model.Status = "True";
+                        if (loginObj.isTab && !String.IsNullOrEmpty(loginObj.Tab_Ref_ID))
+                        {
+                            model.TabDevices = repository.Get_TabDevices(model.InstitutionId, loginObj.Tab_Ref_ID);
+                            model.TabUsers = repository.Get_TabUsers(model.InstitutionId, loginObj.Tab_Ref_ID);
+                        }
                     }
                     else if ((model.data == 1) == true)
                     {
