@@ -1,8 +1,10 @@
-﻿<script>
-    $(document).ready(function () {
-        
-    });
-</script>
+﻿ <script>
+       $(document).ready(function () {
+                $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+       });
+</script> 
+ 
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/ParameterSettings" class="secondaryMenuActive" data-menu="Settings">Standard Parameter</a></li>
     <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
