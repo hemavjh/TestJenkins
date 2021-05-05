@@ -74,7 +74,7 @@ namespace MyCortex.Repositories
         IList<AllergyModel> AllergyDetails_InActive(AllergyModel noteobj);
         IList<AllergyModel> AllergyDetails_Active(AllergyModel noteobj);
         IList<DoctorNotesModel> PatientNotes_InsertUpdate(DoctorNotesModel noteobj);
-        IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber);
+        IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
         DoctorNotesModel PatientNotes_View(long Id, Guid Login_Session_Id);
 
         long MedicationInsertUpdate(Guid Login_Session_Id, List<DrugDBMasterModel> insobj);

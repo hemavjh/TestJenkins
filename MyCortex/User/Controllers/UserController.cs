@@ -2322,15 +2322,54 @@ namespace MyCortex.User.Controller
         /// <returns>Clinical notes list of a patient</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<DoctorNotesModel> PatientNotes_List(long Patient_Id, int IsActive, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber)
+        public HttpResponseMessage PatientNotes_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
-            IList<DoctorNotesModel> model;
+            IList<DoctorNotesModel> model = new List<DoctorNotesModel>();
+            DoctorNotesReturnModel modelReturn = new DoctorNotesReturnModel();
+            IList<AppConfigurationModel> configList;
+            DoctorNotesDataPagination _metadata = new DoctorNotesDataPagination();
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
+                configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
+                _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
+                if (Page != 0)
+                {
+                    _metadata.page = Page;
+                    StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
+                    EndRowNumber = Page * _metadata.per_page;
+                }
                 model = repository.PatientNotes_List(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
-                return model;
+                if (model != null)
+                {
+                    if (model.Count > 0)
+                    {
+                        _metadata.total_count = Convert.ToInt64(model[0].TotalRecord);
+                        _metadata.page_count = Convert.ToInt64(Math.Ceiling(Convert.ToDecimal(model[0].TotalRecord) / _metadata.per_page));
+                        _metadata.Links = new DoctorNotesDataLinks();
+                        _metadata.Links.self = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + Page;
+                        _metadata.Links.first = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=1";
+                        _metadata.Links.last = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + _metadata.page_count;
+                        int previous = Page > 1 ? Page - 1 : 1;
+                        _metadata.Links.previous = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + previous;
+                        int next = Page == _metadata.page_count ? Page : Page + 1;
+                        _metadata.Links.next = "/api/User/PatientNotes_List?Patient_Id=" + Patient_Id + "&Active=" + IsActive + "&Login_Session_Id=" + Login_Session_Id + "&Institution_Id=" + Institution_Id + "&Page=" + next;
+                    }
+                }
+
+                modelReturn.Status = "True";
+                modelReturn.Message = "List of Notes List Data";
+                modelReturn.ReturnFlag = 0;
+                if (Page != 0 & model.Count > 0)
+                {
+                    modelReturn._metadata = _metadata;
+                }
+                modelReturn.NotesDetails = model;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, modelReturn);
+                return response;
+                //return model;
             }
             catch (Exception ex)
             {

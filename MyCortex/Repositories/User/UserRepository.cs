@@ -2836,7 +2836,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="IsActive"></param>
         /// <returns>Clinical notes list of a patient</returns>
-        public IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
+        public IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));

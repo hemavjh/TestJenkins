@@ -31,5 +31,24 @@ namespace MyCortex.Masters.Models
         public string Error_Code { get; set; }
         public int ReturnFlag { get; set; }
         public IList<DoctorNotesModel> NotesDetails { get; set; }
+        public DoctorNotesDataPagination _metadata { get; set; }
+    }
+    public class DoctorNotesDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public DoctorNotesDataLinks Links { get; set; }
+
+    }
+
+    public class DoctorNotesDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
     }
 }
