@@ -7,6 +7,7 @@ namespace MyCortex.User.Model
 {
     public class Patient_OtherDataModel
     {
+        public string TotalRecord { get; set; }
         public long Id { get; set; }
         public long Patient_Id { get; set; }
         public string FileName { get; set; }
@@ -31,5 +32,25 @@ namespace MyCortex.User.Model
         public string Error_Code { get; set; }
         public int ReturnFlag { get; set; }
         public Patient_OtherDataModel DocumentDetails { get; set; }
+        public IList<Patient_OtherDataModel> DocumentDetails1 { get; set; }
+        public OthersDataPagination _metadata { get; set; }
+    }
+    public class OthersDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public OthersDataLinks Links { get; set; }
+
+    }
+
+    public class OthersDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
     }
 }

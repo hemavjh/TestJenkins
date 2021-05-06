@@ -3051,13 +3051,15 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active flag</param>
         /// <returns></returns>
-        public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -3065,6 +3067,7 @@ namespace MyCortex.Repositories.Uesr
                 List<Patient_OtherDataModel> lst = (from p in dt.AsEnumerable()
                                                     select new Patient_OtherDataModel()
                                                     {
+                                                        TotalRecord = p.Field<string>("TotalRecords"),
                                                         Id = p.Field<long>("Id"),
                                                         Patient_Id = p.Field<long>("PATIENT_ID"),
                                                         DocumentName = p.Field<string>("DOCUMENT_NAME"),

@@ -4890,11 +4890,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.current_pageICD = 1;
         $scope.current_pagePillBox = 1;
         $scope.current_PatientAllergyPages = 1;
+        $scope.current_others = 1;
         $scope.patientvitals_pages = 1;
         $scope.PatientNotes_pages = 1;
         $scope.PatientPillBoxPages = 1;
         $scope.PatientIcdPages = 1;
         $scope.PatientAllergyPages = 1;
+        $scope.Patientothers = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
         $scope.allergyActive = true;
         $scope.rembemberCurrentPage = function (p) {
@@ -4902,6 +4904,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.current_pageNote = p;
             $scope.current_pagePillBox = p;
             $scope.current_PatientAllergyPages = p;
+            $scope.current_others = p;
         }
          
 
@@ -10052,6 +10055,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.PatientOtherDataListTabCount = $scope.PatientOtherDataListTabCount + 1;
             }
         }
+        $scope.setPage5 = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageOthers;
+            }
+            else {
+                $scope.inputPageOthers = PageNo;
+            }
+            $scope.current_others = PageNo;
+            $scope.Patient_OtherData_List();
+
+        }
 
         $scope.OtherData_IsActive = true;
         $scope.OtherData_List = [];
@@ -10060,21 +10074,37 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.Add_OtherDataflag = 0;
         $scope.OtherData_searchquery == ""
         $scope.Patient_OtherData_List = function () {
-            $scope.ActiveStatus = $scope.OtherData_IsActive == true ? 1 : -1;
-            $("#chatLoaderPV").show();
-            $http.get(baseUrl + 'api/User/Patient_OtherData_List/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $("#chatLoaderPV").hide();
-                $scope.SearchMsg = "No Data Available";
-                $scope.OtherDataEmptyData = [];
-                $scope.OtherData_List = [];
-                $scope.OtherData_List = data;
-                $scope.OtherData_ListData = angular.copy($scope.OtherData_List);
-                if ($scope.OtherData_ListData.length > 0) {
-                    $scope.OtherDataflag = 1;
-                }
-                else {
-                    $scope.OtherDataflag = 0;
-                }
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_others - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_others * $scope.page_size;
+                $scope.ISact = 1;
+                $scope.ActiveStatus = $scope.OtherData_IsActive == true ? 1 : -1;
+                $("#chatLoaderPV").show();
+                $http.get(baseUrl + 'api/User/Patient_OtherData_List/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
+                    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.SearchMsg = "No Data Available";
+                    $scope.OtherDataEmptyData = [];
+                    $scope.OtherData_List = [];
+                    $scope.OtherData_List = data.DocumentDetails1; 
+                    if ($scope.OtherData_List.length > 0) {
+                        $scope.OtherDataCount = $scope.OtherData_List[0].TotalRecord;
+                    } else {
+                        $scope.OtherDataCount = 0;
+                    }
+                    $scope.OtherData_ListFilterdata = data.DocumentDetails1;
+                    $scope.OtherData_ListData = angular.copy($scope.OtherData_List);
+                    if ($scope.OtherData_ListData.length > 0) {
+                        $scope.OtherDataflag = 1;
+                    }
+                    else {
+                        $scope.OtherDataflag = 0;
+                    }
+                    $scope.Patientothers = Math.ceil(($scope.OtherDataCount) / ($scope.page_size));
+                })
             })
         }
         $scope.filter_OtherData = function () {
@@ -10096,6 +10126,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 else {
                     $scope.OtherDataflag = 0;
                 }
+                $scope.Patientothers = Math.ceil(($scope.OtherData_ListData) / ($scope.page_size));
             }
 
         }

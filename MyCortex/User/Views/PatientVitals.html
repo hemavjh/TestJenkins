@@ -1638,12 +1638,26 @@
 
                                                     </tbody>
 
-                                                    <tfoot ng-show="OtherData_ListData.length >10">
+                                                    <tfoot ng-show="Patientothers >1">
                                                         <tr>
                                                             <td colspan="7" class="text-center">
-                                                                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                                                                     st-template="Masters/Views/pagination.custom.html">
-                                                                </div>
+                                                                <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/paginationustom.html">
+                                                                </div>-->
+                                                                <ul class="pagination" style="margin-left:110px;">
+                                                                    <li>
+                                                                        <a ng-click="setPage5(1)">First</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a ng-click="setPage5(current_others - 1)">&lt;</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{Patientothers}}" step="1" ng-model="inputPageOthers" ng-value="current_others" ng-change="setPage5(0);"> of {{Patientothers}}</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a ng-click="setPage4(current_others + 1)">&gt;</a>
+                                                                    </li>
+                                                                    <li><a ng-click="setPage4(Patientothers)">Last</a></li>
+                                                                </ul>
                                                             </td>
                                                         </tr>
                                                     </tfoot>
