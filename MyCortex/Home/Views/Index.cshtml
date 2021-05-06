@@ -194,7 +194,7 @@
     <script src="@Url.Content("~/scripts/mixer.js")" type="text/javascript"></script>
 </head>
 <body class="" id="idbody">
-    <div class="container">
+    <div class="container" style="max-width: 1530px;">
         <div class="row">
             <div class="themeHeader">
                 <div class="mythemeLogo">
@@ -426,10 +426,10 @@
                     </div>
 
                     <div id="mydiv" class="notificationOnline">
-                        <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left"  onclick="location.href = 'Home/Index#/NotificationView'"></i>
+                        <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left" onclick="location.href = 'Home/Index#/NotificationView'"></i>
                         <i class="fas fa-video"></i>
                         <span id="notificationCount">{{notificationCount}}</span>
-                        
+
                     </div>
                     <div>
                         <span id="usernamespan">Admin</span><br />
@@ -455,7 +455,7 @@
 
                             </li>
                             @*<li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
-                                onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>*@
+                            onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>*@
                             <li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
                                 onclick="openNav()" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
                         </ul>

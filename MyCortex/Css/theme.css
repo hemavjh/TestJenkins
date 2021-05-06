@@ -2299,7 +2299,7 @@ a.disabled {
 }
 
     .reminder select {
-        width: 5rem;
+        width: 7rem;
         padding: .5rem;
         color: #07379a;
         font-weight: 700;
@@ -2399,7 +2399,7 @@ body {
 }
 
 .input-size {
-    width: 5rem;
+    width: 7rem;
     border-radius: 3px;
     border: 2px solid #b0b0b0;
 }
