@@ -1,0 +1,358 @@
+﻿<head>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link href="//db.onlinewebfonts.com/c/157c6cc36dd65b1b2adc9e7f3329c761?family=Amazon+Ember" rel="stylesheet" type="text/css" />
+    <link href="../../Css/theme.css" rel="stylesheet">
+</head>
+<body class="p-4">
+    <ul class="secondaryMenu">
+        <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
+        <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
+        <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
+        <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+        <li><a href="Home/Index#/MyAppointmentSetting" data-menu="Appointment Setting" class="secondaryMenuActive">MyAppointmentSetting</a></li>
+    </ul>
+    <div class="col-md-12 bodyClick ng-scope">
+        <div class="DataContainer ng-scope">
+            <h1 class="page-title ng-scope">Organization Settings</h1>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Time slot (in Minutes)</p>
+                <p class="secondary">Pre-defined default time invertal for Appointments</p>
+            </div>
+            <div class="col-sm-6 d-flex d-flex justify-content-end">
+                <div class="col-sm-4">
+                    <div class="d-flex justify-content-end">
+                        <input type="text" class="input-size">
+                    </div>
+                    <p class="input-text text-right">New Appointment</p>
+                </div>
+                <div class="col-sm-4">
+                    <div class="d-flex justify-content-end">
+                        <input type="text" class="input-size">
+                    </div>
+                    <p class="input-text text-right">Follow-Up</p>
+                </div>
+                <div class="col-sm-4">
+                    <div class="d-flex justify-content-end">
+                        <input type="text" class="input-size">
+                    </div>
+                    <p class="input-text text-right">Interval Between</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Allow Appointment Open (in Days)</p>
+                <p class="secondary">Do Not Allow user to schedule more than</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div>
+                    <div class="d-flex justify-content-end">
+                        <input type="text" class="input-size">
+                    </div>
+                    <p class="input-text text-right">Days</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Appointment Cancellation Lock (in Minutes)</p>
+                <p class="secondary">Do Not Allow user to Cancel or Reschedule Appointment less than</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div>
+                    <div class="d-flex justify-content-end">
+                        <input type="text" class="input-size">
+                    </div>
+                    <p class="input-text text-right">Minutes</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Default Time Zone</p>
+                <p class="secondary">The default time zone for the calendar events</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex justify-content-end">
+                        <select class="input-select">
+                            <option>Select Timezone</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Default Working Days</p>
+                <p class="secondary">The default Working Days for the week</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="mr-1">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">Sunday</p>
+                </div>
+                <div class="mr-1">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">Monday</p>
+                </div>
+                <div class="mr-1">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">Tuesday</p>
+                </div>
+                <div class="mr-1">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">Wednesday</p>
+                </div>
+                <div class="mr-1">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">Thursday</p>
+                </div>
+                <div class="mr-1">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">Friday</p>
+                </div>
+                <div class="">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">Saturday</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Default Holidays</p>
+                <p class="secondary">The list of default holidays</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-flex align-items-center mr-1">
+                    <div class="d-flex justify-content-end">
+                        <select class="input-select">
+                            <option>Select List of Holidays</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="24" height="24" x="0" y="0" viewBox="0 0 515.555 515.555" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path xmlns="http://www.w3.org/2000/svg" d="m303.347 18.875c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 212.209c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 405.541c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /></g></svg>
+                </div>
+
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Holiday Booking</p>
+                <p class="secondary">Allowing user to book during holiday</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-flex align-items-center mr-1">
+                    <input type="radio" name="enable" class="mr-1" checked>
+                    <p class="input-text text-right">Enable</p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <input type="radio" name="enable" class="mr-1">
+                    <p class="input-text text-right">Disable</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Booking Permissions</p>
+                <p class="secondary">Allowing user to book during holiday</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="mr-3">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">CC</p>
+                </div>
+                <div class="mr-3">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">CG</p>
+                </div>
+                <div class="mr-3">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">CL</p>
+                </div>
+                <div class="mr-3">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">SC</p>
+                </div>
+                <div class="">
+                    <div class="d-flex justify-content-center">
+                        <input type="checkbox" class="input-checkbox" checked>
+                    </div>
+                    <p class="input-text text-center mt-2">USER</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Default Booking Conformation</p>
+                <p class="secondary">Confirm the appointment directly if a person is booking an appointment or keep it pending CG/CC to check and approve. Once the appointment is confirmed it should be notified to the people involved in the appointment.</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-flex align-items-center mr-1">
+                    <input type="radio" name="confirm" class="mr-1" checked>
+                    <p class="input-text text-right">Confirmed</p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <input type="radio" name="confirm" class="mr-1">
+                    <p class="input-text text-right">Waiting for CG</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Reminder to the User</p>
+                <p class="secondary">Time intervel to trigger reminders before the appointment</p>
+            </div>
+            <div class="col-sm-6 d-flex">
+                <div class="col-sm-12">
+                    <div class="col-sm-12 d-flex">
+                        <p class="col-sm-3 reminder1">Reminder 1</p>
+                        <div class="col-sm-7 d-flex">
+                            <div class="col-sm-4 d-flex reminder">
+                                <select class="input-text">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                                <p>Days</p>
+                            </div>
+                            <div class="col-sm-4 d-flex reminder">
+                                <select class="input-text">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                                <p>Hours</p>
+                            </div>
+                            <div class="col-sm-4 d-flex reminder">
+                                <select class="input-text">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                                <p>Minutes</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 d-flex mt-2">
+                        <p class="col-sm-3 reminder1">Reminder 2</p>
+                        <div class="col-sm-7 d-flex">
+                            <div class="col-sm-4 d-flex reminder">
+                                <select class="input-text">
+                                    <option>50</option>
+                                    <option>2</option>
+                                </select>
+                                <p>Days</p>
+                            </div>
+                            <div class="col-sm-4 d-flex reminder">
+                                <select class="input-text">
+                                    <option>20</option>
+                                    <option>2</option>
+                                </select>
+                                <p>Hours</p>
+                            </div>
+                            <div class="col-sm-4 d-flex reminder">
+                                <select class="input-text">
+                                    <option>40</option>
+                                    <option>2</option>
+                                </select>
+                                <p>Minutes</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 d-flex justify-content-end align-items-center">
+                            <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="30" height="30" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path xmlns="http://www.w3.org/2000/svg" d="m256 0c-141.164062 0-256 114.835938-256 256s114.835938 256 256 256 256-114.835938 256-256-114.835938-256-256-256zm0 0" fill="#0eb82f" data-original="#2196f3" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m368 277.332031h-90.667969v90.667969c0 11.777344-9.554687 21.332031-21.332031 21.332031s-21.332031-9.554687-21.332031-21.332031v-90.667969h-90.667969c-11.777344 0-21.332031-9.554687-21.332031-21.332031s9.554687-21.332031 21.332031-21.332031h90.667969v-90.667969c0-11.777344 9.554687-21.332031 21.332031-21.332031s21.332031 9.554687 21.332031 21.332031v90.667969h90.667969c11.777344 0 21.332031 9.554687 21.332031 21.332031s-9.554687 21.332031-21.332031 21.332031zm0 0" fill="#fafafa" data-original="#fafafa" style="" /></g></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="30" height="30" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path xmlns="http://www.w3.org/2000/svg" d="m256 0c-141.164062 0-256 114.835938-256 256s114.835938 256 256 256 256-114.835938 256-256-114.835938-256-256-256zm112 277.332031h-224c-11.777344 0-21.332031-9.554687-21.332031-21.332031s9.554687-21.332031 21.332031-21.332031h224c11.777344 0 21.332031 9.554687 21.332031 21.332031s-9.554687 21.332031-21.332031 21.332031zm0 0" fill="#ed3030" data-original="#000000" style="" class="" /></g></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2 border-b">
+            <div class="col-sm-6">
+                <p class="main">Auto Rescheduling</p>
+                <p class="secondary">Enable or Disable auto Rescheduling</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-flex align-items-center mr-1">
+                    <input type="radio" name="enable" class="mr-1" checked>
+                    <p class="input-text text-right">Enable</p>
+                </div>
+                <div class="d-flex align-items-center">
+                    <input type="radio" name="enable" class="mr-1">
+                    <p class="input-text text-right">Disable</p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex p-2">
+            <div class="col-sm-6">
+                <p class="main">Make Me Look Busy</p>
+                <p class="secondary">Reduce the number of available appointments by</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-end">
+                <div class="d-flex align-items-center mr-1">
+                    <div class="d-flex justify-content-end reminder">
+                        <select class="input-text mr-3">
+                            <option>30</option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="10" height="10" x="0" y="0" viewBox="0 0 443.615 443.615" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g>
+<g xmlns="http://www.w3.org/2000/svg">
+                    <path d="M209.949,100.813C209.949,45.232,164.725,0,109.144,0C53.562,0,8.346,45.232,8.346,100.813   c0,55.566,45.216,100.782,100.798,100.782C164.725,201.596,209.949,156.38,209.949,100.813z M58.419,100.813   c0-27.986,22.754-50.74,50.725-50.74c27.969,0,50.732,22.754,50.732,50.74c0,27.954-22.763,50.709-50.732,50.709   C81.173,151.522,58.419,128.768,58.419,100.813z" fill="#282828" data-original="#000000" style="" class="" />
+
+
+
+                    <path d="M334.473,242.02c-55.583,0-100.799,45.216-100.799,100.782c0,55.582,45.216,100.814,100.799,100.814   c55.581,0,100.797-45.231,100.797-100.814C435.27,287.235,390.054,242.02,334.473,242.02z M334.473,393.542   c-27.971,0-50.726-22.755-50.726-50.74c0-27.954,22.755-50.709,50.726-50.709c27.969,0,50.724,22.755,50.724,50.709   C385.196,370.787,362.441,393.542,334.473,393.542z" fill="#282828" data-original="#000000" style="" class="" />
+
+
+
+                    <path d="M337.577,12.925c-13.081-7.254-29.616-2.574-36.91,10.515L94.896,392.923c-7.294,13.089-2.59,29.616,10.505,36.919   c4.181,2.314,8.713,3.423,13.179,3.423c9.527,0,18.77-5.02,23.733-13.936L348.083,49.845   C355.376,36.755,350.675,20.228,337.577,12.925z" fill="#282828" data-original="#000000" style="" class="" />
+
+
+
+</svg>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <button class="save">Save</button>
+            <button class="cancel">Cancel</button>
+        </div>
+    </div>
+
+</body>

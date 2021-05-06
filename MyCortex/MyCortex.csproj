@@ -473,6 +473,7 @@
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
     <Content Include="Masters\Views\LanguageSettings.html" />
+    <Content Include="Masters\Views\MyAppointmentSetting.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
     <Content Include="Masters\Views\ChatSettings.html" />
     <Content Include="Masters\Views\DrugDBlist.html" />

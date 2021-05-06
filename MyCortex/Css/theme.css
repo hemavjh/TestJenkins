@@ -2263,3 +2263,143 @@ a.disabled {
         outline: none;
     }
 /*<!------color  setting ends-------! >*/
+.save {
+    font-weight: 800;
+    font-size: 18px;
+    width: 7.5rem;
+    color: white;
+    border-radius: 3px;
+    text-align: center;
+    background-color: #85b4e4;
+    border: 0;
+    padding: .5rem 0rem .5rem 0rem;
+    margin-right: 1rem;
+}
+
+.cancel {
+    width: 7.5rem;
+    border: 1px solid #b9b7b7;
+    color: #666464;
+    border-radius: 3px;
+    font-weight: 700;
+    text-align: center;
+    background-color: white;
+}
+
+.reminder1 {
+    color: #504f4f;
+    font-weight: 600;
+    margin-left: .5rem;
+    margin-bottom: 0;
+}
+
+.reminder {
+    align-items: center;
+    display: flex;
+}
+
+    .reminder select {
+        width: 5rem;
+        padding: .5rem;
+        color: #07379a;
+        font-weight: 700;
+        border-radius: 2px;
+    }
+
+    .reminder p {
+        color: #504f4f;
+        font-weight: 600;
+        margin-left: .5rem;
+        margin-bottom: 0;
+    }
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+.mr-3 {
+    margin-right: 1.5rem;
+}
+
+.svg {
+    color: red;
+}
+
+.mr-1 {
+    margin-right: .5rem
+}
+
+.input-checkbox {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 3px;
+}
+
+.input-select {
+    width: 15rem;
+    padding: .25rem;
+    border-radius: 3px;
+    border: 2px solid #b0b0b0;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.input-text {
+    color: #07379a;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 0px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+body {
+    overflow-x: hidden;
+    font-family: "Amazon Ember" !important;
+}
+
+.border-b {
+    border-bottom: 2px solid #cdcccc;
+}
+
+.main {
+    font-weight: 800;
+    color: #6b6666;
+    margin-bottom: 0;
+    font-size: 17px;
+}
+
+.secondary {
+    font-weight: 600;
+    color: #858585;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.page-title {
+    color: var(--title) !important;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 0px;
+    font-size: 20px;
+    margin: 0px;
+}
+
+#DataToggle {
+    margin: 5px 0 0 0;
+}
+
+.DataContainer {
+    max-width: 1900px;
+    margin: 0 auto;
+}
+
+.input-size {
+    width: 5rem;
+    border-radius: 3px;
+    border: 2px solid #b0b0b0;
+}
