@@ -1,4 +1,10 @@
-﻿<h1 class="page-title">Audit Report</h1>
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#Report').addClass('activeButton');
+    });
+</script>
+<h1 class="page-title">Audit Report</h1>
 
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -57,8 +63,8 @@
                     <div id="PeriodTo">
                         <input type="date" max="2099-12-31" class="form-control date" ng-model="Period_To">
                         <!--<span class="input-group-addon">
-                    <i class="glyphicon glyphicon-th"></i>
-                </span>-->
+                            <i class="glyphicon glyphicon-th"></i>
+                        </span>-->
                     </div>
                 </div>
             </div>
@@ -82,7 +88,7 @@
                     </div>
                 </div>
             </div>
-              
+
             <div class="col-sm-4">
                 <div class="inputGroups">
                     <button type="button" class="theme-btn-1 mt-15" ng-click="PatientReportDetailslist()"
@@ -104,18 +110,18 @@
                     <label>Search</label>
                     <div class="modernSearch">
                         <input type="text" ng-model="searchreportquery" ng-change="filterReportList()" placeholder=""
-                            style="width: 200px" />
+                               style="width: 200px" />
                         <i class="fa fa-search"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  
+
 
 </div>
 <table st-table="ReportDetailsemptydata" style="width: 100%" st-safe-src="PatientDetailsFilteredDataList"
-    class="table themeTable">
+       class="table themeTable">
     <thead>
         <tr>
             <th st-ratio="4" st-sort="Id">#</th>
@@ -168,8 +174,8 @@
         <tr>
             <td colspan="9" class="text-center">
                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                    st-template="Masters/Views/pagination.custom.html">
-             </div>-->
+                       st-template="Masters/Views/pagination.custom.html">
+                </div>-->
                 <ul class="pagination" style="margin-left:110px;">
                     <li>
                         <a ng-click="setPage(1)">First</a>
