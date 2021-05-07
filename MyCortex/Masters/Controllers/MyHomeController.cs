@@ -24,17 +24,39 @@ namespace MyCortex.User.Controllers
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [HttpGet]
-        public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id)
+        public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             IList<TabListModel> model;
             try
             {
-                model = repository.Tab_List(IsActive, Institution_Id, Login_Session_Id);
+                model = repository.Tab_List(IsActive, Institution_Id, Login_Session_Id,StartRowNumber,EndRowNumber);
                 return model;
             }
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        [HttpGet]
+        public TabListModel Tab_ListView(int Id)
+        {
+            TabListModel model = new TabListModel();
+            model = repository.Tab_ListView(Id);
+            return model;
+        }
+        [HttpGet]
+        public HttpResponseMessage Tab_List_Delete(int Id)
+        {
+            if (Id > 0)
+            {
+                repository.Tab_List_Delete(Id);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
     }

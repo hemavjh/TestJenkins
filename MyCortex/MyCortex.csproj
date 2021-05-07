@@ -1411,6 +1411,7 @@
     <Content Include="User\Views\DirectCall.html" />
     <Content Include="User\Views\DirectVideoCall.html" />
     <Content Include="User\Views\HospitalAdmin_Userlist.html" />
+    <Content Include="User\Views\MyHomeCreate.html" />
     <Content Include="User\Views\PatientAppointments.html" />
     <Content Include="User\Views\PatientApproval.html" />
     <Content Include="User\Views\PatientCreate.html" />

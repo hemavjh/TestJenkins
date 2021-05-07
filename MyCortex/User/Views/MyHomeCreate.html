@@ -1,0 +1,152 @@
+﻿<div class="row" ng-init="Tablist();currentTab='1';">
+    <div class="col-md-12">
+        <h1 class="page-title">My Home</h1>
+        <ul class="themeTabs">
+            <li>
+                <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'; TabClickLoad(currentTab)">
+                    <i class="far fa-file"></i>TAB Info
+                </a>
+            </li>
+            <li>
+                <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2';TabClickLoad(currentTab)">
+                    <i class="far fa-file-alt"></i>User Info
+                </a>
+            </li>
+            <li>
+                <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3';TabClickLoad(currentTab)">
+                    <i class="far fa-file-alt"></i>Device Info
+                </a>
+            </li>
+        </ul>
+        <div id="Div4">
+            <form class="form-horizontal" role="form" style="font-size: small">
+                <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+                <div id="collapse1" class="panel panel-default bs-0 m-0 bt-0" ng-show="currentTab=='1'">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label>
+                                        TAB Name<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                    <input type="text" class="form-control" id="Text1" name="TABName" ng-model="TABName"
+                                           ng-init="TABName=''" ng-required="true" onkeypress="ParticularSpec(event)"
+                                           placeholder="" ng-maxlength="100" maxlength="100" />
+                                </div>
+                                <div class="inputGroups">
+                                    <label>
+                                        TAB ID<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+
+                                    <div>
+                                        <input type="text" class="form-control" id="Text2" name="TABId" ng-model="TABId"
+                                               ng-init="TABId=''" ng-required="true" onkeypress="ParticularSpec(event)"
+                                               placeholder="" ng-maxlength="100" maxlength="100" />
+                                    </div>
+                                </div>
+                                <div class="inputGroups">
+                                    <label>
+                                        TAB Model
+                                    </label>
+
+                                    <div>
+                                        <input type="text" class="form-control" id="Text3" name="TABModel" ng-model="TABModel"
+                                               ng-init="TABModel=''" ng-required="true" onkeypress="ParticularSpec(event)"
+                                               placeholder="" ng-maxlength="100" maxlength="100">
+                                    </div>
+                                </div>
+                                <div class="inputGroups">
+                                    <label>
+                                        OS
+                                    </label>
+
+                                    <div>
+                                        <input type="text" class="form-control" id="Text4" name="OS" ng-model="OS"
+                                               ng-init="OS=''" ng-required="true" onkeypress="ParticularSpec(event)"
+                                               placeholder="" ng-maxlength="100" maxlength="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='2'">
+                    <div class="inputGroups">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>User</td>
+                                    <td>PIN</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><input type="text" /></td>
+                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                </tr>
+                                <tr>
+                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><input type="text" /></td>
+                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                </tr>
+                                <tr>
+                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><input type="text" /></td>
+                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                </tr>
+                                <tr>
+                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><input type="text" /></td>
+                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                </tr>
+                                <tr>
+                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><input type="text" /></td>
+                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                </tr>
+                                <tr>
+                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><input type="text" /></td>
+                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                </tr>
+                                <tr>
+                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><input type="text" /></td>
+                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
+                    <div class="inputGroups" style="margin-left:10px">
+                        <label style="margin-left:1px;">Devices</label>
+                        <select class="form-control"  style="width:800px;">
+                            <option value="0">Select</option>
+                            <option value="1">Fora BPM</option>
+                            <option value="2">Fora SPO2</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="save" title="Click to Save"
+                ng-click="MYTAB_InsertUpdate()">
+            Save
+        </button>
+        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel"
+                ng-click="Cancel_MYTAB()">
+            Cancel
+        </button>
+
+    </div>
+</div>

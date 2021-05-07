@@ -8,6 +8,7 @@ namespace MyCortex.Masters.Models
 {
     public class TabListModel
     {
+        public string TotalRecord { get; set; }
         public long ID { get; set; }
         public string TabName { get; set; }
         public string RefId { get; set; }

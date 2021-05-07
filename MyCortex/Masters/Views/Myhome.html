@@ -1,129 +1,128 @@
 ﻿<script>
-        $(document).ready(function () {
-            $('.activeButton').removeClass('activeButton');
-            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
-            $(element).addClass('activeButton');
-        });
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+        $(element).addClass('activeButton');
+    });
 </script>
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/Myhome" class="secondaryMenuActive" data-menu="MyHome">My Home</a></li>
 </ul>
 <h1 class="page-title">My Home</h1>
-<div class="container">
-    <div class="row">
-        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-        <div class="" ng-init="Tablist()">
-            <div class="panel panel-default" id="TabId">
-                <form class="form-horizontal" role="form">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label>Search</label>
-                                    <div class="modernSearch">
-                                        <input type="text" ng-model="searchquery" ng-change="filterTabList()"
-                                               placeholder="" style="width: 200px" />
-                                        <i class="fa fa-search"></i>
-                                    </div>
+<div ng-init="TabList();">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
 
-                                </div>
+    <div class="panel panel-default" id="TabId">
+        <form class="form-horizontal" role="form">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Search</label>
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchquery" ng-change="filterTabList()"
+                                       placeholder="" style="width: 200px" />
+                                <i class="fa fa-search"></i>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label>Active</label>
-                                </div>
-                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Tablist();" title="Active / All">
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <a href="javascript:" ng-click="ClearPopup();AddTabPopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New TAB">Add New</a>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
-                </form>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Active</label>
+                        </div>
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList();" title="Active / All">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <a href="javascript:" ng-click="ClearPopup();AddTabPopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New TAB">Add New</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="">
-            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
-                <thead>
-                    <tr style="text-align: center">
-                        <th st-ratio="5">#</th>
-                        <th st-ratio="20" st-sort="TAB_NAME">Tab Name</th>
-                        <th st-ratio="15" st-sort="TAB_MAC_ID">Mac Id</th>
-                        <th st-ratio="15" st-sort="TAB_MODEL">Model</th>
-                        <th st-ratio="15" st-sort="TAB_OS">OS</th>
-                        <th st-ratio="11" st-sort="NUMBER_OF_USERS"># of Users</th>
-                        <th st-ratio="11" st-sort="NUMBER_OF_DEVICES"># of Devices</th>
-                        <th st-ratio="8">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-if="rowCollectionFilter.length==0">
-                        <td colspan="6" class="text-center">
-                            No Data Available
-                        </td>
-                    </tr>
-                    <tr ng-repeat="row in emptydataTab">
-                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                        <td style="text-align: left">{{row.ID}}</td>
-                        <td style="text-align: left"> <div class="textwrap">{{row.TabName}}</div></td>
-                        <td style="text-align: left">{{row.RefId}}</td>
-                        <td style="text-align: left">{{row.Model}}</td>
-                        <td style="text-align: left">{{row.OS}}</td>
-                        <td style="text-align: left">{{row.UsersCount}}</td>
-                        <td style="text-align: left">{{row.DevicesCount}}</td>
-                        <td st-ratio="10">
-
-                            <a href="javascript:" ng-click="ViewICD1OPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
-
-                            <a href="javascript:" ng-click="row.IsActive == 0 ||  EditICD10PopUP(row.Id)" title="Edit">
-                                <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                                <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-
-                                </a>
-                            </a>
-                            <a href="javascript:" ng-click="DeleteICD10(row.Id)" title="Active">
-                                <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                                <a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
-
-                                </a>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot ng-show="total_page>1">
-                    <tr>
-                        <td colspan="6" class="text-center">
-                            <ul class="pagination">
-                                <li>
-                                    <a ng-click="setPage(1)">First</a>
-                                </li>
-                                <li>
-                                    <a ng-click="setPage(current_page - 1)">&lt;</a>
-                                </li>
-                                <li>
-                                    <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
-                                </li>
-                                <li>
-                                    <a ng-click="setPage(current_page + 1)">&gt;</a>
-                                </li>
-                                <li><a ng-click="setPage(total_page)">Last</a></li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        </form>
     </div>
 </div>
+
+<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="5">#</th>
+            <th st-ratio="20" st-sort="TAB_NAME">Tab Name</th>
+            <th st-ratio="15" st-sort="TAB_REF_ID">Ref Id</th>
+            <th st-ratio="15" st-sort="TAB_MODEL">Model</th>
+            <th st-ratio="15" st-sort="TAB_OS">OS</th>
+            <th st-ratio="11" st-sort="NUMBER_OF_USERS"># of Users</th>
+            <th st-ratio="11" st-sort="NUMBER_OF_DEVICES"># of Devices</th>
+            <th st-ratio="8">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="rowCollectionTabFilter.length==0">
+            <td colspan="8" style="text-align:center;">
+                No Data Available
+            </td>
+        </tr>
+        <tr ng-repeat="row in emptydataTab">
+            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: left"> <div class="textwrap">{{row.TabName}}</div></td>
+            <td style="text-align: left">{{row.RefId}}</td>
+            <td style="text-align: left">{{row.Model}}</td>
+            <td style="text-align: left">{{row.OS}}</td>
+            <td style="text-align: left">{{row.UsersCount}}</td>
+            <td style="text-align: left">{{row.DevicesCount}}</td>
+            <td st-ratio="10">
+
+                <a href="javascript:" ng-click="ViewMYTABPopUP(row.ID)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                <a href="javascript:" ng-click="row.IsActive == 0 ||  EditMYTABPopUP(row.ID)" title="Edit">
+                    <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+
+                    </a>
+                </a>
+                <a href="javascript:" ng-click="DeleteMYTAB(row.ID)" title="Active">
+                    <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:" ng-click="ActiveMYTAB(row.ID)" title="InActive">
+
+                    </a>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="total_page>1">
+        <tr>
+            <td colspan="6" class="text-center">
+                <ul class="pagination">
+                    <li>
+                        <a ng-click="setPage(1)">First</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page - 1)">&lt;</a>
+                    </li>
+                    <li>
+                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page + 1)">&gt;</a>
+                    </li>
+                    <li><a ng-click="setPage(total_page)">Last</a></li>
+                </ul>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
 <!--Add&Edit Modal-->
 <div id="TabAddModal" class="modal fade-scale" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" title="Close">&times;</button>
-                <h4 class="modal-title">TAB Settings</h4>
+                <button type="button" class="close"  data-dismiss="modal" title="Close" ng-click="CancelPopup()">&times;</button>
+                <h4 class="modal-title">MY Home</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
@@ -135,27 +134,30 @@
                         </label>
 
                         <div>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="nametab" name="TabName" ng-model="TabName"
+                                   ng-init="TabName=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
                         </div>
                     </div>
                     <div class="inputGroups">
                         <label>
-                            TAB ID<sup>
+                            REF ID<sup>
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
 
                         <div>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="tabref" name="RefId" ng-model="RefId"
+                                   ng-init="RefId=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
                         </div>
                     </div>
                     <div class="inputGroups">
                         <label>
-                            TAB Model
+                            Model
                         </label>
 
                         <div>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="modeltab" name="Model" ng-model="Model"
+                                   ng-init="Model=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
                         </div>
                     </div>
                     <div class="inputGroups">
@@ -164,66 +166,31 @@
                         </label>
 
                         <div>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="ostab" name="OS" ng-model="OS"
+                                   ng-init="OS=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
                         </div>
-                    </div>
-                    <div class="inputGroups">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>User</td>
-                                    <td>PIN</td>
-                                    <td>Action</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                     <div class="inputGroups">
                         <label>
-                            Devices
+                            NUMBER_OF_USERS
                         </label>
 
                         <div>
-                            <select><option>Fora BPM</option><option> Fora SPO2</option></select>
+                            <input type="text" class="form-control" id="usertab" name="UsersCount" ng-model="UsersCount"
+                                   ng-init="UsersCount=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
                         </div>
                     </div>
+                    <div class="inputGroups">
+                        <label>
+                            NUMBER_OF_DEVICES
+                        </label>
+
+                        <div>
+                            <input type="text" class="form-control" id="devicetab" name="DevicesCount" ng-model="DevicesCount"
+                                   ng-init="DevicesCount=''" placeholder="" ng-maxlength="500" maxlength="500" onkeypress="" />
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
@@ -237,6 +204,70 @@
                 </button>
             </div>
         </div>
+    </div>
+</div>
+<!--View Modal-->
+<div id="MyTabViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false"
+     init="ViewMyTab">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close"
+                        ng-click="CancelPopup()">
+                    &times;
+                </button>
+                <h4 class="modal-title">My Home</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="inputGroups">
+                        <label>Tab Name</label>
+
+                        <span>
+                            <div class="textwrap">{{TabName}}</div>
+                        </span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Ref Id</label> 
+                        <span>{{RefId}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Model</label>
+
+                        <span>{{Model}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>OS</label>
+
+                        <span>
+                            <div class="textwrap">{{OS}}</div>
+                        </span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>NUMBER_OF_USERS</label>
+
+                        <span>
+                            <div class="textwrap">{{UsersCount}}</div>
+                        </span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>NUMBER_OF_DEVICES</label>
+
+                        <span>
+                            <div class="textwrap">{{DevicesCount}}</div>
+                        </span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-2" ng-click="CancelViewPopup()"
+                        title="Click to Cancel">
+                    Cancel
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 

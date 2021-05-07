@@ -19098,7 +19098,14 @@ MyCortexControllers.controller("DirectVideoCallController", ['$scope', '$http', 
 
 MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
-        $scope.IsActive = true;
+        $scope.IsActive = true; 
+        $scope.currentTab = "1";
+        $scope.TABName = "";
+        $scope.TABId = "";
+        $scope.TABModel = "";
+        $scope.OS = ""; 
+        $scope.current_page = 1;
+        $scope.total_page = 1;
         $scope.Id = 0;
         $scope.User_Id = 0;
         $scope.LanguageText = [];
@@ -19106,8 +19113,19 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
         $scope.IsEdit = false;
-
+        /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
+            //$scope.ClearPopup();
+            $location.path("/MyHomeCreate");
+        }
+        $scope.ClearPopUp = function () {
+            $scope.TABName = "";
+            $scope.TABId = "";
+            $scope.TABModel = "";
+            $scope.OS = "";
+            $scope.Id = "0";
+        }
+        $scope.TabAddEdit = function () {
             $("#chatLoaderPV").show();
             $scope.emptydataTab = [];
             $scope.rowCollectionTab = [];
@@ -19120,7 +19138,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.ISact = 0 //all
             }
 
-            $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstitutionId + '&Login_Session_Id=' + $scope.LoginSessionId
+            $http.get(baseUrl + '/api/MyHome/Tab_InsertUpdate/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstitutionId + '&Login_Session_Id=' + $scope.LoginSessionId
             ).success(function (data) {
                 $scope.emptydataTab = [];
                 $scope.rowCollectionTab = [];
@@ -19143,7 +19161,26 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             // $scope.AppoinmentSlotClear();
             angular.element('#TabAddModal').modal('hide');
         }
+        $scope.CancelPopup = function () {
+            angular.element('#TabAddModal').modal('hide');
+        }
+        $scope.Cancel_MYTAB = function () {
+            $scope.currentTab = "1";
+            $location.path("/Myhome"); 
+            $scope.ClearPopUp();
+        }
 
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else {
+                $scope.inputPageNo = PageNo;
+            }
+            $scope.current_page = PageNo;
+            $scope.TabList();
+
+        }
         /*THIS IS FOR LIST FUNCTION*/
         $scope.ViewParamList = [];
         $scope.ViewParamList1 = [];
@@ -19151,33 +19188,146 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $("#chatLoaderPV").show();
             $scope.emptydataTab = [];
             $scope.rowCollectionTab = [];
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
 
-            $scope.ISact = 1;       // default active
-            if ($scope.IsActive == true) {
-                $scope.ISact = 1  //active
-            }
-            else if ($scope.IsActive == false) {
-                $scope.ISact = 0 //all
-            }
+                $scope.ISact = 1;       // default active
+                if ($scope.IsActive == true) {
+                    $scope.ISact = 1  //active
+                }
+                else if ($scope.IsActive == false) {
+                    $scope.ISact = 0 //all
+                }
 
-            $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.LoginSessionId
-            ).success(function (data) {
-                $scope.emptydataTab = [];
-                $scope.rowCollectionTab = [];
-                $scope.rowCollectionTab = data;
-                $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
-                if ($scope.rowCollectionTabFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-                $("#chatLoaderPV").hide();
-                    
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
+                $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +'&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.emptydataTab = [];
+                    $scope.rowCollectionTab = [];
+                    $scope.rowCollectionTab = data;
+                    if ($scope.rowCollectionTab.length > 0) {
+                        $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
+                    } else {
+                        $scope.TabDataCount = 0;
+                    }
+                  
+                    $scope.TabData_ListFilterdata = data;
+                    $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
+                    if ($scope.rowCollectionTabFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $scope.total_page = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
+                   
+
+                }).error(function (data) {
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                })
             })
+              
         }
+
+        $scope.searchquery = "";
+        /* FILTER THE  MyHome  LIST FUNCTION.*/
+        $scope.filterTabList = function () {
+            $scope.ResultListFiltered = [];
+            var searchstring = angular.lowercase($scope.searchquery);
+            if ($scope.searchquery == "") {
+                $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
+            }
+            else {
+                $scope.rowCollectionTabFilter = $ff($scope.rowCollectionTab, function (value) {
+                    return angular.lowercase(value.INSTITUTION_ID).match(searchstring) ||
+                        angular.lowercase(value.TAB_NAME).match(searchstring) ||
+                        angular.lowercase(value.REF_ID).match(searchstring) ||
+                        angular.lowercase(value.MODEL).match(searchstring) ||
+                        angular.lowercase(value.OS).match(searchstring);
+                });
+            }
+        }
+
+        /* THIS IS OPENING POP WINDOW VIEW */
+        $scope.ViewMYTABPopUP = function (CatId) {
+            $scope.Id = CatId;
+            $scope.ViewMyTab();
+            angular.element('#MyTabViewModal').modal('show');
+        }
+        /* THIS IS CANCEL VIEW POPUP FUNCTION  */
+        $scope.CancelViewPopup = function () {
+            angular.element('#MyTabViewModal').modal('hide');
+        }
+
+        /* THIS IS FOR VIEW PROCEDURE */
+        $scope.ViewMyTab = function () {
+            $("#chatLoaderPV").show();
+            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                $scope.Id = $routeParams.Id;
+                $scope.DuplicatesId = $routeParams.Id;
+            }
+            $http.get(baseUrl + '/api/MyHome/Tab_ListView/?Id=' + $scope.Id).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.DuplicatesId = data.Id;
+                $scope.TabName = data.TabName;
+                $scope.RefId = data.RefId;
+                $scope.Model = data.Model; 
+                $scope.OS = data.OS;
+                $scope.UsersCount = data.UsersCount.toString();;
+                $scope.DevicesCount = data.DevicesCount.toString();
+            });
+        }
+
+        /* THIS IS FOR DELETE FUNCTION*/
+        $scope.DeleteMYTAB = function (DId) {
+            $scope.Id = DId;
+            $scope.MyTAB_Delete();
+        };
+        /*THIS IS FOR DELETE FUNCTION */
+        $scope.MyTAB_Delete = function () {
+
+            var del = confirm("Do you like to deactivate the selected My Home details?");
+            if (del == true) {
+                $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
+                    alert(" My Home details has been deactivated Successfully");
+                    $scope.TabList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting  My Home details" + data;
+                });
+            }
+        };
+
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.ErrorFunction = function () {
+            alert("Inactive record cannot be edited");
+        }
+
+        /* THIS IS EDIT POPUP FUNCTION */
+        $scope.ViewMYTABPopUP = function (CatId) {
+            $scope.Id = CatId;
+            $scope.ViewMyTab();
+            angular.element('#TabAddModal').modal('show');
+        }
+
+        /* THIS IS FOR VALIDATION CONTROL */
+        $scope.Validationcontrols = function () {
+            if (typeof ($scope.TabName) == "undefined" || $scope.TabName == "") {
+                alert("Please enter Tab Name");
+                return false;
+            }
+            else if (typeof ($scope.RefId) == "undefined" || $scope.RefId == "") {
+                alert("Please enter Ref Id");
+                return false;
+            }
+            /*else if (typeof ($scope.Category_ID) == "undefined" || $scope.Category_ID == "0") {
+                alert("Please select Category");
+                return false;
+            }*/
+            return true;
+        };
     }
 ]);
 
