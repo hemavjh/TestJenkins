@@ -1,4 +1,11 @@
-﻿<h1 class="page-title">Subscription</h1>
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#Subscription').addClass('activeButton');
+    });
+</script>
+
+<h1 class="page-title">Subscription</h1>
 <div ng-init="InstitutionSubscriptionDetailsListTemplate()">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
         <div></div>

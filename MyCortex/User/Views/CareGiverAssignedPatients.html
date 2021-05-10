@@ -1,4 +1,10 @@
-﻿<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        document.getElementById("Assigned Patients").className += 'activeButton';
+    });
+</script>
+<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
     <div></div>
     <div></div>
     <a href="Home/Index#/CareGiverAssignedPatients">Assigned Patients</a>
