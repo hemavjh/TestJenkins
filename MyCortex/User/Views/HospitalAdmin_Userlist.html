@@ -151,7 +151,7 @@
         <tr class="textalign">
             <th st-ratio="3">#</th>
             <th st-ratio="5"><input type="checkbox" ng-model="SelectedAllBuisnessUser" ng-click="BuisnessUsercheckAll()" /></th>
-            <th st-ratio="17" st-sort="FullName">User Name</th>
+            <th st-ratio="17" st-sort="FullName">Name</th>
             <th st-ratio="12" st-sort="EMAILID">Email</th>
             <th st-ratio="12" st-sort="Department_Name">Department</th>
             <th st-ratio="12" st-sort="EMPLOYEMENTNO">Employment No.</th>
@@ -180,7 +180,6 @@
                          ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
 
                     {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+ "..." : row.FullName}}
-                    v>
                 </div>
                 <!--<div class="textwrap">{{row.FullName}}</div>-->
             </td>

@@ -5,6 +5,10 @@
         }
     </style>
     <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#Institution').addClass('activeButton');
+        });
         $('#btnLogo').click(function () {
             $("#InstitutionLogo").trigger('click');
         });

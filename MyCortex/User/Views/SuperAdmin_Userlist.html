@@ -62,6 +62,10 @@
         $(document).ready(function () {
             $('.activeButton').removeClass('activeButton');
             $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                $('#Admin').addClass('activeButton');
+            }
         });
     </script>
 </head>

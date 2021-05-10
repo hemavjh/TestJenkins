@@ -1,4 +1,11 @@
-﻿<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        document.getElementById("Diagnostic Alert").className += 'activeButton';
+    });
+</script>
+
+<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
 <div ng-init="CareCoordinator_PatientListFunction(1);Coordinator_Filter();currentTab='1'">
     <h1 class="title1">Diagnostic Alert</h1>
     <div class="panel panel-default panel-info" id="Div1">
