@@ -19100,18 +19100,21 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
         $scope.IsActive = true; 
         $scope.currentTab = "1";
-        $scope.TABName = "";
-        $scope.TABId = "";
-        $scope.TABModel = "";
+        $scope.TabName = "";
+        $scope.RefId = "";
+        $scope.Model = "";
         $scope.OS = ""; 
         $scope.current_page = 1;
         $scope.total_page = 1;
         $scope.Id = 0;
         $scope.User_Id = 0;
         $scope.LanguageText = [];
+        $scope.DevicesListid = "0";
+        $scope.DevicesListid = [];
         $scope.InstitutionLanguageList = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
+        $scope.CREATED_BY = $window.localStorage['UserId'];
         $scope.IsEdit = false;
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
@@ -19119,43 +19122,41 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $location.path("/MyHomeCreate");
         }
         $scope.ClearPopUp = function () {
-            $scope.TABName = "";
-            $scope.TABId = "";
-            $scope.TABModel = "";
+            $scope.TabName = "";
+            $scope.RefId = "";
+            $scope.Model = "";
             $scope.OS = "";
-            $scope.Id = "0";
+            $scope.Id = "0"; 
+            $scope.InstitutionId = "";
+            $scope.CancelPopup();
         }
+ 
+        /* THIS IS FOR ADD/EDIT PROCEDURE */
         $scope.TabAddEdit = function () {
             $("#chatLoaderPV").show();
-            $scope.emptydataTab = [];
-            $scope.rowCollectionTab = [];
+            if ($scope.Validationcontrols() == true) { 
+                var obj = {
+                    ID: $scope.Id,
+                    TabName: $scope.TabName,
+                    RefId: $scope.RefId,
+                    Model: $scope.Model,
+                    OS: $scope.OS,
+                    InstitutionId: $scope.InstitutionId,
+                    Created_By: $scope.CREATED_BY  
+                };
 
-            $scope.ISact = 1;       // default active
-            if ($scope.IsActive == true) {
-                $scope.ISact = 1  //active
+                $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) { 
+                    alert(data.Message);
+                    $scope.TabList();
+                    $scope.ClearPopUp();
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting Parameter" + data;
+                });
+               
             }
-            else if ($scope.IsActive == false) {
-                $scope.ISact = 0 //all
-            }
-
-            $http.get(baseUrl + '/api/MyHome/Tab_InsertUpdate/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstitutionId + '&Login_Session_Id=' + $scope.LoginSessionId
-            ).success(function (data) {
-                $scope.emptydataTab = [];
-                $scope.rowCollectionTab = [];
-                $scope.rowCollectionTab = data;
-                $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
-                if ($scope.rowCollectionTabFilter.length > 0) {
-                    $scope.flag = 1;
-                }
-                else {
-                    $scope.flag = 0;
-                }
-                $("#chatLoaderPV").hide();
-
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
-            })
         }
+       
         $scope.CancelTabPopUP = function () {
             $scope.Id = 0;
             // $scope.AppoinmentSlotClear();
@@ -19169,6 +19170,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $location.path("/Myhome"); 
             $scope.ClearPopUp();
         }
+
 
         $scope.setPage = function (PageNo) {
             if (PageNo == 0) {
@@ -19231,7 +19233,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             })
               
         }
-
+    
         $scope.searchquery = "";
         /* FILTER THE  MyHome  LIST FUNCTION.*/
         $scope.filterTabList = function () {
@@ -19242,12 +19244,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }
             else {
                 $scope.rowCollectionTabFilter = $ff($scope.rowCollectionTab, function (value) {
-                    return angular.lowercase(value.INSTITUTION_ID).match(searchstring) ||
-                        angular.lowercase(value.TAB_NAME).match(searchstring) ||
-                        angular.lowercase(value.REF_ID).match(searchstring) ||
-                        angular.lowercase(value.MODEL).match(searchstring) ||
-                        angular.lowercase(value.OS).match(searchstring);
+                    return angular.lowercase(value.RefId).match(searchstring) ||
+                        angular.lowercase(value.TabName).match(searchstring) ||
+                        angular.lowercase(value.OS).match(searchstring) ||
+                        angular.lowercase(value.Model).match(searchstring) 
                 });
+                $scope.total_page = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
             }
         }
 
@@ -19255,7 +19257,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.ViewMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
             $scope.ViewMyTab();
-            angular.element('#MyTabViewModal').modal('show');
+            angular.element('#MyTabViewModal').modal('show'); 
         }
         /* THIS IS CANCEL VIEW POPUP FUNCTION  */
         $scope.CancelViewPopup = function () {
@@ -19263,8 +19265,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         }
 
         /* THIS IS FOR VIEW PROCEDURE */
-        $scope.ViewMyTab = function () {
-            $("#chatLoaderPV").show();
+        $scope.ViewMyTab = function () { 
+            $("#chatLoaderPV").show(); 
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
@@ -19306,11 +19308,15 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         }
 
         /* THIS IS EDIT POPUP FUNCTION */
-        $scope.ViewMYTABPopUP = function (CatId) {
+        $scope.EditMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
             $scope.ViewMyTab();
             angular.element('#TabAddModal').modal('show');
+            $("#usertab").prop('disabled', true);
+            $("#devicetab").prop('disabled', true);
         }
+
+
 
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
@@ -19328,6 +19334,44 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }*/
             return true;
         };
+        mytab = 0;
+        $scope.$watch('mytab', function () {
+            if ($scope.mytab == 3) {
+                $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
+                    $scope.DevicesLists = data;
+                    $scope.mytab = $scope.mytab + 1;
+                });
+            }
+        });
+
+        
+        /* THIS IS FOR ADD/EDIT PROCEDURE */
+        $scope.MYTAB_InsertUpdate = function () {
+            $("#chatLoaderPV").show();
+            if ($scope.Validationcontrols() == true) {
+                var obj = {
+                    ID: $scope.Id,
+                    TabName: $scope.TabName,
+                    RefId: $scope.RefId,
+                    Model: $scope.Model,
+                    OS: $scope.OS,
+                    InstitutionId: $scope.InstitutionId,
+                    Created_By: $scope.CREATED_BY
+                    //DevicesListid: $scope.DevicesListid == 0 ? null : $scope.DevicesListid
+                };
+
+                $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
+                    alert(data.Message);
+                    $scope.TabList();
+                    $scope.Cancel_MYTAB();
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting Parameter" + data;
+                });
+
+            }
+        }
+
     }
 ]);
 

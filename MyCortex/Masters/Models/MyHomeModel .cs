@@ -17,6 +17,10 @@ namespace MyCortex.Masters.Models
         public int UsersCount { get; set; }
         public int DevicesCount { get; set; }
         public bool IsActive { get; set; }
+        public long InstitutionId { get; set; }
+        public long Created_By { get; set; }
+        public string VENDOR { get; set; }
+        public int Flag { get; set; }
     }
 
     public class TabDevicesModel
@@ -50,6 +54,23 @@ namespace MyCortex.Masters.Models
         public long USERTYPE_ID { get; set; }
         public long GENDER_ID { get; set; }
         public string GENDER_NAME { get; set; }
+
+    }
+
+    public class TabUserReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IList<TabListModel> Tabuserdetails { get; set; }
+         
+    }
+
+    public class TabDeviceslist
+    {
+        public long ID { get; set; }
+        public string DeviceName { get; set; }
+        public int? ISACTIVE { get; set; }
 
     }
 

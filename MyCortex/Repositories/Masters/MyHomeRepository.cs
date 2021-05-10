@@ -60,38 +60,49 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public long Tab_InsertUpdate(Guid Login_Session_Id, List<AttendanceModel> insobj)
+        public IList<TabListModel> Tab_InsertUpdate(TabListModel insobj)
         {
+         
+             
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", insobj.ID));
+            param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
+            param.Add(new DataParameter("@TAB_NAME", insobj.TabName));
+            param.Add(new DataParameter("@REF_ID", insobj.RefId));
+            param.Add(new DataParameter("@MODEL", insobj.Model)); 
+            param.Add(new DataParameter("@OS", insobj.OS));
+            param.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+            param.Add(new DataParameter("@VENDOR", ""));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                string flag = "";
-                foreach (AttendanceModel item in insobj)
-                {
-                    List<DataParameter> param = new List<DataParameter>();
-                    param.Add(new DataParameter("@ID", item.Id));
-                    param.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
-                    param.Add(new DataParameter("@ATTENDANCE_FROMDATE", item.AttendanceFromDate));
-                    param.Add(new DataParameter("@ATTENDANCE_TODATE", item.AttendanceToDate));
-                    param.Add(new DataParameter("@DOCTOR_ID", item.Doctor_Id));
-                    param.Add(new DataParameter("@REMARKS", item.Remarks));
-                    param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
-                    param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-                    {
-                        DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.MYHOME_TAB_SP_INSERTUPDATE", param);
-                        DataRow dr = dt.Rows[0];
-                        flag = (dr["FLAG"].ToString());
-                    }
-                }
-                var data = (Convert.ToInt64(flag));
-                return data;
-            }
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.MYHOME_TAB_SP_INSERTUPDATE", param);
+                
+                IList<TabListModel> INS = (from p in dt.AsEnumerable()
+                                            select
+                                            new TabListModel()
+                                            {
+                                                    //  Id = p.Field<long>("ID"),
+                                                //ID = p.Field<long>("ID"),
+                                                TabName = p.Field<string>("TAB_NAME"),
+                                                RefId = p.Field<string>("REF_ID"),
+                                                Model = p.Field<string>("MODEL"),
+                                                OS = p.Field<string>("OS"),
+                                                UsersCount = p.Field<int>("NUMBER_USERS"),
+                                                DevicesCount = p.Field<int>("NUMBER_DEVICES"),
+                                                IsActive = p.Field<bool>("ISACTIVE"),
+                                                Flag = p.Field<int>("flag")
+                                            }).ToList();
+                return INS;
 
+            }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
-
+                return null;
             }
-            return 0;
+            
         }
         public TabListModel Tab_ListView(int id)
         {

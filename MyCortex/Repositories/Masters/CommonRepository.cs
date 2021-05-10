@@ -487,7 +487,32 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-
+        /// <summary>
+        /// blood group name list
+        /// </summary>
+        /// <returns></returns>
+        public IList<TabDeviceslist> Deviceslist()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[MyHomeDeviceLists]");
+                List<TabDeviceslist> lst = (from p in dt.AsEnumerable()
+                                             select new TabDeviceslist()
+                                             {
+                                                 ID = p.Field<long>("ID"),
+                                                 DeviceName = p.Field<string>("DeviceName"),
+                                                 ISACTIVE = p.Field<int>("ISACTIVE")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
 
         /// <summary>
         /// to get affiliation name list

@@ -1,6 +1,16 @@
-﻿<div class="row" ng-init="Tablist();currentTab='1';">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+        $(element).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
+    <li><a href="Home/Index#/Myhome" class="secondaryMenuActive" data-menu="MyHome">My Home</a></li>
+</ul>
+<h1 class="page-title">My Home</h1>
+<div class="row" ng-init="Tablist();currentTab='1';">
     <div class="col-md-12">
-        <h1 class="page-title">My Home</h1>
         <ul class="themeTabs">
             <li>
                 <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'; TabClickLoad(currentTab)">
@@ -31,32 +41,30 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input type="text" class="form-control" id="Text1" name="TABName" ng-model="TABName"
-                                           ng-init="TABName=''" ng-required="true" onkeypress="ParticularSpec(event)"
+                                    <input type="text" class="form-control" id="Text1" name="TabName" ng-model="TabName"
+                                           ng-init="TabName=''" ng-required="true" onkeypress="ParticularSpec(event)"
                                            placeholder="" ng-maxlength="100" maxlength="100" />
                                 </div>
                                 <div class="inputGroups">
                                     <label>
-                                        TAB ID<sup>
+                                        REF ID<sup>
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
 
                                     <div>
-                                        <input type="text" class="form-control" id="Text2" name="TABId" ng-model="TABId"
-                                               ng-init="TABId=''" ng-required="true" onkeypress="ParticularSpec(event)"
-                                               placeholder="" ng-maxlength="100" maxlength="100" />
+                                        <input type="text" class="form-control" id="Text2" name="RefId" ng-model="RefId"
+                                               ng-init="RefId=''" ng-required="true"   placeholder="" ng-maxlength="100" maxlength="100" />
                                     </div>
                                 </div>
                                 <div class="inputGroups">
                                     <label>
-                                        TAB Model
+                                       Model
                                     </label>
 
                                     <div>
-                                        <input type="text" class="form-control" id="Text3" name="TABModel" ng-model="TABModel"
-                                               ng-init="TABModel=''" ng-required="true" onkeypress="ParticularSpec(event)"
-                                               placeholder="" ng-maxlength="100" maxlength="100">
+                                        <input type="text" class="form-control" id="Text3" name="Model" ng-model="Model"
+                                               ng-init="Model=''" ng-required="true"  placeholder="" ng-maxlength="100" maxlength="100">
                                     </div>
                                 </div>
                                 <div class="inputGroups">
@@ -66,8 +74,7 @@
 
                                     <div>
                                         <input type="text" class="form-control" id="Text4" name="OS" ng-model="OS"
-                                               ng-init="OS=''" ng-required="true" onkeypress="ParticularSpec(event)"
-                                               placeholder="" ng-maxlength="100" maxlength="100">
+                                               ng-init="OS=''" ng-required="true" placeholder="" ng-maxlength="100" maxlength="100">
                                     </div>
                                 </div>
                             </div>
@@ -88,10 +95,12 @@
                             <tbody>
                                 <tr>
                                     <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
+                                    <td><input type="text" class="form-control" id="Text5" name="pintab" ng-model="pintab"
+                                       ng-init="pintab=''" ng-required="true" onkeypress="ParticularSpec(event)"
+                                       placeholder="" ng-maxlength="100" maxlength="100"></td>
+                                    <td><img src="../../Images/activeIcon2.png" ng-click="Decrease();" /><img src="../../Images/addNewIcon.png"  ng-click="Increase();"/></td>
                                 </tr>
-                                <tr>
+                                <!--<tr>
                                     <td><select><option>User 1</option><option>User 2</option></select> </td>
                                     <td><input type="text" /></td>
                                     <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
@@ -120,7 +129,7 @@
                                     <td><select><option>User 1</option><option>User 2</option></select> </td>
                                     <td><input type="text" /></td>
                                     <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
+                                </tr>-->
                             </tbody>
                         </table>
                     </div>
@@ -128,13 +137,18 @@
                 <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
                     <div class="inputGroups" style="margin-left:10px">
                         <label style="margin-left:1px;">Devices</label>
-                        <select class="form-control"  style="width:800px;">
-                            <option value="0">Select</option>
-                            <option value="1">Fora BPM</option>
-                            <option value="2">Fora SPO2</option>
-                        </select>
+                       
+                            <select class="form-control" ng-model="DevicesListid" id="Select2"
+                                    ng-required="true" ng-disabled="Pat_UserTypeId==2">
+                                <option value="0">Select</option>
+                                <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.Id"
+                                        value="{{sel.ID}}">
+                                    {{sel.DeviceName}}
+                                </option>
+                            </select>
+                      
                     </div>
-                </div>
+                </div> 
             </form>
         </div>
     </div>

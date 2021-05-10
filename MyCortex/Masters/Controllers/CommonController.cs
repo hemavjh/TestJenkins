@@ -592,6 +592,29 @@ namespace MyCortex.Masters.Controllers
         }
 
         /// <summary>
+        /// blood group name list
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public IList<TabDeviceslist> Deviceslist()
+        {
+            IList<TabDeviceslist> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.Deviceslist();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// to get affiliation name list
         /// </summary>
         /// <returns>affiliation name list</returns>
