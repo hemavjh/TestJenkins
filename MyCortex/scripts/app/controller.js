@@ -19126,7 +19126,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
             //$scope.ClearPopup();
-            $location.path("/MyHomeCreate");
+            $location.path("/MyHomeCreate/" + "2" + "/" + "3");
         }
         $scope.ClearPopUp = function () {
             $scope.TabName = "";
@@ -19317,10 +19317,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS EDIT POPUP FUNCTION */
         $scope.EditMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
-            $scope.ViewMyTab();
-            angular.element('#TabAddModal').modal('show');
-            $("#usertab").prop('disabled', true);
-            $("#devicetab").prop('disabled', true);
+            $scope.ViewMyTab(); 
+            $location.path("/MyHomeEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
         }
 
 

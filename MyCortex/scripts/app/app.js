@@ -300,7 +300,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Masters/Views/Myhome.html',
             controller: 'MyHomeController'
         }).
-        when('/MyHomeCreate', {
+        when('/MyHomeCreate/:PageParameter/:LoginUserType', {
+            templateUrl: baseUrl + 'User/Views/MyHomeCreate.html',
+            controller: 'MyHomeController'
+        }).
+        when('/MyHomeEdit/:Id/:PageParameter/:LoginUserType/:Editpatient', {
             templateUrl: baseUrl + 'User/Views/MyHomeCreate.html',
             controller: 'MyHomeController'
         }).

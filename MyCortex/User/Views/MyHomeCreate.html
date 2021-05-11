@@ -9,7 +9,7 @@
     <li><a href="Home/Index#/Myhome" class="secondaryMenuActive" data-menu="MyHome">My Home</a></li>
 </ul>
 <h1 class="page-title">My Home</h1>
-<div class="row" ng-init="Tablist();currentTab='1';">
+<div class="row" ng-init="ViewMyTab();PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
     <div class="col-md-12">
         <ul class="themeTabs">
             <li>
