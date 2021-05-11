@@ -503,7 +503,7 @@ namespace MyCortex.Repositories.Masters
                                              {
                                                  ID = p.Field<long>("ID"),
                                                  DeviceName = p.Field<string>("DeviceName"),
-                                                 ISACTIVE = p.Field<int>("ISACTIVE")
+                                                 ISACTIVE = p.Field<bool>("ISACTIVE")
                                              }).ToList();
                 return lst;
             }

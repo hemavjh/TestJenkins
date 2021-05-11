@@ -70,7 +70,7 @@ namespace MyCortex.Masters.Models
     {
         public long ID { get; set; }
         public string DeviceName { get; set; }
-        public int? ISACTIVE { get; set; }
+        public bool ISACTIVE { get; set; }
 
     }
 

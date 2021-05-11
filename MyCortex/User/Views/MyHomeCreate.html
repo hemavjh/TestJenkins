@@ -94,10 +94,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
+                                    <td><select class="form-control" style="width:200px;"><option>User 1</option><option>User 2</option></select> </td>
                                     <td><input type="text" class="form-control" id="Text5" name="pintab" ng-model="pintab"
-                                       ng-init="pintab=''" ng-required="true" onkeypress="ParticularSpec(event)"
-                                       placeholder="" ng-maxlength="100" maxlength="100"></td>
+                                       ng-init="pintab=''" ng-required="true" placeholder="" ng-maxlength="100" maxlength="100"></td>
                                     <td><img src="../../Images/activeIcon2.png" ng-click="Decrease();" /><img src="../../Images/addNewIcon.png"  ng-click="Increase();"/></td>
                                 </tr>
                                 <!--<tr>
@@ -136,17 +135,14 @@
                 </div>
                 <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
                     <div class="inputGroups" style="margin-left:10px">
-                        <label style="margin-left:1px;">Devices</label>
-                       
-                            <select class="form-control" ng-model="DevicesListid" id="Select2"
-                                    ng-required="true" ng-disabled="Pat_UserTypeId==2">
+                        <label style="margin-left:1px;">Devices</label> 
+                            <select class="form-control"  style="width:300px;">
                                 <option value="0">Select</option>
-                                <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.Id"
+                                <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
                                         value="{{sel.ID}}">
                                     {{sel.DeviceName}}
                                 </option>
-                            </select>
-                      
+                            </select> 
                     </div>
                 </div> 
             </form>

@@ -19334,16 +19334,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }*/
             return true;
         };
-        mytab = 0;
-        $scope.$watch('mytab', function () {
-            if ($scope.mytab == 3) {
-                $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
-                    $scope.DevicesLists = data;
-                    $scope.mytab = $scope.mytab + 1;
-                });
-            }
+        $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
+            $scope.DevicesLists = data; 
         });
-
         
         /* THIS IS FOR ADD/EDIT PROCEDURE */
         $scope.MYTAB_InsertUpdate = function () {
