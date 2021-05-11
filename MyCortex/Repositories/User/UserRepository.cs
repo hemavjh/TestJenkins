@@ -1386,6 +1386,34 @@ namespace MyCortex.Repositories.Uesr
             //DataRow dr = dt.Rows[0];
             //flag = (dr["FLAG"].ToString());
         }
+        public string GetInstitutionName(string INSTITUTION_CODE)
+        {
+            string INSTITUTION_NAME;
+            List<DataParameter> param = new List<DataParameter>();
+
+            param.Add(new DataParameter("@INSTITUTION_SHORTNAME", INSTITUTION_CODE));
+            DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.GETINSTITUTIONNAME", param);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                /*   UserModel View = (from p in dt.AsEnumerable()
+                                     select
+                                     new UserModel()
+                                     {
+                                         INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
+                                     }).FirstOrDefault();*/
+                INSTITUTION_NAME = dr.IsNull("INSTITUTION_NAME") ? "" : dr.Field<string>("INSTITUTION_NAME");
+            }
+            else
+            {
+                INSTITUTION_NAME = "";
+            }
+            var data = (INSTITUTION_NAME);
+            return data;
+            //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
+            //DataRow dr = dt.Rows[0];
+            //flag = (dr["FLAG"].ToString());
+        }
         /// <summary>
         /// 
         /// </summary>

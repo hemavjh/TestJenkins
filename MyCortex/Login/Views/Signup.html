@@ -40,7 +40,7 @@
         <h1>
             MyCortex Sign Up
             <i class="fa fa-language" aria-hidden="true"></i>
-            <select style="text-align:right !important; width:14%;" ng-model="selectedLanguage" ng-change="FilterLanguageSettingsList()">
+            <select style="text-align:right !important; width:22%;font-size:15px" ng-model="selectedLanguage" ng-change="FilterLanguageSettingsList()">
                 <option ng-repeat="item1 in InstitutionLanguageList" value="{{item1.Id}}">
                     {{item1.LanguageName}}
                 </option>
@@ -144,7 +144,7 @@
         </div>
         <div>
             <p style="text-align:left;">
-                By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.
+                By submitting this form you agree to share your medical information with {{institutionName}} team for the purposes of medical evaluation and follow up.
             </p>
             <p style="text-align:right;">
                 {{signupacknowledgement}}

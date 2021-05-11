@@ -19148,7 +19148,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     RefId: $scope.RefId,
                     Model: $scope.Model,
                     OS: $scope.OS,
-                    InstitutionId: $scope.InstitutionId,
+                    InstitutionId: $window.localStorage['InstitutionId'],
                     Created_By: $scope.CREATED_BY  
                 };
 
@@ -19355,7 +19355,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     RefId: $scope.RefId,
                     Model: $scope.Model,
                     OS: $scope.OS,
-                    InstitutionId: $scope.InstitutionId,
+                    InstitutionId: $window.localStorage['InstitutionId'],
                     Created_By: $scope.CREATED_BY
                     //DevicesListid: $scope.DevicesListid == 0 ? null : $scope.DevicesListid
                 };

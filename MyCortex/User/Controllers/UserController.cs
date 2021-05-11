@@ -140,6 +140,13 @@ namespace MyCortex.User.Controller
             InstitutionId = repository.GetInstitutionFromShortName(Code);
             return InstitutionId;
         }
+        [AllowAnonymous]
+        public string GetInstitutionName(string Code)
+        {
+            string InstitutionName = "";
+            InstitutionName = repository.GetInstitutionName(Code);
+            return InstitutionName;
+        }
 
 
         /// <summary>
