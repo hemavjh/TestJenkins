@@ -3112,8 +3112,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.CertificateValue = 1;
         };
 
-
         $scope.UserDetails_InActive = function (GetId) {
+            var Usertype = parseInt(localStorage.getItem('UserTypeId'));
+            for (var k = 0; k < $scope.UserDetailsList.length; k++) {
+                if ($scope.UserDetailsList[k].Id === GetId && $scope.UserDetailsList[k].Is_Master === true && Usertype !== 1) {
+                    alert("Could not deactivate the selected User!");
+                    return false;
+                }
+            }
+
             $scope.Id = GetId;
             var del = confirm("Do you like to deactivate the selected User?");
             if (del == true) {
