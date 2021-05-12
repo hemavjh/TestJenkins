@@ -93,44 +93,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><select class="form-control" style="width:200px;"><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" class="form-control" id="Text5" name="pintab" ng-model="pintab"
-                                       ng-init="pintab=''" ng-required="true" placeholder="" ng-maxlength="30" maxlength="30"></td>
-                                    <td><img src="../../Images/activeIcon2.png" ng-click="Decrease();" /><img src="../../Images/addNewIcon.png"  ng-click="Increase();"/></td>
+                                <tr ng-repeat="row in AddUserParameters">
+                                    <td>
+                                        <select class="form-control" style="width:200px;"
+                                                ng-model="row.ID" ng-options="item1.ID as item1.FULLNAME for item1 in UserLists">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control"
+                                               ng-model="row.PIN" maxlength="10"
+                                               ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                    </td>
+                                    <td>
+                                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete'
+                                               ng-click="MyHomeDelete($index)" ng-model="row.ID" style="width: 20px;" id="Image2" /> 
+                                        <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
+                                    </td>
                                 </tr>
-                                <!--<tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>
-                                <tr>
-                                    <td><select><option>User 1</option><option>User 2</option></select> </td>
-                                    <td><input type="text" /></td>
-                                    <td><img src="../../Images/activeIcon2.png" /><img src="../../Images/addNewIcon.png" /></td>
-                                </tr>-->
                             </tbody>
                         </table>
+                         <a href="javascript:" title="Click to Add"  style="color: #35a9e4;" ng-click="MyHomeAdd()">|Add|</a> 
                     </div>
                 </div>
                 <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">

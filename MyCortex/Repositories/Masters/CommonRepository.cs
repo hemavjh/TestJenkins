@@ -12,6 +12,7 @@ using MyCortex.User.Model;
 using MyCortex.Admin.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using MyCortex.Utilities;
 
 namespace MyCortex.Repositories.Masters
 {
@@ -505,6 +506,31 @@ namespace MyCortex.Repositories.Masters
                                                  DeviceName = p.Field<string>("DeviceName"),
                                                  ISACTIVE = p.Field<bool>("ISACTIVE")
                                              }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        public IList<TabUserlist> UserList(long Institution_Id)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>(); 
+            param.Add(new DataParameter("@INSTITUTIONID", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_TAB_DETAILS]", param);
+                List<TabUserlist> lst = (from p in dt.AsEnumerable()
+                                         select new TabUserlist()
+                                         {
+                                             ID = p.Field<long>("ID"),
+                                             FULLNAME = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                             PIN = p.Field<string>("PIN"),
+                                             ISACTIVE = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+                                            }).ToList();
                 return lst;
             }
             catch (Exception ex)

@@ -613,7 +613,24 @@ namespace MyCortex.Masters.Controllers
                 return null;
             }
         }
-
+        [Authorize]
+        [HttpGet]
+        public IList<TabUserlist> UserList(long Institution_Id)
+        {
+            IList<TabUserlist> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.UserList(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>
         /// to get affiliation name list
         /// </summary>

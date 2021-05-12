@@ -35,6 +35,7 @@ namespace MyCortex.Repositories
         IList<UnitGroupTypeModel> UnitGroupTypeList();
         IList<LanguageMasterModel> InstitutionLanguages(long Institution_Id);
         IList<TabDeviceslist> Deviceslist();
+        IList<TabUserlist> UserList(long Institution_Id);
         object DBQueryAPI(string qry);
         int DefaultConfig_InsertUpdate(long Institution_Id, int Step);
 

@@ -62,9 +62,11 @@ namespace MyCortex.Repositories.Masters
 
         public IList<TabListModel> Tab_InsertUpdate(TabListModel insobj)
         {
-         
-             
 
+
+            long InsertId = 0;
+            string flag = "";
+            long Inserted_Group_Id;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", insobj.ID));
             param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
@@ -78,8 +80,60 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.MYHOME_TAB_SP_INSERTUPDATE", param);
-                
-                IList<TabListModel> INS = (from p in dt.AsEnumerable()
+                DataRow dr = dt.Rows[0];
+                if (dr.IsNull("Id") == true)
+                {
+                    InsertId = 0;
+                }
+                else
+                {
+                    InsertId = long.Parse((dr["Id"].ToString()));
+                }
+                if (InsertId > 0)
+                {
+                    if (insobj.Tabuserlist != null)
+                    {
+                        foreach (TabUserlist item in insobj.Tabuserlist)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@User_Id", item.ID));
+                            param1.Add(new DataParameter("@TAB_ID", InsertId));
+                            param1.Add(new DataParameter("@PIN", item.PIN));
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+                            param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
+                            var objExist = insobj.SelectedTabuserlist.Where(ChildItem => ChildItem.Id == item.ID);
+
+                            if (objExist.ToList().Count > 0)
+                                //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
+                                param1.Add(new DataParameter("@Userlist_Selected", "1"));
+                            else
+                                param1.Add(new DataParameter("@Userlist_Selected", "0"));
+
+                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_TABADDITIONALDETAILS", param1, true);
+                        }
+                    }
+                    if (insobj.DevicesListid != null)
+                    {
+                        foreach (TabDeviceslist item in insobj.DevicesListid)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@DeviceID", item.ID));
+                            param1.Add(new DataParameter("@TAB_ID", InsertId)); 
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+                            param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
+                            var objExist = insobj.SelectedTabdevicelist.Where(ChildItem => ChildItem.Id == item.ID);
+
+                            if (objExist.ToList().Count > 0)
+                                //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
+                                param1.Add(new DataParameter("@DeviceList_Selected", "1"));
+                            else
+                                param1.Add(new DataParameter("@DeviceList_Selected", "0"));
+
+                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DEVICEADDITIONALDETAILS", param1, true);
+                        }
+                    }
+                }
+                    IList<TabListModel> INS = (from p in dt.AsEnumerable()
                                             select
                                             new TabListModel()
                                             {

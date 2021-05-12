@@ -19280,13 +19280,17 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }
             $http.get(baseUrl + '/api/MyHome/Tab_ListView/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
-                $scope.DuplicatesId = data.Id;
+                $scope.DuplicatesId = data.ID;
                 $scope.TabName = data.TabName;
                 $scope.RefId = data.RefId;
                 $scope.Model = data.Model; 
                 $scope.OS = data.OS;
-                $scope.UsersCount = data.UsersCount.toString();;
+                $scope.UsersCount = data.UsersCount.toString();
                 $scope.DevicesCount = data.DevicesCount.toString();
+                angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
+                    $scope.EditSelectedChronicondition.push(value.Chronic_Id);
+                    $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
+                });
             });
         }
 
@@ -19317,11 +19321,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS EDIT POPUP FUNCTION */
         $scope.EditMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
-            $scope.ViewMyTab(); 
+            $scope.Editid = CatId;
+            $scope.ViewMyTab();  
             $location.path("/MyHomeEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
         }
 
-
+        
 
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
@@ -19339,34 +19344,143 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }*/
             return true;
         };
+         
+      
         $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.DevicesLists = data; 
         });
-        
-        /* THIS IS FOR ADD/EDIT PROCEDURE */
-        $scope.MYTAB_InsertUpdate = function () {
-            $("#chatLoaderPV").show();
-            if ($scope.Validationcontrols() == true) {
+
+        // Add row concept for Patient Vital Parameters
+        $scope.AddUserParameters = [{
+            'ID': 0,
+            "FULLNAME":"",
+            'PIN': "",
+            'IsActive': 1
+        }];
+
+        /*This is a Addrow function to add new row and save Family Health Problem details*/
+        $scope.MyHomeAdd = function () {
+            if ($scope.AddUserParameters.length > 0) {
                 var obj = {
-                    ID: $scope.Id,
-                    TabName: $scope.TabName,
-                    RefId: $scope.RefId,
-                    Model: $scope.Model,
-                    OS: $scope.OS,
-                    InstitutionId: $window.localStorage['InstitutionId'],
-                    Created_By: $scope.CREATED_BY
-                    //DevicesListid: $scope.DevicesListid == 0 ? null : $scope.DevicesListid
-                };
+                    'ID': 0,
+                    "FULLNAME": "",
+                    'PIN': "",
+                    'IsActive': 1
+                }
+                $scope.AddUserParameters.push(obj);
+            }
+            else {
+                $scope.AddUserParameters = [{
+                    'ID': 0,
+                    "FULLNAME": "",
+                    'PIN': "",
+                    'IsActive': 1
+                }];
+            }
+        };
 
-                $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
-                    alert(data.Message);
-                    $scope.TabList();
-                    $scope.Cancel_MYTAB();
-                    $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Parameter" + data;
-                });
+        $scope.MyHomeDelete = function (itemIndex) {
+            var del = confirm("Do you like to delete the User information");
+            if (del == true) {
+                $scope.AddUserParameters.splice(itemIndex, 1);
+                if ($scope.AddUserParameters.length == 0) {
+                    $scope.AddUserParameters = [{
+                        'ID': 0,
+                        "FULLNAME": "",
+                        'PIN': "",
+                        'IsActive': 1
+                    }];
+                }
+            }
+        };
+        
+        
+         
+        $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $scope.UserLists = data;
+        });
 
+
+        $scope.MYTAB_InsertUpdate_validation = function () {
+            var TSDuplicate = 0;
+            var varlidationCheck = 0;
+            var MyHomeExist = 0;
+            var DuplicateParam = '';
+
+            angular.forEach($scope.AddUserParameters, function (value1, index1) {
+                if (value1.UserListid != '' || value1.UserListid > 0) {
+                    MyHomeExist = 1;
+                }
+                var checkobj = $ff($scope.UserLists, { ID: value1.ID }, true)[0]
+                if (checkobj != null) {
+                    angular.forEach($scope.AddUserParameters, function (value2, index2) {
+                        if (index1 > index2 && value1.ID == value2.ID) {
+                            TSDuplicate = 1;
+                            if (DuplicateParam != '')
+                                DuplicateParam = DuplicateParam + ',';
+                            DuplicateParam = DuplicateParam + checkobj.FULLNAME;
+                        };
+                    });
+                    if (value1.ParameterValue == '' || value1.ParameterValue <= 0) {
+                        varlidationCheck = 1;
+                        alert("Please enter value for " + checkobj.FULLNAME);
+                        return false;
+                    }
+
+                }
+
+            });
+            if (TSDuplicate == 1) {
+                alert('UserName ' + DuplicateParam + 'already exist, cannot be Duplicated');
+                return false;
+            }
+            else if (varlidationCheck == 1) {
+                return false;
+            }
+            else if (MyHomeExist == 0) {
+                alert('Please enter UserName details to Save');
+                return false;
+            }
+            return true;
+
+        };
+      
+        $scope.MYTAB_InsertUpdate = function () { 
+            if ($scope.Validationcontrols() == true) {
+                if ($scope.MYTAB_InsertUpdate_validation() == true) {
+                    $("#chatLoaderPV").show();
+                    var filteredObj = $ff($scope.AddUserParameters, function (value) {
+                        return value.ID != '';
+                    });
+                    var DevicesListid = $ff($scope.DevicesLists, function (value) {
+                        return value.ID != '';
+                    });
+                    
+
+                    var obj = {
+                        ID: $scope.Id,
+                        TabName: $scope.TabName,
+                        RefId: $scope.RefId,
+                        Model: $scope.Model,
+                        OS: $scope.OS,
+                        InstitutionId: $window.localStorage['InstitutionId'],
+                        Created_By: $scope.CREATED_BY,
+                        Tabuserlist: filteredObj,
+                        DevicesListid: DevicesListid == 0 ? "" : DevicesListid,
+                        SelectedTabdevicelist: DevicesListid == 0 ? "" : DevicesListid,
+                        SelectedTabuserlist: filteredObj
+                    };
+
+                    $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
+                        alert(data.Message);
+                        $scope.TabList();
+                        $scope.Cancel_MYTAB();
+                        $("#chatLoaderPV").hide();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Parameter" + data;
+                    });
+
+                }
             }
         }
 
