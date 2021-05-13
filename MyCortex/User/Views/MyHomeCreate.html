@@ -94,11 +94,16 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="row in AddUserParameters">
-                                    <td>
+                                    <td style="width:216px;">
                                         <select class="form-control" style="width:200px;"
-                                                ng-model="row.ID" ng-options="item1.ID as item1.FULLNAME for item1 in UserLists">
+                                                ng-model="row.Id" ng-options="item1.ID as item1.FULLNAME for item1 in UserLists">
                                             <option value="">Select</option>
-                                        </select>
+                                            <!--<select ng-model="row.ID" 
+                                                    ng-options="item1.ID as item1.FULLNAME for item1 in UserLists"
+                                                    multiselect-dropdown style="width: 220px;"></select>-->
+
+                                        </select> 
+                                         
                                     </td>
                                     <td>
                                         <input type="text" class="form-control"
@@ -117,15 +122,18 @@
                     </div>
                 </div>
                 <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
-                    <div class="inputGroups" style="margin-left:10px">
-                        <label style="margin-left:1px;">Devices</label> 
-                            <select class="form-control"  style="width:300px;">
-                                <option value="0">Select</option>
-                                <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
-                                        value="{{sel.ID}}">
-                                    {{sel.DeviceName}}
-                                </option>
-                            </select> 
+                    <div class="inputGroups" style="margin-left:10px;width:300px;">
+                        <label style="margin-left:1px;">Devices</label>
+                        <select ng-model="SelectedDevice" multiple="multiple"
+                                ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"
+                                multiselect-dropdown style="width: 220px;"></select>
+                        <!--<select class="form-control" style="width:300px;">
+                            <option value="0">Select</option>
+                            <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
+                                    value="{{sel.ID}}">
+                                {{sel.DeviceName}}
+                            </option>-->
+                        <!--</select>-->
                     </div>
                 </div> 
             </form>

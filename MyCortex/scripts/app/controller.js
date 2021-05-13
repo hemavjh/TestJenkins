@@ -19119,6 +19119,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.DevicesListid = "0";
         $scope.DevicesListid = [];
         $scope.InstitutionLanguageList = [];
+        $scope.SelectedTabUser = "0";
+        $scope.SelectedDevice = "0"; 
+        $scope.SelectedTabPIN = "0"; 
+        $scope.UserLists = [];
+        $scope.DevicesLists = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
         $scope.CREATED_BY = $window.localStorage['UserId'];
@@ -19274,22 +19279,36 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS FOR VIEW PROCEDURE */
         $scope.ViewMyTab = function () { 
             $("#chatLoaderPV").show(); 
+            $scope.SelectedDevice = [];
+            $scope.EditSelectedDevice = [];
+            $scope.SelectedTabUser = [];
+            $scope.EditSelectedTABUser = [];
+            $scope.SelectedTabPIN = [];
+            $scope.EditSelectedTABPIN = [];
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
             $http.get(baseUrl + '/api/MyHome/Tab_ListView/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
-                $scope.DuplicatesId = data.ID;
+                $scope.DuplicatesId = data.Id;
                 $scope.TabName = data.TabName;
                 $scope.RefId = data.RefId;
                 $scope.Model = data.Model; 
                 $scope.OS = data.OS;
                 $scope.UsersCount = data.UsersCount.toString();
                 $scope.DevicesCount = data.DevicesCount.toString();
-                angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
-                    $scope.EditSelectedChronicondition.push(value.Chronic_Id);
-                    $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
+                angular.forEach(data.SelectedTabdevicelist, function (value, index) {
+                    $scope.EditSelectedDevice.push(value.DeviceId);
+                    $scope.SelectedDevice = $scope.EditSelectedDevice;
+                });
+                angular.forEach(data.SelectedTabuserlist, function (value, index) {
+                    $scope.EditSelectedTABUser.push(value.User_Id);
+                    $scope.SelectedTabUser = $scope.EditSelectedTABUser;
+                });
+                angular.forEach(data.SelectedTabuserlist, function (value, index) {
+                    $scope.EditSelectedTABPIN.push(value.PIN);
+                    $scope.SelectedTabPIN = $scope.EditSelectedTABPIN;
                 });
             });
         }
@@ -19322,7 +19341,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.EditMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
             $scope.Editid = CatId;
-            $scope.ViewMyTab();  
+            //$scope.ViewMyTab();  
             $location.path("/MyHomeEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
         }
 
@@ -19353,7 +19372,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         // Add row concept for Patient Vital Parameters
         $scope.AddUserParameters = [{
             'ID': 0,
-            "FULLNAME":"",
+            'User_Id': 0,
+            "FULLNAME": "",
+            'TAB_ID': 0,
             'PIN': "",
             'IsActive': 1
         }];
@@ -19363,7 +19384,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             if ($scope.AddUserParameters.length > 0) {
                 var obj = {
                     'ID': 0,
+                    'User_Id': 0,
                     "FULLNAME": "",
+                    'TAB_ID': 0,
                     'PIN': "",
                     'IsActive': 1
                 }
@@ -19372,7 +19395,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             else {
                 $scope.AddUserParameters = [{
                     'ID': 0,
+                    'User_Id': 0,
                     "FULLNAME": "",
+                    'TAB_ID': 0,
                     'PIN': "",
                     'IsActive': 1
                 }];
@@ -19386,7 +19411,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 if ($scope.AddUserParameters.length == 0) {
                     $scope.AddUserParameters = [{
                         'ID': 0,
+                        'User_Id':0,
                         "FULLNAME": "",
+                        'TAB_ID': 0,
                         'PIN': "",
                         'IsActive': 1
                     }];
@@ -19455,7 +19482,24 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     var DevicesListid = $ff($scope.DevicesLists, function (value) {
                         return value.ID != '';
                     });
-                    
+                    $scope.UserTabDetails_List = [];
+                    angular.forEach($scope.AddUserParameters, function (value, index) {
+                        var obj = {
+                            Id: 0,
+                            Id: value
+                        }
+                        $scope.UserTabDetails_List.push(obj);
+                    });
+
+                    $scope.UserDeviceDetails_List = [];
+                    angular.forEach($scope.SelectedDevice, function (value, index) {
+                        var obj = {
+                            Id: 0,
+                            DeviceId: value
+                        }
+                        $scope.UserDeviceDetails_List.push(obj);
+                    });
+
 
                     var obj = {
                         ID: $scope.Id,
@@ -19465,10 +19509,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         OS: $scope.OS,
                         InstitutionId: $window.localStorage['InstitutionId'],
                         Created_By: $scope.CREATED_BY,
-                        Tabuserlist: filteredObj,
-                        DevicesListid: DevicesListid == 0 ? "" : DevicesListid,
-                        SelectedTabdevicelist: DevicesListid == 0 ? "" : DevicesListid,
-                        SelectedTabuserlist: filteredObj
+                        UserList: $scope.UserTabDetails_List,
+                        DevicesList: $scope.DevicesLists,
+                        SelectedTabdevicelist: $scope.UserDeviceDetails_List,
+                        SelectedTabuserlist: $scope.UserTabDetails_List
                     };
 
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {

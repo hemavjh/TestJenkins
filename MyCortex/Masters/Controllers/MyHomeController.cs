@@ -65,14 +65,7 @@ namespace MyCortex.User.Controllers
 
             IList<TabListModel> ModelData = new List<TabListModel>();
             TabUserReturnModels model = new TabUserReturnModels();
-            if (!ModelState.IsValid)
-            {
-                model.Status = "False";
-                model.Message = "Invalid data";
-                model.Tabuserdetails = ModelData;
-                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-
-            }
+            
 
             string messagestr = "";
             try

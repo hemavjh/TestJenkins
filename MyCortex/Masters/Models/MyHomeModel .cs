@@ -21,9 +21,9 @@ namespace MyCortex.Masters.Models
         public long Created_By { get; set; }
         public string VENDOR { get; set; }
         public int Flag { get; set; }
-        public IList<TabUserlist> Tabuserlist { get; set; }
+        public IList<TabUserlist> UserList { get; set; }
         public IList<UserTabUserlist> SelectedTabuserlist { get; set; }
-        public IList<TabDeviceslist> DevicesListid { get; set; }
+        public IList<TabDeviceslist> DevicesList { get; set; }
         public IList<UserTabDeviceslist> SelectedTabdevicelist { get; set; }
     }
 
@@ -95,6 +95,7 @@ namespace MyCortex.Masters.Models
         public string UserFullName { get; set; }
         public bool IsActive { get; set; }
         public string PIN { get; set; }
+        public long? TAB_ID { get; set; }
     }
     public class UserTabDeviceslist
     {
@@ -103,5 +104,6 @@ namespace MyCortex.Masters.Models
         public long? DeviceId { get; set; }
         public string DeviceName { get; set; }
         public bool IsActive { get; set; }
+        public long? TAB_ID { get; set; }
     }
 }
