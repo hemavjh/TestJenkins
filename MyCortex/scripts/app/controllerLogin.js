@@ -737,7 +737,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.changelanguage = "Change Language";
 
         
-       
+        $scope.defaultsignupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
         $scope.signupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
         if ($scope.InstitutionCode == "") {
             $scope.institutionName = "MyCortex";
@@ -805,6 +805,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                             if (masterVal.LANGUAGE_KEY === "signupacknowledgement") {
                                 $scope.signupacknowledgement = masterVal.LANGUAGE_TEXT;
                                 $scope.signupacknowledgement = $scope.signupacknowledgement.replace(/MyCortex/g, $scope.institutionName); 
+                                $scope.defaultsignupacknowledgement = $scope.defaultsignupacknowledgement.replace(/MyCortex/g, $scope.institutionName); 
                             }
                         });
                     }).error(function (data) {
