@@ -1454,7 +1454,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             if ($scope.Businessuesrclickcount == 1) {
                 $scope.BusinessUserDropdownList();
             }
-            $scope.SuperAdminDropdownsList();
+            $scope.status = 1;
+            $scope.SuperAdminDropdownsList(); 
             angular.element('#UserModal').modal('show');
         }
 
@@ -1526,6 +1527,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.AppConfigurationProfileImageList();
             $scope.Admin_View($scope.MenuTypeId);
             $scope.currentTab = "1";
+            $scope.status = 0;
+            $('[data-id="selectpicker"]').prop('disabled', true);
             angular.element('#UserModal').modal('show');
             $('#spradminrowid').prop('disabled', true);
             $('#hosadminrowid').prop('disabled', true);
@@ -1898,7 +1901,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //});
         $scope.SuperAdminDropdownsList = function () {
             if ($scope.LoginType == 1 || $scope.LoginType == 3) {
-                $http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
+                $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
                     $scope.InstitutiondetailsListTemp = [];
                     $scope.InstitutiondetailsListTemp = data;
                     var obj = { "Id": 0, "Name": "Select", "IsActive": 0 };

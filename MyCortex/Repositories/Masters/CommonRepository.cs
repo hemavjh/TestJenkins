@@ -544,11 +544,11 @@ namespace MyCortex.Repositories.Masters
         /// to get affiliation name list
         /// </summary>
         /// <returns>affiliation name list</returns>
-        public IList<ddItemList> InstitutionNameList()
+        public IList<ddItemList> InstitutionNameList(long status)
         {
             List<DataParameter> param = new List<DataParameter>();
-
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SP_GETINSTITUTIONNAME");
+            param.Add(new DataParameter("@Status", status));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SP_GETINSTITUTIONNAME", param);
             List<ddItemList> list = (from p in dt.AsEnumerable()
                                      select new ddItemList()
                                      {

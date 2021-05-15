@@ -637,10 +637,10 @@ namespace MyCortex.Masters.Controllers
         /// <returns>affiliation name list</returns>
         [Authorize]
         [HttpGet]
-        public IList<ddItemList> InstitutionNameList()
+        public IList<ddItemList> InstitutionNameList(long status)
         {
             IList<ddItemList> model;
-            model = repository.InstitutionNameList();
+            model = repository.InstitutionNameList(status);
             return model;
         }
 

@@ -29,7 +29,7 @@ namespace MyCortex.Repositories
         IList<AlergySubstanceModel> AlergySubstanceList();
         IList<BloodGroupModel> BloodGroupList();
         IList<MaritalStatusModel> MaritalStatusList();
-        IList<ddItemList> InstitutionNameList();
+        IList<ddItemList> InstitutionNameList(long status);
         IList<OptionTypeModel> OptionTypeList();
         IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id);
         IList<UnitGroupTypeModel> UnitGroupTypeList();
