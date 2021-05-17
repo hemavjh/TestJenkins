@@ -269,6 +269,7 @@
     <Content Include="Css\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Css\jquery-ui.css" />
+    <Content Include="Css\jquery.datetimepicker.css" />
     <Content Include="Css\jquery.mCustomScrollbar.css" />
     <Content Include="Css\jquery.multiselect.css" />
     <Content Include="Css\login.css" />
@@ -728,9 +729,12 @@
     <Content Include="scripts\croppie.min.js" />
     <Content Include="scripts\jquery-proper-slider.js" />
     <Content Include="scripts\jquery-ui.min.js" />
+    <Content Include="scripts\jquery.datetimepicker.js" />
+    <Content Include="scripts\jquery.js" />
     <Content Include="scripts\jquery.mcautocomplete.js" />
     <Content Include="scripts\jquery.mCustomScrollbar.js" />
     <Content Include="scripts\jszip.js" />
+    <Content Include="scripts\karma.conf.js" />
     <Content Include="scripts\login.js" />
     <Content Include="scripts\messaging\notification.js" />
     <Content Include="scripts\messaging\chatService.js" />
