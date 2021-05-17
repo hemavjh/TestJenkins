@@ -19134,8 +19134,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.IsEdit = false;
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
-            //$scope.ClearPopup();
-            $location.path("/MyHomeCreate/" + "2" + "/" + "3");
+            //$scope.ClearPopup(); 
+            $scope.SelectedDevice = "0"; 
+            $scope.currentTab = "1";
+            angular.element('#TabAddModal').modal('show');
         }
         $scope.ClearPopUp = function () {
             $scope.TabName = "";
@@ -19143,6 +19145,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Model = "";
             $scope.OS = "";
             $scope.Id = "0"; 
+            $scope.SelectedDevice = "0";
             $scope.InstitutionId = "";
             $scope.CancelPopup();
         }
@@ -19177,6 +19180,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Id = 0;
             // $scope.AppoinmentSlotClear();
             angular.element('#TabAddModal').modal('hide');
+           
         }
         $scope.CancelPopup = function () {
             angular.element('#TabAddModal').modal('hide');
@@ -19345,8 +19349,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.EditMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
             $scope.Editid = CatId;
-            //$scope.ViewMyTab();  
-            $location.path("/MyHomeEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
+            $scope.currentTab = "1";
+            $scope.ViewMyTab();  
+            angular.element('#TabAddModal').modal('show');
         }
 
         
@@ -19520,10 +19525,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     };
 
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
+                        $("#chatLoaderPV").hide();
                         alert(data.Message);
                         $scope.TabList();
-                        $scope.Cancel_MYTAB();
-                        $("#chatLoaderPV").hide();
+                        $scope.Cancel_MYTAB(); 
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting Parameter" + data;
                     });
