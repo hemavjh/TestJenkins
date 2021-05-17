@@ -965,7 +965,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $location.path("/SaveInstitution_Subscription/");
         };
         // This is for to get Institution Details List 
-        $http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
+        $scope.status = 0;
+        $http.get(baseUrl + '/api/Common/InstitutionNameList/?status=' + $scope.status).success(function (data) {
             $scope.InstitutiondetailsListTemp = [];
             $scope.InstitutiondetailsListTemp = data;
             var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
