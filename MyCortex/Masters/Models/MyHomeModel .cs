@@ -21,9 +21,6 @@ namespace MyCortex.Masters.Models
         public long Created_By { get; set; }
         public string VENDOR { get; set; }
         public int Flag { get; set; }
-        public string DeviceName { get; set; }
-        public string UserName { get; set; }
-        public string PIN { get; set; }
         public IList<TabUserlist> UserList { get; set; }
         public IList<UserTabUserlist> SelectedTabuserlist { get; set; }
         public IList<TabDeviceslist> DevicesList { get; set; }

@@ -19139,30 +19139,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
         $scope.CREATED_BY = $window.localStorage['UserId'];
         $scope.IsEdit = false;
-        $scope.showSave = true;
-        $scope.View = 2;
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
-            $scope.currentTab = "1";
             //$scope.ClearPopup(); 
-            $scope.TabName = "";
-            $scope.RefId = "";
-            $scope.Model = "";
-            $scope.OS = "";
-            $scope.Id = "0";
-            $scope.SelectedDevice = "0";
-            $('#tabname').prop('disabled', false);
-            $('#refidtab').prop('disabled', false);
-            $('#modeltab').prop('disabled', false);
-            $('#ostab').prop('disabled', false);
-            $('#userlisttab').prop('disabled', false);
-            $('#pintab').prop('disabled', false);
-            $('#Image2').prop('disabled', false);
-            $('#Image2').prop('title', 'Click to Delete');
-            $('#tabdevice').prop('disabled', false);
-            $scope.showSave = true; 
-            var $sel2 = $('#tabdevice');
-            $sel2.multiselect('enable');
+            $scope.SelectedDevice = "0"; 
+            $scope.currentTab = "1";
             angular.element('#TabAddModal').modal('show');
         }
         $scope.ClearPopUp = function () {
@@ -19302,24 +19283,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS OPENING POP WINDOW VIEW */
         $scope.ViewMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
-            $('#tabname').prop('disabled', true);
-            $('#refidtab').prop('disabled', true);
-            $('#modeltab').prop('disabled', true);
-            $('#ostab').prop('disabled', true);
-            $('#userlisttab').prop('disabled', true);
-            $('#pintab').prop('disabled', true);
-            $('#Image2').prop('disabled', true);
-            $('#Image2').prop('title', 'Disable the Delete Icon');
-            $('#tabdevice').prop('disabled', true);
-            $scope.showSave = false;
-            var $sel2 = $('#tabdevice');
-            $sel2.multiselect('disable');
             $scope.ViewMyTab();
-            angular.element('#TabAddModal').modal('show');
+            angular.element('#MyTabViewModal').modal('show'); 
         }
         /* THIS IS CANCEL VIEW POPUP FUNCTION  */
         $scope.CancelViewPopup = function () {
-            angular.element('#TabAddModal').modal('hide');
+            angular.element('#MyTabViewModal').modal('hide');
         }
 
         /* THIS IS FOR VIEW PROCEDURE */
@@ -19344,9 +19313,6 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.OS = data.OS;
                 $scope.UsersCount = data.UsersCount.toString();
                 $scope.DevicesCount = data.DevicesCount.toString();
-                $scope.DeviceName = data.DeviceName;
-                $scope.UserName = data.UserName;
-                $scope.PIN = data.PIN;
                 angular.forEach(data.SelectedTabdevicelist, function (value, index) {
                     $scope.EditSelectedDevice.push(value.DeviceId);
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
@@ -19391,19 +19357,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Id = CatId;
             $scope.Editid = CatId;
             $scope.currentTab = "1";
-            $('#tabname').prop('disabled', false);
-            $('#refidtab').prop('disabled', false);
-            $('#modeltab').prop('disabled', false);
-            $('#ostab').prop('disabled', false);
-            $('#userlisttab').prop('disabled', false);
-            $('#pintab').prop('disabled', false);
-            $('#Image2').prop('disabled', false);
-            $('#Image2').prop('title', 'Click to Delete');
-            $('#tabdevice').prop('disabled', false);
-            $scope.showSave = true;
-            var $sel2 = $('#tabdevice');
-            $sel2.multiselect('enable');
-            $scope.ViewMyTab();
+            $scope.ViewMyTab();  
             angular.element('#TabAddModal').modal('show');
         }
 
