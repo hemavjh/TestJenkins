@@ -15391,13 +15391,13 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                 return false;
             }*/
             var retval = true;
-            if ((ParseDate($scope.Period_From) < ParseDate(today)))  {
-                alert("FromDate Can Be Booked Only For Past");
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_To);
-                retval = false;
-                return false;
-            }
+            //if ((ParseDate($scope.Period_From) < ParseDate(today)))  {
+            //    alert("FromDate Can Be Booked Only For Past");
+            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //    $scope.Period_To = DateFormatEdit($scope.Period_To);
+            //    retval = false;
+            //    return false;
+            //}
 
             if ((ParseDate($scope.Period_To) < ParseDate(today)))  {
                 alert("To Date Can Be Booked Only For Past");
