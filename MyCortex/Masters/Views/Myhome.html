@@ -160,7 +160,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup>
                                                         </label>
-                                                        <input type="text" class="form-control" id="Text1" name="TabName" ng-model="TabName"
+                                                        <input type="text" class="form-control" id="tabname" name="TabName" ng-model="TabName"
                                                                ng-init="TabName=''" ng-required="true" onkeypress="ParticularSpec(event)"
                                                                placeholder="" ng-maxlength="40" maxlength="40" />
                                                     </div>
@@ -172,7 +172,7 @@
                                                         </label>
 
                                                         <div>
-                                                            <input type="text" class="form-control" id="Text2" name="RefId" ng-model="RefId"
+                                                            <input type="text" class="form-control" id="refidtab" name="RefId" ng-model="RefId"
                                                                    ng-init="RefId=''" ng-required="true" placeholder="" ng-maxlength="20" maxlength="20" />
                                                         </div>
                                                     </div>
@@ -182,7 +182,7 @@
                                                         </label>
 
                                                         <div>
-                                                            <input type="text" class="form-control" id="Text3" name="Model" ng-model="Model"
+                                                            <input type="text" class="form-control" id="modeltab" name="Model" ng-model="Model"
                                                                    ng-init="Model=''" ng-required="true" placeholder="" ng-maxlength="20" maxlength="20">
                                                         </div>
                                                     </div>
@@ -192,7 +192,7 @@
                                                         </label>
 
                                                         <div>
-                                                            <input type="text" class="form-control" id="Text4" name="OS" ng-model="OS"
+                                                            <input type="text" class="form-control" id="ostab" name="OS" ng-model="OS"
                                                                    ng-init="OS=''" ng-required="true" placeholder="" ng-maxlength="30" maxlength="30">
                                                         </div>
                                                     </div>
@@ -219,7 +219,7 @@
                                                                 <tbody>
                                                                     <tr ng-repeat="row in AddUserParameters">
                                                                         <td style="width:216px;">
-                                                                            <select class="form-control" style="width:200px;"
+                                                                            <select class="form-control" style="width:200px;" id="userlisttab"
                                                                                     ng-model="row.Id" ng-options="item1.ID as item1.FULLNAME for item1 in UserLists">
                                                                                 <option value="">Select</option>
 
@@ -229,7 +229,7 @@
                                                                         <td>
                                                                             <input type="text" class="form-control"
                                                                                    ng-model="row.PIN" maxlength="10"
-                                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:100px;">
+                                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:100px;" id="pintab">
                                                                         </td>
                                                                         <td>
                                                                             <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete'
@@ -239,7 +239,7 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <a href="javascript:" title="Click to Add" style="color: #35a9e4;" ng-click="MyHomeAdd()">|Add|</a>
+                                                            <a href="javascript:" title="Click to Add"  ng-show="showSave == true"  style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -253,11 +253,12 @@
                                                     <div class="col-sm-4">
                                                         <div class="inputGroups" style="margin-left:10px;width:300px;">
                                                             <label style="margin-left:1px;">Devices</label>
-                                                            <select ng-model="SelectedDevice" multiple="multiple"
+                                                          
+                                                            <select id="tabdevice" ng-model="SelectedDevice" multiple="multiple"
                                                                     ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"
                                                                     multiselect-dropdown style="width: 220px;"></select>
-
-                                                        </div>
+                                                           
+                                                        </div> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -268,11 +269,11 @@
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="save" title="Click to Save"
+                        <button type="button" ng-show="showSave == true"  class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytab" title="Click to Save"
                                 ng-click="MYTAB_InsertUpdate()">
                             Save
                         </button>
-                        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel"
+                        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytab"
                                 ng-click="Cancel_MYTAB()">
                             Cancel
                         </button>

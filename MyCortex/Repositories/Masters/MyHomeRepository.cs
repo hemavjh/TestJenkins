@@ -161,12 +161,13 @@ namespace MyCortex.Repositories.Masters
         public TabListModel Tab_ListView(int id)
             {
             //  DataEncryption DecryptFields = new DataEncryption();
+            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", id)); 
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.MYHOME_TAB_SP_LIST_View", param);
-                DataEncryption DecryptFields = new DataEncryption();
+               
                 TabListModel list = (from p in dt.AsEnumerable()
                                      select new TabListModel()
                                      {
@@ -177,9 +178,12 @@ namespace MyCortex.Repositories.Masters
                                                Model = p.Field<string>("MODEL"),
                                                OS = p.Field<string>("OS"),
                                                UsersCount = p.Field<int>("NUMBER_USERS"),
-                                               DevicesCount = p.Field<int>("NUMBER_DEVICES") 
-                                              
-                                      }).FirstOrDefault();
+                                               DevicesCount = p.Field<int>("NUMBER_DEVICES"),
+                                               DeviceName = p.Field<string>("DeviceName"),
+                                               UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
+                                               PIN = p.Field<string>("PIN")
+
+                                     }).FirstOrDefault();
                 if (list != null)
                 {
                     list.SelectedTabdevicelist = USERDEVICEDETAILS_VIEW(list.ID);
@@ -213,6 +217,7 @@ namespace MyCortex.Repositories.Masters
 
         public IList<UserTabUserlist> USERTABDETAILS_VIEW(long Id)
         {
+            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTABDETAILS_SP_VIEW]", param);
@@ -222,7 +227,7 @@ namespace MyCortex.Repositories.Masters
                                                 Id = p.Field<long>("Id"),
                                                 TAB_ID = p.Field<long>("TAB_ID"),
                                                 User_Id = p.Field<long>("USER_ID"),
-                                                UserFullName = p.Field<string>("USERNAME"),
+                                                UserFullName = DecryptFields.Decrypt(p.Field<string>("USERNAME")),
                                                 PIN = p.Field<string>("PIN"),
                                                 IsActive=p.Field<bool>("ISACTIVE")
                                             }).ToList();
