@@ -5158,7 +5158,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             angular.element('#PatientGroupListModal').modal('hide');
 
         };
-
+        $scope.CancelPatientMonitoringProtocolModal = function () {
+            angular.element('#PatientMonitoringProtocolModal').modal('hide');
+        }
         $scope.CancelPatientAllergyNamePopup = function () {
             angular.element('#PatientAllergyListModal').modal('hide');
         }
@@ -5431,6 +5433,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.ViewProtocolName = data.ProtocolName;
                         $scope.assignedProtocolId = $scope.MonitoringProtocolId;
                         $scope.Monitoring_ProtocolId = $scope.MonitoringProtocolId;
+                    } else {
+                        $http.get(baseUrl + '/api/Protocol/StandardProtocol_List/?IsActive=1&InstitutionId=' + $scope.Institution_Id).success(function (data) {
+                            $scope.MonitoringProtocolListTemp = [];
+                            $scope.MonitoringProtocolListTemp = data;
+                        });
                     }
                     if ($scope.UserTypeId != 2) {
                         $scope.chattingWith = data.FullName;
