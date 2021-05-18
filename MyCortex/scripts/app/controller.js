@@ -19302,6 +19302,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS OPENING POP WINDOW VIEW */
         $scope.ViewMYTABPopUP = function (CatId) {
             $scope.Id = CatId;
+            $scope.currentTab = "1";
             $('#tabname').prop('disabled', true);
             $('#refidtab').prop('disabled', true);
             $('#modeltab').prop('disabled', true);
