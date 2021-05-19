@@ -143,11 +143,11 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         messagestr = "Login  Successfully";
                         model.Status = "True";
-                        if (loginObj.isTab && !String.IsNullOrEmpty(loginObj.Tab_Ref_ID))
-                        {
-                            model.TabDevices = repository.Get_TabDevices(model.InstitutionId, loginObj.Tab_Ref_ID);
-                            model.TabUsers = repository.Get_TabUsers(model.InstitutionId, loginObj.Tab_Ref_ID);
-                        }
+                        //if (loginObj.isTab && !String.IsNullOrEmpty(loginObj.Tab_Ref_ID))
+                        //{
+                        //    model.TabDevices = repository.Get_TabDevices(model.InstitutionId, loginObj.Tab_Ref_ID);
+                        //    model.TabUsers = repository.Get_TabUsers(model.InstitutionId, loginObj.Tab_Ref_ID);
+                        //}
                     }
                     else if ((model.data == 1) == true)
                     {
@@ -165,6 +165,12 @@ namespace MyCortex.Login.Controller
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Inactive User Cannot Login";
+                        model.Status = "False";
+                    }
+                    else if ((model.data == 11) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "Given Reference Id is not Available.";
                         model.Status = "False";
                     }
                     //model.UserDetails = ModelData;
