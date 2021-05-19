@@ -101,6 +101,56 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
+        [HttpGet]
+        public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
+        {
+            IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
+            TabDeviceListReturnModels model = new TabDeviceListReturnModels();
+            try
+            {
+                ModelData = repository.Get_TabDevices(InstitutionId, Tab_ID);
+
+                model.TabDeviceList = ModelData;
+                model.Message = "";// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Listing Devices";
+                model.TabDeviceList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage TabUser_List(long InstitutionId, long Tab_ID)
+        {
+            IList<TabUserModel> ModelData = new List<TabUserModel>();
+            TabUserListReturnModels model = new TabUserListReturnModels();
+            try
+            {
+                ModelData = repository.Get_TabUsers(InstitutionId, Tab_ID);
+
+                model.TabUserList = ModelData;
+                model.Message = "";// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Listing Users";
+                model.TabUserList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
     }
 }
     

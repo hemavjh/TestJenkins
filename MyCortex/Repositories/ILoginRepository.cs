@@ -27,8 +27,6 @@ namespace MyCortex.Repositories
         LoginModel GetPasswordHistory_Count(long UserId);
         UsertypeModal LastPasswordChangeTime(long UserId);
         LoginModel Userlogin_Validate(string Username, string Password);
-        IList<TabDevicesModel> Get_TabDevices(long Institution_ID, string Ref_Id);
-        IList<TabUserModel> Get_TabUsers(long Institution_ID, string Ref_Id);
 
 
         bool CheckExpiryDate();

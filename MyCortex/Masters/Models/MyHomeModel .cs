@@ -73,6 +73,24 @@ namespace MyCortex.Masters.Models
          
     }
 
+    public class TabDeviceListReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IList<TabDevicesModel> TabDeviceList { get; set; }
+
+    }
+
+    public class TabUserListReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IList<TabUserModel> TabUserList { get; set; }
+
+    }
+
     public class TabDeviceslist
     {
         public long ID { get; set; }
