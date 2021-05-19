@@ -100,7 +100,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<AutomatedTestReportDetails> AutomatedTestReport_InsertUpdate(long TEST_ID, DateTime TEST_START_DTTM, DateTime TEST_END_DTTM, bool TEST_RESULT, string TEST_RESULT_REASON, string TEST_REPORT, string TEST_SESSION = "", string TEST_REF = "")
+        public IList<AutomatedTestReportDetails> AutomatedTestReport_InsertUpdate(long ROWID,long TEST_ID, DateTime? TEST_START_DTTM, DateTime? TEST_END_DTTM, bool TEST_RESULT, string TEST_RESULT_REASON, string TEST_REPORT, string TEST_SESSION = "", string TEST_REF = "")
         {
 
 
@@ -108,6 +108,7 @@ namespace MyCortex.Repositories.Masters
             string flag = "";
 
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ROWID", ROWID));
             param.Add(new DataParameter("@TEST_ID", TEST_ID));
             param.Add(new DataParameter("@TEST_START_DTTM", TEST_START_DTTM));
             param.Add(new DataParameter("@TEST_END_DTTM", TEST_END_DTTM));
@@ -126,8 +127,8 @@ namespace MyCortex.Repositories.Masters
                                                          new AutomatedTestReportDetails()
                                                          {
                                                              TEST_ID = p.Field<long>("TEST_ID"),
-                                                             TEST_START_DTTM = p.Field<DateTime>("TEST_START_DTTM"),
-                                                             TEST_END_DTTM = p.Field<DateTime>("TEST_END_DTTM"),
+                                                             TEST_START_DTTM = p.Field<DateTime?>("TEST_START_DTTM"),
+                                                             TEST_END_DTTM = p.Field<DateTime?>("TEST_END_DTTM"),
                                                              TEST_RESULT = p.Field<bool>("TEST_RESULT"),
                                                              TEST_RESULT_REASON = p.Field<string>("TEST_RESULT_REASON"),
                                                              TEST_REPORT = p.Field<string>("TEST_REPORT"),
@@ -144,7 +145,7 @@ namespace MyCortex.Repositories.Masters
 
         }
 
-        public AutomatedTestReportDetails AutomatedTestReport_View(long TEST_ID)
+        public AutomatedTestReportDetails AutomatedTestReport_View(long Rowid)
         {
 
 
@@ -152,7 +153,7 @@ namespace MyCortex.Repositories.Masters
             string flag = "";
 
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@TEST_ID", TEST_ID));
+            param.Add(new DataParameter("@ROWID", Rowid));
              
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -164,8 +165,8 @@ namespace MyCortex.Repositories.Masters
                                                          new AutomatedTestReportDetails()
                                                          {
                                                              TEST_ID = p.Field<long>("TEST_ID"),
-                                                             TEST_START_DTTM = p.Field<DateTime>("TEST_START_DTTM"),
-                                                             TEST_END_DTTM = p.Field<DateTime>("TEST_END_DTTM"),
+                                                             TEST_START_DTTM = p.Field<DateTime?>("TEST_START_DTTM"),
+                                                             TEST_END_DTTM = p.Field<DateTime?>("TEST_END_DTTM"),
                                                              TEST_RESULT = p.Field<bool>("TEST_RESULT"),
                                                              TEST_RESULT_REASON = p.Field<string>("TEST_RESULT_REASON"),
                                                              TEST_REPORT = p.Field<string>("TEST_REPORT"),

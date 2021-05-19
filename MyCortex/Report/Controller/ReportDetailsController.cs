@@ -69,7 +69,7 @@ namespace MyCortex.Masters.Controllers
 
 
         [HttpGet]
-        public HttpResponseMessage AutomatedTestReport_InsertUpdate(long TEST_ID,DateTime TEST_START_DTTM,DateTime TEST_END_DTTM,bool TEST_RESULT,string TEST_RESULT_REASON,string TEST_REPORT,string TEST_SESSION="",string TEST_REF="")
+        public HttpResponseMessage AutomatedTestReport_InsertUpdate(long ROWID, long TEST_ID,DateTime? TEST_START_DTTM,DateTime? TEST_END_DTTM,bool TEST_RESULT,string TEST_RESULT_REASON,string TEST_REPORT,string TEST_SESSION="",string TEST_REF="")
         {
 
             IList<AutomatedTestReportDetails> ModelData = new List<AutomatedTestReportDetails>();
@@ -79,9 +79,13 @@ namespace MyCortex.Masters.Controllers
             string messagestr = "";
             try
             {
-                ModelData = repository.AutomatedTestReport_InsertUpdate(TEST_ID, TEST_START_DTTM, TEST_END_DTTM, TEST_RESULT, TEST_RESULT_REASON, TEST_REPORT, TEST_SESSION, TEST_REF);
-                
-                if (ModelData.Any(item => item.Flag == 2) == true)
+                ModelData = repository.AutomatedTestReport_InsertUpdate( ROWID, TEST_ID, TEST_START_DTTM, TEST_END_DTTM, TEST_RESULT, TEST_RESULT_REASON, TEST_REPORT, TEST_SESSION, TEST_REF);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "AutomatedReport Id already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
                 {
                     messagestr = "AutomatedReport created successfully";
                     model.ReturnFlag = 1;
@@ -110,10 +114,10 @@ namespace MyCortex.Masters.Controllers
 
 
         [HttpGet]
-        public AutomatedTestReportDetails AutomatedTestReport_View(long TEST_ID)
+        public AutomatedTestReportDetails AutomatedTestReport_View(long rowid)
         {
             AutomatedTestReportDetails model = new AutomatedTestReportDetails();
-            model = repository.AutomatedTestReport_View(TEST_ID);
+            model = repository.AutomatedTestReport_View(rowid);
             return model;
         }
 
