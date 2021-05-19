@@ -16799,10 +16799,10 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
             //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
-            if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
-                alert("Please select Period To");
-                return false;
-            }
+            //if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
+            //    alert("Please select Period To");
+            //    return false;
+            //}
             //else if (isDate($scope.Period_To) == false) {
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
