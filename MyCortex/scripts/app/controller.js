@@ -16786,14 +16786,14 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 alert("Please select Table Short Name");
                 return false;
             }
-            else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
-                alert("Please select Period To Time");
-                return false;
-            }
-            else if (typeof ($scope.PeriodToTime) == "undefined" || $scope.PeriodToTime  == "") {
-                alert("Please select Period To Time");
-                return false;
-            }
+            //else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
+            //    alert("Please select Period To Time");
+            //    return false;
+            //}
+            //else if (typeof ($scope.PeriodToTime) == "undefined" || $scope.PeriodToTime  == "") {
+            //    alert("Please select Period To Time");
+            //    return false;
+            //}
 
             //else if (isDate($scope.Period_From) == false) {
             //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
