@@ -9365,7 +9365,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 else if ($scope.allergyActive == false) {
                     $scope.ISact = -1 //all
                 }
-                $http.get(baseUrl + 'api/User/PatientAllergylist/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + 'api/User/PatientAllergylist/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId+ '&StartRowNumber=' + $scope.PageStart +'&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
                     $scope.PatientAllergyEmptyData = [];
