@@ -60,7 +60,7 @@ namespace MyCortex.Repositories.Masters
         /// <param name="ShortNameId">Table Short Name</param>
         /// <param name="UserNameId">User</param>
         /// <returns></returns>
-        public IList<ReportDetailsModel> PatientReportDetails_List(DateTime Period_From, DateTime Period_To, string PeriodFromTime, string PeriodToTime, string ShortNameId, long UserNameId, Guid Login_Session_Id,int StartRowNumber,int EndRowNumber)
+        public IList<ReportDetailsModel> PatientReportDetails_List(DateTime Period_From, DateTime Period_To, string PeriodFromTime, string PeriodToTime, string ShortNameId, long UserNameId, Guid Login_Session_Id, int StartRowNumber, int EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -78,19 +78,19 @@ namespace MyCortex.Repositories.Masters
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].AUDITTRAIL_REPORTS_SP_LIST", param);
 
                 List<ReportDetailsModel> lst = (from p in dt.AsEnumerable()
-                                                   select new ReportDetailsModel()
-                                                   {
-                                                       TotalRecord = p.Field<string>("TotalRecords"),
-                                                       ShortName = p.Field<string>("SHORTNAME"),
-                                                       TableDisplayName = p.Field<string>("TABLE_DISPLAYNAME"),
-                                                       NewValue = p.Field<string>("NEWVALUE"),
-                                                       OldValue = p.Field<string>("OLDVALUE"),
-                                                       Details = p.Field<string>("DETAILS"),
-                                                       ColumnOrder = p.Field<string>("COLUMNORDER"),
-                                                       Action = p.Field<string>("ACTION"),
-                                                       ActionDateTime = p.Field<DateTime>("ACTIONDATETIME")
-                                                      
-                                                   }).ToList();
+                                                select new ReportDetailsModel()
+                                                {
+                                                    TotalRecord = p.Field<string>("TotalRecords"),
+                                                    ShortName = p.Field<string>("SHORTNAME"),
+                                                    TableDisplayName = p.Field<string>("TABLE_DISPLAYNAME"),
+                                                    NewValue = p.Field<string>("NEWVALUE"),
+                                                    OldValue = p.Field<string>("OLDVALUE"),
+                                                    Details = p.Field<string>("DETAILS"),
+                                                    ColumnOrder = p.Field<string>("COLUMNORDER"),
+                                                    Action = p.Field<string>("ACTION"),
+                                                    ActionDateTime = p.Field<DateTime>("ACTIONDATETIME")
+
+                                                }).ToList();
                 return lst;
             }
             catch (Exception ex)
@@ -100,5 +100,87 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<AutomatedTestReportDetails> AutomatedTestReport_InsertUpdate(long TEST_ID, DateTime TEST_START_DTTM, DateTime TEST_END_DTTM, bool TEST_RESULT, string TEST_RESULT_REASON, string TEST_REPORT, string TEST_SESSION = "", string TEST_REF = "")
+        {
+
+
+
+            string flag = "";
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@TEST_ID", TEST_ID));
+            param.Add(new DataParameter("@TEST_START_DTTM", TEST_START_DTTM));
+            param.Add(new DataParameter("@TEST_END_DTTM", TEST_END_DTTM));
+            param.Add(new DataParameter("@TEST_RESULT", TEST_RESULT));
+            param.Add(new DataParameter("@TEST_RESULT_REASON", TEST_RESULT_REASON));
+            param.Add(new DataParameter("@TEST_REPORT", TEST_REPORT));
+            param.Add(new DataParameter("@TEST_SESSION", TEST_SESSION));
+            param.Add(new DataParameter("@TEST_REF", TEST_REF));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_INSERTUPDATE", param);
+
+                IList<AutomatedTestReportDetails> INS = (from p in dt.AsEnumerable()
+                                                         select
+                                                         new AutomatedTestReportDetails()
+                                                         {
+                                                             TEST_ID = p.Field<long>("TEST_ID"),
+                                                             TEST_START_DTTM = p.Field<DateTime>("TEST_START_DTTM"),
+                                                             TEST_END_DTTM = p.Field<DateTime>("TEST_END_DTTM"),
+                                                             TEST_RESULT = p.Field<bool>("TEST_RESULT"),
+                                                             TEST_RESULT_REASON = p.Field<string>("TEST_RESULT_REASON"),
+                                                             TEST_REPORT = p.Field<string>("TEST_REPORT"),
+                                                             Flag = p.Field<int>("flag")
+                                                         }).ToList();
+                return INS;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }
+
+        public AutomatedTestReportDetails AutomatedTestReport_View(long TEST_ID)
+        {
+
+
+
+            string flag = "";
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@TEST_ID", TEST_ID));
+             
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_VIEW", param);
+
+                AutomatedTestReportDetails INS = (from p in dt.AsEnumerable()
+                                                         select
+                                                         new AutomatedTestReportDetails()
+                                                         {
+                                                             TEST_ID = p.Field<long>("TEST_ID"),
+                                                             TEST_START_DTTM = p.Field<DateTime>("TEST_START_DTTM"),
+                                                             TEST_END_DTTM = p.Field<DateTime>("TEST_END_DTTM"),
+                                                             TEST_RESULT = p.Field<bool>("TEST_RESULT"),
+                                                             TEST_RESULT_REASON = p.Field<string>("TEST_RESULT_REASON"),
+                                                             TEST_REPORT = p.Field<string>("TEST_REPORT"),
+                                                             TEST_SESSION = p.Field<string>("TEST_SESSION"),
+                                                             TEST_REF = p.Field<string>("TEST_REF")
+                                                         }).FirstOrDefault();
+                return INS;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }
     }
 }

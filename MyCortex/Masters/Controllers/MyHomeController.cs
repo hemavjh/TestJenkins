@@ -59,7 +59,7 @@ namespace MyCortex.User.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
-
+        [HttpPost]
         public HttpResponseMessage Tab_InsertUpdate([FromBody] TabListModel obj)
         {
 

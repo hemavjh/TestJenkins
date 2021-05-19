@@ -24,5 +24,28 @@ namespace MyCortex.Masters.Models
         public string ColumnOrder { get; set; }
      
     }
-    
+
+    public class AutomatedTestReportDetails
+    {
+        public long  TEST_ID  { get; set; }
+        public string TEST_REF { get; set; }
+        public DateTime?  TEST_START_DTTM { get; set; }
+        public DateTime? TEST_END_DTTM { get; set; }
+        public bool TEST_RESULT { get; set; }
+        public string TEST_RESULT_REASON { get; set; }
+        public string  TEST_REPORT { get; set; }
+        public string TEST_SESSION { get; set; }
+        public DateTime? CREATED_DTTM { get; set; }
+        public int Flag { get; set; }
+    }
+
+    public class AutomatedTestReportReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IList<AutomatedTestReportDetails> AutomatedTestReportDetails { get; set; }
+
+    }
+
 }
