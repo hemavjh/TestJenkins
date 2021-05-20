@@ -16915,14 +16915,20 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                         $scope.PageEnd = $scope.current_page * $scope.page_size;
                         
                         
-                        var PeriodFromTime = $scope.PeriodFromTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodFromTime);
-                        var PeriodToTime  =  $scope.PeriodToTime == '' ? null : $scope.Convert12To24Timeformat($scope.PeriodToTime);   
-                        var fromtime2 = PeriodFromTime; 
+                        //var PeriodFromTime = $scope.PeriodFromTime == "" ? null : $scope.Convert12To24Timeformat($scope.PeriodFromTime);
+                        //var PeriodToTime  =  $scope.PeriodToTime == "" ? null : $scope.Convert12To24Timeformat($scope.PeriodToTime);   
+                       
+                        var periodsplitfromdate = $('#datetimepicker').val().split(' ')[0];
+                        var periodsplittodate = $('#datetimepicker_mask').val().split(' ')[0]; 
+                        var PeriodFromTime = $scope.Convert24to12Timeformat($('#datetimepicker').val().split(' ')[1]);
+                        var PeriodToTime = $scope.Convert24to12Timeformat($('#datetimepicker_mask').val().split(' ')[1]);
+                        var fromtime2 = PeriodFromTime;
                         var totime = PeriodToTime;
+
                          
                         $http.get(baseUrl + '/api/ReportDetails/PatientReportDetails_List?' +
-                            'Period_From=' + moment($scope.Period_From).format('DD-MMM-YYYY') +
-                            '&Period_To=' + moment($scope.Period_To).format('DD-MMM-YYYY') +
+                            'Period_From=' + moment(periodsplitfromdate).format('YYYY-MMM-DD') +
+                            '&Period_To=' + moment(periodsplittodate).format('YYYY-MMM-DD') +
                             '&PeriodFromTime=' + fromtime2+
                             '&PeriodToTime=' + totime +
                             '&ShortNameId=' + $scope.ShortNameId +
