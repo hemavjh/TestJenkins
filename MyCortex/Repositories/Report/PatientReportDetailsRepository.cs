@@ -100,7 +100,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<AutomatedTestReportDetails> AutomatedTestReport_InsertUpdate(long ROWID,long TEST_ID, DateTime? TEST_START_DTTM, DateTime? TEST_END_DTTM, bool TEST_RESULT, string TEST_RESULT_REASON, string TEST_REPORT, string TEST_SESSION = "", string TEST_REF = "")
+        public  AutomatedTestReportDetails AutomatedTestReport_InsertUpdate(AutomatedTestReportDetails AutomatedObject)
         {
 
 
@@ -108,21 +108,21 @@ namespace MyCortex.Repositories.Masters
             string flag = "";
 
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@ROWID", ROWID));
-            param.Add(new DataParameter("@TEST_ID", TEST_ID));
-            param.Add(new DataParameter("@TEST_START_DTTM", TEST_START_DTTM));
-            param.Add(new DataParameter("@TEST_END_DTTM", TEST_END_DTTM));
-            param.Add(new DataParameter("@TEST_RESULT", TEST_RESULT));
-            param.Add(new DataParameter("@TEST_RESULT_REASON", TEST_RESULT_REASON));
-            param.Add(new DataParameter("@TEST_REPORT", TEST_REPORT));
-            param.Add(new DataParameter("@TEST_SESSION", TEST_SESSION));
-            param.Add(new DataParameter("@TEST_REF", TEST_REF));
+            param.Add(new DataParameter("@ROWID", AutomatedObject.ROWID));
+            param.Add(new DataParameter("@TEST_ID", AutomatedObject.TEST_ID));
+            param.Add(new DataParameter("@TEST_START_DTTM", AutomatedObject.TEST_START_DTTM));
+            param.Add(new DataParameter("@TEST_END_DTTM", AutomatedObject.TEST_END_DTTM));
+            param.Add(new DataParameter("@TEST_RESULT", AutomatedObject.TEST_RESULT));
+            param.Add(new DataParameter("@TEST_RESULT_REASON", AutomatedObject.TEST_RESULT_REASON));
+            param.Add(new DataParameter("@TEST_REPORT", AutomatedObject.TEST_REPORT));
+            param.Add(new DataParameter("@TEST_SESSION", AutomatedObject.TEST_SESSION));
+            param.Add(new DataParameter("@TEST_REF", AutomatedObject.TEST_REF));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_INSERTUPDATE", param);
 
-                IList<AutomatedTestReportDetails> INS = (from p in dt.AsEnumerable()
+                 AutomatedTestReportDetails  INS = (from p in dt.AsEnumerable()
                                                          select
                                                          new AutomatedTestReportDetails()
                                                          {
@@ -133,7 +133,7 @@ namespace MyCortex.Repositories.Masters
                                                              TEST_RESULT_REASON = p.Field<string>("TEST_RESULT_REASON"),
                                                              TEST_REPORT = p.Field<string>("TEST_REPORT"),
                                                              Flag = p.Field<int>("flag")
-                                                         }).ToList();
+                                                         }).FirstOrDefault();
                 return INS;
 
             }
