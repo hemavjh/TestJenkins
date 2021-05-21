@@ -5171,7 +5171,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.MonitoringProtocolId = "";
         $scope.Monitoring_ProtocolId = "";
         $scope.assignedProtocolId = "";
-        ``
+        $scope.MonitoringProtocolName = [];
+
         var photoview = false;
         $scope.uploadview = false;
         $scope.unitgrouptype = 1;
@@ -5429,7 +5430,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     else
                         $('#divPatientType').attr('style', 'display : none');
                     if (data.Protocol_Id != null) {
-                        $scope.MonitoringProtocolName = "";
                         $scope.MonitoringProtocolId = data.Protocol_Id.toString();
                         $scope.ViewProtocolName = data.ProtocolName;
                         $scope.MonitoringProtocolName = data.ProtocolName;
