@@ -5604,6 +5604,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         else if ($scope.VitalsIsActive == false) {
                             $scope.Active = -1 //all
                         }
+
+                        if (ChartORData == 1) {
+                            $scope.PageStart = null;
+                            $scope.PageEnd = null;
+                        }
                         $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype + '&StartRowNumber=' + $scope.PageStart +
                             '&EndRowNumber=' + $scope.PageEnd + '&Active='+$scope.Active).success(function (data) {
                                 $("#chatLoaderPV").hide();
