@@ -5429,15 +5429,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     else
                         $('#divPatientType').attr('style', 'display : none');
                     if (data.Protocol_Id != null) {
+                        $scope.MonitoringProtocolName = "";
                         $scope.MonitoringProtocolId = data.Protocol_Id.toString();
                         $scope.ViewProtocolName = data.ProtocolName;
+                        $scope.MonitoringProtocolName = data.ProtocolName;
                         $scope.assignedProtocolId = $scope.MonitoringProtocolId;
                         $scope.Monitoring_ProtocolId = $scope.MonitoringProtocolId;
-                    } else {
-                        $http.get(baseUrl + '/api/Protocol/StandardProtocol_List/?IsActive=1&InstitutionId=' + $scope.Institution_Id).success(function (data) {
-                            $scope.MonitoringProtocolListTemp = [];
-                            $scope.MonitoringProtocolListTemp = data;
-                        });
                     }
                     if ($scope.UserTypeId != 2) {
                         $scope.chattingWith = data.FullName;
