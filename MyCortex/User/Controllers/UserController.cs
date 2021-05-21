@@ -2934,8 +2934,7 @@ namespace MyCortex.User.Controller
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
-                model = repository.Patient_OtherData_List(Patient_Id, IsActive,Login_Session_Id, StartRowNumber, EndRowNumber);
+                    _logger.Info("Controller"); 
                  
                 configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
                 _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
@@ -2944,7 +2943,8 @@ namespace MyCortex.User.Controller
                     _metadata.page = Page;
                     StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
                     EndRowNumber = Page * _metadata.per_page;
-                } 
+                }
+                model = repository.Patient_OtherData_List(Patient_Id, IsActive, Login_Session_Id, StartRowNumber, EndRowNumber);
                 if (model != null)
                 {
                     if (model.Count > 0)
