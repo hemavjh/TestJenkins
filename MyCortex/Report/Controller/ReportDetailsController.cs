@@ -68,7 +68,7 @@ namespace MyCortex.Masters.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage AutomatedTestReport_InsertUpdate(long ROWID, long TEST_ID,DateTime? TEST_START_DTTM,DateTime? TEST_END_DTTM,bool TEST_RESULT,string TEST_RESULT_REASON,string TEST_REPORT,string TEST_SESSION="",string TEST_REF="")
         {
 
