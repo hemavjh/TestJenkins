@@ -19140,8 +19140,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.InstitutionLanguageList = [];
         $scope.SelectedTabUser = "0";
         $scope.SelectedDevice = "0"; 
-        $scope.SelectedTabPIN = "0"; 
-        $scope.UserLists = [];
+        $scope.SelectedTabPIN = "0";  
         $scope.DevicesLists = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
@@ -19171,6 +19170,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('enable');
+            $scope.UserDropdownlist();
             angular.element('#TabAddModal').modal('show');
         }
         $scope.ClearPopUp = function () {
@@ -19368,6 +19368,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.EditSelectedTABPIN.push(value.PIN);
                     $scope.SelectedTabPIN = $scope.EditSelectedTABPIN;
                 });
+                $scope.UserDropdownlist();
             });
         }
 
@@ -19491,12 +19492,24 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }
         };
         
-        
-         
-        $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-            $scope.UserLists = data;
-        });
+        $scope.UserDropdownlist = function () {
+            $scope.UserLists = [];
+            $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $scope.UserListsTemp = [];
+                $scope.UserListsTemp = data;
+                var obj = { "ID": 0, "FULLNAME": "Select", "IsActive": 1 };
+                $scope.UserListsTemp.splice(0, 0, obj);
+                $scope.UserLists = angular.copy($scope.UserListsTemp);
 
+            });
+            $scope.UserDetailsDetailslist = function (row) {
+                $scope.ID = row.ID;
+                $http.get(baseUrl + '/api/Common/USERPINDETAILS/?ID=' + $scope.ID).success(function (data) {
+                    row.PIN = data.PIN;
+                    $scope.PIN = data.PIN;
+                });
+            }
+        }
 
         $scope.MYTAB_InsertUpdate_validation = function () {
             var TSDuplicate = 0;

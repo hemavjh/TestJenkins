@@ -540,6 +540,23 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public TabUserlist USERPINDETAILS(long ID)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", ID));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_TABPIN_DETAILS]", param);
+            TabUserlist list = (from p in dt.AsEnumerable()
+                                      select new TabUserlist()
+                                      {
+                                          ID = p.Field<long>("ID"),
+                                          FULLNAME = p.Field<string>("USERNAME"),
+                                          PIN = p.Field<string>("PIN"),
+                                          ISACTIVE = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+
+                                      }).FirstOrDefault();
+            return list;
+        }
+
         /// <summary>
         /// to get affiliation name list
         /// </summary>

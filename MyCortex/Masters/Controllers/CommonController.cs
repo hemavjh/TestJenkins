@@ -631,6 +631,24 @@ namespace MyCortex.Masters.Controllers
                 return null;
             }
         }
+        [Authorize]
+        [HttpGet]
+        public TabUserlist USERPINDETAILS(long ID)
+        {
+             TabUserlist  model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.USERPINDETAILS(ID);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>
         /// to get affiliation name list
         /// </summary>
