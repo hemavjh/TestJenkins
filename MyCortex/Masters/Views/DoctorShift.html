@@ -1,6 +1,4 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
+﻿<head>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
     <link rel='stylesheet' href='https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'>
 
@@ -18,360 +16,559 @@
     <li><a href="Home/Index#/MyAppointmentSetting">Organization Settings</a></li>
     <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
-    <li><a href="Home/Index#/DoctorShift"  data-menu="Appointment Setting" class="secondaryMenuActive">Doctor Shift</a></li>
+    <li><a href="Home/Index#/DoctorShift" data-menu="Appointment Setting" class="secondaryMenuActive">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
 </ul>
-<body class="p-4">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h1 class="page-title">Add Doctor Shift</h1>
-        </div>
-        <div>
-            <button class="back">Back to list</button>
-        </div>
+<h1 class="page-title">Doctor Shift</h1>
+<div ng-init="DoctorShiftListGo()">
+
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="panel panel-default" id="DMid">
+        <form role="form" class="panel-body">
+            <div class="col-sm-4">
+                <div class="inputGroups">
+                    <label>Search</label>
+                    <div class="modernSearch">
+                        <input type="text" ng-model="searchquery" ng-change="filterDoctorShiftList()" placeholder=""
+                               style="width: 200px" />
+                        <i class="fa fa-search"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="inputGroups">
+                    <label for="Active">Active</label>
+                    <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DoctorShiftListGo();"
+                           title="Active / All">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="inputGroups">
+                    <a href="javascript:" ng-click="DoctorShiftClear();AddSlot();" class="theme-btn-1 pull-right mt-15"
+                       title="Click to Add New Drug DB">Add New</a>
+                </div>
+            </div>
+
+        </form>
     </div>
 
+    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+           class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5">#</th>
+                <th st-ratio="10" st-sort="Generic_Name">Doctor</th>
+                <th st-ratio="8" st-sort="WeekDayName">Week Day Name</th>
+                <th st-ratio="8" st-sort="ShiftName">Shift Name</th>
+                <!-- <th st-ratio="8" st-sort="StrengthName">Sun</th>
+                    <th st-ratio="8" st-sort="Dosage_FromName">Mon</th>
+                    <th st-ratio="8" st-sort="StrengthName">Tue</th>
+                    <th st-ratio="8" st-sort="Dosage_FromName">Wed</th>
+                    <th st-ratio="8" st-sort="StrengthName">Thu</th>
+                    <th st-ratio="8" st-sort="Dosage_FromName">Fri</th>
+                    <th st-ratio="8" st-sort="Dosage_FromName">Sat</th>-->
+                <th st-ratio="8" st-sort="FromDate">From Date</th>
+                <th st-ratio="8" st-sort="ToDate">To Date</th>
+                <th st-ratio="8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+                <td colspan="15" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in emptydata">
+                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
 
-    <div class="d-flex box">
-        <div class="col-sm-2 p-0">
-            <div class="main-tab">
-                <ul class="tabs">
-                    <li class="tab-link current" data-tab="tab-1">STEP 1:<p>Select Doctors & <br>Date Range</p></li>
-                    <li class="tab-link" data-tab="tab-2">STEP 2:<p>Set Appointments<br> Slots</p></li>
-                    <li class="tab-link" data-tab="tab-3">STEP 3:<p>Weekdays and <br>Shift time</p></li>
-                </ul>
+                <td style="text-align: left">
+                    <div class="textwrap">{{row.Doctor_Name}}</div>
+                </td>
+                <td style="text-align:left">{{row.WeekDayName}}</td>
+                <td style="text-align:left">{{row.ShiftName}}</td>
+                <!--  <td style="text-align: left">{{SundayShift2}}
+                 </td>
+                <td style="text-align: left">{{MondayShift2}}
+                 </td>
+                       <td style="text-align: left">{{TuesdayShift2}}
+                 </td>
+                       <td style="text-align: left">{{WednessdayShift2}}
+                 </td>
+                       <td style="text-align: left">{{ThursdayShift2}}
+                 </td>
+                       <td style="text-align: left">{{FridayShift2}}
+                 </td>
+                       <td style="text-align: left">{{SaturdayShift2}}
+                 </td>-->
+
+                <td style="text-align: left">
+                    {{row.FromDate | date:'dd-MMM-yyyy '}}
+                </td>
+                <td style="text-align: left">
+                    {{row.ToDate | date:'dd-MMM-yyyy '}}
+                </td>
+                <td style="text-align: center">
+                    <a href="javascript:" ng-click="ViewDoctorShift(row.Id,row.Doctor_Id)" title="View">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a>
+                    <a href="javascript:" title="Edit" ng-click="EditDoctorShift(row.Id, row.IsActive,row.Doctor_Id)">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                    <a href="javascript:;" ng-click="DeleteDoctorShift(row.Id)" title="Active">
+                        <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
+                        <a href="javascript:" ng-click="ReInsertDoctorShift(row.Id,row.Doctor_Id)" title="Inactive">
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+
+                        </a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="rowCollectionFilter.length >10">
+            <tr>
+                <td colspan="15" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                         st-template="Masters/Views/pagination.custom.html"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>
+
+<div id="DoctorShiftModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 280%; right: 90%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close"
+                        ng-click="CancelPopup()">
+                    &times;
+                </button>
+                <h4 class="modal-title">Doctor Shift</h4>
             </div>
-        </div>
-        <div class="col-sm-10 p-0">
-            <div id="tab-1" class="tab-content current">
-                <div class="tab-body">
-                    <div class="bs-example">
-                        <p class="sub-title">Select Specialities</p>
-                        <input type="text" name="tags" value="Anesthesiology, Dermatology, Neurology" data-role="tagsinput" />
-                    </div>
-                    <div class="d-flex mt-4">
-                        <div class="col-sm-5">
-                            <p class="sub-title">Select Doctor</p>
-                            <div class="subject-info-box-1">
-                                <p class="doctor">Available Doctor</p>
-                                <select multiple="multiple" id='lstBox1' class="form-control">
-                                    <option value="ajax">Karthiga</option>
-                                    <option value="jquery">Vaisanth</option>
-                                    <option value="javascript">Vijay</option>
-                                    <option value="mootool">kumar</option>
-                                </select>
-                            </div>
-                            <div class="subject-info-arrows text-center">
-                                <input type='button' id='btnAllRight' value='>>' class="btn-select" /><br />
-                                <input type='button' id='btnRight' value='>' class="btn-select" /><br />
-                                <input type='button' id='btnLeft' value='<' class="btn-select" /><br />
-                                <input type='button' id='btnAllLeft' value='<<' class="btn-select" />
-                            </div>
-                            <div class="subject-info-box-2">
-
-                                <p class="doctor">Selected Doctor</p>
-                                <select multiple="multiple" id='lstBox2' class="form-control">
-                                    <option value="asp">Madhavan</option>
-                                    <option value="c#">Hari</option>
-                                    <option value="vb">John</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-7">
-                            <p class="sub-title">Select Day Range</p>
-                            <section class="col-sm-12 p-0">
-                                <div class="daterangepicker-container" data-bind="daterangepicker: dateRange, daterangepickerOptions: {standalone: true}"></div>
-                            </section>
-                        </div>
-                    </div>
-                    <div class="bs-example mt-4">
-                        <p class="sub-title">Select CC/CG</p>
-                        <input type="text" name="tags" value="Karthi, Ram, Vaisanth" data-role="tagsinput" />
+            <div class="modal-body">
+                <div class="col-sm-2 p-0">
+                    <div class="main-tab">
+                        <ul class="tabs">
+                            <li class="tab-link current" data-tab="tab-1">STEP 1:<p>Select Doctors &amp; <br>Date Range</p></li>
+                            <li class="tab-link" data-tab="tab-2">STEP 2:<p>Set Appointments<br> Slots</p></li>
+                            <li class="tab-link" data-tab="tab-3">STEP 3:<p>Weekdays and <br>Shift time</p></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end">
-                    <button class="btn mt-2">SAVE AND CONTINUE</button>
-                </div>
-            </div>
-            <div id="tab-2" class="tab-content">
-                <div class="tab-body">
-                    <p class="sub-title">Appointment Slot</p>
-                    <div class="d-flex">
-                        <div class="col-sm-3">
-                            <input type="checkbox" class="mr-3">Use Org Default
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="d-flex">
-                                <div class="col-sm-3">
-                                    <p>New Appointment</p>
-                                    <div class="d-flex align-items-end mt-2">
-                                        <input type="text" class="input-size mr-1">
-                                        <p>Min</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <p>Follow-up Appointment</p>
-                                    <div class="d-flex align-items-end mt-2">
-                                        <input type="text" class="input-size mr-1">
-                                        <p>Min</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <p>Interval</p>
-                                    <div class="d-flex align-items-end mt-2">
-                                        <input type="text" class="input-size mr-1">
-                                        <p>Min</p>
-                                    </div>
-                                </div>
+
+                <div class="col-sm-10 p-0">
+                    <div id="tab-1" class="tab-content current">
+                        <div class="tab-body">
+                            <div class="bs-example">
+                                <p class="sub-title">Select Specialities</p>
+                                <input type="text" name="tags" value="Anesthesiology, Dermatology, Neurology" data-role="tagsinput">
                             </div>
                             <div class="d-flex mt-4">
+                                <div class="col-sm-5">
+                                    <p class="sub-title">Select Doctor</p>
+                                    <div class="subject-info-box-1">
+                                        <p class="doctor">Available Doctor</p>
+                                        <select multiple="multiple" id="lstBox1" class="form-control">
+                                            <option value="ajax">Karthiga</option>
+                                            <option value="jquery">Vaisanth</option>
+                                            <option value="javascript">Vijay</option>
+                                            <option value="mootool">kumar</option>
+                                        </select>
+                                    </div>
+                                    <div class="subject-info-arrows text-center">
+                                        <input type="button" id="btnAllRight" value=">>" class="btn-select"><br>
+                                        <input type="button" id="btnRight" value=">" class="btn-select"><br>
+                                        <input type="button" id="btnLeft" value="<" class="btn-select"><br>
+                                        <input type="button" id="btnAllLeft" value="<<" class="btn-select">
+                                    </div>
+                                    <div class="subject-info-box-2">
+
+                                        <p class="doctor">Selected Doctor</p>
+                                        <select multiple="multiple" id="lstBox2" class="form-control">
+                                            <option value="asp">Madhavan</option>
+                                            <option value="c#">Hari</option>
+                                            <option value="vb">John</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-7">
+                                    <p class="sub-title">Select Day Range</p>
+                                    <section class="col-sm-12 p-0">
+                                        <div class="daterangepicker-container" data-bind="daterangepicker: dateRange, daterangepickerOptions: {standalone: true}"></div>
+                                    </section>
+                                </div>
+                            </div>
+                            <div class="bs-example mt-4">
+                                <p class="sub-title">Select CC/CG</p>
+                                <input type="text" name="tags" value="Karthi, Ram, Vaisanth" data-role="tagsinput">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn mt-2">SAVE AND CONTINUE</button>
+                        </div>
+                    </div>
+                    <div id="tab-2" class="tab-content">
+                        <div class="tab-body">
+                            <p class="sub-title">Appointment Slot</p>
+                            <div class="d-flex">
                                 <div class="col-sm-3">
-                                    <p>Custom Slot</p>
-                                    <div class="d-flex align-items-end mt-2">
-                                        <input type="text" class="input-size mr-1">
-                                        <p>Min</p>
+                                    <input type="checkbox" class="mr-3">Use Org Default
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="d-flex">
+                                        <div class="col-sm-3">
+                                            <p>New Appointment</p>
+                                            <div class="d-flex align-items-end mt-2">
+                                                <input type="text" class="input-size mr-1">
+                                                <p>Min</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <p>Follow-up Appointment</p>
+                                            <div class="d-flex align-items-end mt-2">
+                                                <input type="text" class="input-size mr-1">
+                                                <p>Min</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <p>Interval</p>
+                                            <div class="d-flex align-items-end mt-2">
+                                                <input type="text" class="input-size mr-1">
+                                                <p>Min</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mt-4">
+                                        <div class="col-sm-3">
+                                            <p>Custom Slot</p>
+                                            <div class="d-flex align-items-end mt-2">
+                                                <input type="text" class="input-size mr-1">
+                                                <p>Min</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <p class="mt-4">Booking Info</p>
+                                <div class="d-flex mt-4">
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" class="mr-3">Use Org Default
+                                    </div>
+                                    <div class="col-sm-9 d-flex">
+                                        <div class="col-sm-3">
+                                            <p>Booking Open</p>
+                                            <div class="d-flex align-items-end mt-2">
+                                                <input type="text" class="input-size mr-1">
+                                                <p>Days</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <p>Booking Cancel Lock</p>
+                                            <div class="d-flex align-items-end mt-2">
+                                                <input type="text" class="input-size mr-1">
+                                                <p>Hours</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn mt-2">SAVE AND CONTINUE</button>
+                        </div>
                     </div>
-                    <div class="mt-4">
-                        <p class="mt-4">Booking Info</p>
-                        <div class="d-flex mt-4">
-                            <div class="col-sm-3">
-                                <input type="checkbox" class="mr-3">Use Org Default
-                            </div>
-                            <div class="col-sm-9 d-flex">
-                                <div class="col-sm-3">
-                                    <p>Booking Open</p>
-                                    <div class="d-flex align-items-end mt-2">
-                                        <input type="text" class="input-size mr-1">
-                                        <p>Days</p>
+                    <div id="tab-3" class="tab-content">
+                        <div class="tab-body">
+                            <div class="col-sm-12 p-0">
+                                <p class="sub-title">Select Week Days</p>
+                                <div class="d-flex col-sm-9">
+                                    <div class="mr-3">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" class="input-checkbox" checked="">
+                                        </div>
+                                        <p class="input-text text-center mt-2">Sunday</p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" class="input-checkbox" checked="">
+                                        </div>
+                                        <p class="input-text text-center mt-2">Monday</p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" class="input-checkbox" checked="">
+                                        </div>
+                                        <p class="input-text text-center mt-2">Tuesday</p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" class="input-checkbox" checked="">
+                                        </div>
+                                        <p class="input-text text-center mt-2">Wednesday</p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" class="input-checkbox" checked="">
+                                        </div>
+                                        <p class="input-text text-center mt-2">Thursday</p>
+                                    </div>
+                                    <div class="mr-3">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" class="input-checkbox" checked="">
+                                        </div>
+                                        <p class="input-text text-center mt-2">Friday</p>
+                                    </div>
+                                    <div class="">
+                                        <div class="d-flex justify-content-center">
+                                            <input type="checkbox" class="input-checkbox" checked="">
+                                        </div>
+                                        <p class="input-text text-center mt-2">Saturday</p>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <p>Booking Cancel Lock</p>
-                                    <div class="d-flex align-items-end mt-2">
-                                        <input type="text" class="input-size mr-1">
-                                        <p>Hours</p>
+                            </div>
+                            <div class="col-sm-12 p-0">
+                                <p class="sub-title mt-4">Select Time Slot</p>
+                                <div class="d-flex col-sm-8">
+                                    <div class="col-sm-3">
+                                        <p class="shift">Date / Day</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="shift">Shift 1</p>
+                                        <div class="d-flex mt-1">
+                                            <input type="checkbox" class="mr-1">
+                                            <p class="ml-1">Copy to all</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="shift">Shift 2</p>
+                                        <div class="d-flex mt-1">
+                                            <input type="checkbox" class="mr-1">
+                                            <p class="ml-1">Copy to all</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="shift">Shift 3</p>
+                                        <div class="d-flex mt-1">
+                                            <input type="checkbox" class="mr-1">
+                                            <p class="ml-1">Copy to all</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="add-shift"><i class="fa fa-plus mr-1" aria-hidden="true"></i>Add Shift</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 d-flex">
+                                    <div class="col-sm-3 mt-2">
+                                        <p>Sunday, May 01, 2021</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">8.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">4.00 PM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">4.00 PM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">12.00 AM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">12.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">8.00 PM</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 d-flex">
+                                    <div class="col-sm-3 mt-2">
+                                        <p>Monday, May 01, 2021</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">8.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">4.00 PM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">4.00 PM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">12.00 AM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">12.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">8.00 PM</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 d-flex">
+                                    <div class="col-sm-3 mt-2">
+                                        <p>Thursday, May 01, 2021</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">8.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">4.00 PM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">4.00 PM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">12.00 AM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">12.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">8.00 PM</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 d-flex">
+                                    <div class="col-sm-3 mt-2">
+                                        <p>Friday, May 01, 2021</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">8.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">4.00 PM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">4.00 PM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">12.00 AM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">12.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">8.00 PM</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8 d-flex">
+                                    <div class="col-sm-3 mt-2">
+                                        <p>Saturday, May 01, 2021</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">8.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">4.00 PM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">4.00 PM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">12.00 AM</p>
+                                    </div>
+                                    <div class="col-sm-3 mt-2 d-flex">
+                                        <p class="time">12.00 AM</p>
+                                        <p class="to">to</p>
+                                        <p class="time">8.00 PM</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="p-0 col-sm-12 d-flex justify-content-end">
+                            <button class="btn mt-2">SAVE AND CONTINUE</button>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end">
-                    <button class="btn mt-2">SAVE AND CONTINUE</button>
                 </div>
             </div>
-            <div id="tab-3" class="tab-content">
-                <div class="tab-body">
-                    <div class="col-sm-12 p-0">
-                        <p class="sub-title">Select Week Days</p>
-                        <div class="d-flex col-sm-9">
-                            <div class="mr-3">
-                                <div class="d-flex justify-content-center">
-                                    <input type="checkbox" class="input-checkbox" checked>
-                                </div>
-                                <p class="input-text text-center mt-2">Sunday</p>
-                            </div>
-                            <div class="mr-3">
-                                <div class="d-flex justify-content-center">
-                                    <input type="checkbox" class="input-checkbox" checked>
-                                </div>
-                                <p class="input-text text-center mt-2">Monday</p>
-                            </div>
-                            <div class="mr-3">
-                                <div class="d-flex justify-content-center">
-                                    <input type="checkbox" class="input-checkbox" checked>
-                                </div>
-                                <p class="input-text text-center mt-2">Tuesday</p>
-                            </div>
-                            <div class="mr-3">
-                                <div class="d-flex justify-content-center">
-                                    <input type="checkbox" class="input-checkbox" checked>
-                                </div>
-                                <p class="input-text text-center mt-2">Wednesday</p>
-                            </div>
-                            <div class="mr-3">
-                                <div class="d-flex justify-content-center">
-                                    <input type="checkbox" class="input-checkbox" checked>
-                                </div>
-                                <p class="input-text text-center mt-2">Thursday</p>
-                            </div>
-                            <div class="mr-3">
-                                <div class="d-flex justify-content-center">
-                                    <input type="checkbox" class="input-checkbox" checked>
-                                </div>
-                                <p class="input-text text-center mt-2">Friday</p>
-                            </div>
-                            <div class="">
-                                <div class="d-flex justify-content-center">
-                                    <input type="checkbox" class="input-checkbox" checked>
-                                </div>
-                                <p class="input-text text-center mt-2">Saturday</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 p-0">
-                        <p class="sub-title mt-4">Select Time Slot</p>
-                        <div class="d-flex col-sm-8">
-                            <div class="col-sm-3">
-                                <p class="shift">Date / Day</p>
-                            </div>
-                            <div class="col-sm-3">
-                                <p class="shift">Shift 1</p>
-                                <div class="d-flex mt-1">
-                                    <input type="checkbox" class="mr-1">
-                                    <p class="ml-1">Copy to all</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <p class="shift">Shift 2</p>
-                                <div class="d-flex mt-1">
-                                    <input type="checkbox" class="mr-1">
-                                    <p class="ml-1">Copy to all</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <p class="shift">Shift 3</p>
-                                <div class="d-flex mt-1">
-                                    <input type="checkbox" class="mr-1">
-                                    <p class="ml-1">Copy to all</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <p class="add-shift"><i class="fa fa-plus mr-1" aria-hidden="true"></i>Add Shift</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 d-flex">
-                            <div class="col-sm-3 mt-2">
-                                <p>Sunday, May 01, 2021</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">8.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">4.00 PM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">4.00 PM</p>
-                                <p class="to">to</p>
-                                <p class="time">12.00 AM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">12.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">8.00 PM</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 d-flex">
-                            <div class="col-sm-3 mt-2">
-                                <p>Monday, May 01, 2021</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">8.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">4.00 PM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">4.00 PM</p>
-                                <p class="to">to</p>
-                                <p class="time">12.00 AM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">12.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">8.00 PM</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 d-flex">
-                            <div class="col-sm-3 mt-2">
-                                <p>Thursday, May 01, 2021</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">8.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">4.00 PM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">4.00 PM</p>
-                                <p class="to">to</p>
-                                <p class="time">12.00 AM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">12.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">8.00 PM</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 d-flex">
-                            <div class="col-sm-3 mt-2">
-                                <p>Friday, May 01, 2021</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">8.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">4.00 PM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">4.00 PM</p>
-                                <p class="to">to</p>
-                                <p class="time">12.00 AM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">12.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">8.00 PM</p>
-                            </div>
-                        </div>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+            <script src="js/tab.js"></script>
+            <script src="js/tag.js"></script>
+            <script src="js/script.js"></script>
 
-                        <div class="col-sm-8 d-flex">
-                            <div class="col-sm-3 mt-2">
-                                <p>Saturday, May 01, 2021</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">8.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">4.00 PM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">4.00 PM</p>
-                                <p class="to">to</p>
-                                <p class="time">12.00 AM</p>
-                            </div>
-                            <div class="col-sm-3 mt-2 d-flex">
-                                <p class="time">12.00 AM</p>
-                                <p class="to">to</p>
-                                <p class="time">8.00 PM</p>
-                            </div>
-                        </div>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js'></script>
+            <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js'></script>-->
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
+            <script src='https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'></script>
+            <!--<div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-1 mr-10" ng-click="DoctorShift_AddEdit()"
+                        title="Click to Save">
+                    Save
+                </button>
+                <button type="button" class="theme-btn-2" ng-click="CancelSlot()"
+                        title="Click to Cancel">
+                    Cancel
+                </button>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!--View Modal--->
+<div id="ViewDoctorShiftModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 70%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
+                        title="Close">
+                    &times;
+                </button>
+                <h1 class="page-title">Doctor Shift</h1>
+            </div>
+
+            <div class="modal-body" id="Div2">
+
+
+                <form role="form">
+                    <div class="inputGroups">
+                        <label>Doctor</label>
+                        <span> {{Doctor_Name}}</span>
                     </div>
-                </div>
-                <div class="p-0 col-sm-12 d-flex justify-content-end">
-                    <button class="btn mt-2">SAVE AND CONTINUE</button>
-                </div>
+                    <div class="inputGroups">
+                        <label>{{day1}}</label>
+                        <span>{{SundayShiftview}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>{{day2}}</label>
+                        <span> {{MondayShiftview}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>{{day3}}</label>
+                        <span> {{TuesdayShiftview}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>{{day4}}</label>
+                        <span> {{WednessdayShiftview}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>{{day5}}</label>
+                        <span> {{ThursdayShiftview}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>{{day6}}</label>
+                        <span> {{FridayShiftview}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>{{day7}}</label>
+                        <span>{{SaturdayShiftview}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>
+                            From Date
+                        </label>
+                        <span>  {{FromDate | date:'dd-MMM-yyyy '}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>To Date</label>
+                        <span> {{ToDate | date:'dd-MMM-yyyy '}}</span>
+                    </div>
+
+
+                </form>
+
+
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-2" title="Click to Cancel"
+                        ng-click="CancelDoctorShiftpopup()">
+                    Cancel
+                </button>
             </div>
         </div>
-
-
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-        <script src="js/tab.js"></script>
-        <script src="js/tag.js"></script>
-        <script src="js/script.js"></script>
-
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-debug.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
-        <script src='https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'></script>
-</body>
-</html>
-
-
-
-<style>
-</style>
+    </div>
+</div>
 
 <script>
     (function () {
