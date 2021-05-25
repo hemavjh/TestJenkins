@@ -172,13 +172,18 @@ namespace MyCortexDB
             }
             else
             {
-                FilePath = AppDomain.CurrentDomain.BaseDirectory + @"\DATASTRING.INI";
+                FilePath = AppDomain.CurrentDomain.BaseDirectory + @"\BIN\DATASTRING.INI";
             }
+            
             //FilePath = FilePath.Replace(@"\MyCortex\", @"\BIN\DATASTRING.INI");
-           // throw new Exception(FilePath);
+            // throw new Exception(FilePath);
             // Open the ini file
             FileInfo config_file = new FileInfo(FilePath);
-           
+            if (config_file.Exists)
+            {
+                FilePath = AppDomain.CurrentDomain.BaseDirectory + @"\DATASTRING.INI";
+
+            }
             if (config_file.Exists)
             {
                 
@@ -191,8 +196,17 @@ namespace MyCortexDB
                     string ServerName;
 
                     // get server name to find the client 
-                    ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
-                    ServerName = "[" + ServerName + "]";
+                    if(HttpContext.Current == null)
+                    {
+                       
+                        ServerName = "[LOCALHOST]";
+                    }
+                    else
+                    {
+                        ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
+                        ServerName = "[" + ServerName + "]";
+                    }
+                    
                    
                     // the file is reached.
                     while ((line = stream_reader.ReadLine()) != null)
