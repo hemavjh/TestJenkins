@@ -4747,6 +4747,46 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
         $scope.Institution_Id = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
 
+        // THIS IS FOR VALIDATION CONTROL /
+        $scope.Validationcontrols = function () {
+            if (typeof ($scope.AllergyTypeId) == "" || $scope.AllergyTypeId == "0") {
+                alert("Please select Allergy Type Name ");
+                return false;
+            }
+            else if (typeof ($scope.AllergenName) == "" || $scope.AllergenName == undefined) {
+                alert("Please select Allergen Name");
+                return false;
+            }
+            return true;
+        };
+        // THIS IS FOR ADD/EDIT PROCEDURE 
+        $scope.AllergyAddEdit = function () {
+            if ($scope.Validationcontrols() == true) {
+                $("#chatLoaderPV").show();
+                $scope.Patient_Id = $window.localStorage['UserId'];
+                var obj = {
+                    Id: $scope.Id,
+                    AllergyTypeId: $scope.AllergyTypeId == 0 ? null : $scope.AllergyTypeId,
+                    AllergenId: $scope.AllergenId,
+                    AllergenName: $scope.AllergenName,
+                    InstitutionId: $scope.Institution_Id,
+                    Created_By: $scope.Patient_Id
+                }
+                $http.post(baseUrl + '/api/MasterAllergy/MasterAllergy_AddEdit/', obj).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        $scope.ClearPopup();
+                        $scope.AllergyMasterList_Details();
+                    }
+                    //$scope.AddId = data;
+                    angular.element('#AllergyModal').modal('hide');
+                })
+            }
+
+        }
+
+
         //List Page Pagination.
         $scope.current_page = 1;
         $scope.Allergt_pages = 1;
@@ -4798,12 +4838,36 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                             else {
                                 $scope.flag = 0;
                             }
+                            $scope.AllergyTypeList = [];
+                            $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
+                                $("#chatLoaderPV").hide();
+                                $scope.AllergyTypeListTemp = [];
+                                $scope.AllergyTypeListTemp = data;
+                                var obj = { "Id": 0, "AllergyTypeName": "Select", "IsActive": 1 };
+                                $scope.AllergyTypeListTemp.splice(0, 0, obj);
+                                $scope.AllergyTypeList = angular.copy($scope.AllergyTypeListTemp);
+                            })
+                            $scope.AllergenListfilter = [];
+                            $scope.AllegenBasedType = function (AllergyTypeId) {
+                                var id = "0"
+                                id = $scope.AllergenId;
+                                $http.get(baseUrl + 'api/MasterAllergy/MasterAllergenList/?ALLERGYTYPE_ID=' + AllergyTypeId + '&Institution_Id=' + $scope.Institution_Id).success(function (data) {
+                                    $scope.AllergenListTemp = [];
+                                    $scope.AllergenListTemp = data;
+                                    var obj = { "Id": 0, "AllergenName": "Select", "IsActive": 1 };
+                                    $scope.AllergenListTemp.splice(0, 0, obj);
+                                    $scope.AllergenListfilter = angular.copy($scope.AllergenListTemp);
+                                    $scope.AllergenId = id;
+
+                                })
+                            }
+
                             $scope.Allergt_pages = Math.ceil(($scope.AllergyCount) / ($scope.page_size));
 
                         })
                 }).error(function (data) {
                     $scope.error = "AN error has occured while Listing the records!" + data;
-                })
+                });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
@@ -4830,6 +4894,60 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                 }
             }
         }
+
+        // THIS IS FOR VIEW PROCEDURE 
+        $scope.AllergyTypeDuplicateId = "0";
+        $scope.AllergenDuplicateId = "0";
+        $scope.ViewICD10 = function () {
+            $("#chatLoaderPV").show();
+            $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyView/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.AllergyTypeId = data.AllergyTypeId.toString();
+                $scope.AllergyTypeDuplicateId = $scope.AllergyTypeId;
+                $scope.AllergenId = data.AllergenId.toString();
+                $scope.AllergenDuplicateId = $scope.AllergenId;
+                if ($scope.AllergyDropDown == 2) {
+                    $scope.AllegenBasedType($scope.AllergyTypeId);
+                }
+                $scope.ViewAllergyType = data.AllergyTypeName;
+                $scope.AllergenName = data.AllergenName;
+                $scope.ViewAllegenName = data.AllergenName;
+            }).error(function (data) {
+                alert('Error Occurred');
+
+            });
+        }
+
+        // THIS IS OPENING POP WINDOW FORM LIST FOR ADD 
+        $scope.AddMasterAllergyPopUP = function () {
+            angular.element('#AllergyModal').modal('show');
+            $scope.ClearPopup();
+        }
+        // THIS IS CLEAR POPUP FUNCTION 
+        $scope.ClearPopup = function () {
+            $scope.Id = "0";
+            $scope.AllergyTypeId = "0";
+            $scope.AllergenId = "0";
+            $scope.AllergenName = "";
+        }
+        $scope.CancelPopUP = function () {
+            angular.element('#AllergyViewModal').modal('hide');
+            angular.element('#AllergyModal').modal('hide')
+        }
+        $scope.ViewAllergyPopUP = function (value) {
+            $scope.ClearPopup();
+            angular.element('#AllergyViewModal').modal('show');
+            $scope.AllergyDropDown = 2;
+            $scope.Id = value;
+            $scope.ViewICD10();
+        }
+        $scope.EditAllergyPopUP = function (value) {
+            angular.element('#AllergyModal').modal('show');
+            $scope.AllergyDropDown = 2;
+            $scope.Id = value;
+            $scope.ViewICD10();
+        }
+
     }
 ]);
 
@@ -9492,6 +9610,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AllegenBasedType($scope.AllergyTypeId);
                 }
                 $scope.ViewAllergyType = data.AllergyTypeName;
+                $scope.AllergenName = data.AllergenName;
                 $scope.ViewAllegenName = data.AllergenName;
                 if (data.AllergySeverityId != null) {
                     $scope.SeverityIdTemp = data.AllergySeverityId;

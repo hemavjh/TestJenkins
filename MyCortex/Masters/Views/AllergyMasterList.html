@@ -23,7 +23,7 @@
     <div class="panel panel-default" id="AMid">
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="inputGroups">
                         <label>Search</label>
                         <div class="modernSearch">
@@ -33,10 +33,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Active</label>
+                    </div>
+                    <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="AllergyMasterList_Details();" title="Active / All">
+                </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <a href="javascript:" ng-click="ClearPopup();AddMasterAllergyPopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New Allergy">Add New</a>
+                    </div>
+                </div>
             </div>
         </div>
-
-
     </div>
 </div>
 
@@ -45,9 +54,9 @@
     <thead>
         <tr>
             <th st-ratio="3" st-sort="Id">#</th>
-            <th st-ratio="12" st-sort="AllergyType">Allergy Type</th>
-            <th st-ratio="12" st-sort="AllergyenName">Allergen Name</th>
-
+            <th st-ratio="28" st-sort="AllergyType">Allergy Type</th>
+            <th st-ratio="62" st-sort="AllergyenName">Allergen Name</th>
+            <th st-ratio="8">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -64,7 +73,21 @@
             <td style="text-align: left">
                 {{row.AllergenName}}
             </td>
+            <td st-ratio="10">
 
+                <a href="javascript:" ng-click="ViewAllergyPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                <a href="javascript:" ng-click="row.IsActive == 0 ||  EditAllergyPopUP(row.Id)" title="Edit">
+                    <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                    </a>
+                </a>
+                <a href="javascript:" ng-click="DeleteAllergy(row.Id)" title="Active">
+                    <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:" ng-click="ActiveAllergy(row.Id)" title="InActive">
+                    </a>
+                </a>
+            </td>
         </tr>
     </tbody>
     <tfoot ng-show="Allergt_pages>1">
@@ -91,3 +114,95 @@
 </table>
 
 
+<!--ADD&EDIT MODAL-->
+<div id="AllergyModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
+                <h4 class="modal-title">Allergy</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="inputGroups">
+                        <label>AllergyTypeName</label>
+                        <select class="form-control" data-style="form-control" id="AllergyTypeselectpicker"
+                                data-live-search="true" data-selectpicker data-collection-name="AllergyTypeList"
+                                ng-model="AllergyTypeId"
+                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()">
+                            <option ng-repeat="sel in AllergyTypeList" ng-selected="AllergyTypeId==sel.Id" ng-required="true"
+                                    value="{{sel.Id}}">
+                                {{sel.AllergyTypeName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="inputGroups">
+                        <label>AllergenName</label>
+                        <input type="text" class="form-control" id="AllergenName"
+                                                ng-model="AllergenName" ng-init="AllergenName=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="">
+                        <!--<select class="form-control" data-style="form-control" id="AllergenNameselectpicker"
+                                data-live-search="true" data-selectpicker data-collection-name="AllergenListfilter"
+                                ng-model="AllergenId">
+                            <option ng-repeat="sel in AllergenListfilter" ng-selected="AllergenId==sel.Id" ng-required="true"
+                                    value="{{sel.Id}}">
+                                {{sel.AllergenName}}
+                            </option>
+                        </select>-->
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-click="AllergyAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--VIEW MODAL-->
+<div id="AllergyViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false" ng-int="ViewAllergy()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()">&times;</button>
+                <h4 class="modal-title">Allergy</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="inputGroups">
+                        <label>AllergyTypeName</label>
+                        <select class="form-control" data-style="form-control" id="AllergyTypeselectpicker"
+                                data-live-search="true" data-selectpicker data-collection-name="AllergyTypeList"
+                                ng-model="AllergyTypeId"
+                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()" disabled>
+                            <option ng-repeat="sel in AllergyTypeList" ng-selected="AllergyTypeId==sel.Id" ng-required="true"
+                                    value="{{sel.Id}}">
+                                {{sel.AllergyTypeName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="inputGroups">
+                        <label>AllergenName</label>
+                        <input type="text" class="form-control" id="AllergenName"
+                                                ng-model="AllergenName" ng-init="AllergenName=''" ng-maxlength="100"
+                                                maxlength="100" placeholder="" onkeypress="" disabled>
+                        <!--<label>AllergenName</label>
+                        <select class="form-control" data-style="form-control" id="AllergenNameselectpicker"
+                                data-live-search="true" data-selectpicker data-collection-name="AllergenListfilter"
+                                ng-model="AllergenId" disabled>
+                            <option ng-repeat="sel in AllergenListfilter" ng-selected="AllergenId==sel.Id" ng-required="true"
+                                    value="{{sel.Id}}">
+                                {{sel.AllergenName}}
+                            </option>
+                        </select>-->
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
