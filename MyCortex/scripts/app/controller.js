@@ -5721,8 +5721,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         }
 
                         if (ChartORData == 1) {
-                            $scope.PageStart = "";
-                            $scope.PageEnd = "";
+                            $scope.PageStart = 0;
+                            $scope.PageEnd = 0;
                         }
                         $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype + '&StartRowNumber=' + $scope.PageStart +
                             '&EndRowNumber=' + $scope.PageEnd + '&Active='+$scope.Active).success(function (data) {
