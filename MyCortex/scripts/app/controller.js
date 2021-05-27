@@ -4827,18 +4827,21 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                     $http.get(baseUrl + '/api/User/AllergtMaster_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.Institution_Id + '&StartRowNumber=' + $scope.PageStart +
                         '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                             $("#chatLoaderPV").hide();
-                            $scope.AllergyMasteremptydata = [];
-                            $scope.AllergyMasterListData = [];
-                            $scope.AllergyMasterListData = data;
-                            $scope.AllergyCount = $scope.AllergyMasterListData[0].TotalRecord;
-                            $scope.AllergyMasterListFilterData = data;
-                            $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);
-                            if ($scope.AllergyMasterList.length > 0) {
-                                $scope.flag = 1;
+                            if (data != null && data !== undefined) {
+                                $scope.AllergyMasteremptydata = [];
+                                $scope.AllergyMasterListData = [];
+                                $scope.AllergyMasterListData = data;
+                                $scope.AllergyCount = $scope.AllergyMasterListData[0].TotalRecord;
+                                $scope.AllergyMasterListFilterData = data;
+                                $scope.AllergyMasterList = angular.copy($scope.AllergyMasterListData);
+                                if ($scope.AllergyMasterList.length > 0) {
+                                    $scope.flag = 1;
+                                }
+                                else {
+                                    $scope.flag = 0;
+                                }
                             }
-                            else {
-                                $scope.flag = 0;
-                            }
+                            
                             $scope.AllergyTypeList = [];
                             $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
                                 $("#chatLoaderPV").hide();
@@ -4983,11 +4986,11 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                     Modified_By: $window.localStorage['UserId']
                 }
 
-                $http.post(baseUrl + '/api/User/AllergyDetails_Active/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/MasterAllergy/AllergyMaster_Active/', obj).success(function (data) {
                     alert(data.Message);
-                    $scope.PatientAllergyList();
+                    $scope.AllergyMasterList_Details();
                 }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                    $scope.error = "An error has occurred while deleting Allergies" + data;
                 });
             };
         }
