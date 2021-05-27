@@ -4739,7 +4739,8 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
 
         $scope.AllergyMasterflag = 0;
-        $scope.AllergyMasterIsActive = true;
+        $scope.IsActive = true;
+        //$scope.AllergyMasterIsActive = true;
 
         $scope.AllergyMasteremptydata = [];
         $scope.AllergyMasterListData = [];
@@ -4810,10 +4811,10 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
                 $scope.ISact = 1;       // default active
-                if ($scope.AllergyMasterIsActive == true) {
+                if ($scope.IsActive == true) {
                     $scope.ISact = 1  //active
                 }
-                else if ($scope.AllergyMasterIsActive == false) {
+                else if ($scope.IsActive == false) {
                     $scope.ISact = 0 //all
                 }
 
@@ -4947,6 +4948,50 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
             $scope.Id = value;
             $scope.ViewICD10();
         }
+        /*THIS IS FOR DELETE FUNCTION */
+        $scope.AllergyMaster_Delete = function () {
+
+            var del = confirm("Do you like to deactivate the selected Allergies details?");
+            if (del == true) {
+                $http.get(baseUrl + '/api/MasterAllergy/AllergyMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                    alert(" Allergy detail has been deactivated Successfully");
+                    $scope.AllergyMasterList_Details();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting Allergy details" + data;
+                });
+            }
+        }
+
+        $scope.DeleteAllergy = function (AId) {
+            $scope.Id = AId;
+            $scope.AllergyMaster_Delete();
+        }
+
+        /*'Active the Allergy*/
+        $scope.AllergyActive = function (comId) {
+            $scope.Id = comId;
+            $scope.Allergy_Active();
+        }
+
+        /* Calling the api method to inactived the details of the Allergy for the  Allergy Id, and redirected to the list page.*/
+        $scope.Allergy_Active = function () {
+            var Ins = confirm("Do you like to activate the selected Allergy?");
+            if (Ins == true) {
+                var obj =
+                {
+                    Id: $scope.Id,
+                    Modified_By: $window.localStorage['UserId']
+                }
+
+                $http.post(baseUrl + '/api/User/AllergyDetails_Active/', obj).success(function (data) {
+                    alert(data.Message);
+                    $scope.PatientAllergyList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                });
+            };
+        }
+
 
     }
 ]);

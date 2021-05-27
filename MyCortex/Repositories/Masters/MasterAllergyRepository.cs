@@ -161,5 +161,56 @@ namespace MyCortex.Repositories.Masters
             //}
             return ViewAllergy;
         }
+
+        /// <summary>
+        /// to deactivate a Allergy
+        /// </summary>
+        /// <param name="Id">id of Allergy Master</param>
+        /// <returns>success response of deactivate</returns>
+        public void AllergyMaster_Delete(int Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                ClsDataBase.Update("[MYCORTEX].[ALLERGYMASTER_SP_DELETE]", param);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// to activated a allergy
+        /// </summary>
+        /// <param name="noteobj">allergy detail id</param>
+        /// <returns>activated patient allergy</returns>
+        public IList<MasterAllergyModel> AllergyMaster_Active(MasterAllergyModel noteobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                // List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@Id", noteobj.Id));
+                param.Add(new DataParameter("@Modified_By", noteobj.Modified_By));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALLERGYMASTER_SP_ACTIVE]", param);
+                IList<MasterAllergyModel> list = (from p in dt.AsEnumerable()
+                                            select new MasterAllergyModel()
+                                            {
+                                                flag = p.Field<int>("flag")
+                                            }).ToList();
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
     }
 }

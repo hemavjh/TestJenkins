@@ -19,6 +19,9 @@ namespace MyCortex.Repositories
         IList<MasterAllergyTypeModel> MasterAllergyTypeList(long Institution_Id);
         IList<MasterAllergyenModel> MasterAllergenList(long ALLERGYTYPE_ID, long Institution_Id);
         MasterAllergyModel MasterAllergyView(long Id, Guid Login_Session_Id);
+        void AllergyMaster_Delete(int Id);
+
+        IList<MasterAllergyModel> AllergyMaster_Active(MasterAllergyModel noteobj);
 
     }
 }

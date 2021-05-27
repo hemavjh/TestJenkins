@@ -148,5 +148,73 @@ namespace MyCortex.Masters.Controllers
             }
             return model;
         }
+
+
+        /// <summary>
+        /// to deactivate a ICD Master
+        /// </summary>
+        /// <param name="Id">id of ICD Master</param>
+        /// <returns>success response of deactivate</returns>
+        [HttpGet]
+        public HttpResponseMessage AllergyMaster_Delete(int Id)
+        {
+            if (Id > 0)
+            {
+                repository.AllergyMaster_Delete(Id);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+
+        /// <summary>
+        /// to activated a patient allergy
+        /// </summary>
+        /// <param name="noteobj">patient allergy detail id</param>
+        /// <returns>activated patient allergy</returns>
+        [HttpPost]
+        public HttpResponseMessage AllergyMaster_Active([FromBody] MasterAllergyModel noteobj)
+        {
+            IList<MasterAllergyModel> ModelData = new List<MasterAllergyModel>();
+            MasterAllergyReturnModels model = new MasterAllergyReturnModels();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.PatientAllergyDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.AllergyMaster_Active(noteobj);
+
+                if (ModelData.Any(item => item.flag == 1) == true)
+                {
+                    messagestr = "Allergy activated successfully";
+                    model.ReturnFlag = 2;
+                }
+
+                model.PatientAllergyDetails = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Allergy";
+                model.ReturnFlag = 0;
+                model.PatientAllergyDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+
     }
 }
