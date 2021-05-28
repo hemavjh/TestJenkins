@@ -152,21 +152,22 @@ namespace MyCortex.Repositories.Masters
 
             int flag = 0;
 
-            List<DataParameter> param = new List<DataParameter>();
-            if(Rowid > 0)
-            {
-                param.Add(new DataParameter("@ROWID", Rowid));
-            }
-            else
-            {
-                param.Add(new DataParameter("@ROWID", Rowid));
-            }
+            List<DataParameter> param = new List<DataParameter>(); 
             
              
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_VIEW", param);
+                DataTable dt;
+                if (Rowid > 0)
+                {
+                    param.Add(new DataParameter("@ROWID", Rowid));
+                    dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_VIEW", param);
+                }
+                else
+                {
+                      dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_VIEW");
+                }
 
                 IList<AutomatedTestReportDetails> INS = (from p in dt.AsEnumerable()
                                                          select

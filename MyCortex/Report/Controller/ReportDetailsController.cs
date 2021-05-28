@@ -118,7 +118,7 @@ namespace MyCortex.Masters.Controllers
 
 
         [HttpGet]
-        public IList<AutomatedTestReportDetails> AutomatedTestReport_View(long rowid)
+        public IList<AutomatedTestReportDetails> AutomatedTestReport_View(long rowid = 0)
         {
             try
             {
