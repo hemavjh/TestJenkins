@@ -204,10 +204,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
        templateUrl: baseUrl + 'Masters/Views/AttendanceDetails.html',
        controller: 'AttendanceDetailsController'
    }).
-    when('/MyAppointmentSetting', {
-        templateUrl: baseUrl + 'Masters/Views/MyAppointmentSetting.html',
-        controller: 'DoctorShiftController'
-    }).
+    //when('/MyAppointmentSetting', {
+    //    templateUrl: baseUrl + 'Masters/Views/MyAppointmentSetting.html',
+    //    controller: 'DoctorShiftController'
+    //}).
     when('/WebConfiguration', {
         templateUrl: baseUrl + 'Masters/Views/WebConfiguration.html',
         controller: 'WebConfigurationController'
