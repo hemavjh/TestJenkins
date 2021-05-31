@@ -503,12 +503,14 @@ const chatService = function() {
             let receiverID = userid;
             let messageobj = document.getElementById('filechat').files[0];
 
+            
             let receiverType;
             if (currentusertype === "u")
                 receiverType = CometChat.RECEIVER_TYPE.USER;
             else if (currentusertype === "g")
                 receiverType = CometChat.RECEIVER_TYPE.GROUP;
-            if (messageobj['type'].split('/')[0] === 'image') {
+
+            if (messageobj != undefined && messageobj['type'].split('/')[0] === 'image') {
                 let messageType = CometChat.MESSAGE_TYPE.IMAGE;
                 let mediaMessage = new CometChat.MediaMessage(
                     receiverID, messageobj, messageType, receiverType
@@ -532,7 +534,7 @@ const chatService = function() {
                     }
                 );
             }
-            else if (messageobj['type'].split('/')[0] === 'audio') {
+            else if (messageobj != undefined && messageobj['type'].split('/')[0] === 'audio') {
                 let messageType = CometChat.MESSAGE_TYPE.AUDIO;
                 let mediaMessage = new CometChat.MediaMessage(
                     receiverID, messageobj, messageType, receiverType
@@ -555,7 +557,7 @@ const chatService = function() {
                     }
                 );
             }
-            else if (messageobj['type'].split('/')[0] === 'video') {
+            else if (messageobj != undefined && messageobj['type'].split('/')[0] === 'video') {
                 let messageType = CometChat.MESSAGE_TYPE.VIDEO;
                 let mediaMessage = new CometChat.MediaMessage(
                     receiverID, messageobj, messageType, receiverType
