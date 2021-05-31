@@ -151,6 +151,49 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+        [HttpGet]
+        public HttpResponseMessage TabLoginUserDetails_List(long Tab_ID,long UserId,string Pin)
+        {
+            IList<TabUserDetails> ModelData = new List<TabUserDetails>();
+            TabUserReturnModels model = new TabUserReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Get_TabLoginUserDetails(Tab_ID, UserId, Pin);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "Get from Tab User Information";
+                    model.ReturnFlag = 1;
+                }else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "TabID are not matching, please verify";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 3) == true)
+                {
+                    messagestr = "UserId and/or Pin are not matching, please verify";
+                    model.ReturnFlag = 0;
+                }
+                model.GetTabuserdetails = ModelData;
+                model.Message = messagestr;// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model); 
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Tab Users";
+                model.GetTabuserdetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        //[HttpGet]
+        //public HttpResponseMessage TabLoginDashBoard_List()
+        //{
+        //}
     }
 }
     

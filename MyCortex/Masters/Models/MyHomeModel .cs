@@ -18,7 +18,7 @@ namespace MyCortex.Masters.Models
         public int DevicesCount { get; set; }
         public bool IsActive { get; set; }
         public long InstitutionId { get; set; }
-        public long Created_By { get; set; }
+        public long CreatedBy { get; set; }
         public string VENDOR { get; set; }
         public int Flag { get; set; }
         public string DeviceName { get; set; }
@@ -33,14 +33,13 @@ namespace MyCortex.Masters.Models
     public class TabDevicesModel
     {
         public long ID { get; set; }
-        public long TAB_ID { get; set; }
-        public long DEVICE_ID { get; set; }
-        public string DEVICENAME { get; set; }
-        public string MANUFACTURE { get; set; }
+        public long TabId { get; set; }
+        public long DeviceId { get; set; }
+        public string DeviceName { get; set; } 
         public string MAKE { get; set; }
-        public string BRAND_NAME { get; set; }
+        public string DeviceType { get; set; }
         public string SERIES { get; set; }
-        public string MODEL_NUMBER { get; set; }
+        public string ModelNumber { get; set; }
         public string PURPOSE { get; set; }
         public string PARAMETER { get; set; }
         public bool IsActive { get; set; }
@@ -49,18 +48,18 @@ namespace MyCortex.Masters.Models
     public class TabUserModel
     {
         public long ID { get; set; }
-        public long USER_ID { get; set; }
+        public long UserId { get; set; }
         public string PIN { get; set; }
         public string PHOTO { get; set; }
-        public string FINGERPRINT { get; set; }
-        public bool ISACTIVE { get; set; }
-        public string FIRSTNAME { get; set; }
-        public string MIDDLENAME { get; set; }
-        public string LASTNAME { get; set; }
-        public string EMAILID { get; set; }
-        public long USERTYPE_ID { get; set; }
-        public long GENDER_ID { get; set; }
-        public string GENDER_NAME { get; set; }
+        public string FingerPrint { get; set; }
+        public bool IsActive { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string EmailId { get; set; }
+        public long UserTypeId { get; set; }
+        public long GenderId { get; set; }
+        public string GenderName { get; set; }
 
     }
 
@@ -70,7 +69,8 @@ namespace MyCortex.Masters.Models
         public string Status { get; set; }
         public string Message { get; set; }
         public IList<TabListModel> Tabuserdetails { get; set; }
-         
+        public IList<TabUserDetails> GetTabuserdetails { get; set; }
+
     }
 
     public class TabDeviceListReturnModels
@@ -95,36 +95,52 @@ namespace MyCortex.Masters.Models
     {
         public long ID { get; set; }
         public string DeviceName { get; set; }
-        public bool ISACTIVE { get; set; }
+        public bool IsActive { get; set; }
 
     }
 
     public class TabUserlist
     {
         public long ID { get; set; }
-        public string FULLNAME { get; set; }
+        public string FullName { get; set; }
         public string PIN { get; set; }
-        public bool ISACTIVE { get; set; }
+        public bool IsActive { get; set; }
 
     }
 
     public class UserTabUserlist
     {
         public long? Id { get; set; }
-        public long? User_Id { get; set; }
-        public long? UserlistId { get; set; }
+        public long? UserId { get; set; }
+        public long? UserListId { get; set; }
         public string UserFullName { get; set; }
         public bool IsActive { get; set; }
         public string PIN { get; set; }
-        public long? TAB_ID { get; set; }
+        public long? TabId { get; set; }
     }
     public class UserTabDeviceslist
     {
         public long? Id { get; set; }
-        public long? User_Id { get; set; }
+        public long? UserId { get; set; }
         public long? DeviceId { get; set; }
         public string DeviceName { get; set; }
         public bool IsActive { get; set; }
-        public long? TAB_ID { get; set; }
+        public long? TabId { get; set; }
+    }
+
+    public class TabUserDetails
+    {
+        public long TabId { get; set; }
+        public string UserName { get; set; }
+        public long  UserId { get; set; }
+        public string PIN { get; set; }
+        public int Flag { get; set; }
+        public bool IsActive { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string EmailId { get; set; }
+        public long UserTypeId { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }

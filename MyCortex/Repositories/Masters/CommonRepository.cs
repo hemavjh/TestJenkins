@@ -504,7 +504,7 @@ namespace MyCortex.Repositories.Masters
                                              {
                                                  ID = p.Field<long>("ID"),
                                                  DeviceName = p.Field<string>("DeviceName"),
-                                                 ISACTIVE = p.Field<bool>("ISACTIVE")
+                                                 IsActive = p.Field<bool>("ISACTIVE")
                                              }).ToList();
                 return lst;
             }
@@ -527,9 +527,9 @@ namespace MyCortex.Repositories.Masters
                                          select new TabUserlist()
                                          {
                                              ID = p.Field<long>("ID"),
-                                             FULLNAME = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                             FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
                                              PIN = p.Field<string>("PIN"),
-                                             ISACTIVE = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+                                             IsActive = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
                                             }).ToList();
                 return lst;
             }
@@ -549,9 +549,9 @@ namespace MyCortex.Repositories.Masters
                                       select new TabUserlist()
                                       {
                                           ID = p.Field<long>("ID"),
-                                          FULLNAME = p.Field<string>("USERNAME"),
+                                          FullName = p.Field<string>("USERNAME"),
                                           PIN = p.Field<string>("PIN"),
-                                          ISACTIVE = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+                                          IsActive = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
 
                                       }).FirstOrDefault();
             return list;

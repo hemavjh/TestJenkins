@@ -19362,7 +19362,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     Model: $scope.Model,
                     OS: $scope.OS,
                     InstitutionId: $window.localStorage['InstitutionId'],
-                    Created_By: $scope.CREATED_BY  
+                    CreatedBy: $scope.CREATED_BY  
                 };
 
                 $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) { 
@@ -19610,9 +19610,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         // Add row concept for Patient Vital Parameters
         $scope.AddUserParameters = [{
             'ID': 0,
-            'User_Id': 0,
-            "FULLNAME": "",
-            'TAB_ID': 0,
+            'UserId': 0,
+            "FullName": "",
+            'TabId': 0,
             'PIN': "",
             'IsActive': 1
         }];
@@ -19622,9 +19622,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             if ($scope.AddUserParameters.length > 0) {
                 var obj = {
                     'ID': 0,
-                    'User_Id': 0,
-                    "FULLNAME": "",
-                    'TAB_ID': 0,
+                    'UserId': 0,
+                    "FullName": "",
+                    'TabId': 0,
                     'PIN': "",
                     'IsActive': 1
                 }
@@ -19633,9 +19633,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             else {
                 $scope.AddUserParameters = [{
                     'ID': 0,
-                    'User_Id': 0,
-                    "FULLNAME": "",
-                    'TAB_ID': 0,
+                    'UserId': 0,
+                    "FullName": "",
+                    'TabId': 0,
                     'PIN': "",
                     'IsActive': 1
                 }];
@@ -19649,9 +19649,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 if ($scope.AddUserParameters.length == 0) {
                     $scope.AddUserParameters = [{
                         'ID': 0,
-                        'User_Id':0,
-                        "FULLNAME": "",
-                        'TAB_ID': 0,
+                        'UserId':0,
+                        "FullName": "",
+                        'TabId': 0,
                         'PIN': "",
                         'IsActive': 1
                     }];

@@ -74,7 +74,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@REF_ID", insobj.RefId));
             param.Add(new DataParameter("@MODEL", insobj.Model)); 
             param.Add(new DataParameter("@OS", insobj.OS));
-            param.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+            param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             param.Add(new DataParameter("@VENDOR", ""));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -99,8 +99,8 @@ namespace MyCortex.Repositories.Masters
                             param1.Add(new DataParameter("@User_Id", item.ID));
                             param1.Add(new DataParameter("@TAB_ID", InsertId));
                             param1.Add(new DataParameter("@PIN", item.PIN));
-                            param1.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
-                            param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
                             var objExist = insobj.SelectedTabuserlist.Where(ChildItem => ChildItem.Id == item.ID);
 
                             if (objExist.ToList().Count > 0)
@@ -119,8 +119,8 @@ namespace MyCortex.Repositories.Masters
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@DeviceID", item.ID));
                             param1.Add(new DataParameter("@TAB_ID", InsertId)); 
-                            param1.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
-                            param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
                             var objExist = insobj.SelectedTabdevicelist.Where(ChildItem => ChildItem.DeviceId == item.ID);
 
                             if (objExist.ToList().Count > 0)
@@ -207,7 +207,7 @@ namespace MyCortex.Repositories.Masters
                                             select new UserTabDeviceslist()
                                             {
                                                 Id = p.Field<long>("Id"),
-                                                TAB_ID = p.Field<long>("TAB_ID"),
+                                                TabId = p.Field<long>("TAB_ID"),
                                                 DeviceId = p.Field<long>("DEVICE_ID"),
                                                 DeviceName = p.Field<string>("DEVICENAME"),
                                                 IsActive = p.Field<bool>("ISACTIVE")
@@ -225,8 +225,8 @@ namespace MyCortex.Repositories.Masters
                                             select new UserTabUserlist()
                                             {
                                                 Id = p.Field<long>("Id"),
-                                                TAB_ID = p.Field<long>("TAB_ID"),
-                                                User_Id = p.Field<long>("USER_ID"),
+                                                TabId= p.Field<long>("TAB_ID"),
+                                                UserId = p.Field<long>("USER_ID"),
                                                 UserFullName = DecryptFields.Decrypt(p.Field<string>("USERNAME")),
                                                 PIN = p.Field<string>("PIN"),
                                                 IsActive=p.Field<bool>("ISACTIVE")
@@ -262,13 +262,12 @@ namespace MyCortex.Repositories.Masters
                                              select new TabDevicesModel()
                                              {
                                                  ID = p.Field<long>("ID"),
-                                                 DEVICE_ID = p.Field<long>("ID"),
-                                                 DEVICENAME = p.Field<string>("DEVICE_NAME"),
-                                                 MANUFACTURE = p.Field<string>("MANUFACTURE"),
+                                                 DeviceId = p.Field<long>("ID"),
+                                                 DeviceName = p.Field<string>("DEVICE_NAME"), 
                                                  MAKE = p.Field<string>("MAKE"),
-                                                 BRAND_NAME = p.Field<string>("BRAND_NAME"),
+                                                 DeviceType = p.Field<string>("BRAND_NAME"),
                                                  SERIES = p.Field<string>("SERIES"),
-                                                 MODEL_NUMBER = p.Field<string>("MODEL_NUMBER"),
+                                                 ModelNumber = p.Field<string>("MODEL_NUMBER"),
                                                  PURPOSE = p.Field<string>("PURPOSE"),
                                                  PARAMETER = p.Field<string>("PARAMETER"),
                                                  IsActive = p.Field<bool>("ISACTIVE")
@@ -296,19 +295,57 @@ namespace MyCortex.Repositories.Masters
                                           select new TabUserModel()
                                           {
                                               ID = p.Field<long>("ID"),
-                                              USER_ID = p.Field<long>("USER_ID"),
+                                              UserId = p.Field<long>("USER_ID"),
                                               PIN = p.Field<string>("PIN"),
                                               //PHOTO = p.Field<string>("PHOTO"),
-                                              FINGERPRINT = p.Field<string>("FINGERPRINT"),
-                                              ISACTIVE = p.Field<bool>("ISACTIVE"),
-                                              FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
-                                              MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
-                                              LASTNAME = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
-                                              EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
-                                              USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
-                                              GENDER_ID = p.Field<long>("GENDER_ID"),
-                                              GENDER_NAME = p.Field<string>("GENDER_NAME"),
+                                              FingerPrint = p.Field<string>("FINGERPRINT"),
+                                              IsActive = p.Field<bool>("ISACTIVE"),
+                                              FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
+                                              MiddleName = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
+                                              LastName = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
+                                              EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                              UserTypeId = p.Field<long>("USERTYPE_ID"),
+                                              GenderId = p.Field<long>("GENDER_ID"),
+                                              GenderName = p.Field<string>("GENDER_NAME"),
                                           }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<TabUserDetails> Get_TabLoginUserDetails(long Tab_ID, long UserId, string Pin)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>(); 
+            param.Add(new DataParameter("@Tab_ID", Tab_ID));
+            param.Add(new DataParameter("@UserId", UserId));
+            param.Add(new DataParameter("@Pin", Pin));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_USERSINFOR_LIST]", param);
+               
+                    List<TabUserDetails> lst = (from p in dt.AsEnumerable()
+                                                select new TabUserDetails()
+                                                {
+                                                    TabId = p.Field<long>("TAB_ID"),
+                                                    UserId = p.Field<long>("USER_ID"),
+                                                    PIN = p.Field<string>("PIN"),
+                                                    ModifiedDate = p.Field<DateTime?>("MODIFIED_AT"),
+                                                    IsActive = p.Field<bool>("ISACTIVE"),
+                                                    FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
+                                                    MiddleName = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
+                                                    LastName = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
+                                                    EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                    UserTypeId = p.Field<long>("USERTYPE_ID"),
+                                                    UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
+                                                    Flag = p.Field<int>("flag")
+                                                }).ToList();
+             
                 return lst;
             }
             catch (Exception ex)
