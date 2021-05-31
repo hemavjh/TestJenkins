@@ -597,9 +597,9 @@ namespace MyCortex.Masters.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet]
-        public IList<TabDeviceslist> Deviceslist()
+        public IList<TabDevicesList> Deviceslist()
         {
-            IList<TabDeviceslist> model;
+            IList<TabDevicesList> model;
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -615,9 +615,9 @@ namespace MyCortex.Masters.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IList<TabUserlist> UserList(long Institution_Id)
+        public IList<TabUserList> UserList(long Institution_Id)
         {
-            IList<TabUserlist> model;
+            IList<TabUserList> model;
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -633,9 +633,9 @@ namespace MyCortex.Masters.Controllers
         }
         [Authorize]
         [HttpGet]
-        public TabUserlist USERPINDETAILS(long ID)
+        public TabUserList USERPINDETAILS(long ID)
         {
-             TabUserlist  model;
+            TabUserList model;
             try
             {
                 if (_logger.IsInfoEnabled)

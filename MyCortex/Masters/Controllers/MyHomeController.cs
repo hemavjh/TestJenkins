@@ -86,7 +86,7 @@ namespace MyCortex.User.Controllers
                     messagestr = "MyHome updated Successfully";
                     model.ReturnFlag = 1;
                 }
-                model.Tabuserdetails = ModelData;
+                model.TabUserDetails = ModelData;
                 model.Message = messagestr;// "User created successfully";
                 model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
@@ -97,7 +97,7 @@ namespace MyCortex.User.Controllers
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error in creating MyHome";
-                model.Tabuserdetails = ModelData;
+                model.TabUserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -174,7 +174,7 @@ namespace MyCortex.User.Controllers
                     messagestr = "UserId and/or Pin are not matching, please verify";
                     model.ReturnFlag = 0;
                 }
-                model.GetTabuserdetails = ModelData;
+                model.GetTabUserDetails = ModelData;
                 model.Message = messagestr;// "User created successfully";
                 model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model); 
@@ -185,7 +185,7 @@ namespace MyCortex.User.Controllers
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error in Tab Users";
-                model.GetTabuserdetails = ModelData;
+                model.GetTabUserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }

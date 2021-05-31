@@ -19,15 +19,15 @@ namespace MyCortex.Masters.Models
         public bool IsActive { get; set; }
         public long InstitutionId { get; set; }
         public long CreatedBy { get; set; }
-        public string VENDOR { get; set; }
+        public string Vendor { get; set; }
         public int Flag { get; set; }
         public string DeviceName { get; set; }
         public string UserName { get; set; }
         public string PIN { get; set; }
-        public IList<TabUserlist> UserList { get; set; }
-        public IList<UserTabUserlist> SelectedTabuserlist { get; set; }
-        public IList<TabDeviceslist> DevicesList { get; set; }
-        public IList<UserTabDeviceslist> SelectedTabdevicelist { get; set; }
+        public IList<TabUserList> UserList { get; set; }
+        public IList<UserTabUserList> SelectedTabUserList { get; set; }
+        public IList<TabDevicesList> DevicesList { get; set; }
+        public IList<UserTabDevicesList> SelectedTabDeviceList { get; set; }
     }
 
     public class TabDevicesModel
@@ -36,12 +36,12 @@ namespace MyCortex.Masters.Models
         public long TabId { get; set; }
         public long DeviceId { get; set; }
         public string DeviceName { get; set; } 
-        public string MAKE { get; set; }
+        public string Make { get; set; }
         public string DeviceType { get; set; }
-        public string SERIES { get; set; }
+        public string Series { get; set; }
         public string ModelNumber { get; set; }
-        public string PURPOSE { get; set; }
-        public string PARAMETER { get; set; }
+        public string Purpose { get; set; }
+        public string Parameter { get; set; }
         public bool IsActive { get; set; }
     }
 
@@ -50,7 +50,7 @@ namespace MyCortex.Masters.Models
         public long ID { get; set; }
         public long UserId { get; set; }
         public string PIN { get; set; }
-        public string PHOTO { get; set; }
+        public string Photo { get; set; }
         public string FingerPrint { get; set; }
         public bool IsActive { get; set; }
         public string FirstName { get; set; }
@@ -68,8 +68,8 @@ namespace MyCortex.Masters.Models
         public int ReturnFlag { get; set; }
         public string Status { get; set; }
         public string Message { get; set; }
-        public IList<TabListModel> Tabuserdetails { get; set; }
-        public IList<TabUserDetails> GetTabuserdetails { get; set; }
+        public IList<TabListModel> TabUserDetails { get; set; }
+        public IList<TabUserDetails> GetTabUserDetails { get; set; }
 
     }
 
@@ -91,7 +91,7 @@ namespace MyCortex.Masters.Models
 
     }
 
-    public class TabDeviceslist
+    public class TabDevicesList
     {
         public long ID { get; set; }
         public string DeviceName { get; set; }
@@ -99,7 +99,7 @@ namespace MyCortex.Masters.Models
 
     }
 
-    public class TabUserlist
+    public class TabUserList
     {
         public long ID { get; set; }
         public string FullName { get; set; }
@@ -108,7 +108,7 @@ namespace MyCortex.Masters.Models
 
     }
 
-    public class UserTabUserlist
+    public class UserTabUserList
     {
         public long? Id { get; set; }
         public long? UserId { get; set; }
@@ -118,7 +118,7 @@ namespace MyCortex.Masters.Models
         public string PIN { get; set; }
         public long? TabId { get; set; }
     }
-    public class UserTabDeviceslist
+    public class UserTabDevicesList
     {
         public long? Id { get; set; }
         public long? UserId { get; set; }

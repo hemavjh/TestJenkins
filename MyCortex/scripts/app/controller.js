@@ -19523,15 +19523,15 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.DeviceName = data.DeviceName;
                 $scope.UserName = data.UserName;
                 $scope.PIN = data.PIN;
-                angular.forEach(data.SelectedTabdevicelist, function (value, index) {
+                angular.forEach(data.SelectedTabDeviceList, function (value, index) {
                     $scope.EditSelectedDevice.push(value.DeviceId);
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
                 });
-                angular.forEach(data.SelectedTabuserlist, function (value, index) {
+                angular.forEach(data.SelectedTabUserList, function (value, index) {
                     $scope.EditSelectedTABUser.push(value.User_Id);
                     $scope.SelectedTabUser = $scope.EditSelectedTABUser;
                 });
-                angular.forEach(data.SelectedTabuserlist, function (value, index) {
+                angular.forEach(data.SelectedTabUserList, function (value, index) {
                     $scope.EditSelectedTABPIN.push(value.PIN);
                     $scope.SelectedTabPIN = $scope.EditSelectedTABPIN;
                 });
@@ -19664,7 +19664,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $scope.UserListsTemp = [];
                 $scope.UserListsTemp = data;
-                var obj = { "ID": 0, "FULLNAME": "Select", "IsActive": 1 };
+                var obj = { "ID": 0, "FullName": "Select", "IsActive": 1 };
                 $scope.UserListsTemp.splice(0, 0, obj);
                 $scope.UserLists = angular.copy($scope.UserListsTemp);
 
@@ -19758,11 +19758,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         Model: $scope.Model,
                         OS: $scope.OS,
                         InstitutionId: $window.localStorage['InstitutionId'],
-                        Created_By: $scope.CREATED_BY,
+                        CreatedBy: $scope.CREATED_BY,
                         UserList: $scope.UserTabDetails_List,
                         DevicesList: $scope.DevicesLists,
-                        SelectedTabdevicelist: $scope.UserDeviceDetails_List,
-                        SelectedTabuserlist: $scope.UserTabDetails_List
+                        SelectedTabDeviceList: $scope.UserDeviceDetails_List,
+                        SelectedTabUserList: $scope.UserTabDetails_List
                     };
 
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
