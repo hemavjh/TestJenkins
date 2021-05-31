@@ -2417,7 +2417,7 @@ body {
 
 /* Date Picker */
 
-.daterangepicker {
+/*.daterangepicker {
     background: white;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
     justify-content: flex-start;
@@ -2814,9 +2814,9 @@ body {
     position: static;
 }
 
-    .daterangepicker.standalone .custom-range-buttons {
+    .daterangepicker.standalone .custom-range-buttons {*/
         /*display: none;*/
-    }
+    /*}
 
 .daterangepicker.single {
     flex-direction: column;
@@ -2882,7 +2882,7 @@ body {
     .link:hover {
         opacity: 1;
         text-decoration: underline;
-    }
+    }*/
 
 
 
@@ -2890,17 +2890,17 @@ body {
 
 /*tag*/
 
-.label-info {
+/*.label-info {
     background-color: #ff6f1a;
 }
 
 .bootstrap-tagsinput {
     width: 50rem;
-}
+}*/
 
 
 /*select box*/
-.subject-info-box-1,
+/*.subject-info-box-1,
 .subject-info-box-2 {
     float: left;
     width: 40%;
@@ -2964,12 +2964,12 @@ body {
     background-color: #54a3f4;
     border: 0;
     padding: .5rem 2rem .5rem 2rem;
-}
+}*/
 
 
 
 /* Tab */
-ul.tabs {
+/*ul.tabs {
     margin: 0px;
     padding-top: .75rem;
     padding-left: .5rem;
@@ -3006,7 +3006,7 @@ ul.tabs {
         display: inherit;
     }
 
-.btn {
+.btn {*/
     /*color: white;
     background-color: #002168;*/
     /*border: 0;
@@ -3014,7 +3014,7 @@ ul.tabs {
     border-radius: 5px;
     font-size: 13px;
     padding: .5rem 1rem .5rem 1rem;*/
-}
+/*}
 
     .btn:hover {
         color: white;
@@ -3067,7 +3067,7 @@ ul.tabs {
 
 .p-0 {
     padding: 0 !important;
-}
+}*/
 
 
 /* File Css Add*/
