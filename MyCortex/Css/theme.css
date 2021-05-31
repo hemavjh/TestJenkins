@@ -2270,7 +2270,7 @@ a.disabled {
         outline: none;
     }
 /*<!------color  setting ends-------! >*/
-.save {
+/*.save {
     font-weight: 800;
     font-size: 18px;
     width: 7.5rem;
@@ -2375,19 +2375,19 @@ body {
 
 .main {
     font-weight: 600;
-    display: block;
+    display: block;*/
     /*color: #6b6666;*/
     /*margin-bottom: 0;*/
     /*font-size: 14px;*/
-}
+/*}
 
-.secondary {
+.secondary {*/
     /*font-weight: 400;
     display: block;*/
-    color: #858585;
+    /*color: #858585;*/
     /*margin-bottom: 0;*/
     /*font-size: 14px;*/
-}
+/*}
 
 .page-title {
     color: var(--title) !important;
@@ -2411,7 +2411,7 @@ body {
     width: 7rem;
     border-radius: 3px;
     border: 2px solid #b0b0b0;
-}
+}*/
 
 
 
