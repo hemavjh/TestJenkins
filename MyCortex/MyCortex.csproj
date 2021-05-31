@@ -1200,6 +1200,7 @@
     <Compile Include="Login\Model\EmployeeLoginModel.cs" />
     <Compile Include="Login\Model\LoginModel.cs" />
     <Compile Include="Login\Model\UsersModel.cs" />
+    <Compile Include="Masters\Controllers\AllergyMasterController.cs" />
     <Compile Include="Masters\Controllers\AttendanceController.cs" />
     <Compile Include="Masters\Controllers\ChatSettingsController.cs" />
     <Compile Include="Masters\Controllers\MobileController.cs" />
@@ -1212,6 +1213,7 @@
     <Compile Include="Masters\Controllers\ParameterSettingsController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
     <Compile Include="Masters\Controllers\WebConfigurationController.cs" />
+    <Compile Include="Masters\Models\AllergyMasterModel.cs" />
     <Compile Include="Masters\Models\AppConfigurationModel.cs" />
     <Compile Include="Masters\Models\AttendanceModel.cs" />
     <Compile Include="Masters\Models\CategoryMasterModel.cs" />
@@ -1256,6 +1258,7 @@
     <Compile Include="Repositories\Admin\ProtocolRepository.cs" />
     <Compile Include="Repositories\IAlertEventRepository.cs" />
     <Compile Include="Repositories\IAllPatientRepository.cs" />
+    <Compile Include="Repositories\IMasterAllergyRepository.cs" />
     <Compile Include="Repositories\IMyHomeRepository.cs" />
     <Compile Include="Repositories\IAppoinmentSlotRepository.cs" />
     <Compile Include="Repositories\IAttendanceRepository.cs" />
@@ -1288,6 +1291,7 @@
     <Compile Include="Repositories\IColorPreferenceRepository.cs" />
     <Compile Include="Repositories\IWebConfigurationRepository.cs" />
     <Compile Include="Repositories\Login\LoginRepository.cs" />
+    <Compile Include="Repositories\Masters\MasterAllergyRepository.cs" />
     <Compile Include="Repositories\Masters\MyHomeRepository.cs" />
     <Compile Include="Repositories\Masters\AttendanceRepository.cs" />
     <Compile Include="Repositories\Masters\ChatSettingsRepository.cs" />
@@ -1604,8 +1608,12 @@
     <Content Include="_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\Views\AllergyMasterModel\" />
+    <Folder Include="Admin\Views\AllergyMaster\" />
     <Folder Include="Admin\Views\ColorPreference\" />
+    <Folder Include="Admin\Views\IMasterAllergyRepository\" />
     <Folder Include="Admin\Views\LanguageSettings\" />
+    <Folder Include="Admin\Views\MasterAllergyRepository\" />
     <Folder Include="Admin\Views\PatientDeviceData\" />
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />

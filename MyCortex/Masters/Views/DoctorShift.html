@@ -16,20 +16,22 @@
         $('#FromDate').attr('min', maxDate);
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $('.activeButton').removeClass('activeButton');
-        var element = document.getElementById($('.secondaryMenuActive').data('menu'));
-        $(element).addClass('activeButton');
-    });
-</script>
 
 <ul class="secondaryMenu">
-    <li><a href="Home/Index#/MyAppointmentSetting">Organization Settings</a></li>
     <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
     <li><a href="Home/Index#/DoctorShift" class="secondaryMenuActive" data-menu="Appointment Setting">Doctor Shift</a></li>
     <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+    <!--<li><a href="Home/Index#/MyAppointmentSetting">Organization Settings</a></li>-->
+
+    <!--<li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
+    <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
+    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
+    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>-->
+    <!--<li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
+    <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>-->
 </ul>
 <h1 class="page-title">Doctor Shift</h1>
 <div ng-init="DoctorShiftListGo()">
@@ -172,7 +174,8 @@
                         <div ng-show="Id==0">
                             <select ng-model="Doctor_Id" multiple="multiple"
                                     ng-options="item1.Id as item1.FullName for item1 in DoctorList" multiselect-dropdown
-                                    style="width: 230px;"></select>
+                                    style="width: 230px;">
+                            </select>
                         </div>
                         <div ng-show="Id>0">
                             <select class="" data-style="form-control" ng-model="Doctor_Id1" id="selectpicker"
@@ -188,49 +191,56 @@
                         <label>{{day1}}</label>
                         <select ng-model="SundayShift" multiple="multiple"
                                 ng-options="item1.Id as item1.ShiftName for item1 in DoctorShiftList" multiselect-dropdown
-                                style="width: 230px;"></select>
+                                style="width: 230px;">
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>{{day2}}</label>
 
                         <select ng-model="MondayShift" multiple="multiple"
                                 ng-options="item1.Id as item1.ShiftName for item1 in DoctorShiftList" multiselect-dropdown
-                                style="width: 230px;"></select>
+                                style="width: 230px;">
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>{{day3}}</label>
 
                         <select ng-model="TuesdayShift" multiple="multiple"
                                 ng-options="item1.Id as item1.ShiftName for item1 in DoctorShiftList" multiselect-dropdown
-                                style="width: 230px;"></select>
+                                style="width: 230px;">
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>{{day4}}</label>
 
                         <select ng-model="WednessdayShift" multiple="multiple"
                                 ng-options="item1.Id as item1.ShiftName for item1 in DoctorShiftList" multiselect-dropdown
-                                style="width: 230px;"></select>
+                                style="width: 230px;">
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>{{day5}}</label>
 
                         <select ng-model="ThursdayShift" multiple="multiple"
                                 ng-options="item1.Id as item1.ShiftName for item1 in DoctorShiftList" multiselect-dropdown
-                                style="width: 230px;"></select>
+                                style="width: 230px;">
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>{{day6}}</label>
 
                         <select ng-model="FridayShift" multiple="multiple"
                                 ng-options="item1.Id as item1.ShiftName for item1 in DoctorShiftList" multiselect-dropdown
-                                style="width: 230px;"></select>
+                                style="width: 230px;">
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>{{day7}}</label>
 
                         <select ng-model="SaturdayShift" multiple="multiple"
                                 ng-options="item1.Id as item1.ShiftName for item1 in DoctorShiftList" multiselect-dropdown
-                                style="width: 230px;"></select>
+                                style="width: 230px;">
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>
@@ -287,6 +297,8 @@
             </div>
 
             <div class="modal-body" id="Div2">
+
+
                 <form role="form">
                     <div class="inputGroups">
                         <label>Doctor</label>
@@ -330,7 +342,11 @@
                         <label>To Date</label>
                         <span> {{ToDate | date:'dd-MMM-yyyy '}}</span>
                     </div>
+
+
                 </form>
+
+
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button type="button" class="theme-btn-2" title="Click to Cancel"
@@ -341,3 +357,27 @@
         </div>
     </div>
 </div>
+<script>
+    // $('#FromDate').timepicker();
+    // $('#ToDate').timepicker();
+    //$(".date").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    //endDate: '+0d',
+    //    startDate: new Date(),
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
+    // $("#ToDate").bootstrapDP({
+    //     format: "dd-M-yyyy",
+    //     forceParse: false,
+    //     //endDate: '+0d',
+    //     startDate: new Date(),
+    //     autoclose: true,
+    //     todayHighlight: true,
+    //     toggleActive: true,
+    //     todayBtn: true
+    // });
+</script>

@@ -70,6 +70,7 @@ namespace MyCortex.Masters.Controllers
 
 
         [AllowAnonymous]
+        [HttpPost]
         public HttpResponseMessage AutomatedTestReport_InsertUpdate([FromBody] AutomatedTestReportDetails AutomatedObject)
         {
 
@@ -117,11 +118,18 @@ namespace MyCortex.Masters.Controllers
 
 
         [HttpGet]
-        public AutomatedTestReportDetails AutomatedTestReport_View(long rowid)
+        public IList<AutomatedTestReportDetails> AutomatedTestReport_View(long rowid = 0)
         {
-            AutomatedTestReportDetails model = new AutomatedTestReportDetails();
-            model = repository.AutomatedTestReport_View(rowid);
-            return model;
+            try
+            {
+                IList<AutomatedTestReportDetails> model; 
+                model = repository.AutomatedTestReport_View(rowid); 
+                return model;
+            }catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex); 
+                return null;
+            }
         }
 
 

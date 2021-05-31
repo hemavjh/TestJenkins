@@ -10,7 +10,7 @@ using System.Data;
 using System.Web.Script.Serialization;
 using MyCortex.Utilities;
 using MyCortex.Masters.Models;
-
+ 
 
 namespace MyCortex.Repositories.Masters
 {
@@ -145,22 +145,31 @@ namespace MyCortex.Repositories.Masters
 
         }
 
-        public AutomatedTestReportDetails AutomatedTestReport_View(long Rowid)
+        public IList<AutomatedTestReportDetails> AutomatedTestReport_View(long Rowid)
         {
 
+             AutomatedTestReportReturnModels  modal;
 
+            int flag = 0;
 
-            string flag = "";
-
-            List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@ROWID", Rowid));
+            List<DataParameter> param = new List<DataParameter>(); 
+            
              
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_VIEW", param);
+                DataTable dt;
+                if (Rowid > 0)
+                {
+                    param.Add(new DataParameter("@ROWID", Rowid));
+                    dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_VIEW", param);
+                }
+                else
+                {
+                      dt = ClsDataBase.GetDataTable("MYCORTEX.AUTOMATEDTEST_REPORT_VIEW");
+                }
 
-                AutomatedTestReportDetails INS = (from p in dt.AsEnumerable()
+                IList<AutomatedTestReportDetails> INS = (from p in dt.AsEnumerable()
                                                          select
                                                          new AutomatedTestReportDetails()
                                                          {
@@ -171,8 +180,9 @@ namespace MyCortex.Repositories.Masters
                                                              TEST_RESULT_REASON = p.Field<string>("TEST_RESULT_REASON"),
                                                              TEST_REPORT = p.Field<string>("TEST_REPORT"),
                                                              TEST_SESSION = p.Field<string>("TEST_SESSION"),
-                                                             TEST_REF = p.Field<string>("TEST_REF")
-                                                         }).FirstOrDefault();
+                                                             TEST_REF = p.Field<string>("TEST_REF") 
+                                                         }).ToList(); 
+
                 return INS;
 
             }
