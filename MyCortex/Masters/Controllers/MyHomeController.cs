@@ -190,10 +190,11 @@ namespace MyCortex.User.Controllers
             }
         }
 
-        //[HttpGet]
-        //public HttpResponseMessage TabLoginDashBoard_List()
-        //{
-        //}
+        [HttpGet]
+        public HttpResponseMessage TabLoginDashBoardList(long InstitutionId,long UserId,long TabId)
+        {
+            return null;
+        }
     }
 }
     

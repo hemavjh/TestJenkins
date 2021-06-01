@@ -34,7 +34,7 @@ namespace MyCortex.Masters.Models
     {
         public long ID { get; set; }
         public long TabId { get; set; }
-        public long DeviceId { get; set; }
+        public string DeviceId { get; set; }
         public string DeviceName { get; set; } 
         public string Make { get; set; }
         public string DeviceType { get; set; }

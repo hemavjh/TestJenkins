@@ -120,7 +120,7 @@ namespace MyCortex.Repositories.Masters
                             param1.Add(new DataParameter("@DeviceID", item.ID));
                             param1.Add(new DataParameter("@TAB_ID", InsertId)); 
                             param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
-                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive)); 
                             var objExist = insobj.SelectedTabDeviceList.Where(ChildItem => ChildItem.DeviceId == item.ID);
 
                             if (objExist.ToList().Count > 0)
@@ -207,8 +207,7 @@ namespace MyCortex.Repositories.Masters
                                             select new UserTabDevicesList()
                                             {
                                                 Id = p.Field<long>("Id"),
-                                                TabId = p.Field<long>("TAB_ID"),
-                                                DeviceId = p.Field<long>("DEVICE_ID"),
+                                                TabId = p.Field<long>("TAB_ID"), 
                                                 DeviceName = p.Field<string>("DEVICENAME"),
                                                 IsActive = p.Field<bool>("ISACTIVE")
                                             }).ToList();
@@ -262,7 +261,7 @@ namespace MyCortex.Repositories.Masters
                                              select new TabDevicesModel()
                                              {
                                                  ID = p.Field<long>("ID"),
-                                                 DeviceId = p.Field<long>("ID"),
+                                                 DeviceId = p.Field<string>("DEVICE_ID"),
                                                  DeviceName = p.Field<string>("DEVICE_NAME"), 
                                                  Make = p.Field<string>("MAKE"),
                                                  DeviceType = p.Field<string>("BRAND_NAME"),

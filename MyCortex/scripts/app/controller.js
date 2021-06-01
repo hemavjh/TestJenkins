@@ -19524,7 +19524,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.UserName = data.UserName;
                 $scope.PIN = data.PIN;
                 angular.forEach(data.SelectedTabDeviceList, function (value, index) {
-                    $scope.EditSelectedDevice.push(value.DeviceId);
+                    $scope.EditSelectedDevice.push(value.Id);
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
                 });
                 angular.forEach(data.SelectedTabUserList, function (value, index) {
@@ -19535,6 +19535,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.EditSelectedTABPIN.push(value.PIN);
                     $scope.SelectedTabPIN = $scope.EditSelectedTABPIN;
                 });
+                if (currentTab)
                 $scope.UserDropdownlist();
             });
         }
