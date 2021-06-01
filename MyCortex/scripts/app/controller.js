@@ -1876,6 +1876,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $('#EditDocument').val('');
             $scope.CertificateFileName = "";
             $scope.appleUserID = "";
+            $scope.PATIENT_ID = "";
         }
 
 
@@ -3034,7 +3035,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.FB_EmailId = data.FB_EMAILID;
                                 $scope.appleUserID = data.appleUserID;
                                 $scope.Patient_Type = data.Patient_Type;
-
+                                $scope.PATIENT_ID = data.PATIENT_ID;
                                 $scope.Diabetic = data.DIABETIC.toString();
                                 $scope.HyperTension = data.HYPERTENSION.toString();
                                 $scope.Cholestrol = data.CHOLESTEROL.toString();
@@ -3412,6 +3413,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             Emergency_MobileNo: $scope.Emergency_MobileNo,
                             IS_MASTER: $scope.Is_Master,
                             appleUserID: $scope.appleUserID
+                            PATIENT_ID: $scope.PATIENT_ID
                         }
                     } else {
                         var obj = {
@@ -3496,7 +3498,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             Patient_Type: $scope.Patient_Type,
                             Emergency_MobileNo: $scope.Emergency_MobileNo,
                             IS_MASTER: $scope.Is_Master,
-                            appleUserID: $scope.appleUserID
+                            appleUserID: $scope.appleUserID,
+                            PATIENT_ID: $scope.PATIENT_ID
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {

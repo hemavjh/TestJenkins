@@ -236,6 +236,19 @@
                                         {{ViewGroupName}}
                                     </span>
                                 </div>
+
+                                <div class="inputGroups">
+                                    <label>
+                                        Patient ID
+                                        <!--<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>-->
+                                    </label>
+                                    <input type="text" class="form-control" id="PATIENT_ID" name="PATIENT_ID" ng-model="PATIENT_ID"
+                                           ng-init="PATIENT_ID=''" ng-required="true" placeholder="" ng-maxlength="50"
+                                           maxlength="50" ng-disabled="Pat_UserTypeId==2" />
+                                </div>
+
                                 <div class="inputGroups mt-20">
                                     <label>Patient Type<sup><font class='mandatory-field'>*</font></sup></label>
                                     <input type="radio" value="1" ng-model="Patient_Type" ng-checked="checked='true'" ng-disabled="Pat_UserTypeId==2"> Standard
