@@ -3310,7 +3310,7 @@ namespace MyCortex.User.Controller
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
-                userObj.PATIENT_ID = EncryptPassword.Encrypt(userObj.PATIENT_ID);
+                userObj.PatientId = EncryptPassword.Encrypt(userObj.PatientId);
                 ModelData = repository.Patient_Update(Login_Session_Id, userObj);
 
                 if (ModelData.flag > 0)
