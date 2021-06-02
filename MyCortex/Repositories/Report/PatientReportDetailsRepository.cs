@@ -173,6 +173,7 @@ namespace MyCortex.Repositories.Masters
                                                          select
                                                          new AutomatedTestReportDetails()
                                                          {
+                                                             ROWID = p.Field<long>("ROWID"),
                                                              TEST_ID = p.Field<long>("TEST_ID"),
                                                              TEST_START_DTTM = p.Field<DateTime?>("TEST_START_DTTM"),
                                                              TEST_END_DTTM = p.Field<DateTime?>("TEST_END_DTTM"),
@@ -180,7 +181,8 @@ namespace MyCortex.Repositories.Masters
                                                              TEST_RESULT_REASON = p.Field<string>("TEST_RESULT_REASON"),
                                                              TEST_REPORT = p.Field<string>("TEST_REPORT"),
                                                              TEST_SESSION = p.Field<string>("TEST_SESSION"),
-                                                             TEST_REF = p.Field<string>("TEST_REF") 
+                                                             TEST_REF = p.Field<string>("TEST_REF"),
+                                                             CREATED_DTTM = p.Field<DateTime?>("CREATED_DTTM")
                                                          }).ToList(); 
 
                 return INS;
