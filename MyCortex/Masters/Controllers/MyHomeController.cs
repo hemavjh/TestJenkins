@@ -152,18 +152,21 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-        [HttpGet]
-        public HttpResponseMessage TabLoginUserDetails_List(long Tab_ID,long UserId,string Pin)
+        [AllowAnonymous]
+        [HttpPost]
+        public HttpResponseMessage TabLoginUserDetails_List([FromBody] TabUserDetails TabLoginObj)
+
         {
+             
             IList<TabUserDetails> ModelData = new List<TabUserDetails>();
             TabUserReturnModels model = new TabUserReturnModels();
             string messagestr = "";
             try
             {
-                ModelData = repository.Get_TabLoginUserDetails(Tab_ID, UserId, Pin);
+                ModelData = repository.Get_TabLoginUserDetails(TabLoginObj);
                 if (ModelData.Any(item => item.Flag == 1) == true)
                 {
-                    messagestr = "Get from Tab User Information";
+                    messagestr = "Tab Login Successfully";
                     model.ReturnFlag = 1;
                 }else if (ModelData.Any(item => item.Flag == 2) == true)
                 {
@@ -192,7 +195,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage TabLoginDashBoardList(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
+        public HttpResponseMessage TabDashBoardList(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
         {
             TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
             TabUserListReturnModels model = new TabUserListReturnModels();
@@ -203,12 +206,12 @@ namespace MyCortex.User.Controllers
                 if (ModelData.Flag == 1)
                 {
 
-                    messagestr = "DashBoard Login Successfully";
+                    messagestr = "Get From DashBoardList Information";
                     model.ReturnFlag = 1;
                 }
                 else if (ModelData.Flag == 2)
                 {
-                    messagestr = "DashBoard are not matching, please verify";
+                    messagestr = "DashBoadList Information are empty";
                     model.ReturnFlag = 0;
                 }
                  

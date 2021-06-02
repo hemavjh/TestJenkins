@@ -318,13 +318,13 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabUserDetails> Get_TabLoginUserDetails(long Tab_ID, long UserId, string Pin)
+        public IList<TabUserDetails> Get_TabLoginUserDetails(TabUserDetails TabLoginObj)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>(); 
-            param.Add(new DataParameter("@Tab_ID", Tab_ID));
-            param.Add(new DataParameter("@UserId", UserId));
-            param.Add(new DataParameter("@Pin", Pin));
+            param.Add(new DataParameter("@Tab_ID", TabLoginObj.TabId));
+            param.Add(new DataParameter("@UserId", TabLoginObj.UserId));
+            param.Add(new DataParameter("@Pin", TabLoginObj.PIN));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -374,6 +374,9 @@ namespace MyCortex.Repositories.Masters
                                             select new TabUserDashBordDetails()
                                             {
                                                 UserGroupId = p.Field<long>("ID"),
+                                                UserGroupName = p.Field<string>("UNITSGROUPNAME"),
+                                                IsActive = p.Field<int>("ISACTIVE")
+
                                             }).FirstOrDefault();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TABDASHBOARDUSERDETAILS]", param);  
                 
@@ -396,6 +399,13 @@ namespace MyCortex.Repositories.Masters
                 if (lst != null)
                 {
 
+                    if(Get_UsersGroupId.UserGroupName == "Metric")
+                    {
+                        Get_UsersGroupId.UserGroupId = 1;
+                    }else
+                    {
+                        Get_UsersGroupId.UserGroupId = 2;
+                    }
 
                     lst.TabParameterList = GroupParameterNameList(lst.UserId, Get_UsersGroupId.UserGroupId);
                     lst.TabAlertsList = Get_ParameterValue(lst.UserId,lst.UserTypeId,Login_Session_Id);
@@ -472,7 +482,7 @@ namespace MyCortex.Repositories.Masters
             {
                 param.Add(new DataParameter("@Patient_Id", Patient_Id));
                 param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD]", param);
                 List<TabDeviceParameterDetails> list = (from p in dt.AsEnumerable()
                                                   select new TabDeviceParameterDetails()
                                                   {

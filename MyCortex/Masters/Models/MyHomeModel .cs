@@ -143,11 +143,14 @@ namespace MyCortex.Masters.Models
         public string EmailId { get; set; }
         public long UserTypeId { get; set; }
         public DateTime? ModifiedDate { get; set; }
+         
     }
 
     public class TabUserDashBordDetails
     {
         public long UserGroupId { get; set; }
+        public string UserGroupName { get; set; }
+        public int IsActive { get; set; }
         public long InstitutionId { get; set; }
         public long TabId { get; set; }
         public long UserId { get; set; }
