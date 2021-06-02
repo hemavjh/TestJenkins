@@ -15,5 +15,6 @@ namespace MyCortex.Repositories
         IList<TabDevicesModel> Get_TabDevices(long Institution_ID, long Tab_ID);
         IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID);
         IList<TabUserDetails> Get_TabLoginUserDetails(long Tab_ID, long UserId, string Pin);
+        TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId,Guid Login_Session_Id);
     }
 }

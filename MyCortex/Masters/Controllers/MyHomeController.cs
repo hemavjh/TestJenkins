@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using MyCortex.Masters.Models;
 using MyCortex.Repositories.Masters;
 using MyCortex.Provider;
+ 
 
 namespace MyCortex.User.Controllers
 {
@@ -20,7 +21,7 @@ namespace MyCortex.User.Controllers
     [CheckSessionOutFilter]
     public class MyHomeController : ApiController
     {
-        static readonly IMyHomeRepository repository = new MyHomeRepository();
+        static readonly IMyHomeRepository repository = new MyHomeRepository(); 
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [HttpGet]
@@ -191,9 +192,41 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage TabLoginDashBoardList(long InstitutionId,long UserId,long TabId)
+        public HttpResponseMessage TabLoginDashBoardList(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
         {
-            return null;
+            TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
+            TabUserListReturnModels model = new TabUserListReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetDashBoardListDetails(InstitutionId, UserId, TabId, Login_Session_Id);
+                if (ModelData.Flag == 1)
+                {
+
+                    messagestr = "DashBoard Login Successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Flag == 2)
+                {
+                    messagestr = "DashBoard are not matching, please verify";
+                    model.ReturnFlag = 0;
+                }
+                 
+                model.TabDashBoardList = ModelData;
+                model.Message = messagestr; 
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in DashBoard Tab Users";
+                model.TabDashBoardList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+             
         }
     }
 }

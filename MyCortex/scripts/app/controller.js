@@ -19514,6 +19514,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
+            $scope.UserDropdownlist();
             $http.get(baseUrl + '/api/MyHome/Tab_ListView/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.DuplicatesId = data.Id;
@@ -19537,9 +19538,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 angular.forEach(data.SelectedTabUserList, function (value, index) {
                     $scope.EditSelectedTABPIN.push(value.PIN);
                     $scope.SelectedTabPIN = $scope.EditSelectedTABPIN;
-                });
-                if (currentTab)
-                $scope.UserDropdownlist();
+                });  
+               
             });
         }
 
