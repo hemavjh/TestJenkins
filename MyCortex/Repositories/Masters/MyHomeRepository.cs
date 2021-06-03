@@ -11,6 +11,7 @@ using System.Web.Script.Serialization;
 using MyCortex.Utilities;
 using MyCortex.Masters.Models;
 
+
 namespace MyCortex.Repositories.Masters
 {
     public class MyHomeRepository : IMyHomeRepository
@@ -74,7 +75,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@REF_ID", insobj.RefId));
             param.Add(new DataParameter("@MODEL", insobj.Model)); 
             param.Add(new DataParameter("@OS", insobj.OS));
-            param.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
+            param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             param.Add(new DataParameter("@VENDOR", ""));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -93,15 +94,15 @@ namespace MyCortex.Repositories.Masters
                 {
                     if (insobj.UserList != null)
                     {
-                        foreach (TabUserlist item in insobj.UserList)
+                        foreach (TabUserList item in insobj.UserList)
                         {
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@User_Id", item.ID));
                             param1.Add(new DataParameter("@TAB_ID", InsertId));
                             param1.Add(new DataParameter("@PIN", item.PIN));
-                            param1.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
-                            param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
-                            var objExist = insobj.SelectedTabuserlist.Where(ChildItem => ChildItem.Id == item.ID);
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                            var objExist = insobj.SelectedTabUserList.Where(ChildItem => ChildItem.Id == item.ID);
 
                             if (objExist.ToList().Count > 0)
                                 //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
@@ -114,14 +115,14 @@ namespace MyCortex.Repositories.Masters
                     }
                     if (insobj.DevicesList != null)
                     {
-                        foreach (TabDeviceslist item in insobj.DevicesList)
+                        foreach (TabDevicesList item in insobj.DevicesList)
                         {
                             List<DataParameter> param1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@DeviceID", item.ID));
                             param1.Add(new DataParameter("@TAB_ID", InsertId)); 
-                            param1.Add(new DataParameter("@CREATED_BY", insobj.Created_By));
-                            param1.Add(new DataParameter("@ISACTIVE", item.ISACTIVE));
-                            var objExist = insobj.SelectedTabdevicelist.Where(ChildItem => ChildItem.DeviceId == item.ID);
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive)); 
+                            var objExist = insobj.SelectedTabDeviceList.Where(ChildItem => ChildItem.DeviceId == item.ID);
 
                             if (objExist.ToList().Count > 0)
                                 //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
@@ -185,8 +186,8 @@ namespace MyCortex.Repositories.Masters
                                      }).FirstOrDefault();
                 if (list != null)
                 {
-                    list.SelectedTabdevicelist = USERDEVICEDETAILS_VIEW(list.ID);
-                    list.SelectedTabuserlist = USERTABDETAILS_VIEW(list.ID);
+                    list.SelectedTabDeviceList = USERDEVICEDETAILS_VIEW(list.ID);
+                    list.SelectedTabUserList = USERTABDETAILS_VIEW(list.ID);
                 }
                return list;
             }
@@ -197,36 +198,35 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<UserTabDeviceslist> USERDEVICEDETAILS_VIEW(long Id)
+        public IList<UserTabDevicesList> USERDEVICEDETAILS_VIEW(long Id)
         {
           
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERDEVICEDETAILS_SP_VIEW]", param);
-            List<UserTabDeviceslist> INS = (from p in dt.AsEnumerable()
-                                            select new UserTabDeviceslist()
+            List<UserTabDevicesList> INS = (from p in dt.AsEnumerable()
+                                            select new UserTabDevicesList()
                                             {
                                                 Id = p.Field<long>("Id"),
-                                                TAB_ID = p.Field<long>("TAB_ID"),
-                                                DeviceId = p.Field<long>("DEVICE_ID"),
+                                                TabId = p.Field<long>("TAB_ID"), 
                                                 DeviceName = p.Field<string>("DEVICENAME"),
                                                 IsActive = p.Field<bool>("ISACTIVE")
                                             }).ToList();
             return INS;
         }
 
-        public IList<UserTabUserlist> USERTABDETAILS_VIEW(long Id)
+        public IList<UserTabUserList> USERTABDETAILS_VIEW(long Id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTABDETAILS_SP_VIEW]", param);
-            List<UserTabUserlist> INS = (from p in dt.AsEnumerable()
-                                            select new UserTabUserlist()
+            List<UserTabUserList> INS = (from p in dt.AsEnumerable()
+                                            select new UserTabUserList()
                                             {
                                                 Id = p.Field<long>("Id"),
-                                                TAB_ID = p.Field<long>("TAB_ID"),
-                                                User_Id = p.Field<long>("USER_ID"),
+                                                TabId= p.Field<long>("TAB_ID"),
+                                                UserId = p.Field<long>("USER_ID"),
                                                 UserFullName = DecryptFields.Decrypt(p.Field<string>("USERNAME")),
                                                 PIN = p.Field<string>("PIN"),
                                                 IsActive=p.Field<bool>("ISACTIVE")
@@ -262,17 +262,17 @@ namespace MyCortex.Repositories.Masters
                                              select new TabDevicesModel()
                                              {
                                                  ID = p.Field<long>("ID"),
-                                                 DEVICE_ID = p.Field<long>("ID"),
-                                                 DEVICENAME = p.Field<string>("DEVICE_NAME"),
-                                                 MANUFACTURE = p.Field<string>("MANUFACTURE"),
-                                                 MAKE = p.Field<string>("MAKE"),
-                                                 BRAND_NAME = p.Field<string>("BRAND_NAME"),
-                                                 SERIES = p.Field<string>("SERIES"),
-                                                 MODEL_NUMBER = p.Field<string>("MODEL_NUMBER"),
-                                                 PURPOSE = p.Field<string>("PURPOSE"),
-                                                 PARAMETER = p.Field<string>("PARAMETER"),
+                                                 DeviceId = p.Field<string>("DEVICE_ID"),
+                                                 DeviceName = p.Field<string>("DEVICE_NAME"), 
+                                                 Make = p.Field<string>("MAKE"),
+                                                 DeviceType = p.Field<string>("DEVICE_TYPE"),
+                                                 Series = p.Field<string>("SERIES"),
+                                                 ModelNumber = p.Field<string>("MODEL"),
+                                                 Purpose = p.Field<string>("PURPOSE"),
+                                                 Parameter= p.Field<string>("PARAMETER"),
                                                  IsActive = p.Field<bool>("ISACTIVE")
                                              }).ToList();
+
                 return lst;
             }
             catch (Exception ex)
@@ -296,18 +296,18 @@ namespace MyCortex.Repositories.Masters
                                           select new TabUserModel()
                                           {
                                               ID = p.Field<long>("ID"),
-                                              USER_ID = p.Field<long>("USER_ID"),
+                                              UserId = p.Field<long>("USER_ID"),
                                               PIN = p.Field<string>("PIN"),
                                               //PHOTO = p.Field<string>("PHOTO"),
-                                              FINGERPRINT = p.Field<string>("FINGERPRINT"),
-                                              ISACTIVE = p.Field<bool>("ISACTIVE"),
-                                              FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
-                                              MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
-                                              LASTNAME = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
-                                              EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
-                                              USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
-                                              GENDER_ID = p.Field<long>("GENDER_ID"),
-                                              GENDER_NAME = p.Field<string>("GENDER_NAME"),
+                                              FingerPrint = p.Field<string>("FINGERPRINT"),
+                                              IsActive = p.Field<bool>("ISACTIVE"),
+                                              FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
+                                              MiddleName = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
+                                              LastName = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
+                                              EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                              UserTypeId = p.Field<long>("USERTYPE_ID"),
+                                              GenderId = p.Field<long>("GENDER_ID"),
+                                              GenderName = p.Field<string>("GENDER_NAME"),
                                           }).ToList();
                 return lst;
             }
@@ -316,6 +316,273 @@ namespace MyCortex.Repositories.Masters
                 _logger.Error(ex.Message, ex);
                 return null;
             }
+        }
+
+        public IList<TabUserDetails> Get_TabLoginUserDetails(TabUserDetails TabLoginObj)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>(); 
+            param.Add(new DataParameter("@Tab_ID", TabLoginObj.TabId));
+            param.Add(new DataParameter("@UserId", TabLoginObj.UserId));
+            param.Add(new DataParameter("@Pin", TabLoginObj.PIN));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_USERSINFOR_LIST]", param);
+               
+                    List<TabUserDetails> lst = (from p in dt.AsEnumerable()
+                                                select new TabUserDetails()
+                                                {
+                                                    TabId = p.Field<long>("TAB_ID"),
+                                                    UserId = p.Field<long>("USER_ID"),
+                                                    PIN = p.Field<string>("PIN"),
+                                                    ModifiedDate = p.Field<DateTime?>("MODIFIED_AT"),
+                                                    IsActive = p.Field<bool>("ISACTIVE"),
+                                                    FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
+                                                    MiddleName = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
+                                                    LastName = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
+                                                    EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                    UserTypeId = p.Field<long>("USERTYPE_ID"),
+                                                    UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
+                                                    Flag = p.Field<int>("flag")
+                                                }).ToList();
+             
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public  TabUserDashBordDetails  GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            string DeviceType = "TAB";
+            
+            param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
+            param.Add(new DataParameter("@USERID",UserId));
+            param.Add(new DataParameter("@TABID",TabId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[UNITGROUPTYPE_SP_LIST]");
+                TabUserDashBordDetails Get_UsersGroupId = (from p in dt_1.AsEnumerable()
+                                            select new TabUserDashBordDetails()
+                                            {
+                                                UserGroupId = p.Field<long>("ID"),
+                                                UserGroupName = p.Field<string>("UNITSGROUPNAME"),
+                                                IsActive = p.Field<int>("ISACTIVE")
+
+                                            }).FirstOrDefault();
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TABDASHBOARDUSERDETAILS]", param);  
+                
+                TabUserDashBordDetails  lst = (from p in dt.AsEnumerable()
+                                            select new TabUserDashBordDetails()
+                                            {  
+                                                UserId = p.Field<long>("UserId"),
+                                                TabId = p.Field<long>("TabId"),
+                                                UserTypeId = p.Field<long>("UserTypeId"),
+                                                InstitutionId =p.Field<long>("InstitutionId"),
+                                                DeviceType = DeviceType,  
+                                                Flag = p.Field<int>("Flag"),
+
+                                                UserDetails = new TabDeviceUserDetails()
+                                                {
+                                                    UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
+                                                    PhotoLobThumb =p.IsNull("PhotoThump") ? null : decrypt.DecryptFile(p.Field<byte[]>("PhotoThump"))
+                                                }, 
+                                            }).FirstOrDefault();
+                if (lst != null)
+                {
+
+                    if(Get_UsersGroupId.UserGroupName == "Metric")
+                    {
+                        Get_UsersGroupId.UserGroupId = 1;
+                    }else
+                    {
+                        Get_UsersGroupId.UserGroupId = 2;
+                    }
+
+                    lst.TabParameterList = GroupParameterNameList(lst.UserId, Get_UsersGroupId.UserGroupId);
+                    lst.TabAlertsList = Get_ParameterValue(lst.UserId,lst.UserTypeId,Login_Session_Id);
+                    lst.TabAppointmentList = DoctorAppoinmentsList(lst.UserId, Login_Session_Id);
+                    lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
+                }
+
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<TabDashBoardAlertDetails> Get_ParameterValue(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        {
+             var sessionId = HttpContext.Current.Session.SessionID;
+            //var result = Guid(sessionId);
+         
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PatientId", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            try
+            {
+                DataEncryption DecryptFields = new DataEncryption();
+                DataTable dt = new DataTable();
+                if (UserTypeId == 6)
+                {
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUE_SP_LIST]", param);
+                }
+                else
+                {
+                    param.Add(new DataParameter("@VIEWUSER", UserTypeId));
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[CAREGIVER_GETPARAMETERVALUE_SP_LIST]", param);
+                }
+                List<TabDashBoardAlertDetails> list = (from p in dt.AsEnumerable()
+                                                     select new TabDashBoardAlertDetails()
+                                                     {
+                                                         ID = p.Field<long>("Id"),
+                                                         PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                         HighCount = p.Field<int>("HighCount"),
+                                                         MediumCount = p.Field<int>("MediumCount"),
+                                                         LowCount = p.Field<int>("LowCount"),
+                                                         ParameterName = p.Field<string>("ParameterName"),
+                                                         ParameterValue = p.Field<decimal?>("PARAMETERVALUE"),
+                                                         Average = p.Field<decimal?>("AVERAGE"),
+                                                         UnitName = p.Field<string>("UnitName"),
+                                                         PageType = p.Field<string>("PageType"),
+                                                         ActivityDate = p.Field<DateTime?>("ACTIVITY_DATE"),
+                                                         DeviceType = p.Field<string>("DEVICETYPE"),
+                                                         DeviceNo = p.Field<string>("DEVICE_NO"),
+                                                         FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                         TypeName = p.Field<string>("TYPENAME"),
+                                                         CreatedByShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
+                                                         ComDurationType = p.Field<string>("DurationType"),
+                                                     }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+
+        public IList<TabDeviceParameterDetails> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            //param.Add(new DataParameter("@ParamGroup_Id", Group_Id));
+            try
+            {
+                param.Add(new DataParameter("@Patient_Id", Patient_Id));
+                param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD]", param);
+                List<TabDeviceParameterDetails> list = (from p in dt.AsEnumerable()
+                                                  select new TabDeviceParameterDetails()
+                                                  {
+
+                                                      GroupId = p.Field<long>("PARAMGROUP_ID"),
+                                                      ParameterId = p.Field<long>("PARAMETER_ID"),
+                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
+                                                      GroupName = p.Field<string>("PARAMGROUPNAME"),
+                                                      MaxPossible = p.IsNull("MAX_POSSIBLE") ? 0 : p.Field<decimal>("MAX_POSSIBLE"),
+                                                      MinPossible = p.IsNull("MIN_POSSIBLE") ? 0 : p.Field<decimal>("MIN_POSSIBLE"),
+                                                      Average = p.IsNull("AVERAGE") ? 0 : p.Field<decimal>("AVERAGE"),
+                                                      ParameterHasChild = p.Field<int?>("HASCHILD"),
+                                                      ParameterParentId = p.Field<int?>("PARENT_ID"),
+                                                      UomId = p.Field<long>("UOM_ID"),
+                                                      UomName = p.Field<string>("UOM_NAME"),
+                                                      RangeMax = p.IsNull("NORMALRANGE_HIGH") ? 0 : p.Field<decimal>("NORMALRANGE_HIGH"),
+                                                      RangeMin = p.IsNull("NORMALRANGE_LOW") ? 0 : p.Field<decimal>("NORMALRANGE_LOW"),
+                                                      IsFormulaParam = p.Field<int>("FORMULAPARAM")
+
+                                                  }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<TabDashBoardAppointmentDetails> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PATIENTID", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DOCTORAPPOINMENTS_SP_VIEW]", param);
+                List<TabDashBoardAppointmentDetails> lst = (from p in dt.AsEnumerable()
+                                                      select new TabDashBoardAppointmentDetails()
+                                                      {
+                                                          ID = p.Field<long>("Id"),
+                                                          InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                          PatientId = p.Field<long>("PATIENT_ID"),
+                                                          DoctorId = p.Field<long>("DOCTOR_ID"),
+                                                          AppointmentDate = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                          AppointmentFromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          AppointmentToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          AppointmentType = p.Field<long>("APPOINTMENT_TYPE"),
+                                                          ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
+                                                          Remarks = p.Field<string>("REMARKS"), 
+                                                          CancelledDate = p.Field<DateTime?>("CANCELED_DATE"),
+                                                          CancelledRemarks = p.Field<string>("CANCEL_REMARKS"), 
+                                                          CreatedBy = p.Field<int>("CREATED_BY"),
+                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")), 
+                                                          CreatedByName = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          CreatedDt = p.Field<DateTime>("CREATED_DT"),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<TabDashBoardMedicationDetails> MedicationView(long Id, Guid Login_Session_Id)
+        {
+            //long ViewId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_VIEW", param);
+            IList <TabDashBoardMedicationDetails> View = (from p in dt.AsEnumerable()
+                                      select
+                                      new TabDashBoardMedicationDetails()
+                                      {
+                                          ID = p.Field<long>("ID"),
+                                          FrequencyId = p.Field<long?>("FREQUENCYID"),
+                                          FrequencyName = p.Field<string>("FREQUENCYNAME"),
+                                          RouteId = p.Field<long?>("ROUTEID"),
+                                          RouteName = p.Field<string>("ROUTENAME"),
+                                          DrugId = p.Field<long?>("DRUGID"),
+                                          DrugCode = p.Field<string>("DRUGCODE"),
+                                          StartDate = p.Field<DateTime>("STARTDATE"),
+                                          EndDate = p.Field<DateTime>("ENDDATE"),
+                                          GenericName = p.Field<string>("GENERIC_NAME"),
+                                          ItemCode = p.Field<string>("ITEMCODE"),
+                                          StrengthName = p.Field<string>("STRENGTHNAME"),
+                                          DosageFromName = p.Field<string>("DOSAGEFORMNAME"),
+                                          NoOfDays = p.Field<decimal?>("NO_OF_DAYS")
+                                      }).ToList();
+            return View;
+
         }
     }
 

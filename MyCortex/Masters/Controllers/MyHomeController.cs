@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using MyCortex.Masters.Models;
 using MyCortex.Repositories.Masters;
 using MyCortex.Provider;
+ 
 
 namespace MyCortex.User.Controllers
 {
@@ -20,7 +21,7 @@ namespace MyCortex.User.Controllers
     [CheckSessionOutFilter]
     public class MyHomeController : ApiController
     {
-        static readonly IMyHomeRepository repository = new MyHomeRepository();
+        static readonly IMyHomeRepository repository = new MyHomeRepository(); 
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [HttpGet]
@@ -86,7 +87,7 @@ namespace MyCortex.User.Controllers
                     messagestr = "MyHome updated Successfully";
                     model.ReturnFlag = 1;
                 }
-                model.Tabuserdetails = ModelData;
+                model.TabUserDetails = ModelData;
                 model.Message = messagestr;// "User created successfully";
                 model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
@@ -97,7 +98,7 @@ namespace MyCortex.User.Controllers
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error in creating MyHome";
-                model.Tabuserdetails = ModelData;
+                model.TabUserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -150,6 +151,85 @@ namespace MyCortex.User.Controllers
                 model.TabUserList = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public HttpResponseMessage TabLoginUserDetails_List([FromBody] TabUserDetails TabLoginObj)
+
+        {
+             
+            IList<TabUserDetails> ModelData = new List<TabUserDetails>();
+            TabUserReturnModels model = new TabUserReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Get_TabLoginUserDetails(TabLoginObj);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "Tab Login Successfully";
+                    model.ReturnFlag = 1;
+                }else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "TabID are not matching, please verify";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 3) == true)
+                {
+                    messagestr = "UserId and/or Pin are not matching, please verify";
+                    model.ReturnFlag = 0;
+                }
+                model.GetTabUserDetails = ModelData;
+                model.Message = messagestr;// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model); 
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Tab Users";
+                model.GetTabUserDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage TabDashBoardList(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
+        {
+            TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
+            TabUserListReturnModels model = new TabUserListReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetDashBoardListDetails(InstitutionId, UserId, TabId, Login_Session_Id);
+                if (ModelData.Flag == 1)
+                {
+
+                    messagestr = "Get From DashBoardList Information";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Flag == 2)
+                {
+                    messagestr = "DashBoadList Information are empty";
+                    model.ReturnFlag = 0;
+                }
+                 
+                model.TabDashBoardList = ModelData;
+                model.Message = messagestr; 
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in DashBoard Tab Users";
+                model.TabDashBoardList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+             
         }
     }
 }

@@ -273,6 +273,7 @@ namespace MyCortex.User.Controller
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
+                //userObj.PATIENT_ID = EncryptPassword.Encrypt(userObj.PATIENT_ID);
                 if (userObj.ApprovalFlag == "0")
                 {
                     userObj.Patient_Type = 1;
@@ -311,6 +312,13 @@ namespace MyCortex.User.Controller
                 else if ((ModelData.flag == 11) == true)
                 {
                     messagestr = "Employment Number already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+
+                else if ((ModelData.flag == 12) == true)
+                {
+                    messagestr = "Patient ID already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
                     model.Status = "False";
                 }
@@ -3302,6 +3310,7 @@ namespace MyCortex.User.Controller
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
+                userObj.PatientId = EncryptPassword.Encrypt(userObj.PatientId);
                 ModelData = repository.Patient_Update(Login_Session_Id, userObj);
 
                 if (ModelData.flag > 0)

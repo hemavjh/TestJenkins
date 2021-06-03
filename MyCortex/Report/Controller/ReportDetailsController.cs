@@ -18,7 +18,6 @@ using MyCortex.Provider;
 namespace MyCortex.Masters.Controllers
 {
     [Authorize]
-    [CheckSessionOutFilter]
     public class ReportDetailsController : ApiController
     {
         static readonly IPatientReportDetailsRepositoy repository = new PatientReportDetailsRepository();
@@ -28,6 +27,7 @@ namespace MyCortex.Masters.Controllers
         /// Audit Report - Table short name list
         /// </summary>
         /// <returns>Audit Report - Table short name list</returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public IList<ReportDetailsModel> TableShortName_List()
         {
@@ -51,6 +51,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="ShortNameId">Table Short Name</param>
         /// <param name="UserNameId">User</param>
         /// <returns></returns>
+        [CheckSessionOutFilter]
         [HttpGet]
         public IList<ReportDetailsModel> PatientReportDetails_List(DateTime Period_From, DateTime Period_To,string PeriodFromTime, string PeriodToTime, int StartRowNumber,int EndRowNumber, string ShortNameId, long UserNameId, Guid Login_Session_Id)
         {
@@ -116,7 +117,7 @@ namespace MyCortex.Masters.Controllers
         }
 
 
-
+        [AllowAnonymous]
         [HttpGet]
         public IList<AutomatedTestReportDetails> AutomatedTestReport_View(long rowid = 0)
         {

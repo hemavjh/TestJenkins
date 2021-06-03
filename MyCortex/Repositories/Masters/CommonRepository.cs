@@ -492,19 +492,19 @@ namespace MyCortex.Repositories.Masters
         /// blood group name list
         /// </summary>
         /// <returns></returns>
-        public IList<TabDeviceslist> Deviceslist()
+        public IList<TabDevicesList> Deviceslist()
         {
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[MyHomeDeviceLists]");
-                List<TabDeviceslist> lst = (from p in dt.AsEnumerable()
-                                             select new TabDeviceslist()
+                List<TabDevicesList> lst = (from p in dt.AsEnumerable()
+                                             select new TabDevicesList()
                                              {
                                                  ID = p.Field<long>("ID"),
                                                  DeviceName = p.Field<string>("DeviceName"),
-                                                 ISACTIVE = p.Field<bool>("ISACTIVE")
+                                                 IsActive = p.Field<bool>("ISACTIVE")
                                              }).ToList();
                 return lst;
             }
@@ -514,7 +514,7 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
-        public IList<TabUserlist> UserList(long Institution_Id)
+        public IList<TabUserList> UserList(long Institution_Id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>(); 
@@ -523,13 +523,13 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_TAB_DETAILS]", param);
-                List<TabUserlist> lst = (from p in dt.AsEnumerable()
-                                         select new TabUserlist()
+                List<TabUserList> lst = (from p in dt.AsEnumerable()
+                                         select new TabUserList()
                                          {
                                              ID = p.Field<long>("ID"),
-                                             FULLNAME = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                             FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
                                              PIN = p.Field<string>("PIN"),
-                                             ISACTIVE = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+                                             IsActive = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
                                             }).ToList();
                 return lst;
             }
@@ -540,18 +540,18 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public TabUserlist USERPINDETAILS(long ID)
+        public TabUserList USERPINDETAILS(long ID)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", ID));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_TABPIN_DETAILS]", param);
-            TabUserlist list = (from p in dt.AsEnumerable()
-                                      select new TabUserlist()
+            TabUserList list = (from p in dt.AsEnumerable()
+                                      select new TabUserList()
                                       {
                                           ID = p.Field<long>("ID"),
-                                          FULLNAME = p.Field<string>("USERNAME"),
+                                          FullName = p.Field<string>("USERNAME"),
                                           PIN = p.Field<string>("PIN"),
-                                          ISACTIVE = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+                                          IsActive = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
 
                                       }).FirstOrDefault();
             return list;

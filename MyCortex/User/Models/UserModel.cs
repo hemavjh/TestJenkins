@@ -10,7 +10,7 @@ namespace MyCortex.User.Model
     {
 
         public long Id { get; set; }
-        public long PatientId { get; set; }
+        public string PatientId { get; set; }
         public string InstitutionName { get; set; }
         public int? IsActive { get; set; }
         public string Department_Name { get; set; }
