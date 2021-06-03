@@ -19318,6 +19318,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.IsEdit = false;
         $scope.showSave = true;
         $scope.View = 2;
+
+        $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
+            $scope.DevicesLists = data;
+        });
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
             $scope.currentTab = "1";
@@ -19327,6 +19331,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Model = "";
             $scope.OS = "";
             $scope.Id = "0";
+            $scope.PIN = "";
             $scope.SelectedDevice = "0";
             $('#tabname').prop('disabled', false);
             $('#refidtab').prop('disabled', false);
@@ -19532,7 +19537,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
                 });
                 angular.forEach(data.SelectedTabUserList, function (value, index) {
-                    $scope.EditSelectedTABUser.push(value.User_Id);
+                    $scope.EditSelectedTABUser.push(value.UserId);
                     $scope.SelectedTabUser = $scope.EditSelectedTABUser;
                 });
                 angular.forEach(data.SelectedTabUserList, function (value, index) {
@@ -19540,6 +19545,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.SelectedTabPIN = $scope.EditSelectedTABPIN;
                 });   
                 $scope.UserDropdownlist();
+                //$scope.UserPinValidation($scope.SelectedTabPIN);
             });
         }
 
@@ -19606,10 +19612,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             return true;
         };
          
-      
-        $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
-            $scope.DevicesLists = data; 
-        });
+        
+        
 
         // Add row concept for Patient Vital Parameters
         $scope.AddUserParameters = [{
@@ -19661,7 +19665,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     }];
                 }
             }
-        };
+        }; 
         
         $scope.UserDropdownlist = function () {
             $scope.UserLists = [];
@@ -19673,15 +19677,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.UserLists = angular.copy($scope.UserListsTemp);
 
             });
-            $scope.UserDetailsDetailslist = function (row) {
-                $scope.ID = row.ID;
-                $http.get(baseUrl + '/api/Common/USERPINDETAILS/?ID=' + $scope.ID).success(function (data) {
-                    row.PIN = data.PIN;
-                    $scope.PIN = data.PIN;
-                });
-            }
+             
         }
-
+         
         $scope.MYTAB_InsertUpdate_validation = function () {
             var TSDuplicate = 0;
             var varlidationCheck = 0;
@@ -19737,7 +19735,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         return value.ID != '';
                     });
                     $scope.UserTabDetails_List = [];
-                    angular.forEach($scope.AddUserParameters, function (value, index) {
+                    angular.forEach($scope.SelectedTabUser, function (value, index) {
                         var obj = {
                             Id: 0,
                             Id: value
@@ -19763,10 +19761,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         OS: $scope.OS,
                         InstitutionId: $window.localStorage['InstitutionId'],
                         CreatedBy: $scope.CREATED_BY,
-                        UserList: $scope.UserTabDetails_List,
+                        UserList: $scope.UserLists,
                         DevicesList: $scope.DevicesLists,
                         SelectedTabDeviceList: $scope.UserDeviceDetails_List,
-                        SelectedTabUserList: $scope.UserTabDetails_List
+                        SelectedTabUserList: filteredObj,
+                        PIN: $scope.PIN
                     };
 
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {

@@ -154,7 +154,7 @@ namespace MyCortex.User.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage TabLoginUserDetails_List([FromBody] TabUserDetails TabLoginObj)
+        public HttpResponseMessage TabPin_CheckValidity([FromBody] TabUserDetails TabLoginObj)
 
         {
              
@@ -195,7 +195,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage TabDashBoardList(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
+        public HttpResponseMessage TabDashboardDetails(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
         {
             TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
             TabUserListReturnModels model = new TabUserListReturnModels();

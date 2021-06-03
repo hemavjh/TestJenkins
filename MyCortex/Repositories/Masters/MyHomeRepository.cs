@@ -97,16 +97,19 @@ namespace MyCortex.Repositories.Masters
                         foreach (TabUserList item in insobj.UserList)
                         {
                             List<DataParameter> param1 = new List<DataParameter>();
+                            List<DataParameter> param_1 = new List<DataParameter>();
                             param1.Add(new DataParameter("@User_Id", item.ID));
-                            param1.Add(new DataParameter("@TAB_ID", InsertId));
-                            param1.Add(new DataParameter("@PIN", item.PIN));
+                            param1.Add(new DataParameter("@TAB_ID", InsertId)); 
                             param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
                             param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                            param1.Add(new DataParameter("@PIN", insobj.PIN)); 
+
                             var objExist = insobj.SelectedTabUserList.Where(ChildItem => ChildItem.Id == item.ID);
 
                             if (objExist.ToList().Count > 0)
                                 //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
-                                param1.Add(new DataParameter("@Userlist_Selected", "1"));
+                                param1.Add(new DataParameter("@Userlist_Selected", "1")); 
+                               
                             else
                                 param1.Add(new DataParameter("@Userlist_Selected", "0"));
 
