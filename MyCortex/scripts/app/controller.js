@@ -7402,12 +7402,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('#Lowcount').addClass('fa fa-bell-o mylowBell');
             $('.jinglebellmedium').addClass('active');
             $('#Medcount').removeClass('fa fa-bell-o mymediumBell');
-            $('#Medcount').addClass('fas fa-bell mymediumBell');
+            $('#Medcount').addClass('fas fa-bell mymediumBell'); 
+            var x = document.getElementById("tableid");
+            var i = document.getElementById("tableid_img");
+            i.src = "../../Images/expand.gif"
+            x.style.display = "none";
+            document.getElementById('tableid_img').title = 'Click to Expand';
+            $('#tableid').hide();
             $('#tableid1').hide();
             $('#tableid2').hide();
             $scope.yellowcount++;
-            var x = document.getElementById(tableid1);
-            var y = document.getElementById(tableid2);
+         
             var MediumCountVital;
             $scope.MediumCountVitalList = [];
             if ($scope.yellowcount == 2) {
@@ -7468,11 +7473,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebellmedium').removeClass('active');
             $('#Medcount').addClass('fa fa-bell-o mymediumBell');
             $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o mylowBell');;
-
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');  
             $('.jinglebelllow').addClass('active');
             $('#Highcount').removeClass('fa fa-bell-o myhighBell');
             $('#Highcount').addClass('fas fa-bell myhighBell');
+            var x = document.getElementById("tableid");
+            var i = document.getElementById("tableid_img");
+            i.src = "../../Images/expand.gif"
+            x.style.display = "none";
+            document.getElementById('tableid_img').title = 'Click to Expand';
+            $('#tableid').hide();
             $('#tableid3').hide();
             $('#tableid4').hide();
             $scope.redcount++;
@@ -7537,11 +7547,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebelllow').removeClass('active');
             $('#Highcount').addClass('fa fa-bell-o myhighBell');
             $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
-
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell'); 
             $('.jinglebellhigh').addClass('active');
             $('#Lowcount').removeClass('fa fa-bell-o mylowBell');
-            $('#Lowcount').addClass('fas fa-bell mylowBell');
+            $('#Lowcount').addClass('fas fa-bell mylowBell'); 
+            var x = document.getElementById("tableid");
+            var i = document.getElementById("tableid_img");
+            i.src = "../../Images/expand.gif"
+            x.style.display = "none";
+            document.getElementById('tableid_img').title = 'Click to Expand';
+            $('#tableid').hide();
             $('#tableid5').hide();
             $('#tableid6').hide();
             $scope.greencount++;
@@ -7660,6 +7675,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     if ((data == 1) || (data == 3)) {
                         alert("Clear Alerts updated successfully");
                         $scope.CG_Remarks = "";
+                        $scope.ParameterValueList = [];
+                        $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                            $scope.ParameterValueList = data;  
+                        });
                     }
                     else if (data == 2) {
                         alert("Alert already cleared by Caregiver, cannot be cleared");
