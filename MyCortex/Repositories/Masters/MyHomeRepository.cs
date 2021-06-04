@@ -587,6 +587,165 @@ namespace MyCortex.Repositories.Masters
             return View;
 
         }
+
+        public IList<TabDevicesModel> Get_DeviceList(long Institution_ID)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICE_SP_LIST]", param);
+                List<TabDevicesModel> lst = (from p in dt.AsEnumerable()
+                                             select new TabDevicesModel()
+                                             {
+                                                 ID = p.Field<long>("ID"),
+                                                 DeviceId = p.Field<string>("DEVICE_ID"),
+                                                 DeviceName = p.Field<string>("DEVICE_NAME"),
+                                                 Make = p.Field<string>("MAKE"),
+                                                 ModelNumber = p.Field<string>("MODEL"),
+                                                 DeviceType = p.Field<string>("DEVICE_TYPE"),
+
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel insobj)
+        {
+            long InsertId = 0;
+            string flag = "";
+            long Inserted_Group_Id;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", insobj.ID));
+            param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
+            param.Add(new DataParameter("@DEVICE_ID", insobj.DeviceId));
+            param.Add(new DataParameter("@DEVICE_NAME", insobj.DeviceName));
+            param.Add(new DataParameter("@DEVICE_TYPE", insobj.DeviceType));
+            param.Add(new DataParameter("@MODEL", insobj.ModelNumber));
+            //param.Add(new DataParameter("@PARAMETER", insobj.Parameter));
+            param.Add(new DataParameter("@MAKE", insobj.Make));
+            param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Device_SP_INSERTUPDATE]", param);
+                DataRow dr = dt.Rows[0];
+                if (dr.IsNull("Id") == true)
+                {
+                    InsertId = 0;
+                }
+                else
+                {
+                    InsertId = long.Parse((dr["Id"].ToString()));
+                }
+                if (InsertId > 0)
+                {
+
+                    if (insobj.ParameterList != null)
+                    {
+                        foreach (DeviceParameterList item in insobj.ParameterList)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@PARAMETER_ID", item.ID));
+                            param1.Add(new DataParameter("@DEVICEROW_ID", InsertId));
+                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                            var objExist = insobj.ParameterList.Where(ChildItem => ChildItem.ID == item.ID);
+
+                            if (objExist.ToList().Count > 0)
+                                //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
+                                param1.Add(new DataParameter("@Devicelist_Selected", "1"));
+                            else
+                                param1.Add(new DataParameter("@Devicelist_Selected", "0"));
+
+                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].[DEVICEPARAMETER_SP_INSERTUPDATE]", param1, true);
+                        }
+                    }
+
+                    IList<TabDevicesModel> INS = (from p in dt.AsEnumerable()
+                                                  select
+                                                  new TabDevicesModel()
+                                                  {
+                                                      ID = p.Field<long>("ID"),
+                                                      DeviceId = p.Field<string>("DEVICE_ID"),
+                                                      DeviceName = p.Field<string>("DEVICE_NAME"),
+                                                      Make = p.Field<string>("MAKE"),
+                                                      ModelNumber = p.Field<string>("MODEL"),
+                                                      DeviceType = p.Field<string>("DEVICE_TYPE"),
+                                                      Flag = p.Field<int>("flag")
+                                                  }).ToList();
+                    return INS;
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }
+
+        public TabDevicesModel Device_ListView(long id)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", id));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICELIST_SP_VIEW]", param);
+
+                TabDevicesModel list = (from p in dt.AsEnumerable()
+                                        select new TabDevicesModel()
+                                        {
+
+                                            ID = p.Field<long>("ID"),
+                                            DeviceId = p.Field<string>("DEVICE_ID"),
+                                            DeviceName = p.Field<string>("DEVICE_NAME"),
+                                            Make = p.Field<string>("MAKE"),
+                                            ModelNumber = p.Field<string>("MODEL"),
+                                            DeviceType = p.Field<string>("DEVICE_TYPE")
+
+                                        }).FirstOrDefault();
+                if (list != null)
+                {
+                    list.ParameterList = DEVICEDETAILS_VIEW(list.ID);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<DeviceParameterList> DEVICEDETAILS_VIEW(long Id)
+        {
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICE_SP_LIST_VIEW]", param);
+            List<DeviceParameterList> INS = (from p in dt.AsEnumerable()
+                                             select new DeviceParameterList()
+                                             {
+                                                 //ID = p.Field<long>('Id'),
+                                                 ParameterName = p.Field<string>("PARAMETERNAME"),
+                                             }).ToList();
+            return INS;
+        }
+
+
     }
 
 }

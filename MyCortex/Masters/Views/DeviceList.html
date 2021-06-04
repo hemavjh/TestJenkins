@@ -1,0 +1,215 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+        $(element).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
+    <li><a href="Home/Index#/Myhome" data-menu="MyHome">My Home</a></li>
+    <li><a href="Home/Index#/DeviceList" class="secondaryMenuActive" data-menu="MyHome">Device List</a></li>
+</ul>
+<h1 class="page-title">Device List</h1>
+<div ng-init="DeviceList();">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+        <div></div>
+        <div></div>
+    </div>
+
+    <div class="panel panel-default" id="TabId">
+        <form class="form-horizontal" role="form">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Search</label>
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchquery" ng-change="filterTabList()"
+                                       placeholder="" style="width: 200px" />
+                                <i class="fa fa-search"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Active</label>
+                        </div>
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList();" title="Active / All">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <a href="javascript:" ng-click="ClearPopup();AddDevicePopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New Device">Add New</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table st-table="emptydataTab" style="width: 100%" st-safe-src="rowCollectionTabFilter" st-search="query" class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="5">#</th>
+            <th st-ratio="10" st-sort="TAB_NAME">DeviceId</th>
+            <th st-ratio="10" st-sort="TAB_REF_ID">DeviceName</th>
+            <th st-ratio="10" st-sort="TAB_MODEL">DeviceMake</th>
+            <th st-ratio="10" st-sort="TAB_OS">DeviceModel</th>
+            <th st-ratio="10" st-sort="NUMBER_OF_USERS">DeviceType</th>
+            <!--<th st-ratio="10" st-sort="NUMBER_OF_DEVICES">Model</th>
+            <th st-ratio="10" st-sort="NUMBER_OF_DEVICES">Purpose</th>
+            <th st-ratio="10" st-sort="NUMBER_OF_DEVICES">Parameter</th>
+            <th st-ratio="10" st-sort="NUMBER_OF_DEVICES">Remarks</th>-->
+            <th st-ratio="10">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="rowCollectionDeviceFilter.length==0">
+            <td colspan="8" style="text-align:center;">
+                No Data Available
+            </td>
+        </tr>
+        <tr ng-repeat="row in emptydataDevice">
+            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: left">{{row.DeviceId}}<div class="textwrap"></div></td>
+            <td style="text-align: left">{{row.DeviceName}}</td>
+            <td style="text-align: left">{{row.Make}}</td>
+            <td style="text-align: left">{{row.ModelNumber}}</td>
+            <td style="text-align: left">{{row.DeviceType}}</td>
+            <!--<td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>
+            <td style="text-align: left"></td>-->
+            <td st-ratio="10" style="text-align: center;">
+
+                <a href="javascript:" ng-click="ViewDevicePopUP(row.ID)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                <a href="javascript:" ng-click="row.IsActive == 1 ||  EditDevicePopUP(row.ID)" title="Edit">
+                    <i class="fa fa-pencil ng-scope" aria-hidden="true"></i>
+                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+
+                    </a>
+                </a>
+                <a href="javascript:" ng-click="DeleteMYTAB(row.ID)" title="Active">
+                    <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:" ng-click="ActiveMYTAB(row.ID)" title="InActive">
+
+                    </a>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot ng-show="rowCollection.length >30">
+        <tr>
+            <td colspan="5" class="text-center">
+                <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                     st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+    <!--<tfoot ng-show="total_page>1">
+        <tr>
+            <td colspan="8" class="text-center">
+                <ul class="pagination">
+                    <li>
+                        <a ng-click="setPage(1)">First</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page - 1)">&lt;</a>
+                    </li>
+                    <li>
+                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page + 1)">&gt;</a>
+                    </li>
+                    <li><a ng-click="setPage(total_page)">Last</a></li>
+                </ul>
+            </td>
+        </tr>
+    </tfoot>-->
+</table>
+
+
+<!--ADD&EDIT MODAL-->
+<div id="DeviceAddModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
+                <h4 class="modal-title">Add Device</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+
+                    <div class="inputGroups">
+                        <label>DeviceId</label>
+                        <input type="text" class="form-control" id="DeviceId"
+                               ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="100"
+                               maxlength="100" placeholder="" onkeypress="">
+                    </div>
+
+                    <div class="inputGroups">
+                        <label>Device Name</label>
+                        <input type="text" class="form-control" id="DeviceName"
+                               ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="100"
+                               maxlength="100" placeholder="" onkeypress="">
+                    </div>
+
+                    <div class="inputGroups">
+                        <label>DeviceType</label>
+                        <select class="form-control" data-style="form-control" id="DeviceType" ng-model="DeviceType"
+                                ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"></select>
+
+                    </div>
+
+                    <div class="inputGroups">
+                        <label>Device Make</label>
+                        <input type="text" class="form-control" id="DeviceMake"
+                               ng-model="DeviceMake" ng-init="DeviceMake=''" ng-maxlength="100"
+                               maxlength="100" placeholder="" onkeypress="">
+                    </div>
+
+                    <div class="inputGroups">
+                        <label>Device Model</label>
+                        <input type="text" class="form-control" id="DeviceModel"
+                               ng-model="DeviceModel" ng-init="DeviceModel=''" ng-maxlength="100"
+                               maxlength="100" placeholder="" onkeypress="">
+                    </div>
+
+                    <!--<div class="inputGroups">
+                        <label>Parameter</label>
+                        <select ng-model="Parameter_Id" class="form-control"
+                                ng-options="item.Id as item.Name for item in ParameterTypeList">
+                            <option ng-repeat="" ng-selected="" ng-required="true"
+                                    value="{{sel.Id}}">
+                                Select
+                            </option>
+                        </select>
+
+                    </div>-->
+                    <div class="inputGroups">
+                        <label>Parameter</label>
+                        <select ng-model="SelectedParamter" multiple="multiple" id="Parameter"
+                                ng-options="item.Id as item.Name for item in ParameterTypeList"
+                                multiselect-dropdown></select>
+                        <!--<select class="form-control" style="width:300px;">
+                            <option value="0">Select</option>
+                            <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
+                                    value="{{sel.ID}}">
+                                {{sel.DeviceName}}
+                            </option>-->
+                        <!--</select>-->
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" ng-show="showSave == true" class="theme-btn-1 mr-10 btn-save" ng-click="Device_InsertUpdate()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelDeviceList()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -19800,6 +19800,237 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }
         }
 
+        $scope.rembemberCurrentPage = function (p) {
+            $scope.current_page = p
+        }
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else
+                $scope.inputPageNo = PageNo;
+
+            $scope.current_page = PageNo;
+            $scope.AllergyMasterList_Details();
+        }
+        /* Device List */
+        $scope.DeviceList = function () {
+            $("#chatLoaderPV").show();
+            $scope.emptydataDevice = [];
+            $scope.rowCollectionDevice = [];
+            $scope.EditDevice = [];
+            $scope.DevicesLists = [];
+            $scope.DeviceType = [];
+            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.page_size = data1[0].ConfigValue;
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+
+                $scope.ISact = 1;       // default active
+                if ($scope.IsActive == true) {
+                    $scope.ISact = 1  //active
+                }
+                else if ($scope.IsActive == false) {
+                    $scope.ISact = 0 //all
+                }
+                $http.get(baseUrl + '/api/MyHome/Device_List/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.emptydataDevice = data.TabDeviceList;
+                    $scope.rowCollectionDevice = [];
+                    $scope.rowCollectionDevice = data.TabDeviceList;
+                    if ($scope.rowCollectionDevice.length > 0) {
+                        $scope.DeviceDataCount = $scope.rowCollectionDevice[0].TotalRecord;
+                    } else {
+                        $scope.TabDataCount = 0;
+                    }
+
+                    angular.forEach(data.TabDeviceList, function (value, index) {
+                        $scope.EditDevice.push(value.ID);
+                        $scope.DeviceType = $scope.EditDevice;
+                    });
+                    $scope.DeviceData_ListFilterdata = data.TabDeviceList;
+                    $scope.rowCollectionDeviceFilter = angular.copy($scope.rowCollectionDevice);
+                    if ($scope.rowCollectionDeviceFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+
+                }).error(function (data) {
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                });
+            });
+        }
+
+        $scope.DeviceDropDown = function () {
+            $("#chatLoaderPV").show();
+            $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
+                $scope.DevicesLists = data;
+            });
+
+            $http.get(baseUrl + '/api/Protocol/ParameterNameList/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.ParameterTypeList = data;
+            });
+        };
+
+        $scope.AddDevicePopUP = function () {
+            $scope.CancelDeviceList();
+            $('#DeviceId').prop('disabled', false);
+            $('#DeviceName').prop('disabled', false);
+            $('#DeviceType').prop('disabled', false);
+            $('#DeviceMake').prop('disabled', false);
+            $('#DeviceModel').prop('disabled', false);
+            $('#Parameter').prop('disabled', false);
+            $scope.showSave = true;
+            var $sel2 = $('#Parameter');
+            $sel2.multiselect('enable');
+            $scope.showSave = true;
+            $scope.DeviceDropDown();
+
+            angular.element('#DeviceAddModal').modal('show');
+        }
+
+        $scope.EditDevicePopUP = function (CatId) {
+            $scope.Id = CatId;
+            $scope.Editid = CatId;
+            $('#DeviceId').prop('disabled', false);
+            $('#DeviceName').prop('disabled', false);
+            $('#DeviceType').prop('disabled', false);
+            $('#DeviceMake').prop('disabled', false);
+            $('#DeviceModel').prop('disabled', false);
+            $('#Parameter').prop('disabled', false);
+            $scope.showSave = true;
+            var $sel2 = $('#Parameter');
+            $sel2.multiselect('enable');
+            $scope.DeviceDropDown();
+            $scope.ViewDevice();
+            angular.element('#DeviceAddModal').modal('show');
+        }
+
+        /* THIS IS OPENING POP WINDOW VIEW */
+        $scope.ViewDevicePopUP = function (CatId) {
+            $scope.Id = CatId;
+            $('#DeviceId').prop('disabled', true);
+            $('#DeviceName').prop('disabled', true);
+            $('#DeviceType').prop('disabled', true);
+            $('#DeviceMake').prop('disabled', true);
+            $('#DeviceModel').prop('disabled', true);
+            $('#Parameter').prop('disabled', true);
+            $scope.showSave = false;
+            var $sel2 = $('#Parameter');
+            $sel2.multiselect('disable');
+            $scope.ViewDevice();
+            angular.element('#DeviceAddModal').modal('show');
+        }
+
+        /* THIS IS FOR VIEW DEVICE*/
+        $scope.ViewDevice = function () {
+            $("#chatLoaderPV").show();
+            $scope.SelectedParamter = [];
+            $scope.Editselectedparam = [];
+            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                $scope.Id = $routeParams.Id;
+                $scope.DuplicatesId = $routeParams.Id;
+            }
+            $http.get(baseUrl + '/api/MyHome/ViewDevice_List/?Id=' + $scope.Id).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.DeviceId = data.DeviceId;
+                $scope.DeviceName = data.DeviceName;
+                $scope.DeviceType = parseInt(data.DeviceType);
+                $scope.DeviceMake = data.Make;
+                $scope.DeviceModel = data.ModelNumber;
+                var det = data.ParameterList[0].ParameterName.split(',');
+                for (i = 0; i < det.length; i++) {
+                    $scope.Editselectedparam.push(parseInt(det[i]));
+                }
+                $scope.SelectedParamter = $scope.Editselectedparam;
+            });
+        }
+
+
+        $scope.CancelDeviceList = function () {
+            $scope.DeviceId = "";
+            $scope.DeviceName = "";
+            $scope.DeviceType = "0";
+            $scope.DeviceMake = "";
+            $scope.DeviceModel = "";
+            $scope.SelectedParamter = "0";
+            angular.element('#DeviceAddModal').modal('hide');
+        }
+
+        $scope.Device_InsertUpdate = function () {
+            //if ($scope.DeviceValidationcontrols() == true) {
+            //if ($scope.Device_InsertUpdate_validation() == true) {
+            $("#chatLoaderPV").show();
+            //var filteredObj = $ff($scope.AddUserParameters, function (value) {
+            //    return value.ID != '';
+            //});
+            //var DevicesListid = $ff($scope.DevicesLists, function (value) {
+            //    return value.ID != '';
+            //});
+            //$scope.ParameterDetails_List = ",";
+            $scope.ParameterDetails_List = [];
+            angular.forEach($scope.SelectedParamter, function (value, index) {
+                var obj = {
+                    ID: 0,
+                    Id: value,
+                    IsActive: 1
+                }
+                $scope.ParameterDetails_List.push(obj);
+            });
+
+            var obj = {
+                ID: $scope.Id,
+                InstitutionId: $window.localStorage['InstitutionId'],
+                DeviceId: $scope.DeviceId,
+                DeviceName: $scope.DeviceName,
+                DeviceType: $scope.DeviceType,
+                Make: $scope.DeviceMake,
+                ModelNumber: $scope.DeviceModel,
+                ParameterList: $scope.ParameterDetails_List,
+                CreatedBy: $window.localStorage['UserId'],
+            };
+
+            $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
+                $("#chatLoaderPV").hide();
+                alert(data.Message);
+                $scope.DeviceList();
+                $scope.CancelDeviceList();
+
+            }).error(function (data) {
+                $scope.error = "An error has occurred while Addeing Device" + data;
+            });
+
+            //}
+            //}
+        }
+
+        /* THIS IS FOR DEVICE ADD EDIT VALIDATION CONTROL */
+        $scope.DeviceValidationcontrols = function () {
+            if (typeof ($scope.DeviceId) == "undefined" || $scope.DeviceId == "") {
+                alert("Please enter Device Id");
+                return false;
+            }
+            else if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "") {
+                alert("Please enter Device Name");
+                return false;
+            }
+            else if (typeof ($scope.DeviceType) == "undefined" || $scope.DeviceName == "") {
+                alert("Please enter Device Type");
+                return false;
+            }
+            else if (typeof ($scope.Parameter_Id) == "undefined" || $scope.DeviceName == "") {
+                alert("Please enter Parameter");
+                return false;
+            }
+
+            return true;
+        };
+
     }
 ]);
 
