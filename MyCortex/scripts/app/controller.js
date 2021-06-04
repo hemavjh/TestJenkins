@@ -19942,7 +19942,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $("#chatLoaderPV").hide();
                 $scope.DeviceId = data.DeviceId;
                 $scope.DeviceName = data.DeviceName;
-                $scope.DeviceType = data.ID;
+                $scope.DeviceType = data.DeviceTypeId;
                 $scope.DeviceMake = data.Make;
                 $scope.DeviceModel = data.ModelNumber;
                 var det = data.ParameterList[0].ParameterName.split(',');
@@ -19992,6 +19992,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 //var DevicesListid = $ff($scope.DevicesLists, function (value) {
                 //    return value.ID != '';
                 //});
+                var devicetypechange = $scope.DeviceType.toString();
+
                 $scope.ParameterDetails_List = [];
                 angular.forEach($scope.SelectedParamter, function (value, index) {
                     var obj = {
@@ -20007,7 +20009,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     InstitutionId: $window.localStorage['InstitutionId'],
                     DeviceId: $scope.DeviceId,
                     DeviceName: $scope.DeviceName,
-                    DeviceType: $scope.DeviceType,
+                    DeviceType: devicetypechange,
                     Make: $scope.DeviceMake,
                     ModelNumber: $scope.DeviceModel,
                     ParameterList: $scope.ParameterTypeList,

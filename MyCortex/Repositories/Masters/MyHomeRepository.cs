@@ -715,7 +715,7 @@ namespace MyCortex.Repositories.Masters
                                             DeviceName = p.Field<string>("DEVICE_NAME"),
                                             Make = p.Field<string>("MAKE"),
                                             ModelNumber = p.Field<string>("MODEL"),
-                                            DeviceType = p.Field<string>("DEVICE_TYPE")
+                                            DeviceTypeId = p.Field<long>("DEVICE_TYPE")
 
                                         }).FirstOrDefault();
                 if (list != null)
