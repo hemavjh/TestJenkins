@@ -233,13 +233,13 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage Device_List(long InstitutionId)
+        public HttpResponseMessage Device_List(int? IsActive, long InstitutionId)
         {
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
             try
             {
-                ModelData = repository.Get_DeviceList(InstitutionId);
+                ModelData = repository.Get_DeviceList(IsActive, InstitutionId);
 
                 model.TabDeviceList = ModelData;
                 model.Message = "";// "User created successfully";
@@ -307,6 +307,22 @@ namespace MyCortex.User.Controllers
             model = repository.Device_ListView(Id);
             return model;
         }
+
+        [HttpGet]
+        public HttpResponseMessage Device_Delete(int Id)
+        {
+            if (Id > 0)
+            {
+                repository.Device_List_Delete(Id);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+
 
     }
 }

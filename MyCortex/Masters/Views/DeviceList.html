@@ -35,7 +35,7 @@
                         <div class="inputGroups">
                             <label>Active</label>
                         </div>
-                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="TabList();" title="Active / All">
+                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="DeviceList();" title="Active / All">
                     </div>
                     <div class="col-sm-4">
                         <div class="inputGroups">
@@ -91,9 +91,9 @@
 
                     </a>
                 </a>
-                <a href="javascript:" ng-click="DeleteMYTAB(row.ID)" title="Active">
-                    <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="ActiveMYTAB(row.ID)" title="InActive">
+                <a href="javascript:" ng-click="DeleteDevice(row.ID)" title="Active">
+                    <i class="fa fa-check-circle-o ng-scope" aria-hidden="true"></i>
+                    <a href="javascript:" ng-click="DeleteDevice(row.ID)" title="InActive">
 
                     </a>
                 </a>

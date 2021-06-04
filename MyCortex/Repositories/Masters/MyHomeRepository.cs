@@ -588,10 +588,11 @@ namespace MyCortex.Repositories.Masters
 
         }
 
-        public IList<TabDevicesModel> Get_DeviceList(long Institution_ID)
+        public IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -656,7 +657,7 @@ namespace MyCortex.Repositories.Masters
                             param1.Add(new DataParameter("@DEVICEROW_ID", InsertId));
                             param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
                             param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
-                            var objExist = insobj.ParameterList.Where(ChildItem => ChildItem.ID == item.ID);
+                            var objExist = insobj.SelectedDeviceParameterList.Where(ChildItem => ChildItem.ID == item.ID);
 
                             if (objExist.ToList().Count > 0)
                                 //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
@@ -743,6 +744,21 @@ namespace MyCortex.Repositories.Masters
                                                  ParameterName = p.Field<string>("PARAMETERNAME"),
                                              }).ToList();
             return INS;
+        }
+
+        public void Device_List_Delete(int Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                ClsDataBase.Update("[MYCORTEX].[DEVICE_SP_LIST_DELETE]", param);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+            }
         }
 
 

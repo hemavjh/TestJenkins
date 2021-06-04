@@ -16,8 +16,9 @@ namespace MyCortex.Repositories
         IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID);
         IList<TabUserDetails> Get_TabLoginUserDetails(TabUserDetails TabLoginObj);
         TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId,Guid Login_Session_Id);
-        IList<TabDevicesModel> Get_DeviceList(long Institution_ID);
+        IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
         TabDevicesModel Device_ListView(long id);
+        void Device_List_Delete(int Id);
     }
 }

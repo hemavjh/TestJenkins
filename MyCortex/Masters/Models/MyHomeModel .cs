@@ -46,6 +46,8 @@ namespace MyCortex.Masters.Models
         public string Parameter { get; set; }
         public IList<DeviceParameterList> ParameterList { get; set; }
 
+        public IList<SelectedDeviceParameterList> SelectedDeviceParameterList { get; set; }
+
         public bool IsActive { get; set; }
         public long CreatedBy { get; set; }
         public int Flag { get; set; }
@@ -153,6 +155,19 @@ namespace MyCortex.Masters.Models
          
     }
 
+    public class SelectedDeviceParameterList
+    {
+        public long ID { get; set; }
+        public long DeviceRowId { get; set; }
+
+        public string ParameterName { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public int IsActive { get; set; }
+
+    }
     public class DeviceParameterList
     {
         public long ID { get; set; }
