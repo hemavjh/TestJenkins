@@ -43,7 +43,165 @@ body {
     font-family: "Amazon Ember" !important;
     font-size: var(--baseFontSize);
 }
+.main-tab {
+    min-height: 50rem;
+    background-color: #d1cece;
+}
+.custom-modal-footer{
+    display:flex;
+    justify-content:flex-end;
+}
+ul.tabs {
+    margin: 0px;
+    padding-top: .75rem;
+    padding-left: .5rem;
+    padding-bottom: .5rem;
+    list-style: none;
+}
 
+.subject-info-box-1 select, .subject-info-box-2 select {
+    overflow:hidden;
+    height: 200px;
+    padding: 0;
+}
+.subject-info-arrows input {
+    width: 70%;
+    margin-bottom: 5px;
+}
+.subject-info-box-1 select option, .subject-info-box-2 select option {
+    padding: 4px 10px 4px 10px;
+}
+.btn-select {
+    font-weight: 800;
+    width: 3.5rem;
+    background-color: white;
+    padding: .5rem;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+.subject-info-arrows {
+    float: left;
+    width: 15%;
+    margin-top: 2.5rem;
+}
+
+    ul.tabs li {
+        background: none;
+        color: #002168;
+        font-weight: 600;
+        padding: 10px 15px;
+        margin-top: .5rem;
+        margin-bottom: .5rem;
+        cursor: pointer;
+    }
+
+        ul.tabs li p {
+            color: #002168;
+            font-weight: 600;
+            margin-top: .25rem;
+        }
+
+        ul.tabs li.current {
+            background: #ffffff;
+        }
+
+.tab-content {
+    display: none;
+    padding: 15px;
+}
+
+    .tab-content.current {
+        display: inherit;
+    }
+
+    .m-top-2
+    {
+        margin-top:2.5rem;
+    }
+.m-top-4 {
+    margin-top: 3.5rem;
+}
+.m-right-1{
+    margin-right:.25rem;
+}
+.check{
+    display:flex;
+    justify-content:center;
+}
+.flex{
+    display:flex;
+}
+.shift {
+    background-color: #cfcfcf;
+    font-size: 11px;
+    border-radius: 10px;
+    width: 8rem;
+    text-align: center;
+    padding: .25rem .5rem .25rem .5rem;
+}
+.add-shift {
+    background-color: #69e22b;
+    color: white;
+    width: 8rem;
+    font-size: 12px;
+    text-align: center;
+    padding: .25rem;
+    border-radius: 4px;
+}
+.time {
+    border: 1px solid gray;
+    padding: 4px;
+    font-size: 12px;
+    border-radius: 2px;
+}
+.to {
+    margin-right: .5rem;
+    margin-left: .5rem;
+}
+.input-slot {
+    display: flex;
+    align-items: flex-end;
+}
+.input-slot p{
+  margin-bottom:0px!important;
+  margin-right:.5rem;
+}
+.input-size {
+    width: 6rem;
+    border-radius: 3px;
+    border: 2px solid #b0b0b0;
+    margin-right:.75rem;
+}
+
+.subject-info-box-1, .subject-info-box-2 {
+    float: left;
+    width: 40%;
+}
+.subject-info-arrows {
+    float: left;
+    width: 15%;
+    margin-top: 4.5rem;
+}
+.label-info {
+    background-color: #ff6f1a;
+}
+.tab-body {
+    min-height: 50rem;
+}
+.btn-custom {
+    color: white;
+    background-color: #002168;
+    border: 0;
+    font-weight: 600;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: .5rem 1rem .5rem 1rem;
+}
+.sub-title {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 16px;
+}
 .mainbody, .DataContainer {
     max-width: 1390px;
     margin: 0 auto;
@@ -69,6 +227,10 @@ a {
     border-radius: 0px;
     border: 0px;
     padding: 10px 15px;
+}
+.doctor {
+    color: gray;
+    margin-bottom: .5rem;
 }
 /*.modal-header1 {
     background: var(--primary);
@@ -110,6 +272,13 @@ label {
     right: 0px;
     top: 0px;
     z-index: 5;
+}
+.daterangepicker .controls {
+    min-width: 163px!important;
+    margin: 4px;
+}
+ul.periods {
+    display: none !important;
 }
 
 .themeLogo {
@@ -2269,4 +2438,3 @@ a.disabled {
         text-decoration: none;
         outline: none;
     }
-/*<!------color  setting ends-------! >*/
