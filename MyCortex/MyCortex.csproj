@@ -471,6 +471,7 @@
     <Content Include="Login\Views\Signup.html" />
     <Content Include="Masters\Views\AllergyMasterList.html" />
     <Content Include="Masters\Views\AttendanceDetails.html" />
+    <Content Include="Masters\Views\DeviceList.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
     <Content Include="Masters\Views\LanguageSettings.html" />

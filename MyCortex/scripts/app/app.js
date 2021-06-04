@@ -300,6 +300,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'Masters/Views/Myhome.html',
             controller: 'MyHomeController'
         }). 
+        when('/DeviceList', {
+            templateUrl: baseUrl + 'Masters/Views/DeviceList.html',
+            controller: 'MyHomeController'
+        }). 
     otherwise({
         redirectTo: '/Googlehome'
     });

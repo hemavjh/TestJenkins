@@ -154,7 +154,7 @@ namespace MyCortex.User.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage TabLoginUserDetails_List([FromBody] TabUserDetails TabLoginObj)
+        public HttpResponseMessage TabPin_CheckValidity([FromBody] TabUserDetails TabLoginObj)
 
         {
              
@@ -195,7 +195,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage TabDashBoardList(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
+        public HttpResponseMessage TabDashboardDetails(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
         {
             TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
             TabUserListReturnModels model = new TabUserListReturnModels();
@@ -231,6 +231,83 @@ namespace MyCortex.User.Controllers
             }
              
         }
+
+        [HttpGet]
+        public HttpResponseMessage Device_List(long InstitutionId)
+        {
+            IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
+            TabDeviceListReturnModels model = new TabDeviceListReturnModels();
+            try
+            {
+                ModelData = repository.Get_DeviceList(InstitutionId);
+
+                model.TabDeviceList = ModelData;
+                model.Message = "";// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Listing Devices";
+                model.TabDeviceList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage AddDeviceInsertUpdate([FromBody] TabDevicesModel obj)
+        {
+
+            IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
+            TabDeviceListReturnModels model = new TabDeviceListReturnModels();
+
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Device_InsertUpdate(obj);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "Device already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "Device Added successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.Flag == 3) == true)
+                {
+                    messagestr = "Device Updated Successfully";
+                    model.ReturnFlag = 1;
+                }
+                model.TabDeviceList = ModelData;
+                model.Message = messagestr;// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Add Device";
+                model.TabDeviceList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public TabDevicesModel ViewDevice_List(long Id)
+        {
+            TabDevicesModel model = new TabDevicesModel();
+            model = repository.Device_ListView(Id);
+            return model;
+        }
+
     }
 }
     
