@@ -1456,6 +1456,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.BusinessUserDropdownList();
             }
             $scope.status = 1;
+            $('[data-id="selectpicker"]').prop('disabled', false);
             $scope.SuperAdminDropdownsList(); 
             angular.element('#UserModal').modal('show');
         }
@@ -1520,6 +1521,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.uploadview = false;
             $scope.EditParameter = 4;
             $scope.DropDownListValue = 1;
+            $scope.status = 0;
+            $('[data-id="selectpicker"]').prop('disabled', true);
             $scope.SuperAdminDropdownsList();
             if ($scope.Businessuesrclickcount == 1) {
                 $scope.InstitutionBased_CountryStateList();
@@ -1527,9 +1530,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             $scope.AppConfigurationProfileImageList();
             $scope.Admin_View($scope.MenuTypeId);
-            $scope.currentTab = "1";
-            $scope.status = 0;
-            $('[data-id="selectpicker"]').prop('disabled', true);
+            $scope.currentTab = "1"; 
             angular.element('#UserModal').modal('show');
             $('#spradminrowid').prop('disabled', true);
             $('#hosadminrowid').prop('disabled', true);
