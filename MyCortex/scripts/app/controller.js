@@ -19692,12 +19692,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 angular.forEach($scope.AddUserParameters, function (value2, index2) {
                     if (index1 > index2 && value1.UserId == value2.UserId) {
                         TSDuplicate = 1;
-                        DuplicateUserId = DuplicateUserId + ' '+value2.FullName + ',';
+                        DuplicateUserId = DuplicateUserId + ' ' + value2.UserId + ',';
                     };
                 });
             });
             if (TSDuplicate == 1) {
-                alert('User Name' + DuplicateUserId + ' already exist, cannot be Duplicated');
+                alert('User Name already exist, cannot be Duplicated');
                 return false;
             }
 
