@@ -206,38 +206,41 @@
                                     <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
-                                                <div class="row">
+                                                <div class="row" id="MyHomeUserList">
                                                     <div class="col-sm-4">
                                                         <div class="inputGroups">
-                                                            <table>
+                                                            <table class="table themeTable" template-pagination="custom/pager" id="MyHomeUserTable">
                                                                 <thead>
-                                                                    <tr>
-                                                                        <td>User</td>
-                                                                        <td>PIN</td>
-                                                                        <td>Action</td>
+                                                                    <tr style="text-align: center">
+                                                                        <th width="7%">Sl No.</th>
+                                                                        <th width="60%">User</th>
+                                                                        <th width="40%">PIN</th>
+                                                                        <th width="8%">Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr ng-repeat="row in AddUserParameters">
+                                                                    <tr ng-if="MyHomeflag==0 && (AddUserParameters | filter : {IsActive : true}).length==0">
+                                                                        <td colspan="5" style="text-align: center">
+                                                                            No Data Available
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
+                                                                        <td style="text-align: right;width:">{{$index+1}}</td>
                                                                         <td>
-                                                                            <select class="form-control" data-style="form-control" data-live-search="true" id="userlisttab"
-                                                                                    ng-model="row.ID"  data-selectpicker data-collection-name="UserLists">
-                                                                                <option ng-repeat="sel in UserLists" ng-selected="ID==sel.ID" ng-required="true"
-                                                                                        value="{{sel.ID}}">
-                                                                                    {{sel.FullName}}
-                                                                                </option>
-
+                                                                            <select ng-model="row.UserId" class="form-control" style="width:500px;"
+                                                                                    ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
+                                                                                <option value="">Select</option>
                                                                             </select>
 
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" class="form-control"
-                                                                                   ng-model="PIN" maxlength="20" 
-                                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:100px;" id="pintab">
+                                                                                   ng-model="row.PIN" maxlength="20"
+                                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintab">
                                                                         </td>
                                                                         <td>
                                                                             <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete'
-                                                                                   ng-click="MyHomeDelete($index)" ng-model="row.ID" style="width: 20px;" id="Image2" />
+                                                                                   ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2" />
                                                                             <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
                                                                         </td>
                                                                     </tr>
