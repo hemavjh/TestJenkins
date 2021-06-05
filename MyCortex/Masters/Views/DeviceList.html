@@ -72,10 +72,10 @@
         </tr>
         <tr ng-repeat="row in emptydataDevice">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: left">{{row.DeviceId}}<div class="textwrap"></div></td>
-            <td style="text-align: left">{{row.DeviceName}}</td>
-            <td style="text-align: left">{{row.Make}}</td>
-            <td style="text-align: left">{{row.ModelNumber}}</td>
+            <td style="text-align: left;width: 200px;word-break:break-word;"> <div class="textwrap">{{row.DeviceId}}</div> </td>
+            <td style="text-align: left;width: 200px;word-break:break-word;">{{row.DeviceName}}</td>
+            <td style="text-align: left;width: 200px;word-break:break-word;">{{row.Make}}</td>
+            <td style="text-align: left;width: 200px;word-break:break-word;">{{row.ModelNumber}}</td>
             <td style="text-align: left">{{row.DeviceType}}</td>
             <!--<td style="text-align: left"></td>
             <td style="text-align: left"></td>
@@ -144,38 +144,48 @@
                 <form class="form-horizontal" role="form">
 
                     <div class="inputGroups">
-                        <label>DeviceId</label>
+                        <label>DeviceId<sup>
+                            <font class='mandatory-field'>*</font></sup>
+                        </label>
                         <input type="text" class="form-control" id="DeviceId"
-                               ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="100"
-                               maxlength="100" placeholder="" onkeypress="">
+                               ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="">
                     </div>
 
                     <div class="inputGroups">
-                        <label>Device Name</label>
+                        <label>Device Name<sup>
+                            <font class='mandatory-field'>*</font></sup>
+                        </label>
                         <input type="text" class="form-control" id="DeviceName"
-                               ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="100"
-                               maxlength="100" placeholder="" onkeypress="">
+                               ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="">
                     </div>
 
                     <div class="inputGroups">
-                        <label>DeviceType</label>
+                        <label>DeviceType<sup>
+                            <font class='mandatory-field'>*</font></sup>
+                        </label>
                         <select class="form-control" data-style="form-control" id="DeviceType" ng-model="DeviceType"
                                 ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"></select>
 
                     </div>
 
                     <div class="inputGroups">
-                        <label>Device Make</label>
+                        <label>Device Make<sup>
+                            <font class='mandatory-field'>*</font></sup>
+                        </label>
                         <input type="text" class="form-control" id="DeviceMake"
-                               ng-model="DeviceMake" ng-init="DeviceMake=''" ng-maxlength="100"
-                               maxlength="100" placeholder="" onkeypress="">
+                               ng-model="DeviceMake" ng-init="DeviceMake=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="">
                     </div>
 
                     <div class="inputGroups">
-                        <label>Device Model</label>
+                        <label>Device Model<sup>
+                            <font class='mandatory-field'>*</font></sup>
+                        </label>
                         <input type="text" class="form-control" id="DeviceModel"
-                               ng-model="DeviceModel" ng-init="DeviceModel=''" ng-maxlength="100"
-                               maxlength="100" placeholder="" onkeypress="">
+                               ng-model="DeviceModel" ng-init="DeviceModel=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="">
                     </div>
 
                     <!--<div class="inputGroups">
@@ -190,7 +200,8 @@
 
                     </div>-->
                     <div class="inputGroups">
-                        <label>Parameter</label>
+                        <label>Parameter<sup>
+                            <font class='mandatory-field'>*</font></sup></label>
                         <select ng-model="SelectedParamter" multiple="multiple" id="Parameter"
                                 ng-options="item.Id as item.Name for item in ParameterTypeList"
                                 multiselect-dropdown></select>

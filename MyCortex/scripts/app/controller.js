@@ -9572,10 +9572,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.PatientAllergyListFilterData = data.PatientAllergyDetails;
                     $scope.PatientAllergyCountFilterData = data.PatientAllergyDetails;
                     for (i = 0; i < $scope.PatientAllergyListFilterData.length; i++) {
-                        if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No known allergies") {
+                        if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No Known Allergies") {
                             document.getElementById("IconAllergy").style.color = '#32CD32';
                         }
                         else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
+                            document.getElementById("IconAllergy").style.color = '#FFD700';
+                        }
+                        else if ($scope.PatientAllergyListFilterData[0].AllergenName === "No Known Allergies") {
+                            document.getElementById("IconAllergy").style.color = '#32CD32';
+                        }
+                        else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
                             document.getElementById("IconAllergy").style.color = '#FFD700';
                         }
                         else {
@@ -19792,7 +19798,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.AllergyMasterList_Details();
+            $scope.DeviceList();
         }
         /* Device List */
         $scope.DeviceList = function () {
@@ -19905,6 +19911,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.showSave = false;
             var $sel2 = $('#Parameter');
             $sel2.multiselect('disable');
+            $scope.DeviceDropDown();
             $scope.ViewDevice();
             angular.element('#DeviceAddModal').modal('show');
         }
@@ -20029,14 +20036,14 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 alert("Please enter DeviceModel");
                 return false;
             }
-            else if (typeof ($scope.DeviceType) == "undefined" || $scope.DeviceType == "") {
-                alert("Please enter DeviceType");
+            else if (typeof ($scope.DeviceType) == "undefined" || $scope.DeviceType == "" || $scope.DeviceType == "0") {
+                alert("Please Select DeviceType");
                 return false;
             }
-            //else if (typeof ($scope.SelectedParamter) == "undefined" || $scope.SelectedParamter == "") {
-            //    alert("Please enter Parameter");
-            //    return false;
-            //}
+            else if (typeof ($scope.SelectedParamter) == "undefined" || $scope.SelectedParamter == "" || $scope.SelectedParamter == "0") {
+                alert("Please Select Parameter");
+                return false;
+            }
 
             return true;
         };
