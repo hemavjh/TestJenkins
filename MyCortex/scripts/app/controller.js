@@ -19369,8 +19369,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
-            $('#MyHomeUserTable').prop('disabled', false);
-            $('#MyHomeUserList').prop('disabled', false);
+            $("#MyHomeUserTable *").attr("disabled", "").off('click'); 
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('enable'); 
@@ -19498,7 +19497,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('title', 'Disable the Delete Icon');
             $('#tabdevice').prop('disabled', true);
             $('#MyHomeUserTable').prop('disabled', true);
-            $('#MyHomeUserTable tr').prop('disabled', 'disabled').css('background-color', 'grey');
+            $("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
             $('#MyHomeUserList').prop('disabled', true);
             $scope.showSave = false;
             var $sel2 = $('#tabdevice');
@@ -19585,7 +19584,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
-            $('#MyHomeUserTable').prop('disabled', false);
+            $("#MyHomeUserTable *").attr("disabled", "disabled").off('click'); 
             $('#MyHomeUserList').prop('disabled', false);
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
