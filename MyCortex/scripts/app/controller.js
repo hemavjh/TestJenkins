@@ -19371,15 +19371,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#tabname').prop('disabled', false);
             $('#refidtab').prop('disabled', false);
             $('#modeltab').prop('disabled', false);
-            $('#ostab').prop('disabled', false);
-            $('#userlisttab').prop('disabled', false);
+            $('#ostab').prop('disabled', false); 
             $('#pintab').prop('disabled', false);
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
-            $('#tabdevice').prop('disabled', false);
-            $('#MyHomeUserList *').removeAttr("disabled");
-            $("#MyHomeUserTable *").removeAttr("disabled");
-            $('.myhomedropdown').removeAttr("disabled");
+            $('#tabdevice').prop('disabled', false); 
             
             $scope.AddUserParameters = [{
                 'Id': 0,
@@ -19407,6 +19403,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Id = 0;
             // $scope.AppoinmentSlotClear();
             angular.element('#TabAddModal').modal('hide');
+            angular.element('#TabViewModal').modal('hide');
            
         }
         $scope.CancelPopup = function () {
@@ -19504,8 +19501,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#tabname').prop('disabled', true);
             $('#refidtab').prop('disabled', true);
             $('#modeltab').prop('disabled', true);
-            $('#ostab').prop('disabled', true);
-            $('#userlisttab').prop('disabled', true);
+            $('#ostab').prop('disabled', true); 
             $('#pintab').prop('disabled', true);
             $('#Image2').prop('disabled', true);
             $('#Image2').prop('title', 'Disable the Delete Icon');
@@ -19516,8 +19512,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.showSave = false;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('disable');
-            $scope.ViewMyTab();
-            angular.element('#TabAddModal').modal('show');
+            $scope.ViewMyTab(); 
+            angular.element('#TabViewModal').modal('show'); 
         }
         /* THIS IS CANCEL VIEW POPUP FUNCTION  */
         $scope.CancelViewPopup = function () {
@@ -19556,6 +19552,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.EditSelectedDevice.push(value.Id);
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
                 });
+              
                 //$scope.UserPinValidation($scope.SelectedTabPIN);
             });
         }
@@ -19690,51 +19687,27 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
          
         $scope.MYTAB_InsertUpdate_validation = function () {
             var TSDuplicate = 0;
-            var varlidationCheck = 0;
-            var MyHomeExist = 0;
-            var DuplicateParam = '';
-
+            var DuplicateUserId = '';
             angular.forEach($scope.AddUserParameters, function (value1, index1) {
-                if (value1.UserListid != '' || value1.UserListid > 0) {
-                    MyHomeExist = 1;
-                }
-                var checkobj = $ff($scope.UserLists, { ID: value1.ID }, true)[0]
-                if (checkobj != null) {
-                    angular.forEach($scope.AddUserParameters, function (value2, index2) {
-                        if (index1 > index2 && value1.ID == value2.ID) {
-                            TSDuplicate = 1;
-                            if (DuplicateParam != '')
-                                DuplicateParam = DuplicateParam + ',';
-                            DuplicateParam = DuplicateParam + checkobj.FULLNAME;
-                        };
-                    });
-                    if (value1.ParameterValue == '' || value1.ParameterValue <= 0) {
-                        varlidationCheck = 1;
-                        alert("Please enter value for " + checkobj.FULLNAME);
-                        return false;
-                    }
-
-                }
-
+                angular.forEach($scope.AddUserParameters, function (value2, index2) {
+                    if (index1 > index2 && value1.UserId == value2.UserId) {
+                        TSDuplicate = 1;
+                        DuplicateUserId = DuplicateUserId + ' '+value2.FullName + ',';
+                    };
+                });
             });
             if (TSDuplicate == 1) {
-                alert('UserName ' + DuplicateParam + 'already exist, cannot be Duplicated');
+                alert('User Name' + DuplicateUserId + ' already exist, cannot be Duplicated');
                 return false;
             }
-            else if (varlidationCheck == 1) {
-                return false;
-            }
-            else if (MyHomeExist == 0) {
-                alert('Please enter UserName details to Save');
-                return false;
-            }
-            return true;
 
-        };
+
+            return true;
+        }
       
         $scope.MYTAB_InsertUpdate = function () { 
             if ($scope.Validationcontrols() == true) {
-                
+                if ($scope.MYTAB_InsertUpdate_validation() == true) {
                     $("#chatLoaderPV").show();
                     angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (value, index) {
                         return value.UserId != '';
@@ -19771,19 +19744,19 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         CreatedBy: $scope.CREATED_BY,
                         UserList: $scope.AddUserParameters,
                         DevicesList: $scope.DevicesLists,
-                        SelectedTabDeviceList: $scope.UserDeviceDetails_List  
+                        SelectedTabDeviceList: $scope.UserDeviceDetails_List
                     };
 
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
                         $("#chatLoaderPV").hide();
                         alert(data.Message);
                         $scope.TabList();
-                        $scope.Cancel_MYTAB(); 
+                        $scope.Cancel_MYTAB();
                     }).error(function (data) {
                         $scope.error = "An error has occurred while deleting Parameter" + data;
                     });
 
-             
+                }
             }
         }
 

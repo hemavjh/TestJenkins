@@ -225,7 +225,7 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
-                                                                        <td style="text-align: right;width:">{{$index+1}}</td>
+                                                                        <td style="text-align: right;">{{$index+1}}</td>
                                                                         <td>
                                                                             <select ng-model="row.UserId" class="form-control" style="width:500px;"
                                                                                     ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
@@ -246,7 +246,7 @@
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
-                                                            <a href="javascript:" title="Click to Add" ng-show="showSave == true"  style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
+                                                            <a href="javascript:" title="Click to Add" ng-show="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -260,7 +260,7 @@
                                                     <div class="col-sm-4">
                                                         <div class="inputGroups" style="margin-left:10px;width:300px;">
                                                             <label style="margin-left:1px;">Devices</label>
-                                                            <select id="tabdevice"  ng-model="SelectedDevice" multiple="multiple"
+                                                            <select id="tabdevice" ng-model="SelectedDevice" multiple="multiple"
                                                                     ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"
                                                                     multiselect-dropdown style="width: 220px;"></select>
 
@@ -275,11 +275,11 @@
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <button type="button" ng-show="showSave == true"   class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytab" title="Click to Save"
+                        <button type="button" ng-show="showSave == true" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytab" title="Click to Save"
                                 ng-click="MYTAB_InsertUpdate()">
                             Save
                         </button>
-                        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel"  id="cancelmytab"
+                        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytab"
                                 ng-click="Cancel_MYTAB()">
                             Cancel
                         </button>
@@ -292,67 +292,177 @@
 </div>
 
 <!--View Modal-->
-<div id="MyTabViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false"
-     init="ViewMyTab">
-    <div class="modal-dialog">
+<div id="TabViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close"
-                        ng-click="CancelPopup()">
-                    &times;
-                </button>
-                <h4 class="modal-title">My Home</h4>
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()">&times;</button>
+                <h4 class="modal-title">MY Home</h4>
             </div>
-            <div class="modal-body">
-                <form role="form">
-                    <div class="inputGroups">
-                        <label>Tab Name</label>
-
-                        <span>
-                            <div class="textwrap">{{TabName}}</div>
-                        </span>
+            <div class="modal-body p-0">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="themeTabs">
+                            <li>
+                                <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
+                                    <i class="far fa-file"></i>TAB Info
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
+                                    <i class="far fa-file-alt"></i>User Info
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3'">
+                                    <i class="fas fa-map-marker-alt"></i>Device Info
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="inputGroups">
-                        <label>Ref Id</label>
-                        <span>{{RefId}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>Model</label>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div id="Myhomeview">
+                            <div>
+                                <form class="form-horizontal" role="form">
+                                    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            TAB Name<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
+                                                        </label>
+                                                        <input type="text" class="form-control" id="tabnameview" disabled="disabled" name="TabName" ng-model="TabName"
+                                                               ng-init="TabName=''" ng-required="true" onkeypress="ParticularSpec(event)"
+                                                               placeholder="" ng-maxlength="40" maxlength="40" />
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            REF ID<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
+                                                        </label>
 
-                        <span>{{Model}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>OS</label>
+                                                        <div>
+                                                            <input type="text" class="form-control" id="refidtabview" disabled="disabled" name="RefId" ng-model="RefId"
+                                                                   ng-init="RefId=''" ng-required="true" placeholder="" ng-maxlength="20" maxlength="20" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            Model
+                                                        </label>
 
-                        <span>
-                            <div class="textwrap">{{OS}}</div>
-                        </span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>NUMBER_OF_USERS</label>
+                                                        <div>
+                                                            <input type="text" class="form-control" id="modeltabview" disabled="disabled" name="Model" ng-model="Model"
+                                                                   ng-init="Model=''" ng-required="true" placeholder="" ng-maxlength="20" maxlength="20">
+                                                        </div>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            OS
+                                                        </label>
 
-                        <span>
-                            <div class="textwrap">{{UsersCount}}</div>
-                        </span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>NUMBER_OF_DEVICES</label>
+                                                        <div>
+                                                            <input type="text" class="form-control" id="ostabview" disabled="disabled" name="OS" ng-model="OS"
+                                                                   ng-init="OS=''" ng-required="true" placeholder="" ng-maxlength="30" maxlength="30">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                       class="formControlGroup"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
+                                        <div id="collapse2" class="panel-collapse">
+                                            <div class="panel-body">
+                                                <div class="row" id="MyHomeUserListView">
+                                                    <div class="col-sm-4">
+                                                        <div class="inputGroups">
+                                                            <table class="table themeTable" template-pagination="custom/pager" id="MyHomeUserTableView">
+                                                                <thead>
+                                                                    <tr style="text-align: center">
+                                                                        <th width="7%">Sl No.</th>
+                                                                        <th width="60%">User</th>
+                                                                        <th width="40%">PIN</th>
+                                                                        <th width="8%">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-if="MyHomeflag==0 && (AddUserParameters | filter : {IsActive : true}).length==0">
+                                                                        <td colspan="5" style="text-align: center">
+                                                                            No Data Available
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
+                                                                        <td style="text-align: right;" disabled="disabled">{{$index+1}}</td>
+                                                                        <td>
+                                                                            <select ng-model="row.UserId" disabled="disabled" class="form-control" style="width:500px;"
+                                                                                    ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttabView">
+                                                                                <option value="">Select</option>
+                                                                            </select>
 
-                        <span>
-                            <div class="textwrap">{{DevicesCount}}</div>
-                        </span>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" class="form-control myhomedropdown"
+                                                                                   ng-model="row.PIN" maxlength="20" disabled="disabled"
+                                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintabview">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="image" src="../../Images/deleteNewIcon.png" disabled="disabled" title='Click to Delete' class="myhomedropdown"
+                                                                                   ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2View" />
+                                                                            <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
+                                        <div id="collapse3" class="panel-collapse">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="inputGroups" style="margin-left:10px;width:300px;">
+                                                            <label style="margin-left:1px;">Devices</label>
+                                                            <select id="tabdeviceview" disabled="disabled" ng-model="SelectedDevice" multiple="multiple"
+                                                                    ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"
+                                                                    multiselect-dropdown style="width: 220px;"></select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
 
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-2" ng-click="CancelViewPopup()"
-                        title="Click to Cancel">
-                    Cancel
-                </button>
+                    <div style="text-align: center;">
+                        <button type="button" ng-show="showSave == true" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytabview" title="Click to Save"
+                                ng-click="MYTAB_InsertUpdate()">
+                            Save
+                        </button>
+                        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytabview"
+                                ng-click="Cancel_MYTAB()">
+                            Cancel
+                        </button>
+
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 
