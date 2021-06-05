@@ -114,10 +114,11 @@ namespace MyCortex.Masters.Models
     public class TabUserList
     {
         public long ID { get; set; }
+        public long UserId { get; set; }
         public string FullName { get; set; }
         public string PIN { get; set; }
         public bool IsActive { get; set; }
-
+        public long? TabId { get; set; }
     }
 
     public class UserTabUserList
@@ -218,7 +219,8 @@ namespace MyCortex.Masters.Models
         public string GroupName { get; set; }
         public decimal Average { get; set; }
         public int IsFormulaParam { get; set; }
-        
+        public DateTime? ModifiedDate { get; set; }
+
     }
     public class TabDeviceUserDetails
     {

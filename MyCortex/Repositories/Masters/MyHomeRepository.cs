@@ -94,27 +94,19 @@ namespace MyCortex.Repositories.Masters
                 {
                     if (insobj.UserList != null)
                     {
+                        
                         foreach (TabUserList item in insobj.UserList)
                         {
-                            List<DataParameter> param1 = new List<DataParameter>();
-                            List<DataParameter> param_1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@User_Id", item.ID));
-                            param1.Add(new DataParameter("@TAB_ID", InsertId)); 
-                            param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
-                            param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
-                            param1.Add(new DataParameter("@PIN", insobj.PIN)); 
-
-                            var objExist = insobj.SelectedTabUserList.Where(ChildItem => ChildItem.Id == item.ID);
-
-                            if (objExist.ToList().Count > 0)
-                                //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
-                                param1.Add(new DataParameter("@Userlist_Selected", "1")); 
-                               
-                            else
-                                param1.Add(new DataParameter("@Userlist_Selected", "0"));
-
-                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_TABADDITIONALDETAILS", param1, true);
+                                List<DataParameter> param1 = new List<DataParameter>();
+                                param1.Add(new DataParameter("@Id", item.ID));
+                                param1.Add(new DataParameter("@User_Id", item.UserId));
+                                param1.Add(new DataParameter("@TAB_ID", InsertId));
+                                param1.Add(new DataParameter("@PIN", item.PIN));
+                                param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                                param1.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
+                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].[USER_SP_INSERTUPDATE_TABADDITIONALDETAILS]", param1, true);
                         }
+                    
                     }
                     if (insobj.DevicesList != null)
                     {
@@ -179,18 +171,12 @@ namespace MyCortex.Repositories.Masters
                                                TabName = p.Field<string>("TAB_NAME"),
                                                RefId = p.Field<string>("REF_ID"),
                                                Model = p.Field<string>("MODEL"),
-                                               OS = p.Field<string>("OS"),
-                                               UsersCount = p.Field<int>("NUMBER_USERS"),
-                                               DevicesCount = p.Field<int>("NUMBER_DEVICES"),
-                                               DeviceName = p.Field<string>("DeviceName"),
-                                               UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
-                                               PIN = p.Field<string>("PIN")
-
+                                               OS = p.Field<string>("OS")  
                                      }).FirstOrDefault();
                 if (list != null)
                 {
                     list.SelectedTabDeviceList = USERDEVICEDETAILS_VIEW(list.ID);
-                    list.SelectedTabUserList = USERTABDETAILS_VIEW(list.ID);
+                    list.UserList = USERTABDETAILS_VIEW(list.ID);
                 }
                return list;
             }
@@ -218,21 +204,21 @@ namespace MyCortex.Repositories.Masters
             return INS;
         }
 
-        public IList<UserTabUserList> USERTABDETAILS_VIEW(long Id)
+        public IList<TabUserList> USERTABDETAILS_VIEW(long Id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTABDETAILS_SP_VIEW]", param);
-            List<UserTabUserList> INS = (from p in dt.AsEnumerable()
-                                            select new UserTabUserList()
+            List<TabUserList> INS = (from p in dt.AsEnumerable()
+                                            select new TabUserList()
                                             {
-                                                Id = p.Field<long>("Id"),
-                                                TabId= p.Field<long>("TAB_ID"),
+                                                ID = p.Field<long>("Id"),
+                                                TabId = p.Field<long>("TAB_ID"),
                                                 UserId = p.Field<long>("USER_ID"),
-                                                UserFullName = DecryptFields.Decrypt(p.Field<string>("USERNAME")),
+                                                FullName = DecryptFields.Decrypt(p.Field<string>("USERNAME")),
                                                 PIN = p.Field<string>("PIN"),
-                                                IsActive=p.Field<bool>("ISACTIVE")
+                                                IsActive = p.Field<bool>("ISACTIVE")
                                             }).ToList();
             return INS;
         }
@@ -492,18 +478,17 @@ namespace MyCortex.Repositories.Masters
 
                                                       GroupId = p.Field<long>("PARAMGROUP_ID"),
                                                       ParameterId = p.Field<long>("PARAMETER_ID"),
+                                                      ParameterValue = p.Field<decimal>("ParamterValue"),
                                                       ParameterName = p.Field<string>("PARAMETERNAME"),
                                                       GroupName = p.Field<string>("PARAMGROUPNAME"),
                                                       MaxPossible = p.IsNull("MAX_POSSIBLE") ? 0 : p.Field<decimal>("MAX_POSSIBLE"),
                                                       MinPossible = p.IsNull("MIN_POSSIBLE") ? 0 : p.Field<decimal>("MIN_POSSIBLE"),
                                                       Average = p.IsNull("AVERAGE") ? 0 : p.Field<decimal>("AVERAGE"),
-                                                      ParameterHasChild = p.Field<int?>("HASCHILD"),
-                                                      ParameterParentId = p.Field<int?>("PARENT_ID"),
                                                       UomId = p.Field<long>("UOM_ID"),
                                                       UomName = p.Field<string>("UOM_NAME"),
                                                       RangeMax = p.IsNull("NORMALRANGE_HIGH") ? 0 : p.Field<decimal>("NORMALRANGE_HIGH"),
                                                       RangeMin = p.IsNull("NORMALRANGE_LOW") ? 0 : p.Field<decimal>("NORMALRANGE_LOW"),
-                                                      IsFormulaParam = p.Field<int>("FORMULAPARAM")
+                                                      ModifiedDate = p.Field<DateTime?>("ModifiedDate")
 
                                                   }).ToList();
                 return list;

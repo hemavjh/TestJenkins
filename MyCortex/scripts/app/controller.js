@@ -19338,9 +19338,16 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.IsEdit = false;
         $scope.showSave = true;
         $scope.View = 2;
+        $scope.MyHomeRow = "-1";
+        $scope.HomeId = "0";
+        $scope.UserLists = [];
+        $scope.MyHomeflag = "0";
 
         $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.DevicesLists = data;
+        });
+        $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $scope.UserLists = data;
         });
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
@@ -19362,10 +19369,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
+            $('#MyHomeUserTable').prop('disabled', false);
+            $('#MyHomeUserList').prop('disabled', false);
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
-            $sel2.multiselect('enable');
-            $scope.UserDropdownlist();
+            $sel2.multiselect('enable'); 
             angular.element('#TabAddModal').modal('show');
         }
         $scope.ClearPopUp = function () {
@@ -19377,33 +19385,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.SelectedDevice = "0";
             $scope.InstitutionId = "";
             $scope.CancelPopup();
-        }
- 
-        /* THIS IS FOR ADD/EDIT PROCEDURE */
-        $scope.TabAddEdit = function () {
-            $("#chatLoaderPV").show();
-            if ($scope.Validationcontrols() == true) { 
-                var obj = {
-                    ID: $scope.Id,
-                    TabName: $scope.TabName,
-                    RefId: $scope.RefId,
-                    Model: $scope.Model,
-                    OS: $scope.OS,
-                    InstitutionId: $window.localStorage['InstitutionId'],
-                    CreatedBy: $scope.CREATED_BY  
-                };
-
-                $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) { 
-                    alert(data.Message);
-                    $scope.TabList();
-                    $scope.ClearPopUp();
-                    $("#chatLoaderPV").hide();
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting Parameter" + data;
-                });
-               
-            }
-        }
+        } 
        
         $scope.CancelTabPopUP = function () {
             $scope.Id = 0;
@@ -19515,6 +19497,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', true);
             $('#Image2').prop('title', 'Disable the Delete Icon');
             $('#tabdevice').prop('disabled', true);
+            $('#MyHomeUserTable').prop('disabled', true);
+            $('#MyHomeUserTable tr').prop('disabled', 'disabled').css('background-color', 'grey');
+            $('#MyHomeUserList').prop('disabled', true);
             $scope.showSave = false;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('disable');
@@ -19547,24 +19532,17 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.RefId = data.RefId;
                 $scope.Model = data.Model; 
                 $scope.OS = data.OS;
-                $scope.UsersCount = data.UsersCount.toString();
-                $scope.DevicesCount = data.DevicesCount.toString();
-                $scope.DeviceName = data.DeviceName;
-                $scope.UserName = data.UserName;
-                $scope.PIN = data.PIN;
+                $scope.AddUserParameters = data.UserList;
+                if ($scope.AddUserParameters.length > 0) {
+                    $scope.MyHomeflag = 1;
+                }
+                else {
+                    $scope.MyHomeflag = 0;
+                }
                 angular.forEach(data.SelectedTabDeviceList, function (value, index) {
                     $scope.EditSelectedDevice.push(value.Id);
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
                 });
-                angular.forEach(data.SelectedTabUserList, function (value, index) {
-                    $scope.EditSelectedTABUser.push(value.UserId);
-                    $scope.SelectedTabUser = $scope.EditSelectedTABUser;
-                });
-                angular.forEach(data.SelectedTabUserList, function (value, index) {
-                    $scope.EditSelectedTABPIN.push(value.PIN);
-                    $scope.SelectedTabPIN = $scope.EditSelectedTABPIN;
-                });   
-                $scope.UserDropdownlist();
                 //$scope.UserPinValidation($scope.SelectedTabPIN);
             });
         }
@@ -19607,6 +19585,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
+            $('#MyHomeUserTable').prop('disabled', false);
+            $('#MyHomeUserList').prop('disabled', false);
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('enable');
@@ -19634,71 +19614,63 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
          
         
         
-
+        $scope.MyHomeRow = "-1";
         // Add row concept for Patient Vital Parameters
         $scope.AddUserParameters = [{
-            'ID': 0,
-            'UserId': 0,
-            "FullName": "",
-            'TabId': 0,
-            'PIN': "",
-            'IsActive': 1
+            'Id': $scope.HomeId,
+            'UserId': $scope.UserId,
+            'PIN': $scope.PIN,
+            'IsActive': true
         }];
 
-        /*This is a Addrow function to add new row and save Family Health Problem details*/
+
+        /*This is a Addrow function to add new row and save  */
         $scope.MyHomeAdd = function () {
-            if ($scope.AddUserParameters.length > 0) {
+            if ($scope.MyHomeRow >= 0) {
                 var obj = {
-                    'ID': 0,
-                    'UserId': 0,
-                    "FullName": "",
-                    'TabId': 0,
-                    'PIN': "",
-                    'IsActive': 1
+                    'Id': $scope.HomeId,
+                    'UserId': $scope.UserId,
+                    'PIN': $scope.PIN,
+                    'IsActive': true
                 }
-                $scope.AddUserParameters.push(obj);
+                $scope.AddUserParameters[$scope.MyHomeRow] = obj;
             }
             else {
-                $scope.AddUserParameters = [{
-                    'ID': 0,
-                    'UserId': 0,
-                    "FullName": "",
-                    'TabId': 0,
-                    'PIN': "",
-                    'IsActive': 1
-                }];
+                $scope.AddUserParameters.push({
+                    'Id': $scope.HomeId,
+                    'UserId': $scope.UserId,
+                    'PIN': $scope.PIN,
+                    'IsActive': true
+                })
             }
         };
 
-        $scope.MyHomeDelete = function (itemIndex) {
-            var del = confirm("Do you like to delete the User information");
+        $scope.MyHomeDelete = function (Delete_Id, rowIndex) {
+            var del = confirm("Do you like to delete this My Home Id Details?");
             if (del == true) {
-                $scope.AddUserParameters.splice(itemIndex, 1);
-                if ($scope.AddUserParameters.length == 0) {
-                    $scope.AddUserParameters = [{
-                        'ID': 0,
-                        'UserId':0,
-                        "FullName": "",
-                        'TabId': 0,
-                        'PIN': "",
-                        'IsActive': 1
-                    }];
+                var Previous_MyHomeItem = [];
+                if ($scope.Id == 0) {
+                    angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                        if (index != rowIndex)
+                            Previous_MyHomeItem.push(selectedPre);
+                    });
+                    $scope.AddUserParameters = Previous_MyHomeItem;
+                } else if ($scope.Id > 0) {
+                    angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                        if (selectedPre.ID == Delete_Id) {
+                            selectedPre.IsActive = false;
+                        }
+                    });
+                    if ($ff($scope.AddUserParameters, { StatusId: 1 }).length > 0) {
+                        $scope.MyHomeflag = 1;
+                    }
+                    else {
+                        $scope.MyHomeflag = 0;
+                    }
                 }
             }
-        }; 
+        };
         
-        $scope.UserDropdownlist = function () {
-            $scope.UserLists = [];
-            $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
-                $scope.UserListsTemp = [];
-                $scope.UserListsTemp = data;
-                var obj = { "ID": 0, "FullName": "Select", "IsActive": 1 };
-                $scope.UserListsTemp.splice(0, 0, obj);
-                $scope.UserLists = angular.copy($scope.UserListsTemp);
-
-            });
-             
-        }
          
         $scope.MYTAB_InsertUpdate_validation = function () {
             var TSDuplicate = 0;
@@ -19746,10 +19718,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
       
         $scope.MYTAB_InsertUpdate = function () { 
             if ($scope.Validationcontrols() == true) {
-                if ($scope.MYTAB_InsertUpdate_validation() == true) {
+                
                     $("#chatLoaderPV").show();
-                    var filteredObj = $ff($scope.AddUserParameters, function (value) {
-                        return value.ID != '';
+                    angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (value, index) {
+                        return value.UserId != '';
                     });
                     var DevicesListid = $ff($scope.DevicesLists, function (value) {
                         return value.ID != '';
@@ -19781,11 +19753,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         OS: $scope.OS,
                         InstitutionId: $window.localStorage['InstitutionId'],
                         CreatedBy: $scope.CREATED_BY,
-                        UserList: $scope.UserLists,
+                        UserList: $scope.AddUserParameters,
                         DevicesList: $scope.DevicesLists,
-                        SelectedTabDeviceList: $scope.UserDeviceDetails_List,
-                        SelectedTabUserList: filteredObj,
-                        PIN: $scope.PIN
+                        SelectedTabDeviceList: $scope.UserDeviceDetails_List  
                     };
 
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
@@ -19797,7 +19767,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         $scope.error = "An error has occurred while deleting Parameter" + data;
                     });
 
-                }
+             
             }
         }
 
