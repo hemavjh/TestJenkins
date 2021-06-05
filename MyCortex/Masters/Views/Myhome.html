@@ -56,8 +56,8 @@
             <th st-ratio="15" st-sort="TAB_REF_ID">Ref Id</th>
             <th st-ratio="17" st-sort="TAB_MODEL">Model</th>
             <th st-ratio="15" st-sort="TAB_OS">OS</th>
-            <th st-ratio="10" st-sort="NUMBER_OF_USERS"># of Users</th>
-            <th st-ratio="10" st-sort="NUMBER_OF_DEVICES"># of Devices</th>
+            <th st-ratio="10" st-sort="NUMBER_OF_USERS">No of Users</th>
+            <th st-ratio="10" st-sort="NUMBER_OF_DEVICES">No of Devices</th>
             <th st-ratio="10">Action</th>
         </tr>
     </thead>
@@ -68,7 +68,7 @@
             </td>
         </tr>
         <tr ng-repeat="row in emptydataTab">
-            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{((current_MyHomepage-1)*page_size)+$index+1}}</td>
             <td style="text-align: left"> <div class="textwrap">{{row.TabName}}</div></td>
             <td style="text-align: left">{{row.RefId}}</td>
             <td style="text-align: left">{{row.Model}}</td>
@@ -94,23 +94,23 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="total_page>1">
+    <tfoot ng-show="total_MyHomepage>1">
         <tr>
             <td colspan="8" class="text-center">
                 <ul class="pagination">
                     <li>
-                        <a ng-click="setPage(1)">First</a>
+                        <a ng-click="setMyHomePage(1)">First</a>
                     </li>
                     <li>
-                        <a ng-click="setPage(current_page - 1)">&lt;</a>
+                        <a ng-click="setMyHomePage(current_MyHomepage - 1)">&lt;</a>
                     </li>
                     <li>
-                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                        <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_MyHomepage}}" step="1" ng-model="inputPageNo" ng-value="current_MyHomepage" ng-change="setMyHomePage(0);"> of {{total_MyHomepage}}</a>
                     </li>
                     <li>
-                        <a ng-click="setPage(current_page + 1)">&gt;</a>
+                        <a ng-click="setMyHomePage(current_MyHomepage + 1)">&gt;</a>
                     </li>
-                    <li><a ng-click="setPage(total_page)">Last</a></li>
+                    <li><a ng-click="setMyHomePage(total_MyHomepage)">Last</a></li>
                 </ul>
             </td>
         </tr>
@@ -224,7 +224,7 @@
                                                                             No Data Available
                                                                         </td>
                                                                     </tr>
-                                                                    <tr ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
+                                                                    <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
                                                                         <td style="text-align: right;width:">{{$index+1}}</td>
                                                                         <td>
                                                                             <select ng-model="row.UserId" class="form-control" style="width:500px;"
@@ -234,12 +234,12 @@
 
                                                                         </td>
                                                                         <td>
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="text" class="form-control myhomedropdown"
                                                                                    ng-model="row.PIN" maxlength="20"
                                                                                    ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintab">
                                                                         </td>
                                                                         <td>
-                                                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete'
+                                                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
                                                                                    ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2" />
                                                                             <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
                                                                         </td>

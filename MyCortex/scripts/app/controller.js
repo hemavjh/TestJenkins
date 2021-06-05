@@ -19321,7 +19321,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.Model = "";
         $scope.OS = ""; 
         $scope.current_page = 1;
+        $scope.current_MyHomepage = 1;
         $scope.total_page = 1;
+        $scope.total_MyHomepage = 1;
         $scope.Id = 0;
         $scope.User_Id = 0;
         $scope.LanguageText = [];
@@ -19369,7 +19371,16 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
-            $("#MyHomeUserTable *").attr("disabled", "").off('click'); 
+            $('#MyHomeUserList *').removeAttr("disabled");
+            $("#MyHomeUserTable *").removeAttr("disabled");
+            $('.myhomedropdown').removeAttr("disabled");
+            
+            $scope.AddUserParameters = [{
+                'Id': 0,
+                'UserId': 0,
+                'PIN': "",
+                'IsActive': true
+            }];
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('enable'); 
@@ -19402,14 +19413,14 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         }
 
 
-        $scope.setPage = function (PageNo) {
+        $scope.setMyHomePage = function (PageNo) {
             if (PageNo == 0) {
                 PageNo = $scope.inputPageNo;
             }
             else {
                 $scope.inputPageNo = PageNo;
             }
-            $scope.current_page = PageNo;
+            $scope.current_MyHomepage = PageNo;
             $scope.TabList();
 
         }
@@ -19424,8 +19435,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
                 $scope.page_size = data1[0].ConfigValue;
-                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
-                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                $scope.PageStart = (($scope.current_MyHomepage - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_MyHomepage * $scope.page_size;
 
                 $scope.ISact = 1;       // default active
                 if ($scope.IsActive == true) {
@@ -19437,24 +19448,21 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
                 $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +'&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    $scope.emptydataTab = [];
-                    $scope.rowCollectionTab = [];
-                    $scope.rowCollectionTab = data;
-                    if ($scope.rowCollectionTab.length > 0) {
+                    if (data != null && data !== undefined) {
+                        $scope.emptydataTab = [];
+                        $scope.rowCollectionTab = [];
+                        $scope.rowCollectionTab = data;
                         $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
-                    } else {
-                        $scope.TabDataCount = 0;
+                        $scope.TabData_ListFilterdata = data;
+                        $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
+                        if ($scope.rowCollectionTabFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
                     }
-                  
-                    $scope.TabData_ListFilterdata = data;
-                    $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
-                    if ($scope.rowCollectionTabFilter.length > 0) {
-                        $scope.flag = 1;
-                    }
-                    else {
-                        $scope.flag = 0;
-                    }
-                    $scope.total_page = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
+                    $scope.total_MyHomepage = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
                    
 
                 }).error(function (data) {
@@ -19479,7 +19487,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         angular.lowercase(value.OS).match(searchstring) ||
                         angular.lowercase(value.Model).match(searchstring) 
                 });
-                $scope.total_page = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
+                $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
             }
         }
 
@@ -19495,10 +19503,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#pintab').prop('disabled', true);
             $('#Image2').prop('disabled', true);
             $('#Image2').prop('title', 'Disable the Delete Icon');
-            $('#tabdevice').prop('disabled', true);
-            $('#MyHomeUserTable').prop('disabled', true);
+            $('#tabdevice').prop('disabled', true); 
+            $('#MyHomeUserList *').attr('disabled', 'disabled');
             $("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
-            $('#MyHomeUserList').prop('disabled', true);
+            $('.myhomedropdown *').attr("disabled", "disabled").off('click'); 
             $scope.showSave = false;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('disable');
@@ -19565,6 +19573,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }
         };
 
+        
+
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
             alert("Inactive record cannot be edited");
@@ -19584,8 +19594,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
-            $("#MyHomeUserTable *").attr("disabled", "disabled").off('click'); 
-            $('#MyHomeUserList').prop('disabled', false);
+            $('#MyHomeUserList *').removeAttr("disabled");
+            $("#MyHomeUserTable *").removeAttr("disabled"); 
+            $('.myhomedropdown').removeAttr("disabled");
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('enable');
