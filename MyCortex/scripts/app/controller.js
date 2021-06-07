@@ -18514,7 +18514,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     };
                 }
             })
-        }
+        } 
     }
 ]);
 
@@ -19614,7 +19614,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             angular.element('#TabAddModal').modal('show');
         }
         
-
+        $scope.ErrorFunction = function () {
+            alert("Inactive record cannot be edited");
+        }
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
             if (typeof ($scope.TabName) == "undefined" || $scope.TabName == "") {
@@ -19676,12 +19678,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     });
                     $scope.AddUserParameters = Previous_MyHomeItem;
                 } else if ($scope.Id > 0) {
-                    angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                    angular.forEach($scope.AddUserParameters, function (selectedPre, index) { 
                         if (selectedPre.ID == Delete_Id) {
                             selectedPre.IsActive = false;
                         }
                     });
-                    if ($ff($scope.AddUserParameters, { StatusId: 1 }).length > 0) {
+                    if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
                         $scope.MyHomeflag = 1;
                     }
                     else {

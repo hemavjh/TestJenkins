@@ -79,16 +79,16 @@
 
                 <a href="javascript:" ng-click="ViewMYTABPopUP(row.ID)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
-                <a href="javascript:" ng-click="row.IsActive == 0 ||  EditMYTABPopUP(row.ID)" title="Edit">
+                <a href="javascript:" ng-click="row.IsActive == 0 || EditMYTABPopUP(row.ID)" title="Edit">
                     <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-
+                        <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
                     </a>
                 </a>
                 <a href="javascript:" ng-click="DeleteMYTAB(row.ID)" title="Active">
                     <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="ActiveMYTAB(row.ID)" title="InActive">
-
+                    <a href="javascript:" ng-click="DeleteMYTAB(row.ID)" title="Inactive">
+                        <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                     </a>
                 </a>
             </td>
@@ -455,7 +455,7 @@
                             Save
                         </button>
                         <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytabview"
-                                ng-click="Cancel_MYTAB()">
+                                ng-click="Cancel_MYTABView()">
                             Cancel
                         </button>
 
