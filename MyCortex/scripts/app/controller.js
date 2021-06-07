@@ -19415,6 +19415,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.ClearPopUp();
         }
 
+        $scope.Cancel_MYTABView = function () { 
+            angular.element('#TabViewModal').modal('hide');
+        }
+
 
         $scope.setMyHomePage = function (PageNo) {
             if (PageNo == 0) {
@@ -19506,12 +19510,15 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', true);
             $('#Image2').prop('title', 'Disable the Delete Icon');
             $('#tabdevice').prop('disabled', true); 
+            $('#tabdevice3').prop('disabled', true); 
             $('#MyHomeUserList *').attr('disabled', 'disabled');
             $("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
             $('.myhomedropdown *').attr("disabled", "disabled").off('click'); 
             $scope.showSave = false;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('disable');
+            var $sel3 = $('#tabdeviceview');
+            $sel3.multiselect('disable');
             $scope.ViewMyTab(); 
             angular.element('#TabViewModal').modal('show'); 
         }
