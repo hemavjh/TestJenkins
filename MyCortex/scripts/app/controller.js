@@ -19922,12 +19922,35 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             });
         }
 
-        /* THIS IS FOR DELETE FUNCTION*/
+        /*Active the Device*/
+        $scope.ReInsertDevice = function (comId) {
+            $scope.Id = comId;
+            $scope.ReInsertDeviceDetails();
+
+        };
+        /* 
+        Calling the api method to inactived the details of the Device List,
+        and redirected to the list page.
+        */
+        $scope.ReInsertDeviceDetails = function () {
+            var Dev = confirm("Do you like to activate the selected Device?");
+            if (Dev == true) {
+                $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
+                    alert("Selected Device has been activated successfully");
+                    $scope.DeviceList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
+                });
+            };
+        }
+
+
+        /* THIS IS FOR DEACTIVATE FUNCTION*/
         $scope.DeleteDevice = function (DId) {
             $scope.Id = DId;
             $scope.Device_Delete();
         };
-        /*THIS IS FOR DELETE FUNCTION */
+        /*THIS IS FOR DEACTIVE FUNCTION */
         $scope.Device_Delete = function () {
 
             var del = confirm("Do you like to deactivate the selected Device?");

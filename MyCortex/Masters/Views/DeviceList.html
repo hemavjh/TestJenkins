@@ -92,11 +92,17 @@
                     </a>
                 </a>
                 <a href="javascript:" ng-click="DeleteDevice(row.ID)" title="Active">
+                    <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <a href="javascript:" ng-click="ReInsertDevice(row.ID)" title="Inactive">
+                        <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
+                    </a>
+                </a>
+                <!--<a href="javascript:" ng-click="DeleteDevice(row.ID)" title="Active">
                     <i class="fa fa-check-circle-o ng-scope" aria-hidden="true"></i>
                     <a href="javascript:" ng-click="DeleteDevice(row.ID)" title="InActive">
 
                     </a>
-                </a>
+                </a>-->
             </td>
         </tr>
     </tbody>

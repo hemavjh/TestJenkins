@@ -591,6 +591,7 @@ namespace MyCortex.Repositories.Masters
                                                  Make = p.Field<string>("MAKE"),
                                                  ModelNumber = p.Field<string>("MODEL"),
                                                  DeviceType = p.Field<string>("DEVICE_TYPE"),
+                                                 IsActive = p.Field<bool>("ISACTIVE")
 
                                              }).ToList();
                 return lst;
