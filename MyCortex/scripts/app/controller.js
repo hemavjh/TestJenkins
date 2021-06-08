@@ -19836,9 +19836,18 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
         $scope.DeviceDropDown = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
-                $scope.DevicesLists = data;
-            });
+            //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
+            $scope.AllDevice = [
+            {
+                ID: 1,
+                DeviceName: "Wearable"
+            },
+            {
+                ID: 2,
+                DeviceName: "Medical Device"
+            }
+            ];
+            //});
 
             $http.get(baseUrl + '/api/Protocol/ParameterNameList/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $("#chatLoaderPV").hide();
@@ -19867,6 +19876,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.EditDevicePopUP = function (CatId) {
             $scope.Id = CatId;
             $scope.Editid = CatId;
+            $scope.CancelDeviceList();
             $('#DeviceId').prop('disabled', false);
             $('#DeviceName').prop('disabled', false);
             $('#DeviceType').prop('disabled', false);
@@ -19884,6 +19894,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS OPENING POP WINDOW VIEW */
         $scope.ViewDevicePopUP = function (CatId) {
             $scope.Id = CatId;
+            $scope.CancelDeviceList();
             $('#DeviceId').prop('disabled', true);
             $('#DeviceName').prop('disabled', true);
             $('#DeviceType').prop('disabled', true);
@@ -19911,7 +19922,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $("#chatLoaderPV").hide();
                 $scope.DeviceId = data.DeviceId;
                 $scope.DeviceName = data.DeviceName;
-                $scope.DeviceType = data.DeviceTypeId;
+                if (data.DeviceType == "Medical Device") {
+                    $scope.DeviceType = 2;
+                }
+                if (data.DeviceType == "Wearable") {
+                    $scope.DeviceType = 1;
+                }
+                //$scope.DeviceType = data.DeviceTypeId;
                 $scope.DeviceMake = data.Make;
                 $scope.DeviceModel = data.ModelNumber;
                 var det = data.ParameterList[0].ParameterName.split(',');
@@ -19922,12 +19939,35 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             });
         }
 
-        /* THIS IS FOR DELETE FUNCTION*/
+        /*Active the Device*/
+        $scope.ReInsertDevice = function (comId) {
+            $scope.Id = comId;
+            $scope.ReInsertDeviceDetails();
+
+        };
+        /* 
+        Calling the api method to inactived the details of the Device List,
+        and redirected to the list page.
+        */
+        $scope.ReInsertDeviceDetails = function () {
+            var Dev = confirm("Do you like to activate the selected Device?");
+            if (Dev == true) {
+                $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
+                    alert("Selected Device has been activated successfully");
+                    $scope.DeviceList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
+                });
+            };
+        }
+
+
+        /* THIS IS FOR DEACTIVATE FUNCTION*/
         $scope.DeleteDevice = function (DId) {
             $scope.Id = DId;
             $scope.Device_Delete();
         };
-        /*THIS IS FOR DELETE FUNCTION */
+        /*THIS IS FOR DEACTIVE FUNCTION */
         $scope.Device_Delete = function () {
 
             var del = confirm("Do you like to deactivate the selected Device?");
@@ -19944,7 +19984,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.CancelDeviceList = function () {
             $scope.DeviceId = "";
             $scope.DeviceName = "";
-            $scope.DeviceType = "0";
+            $scope.DeviceType = "";
             $scope.DeviceMake = "";
             $scope.DeviceModel = "";
             $scope.SelectedParamter = "0";
@@ -19961,42 +20001,47 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 //var DevicesListid = $ff($scope.DevicesLists, function (value) {
                 //    return value.ID != '';
                 //});
-                var devicetypechange = $scope.DeviceType.toString();
+            //var devicetypechange = $scope.DeviceType.toString();
+            angular.forEach($scope.AllDevice, function (value, index) {
+                if (value.ID == $scope.DeviceType) {
+                    $scope.DeviceType = value.DeviceName
+                }
+            });
 
-                $scope.ParameterDetails_List = [];
-                angular.forEach($scope.SelectedParamter, function (value, index) {
-                    var obj = {
-                        //ID: 0,
-                        Id: value,
-                        IsActive: 1
-                    }
-                    $scope.ParameterDetails_List.push(obj);
-                });
-
+            $scope.ParameterDetails_List = [];
+            angular.forEach($scope.SelectedParamter, function (value, index) {
                 var obj = {
-                    ID: $scope.Id,
-                    InstitutionId: $window.localStorage['InstitutionId'],
-                    DeviceId: $scope.DeviceId,
-                    DeviceName: $scope.DeviceName,
-                    DeviceType: devicetypechange,
-                    Make: $scope.DeviceMake,
-                    ModelNumber: $scope.DeviceModel,
-                    ParameterList: $scope.ParameterTypeList,
-                    SelectedDeviceParameterList: $scope.ParameterDetails_List,
-                    CreatedBy: $window.localStorage['UserId'],
-                };
+                    //ID: 0,
+                    Id: value,
+                    IsActive: 1
+                }
+                $scope.ParameterDetails_List.push(obj);
+            });
 
-                $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
-                    $("#chatLoaderPV").hide();
-                    alert(data.Message);
-                    $scope.DeviceList();
-                    $scope.CancelDeviceList();
+            var obj = {
+                ID: $scope.Id,
+                InstitutionId: $window.localStorage['InstitutionId'],
+                DeviceId: $scope.DeviceId,
+                DeviceName: $scope.DeviceName,
+                DeviceType: $scope.DeviceType,
+                Make: $scope.DeviceMake,
+                ModelNumber: $scope.DeviceModel,
+                ParameterList: $scope.ParameterTypeList,
+                SelectedDeviceParameterList: $scope.ParameterDetails_List,
+                CreatedBy: $window.localStorage['UserId'],
+            };
 
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while Addeing Device" + data;
-                });
+            $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
+                $("#chatLoaderPV").hide();
+                alert(data.Message);
+                $scope.DeviceList();
+                $scope.CancelDeviceList();
 
-                //}
+            }).error(function (data) {
+                $scope.error = "An error has occurred while Addeing Device" + data;
+            });
+
+            //}
         }
     }
 

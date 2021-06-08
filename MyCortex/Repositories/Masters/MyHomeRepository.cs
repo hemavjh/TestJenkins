@@ -591,6 +591,7 @@ namespace MyCortex.Repositories.Masters
                                                  Make = p.Field<string>("MAKE"),
                                                  ModelNumber = p.Field<string>("MODEL"),
                                                  DeviceType = p.Field<string>("DEVICE_TYPE"),
+                                                 IsActive = p.Field<bool>("ISACTIVE")
 
                                              }).ToList();
                 return lst;
@@ -700,7 +701,7 @@ namespace MyCortex.Repositories.Masters
                                             DeviceName = p.Field<string>("DEVICE_NAME"),
                                             Make = p.Field<string>("MAKE"),
                                             ModelNumber = p.Field<string>("MODEL"),
-                                            DeviceTypeId = p.Field<long>("DEVICE_TYPE")
+                                            DeviceType = p.Field<string>("DEVICE_TYPE")
 
                                         }).FirstOrDefault();
                 if (list != null)
