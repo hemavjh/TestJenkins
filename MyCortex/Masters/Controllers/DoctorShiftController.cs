@@ -80,6 +80,8 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        
+
         /// <summary>      
         /// Settings--> Doctor Shift (menu) -- > List Page (result)
         /// to get the list of Doctor Shift for the specified filters
@@ -319,7 +321,64 @@ namespace MyCortex.Masters.Controllers
             }
 
         }
+        [Authorize]
+        [HttpGet]
+        public IList<AppointmentTimeZone> TimeZoneList()
+        {
+            IList<AppointmentTimeZone> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetTimeZoneList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
 
+        [HttpPost]
+        public HttpResponseMessage Org_AppointmentSettings_InsertUpdate(Guid Login_Session_Id, [FromBody] OrgAppointmentSettings obj)
+        {
+            IList<OrgAppointmentSettings> ModelData = new List<OrgAppointmentSettings>();
+            OrgAppointmentSettingsReturnModels model = new OrgAppointmentSettingsReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetOrgAppointmentSettings(Login_Session_Id, obj);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "OrganizationAppointmentSettings  already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "AppointmentSettings created successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.Flag == 3) == true)
+                {
+                    messagestr = "AppointmentSettings updated Successfully";
+                    model.ReturnFlag = 1;
+                }
+                model.OrgAppointmentSettingDetails = ModelData;
+                model.Message = messagestr; 
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating OrgAppointmentSettings";
+                model.OrgAppointmentSettingDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
 
     }
 }

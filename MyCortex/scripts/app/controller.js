@@ -18514,8 +18514,252 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     };
                 }
             })
-        } 
-    }
+        }
+        
+
+        //Appointment Settings 
+
+        $scope.NewAppointment = "0";
+        $scope.followup = "0";
+        $scope.IntervalBt = "0";
+        $scope.Days = "";
+        $scope.AppointmentDay = "0";
+        $scope.Minutest = "0";
+        $scope.SelectedTimeZone = "0";
+        $scope.TimZoneList = []; 
+        $scope.Sunday = true;
+        $scope.Monday = true;
+        $scope.Tuesday = true;
+        $scope.Wednesday = true;
+        $scope.Thursday = true;
+        $scope.Friday = true;
+        $scope.Saturday = true;
+        $scope.SelectDefHoliday = "0";
+        $scope.BookEnable = "1";
+        $scope.cc = true;
+        $scope.cg = true;
+        $scope.cl = true;
+        $scope.sc = true;
+        $scope.userpatient = true;
+        $scope.DayLists = [];
+        $scope.HourLists = [];
+        $scope.MinuteLists = [];
+        $scope.SelectedDay = [];
+        $scope.SelectedMinute = [];
+        $scope.SelectedHour = [];
+        $scope.DefaultWorkingDays = [];
+        $scope.confirmBook = true;
+        $scope.SelectedDefaultholidayday = [];
+        $scope.SelectedDefaultholidayhour = [];
+        $scope.SelectedDefaultholidayMinute = [];
+        $scope.DefaultHolidayList = []; 
+        $scope.DayLists = []; 
+        $scope.HourLists = []; 
+        $scope.MinuteLists = []; 
+
+        $scope.AppointmentId = "";
+        $scope.MyAppointmentRow = "-1";
+
+
+        $scope.AddReminderParameters = [{
+            'ID': $scope.AppointmentId,
+            'ReminderDays': $scope.ReminderDays,
+            'ReminderHours': $scope.ReminderHours,
+            'ReminderMinutes': $scope.ReminderMinutes,
+            'IsActive': 1
+        }];
+
+        /*This is a Addrow function to add new row and save  */
+        $scope.ReminderUserAdd = function () {
+            if ($scope.MyAppointmentRow >= 0) {
+                var obj = {
+                    'ID': $scope.AppointmentId,
+                    'ReminderDays': $scope.ReminderDays,
+                    'ReminderHours': $scope.ReminderHours,
+                    'ReminderMinutes': $scope.ReminderMinutes,
+                    'IsActive': 1
+                }
+                $scope.AddReminderParameters[$scope.MyAppointmentRow] = obj;
+            }
+            else {
+                $scope.AddReminderParameters.push({
+                    'ID': $scope.AppointmentId,
+                    'ReminderDays': $scope.ReminderDays,
+                    'ReminderHours': $scope.ReminderHours,
+                    'ReminderMinutes': $scope.ReminderMinutes,
+                    'IsActive': 1
+                })
+            }
+        };
+
+
+        $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
+            var del = confirm("Do you like to delete this My Home Id Details?");
+            if (del == true) {
+                var Previous_MyReminderItem = [];
+                if ($scope.Id == 0) {
+                    angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                        if (index != rowIndex)
+                            Previous_MyReminderItem.push(selectedPre);
+                    });
+                    $scope.AddReminderParameters = Previous_MyReminderItem;
+                } else if ($scope.Id > 0) {
+                    angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                        if (index != rowIndex)
+                            Previous_MyReminderItem.push(selectedPre);
+                    });
+                    $scope.AddReminderParameters = Previous_MyReminderItem;
+                }
+            }
+        };
+        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/').success(function (data) {
+            $scope.TimZoneList = data;
+        });
+
+        $scope.DefaultHolidayList
+        [   
+            {
+                "Name": "1",
+                "ID": 1
+            },
+            {
+                "Name": "2",
+                "ID": 2
+            }
+        ]
+
+
+         
+
+        $scope.AppointmentSettings = function () {
+            $("#chatLoaderPV").hide(); 
+
+
+        }
+
+       
+
+        /* THIS IS FOR VALIDATION CONTROL */
+        $scope.Validationcontrols = function () {
+            if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0") {
+                alert("Please enter NewAppointment");
+                return false;
+            }
+            else if (typeof ($scope.followup) == "undefined" || $scope.followup == "0") {
+                alert("Please enter Follow Up");
+                return false;
+            }
+            else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0") {
+                alert("Please enter IntervalBt");
+                return false;
+            }
+            return true;
+        };
+
+        $scope.MyAppointment_InsertUpdate = function () {
+            if ($scope.Validationcontrols() == true) {
+                $("#chatLoaderPV").show();
+                $scope.Monday = true;
+                $scope.Tuesday = true;
+                $scope.Wednesday = true;
+                $scope.Thursday = true;
+                $scope.Friday = true;
+                $scope.Saturday = true;
+                
+                var DefaultWorkingDays = [{
+                    id: "1",
+                    sport_id: "1"
+                  
+                }, {
+                    id: "2",
+                    sport_id: "2"
+                   
+                }, {
+                    id: "3",
+                    sport_id: "3"
+                 
+                }, {
+                    id: "4",
+                    sport_id: "4"
+                   
+                    },
+                    {
+                        id: "5",
+                        sport_id: "5"
+
+                    },
+                    {
+                    id: "6",
+                    sport_id: "6"
+                   
+                    }, {
+                      id: "7",
+                       sport_id: "7"
+
+                }];
+
+                var sport_ids = DefaultWorkingDays.map(function (data) {
+                    return Number(data.sport_id)
+                });
+
+                alert(sport_ids);
+
+
+                if ($scope.BookEnable == true) {
+                    $scope.BookEnable = 1;
+                } else {
+                    $scope.BookEnable = 0;
+                }
+
+                if ($scope.confirmBook == true) {
+                    $scope.confirmBook = 1;
+                } else
+                { 
+                    $scope.confirmBook = 0;
+                }
+           
+
+                if ($scope.AutoEnable == true) {
+                    $scope.AutoEnable = 1;
+                } else {
+                    $scope.AutoEnable = 0;
+                }
+
+
+                var obj = {
+                    ID: $scope.id,
+                    InstitutionId: $window.localStorage['InstitutionId'],
+                    CreatedBy: $window.localStorage['UserId'],
+                    NewAppointmentDuration: $scope.NewAppointment,
+                    FollowUpDuration: $scope.followup,
+                    AppointmentInterval: $scope.IntervalBt,
+                    MinRescheduleDays: $scope.AppointmentDay,
+                    MinRescheduleMinutes: $scope.Minutest,
+                    DefautTimeZone: $scope.SelectedTimeZone,
+                    DefaultWorkingDays:7,
+                    DefaultHoliDays: $scope.SelectedDefaultholiday,
+                    IsAppointmentInHolidays: $scope.BookEnable,
+                    Iscc: $scope.cc,
+                    Iscg: $scope.cg,
+                    Iscl: $scope.cl,
+                    Issc: $scope.sc,
+                    IsPatient: $scope.userpatient,
+                    IsDirectAppointment: $scope.confirmBook,
+                    ReminderTimeInterval: $scope.AddReminderParameters, 
+                    IsAutoReschedule: $scope.AutoEnable,
+                    MaxScheduleDays: $scope.ReduceNumberofavailableAppointmentes
+                };  
+
+                $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                    $("#chatLoaderPV").hide(); 
+                    alert(data.Message);
+                    $scope.AppointmentSettings();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting Parameter" + data;
+                });
+            }
+        }
+    } 
 ]);
 
 MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
@@ -19583,7 +19827,23 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }
         };
 
-        
+        $scope.DeleteMYTABDeactive = function (DId) {
+            $scope.Id = DId;
+            $scope.MyTAB_DeleteDeactive();
+        };
+        /*THIS IS FOR DELETE FUNCTION */
+        $scope.MyTAB_DeleteDeactive = function () {
+
+            var del = confirm("Do you like to activate the selected My Home details?");
+            if (del == true) {
+                $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
+                    alert(" My Home details has been  Activated Successfully");
+                    $scope.TabList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting  My Home details" + data;
+                });
+            }
+        };
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
