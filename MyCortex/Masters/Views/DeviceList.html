@@ -85,7 +85,7 @@
 
                 <a href="javascript:" ng-click="ViewDevicePopUP(row.ID)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
-                <a href="javascript:" ng-click="row.IsActive == 1 ||  EditDevicePopUP(row.ID)" title="Edit">
+                <a href="javascript:" ng-click="row.IsActive == 0 ||  EditDevicePopUP(row.ID)" title="Edit">
                     <i class="fa fa-pencil ng-scope" aria-hidden="true"></i>
                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
 
@@ -172,7 +172,7 @@
                             <font class='mandatory-field'>*</font></sup>
                         </label>
                         <select class="form-control" data-style="form-control" id="DeviceType" ng-model="DeviceType"
-                                ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"></select>
+                                ng-options="item1.ID as item1.DeviceName for item1 in AllDevice"></select>
 
                     </div>
 
