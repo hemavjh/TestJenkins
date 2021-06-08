@@ -17,7 +17,5 @@ namespace MyCortex.Repositories
         IList<DoctorShiftModel> DoctorShift_Active(DoctorShiftModel noteobj);
         IList<DoctorShiftModel> DoctorShift_Delete(DoctorShiftModel noteobj);
         DoctorShiftModel ActivateDoctorShift_List(long Id, long Institution_Id, long Doctor_Id);
-        IList<AppointmentTimeZone> GetTimeZoneList();
-        IList<OrgAppointmentSettings> GetOrgAppointmentSettings(Guid Login_Session_Id, OrgAppointmentSettings insobj);
     }
 }                                        
