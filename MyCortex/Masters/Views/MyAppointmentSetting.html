@@ -28,23 +28,36 @@
                 <div class="flex justify-end">
                     <input type="text" class="input-size" ng-model="NewAppointment"
                            ng-init="NewAppointment=''" id="NewAppointment" onkeypress="OnlySpecCharNum(event)" name="NewAppointment" 
-                           placeholder="" ng-maxlength="10" maxlength="10">
+                           placeholder="" ng-maxlength="10" maxlength="10" ng-required="true">
                 </div>
-                <p class="input-text text-right">New Appointment</p>
+                <p class="input-text text-right">
+                    New Appointment
+                    <sup>
+                        <font class='mandatory-field'>*</font>
+                    </sup>
+                </p>
             </div>
             <div class="col-sm-4 p-0">
                 <div class="flex justify-end">
                     <input type="text" class="input-size" ng-model="followup"
-                           ng-init="followup=''" id="FollowUp" onkeypress="OnlySpecCharNum(event)" name="FollowUp" placeholder="" ng-maxlength="2" maxlength="2">
+                           ng-init="followup=''" id="FollowUp" 
+                           ng-required="true" onkeypress="OnlySpecCharNum(event)" name="FollowUp" placeholder="" ng-maxlength="2" maxlength="2">
                 </div>
-                <p class="input-text text-right">Follow-Up</p>
+                <p class="input-text text-right">Follow-Up<sup>
+                <font class='mandatory-field'>*</font>
+                </sup>
+            </p>
             </div>
             <div class="col-sm-4 p-0" style="padding-right: 0px;">
                 <div class="flex justify-end">
                     <input type="text" class="input-size" ng-model="IntervalBt"
-                           ng-init="IntervalBt=''" id="IntervalBt" onkeypress="OnlySpecCharNum(event)" name="IntervalBt" placeholder="" ng-maxlength="2" maxlength="2">
+                           ng-init="IntervalBt=''" id="IntervalBt" ng-required="true"
+                           onkeypress="OnlySpecCharNum(event)" name="IntervalBt" placeholder="" ng-maxlength="2" maxlength="2">
                 </div>
-                <p class="input-text text-right">Interval Between</p>
+                <p class="input-text text-right">Interval Between<sup>
+                <font class='mandatory-field'>*</font>
+                    </sup>
+            </p>
             </div>
         </div>
     </div>
@@ -58,9 +71,13 @@
             <div>
                 <div class="flex justify-end">
                     <input type="text" class="input-size" ng-model="AppointmentDay"
-                           ng-init="Days=''" id="Days"  onkeypress="OnlySpecCharNum(event)" name="Days" placeholder="" ng-maxlength="2" maxlength="2">
+                           ng-init="Days=''" id="Days"
+                           ng-required="true" onkeypress="OnlySpecCharNum(event)" name="Days" placeholder="" ng-maxlength="2" maxlength="2">
                 </div>
-                <p class="input-text text-right">Days</p>
+                <p class="input-text text-right">Days<sup>
+                <font class='mandatory-field'>*</font>
+                    </sup>
+            </p>
             </div>
         </div>
     </div>
@@ -73,9 +90,13 @@
             <div>
                 <div class="flex justify-end">
                     <input type="text" class="input-size" ng-model="Minutest"
-                           ng-init="Minutest=''" id="Minutest" onkeypress="OnlySpecCharNum(event)" name="Minutest" placeholder="" ng-maxlength="2" maxlength="2">
+                           ng-init="Minutest=''" id="Minutest"
+                           ng-required="true" onkeypress="OnlySpecCharNum(event)" name="Minutest" placeholder="" ng-maxlength="2" maxlength="2">
                 </div>
-                <p class="input-text text-right">Minutes</p>
+                <p class="input-text text-right">Minutes<sup>
+                <font class='mandatory-field'>*</font>
+                    </sup>
+            </p>
             </div>
         </div>
     </div>
@@ -170,11 +191,11 @@
         </div>
         <div class="col-sm-6 flex justify-end p-0">
             <div class="flex align-items-center m-right-3">
-                <input type="radio" name="enable" class="mr-1" ng-model="BookEnable" ng-value="true" style="margin-right: 0.5rem;">
+                <input type="radio" id="bookenable_yes" name="enable" class="mr-1" value="1" ng-model="BookEnable" ng-init="checked=true" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Enable</p>
             </div>
             <div class="flex align-items-center">
-                <input type="radio" name="enable" class="mr-1" ng-model="BookEnable" ng-value="false" style="margin-right: 0.5rem;">
+                <input type="radio"  id="bookenable_no" name="enable" class="mr-1" value="2" ng-model="BookEnable" ng-init="checked=false" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Disable</p>
             </div>
         </div>
@@ -224,11 +245,11 @@
         </div>
         <div class="col-sm-6 flex justify-end">
             <div class="flex align-items-center m-right-3">
-                <input type="radio" name="confirm" class="mr-1"   ng-model="confirmBook" ng-value="true" style="margin-right: 0.5rem;">
+                <input type="radio" name="confirm" id="confirmbook_yes" class="mr-1" value="1"  ng-model="confirmBook" ng-init="checked=true" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Confirmed</p>
             </div>
             <div class="flex align-items-center">
-                <input type="radio" name="confirm" class="mr-1" ng-model="confirmBook" ng-value="false" style="margin-right: 0.5rem;">
+                <input type="radio" name="confirm" id="confirmbook_no" class="mr-1" value="2" ng-model="confirmBook" ng-init="checked=false" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Waiting for CG</p>
             </div>
         </div>
@@ -246,7 +267,7 @@
                         <div class="col-sm-4 flex reminder p-0">
                             <input type="text" class="form-control"
                                    ng-model="row.ReminderDays" maxlength="2"
-                                   ng-maxlength="2" onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="Dayst">
+                                   ng-maxlength="2"  onkeypress="OnlySpecCharNum(event)" style="width:50px;" id="Dayst">
                             <p>Days</p>
                         </div>
                         <div class="col-sm-4 flex reminder p-0">
@@ -285,11 +306,11 @@
         </div>
         <div class="col-sm-6 flex justify-end p-0">
             <div class="flex align-items-center m-right-2">
-                <input type="radio" name="enable" class="mr-1" checked ng-model="AutoEnable" ng-value="true" style="margin-right: 0.5rem;">
+                <input type="radio" id="autoenable_yes" name="autoenable" class="mr-1" value="1"  ng-model="AutoEnable" ng-init="checked=true" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Enable</p>
             </div>
             <div class="flex align-items-center">
-                <input type="radio" name="enable" class="mr-1" ng-model="AutoEnable" ng-value="false" style="margin-right: 0.5rem;">
+                <input type="radio" id="autoenable_no" name="autoenable" class="mr-1" value="2" ng-model="AutoEnable" ng-init="checked=false" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Disable</p>
             </div>
         </div>

@@ -18521,8 +18521,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.NewAppointment = "0";
             $scope.followup = "0";
             $scope.IntervalBt = "0";
-            $scope.Days = "";
-            $scope.AppointmentDay = "0";
+            $scope.Days = "0";
+            $scope.AppointmentDay = "";
             $scope.Minutest = "0";
             $scope.SelectedTimeZone = "0";
             $scope.TimZoneList = [];
@@ -18555,10 +18555,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.DayLists = [];
             $scope.HourLists = [];
             $scope.MinuteLists = [];
-
+            $scope.BookEnable = 1;
+            $scope.confirmBook = 1;
+            $scope.AutoEnable = 1;
             $scope.AppointmentId = "";
             $scope.MyAppointmentRow = "-1";
-       
+            
             
         $scope.AddReminderParameters = [{
             'ID': $scope.AppointmentId,
@@ -18645,6 +18647,24 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.AppointmentSettings = function () {
             $("#chatLoaderPV").hide();
             $scope.workingdays = 7;
+            if ($scope.BookEnable == 1) {
+                $scope.BookEnable = true;
+            } else {
+                $scope.BookEnable = false;
+            }
+
+            if ($scope.confirmBook == 1) {
+                $scope.confirmBook = true;
+            } else {
+                $scope.confirmBook = false;
+            }
+
+
+            if ($scope.AutoEnable == 1) {
+                $scope.AutoEnable = true;
+            } else {
+                $scope.AutoEnable = false;
+            }
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
@@ -18689,13 +18709,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.SelectedTimeZone = "0";
                 $scope.workingdays = "";
                 $scope.SelectedDefaultholiday = "";
-                $scope.BookEnable = true;
+                $scope.BookEnable = 1;
                 $scope.cc = true;
                 $scope.cg = true;
                 $scope.cl = true;
                 $scope.sc = true;
                 $scope.userpatient = true;
-                $scope.confirmBook = true;
+                $scope.confirmBook = 1;
                 $scope.AddReminderParameters.push({
                     'ID': 0,
                     'ReminderDays': 0,
@@ -18703,7 +18723,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     'ReminderMinutes': 0,
                     'IsActive': 0
                 })
-                $scope.AutoEnable = true;
+                $scope.AutoEnable = 1;
                 $scope.ReduceNumberofavailableAppointmentes = "";
 
              
@@ -18713,24 +18733,33 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
 
         /* THIS IS FOR VALIDATION CONTROL */
-        $scope.Validationcontrols = function () {
+        $scope.ValidationcontrolsAppointment = function () {
             if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0") {
-                alert("Please enter NewAppointment");
+                alert("Please Enter NewAppointment");
                 return false;
             }
             else if (typeof ($scope.followup) == "undefined" || $scope.followup == "0") {
-                alert("Please enter Follow Up");
+                alert("Please Enter FollowUp");
                 return false;
             }
             else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0") {
-                alert("Please enter IntervalBt");
+                alert("Please Enter IntervalBetween");
                 return false;
             }
+            else if (typeof ($scope.AppointmentDay) == "undefined" || $scope.AppointmentDay == "0") {
+                alert("Please Enter AppointmentDay");
+                return false;
+            }
+            else if (typeof ($scope.Minutest) == "undefined" || $scope.Minutest == "0") {
+                alert("Please Enter Minutes");
+                return false;
+            }
+             
             return true;
         };
 
         $scope.MyAppointment_InsertUpdate = function () {
-            if ($scope.Validationcontrols() == true) {
+            if ($scope.ValidationcontrolsAppointment() == true) {
                 $("#chatLoaderPV").show();
                 $scope.Monday = true;
                 $scope.Tuesday = true;
@@ -18741,60 +18770,60 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
                 var DefaultWorkingDays = [{
                     id: "1",
-                    sport_id: "1"
+                    Ids: "1"
 
                 }, {
                     id: "2",
-                    sport_id: "2"
+                        Ids: "2"
 
                 }, {
                     id: "3",
-                    sport_id: "3"
+                        Ids: "3"
 
                 }, {
                     id: "4",
-                    sport_id: "4"
+                        Ids: "4"
 
                 },
                 {
                     id: "5",
-                    sport_id: "5"
+                    Ids: "5"
 
                 },
                 {
                     id: "6",
-                    sport_id: "6"
+                    Ids: "6"
 
                 }, {
                     id: "7",
-                    sport_id: "7"
+                    Ids: "7"
 
                 }];
 
-                var sport_ids = DefaultWorkingDays.map(function (data) {
-                    return Number(data.sport_id)
+                var Ids = DefaultWorkingDays.map(function (data) {
+                    return Number(data.Ids)
                 });
 
-                alert(sport_ids);
+               
 
 
-                if ($scope.BookEnable == true) {
-                    $scope.BookEnable = 1;
+                if ($scope.BookEnable == 1) {
+                    $scope.BookEnable = true;
                 } else {
-                    $scope.BookEnable = 0;
+                    $scope.BookEnable = false;
                 }
 
-                if ($scope.confirmBook == true) {
-                    $scope.confirmBook = 1;
+                if ($scope.confirmBook == 1) {
+                    $scope.confirmBook = true;
                 } else {
-                    $scope.confirmBook = 0;
+                    $scope.confirmBook = false;
                 }
 
 
-                if ($scope.AutoEnable == true) {
-                    $scope.AutoEnable = 1;
+                if ($scope.AutoEnable == 1) {
+                    $scope.AutoEnable = true;
                 } else {
-                    $scope.AutoEnable = 0;
+                    $scope.AutoEnable = false;
                 }
 
 
