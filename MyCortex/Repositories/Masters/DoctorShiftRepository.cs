@@ -621,7 +621,8 @@ namespace MyCortex.Repositories.Masters
                         foreach (ReminderUserLists item in InObj.ReminderTimeInterval)
                         {
                             List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@Id", InsertId));
+                            param1.Add(new DataParameter("@Id", item.ID));
+                            param1.Add(new DataParameter("@MYREMINDERID", InsertId));
                             param1.Add(new DataParameter("@ReminderDays", item.ReminderDays));
                             param1.Add(new DataParameter("@ReminderHours", item.ReminderHours));
                             param1.Add(new DataParameter("@ReminderMinutes", item.ReminderMinutes));
@@ -672,6 +673,78 @@ namespace MyCortex.Repositories.Masters
 
             }
 
+        }
+
+        public OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+           
+            param.Add(new DataParameter("@InstitutionId", InstitutionId));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.ORGAPPOINTMENTLIST_VIEW", param);
+
+                OrgAppointmentSettings list = (from p in dt.AsEnumerable()
+                                     select new OrgAppointmentSettings()
+                                     {
+
+                                         ID = p.Field<long>("ID"),
+                                         InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                         MyAppConfigId = p.Field<long>("MYAPPCONFIG_ID"),
+                                         NewAppointmentDuration = p.Field<int>("NEWAPPOINTMENT_DURATION"),
+                                         FollowUpDuration = p.Field<int>("FOLLOWUP_DURATION"),
+                                         AppointmentInterval = p.Field<int>("APPOINTMENT_INTERVAL"),
+                                         DefaultWorkingDays= p.Field<string>("DEFAULT_WORKINGDAYS"),
+                                         DefaultHoliDays = p.Field<string>("DEFAULT_HOLIDAYS"),
+                                         MinRescheduleDays = p.Field<int>("MIN_RESCHEDULE_DAYS"),
+                                         MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
+                                         DefautTimeZone = p.Field<string>("DEFAUT_TIMEZONE"),
+                                         IsAppointmentInHolidays = p.Field<bool>("IS_APPOINTMENTINHOLIDAYS"),
+                                         Iscc = p.Field<bool>("IS_CC"),
+                                         Iscg = p.Field<bool>("IS_CG"),
+                                         Iscl = p.Field<bool>("IS_CL"),
+                                         Issc = p.Field<bool>("IS_SC"),
+                                         IsPatient = p.Field<bool>("IS_PATIENT"),
+                                         IsDirectAppointment = p.Field<bool>("IS_DIRECTAPPOINTMENT"),
+                                         IsAutoReschedule = p.Field<bool>("IS_AUTORESCHEDULE"),
+                                         MaxScheduleDays = p.Field<int>("MAX_SCHEDULE_DAYS"),
+                                         CreatedBy = p.Field<long>("CREATED_BY"),
+                                         IsActive =  p.Field<int>("ISACTIVE")
+
+                                     }).FirstOrDefault();
+                if (list != null)
+                {
+                    
+                    list.ReminderTimeInterval = ReminderUserLists(list.MyAppConfigId,list.InstitutionId);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<ReminderUserLists> ReminderUserLists(long MyAppConfigId,long InstitutionId)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@MYAPPCONFIGID", MyAppConfigId));
+            param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[REMINDERUSERS_SP_VIEW]", param);
+            List<ReminderUserLists> INS = (from p in dt.AsEnumerable()
+                                     select new ReminderUserLists()
+                                     {
+                                         ID = p.Field<long>("ID"),
+                                         InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                         ReminderDays = p.Field<int>("REMINDER_DAYS"),
+                                         ReminderHours = p.Field<int>("REMINDER_HOURS"),
+                                         ReminderMinutes = p.Field<int>("REMINDER_MINUTES"),
+                                         IsActive = p.Field<int>("ISACTIVE")
+                                     }).ToList();
+            return INS;
         }
 
     }

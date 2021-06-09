@@ -18632,9 +18632,40 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.AppointmentSettings = function () {
             $("#chatLoaderPV").hide();
+            $scope.workingdays = 7;
+            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                $scope.Id = $routeParams.Id;
+                $scope.DuplicatesId = $routeParams.Id;
+            }
 
-
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.DuplicatesId = data.ID;
+                $scope.InstitutionId = data.InstitutionId;
+                $scope.MyAppConfigId = data.MyAppConfigId;
+                $scope.NewAppointment = data.NewAppointmentDuration;
+                $scope.followup = data.FollowUpDuration;
+                $scope.IntervalBt = data.AppointmentInterval;
+                $scope.AppointmentDay = data.MinRescheduleDays;
+                $scope.Minutest = data.MinRescheduleMinutes;
+                $scope.SelectedTimeZone = data.DefautTimeZone;
+                $scope.workingdays = data.DefaultWorkingDays;
+                $scope.SelectedDefaultholiday = data.DefaultHoliDays;
+                $scope.BookEnable = data.IsAppointmentInHolidays;
+                $scope.cc = data.Iscc;
+                $scope.cg = data.Iscg;
+                $scope.cl = data.Iscl;
+                $scope.sc = data.sc;
+                $scope.userpatient = data.IsPatient;
+                $scope.confirmBook = data.IsDirectAppointment; 
+                $scope.AddReminderParameters = data.ReminderTimeInterval;
+                $scope.AutoEnable = data.IsAutoReschedule;
+                $scope.ReduceNumberofavailableAppointmentes = data.MaxScheduleDays; 
+                
+            });
         }
+
+    
 
 
 

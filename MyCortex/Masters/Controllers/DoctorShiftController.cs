@@ -379,6 +379,12 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
-
+        [HttpGet]
+        public OrgAppointmentSettings AppointmentSettingView(long InstitutionId)
+        {
+            OrgAppointmentSettings model = new OrgAppointmentSettings();
+            model = repository.APPOINTMENTLISTDETAILS(InstitutionId);
+            return model;
+        }
     }
 }
