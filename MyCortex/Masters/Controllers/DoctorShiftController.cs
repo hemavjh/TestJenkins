@@ -386,5 +386,20 @@ namespace MyCortex.Masters.Controllers
             model = repository.APPOINTMENTLISTDETAILS(InstitutionId);
             return model;
         }
+
+        [HttpGet]
+        public HttpResponseMessage AppointmentSettingDelete(long InstitutionId)
+        {
+            if (InstitutionId > 0)
+            {
+                repository.APPOINTMENTRESETDETAILS(InstitutionId);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
     }
 }

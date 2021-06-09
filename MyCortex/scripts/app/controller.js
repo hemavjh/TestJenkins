@@ -18517,49 +18517,49 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         } 
 
         //Appointment Settings 
+        
+            $scope.NewAppointment = "0";
+            $scope.followup = "0";
+            $scope.IntervalBt = "0";
+            $scope.Days = "";
+            $scope.AppointmentDay = "0";
+            $scope.Minutest = "0";
+            $scope.SelectedTimeZone = "0";
+            $scope.TimZoneList = [];
+            $scope.Sunday = true;
+            $scope.Monday = true;
+            $scope.Tuesday = true;
+            $scope.Wednesday = true;
+            $scope.Thursday = true;
+            $scope.Friday = true;
+            $scope.Saturday = true;
+            $scope.SelectDefHoliday = "0";
+            $scope.BookEnable = "1";
+            $scope.cc = true;
+            $scope.cg = true;
+            $scope.cl = true;
+            $scope.sc = true;
+            $scope.userpatient = true;
+            $scope.DayLists = [];
+            $scope.HourLists = [];
+            $scope.MinuteLists = [];
+            $scope.SelectedDay = [];
+            $scope.SelectedMinute = [];
+            $scope.SelectedHour = [];
+            $scope.DefaultWorkingDays = [];
+            $scope.confirmBook = true;
+            $scope.SelectedDefaultholidayday = [];
+            $scope.SelectedDefaultholidayhour = [];
+            $scope.SelectedDefaultholidayMinute = [];
+            $scope.DefaultHolidayList = [];
+            $scope.DayLists = [];
+            $scope.HourLists = [];
+            $scope.MinuteLists = [];
 
-        $scope.NewAppointment = "0";
-        $scope.followup = "0";
-        $scope.IntervalBt = "0";
-        $scope.Days = "";
-        $scope.AppointmentDay = "0";
-        $scope.Minutest = "0";
-        $scope.SelectedTimeZone = "0";
-        $scope.TimZoneList = [];
-        $scope.Sunday = true;
-        $scope.Monday = true;
-        $scope.Tuesday = true;
-        $scope.Wednesday = true;
-        $scope.Thursday = true;
-        $scope.Friday = true;
-        $scope.Saturday = true;
-        $scope.SelectDefHoliday = "0";
-        $scope.BookEnable = "1";
-        $scope.cc = true;
-        $scope.cg = true;
-        $scope.cl = true;
-        $scope.sc = true;
-        $scope.userpatient = true;
-        $scope.DayLists = [];
-        $scope.HourLists = [];
-        $scope.MinuteLists = [];
-        $scope.SelectedDay = [];
-        $scope.SelectedMinute = [];
-        $scope.SelectedHour = [];
-        $scope.DefaultWorkingDays = [];
-        $scope.confirmBook = true;
-        $scope.SelectedDefaultholidayday = [];
-        $scope.SelectedDefaultholidayhour = [];
-        $scope.SelectedDefaultholidayMinute = [];
-        $scope.DefaultHolidayList = [];
-        $scope.DayLists = [];
-        $scope.HourLists = [];
-        $scope.MinuteLists = [];
-
-        $scope.AppointmentId = "";
-        $scope.MyAppointmentRow = "-1";
-
-
+            $scope.AppointmentId = "";
+            $scope.MyAppointmentRow = "-1";
+       
+            
         $scope.AddReminderParameters = [{
             'ID': $scope.AppointmentId,
             'ReminderDays': $scope.ReminderDays,
@@ -18590,7 +18590,19 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 })
             }
         };
+        $scope.Reset_MyAppointment = function () {
 
+            var del = confirm("Do you like to Reset the AppointmentSetting  details?");
+            if (del == true) {
+                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    alert("AppointmentSetting  has been Reset Successfully"); 
+                    $scope.AppointmentSettings1();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
+                });
+            }
+             
+        }
 
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
             var del = confirm("Do you like to delete this My Home Id Details?");
@@ -18665,7 +18677,38 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             });
         }
 
-    
+        $scope.AppointmentSettings1 = function () {
+            $("#chatLoaderPV").hide(); 
+              
+                $scope.MyAppConfigId = "";
+                $scope.NewAppointment = "";
+                $scope.followup = "";
+                $scope.IntervalBt = "";
+                $scope.AppointmentDay = "";
+                $scope.Minutest = "";
+                $scope.SelectedTimeZone = "0";
+                $scope.workingdays = "";
+                $scope.SelectedDefaultholiday = "";
+                $scope.BookEnable = true;
+                $scope.cc = true;
+                $scope.cg = true;
+                $scope.cl = true;
+                $scope.sc = true;
+                $scope.userpatient = true;
+                $scope.confirmBook = true;
+                $scope.AddReminderParameters.push({
+                    'ID': 0,
+                    'ReminderDays': 0,
+                    'ReminderHours':0,
+                    'ReminderMinutes': 0,
+                    'IsActive': 0
+                })
+                $scope.AutoEnable = true;
+                $scope.ReduceNumberofavailableAppointmentes = "";
+
+             
+        }
+
 
 
 

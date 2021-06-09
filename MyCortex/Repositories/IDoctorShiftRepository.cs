@@ -20,5 +20,6 @@ namespace MyCortex.Repositories
         IList<AppointmentTimeZone> GetTimeZoneList();
         IList<OrgAppointmentSettings> GetOrgAppointmentSettings(Guid Login_Session_Id, OrgAppointmentSettings insobj);
         OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId);
+        void APPOINTMENTRESETDETAILS(long InstitutionId);
     }
 }                                        

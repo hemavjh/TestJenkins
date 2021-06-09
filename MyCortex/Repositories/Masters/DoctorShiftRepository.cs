@@ -615,6 +615,18 @@ namespace MyCortex.Repositories.Masters
 
                 if (InsertId > 0)
                 {
+                    
+                    List<DataParameter> param2 = new List<DataParameter>();
+                    param2.Add(new DataParameter("@ID", InObj.ID));
+                    param2.Add(new DataParameter("@MYAPPCONFIG_ID", InsertId));
+                    param2.Add(new DataParameter("@NewAppointment", InObj.NewAppointmentDuration));
+                    param2.Add(new DataParameter("@FollowUp", InObj.FollowUpDuration));
+                    param2.Add(new DataParameter("@AppointmentInterval", InObj.AppointmentInterval));
+                    param2.Add(new DataParameter("@WorkingDays", InObj.DefaultWorkingDays));
+                    param2.Add(new DataParameter("@HoliDays", InObj.DefaultHoliDays));
+                    param2.Add(new DataParameter("@CreatedBy", InObj.CreatedBy));
+                    Inserted_Group_Id = ClsDataBase.Insert("MYCORTEX.ORGAPPOINTMENT_MYAPPCONFIGDET_INSERTUPDATE", param2, true);
+
                     if (InObj.ReminderTimeInterval != null)
                     {
 
@@ -633,16 +645,6 @@ namespace MyCortex.Repositories.Masters
                         }
 
                     }
-                    List<DataParameter> param2 = new List<DataParameter>();
-                    param2.Add(new DataParameter("@ID", InObj.ID));
-                    param2.Add(new DataParameter("@MYAPPCONFIG_ID", InsertId));
-                    param2.Add(new DataParameter("@NewAppointment", InObj.NewAppointmentDuration));
-                    param2.Add(new DataParameter("@FollowUp", InObj.FollowUpDuration));
-                    param2.Add(new DataParameter("@AppointmentInterval", InObj.AppointmentInterval));
-                    param2.Add(new DataParameter("@WorkingDays", InObj.DefaultWorkingDays));
-                    param2.Add(new DataParameter("@HoliDays", InObj.DefaultHoliDays));
-                    param2.Add(new DataParameter("@CreatedBy", InObj.CreatedBy));
-                    Inserted_Group_Id = ClsDataBase.Insert("MYCORTEX.ORGAPPOINTMENT_MYAPPCONFIGDET_INSERTUPDATE", param2, true);
                 }
                 IList<OrgAppointmentSettings> INS = (from p in dt.AsEnumerable()
                                                      select
@@ -746,6 +748,19 @@ namespace MyCortex.Repositories.Masters
                                      }).ToList();
             return INS;
         }
-
+        public void APPOINTMENTRESETDETAILS(long InstitutionId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InstitutionId", InstitutionId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                ClsDataBase.Update("MYCORTEX.ORGAPPOINTMENTLIST_DELETE", param);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+            }
+        }
     }
 }
