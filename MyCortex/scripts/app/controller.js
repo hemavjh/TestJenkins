@@ -18536,8 +18536,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.Days = "0";
             $scope.AppointmentDay = "";
             $scope.Minutest = "0";
-            $scope.SelectedTimeZone = "0";
-            $scope.TimZoneList = [];
+            $scope.TimeZoneList = [];
+            $scope.SelectedTimeZone = "";
             $scope.Sunday = true;
             $scope.Monday = true;
             $scope.Tuesday = true;
@@ -18638,7 +18638,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             }
         };
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/').success(function (data) {
-            $scope.TimZoneList = data;
+            $scope.TimeZoneList = data;
         });
 
         $scope.DefaultHolidayList
@@ -18682,6 +18682,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.DuplicatesId = $routeParams.Id;
             }
 
+            angular.forEach($scope.TimeZoneList, function (value, index) {
+                if (value.SelectedTimeZone == $scope.SelectedTimeZone) {
+                    $scope.SelectedTimeZone = value.SelectedTimeZone;
+                }
+            });
+
             $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.DuplicatesId = data.ID;
@@ -18718,7 +18724,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.IntervalBt = "";
                 $scope.AppointmentDay = "";
                 $scope.Minutest = "";
-                $scope.SelectedTimeZone = "0";
+                $scope.SelectedTimeZone = "";
                 $scope.workingdays = "";
                 $scope.SelectedDefaultholiday = "";
                 $scope.BookEnable = 1;
@@ -18838,6 +18844,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.AutoEnable = false;
                 }
 
+                angular.forEach($scope.TimeZoneList, function (value, index) {
+                    if (value.TimeZoneName == $scope.SelectedTimeZone) {
+                        $scope.SelectedTimeZone = value.TimeZoneName;
+                    }
+                });
 
                 var obj = {
                     ID: $scope.id,

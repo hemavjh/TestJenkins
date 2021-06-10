@@ -561,7 +561,7 @@ namespace MyCortex.Repositories.Masters
                 IList<AppointmentTimeZone> lst = (from p in dt.AsEnumerable()
                                                   select new AppointmentTimeZone()
                                                   {
-                                                      ID = p.Field<long>("ID"),
+                                                      TimeZoneId = p.Field<long>("TimeZoneID"),
                                                       TimeZoneName = p.Field<string>("TimeZoneName"),
                                                       UtcOffSet = p.Field<string>("UTCOFFSET"),
                                                       IsActive = p.Field<int>("IsActive")

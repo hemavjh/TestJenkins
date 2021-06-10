@@ -85,7 +85,7 @@ namespace MyCortex.Masters.Models
 
     public class AppointmentTimeZone
     {
-        public long ID { get; set; }
+        public long TimeZoneId { get; set; }
         public string TimeZoneName { get; set; }
         public string UtcOffSet { get; set; }
         public int IsActive { get; set; }
