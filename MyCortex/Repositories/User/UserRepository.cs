@@ -152,7 +152,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@BLOODGROUP_ID", insobj.BLOODGROUP_ID));
             //param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@INSURANCEID", insobj.INSURANCEID));
-            param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
+            //param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
+            //param.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
             param.Add(new DataParameter("@NATIONALID", insobj.NATIONALID));
             param.Add(new DataParameter("@SMOKER", insobj.SMOKER));
             param.Add(new DataParameter("@DIABETIC", insobj.DIABETIC));
@@ -191,6 +192,26 @@ namespace MyCortex.Repositories.Uesr
             //param.Add(new DataParameter("@CREATED_DT", insobj.CREATED_DT));
             param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
             param.Add(new DataParameter("@PATIENT_ID", insobj.PatientId));
+
+            if(insobj.Id == 0)
+            {
+                List<DataParameter> param_2 = new List<DataParameter>();
+                param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.INSTITUTION_ID));
+                param_2.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+                //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+
+                DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[MRN_AUTOCREATIION_SP]", param_2);
+                UserModel Get_Patient_Mrn = (from p in dt_2.AsEnumerable()
+                                             select new UserModel()
+                                             {
+                                                 MNR_NO = p.Field<string>("LASTCOUNT"),
+                                             }).FirstOrDefault();
+                DataEncryption EncryptMrn = new DataEncryption();
+                //insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
+                insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
+                param.Add(new DataParameter("@MNR_NO", insobj.MrnPrefix));
+            }
 
             List<DataParameter> param_1 = new List<DataParameter>();
             param_1.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
@@ -394,7 +415,8 @@ namespace MyCortex.Repositories.Uesr
                                     BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
                                     MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
                                     PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
-                                    MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                    //MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                    MNR_NO = p.Field<string>("MNR_NO"),
                                     INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")),
                                     NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
                                     EthnicGroup = p.Field<string>("EthnicGroup"),

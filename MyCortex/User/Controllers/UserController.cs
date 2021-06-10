@@ -260,7 +260,7 @@ namespace MyCortex.User.Controller
                 userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
                 userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
                 userObj.LastName = EncryptPassword.Encrypt(userObj.LastName);
-                userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
+                //userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
                 userObj.INSURANCEID = EncryptPassword.Encrypt(userObj.INSURANCEID);
                 userObj.NATIONALID = EncryptPassword.Encrypt(userObj.NATIONALID);
                 userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);

@@ -148,6 +148,7 @@ namespace MyCortex.User.Model
         public string TAB_PHOTO { get; set; }
         public string TAB_FINGERPRINT { get; set; }
 
+        public string MrnPrefix { get; set; }
 
     }
 

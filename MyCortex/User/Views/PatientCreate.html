@@ -147,7 +147,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="inputGroups">
+                                <div class="inputGroups" ng-show="DropDownListValue==3">
                                     <label>
                                         MRN No.<sup>
                                             <font class='mandatory-field'>*</font>
@@ -155,7 +155,9 @@
                                     </label>
                                     <input type="text" class="form-control" id="T1" name="MNR_No" ng-model="MNR_No"
                                            ng-init="MNR_No=''" ng-required="true" placeholder="" ng-maxlength="50"
-                                           maxlength="50" ng-disabled="Pat_UserTypeId==2" />
+                                           maxlength="50" disabled />
+                                           <!--maxlength="50" ng-disabled="Pat_UserTypeId==2" disabled />-->
+                                        
                                 </div>
                                 <!--<div class="inputGroups">
                                         <label valign="top">Patient ID</label>

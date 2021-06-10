@@ -1318,6 +1318,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.PastMedicineflag = "0";
         $scope.MedicalHistoryflag = "0";
         $scope.MNR_No = "";
+        $scope.PrefixMRN = "";
         $scope.PatientNo = "";
         $scope.Createdby_ShortName = "";
         $scope.NationalId = "";
@@ -1822,6 +1823,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             //$scope.PastMedicineflag = "0";
             //$scope.MedicalHistoryflag = "0";
             $scope.MNR_No = "";
+            $scope.PrefixMRN = "";
             $scope.PatientNo = "";
             $scope.NationalId = "";
             $scope.InsuranceId = "";
@@ -2600,11 +2602,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.currentTab = 1;
                     return false;
                 }
-                else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
-                    alert("Please enter MNR No.");
-                    $scope.currentTab = 1;
-                    return false;
-                }
+                //else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
+                //    alert("Please enter MNR No.");
+                //    $scope.currentTab = 1;
+                //    return false;
+                //}
                 else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
                     alert("Please enter National ID");
                     $scope.currentTab = 1;
@@ -2756,7 +2758,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }
                     }
                 }
-                if ($scope.uploadme != "") {
+                if ($scope.uploadme != "" && $scope.uploadme != null) {
                     $scope.Image = filetype = $scope.uploadme.split(',')[0].split(':')[1].split(';')[0];
                     $scope.filetype = $scope.Image.split("/");
                     var fileval = 0;
@@ -2991,6 +2993,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.Createdby_ShortName = data.Createdby_ShortName;
                                 $scope.InsuranceId = data.INSURANCEID;
                                 $scope.MNR_No = data.MNR_NO;
+                                $scope.DropDownListValue = 3;
                                 $scope.NationalId = data.NATIONALID;
                                 $scope.EthnicGroup = data.EthnicGroup;
                                 $scope.ViewGender = data.GENDER_NAME;
@@ -3261,6 +3264,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
         };
         $scope.User_InsertUpdate = function () {
+            $scope.ConfigCode = "MRN_PREFIX";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
+                console.log(data2);
+                $scope.PrefixMRN = data2[0].ConfigValue;
+            });
+
             var myPromise = $scope.AgeRestictLimit();
             $scope.Is_Master = false;
             myPromise.then(function (resolve) {
@@ -3369,7 +3379,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
-                            MNR_NO: $scope.MNR_No,
+			                //MNR_NO: $scope.MNR_No,
                             NATIONALID: $scope.NationalId,
                             SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
                             DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
@@ -3414,7 +3424,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             Emergency_MobileNo: $scope.Emergency_MobileNo,
                             IS_MASTER: $scope.Is_Master,
                             appleUserID: $scope.appleUserID,
-                            PatientId: $scope.PATIENT_ID
+                            PatientId: $scope.PATIENT_ID,
+                            MrnPrefix: $scope.PrefixMRN
                         }
                     } else {
                         var obj = {
@@ -3455,7 +3466,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
-                            MNR_NO: $scope.MNR_No,
+			                //MNR_NO: $scope.MNR_No,
                             NATIONALID: $scope.NationalId,
                             SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
                             DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
@@ -3500,7 +3511,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             Emergency_MobileNo: $scope.Emergency_MobileNo,
                             IS_MASTER: $scope.Is_Master,
                             appleUserID: $scope.appleUserID,
-                            PatientId: $scope.PATIENT_ID
+                            PatientId: $scope.PATIENT_ID,
+                            MrnPrefix: $scope.PrefixMRN
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
