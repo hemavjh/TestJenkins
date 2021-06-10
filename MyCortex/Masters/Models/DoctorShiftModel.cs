@@ -96,10 +96,10 @@ namespace MyCortex.Masters.Models
         public long InstitutionId { get; set; }
         public int MaxScheduleDays { get; set; }
         public bool IsDirectAppointment { get; set; }
-        public bool Iscc { get; set; }
-        public bool Iscg { get; set; }
-        public bool Iscl { get; set; }
-        public bool Issc { get; set; }
+        public bool IsCc { get; set; }
+        public bool IsCg { get; set; }
+        public bool IsCl { get; set; }
+        public bool IsSc { get; set; }
         public bool IsPatient { get; set; }
         public int MinRescheduleDays { get; set; }
         public int MinRescheduleHours { get; set; }

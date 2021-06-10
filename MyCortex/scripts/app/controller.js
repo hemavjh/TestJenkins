@@ -18545,21 +18545,19 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.Thursday = true;
             $scope.Friday = true;
             $scope.Saturday = true;
-            $scope.SelectDefHoliday = "0";
-            $scope.BookEnable = "1";
-            $scope.cc = true;
-            $scope.cg = true;
-            $scope.cl = true;
-            $scope.sc = true;
-            $scope.userpatient = true;
+            $scope.SelectDefHoliday = "0"; 
+            $scope.cc = "1";
+            $scope.cg = "1";
+            $scope.cl = "1";
+            $scope.sc = "1";
+            $scope.userpatient = "1";
             $scope.DayLists = [];
             $scope.HourLists = [];
             $scope.MinuteLists = [];
             $scope.SelectedDay = [];
             $scope.SelectedMinute = [];
             $scope.SelectedHour = [];
-            $scope.DefaultWorkingDays = [];
-            $scope.confirmBook = true;
+            $scope.DefaultWorkingDays = []; 
             $scope.SelectedDefaultholidayday = [];
             $scope.SelectedDefaultholidayhour = [];
             $scope.SelectedDefaultholidayMinute = [];
@@ -18567,9 +18565,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.DayLists = [];
             $scope.HourLists = [];
             $scope.MinuteLists = [];
-            $scope.BookEnable = 1;
-            $scope.confirmBook = 1;
-            $scope.AutoEnable = 1;
+            $scope.BookEnable = "1";
+            $scope.confirmBook = "1";
+            $scope.AutoEnable = "1";
             $scope.AppointmentId = "";
             $scope.MyAppointmentRow = "-1";
             
@@ -18658,25 +18656,20 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.AppointmentSettings = function () {
             $("#chatLoaderPV").hide();
-            $scope.workingdays = 7;
-            if ($scope.BookEnable == 1) {
-                $scope.BookEnable = true;
-            } else {
-                $scope.BookEnable = false;
-            }
-
-            if ($scope.confirmBook == 1) {
-                $scope.confirmBook = true;
-            } else {
-                $scope.confirmBook = false;
-            }
+            $scope.workingdays = 7; 
+            //if ($scope.confirmBook == 1) {
+            //    $scope.confirmBook = true;
+            //} else {
+            //    $scope.confirmBook = false;
+            //}
+             
 
 
-            if ($scope.AutoEnable == 1) {
-                $scope.AutoEnable = true;
-            } else {
-                $scope.AutoEnable = false;
-            }
+            //if ($scope.AutoEnable == 1) {
+            //    $scope.AutoEnable = true;
+            //} else {
+            //    $scope.AutoEnable = false;
+            //}
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
@@ -18702,10 +18695,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.workingdays = data.DefaultWorkingDays;
                 $scope.SelectedDefaultholiday = data.DefaultHoliDays;
                 $scope.BookEnable = data.IsAppointmentInHolidays;
-                $scope.cc = data.Iscc;
-                $scope.cg = data.Iscg;
-                $scope.cl = data.Iscl;
-                $scope.sc = data.sc;
+                $scope.cc = data.IsCc;
+                $scope.cg = data.IsCg;
+                $scope.cl = data.IsCl;
+                $scope.sc = data.IsSc;
                 $scope.userpatient = data.IsPatient;
                 $scope.confirmBook = data.IsDirectAppointment; 
                 $scope.AddReminderParameters = data.ReminderTimeInterval;
@@ -18727,13 +18720,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.SelectedTimeZone = "";
                 $scope.workingdays = "";
                 $scope.SelectedDefaultholiday = "";
-                $scope.BookEnable = 1;
-                $scope.cc = true;
-                $scope.cg = true;
-                $scope.cl = true;
-                $scope.sc = true;
-                $scope.userpatient = true;
-                $scope.confirmBook = 1;
+                $scope.BookEnable = "1";
+                $scope.cc = "1";
+                $scope.cg = "1";
+                $scope.cl = "1";
+                $scope.sc = "1";
+                $scope.userpatient = "1";
+                $scope.confirmBook = "1";
                 $scope.AddReminderParameters.push({
                     'ID': 0,
                     'ReminderDays': 0,
@@ -18741,7 +18734,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     'ReminderMinutes': 0,
                     'IsActive': 0
                 })
-                $scope.AutoEnable = 1;
+                $scope.AutoEnable = "1";
                 $scope.ReduceNumberofavailableAppointmentes = "";
 
              
@@ -18823,26 +18816,56 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 });
 
                
-
-
-                if ($scope.BookEnable == 1) {
-                    $scope.BookEnable = true;
+                if ($("input[name='bookenable']:checked").val() == "1") {
+                    $scope.BookEnable = 1;
                 } else {
-                    $scope.BookEnable = false;
+                    $scope.BookEnable = 0;
                 }
 
-                if ($scope.confirmBook == 1) {
-                    $scope.confirmBook = true;
+                
+                if ($("input[name='confirm']:checked").val() == "1") {
+                    $scope.confirmBook = 1;
                 } else {
-                    $scope.confirmBook = false;
+                    $scope.confirmBook = 0;
                 }
 
-
-                if ($scope.AutoEnable == 1) {
-                    $scope.AutoEnable = true;
+                if ($("input[name='autoenable']:checked").val() == "1") {
+                    $scope.AutoEnable = 1;
                 } else {
-                    $scope.AutoEnable = false;
+                    $scope.AutoEnable = 0;
                 }
+
+                if ($("input[name='cc']:checked").val() == "1") {
+                    $scope.cc = 1;
+                } else {
+                    $scope.cc = 0;
+                }
+
+                if ($("input[name='cg']:checked").val() == "1") {
+                    $scope.cg = 1;
+                } else {
+                    $scope.cg = 0;
+                }
+
+                if ($("input[name='cl']:checked").val() == "1") {
+                    $scope.cl = 1;
+                } else {
+                    $scope.cl = 0;
+                }
+
+                if ($("input[name='sc']:checked").val() == "1") {
+                    $scope.sc = 1;
+                } else {
+                    $scope.sc = 0;
+                }
+
+                if ($("input[name='userpatient']:checked").val() == "1") {
+                    $scope.userpatient = 1;
+                } else {
+                    $scope.userpatient = 0;
+                }
+
+                 
 
                 angular.forEach($scope.TimeZoneList, function (value, index) {
                     if (value.TimeZoneName == $scope.SelectedTimeZone) {
@@ -18863,10 +18886,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     DefaultWorkingDays: 7,
                     DefaultHoliDays: $scope.SelectedDefaultholiday,
                     IsAppointmentInHolidays: $scope.BookEnable,
-                    Iscc: $scope.cc,
-                    Iscg: $scope.cg,
-                    Iscl: $scope.cl,
-                    Issc: $scope.sc,
+                    IsCc: $scope.cc,
+                    IsCg: $scope.cg,
+                    IsCl: $scope.cl,
+                    IsSc: $scope.sc,
                     IsPatient: $scope.userpatient,
                     IsDirectAppointment: $scope.confirmBook,
                     ReminderTimeInterval: $scope.AddReminderParameters,

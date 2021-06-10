@@ -588,10 +588,10 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@CancelAppointmentMinutes", InObj.MinRescheduleMinutes));
             param.Add(new DataParameter("@TimeZone", InObj.DefautTimeZone));
             param.Add(new DataParameter("@HolidayBooking", InObj.IsAppointmentInHolidays));
-            param.Add(new DataParameter("@CC", InObj.Iscc));
-            param.Add(new DataParameter("@CG", InObj.Iscg));
-            param.Add(new DataParameter("@CL", InObj.Iscl));
-            param.Add(new DataParameter("@SC", InObj.Issc));
+            param.Add(new DataParameter("@CC", InObj.IsCc));
+            param.Add(new DataParameter("@CG", InObj.IsCg));
+            param.Add(new DataParameter("@CL", InObj.IsCl));
+            param.Add(new DataParameter("@SC", InObj.IsSc));
             param.Add(new DataParameter("@Patient", InObj.IsPatient));
             param.Add(new DataParameter("@ConfirmBooking", InObj.IsDirectAppointment));
             param.Add(new DataParameter("@IsAutoReschedule", InObj.IsAutoReschedule));
@@ -655,10 +655,10 @@ namespace MyCortex.Repositories.Masters
                                                          MinRescheduleMinutes = p.Field<int>("MinRescheduleMinutes"),
                                                          DefautTimeZone = p.Field<string>("TimeZone"),
                                                          IsAppointmentInHolidays = p.Field<bool>("IsAppointmentInHolidays"),
-                                                         Iscc = p.Field<bool>("Iscc"),
-                                                         Iscg = p.Field<bool>("Iscg"),
-                                                         Iscl = p.Field<bool>("Iscl"),
-                                                         Issc = p.Field<bool>("Issc"),
+                                                         IsCc = p.Field<bool>("Iscc"),
+                                                         IsCg = p.Field<bool>("Iscg"),
+                                                         IsCl = p.Field<bool>("Iscl"),
+                                                         IsSc = p.Field<bool>("Issc"),
                                                          IsPatient = p.Field<bool>("IsPatient"),
                                                          IsDirectAppointment = p.Field<bool>("IsDirectAppointment"),
                                                          IsAutoReschedule = p.Field<bool>("IsAutoReschedule"),
@@ -703,10 +703,10 @@ namespace MyCortex.Repositories.Masters
                                          MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
                                          DefautTimeZone = p.Field<string>("DEFAUT_TIMEZONE"),
                                          IsAppointmentInHolidays = p.Field<bool>("IS_APPOINTMENTINHOLIDAYS"),
-                                         Iscc = p.Field<bool>("IS_CC"),
-                                         Iscg = p.Field<bool>("IS_CG"),
-                                         Iscl = p.Field<bool>("IS_CL"),
-                                         Issc = p.Field<bool>("IS_SC"),
+                                         IsCc = p.Field<bool>("IS_CC"),
+                                         IsCg = p.Field<bool>("IS_CG"),
+                                         IsCl = p.Field<bool>("IS_CL"),
+                                         IsSc = p.Field<bool>("IS_SC"),
                                          IsPatient = p.Field<bool>("IS_PATIENT"),
                                          IsDirectAppointment = p.Field<bool>("IS_DIRECTAPPOINTMENT"),
                                          IsAutoReschedule = p.Field<bool>("IS_AUTORESCHEDULE"),

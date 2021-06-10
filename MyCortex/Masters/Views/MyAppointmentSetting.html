@@ -109,7 +109,7 @@
             <div class="flex align-items-center">
                 <div class="flex justify-end">
                     <select class="form-control" data-style="form-control" id="TimeZone" style="width:400px;" ng-model="SelectedTimeZone"
-                            ng-options="item1.TimeZoneName as item1.TimeZoneName for item1 in TimZoneList">
+                            ng-options="item1.TimeZoneName as item1.TimeZoneName for item1 in TimeZoneList">
                         <option value="">Select TimeZone</option>
                     </select>
                     
@@ -191,11 +191,11 @@
         </div>
         <div class="col-sm-6 flex justify-end p-0">
             <div class="flex align-items-center m-right-3">
-                <input type="radio" id="bookenable_yes" name="enable" class="mr-1" value="1" ng-model="BookEnable" ng-init="checked=true" style="margin-right: 0.5rem;">
+                <input type="radio" id="bookenable_yes" name="bookenable"   class="mr-1" value="1" ng-model="BookEnable"   style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Enable</p>
             </div>
             <div class="flex align-items-center">
-                <input type="radio"  id="bookenable_no" name="enable" class="mr-1" value="2" ng-model="BookEnable" ng-init="checked=false" style="margin-right: 0.5rem;">
+                <input type="radio"  id="bookenable_no"  name="bookenable"  class="mr-1" value="0" ng-model="BookEnable"   style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Disable</p>
             </div>
         </div>
@@ -208,31 +208,31 @@
         <div class="col-sm-6 flex justify-end">
             <div class="m-right-4">
                 <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" ng-init="checked=true"   ng-model="cc">
+                    <input type="checkbox" class="input-checkbox" name="cc" ng-init="checked=true" value="1"  ng-model="cc">
                 </div>
                 <p class="input-text text-center mt-2">CC</p>
             </div>
             <div class="m-right-4">
                 <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" ng-init="checked=true"  ng-model="cg">
+                    <input type="checkbox" class="input-checkbox" name="cg" ng-init="checked=true" value="1"  ng-model="cg">
                 </div>
                 <p class="input-text text-center mt-2">CG</p>
             </div>
             <div class="m-right-4">
                 <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" ng-init="checked=true"  ng-model="cl">
+                    <input type="checkbox" class="input-checkbox" name="cl" ng-init="checked=true" value="1"  ng-model="cl">
                 </div>
                 <p class="input-text text-center mt-2">CL</p>
             </div>
             <div class="m-right-4">
                 <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" ng-init="checked=true" ng-model="sc">
+                    <input type="checkbox" class="input-checkbox" name="sc" ng-init="checked=true" value="1" ng-model="sc">
                 </div>
                 <p class="input-text text-center mt-2">SC</p>
             </div>
             <div class="">
                 <div class="flex justify-center">
-                    <input type="checkbox" class="input-checkbox" ng-init="checked=true" ng-model="userpatient">
+                    <input type="checkbox" class="input-checkbox" name="userpatient" ng-init="checked=true" value="1" ng-model="userpatient">
                 </div>
                 <p class="input-text text-center mt-2">USER</p>
             </div>
@@ -249,7 +249,7 @@
                 <p class="input-text text-right">Confirmed</p>
             </div>
             <div class="flex align-items-center">
-                <input type="radio" name="confirm" id="confirmbook_no" class="mr-1" value="2" ng-model="confirmBook" ng-init="checked=false" style="margin-right: 0.5rem;">
+                <input type="radio" name="confirm" id="confirmbook_no" class="mr-1" value="0" ng-model="confirmBook" ng-init="checked=false" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Waiting for CG</p>
             </div>
         </div>
@@ -310,7 +310,7 @@
                 <p class="input-text text-right">Enable</p>
             </div>
             <div class="flex align-items-center">
-                <input type="radio" id="autoenable_no" name="autoenable" class="mr-1" value="2" ng-model="AutoEnable" ng-init="checked=false" style="margin-right: 0.5rem;">
+                <input type="radio" id="autoenable_no" name="autoenable" class="mr-1" value="0" ng-model="AutoEnable" ng-init="checked=false" style="margin-right: 0.5rem;">
                 <p class="input-text text-right">Disable</p>
             </div>
         </div>
