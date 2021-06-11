@@ -18538,13 +18538,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.Minutest = "0";
             $scope.TimeZoneList = [];
             $scope.SelectedTimeZone = "";
-            $scope.Sunday = true;
-            $scope.Monday = true;
-            $scope.Tuesday = true;
-            $scope.Wednesday = true;
-            $scope.Thursday = true;
-            $scope.Friday = true;
-            $scope.Saturday = true;
+            $scope.sunday = true;
+            $scope.monday = true;
+            $scope.tuesday = true;
+            $scope.wednesday = true;
+            $scope.thursday = true;
+            $scope.friday = true;
+            $scope.saturday = true;
             $scope.SelectDefHoliday = "0"; 
             $scope.cc = "1";
             $scope.cg = "1";
@@ -18607,8 +18607,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             var del = confirm("Do you like to Reset the AppointmentSetting  details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                    alert("AppointmentSetting  has been Reset Successfully"); 
-                    $scope.AppointmentSettings1();
+                    if (data != '' && data != null && data != undefined) {
+                        alert("AppointmentSetting  has been Reset Successfully");
+                        $scope.AppointmentSettings1();
+                    } else {
+                        alert("AppointmentSetting  has been Reset Successfully");
+                    }
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
                 });
@@ -18655,26 +18659,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
 
         $scope.AppointmentSettings = function () {
-            $("#chatLoaderPV").hide();
-            $scope.workingdays = 7; 
-            //if ($scope.confirmBook == 1) {
-            //    $scope.confirmBook = true;
-            //} else {
-            //    $scope.confirmBook = false;
-            //}
-             
-
-
-            //if ($scope.AutoEnable == 1) {
-            //    $scope.AutoEnable = true;
-            //} else {
-            //    $scope.AutoEnable = false;
-            //}
-            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
-                $scope.Id = $routeParams.Id;
-                $scope.DuplicatesId = $routeParams.Id;
-            }
-
+            $("#chatLoaderPV").hide();  
+            
             angular.forEach($scope.TimeZoneList, function (value, index) {
                 if (value.SelectedTimeZone == $scope.SelectedTimeZone) {
                     $scope.SelectedTimeZone = value.SelectedTimeZone;
@@ -18683,28 +18669,78 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
             $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $("#chatLoaderPV").hide();
-                $scope.DuplicatesId = data.ID;
-                $scope.InstitutionId = data.InstitutionId;
-                $scope.MyAppConfigId = data.MyAppConfigId;
-                $scope.NewAppointment = data.NewAppointmentDuration;
-                $scope.followup = data.FollowUpDuration;
-                $scope.IntervalBt = data.AppointmentInterval;
-                $scope.AppointmentDay = data.MinRescheduleDays;
-                $scope.Minutest = data.MinRescheduleMinutes;
-                $scope.SelectedTimeZone = data.DefautTimeZone;
-                $scope.workingdays = data.DefaultWorkingDays;
-                $scope.SelectedDefaultholiday = data.DefaultHoliDays;
-                $scope.BookEnable = data.IsAppointmentInHolidays;
-                $scope.cc = data.IsCc;
-                $scope.cg = data.IsCg;
-                $scope.cl = data.IsCl;
-                $scope.sc = data.IsSc;
-                $scope.userpatient = data.IsPatient;
-                $scope.confirmBook = data.IsDirectAppointment; 
-                $scope.AddReminderParameters = data.ReminderTimeInterval;
-                $scope.AutoEnable = data.IsAutoReschedule;
-                $scope.ReduceNumberofavailableAppointmentes = data.MaxScheduleDays; 
+                $scope.sunday = false;
+                $scope.monday = false;
+                $scope.tuesday = false;
+                $scope.wednesday = false;
+                $scope.thursday = false;
+                $scope.friday = false;
+                $scope.saturday = false;
+                if (data != '' && data != null && data != undefined) { 
+                    $scope.DuplicatesId = data.ID;
+                    $scope.InstitutionId = data.InstitutionId;
+                    $scope.MyAppConfigId = data.MyAppConfigId;
+                    $scope.NewAppointment = data.NewAppointmentDuration;
+                    $scope.followup = data.FollowUpDuration;
+                    $scope.IntervalBt = data.AppointmentInterval;
+                    $scope.AppointmentDay = data.MinRescheduleDays;
+                    $scope.Minutest = data.MinRescheduleMinutes;
+                    $scope.SelectedTimeZone = data.DefautTimeZone;
+                    $scope.DefaultworkingDays = data.DefaultWorkingDays;
+                    $scope.SelectedDefaultholiday = data.DefaultHoliDays;
+                    $scope.BookEnable = data.IsAppointmentInHolidays;
+                    $scope.cc = data.IsCc;
+                    $scope.cg = data.IsCg;
+                    $scope.cl = data.IsCl;
+                    $scope.sc = data.IsSc;
+                    $scope.userpatient = data.IsPatient;
+                    $scope.confirmBook = data.IsDirectAppointment;
+                    $scope.AddReminderParameters = data.ReminderTimeInterval;
+                    $scope.AutoEnable = data.IsAutoReschedule;
+                    $scope.ReduceNumberofavailableAppointmentes = data.MaxScheduleDays;
+                    var weekly = data.DefaultWorkingDays.split(',');
+
+                    angular.forEach(weekly, function (value, index) {
+                        if ($('#sunday').val() == value) {
+                            $scope.sunday = true;
+                        }
+                        if ($('#monday').val() == value) {
+                            $scope.monday = true;
+                        }
+                        if ($('#tuesday').val() == value) {
+                            $scope.tuesday = true;
+                        }
+                        if ($('#wednesday').val() == value) {
+                            $scope.wednesday = true;
+                        }
+                        if ($('#thursday').val() == value) {
+                            $scope.thursday = true;
+                        }
+                        if ($('#friday').val() == value) {
+                            $scope.friday = true;
+                        }
+                        if ($('#saturday').val() == value) {
+                            $scope.saturday = true;
+                        }
+
+                    });
+                } else {
+                    $scope.sunday = true;
+                    $scope.monday = true;
+                    $scope.tuesday = true;
+                    $scope.wednesday = true;
+                    $scope.thursday = true;
+                    $scope.friday = true;
+                    $scope.saturday = true;
+                    $scope.cc = true;
+                    $scope.cg = true;
+                    $scope.cl = true;
+                    $scope.sc = true;
+                    $scope.userpatient = true;
+                }
                 
+                
+                 
             });
         }
 
@@ -18721,21 +18757,23 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.workingdays = "";
                 $scope.SelectedDefaultholiday = "";
                 $scope.BookEnable = "1";
-                $scope.cc = "1";
-                $scope.cg = "1";
-                $scope.cl = "1";
-                $scope.sc = "1";
-                $scope.userpatient = "1";
+                $scope.cc = true;
+                $scope.cg = true;
+                $scope.cl = true;
+                $scope.sc = true;
+                $scope.userpatient = true;
                 $scope.confirmBook = "1";
-                $scope.AddReminderParameters.push({
-                    'ID': 0,
-                    'ReminderDays': 0,
-                    'ReminderHours':0,
-                    'ReminderMinutes': 0,
-                    'IsActive': 0
-                })
+                $scope.sunday = true;
+                $scope.monday = true;
+                $scope.tuesday = true;
+                $scope.wednesday = true;
+                $scope.thursday = true;
+                $scope.friday = true;
+                $scope.saturday = true;
+                $scope.AddReminderParameters = [];
                 $scope.AutoEnable = "1";
-                $scope.ReduceNumberofavailableAppointmentes = "";
+            $scope.ReduceNumberofavailableAppointmentes = "";
+
 
              
         }
@@ -18771,50 +18809,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.MyAppointment_InsertUpdate = function () {
             if ($scope.ValidationcontrolsAppointment() == true) {
-                $("#chatLoaderPV").show();
-                $scope.Monday = true;
-                $scope.Tuesday = true;
-                $scope.Wednesday = true;
-                $scope.Thursday = true;
-                $scope.Friday = true;
-                $scope.Saturday = true;
-
-                var DefaultWorkingDays = [{
-                    id: "1",
-                    Ids: "1"
-
-                }, {
-                    id: "2",
-                        Ids: "2"
-
-                }, {
-                    id: "3",
-                        Ids: "3"
-
-                }, {
-                    id: "4",
-                        Ids: "4"
-
-                },
-                {
-                    id: "5",
-                    Ids: "5"
-
-                },
-                {
-                    id: "6",
-                    Ids: "6"
-
-                }, {
-                    id: "7",
-                    Ids: "7"
-
-                }];
-
-                var Ids = DefaultWorkingDays.map(function (data) {
-                    return Number(data.Ids)
-                });
-
+                $("#chatLoaderPV").show();  
                
                 if ($("input[name='bookenable']:checked").val() == "1") {
                     $scope.BookEnable = 1;
@@ -18865,8 +18860,62 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.userpatient = 0;
                 }
 
-                 
+               
+                
 
+                $scope.temp = '';
+                if ($("#sunday").is(":checked") == true) {
+                    $scope.temp = 'sunday'; 
+                }
+                if ($("#monday").is(":checked") == true) {
+                    if ($scope.temp != '') {
+                        $scope.temp = $scope.temp +','+'monday';
+                    } else {
+                        $scope.temp = 'monday'; 
+                    }
+                }
+                if ($("#tuesday").is(":checked") == true) {
+                    if ($scope.temp != '') {
+                        $scope.temp = $scope.temp  + ',' + 'tuesday';
+                    } else {
+                        $scope.temp = 'tuesday';
+                    } 
+                }
+                if ($("#wednesday").is(":checked") == true) {
+                    if ($scope.temp != '') {
+                        $scope.temp = $scope.temp  + ',' + 'wednesday';
+                    } else {
+                        $scope.temp = 'wednesday';
+                    }
+                }
+
+                if ($("#thursday").is(":checked") == true) {
+                    if ($scope.temp != '') {
+                        $scope.temp = $scope.temp  + ',' + 'thursday';
+                    } else {
+                        $scope.temp = 'thursday';
+                    }
+                }
+
+                if ($("#friday").is(":checked") == true) {
+                    if ($scope.temp != '') {
+                        $scope.temp = $scope.temp  + ',' + 'friday';
+                    } else {
+                        $scope.temp = 'friday';
+                    }
+                }
+
+                if ($("#saturday").is(":checked") == true) {
+                    if ($scope.temp != '') {
+                        $scope.temp = $scope.temp  + ',' + 'saturday';
+                    } else {
+                        $scope.temp = 'saturday';
+                    }
+                }
+                if ($scope.temp != '') {
+                    $scope.DefaultWorkingDays = $scope.temp;
+                }
+                
                 angular.forEach($scope.TimeZoneList, function (value, index) {
                     if (value.TimeZoneName == $scope.SelectedTimeZone) {
                         $scope.SelectedTimeZone = value.TimeZoneName;
@@ -18883,13 +18932,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     MinRescheduleDays: $scope.AppointmentDay,
                     MinRescheduleMinutes: $scope.Minutest,
                     DefautTimeZone: $scope.SelectedTimeZone,
-                    DefaultWorkingDays: 7,
+                    DefaultWorkingDays: $scope.DefaultWorkingDays,
                     DefaultHoliDays: $scope.SelectedDefaultholiday,
                     IsAppointmentInHolidays: $scope.BookEnable,
                     IsCc: $scope.cc,
                     IsCg: $scope.cg,
-                    IsCl: $scope.cl,
-                    IsSc: $scope.sc,
+                    IsCl: $scope.cl, 
+                    IsSc: $scope.sc, 
                     IsPatient: $scope.userpatient,
                     IsDirectAppointment: $scope.confirmBook,
                     ReminderTimeInterval: $scope.AddReminderParameters,
