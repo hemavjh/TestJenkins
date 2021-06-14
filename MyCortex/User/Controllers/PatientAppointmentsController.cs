@@ -203,7 +203,7 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(long DepartmentId,long InstitutionId,DateTime date)
+        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(long DepartmentId,long InstitutionId,DateTime Date)
         {
             try
             {
