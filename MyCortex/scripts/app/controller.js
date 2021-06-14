@@ -18607,12 +18607,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             var del = confirm("Do you like to Reset the AppointmentSetting  details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                    if (data != '' && data != null && data != undefined) {
-                        alert("AppointmentSetting  has been Reset Successfully");
-                        $scope.AppointmentSettings1();
-                    } else {
-                        alert("AppointmentSetting  has been Reset Successfully");
-                    }
+                       alert("AppointmentSetting  has been Reset Successfully");
+                        $scope.AppointmentSettings();  
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
                 });
@@ -19131,7 +19127,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         $scope.AttendanceAddEdit = function () {
             $scope.DoctorAttendanceDetails = [];
             if ($scope.DoctorAttendance_InsertUpdateValidations() == true) {
-                $("#chatLoaderPV").show();
+                $("#chatLoaderPV").show(); 
                 if ($scope.Id == 0) {
                     angular.forEach($scope.SelectedAttendance, function (value, index) {
                         var obj = {
