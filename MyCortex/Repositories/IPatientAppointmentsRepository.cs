@@ -13,6 +13,7 @@ namespace MyCortex.Repositories
         PatientAppointmentsModel Update_CancelledAppointment(Guid Login_Session_Id, PatientAppointmentsModel obj);
         IList<PatientAppointmentsModel> PatientAppointment_InsertUpdate(Guid Login_Session_Id,PatientAppointmentsModel insobj);
         IList<PatientAppointmentsModel> PatientBasedGroupBasedClinicianList(long Patient_Id);
+        IList<PatientAppointmentsModel> DepartmentwiseDoctorList(long DepartmentId, long InstitutionId);
         IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id);
     }   
 }

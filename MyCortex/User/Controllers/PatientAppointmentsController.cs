@@ -202,6 +202,22 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(long DepartmentId,long InstitutionId,DateTime date)
+        {
+            try
+            {
+                IList<PatientAppointmentsModel> model;
+                model = repository.DepartmentwiseDoctorList(DepartmentId, InstitutionId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Appointment Reason type name list of a Institution
         /// </summary>

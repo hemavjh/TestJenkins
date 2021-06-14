@@ -197,6 +197,35 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(long DepartmentId,long InstitutionId)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DEPARTMENT_ID", DepartmentId));
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEPARTMENTWISEDOCTOR_SP_LIST]", param);
+                List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                      select new PatientAppointmentsModel()
+                                                      {
+                                                          Doctor_Id = p.Field<long>("ID"),
+                                                          DoctorName = decrypt.Decrypt(p.Field<string>("FULLNAME")),
+                                                          Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          // Name_Specialization = p.Field<string>("NAMESPECIALIZATION"),
+                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Appointment Reason type name list of a Institution
         /// </summary>
