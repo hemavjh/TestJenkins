@@ -1483,6 +1483,46 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+
+        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Patient_Id", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENTS_PREVIOUS_SP_LIST]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                DataEncryption decrypt = new DataEncryption();
+                List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                      select new PatientAppointmentsModel()
+                                                      {
+                                                          Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          //PatientName = p.Field<string>("PATIENTNAME"),
+                                                          //DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                          //Photo = p.Field<string>("PHOTO_NAME"),
+                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          TimeDifference = p.Field<string>("TimeDifference"),
+                                                          Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                          Id = p.Field<long>("Id"),
+                                                          Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          ViewGenderName = p.Field<string>("GENDER_NAME"),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Parameter list of a patient
         /// </summary>

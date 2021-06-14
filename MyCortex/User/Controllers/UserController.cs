@@ -1097,6 +1097,38 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
+
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id)
+        {
+            IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
+            PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
+            try
+            {
+
+                ModelData = repository.PatientPreviousAppointmentList(Patient_Id, Login_Session_Id);
+                model.Status = "True";
+                model.Message = "Patient Previous Appointments";
+                model.Error_Code = "";
+                model.ReturnFlag = 1;
+                model.PatientAppointmentList = ModelData;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in getting Patient Appointments";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.PatientAppointmentList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
         /// <summary>
         /// Insert Patient Health Data
         /// </summary>
