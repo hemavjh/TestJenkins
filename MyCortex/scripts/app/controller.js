@@ -19130,6 +19130,14 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
             $scope.DoctorAttendanceDetails = [];
             if ($scope.DoctorAttendance_InsertUpdateValidations() == true) {
                 $("#chatLoaderPV").show(); 
+                var AttendanceFromDate = $('#datetimepickerholiday_From').val().split(' ')[0];
+                var AttendanceToDate = $('#datetimepickerholiday_To').val().split(' ')[0];
+                var AttendanceFromDateTime = $('#datetimepickerholiday_From').val().split(' ')[1];
+                var AttendanceToDateTime = $('#datetimepickerholiday_To').val().split(' ')[1]; 
+                $scope.AttendanceFromDate = AttendanceFromDate;
+                $scope.AttendanceToDate = AttendanceToDate;
+                $scope.fromtime = AttendanceFromDateTime;
+                $scope.totime = AttendanceToDateTime;
                 if ($scope.Id == 0) {
                     angular.forEach($scope.SelectedAttendance, function (value, index) {
                         var obj = {
@@ -19137,6 +19145,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                             Institution_Id: $window.localStorage['InstitutionId'],
                             AttendanceFromDate: moment($scope.AttendanceFromDate).format('DD-MMM-YYYY'),
                             AttendanceToDate: moment($scope.AttendanceToDate).format('DD-MMM-YYYY'),
+                            AttendanceFromTime: $scope.fromtime,
+                            AttendanceToTime: $scope.totime,
                             Doctor_Id: value,
                             Remarks: $scope.Remarks
                         };
@@ -19149,6 +19159,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                         Institution_Id: $window.localStorage['InstitutionId'],
                         AttendanceFromDate: moment($scope.AttendanceFromDate).format('DD-MMM-YYYY'),
                         AttendanceToDate: moment($scope.AttendanceToDate).format('DD-MMM-YYYY'),
+                        AttendanceFromTime: $scope.fromtime,
+                        AttendanceToTime: $scope.totime,
                         Doctor_Id: $scope.EditSelectedAttendance,
                         Remarks: $scope.Remarks
                     };

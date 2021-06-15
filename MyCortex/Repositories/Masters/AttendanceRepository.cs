@@ -101,6 +101,8 @@ namespace MyCortex.Repositories.Masters
                     param.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
                     param.Add(new DataParameter("@ATTENDANCE_FROMDATE", item.AttendanceFromDate));
                     param.Add(new DataParameter("@ATTENDANCE_TODATE", item.AttendanceToDate));
+                    param.Add(new DataParameter("@ATTENDANCE_FROMTIME", item.AttendanceFromTime));
+                    param.Add(new DataParameter("@ATTENDANCE_TOTIME", item.AttendanceToTime));
                     param.Add(new DataParameter("@DOCTOR_ID", item.Doctor_Id));
                     param.Add(new DataParameter("@REMARKS", item.Remarks));                    
                     param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));

@@ -27,6 +27,8 @@ namespace MyCortex.Masters.Models
         public long Created_by { get; set; }
         public string Remarks { get; set; }
         public DateTime Created_Dt { get; set; }
+        public TimeSpan AttendanceFromTime { get; set; }
+        public TimeSpan AttendanceToTime { get; set; }
         //  public IList<AttendanceUserTypeDetails_List> SelectedAttendanceList { get; set; }
     }
 
