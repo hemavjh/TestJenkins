@@ -197,7 +197,7 @@ namespace MyCortex.Repositories.Uesr
             {
                 List<DataParameter> param_2 = new List<DataParameter>();
                 param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.INSTITUTION_ID));
-                param_2.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                param_2.Add(new DataParameter("@USER_ID", insobj.User_Id));
                 param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
                 //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
 

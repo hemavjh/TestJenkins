@@ -67,6 +67,7 @@ namespace MyCortex.User.Model
         public long? CHOLESTEROL { get; set; }
 	    public int? ISACTIVE { get; set; }
 	    public int? CREATED_BY { get; set; }
+        public int? User_Id { get; set; }
         public string GroupName { get; set; }
         public string GENDER_NAME { get; set; }
         public string Nationality { get; set; } 

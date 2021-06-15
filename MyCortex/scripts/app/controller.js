@@ -3425,7 +3425,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             IS_MASTER: $scope.Is_Master,
                             appleUserID: $scope.appleUserID,
                             PatientId: $scope.PATIENT_ID,
-                            MrnPrefix: $scope.PrefixMRN
+                            MrnPrefix: $scope.PrefixMRN,
+                            USER_ID: $window.localStorage['UserId']
                         }
                     } else {
                         var obj = {
@@ -3512,7 +3513,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             IS_MASTER: $scope.Is_Master,
                             appleUserID: $scope.appleUserID,
                             PatientId: $scope.PATIENT_ID,
-                            MrnPrefix: $scope.PrefixMRN
+                            MrnPrefix: $scope.PrefixMRN,
+                            USER_ID: $window.localStorage['UserId']
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {

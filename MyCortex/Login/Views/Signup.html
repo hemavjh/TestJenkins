@@ -76,11 +76,18 @@
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
+                    <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
+                    <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
+                           maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
+                </div>
+            </div>
+            <!--<div class="col-sm-6">
+                <div class="inputGroups">
                     <label for="email">{{mrnnumber}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="T1" name="MNR_No" ng-model="MNR_No" ng-init="MNR_No=''"
                            ng-required="true" onkeypress="" placeholder="" ng-maxlength="50" maxlength="50" />
                 </div>
-            </div>
+            </div>-->
             <div class="col-sm-6">
                 <div class="inputGroups">
                     <label for="email">{{nationalityid}}<sup><font class='mandatory-field'>*</font></sup></label>
@@ -134,13 +141,13 @@
                            ng-required="true" placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                 </div>
             </div>
-            <div class="col-sm-6">
+            <!--<div class="col-sm-6">
                 <div class="inputGroups">
                     <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
                            maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
                 </div>
-            </div>
+            </div>-->
         </div>
         <div>
             <p style="text-align:left;">

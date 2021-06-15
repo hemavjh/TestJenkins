@@ -528,7 +528,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
             $window.localStorage['UserTypeId'] = $scope.UserTypeId;
             $window.localStorage['UserId'] = $scope.UserId;
 
-            window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
+            window.location.href = baseUrl + "/Home/Index/ChangePassword/1";
             $scope.errorlist = Message;
         }
         else if (data == "7") {
@@ -707,6 +707,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.MiddleName = "";
         $scope.LastName = "";
         $scope.MNR_No = "";
+        $scope.PrefixMRN = "";
         $scope.PatientNo = "";
         $scope.NationalId = "";
         $scope.InsuranceId = "";
@@ -736,6 +737,11 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.mobilenumber = "Mobile Number";
         $scope.changelanguage = "Change Language";
 
+        $scope.ConfigCode = "MRN_PREFIX";
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
+            $scope.PrefixMRN = data2[0].ConfigValue;
+        });
         
         $scope.defaultsignupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
         $scope.signupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
@@ -898,10 +904,10 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 });
                 return false;
             }
-            else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
-                alert("Please enter MRN No.");
-                return false;
-            }
+            //else if (typeof ($scope.MNR_No) == "undefined" || $scope.MNR_No == "") {
+            //    alert("Please enter MRN No.");
+            //    return false;
+            //}
             else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
                 alert("Please enter NationalId.");
                 return false;
@@ -987,14 +993,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                         LastName: $scope.LastName,
                         NATIONALID: $scope.NationalId,
                         INSURANCEID: $scope.InsuranceId,
-                        MNR_NO: $scope.MNR_No,
+                        //MNR_NO: $scope.MNR_No,
                         GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
                         NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
                         DOB: $scope.DOB,
                         EMAILID: $scope.EmailId,
                         MOBILE_NO: $scope.MobileNo,
                         UserType_Id: $scope.UserTypeId,
-                        ApprovalFlag: 0
+                        ApprovalFlag: 0,
+                        MrnPrefix: $scope.PrefixMRN,
+                        User_Id: $window.localStorage['UserId']
                         //, INSTITUTION_ID: 1
                     }
                     var config = {
