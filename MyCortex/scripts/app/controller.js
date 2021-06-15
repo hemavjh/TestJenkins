@@ -20273,7 +20273,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.ISact = 1  //active
                 }
                 else if ($scope.IsActive == false) {
-                    $scope.ISact = 0 //all
+                    $scope.ISact = -1 //all
                 }
                 $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                     $("#chatLoaderPV").hide();
