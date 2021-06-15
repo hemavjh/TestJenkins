@@ -238,6 +238,35 @@ namespace MyCortex.User.Controller
                 return null;
             }
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetScheduledDates(long DoctorId, Guid Login_Session_Id)
+        {
+            IList<ScheduledDaysListModel> ModelData = new List<ScheduledDaysListModel>();
+            ScheduledDaysListReturnModel model = new ScheduledDaysListReturnModel();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetScheduledDates(DoctorId, Login_Session_Id);
+                model.Status = "True";
+                model.Message = "List of Scheduled Date Data";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                model.ScheduledDaysList = ModelData;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in getting Scheduled Date";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.ScheduledDaysList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
         
     }
 }

@@ -56,6 +56,24 @@ namespace MyCortex.User.Model
         public PatientAppointmentsModel AppointmentDetails { get; set; }
         public IList<PatientAppointmentsModel> PatientAppointmentList { get; set; }
     }
+
+    public class ScheduledDaysListModel
+    {
+        public DateTime Date { get; set; }
+        public string WeekDay { get; set; }
+        public int Day { get; set; }
+        public string Month { get; set; }
+    }
+
+    public class ScheduledDaysListReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+
+        public int ReturnFlag { get; set; }
+        public IList<ScheduledDaysListModel> ScheduledDaysList { get; set; }
+    }
     public class AppointmentReasonType
     {
         public long ReasonTypeId { get; set; }

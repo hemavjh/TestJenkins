@@ -255,5 +255,32 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<ScheduledDaysListModel> GetScheduledDates(long DoctorId, Guid Login_Session_Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DOCTORID", DoctorId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETMAXSCHEDULE_SP_LIST]", param);
+                List<ScheduledDaysListModel> lst = (from p in dt.AsEnumerable()
+                                                    select new ScheduledDaysListModel()
+                                                    {
+                                                        Date = p.Field<DateTime>("Date"),
+                                                        Day = p.Field<int>("DAY"),
+                                                        Month = p.Field<string>("MONTH"),
+                                                        // Name_Specialization = p.Field<string>("NAMESPECIALIZATION"),
+                                                        WeekDay = p.Field<string>("Dayname"),
+                                                    }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace MyCortex.Repositories
         IList<PatientAppointmentsModel> PatientBasedGroupBasedClinicianList(long Patient_Id);
         IList<PatientAppointmentsModel> DepartmentwiseDoctorList(long DepartmentId, long InstitutionId);
         IList<AppointmentReasonType> AppointmentReasonType_List(long Institution_Id);
+        IList<ScheduledDaysListModel> GetScheduledDates(long DoctorId, Guid Login_Session_Id);
     }   
 }
