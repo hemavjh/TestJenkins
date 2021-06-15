@@ -18982,6 +18982,10 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         }
         /* on click Add New, Add popup opened*/
         $scope.AddAttendance = function () {
+            $scope.DoctorName = "";
+            $scope.AttendanceFromDate = "";
+            $scope.AttendanceToDate = "";
+            $scope.Remarks = "";
             angular.element('#AttendanceAddModal').modal('show');
         }
         /* on click view, view popup opened*/
@@ -18992,8 +18996,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         }
         /* on click Edit, edit popup opened*/
         $scope.EditAttendance = function (CatId, ActiveFlag, AttendanceToDate) {
-            $scope.AttendanceTo_Date = $filter('date')(AttendanceToDate, "dd-MMM-yyyy");
-            $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
+            $scope.AttendanceTo_Date = $filter('date')(AttendanceToDate, "dd-MMM-yyyy hh:mm:ss a");
+            $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy hh:mm:ss a');
             if (ActiveFlag == 1) {
                 $scope.ClearAttendancePopUp();
                 $scope.Id = CatId;
@@ -19248,10 +19252,11 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 $scope.DuplicatesId = data.Id;
                 $scope.Doctor_Id = data.Doctor_Id.toString();
                 $scope.DoctorName = data.DoctorName;
-                var ATT_FROM = moment(data.AttendanceFromDate).format('DD-MMM-YYYY');
-                $scope.AttendanceFromDate = DateFormatEdit(ATT_FROM);
-                var ATT_TO = moment(data.AttendanceToDate).format('DD-MMM-YYYY');
-                $scope.AttendanceToDate = DateFormatEdit(ATT_TO);
+                var ATT_FROM = moment(data.AttendanceFromDate).format('DD-MMM-YYYY hh:mm:ss');
+                //$scope.AttendanceFromDate = DateFormatEdit(ATT_FROM);
+                $scope.AttendanceFromDate = ATT_FROM;
+                var ATT_TO = moment(data.AttendanceToDate).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = ATT_TO;
                 $scope.Edit_SelectedDoctor.push(data.Doctor_Id);
                 $scope.EditSelectedAttendance = data.Doctor_Id.toString();
                 $scope.SelectedAttendance = $scope.Edit_SelectedDoctor;

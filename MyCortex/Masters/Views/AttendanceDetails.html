@@ -279,10 +279,10 @@
                     <div class="textwrap">{{row.DoctorName}}</div>
                 </td>
                 <td style="text-align: left">
-                    {{row.AttendanceFromDate| date:'dd-MMM-yyyy hh:mm a'}}
+                    {{row.AttendanceFromDate| date:'dd-MMM-yyyy hh:mm:ss a'}}
                 </td>
                 <td style="text-align: left">
-                    {{row.AttendanceToDate| date:'dd-MMM-yyyy hh:mm a'}}
+                    {{row.AttendanceToDate| date:'dd-MMM-yyyy hh:mm:ss a'}}
                 </td>
                 <td style="text-align: left;word-break:break-all;">
                     <div class="textwrap"> {{row.Remarks}} </div>
@@ -429,16 +429,16 @@
                     <div class="inputGroups">
                         <label>From Date</label>
 
-                        <span>{{AttendanceFromDate | date:'dd-MMM-yyyy '}}</span>
+                        <span>{{AttendanceFromDate | date:'dd-MMM-yyyy hh:mm:ss'}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>To Date</label>
 
-                        <span>{{AttendanceToDate | date:'dd-MMM-yyyy '}}</span>
+                        <span>{{AttendanceToDate | date:'dd-MMM-yyyy hh:mm:ss'}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>Remarks</label>
-                        <span class="textwrap"> {{Remarks}}</span>
+                        <span class="textwrap" style="word-break:break-all;"> {{Remarks}}</span>
                     </div>
 
 
