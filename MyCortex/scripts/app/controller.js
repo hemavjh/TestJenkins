@@ -19084,8 +19084,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
            */
         $scope.DoctorAttendance_InsertUpdateValidations = function () {
             var today = moment(new Date()).format('DD-MMM-YYYY');
-            $scope.AttendanceFromDate = moment($scope.AttendanceFromDate).format('DD-MMM-YYYY');
-            $scope.AttendanceToDate = moment($scope.AttendanceToDate).format('DD-MMM-YYYY');
+            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY');
+            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY');
 
             if ($scope.SelectedAttendance == "" || $scope.SelectedAttendance == undefined) {
                 alert("Please select Doctor");
@@ -19102,27 +19102,27 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
             }
             else if ((ParseDate($scope.AttendanceFromDate) < ParseDate(today)))  {
                 alert("From Date Can Be Booked Only For Future");
-                $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
-                $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
             else if ((ParseDate($scope.AttendanceToDate) < ParseDate(today)))  {
                 alert("To Date Can Be Booked Only For Future");
-                $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
-                $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
 
             else if (($scope.AttendanceFromDate !== null) && ($scope.AttendanceToDate !== null)) {
                 if ((ParseDate($scope.AttendanceToDate) < ParseDate($scope.AttendanceFromDate))) {
                     alert("From Date Should not be greater than To Date");
-                    $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
-                    $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
+                    $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                    $scope.AttendanceToDate = Dmoment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                     return false;
                 }
             }
-            $scope.AttendanceFromDate = DateFormatEdit($scope.AttendanceFromDate);
-            $scope.AttendanceToDate = DateFormatEdit($scope.AttendanceToDate);
+            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
             return true;
         };
         /*on click Save calling the insert update function for Doctor Holiday
