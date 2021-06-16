@@ -736,12 +736,6 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.email = "Email";
         $scope.mobilenumber = "Mobile Number";
         $scope.changelanguage = "Change Language";
-
-        $scope.ConfigCode = "MRN_PREFIX";
-        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-            $scope.PrefixMRN = data2[0].ConfigValue;
-        });
         
         $scope.defaultsignupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
         $scope.signupacknowledgement = "By submitting this form you agree to share your medical information with MyCortex team for the purposes of medical evaluation and follow up.";
@@ -761,7 +755,14 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
 
         $http.get(baseUrl + 'api/User/GetInstitutionFromCode/?Code=' + $scope.InstitutionCode).success(function (data) {
             if (data !== 0) {
-                $scope.InstitutionId = data; 
+                $scope.InstitutionId = data;
+                $scope.SelectedInstitutionId = data;
+                //if ($scope.SelectedInstitutionId != "") {
+                $scope.ConfigCode = "MRN_PREFIX";
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
+                    $scope.PrefixMRN = data2[0].ConfigValue;
+                });
+                //}
                 $http.get(baseUrl + '/api/Common/getInstitutionLanguages/?Institution_Id=' + $scope.InstitutionId
                 ).success(function (data) {
                     $scope.InstitutionLanguageList = [];
