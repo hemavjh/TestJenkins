@@ -240,14 +240,14 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage GetScheduledDates(long DoctorId, Guid Login_Session_Id)
+        public HttpResponseMessage GetScheduledDates(long TimezoneId, Guid Login_Session_Id)
         {
             IList<ScheduledDaysListModel> ModelData = new List<ScheduledDaysListModel>();
             ScheduledDaysListReturnModel model = new ScheduledDaysListReturnModel();
             string messagestr = "";
             try
             {
-                ModelData = repository.GetScheduledDates(DoctorId, Login_Session_Id);
+                ModelData = repository.GetScheduledDates(TimezoneId, Login_Session_Id);
                 model.Status = "True";
                 model.Message = "List of Scheduled Date Data";
                 model.Error_Code = "";
