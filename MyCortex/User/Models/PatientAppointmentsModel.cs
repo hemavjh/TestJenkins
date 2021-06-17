@@ -74,6 +74,25 @@ namespace MyCortex.User.Model
         public int ReturnFlag { get; set; }
         public IList<ScheduledDaysListModel> ScheduledDaysList { get; set; }
     }
+
+    public class DoctorAppointmentTimeSlotModel
+    {
+        public TimeSpan AppointmentFromTime { get; set; }
+        public TimeSpan AppointmentToTime { get; set; }
+        public bool IsBooked { get; set; }
+    }
+
+    public class DoctorAppointmentTimeSlotReturnModel
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Error_Code { get; set; }
+
+        public int ReturnFlag { get; set; }
+        public IList<DoctorAppointmentTimeSlotModel> DoctorAppointmentTimeSlotList { get; set; }
+        public IList<DoctorAppointmentTimeSlotModel> DoctorFollowupTimeSlotList { get; set; }
+    }
+
     public class AppointmentReasonType
     {
         public long ReasonTypeId { get; set; }

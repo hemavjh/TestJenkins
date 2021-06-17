@@ -282,5 +282,34 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+
+        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId, long TimezoneId,DateTime Date, bool IsNew, Guid Login_Session_Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DOCTORID", DoctorId));
+            param.Add(new DataParameter("@TIMEZONEID", TimezoneId));
+            param.Add(new DataParameter("@DATE", Date));
+            param.Add(new DataParameter("@ISNEW", IsNew));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETDOCTORTIMESLOT_SP_LIST]", param);
+                List<DoctorAppointmentTimeSlotModel> lst = (from p in dt.AsEnumerable()
+                                                            select new DoctorAppointmentTimeSlotModel()
+                                                            {
+                                                                AppointmentFromTime = p.Field<TimeSpan>("APPOINTMENTFROMTIME"),
+                                                                AppointmentToTime = p.Field<TimeSpan>("APPOINTMENTTOTIME"),
+                                                                IsBooked = p.Field<bool>("ISBOOKED"),
+                                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
     }
 }

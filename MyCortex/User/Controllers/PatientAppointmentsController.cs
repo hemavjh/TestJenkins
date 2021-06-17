@@ -267,6 +267,38 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-        
+
+        [HttpGet]
+        public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,long TimezoneId,DateTime Date, Guid Login_Session_Id)
+        {
+            IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
+            DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetAppointmentTimeSlots(DoctorId, TimezoneId, Date,true, Login_Session_Id);
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                ModelData = repository.GetAppointmentTimeSlots(DoctorId, TimezoneId, Date, false, Login_Session_Id);
+                model.DoctorFollowupTimeSlotList = ModelData;
+                model.Status = "True";
+                model.Message = "List of Slots";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in getting Scheduled Date";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.DoctorAppointmentTimeSlotList = ModelData;
+                model.DoctorFollowupTimeSlotList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
     }
 }
