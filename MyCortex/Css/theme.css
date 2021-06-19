@@ -2548,3 +2548,20 @@ a.disabled {
         text-decoration: none;
         outline: none;
     }
+
+
+.container .header {
+    background-color: #d3d3d3;
+    padding: 2px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.container .content {
+    display: none;
+    padding: 5px;
+    display: block;
+    overflow: scroll;
+    height: 170px;
+    width: 347px;
+}
