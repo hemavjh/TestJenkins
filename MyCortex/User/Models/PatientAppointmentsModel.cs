@@ -77,8 +77,10 @@ namespace MyCortex.User.Model
 
     public class DoctorAppointmentTimeSlotModel
     {
-        public TimeSpan AppointmentFromTime { get; set; }
-        public TimeSpan AppointmentToTime { get; set; }
+        public DateTime AppointmentFromDateTime { get; set; }
+        public DateTime AppointmentToDateTime { get; set; }
+        public string AppointmentFromTime { get; set; }
+        public string AppointmentToTime { get; set; }
         public bool IsBooked { get; set; }
     }
 

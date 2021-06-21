@@ -299,8 +299,10 @@ namespace MyCortex.Repositories.Uesr
                 List<DoctorAppointmentTimeSlotModel> lst = (from p in dt.AsEnumerable()
                                                             select new DoctorAppointmentTimeSlotModel()
                                                             {
-                                                                AppointmentFromTime = p.Field<TimeSpan>("APPOINTMENTFROMTIME"),
-                                                                AppointmentToTime = p.Field<TimeSpan>("APPOINTMENTTOTIME"),
+                                                                AppointmentFromDateTime = p.Field<DateTime>("APPOINTMENTFROMDATETIME"),
+                                                                AppointmentToDateTime = p.Field<DateTime>("APPOINTMENTTODATETIME"),
+                                                                AppointmentFromTime = p.Field<string>("APPOINTMENTFROMTIME"),
+                                                                AppointmentToTime = p.Field<string>("APPOINTMENTTOTIME"),
                                                                 IsBooked = p.Field<bool>("ISBOOKED"),
                                                             }).ToList();
                 return lst;
