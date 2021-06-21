@@ -2324,7 +2324,7 @@ a.disabled {
 }
 
 .myAppoinmentsdayscountrite {
-    width: 60%;
+    width: 100%;
     float: left;
     padding: 0 0 4px 0;
     margin: 0;
@@ -2349,6 +2349,15 @@ a.disabled {
     height: 33px !important;
     float: left;
     background: #039395;
+    border-radius: 33px;
+    margin: 0 0 0 3px;
+}
+
+.Video {
+    width: 33px !important;
+    height: 33px !important;
+    float: left;
+    background: #39B60A;
     border-radius: 33px;
     margin: 0 0 0 3px;
 }
@@ -2415,6 +2424,7 @@ a.disabled {
 .slides {
     position: relative;
     overflow: hidden;
+    height: 144px;
 }
 
     .slides ul {

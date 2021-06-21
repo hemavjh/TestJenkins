@@ -7197,7 +7197,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.EditVitalRow_EditFlag = [];
         $scope.HistoryDetails = function (current_Tab) {
             $scope.TabClicked = current_Tab;
-            var ChartORData = 2;
+            if ($scope.VitalChart == '1') {
+                var ChartORData = '1';
+            } else if ($scope.VitalChart == '2') {
+                var ChartORData = 2;
+            }
+            //var ChartORData = 2;
             $scope.AllDetailsList($scope.TabClicked, ChartORData);
         };
 

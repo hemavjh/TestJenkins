@@ -184,27 +184,22 @@
                                     <p class="sub-title">Select Specialities</p>
                                     <!--<input type="text" name="tags" value="Anesthesiology, Dermatology, Neurology" data-role="tagsinput" />-->
                                     <div class="container">
-                                        <div class="header">
+                                        <div class="col-sm-4">
+			                            <select id="scr_fields" class="multiselect" ng-model="selected" multiple="multiple" multi-select ng-options="Department_Name for (name, value) in DepartmentList">
+      		                            </select>
+		                            </div>
+		                            <div class="col-sm-6 alert alert-info">{{selected}}</div>
+                                        <!--<div class="header">
                                             <input type="text" id="Specialities" name="tags" ng-model="Specialitiesinput" data-role="tagsinput" />
 
                                         </div>
                                         <div class="content" style="width: 347px;">
                                             <ul ng-repeat="row in DepartmentList" style=" padding-left: 15px;">
                                                 <div>
-                                                    <input type="checkbox" id="{{row.Id}}" ng-click="updateCheckSpecialities(row.Id,row.Department_Name, $event);" /> {{row.Department_Name}}
+                                                    <input type="checkbox" id="{{row.Id}}" ng-click="updateCheckSpecialities(row.Id,row.Department_Name, $event);" /> {{row.DepartmentList}}
                                                 </div>
-                                                <!--<input type="checkbox">
-                                                {{row.Department_Name}}-->
-                                                <!--<input type="checkbox" ng-model="Specialities[$index]" />{{row.Department_Name}}
-                                                <br>-->
-                                                <!--<input type="checkbox"> value="Anesthesiology, Dermatology, Neurology"
-                                                Dermatology
-                                                <br>
-                                                <input type="checkbox">
-                                                Neurology
-                                                <br>-->
                                             </ul>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="row m-top-2">
@@ -1041,6 +1036,8 @@
 
     });
 </script>
+
+
 <script>
 
     // Quick & dirty toggle to demonstrate modal toggle behavior
