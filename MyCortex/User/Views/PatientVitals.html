@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <script>
     $(function () {
         var dtToday = new Date();
@@ -22,7 +22,7 @@
         $('#End_Date').attr('min', maxDate);
     });
 </script>
- 
+
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
 <script src='Scripts/mixer.js'></script>-->
 <body>
@@ -76,42 +76,42 @@
         </div>
 
         <!--<div class="chatBox" ng-if="openChat==true">
-        <form id="message-form">
-            <div class="chatHeader">
-                <span id="chatBoxOpener" onclick="chatarrowclick()"><i class="fas fa-arrow-down"></i></span>
-                <img class="chatProfile" src="../../Images/male.png" alt="Profile">
-                <h1>{{chattingWith}}<br/>
-                    <span>Online</span>
-                </h1>
-                <a class="callIcon" ng-click="audioCallUser()">
-                    <i class="fas fa-phone-alt"></i>
-                </a>
-                <a class="videoIcon" ng-click="videoCallUser()">
-                    <i class="fas fa-video"></i>
-                </a>
-            </div>
-            <div class="chatBody" id="call-page" style="display:none">
-                <a id="call-accept" style="display:none" class="callIcon" ng-click="callAccept()">
-                    <i class="fa fa-phone-square" style="color:green;font-size:xx-large" aria-hidden="true"></i>
-                </a>
-                <a id="call-reject" style="display:none" class="callIcon" ng-click="callReject()">
-                    <i class="fa fa-phone-square" style="color:red;font-size:xx-large" aria-hidden="true"></i>
-                </a>
-            </div>
-            <div class="chatBody" id="msg-page" style="display:block">
-                <ul id="group-message-holder">
-                </ul>
-            </div>
-            <div class="chatFooter" id="msg-footer">
-             <a href="#" class="chatAttachment"><i class="fas fa-paperclip"></i></a>
-                <input id='filechat' type='file' style="display:none"/>
-                <a class="chatAttachment" onclick="openChatAttachmentDialog()" id="btnfilechat"><i class="fas fa-paperclip"></i></a>
-                <input type="text" ng-model="chatMsgTxt" id="input-text" placeholder="Type your message..."
-                        ng-keyup="$event.keyCode == 13 && sendChatMessage()">
-                <a ng-click="sendChatMessage()"><i class="fas fa-chevron-circle-right"></i></a>
-            </div>
-        </form>
-    </div>-->
+            <form id="message-form">
+                <div class="chatHeader">
+                    <span id="chatBoxOpener" onclick="chatarrowclick()"><i class="fas fa-arrow-down"></i></span>
+                    <img class="chatProfile" src="../../Images/male.png" alt="Profile">
+                    <h1>{{chattingWith}}<br/>
+                        <span>Online</span>
+                    </h1>
+                    <a class="callIcon" ng-click="audioCallUser()">
+                        <i class="fas fa-phone-alt"></i>
+                    </a>
+                    <a class="videoIcon" ng-click="videoCallUser()">
+                        <i class="fas fa-video"></i>
+                    </a>
+                </div>
+                <div class="chatBody" id="call-page" style="display:none">
+                    <a id="call-accept" style="display:none" class="callIcon" ng-click="callAccept()">
+                        <i class="fa fa-phone-square" style="color:green;font-size:xx-large" aria-hidden="true"></i>
+                    </a>
+                    <a id="call-reject" style="display:none" class="callIcon" ng-click="callReject()">
+                        <i class="fa fa-phone-square" style="color:red;font-size:xx-large" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="chatBody" id="msg-page" style="display:block">
+                    <ul id="group-message-holder">
+                    </ul>
+                </div>
+                <div class="chatFooter" id="msg-footer">
+                 <a href="#" class="chatAttachment"><i class="fas fa-paperclip"></i></a>
+                    <input id='filechat' type='file' style="display:none"/>
+                    <a class="chatAttachment" onclick="openChatAttachmentDialog()" id="btnfilechat"><i class="fas fa-paperclip"></i></a>
+                    <input type="text" ng-model="chatMsgTxt" id="input-text" placeholder="Type your message..."
+                            ng-keyup="$event.keyCode == 13 && sendChatMessage()">
+                    <a ng-click="sendChatMessage()"><i class="fas fa-chevron-circle-right"></i></a>
+                </div>
+            </form>
+        </div>-->
         <div id="ViewMyMeetingModal" class="modal fade-scale" role="dialog" style="top:34%;right:-12%; left:30% !important; overflow-y: hidden !important" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog" style="width:75%; height:100%">
                 <div class="modal-content" style="height:87%">
@@ -126,10 +126,10 @@
                         <iframe allow="camera;microphone;" ng-src="{{myMeetingURL}}" title="My Metting" style="width:100%; height:100%"></iframe>
                     </div>
                     <!--<div class="modal-footer" style="text-align:center;">
-                    <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelMyMeeting()">
-                        Cancel
-                    </button>
-                </div>-->
+                        <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelMyMeeting()">
+                            Cancel
+                        </button>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -182,37 +182,37 @@
                 </div>
                 <!-- added by Yoges dummy data-->
                 <!--<div class="col-sm-3 p-15">
-            <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
-                <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
-                </div>
-            </div>
-            <script>
-
-            </script>
-            <div class="panel panel-default patientProfileInfo mt-10">
-                <div class="panel-body">
-
-                    <h1 class="title2 text-left">My Appointments</h1>
-                    <div class="myAppoinments" ng-show="MyAppoinmentdata.length==0">
-                        No Appointments
+                <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
+                    <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
                     </div>
-                    <div class="myAppoinments">
-                        <marquee direction="up" height="150px" scrollamount="1" onmouseover="this.stop();" onmouseleave="this.start()";>
-                            <p ng-repeat="row in MyAppoinmentdata" >
-                                <span>{{row.Appointment_Date | date : format : "dd-MM-yyyy"}}</span>
-                                <span>
-                                    {{row.ReasonForVisit}}
-                                </span>-->
+                </div>
+                <script>
+
+                </script>
+                <div class="panel panel-default patientProfileInfo mt-10">
+                    <div class="panel-body">
+
+                        <h1 class="title2 text-left">My Appointments</h1>
+                        <div class="myAppoinments" ng-show="MyAppoinmentdata.length==0">
+                            No Appointments
+                        </div>
+                        <div class="myAppoinments">
+                            <marquee direction="up" height="150px" scrollamount="1" onmouseover="this.stop();" onmouseleave="this.start()";>
+                                <p ng-repeat="row in MyAppoinmentdata" >
+                                    <span>{{row.Appointment_Date | date : format : "dd-MM-yyyy"}}</span>
+                                    <span>
+                                        {{row.ReasonForVisit}}
+                                    </span>-->
                 <!--<a href="">View Details</a>-->
                 <!--</p>
-                            </marquee>
-                        </div>
+                                </marquee>
+                            </div>
 
+                        </div>
                     </div>
-                </div>
-            </div>-->
+                </div>-->
                 <!--<div class="mainbody resBody ng-scope">
-            <div class="rows">-->
+                <div class="rows">-->
                 <div class="col-sm-3 p-15">
                     <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
                         <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
@@ -283,7 +283,7 @@
                     </div>
                 </div>
                 <!--</div>
-            </div>-->
+                </div>-->
                 <div class="col-sm-9">
                     <h1 class="page-title" ng-show="ParameterValueList.length>=0">
                         Alerts<sub>
@@ -663,77 +663,77 @@
                                         <div class="panel-body" ng-show="currentTab=='1'">
                                             <div id="zoomChart"></div>
                                             <!--<script>
-                                            Highcharts.chart('zoomChart', {
-                                                chart: {
-                                                    zoomType: 'xy'
-                                                },
-                                                title: {
-                                                    text: 'Life Styles'
-                                                },
-
-
-
-                                                yAxis: {
+                                                Highcharts.chart('zoomChart', {
+                                                    chart: {
+                                                        zoomType: 'xy'
+                                                    },
                                                     title: {
-                                                        text: 'Activities'
-                                                    }
-                                                },
+                                                        text: 'Life Styles'
+                                                    },
 
-                                                xAxis: {
-                                                    accessibility: {
-                                                        rangeDescription: 'Range: 2010 to 2017'
-                                                    }
-                                                },
 
-                                                legend: {
-                                                    layout: 'vertical',
-                                                    align: 'right',
-                                                    verticalAlign: 'middle'
-                                                },
 
-                                                plotOptions: {
-                                                    series: {
-                                                        label: {
-                                                            connectorAllowed: false
-                                                        },
-                                                        pointStart: 2010
-                                                    }
-                                                },
-
-                                                series: [{
-                                                    name: 'Walks',
-                                                    data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-                                                }, {
-                                                    name: 'Sleep',
-                                                    data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-                                                }, {
-                                                    name: 'Stand',
-                                                    data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-                                                }, {
-                                                    name: 'exercise',
-                                                    data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-                                                }, {
-                                                    name: 'Other',
-                                                    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-                                                }],
-
-                                                responsive: {
-                                                    rules: [{
-                                                        condition: {
-                                                            maxWidth: 500
-                                                        },
-                                                        chartOptions: {
-                                                            legend: {
-                                                                layout: 'horizontal',
-                                                                align: 'center',
-                                                                verticalAlign: 'bottom'
-                                                            }
+                                                    yAxis: {
+                                                        title: {
+                                                            text: 'Activities'
                                                         }
-                                                    }]
-                                                }
+                                                    },
 
-                                            });
-                                        </script>-->
+                                                    xAxis: {
+                                                        accessibility: {
+                                                            rangeDescription: 'Range: 2010 to 2017'
+                                                        }
+                                                    },
+
+                                                    legend: {
+                                                        layout: 'vertical',
+                                                        align: 'right',
+                                                        verticalAlign: 'middle'
+                                                    },
+
+                                                    plotOptions: {
+                                                        series: {
+                                                            label: {
+                                                                connectorAllowed: false
+                                                            },
+                                                            pointStart: 2010
+                                                        }
+                                                    },
+
+                                                    series: [{
+                                                        name: 'Walks',
+                                                        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                                                    }, {
+                                                        name: 'Sleep',
+                                                        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                                                    }, {
+                                                        name: 'Stand',
+                                                        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+                                                    }, {
+                                                        name: 'exercise',
+                                                        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+                                                    }, {
+                                                        name: 'Other',
+                                                        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                                                    }],
+
+                                                    responsive: {
+                                                        rules: [{
+                                                            condition: {
+                                                                maxWidth: 500
+                                                            },
+                                                            chartOptions: {
+                                                                legend: {
+                                                                    layout: 'horizontal',
+                                                                    align: 'center',
+                                                                    verticalAlign: 'bottom'
+                                                                }
+                                                            }
+                                                        }]
+                                                    }
+
+                                                });
+                                            </script>-->
                                             <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight" />
                                         </div>
                                         <div class="panel-body" ng-show="currentTab=='1'">
@@ -777,76 +777,76 @@
                                         <div ng-show="currentTab=='2' || currentTab=='3' ">
                                             <div>
                                                 <!-- Commented by yogesh
-                                            <div class="dropdown profile_menu">
-                                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fas fa-chart-line" class="themeProfile"
-                                                       ng-show="VitalChart=='1'"></i>
-                                                    <i class="fas fa-table" class="themeProfile"
-                                                       ng-show="VitalChart=='2'"></i>
+                                                <div class="dropdown profile_menu">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                            data-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-chart-line" class="themeProfile"
+                                                           ng-show="VitalChart=='1'"></i>
+                                                        <i class="fas fa-table" class="themeProfile"
+                                                           ng-show="VitalChart=='2'"></i>
 
-                                                </button>
-                                                <ul class="dropdown-menu customDropdown">
-                                                    <li class="customDropdownlast-child">
-                                                        <a href="javascript:"
-                                                           style="text-decoration: underline"
-                                                           ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
-                                                            <i class="fas fa-chart-line"
-                                                               class="themeProfile"></i>Chart<i class="fas fa-check"
-                                                                                                ng-show="VitalChart=='1'"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li class="customDropdownlast-child">
-                                                        <a href="javascript:" style="text-decoration: underline"
-                                                           ng-click="VitalChart ='2';HistoryDetails(currentTab);">
-                                                            <i class="fas fa-table"
-                                                               class="themeProfile"></i>Detail<i class="fas fa-check" ng-show="VitalChart=='2'"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            End Here-->
+                                                    </button>
+                                                    <ul class="dropdown-menu customDropdown">
+                                                        <li class="customDropdownlast-child">
+                                                            <a href="javascript:"
+                                                               style="text-decoration: underline"
+                                                               ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
+                                                                <i class="fas fa-chart-line"
+                                                                   class="themeProfile"></i>Chart<i class="fas fa-check"
+                                                                                                    ng-show="VitalChart=='1'"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="customDropdownlast-child">
+                                                            <a href="javascript:" style="text-decoration: underline"
+                                                               ng-click="VitalChart ='2';HistoryDetails(currentTab);">
+                                                                <i class="fas fa-table"
+                                                                   class="themeProfile"></i>Detail<i class="fas fa-check" ng-show="VitalChart=='2'"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                End Here-->
                                                 <!-- Added by yogesh-->
                                                 <!--<div class="changeViews">
-                                                <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
-                                                   ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
-                                                    <i class="fas fa-chart-bar"></i></i>
-                                                </a>
-                                                <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
-                                                   ng-click="VitalChart ='1';HistoryDetails(currentTab);">
-                                                    <i class="fas fa-table" class="themeProfile"></i></i>
-                                                </a>
-                                                <a href="#" title="Current Time">
-                                                    <i class="far fa-clock"></i>
-                                                </a>
-                                                <a href="#" title="English">
-                                                    <i class="fas fa-language"></i>
-                                                </a>
-                                            </div>-->
+                                                    <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
+                                                       ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
+                                                        <i class="fas fa-chart-bar"></i></i>
+                                                    </a>
+                                                    <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
+                                                       ng-click="VitalChart ='1';HistoryDetails(currentTab);">
+                                                        <i class="fas fa-table" class="themeProfile"></i></i>
+                                                    </a>
+                                                    <a href="#" title="Current Time">
+                                                        <i class="far fa-clock"></i>
+                                                    </a>
+                                                    <a href="#" title="English">
+                                                        <i class="fas fa-language"></i>
+                                                    </a>
+                                                </div>-->
                                                 <!-- End Here-->
                                                 <!--<div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                                    data-toggle="dropdown">Change View
-                                                    <span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="javascript:" style="text-decoration: underline"
-                                                            ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
-                                                            <i class="fas fa-chart-line" class="themeProfile"></i>
-                                                            Chart <i class="fas fa-check"
-                                                                ng-show="VitalChart=='1'"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="javascript:" style="text-decoration: underline"
-                                                            ng-click="VitalChart ='2';HistoryDetails(currentTab);">
-                                                            <i class="fas fa-table" class="themeProfile"></i>
-                                                            Detail <i class="fas fa-check"
-                                                                ng-show="VitalChart=='2'"></i>
-                                                        </a>
-                                                    </li>
+                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                        data-toggle="dropdown">Change View
+                                                        <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="javascript:" style="text-decoration: underline"
+                                                                ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
+                                                                <i class="fas fa-chart-line" class="themeProfile"></i>
+                                                                Chart <i class="fas fa-check"
+                                                                    ng-show="VitalChart=='1'"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:" style="text-decoration: underline"
+                                                                ng-click="VitalChart ='2';HistoryDetails(currentTab);">
+                                                                <i class="fas fa-table" class="themeProfile"></i>
+                                                                Detail <i class="fas fa-check"
+                                                                    ng-show="VitalChart=='2'"></i>
+                                                            </a>
+                                                        </li>
 
-                                                </ul>
-                                            </div>-->
+                                                    </ul>
+                                                </div>-->
                                                 <div ng-show="VitalChart=='2'">
 
                                                     <div id="table1">
@@ -878,17 +878,17 @@
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <!--<div class="inputGroups">
-                                                                <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                       class="theme-btn-1"
-                                                                       title='Add New Vitals'>Add New</a>
-                                                                </div>
-                                                                <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
-                                                                    <a href="javascript:" ng-click="AddVitalsPopUp()"
-                                                                       class="theme-btn-1 ml-10"
-                                                                       title='Add New Lab'>Add New</a>
-                                                                </div>
-                                                            </div>-->
+                                                                    <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                        <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                                           class="theme-btn-1"
+                                                                           title='Add New Vitals'>Add New</a>
+                                                                    </div>
+                                                                    <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                        <a href="javascript:" ng-click="AddVitalsPopUp()"
+                                                                           class="theme-btn-1 ml-10"
+                                                                           title='Add New Lab'>Add New</a>
+                                                                    </div>
+                                                                </div>-->
                                                             </div>
 
                                                         </div>
@@ -987,10 +987,10 @@
                                                             <tr>
                                                                 <td colspan="7" class="text-center">
                                                                     <!--<div st-items-by-page="page_size"
-                                                                     st-page-change="rembemberCurrentPage(newPage)"
-                                                                     st-pagination=""
-                                                                     st-template="Masters/Views/pagination.custom.html">
-                                                                </div>-->
+                                                                         st-page-change="rembemberCurrentPage(newPage)"
+                                                                         st-pagination=""
+                                                                         st-template="Masters/Views/pagination.custom.html">
+                                                                    </div>-->
                                                                     <ul class="pagination" style="margin-left:110px;">
                                                                         <li>
                                                                             <a ng-click="setPage(1)">First</a>
@@ -1036,11 +1036,11 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <!--<div class="inputGroups">
-                                                    <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
-                                                            ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
-                                                        Add New
-                                                    </button>
-                                                </div>-->
+                                                        <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
+                                                                ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                            Add New
+                                                        </button>
+                                                    </div>-->
                                                 </div>
 
 
@@ -1135,9 +1135,9 @@
                                                     <tr>
                                                         <td colspan="7" class="text-center">
                                                             <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                             st-pagination=""
-                                                             st-template="Masters/Views/pagination.custom.html">
-                                                        </div>-->
+                                                                 st-pagination=""
+                                                                 st-template="Masters/Views/pagination.custom.html">
+                                                            </div>-->
                                                             <ul class="pagination" style="margin-left:110px;">
                                                                 <li>
                                                                     <a ng-click="setPage3(1)">First</a>
@@ -1186,11 +1186,11 @@
 
                                                         <div class="col-sm-4">
                                                             <!--<div class="inputGroups">
-                                                            <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
-                                                               ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
-                                                                Add New
-                                                            </a>
-                                                        </div>-->
+                                                                <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
+                                                                   ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
+                                                                    Add New
+                                                                </a>
+                                                            </div>-->
 
                                                         </div>
 
@@ -1242,10 +1242,10 @@
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
                                                                 <!--<a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
-                                                                <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
-                                                            <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
-                                                                <img
-                                                                    src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
+                                                                    <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
+                                                                <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
+                                                                    <img
+                                                                        src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
                                                                 <a href="javascript:" title="Active" title="Active" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                     <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                                 </a>
@@ -1260,8 +1260,8 @@
                                                         <tr>
                                                             <td colspan="8" class="text-center">
                                                                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                                 st-pagination="" st-template="Masters/Views/pagination.custom.html">
-                                                            </div>-->
+                                                                     st-pagination="" st-template="Masters/Views/pagination.custom.html">
+                                                                </div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage2(1)">First</a>
@@ -1308,10 +1308,10 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <!--<div class="inputGroups">
-                                                        <a href="javascript:" title="Add New Allergy" ng-show="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
-                                                           ng-click="AddAllergyPopUp()" width="55%"
-                                                           class="theme-btn-1">Add New</a>
-                                                    </div>-->
+                                                            <a href="javascript:" title="Add New Allergy" ng-show="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
+                                                               ng-click="AddAllergyPopUp()" width="55%"
+                                                               class="theme-btn-1">Add New</a>
+                                                        </div>-->
 
                                                     </div>
                                                 </div>
@@ -1361,8 +1361,8 @@
 
 
                                                         <!-- <td style="text-align: left">
-                                                        {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
-                                                    </td>-->
+                                                            {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                                        </td>-->
                                                         <td style="text-align: left">
                                                             {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                         </td>
@@ -1394,9 +1394,9 @@
                                                     <tr>
                                                         <td colspan="9" class="text-center">
                                                             <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                             st-pagination=""
-                                                             st-template="Masters/Views/pagination.custom.html">
-                                                        </div>-->
+                                                                 st-pagination=""
+                                                                 st-template="Masters/Views/pagination.custom.html">
+                                                            </div>-->
                                                             <ul class="pagination" style="margin-left:110px;">
                                                                 <li>
                                                                     <a ng-click="setPage4(1)">First</a>
@@ -1440,7 +1440,7 @@
                                                             <input toggle-checkbox ng-model="NotesActive" type="checkbox"
                                                                    ng-change="patientnotelist();" title="Active / All">
                                                             <!--<a href="javascript:" ng-click="PatientNotesAddPopup()" width="15%" class="ml-10 theme-btn-1"
-                                                        title='Add New Patient Notes'>Add New</a>-->
+                                                            title='Add New Patient Notes'>Add New</a>-->
                                                         </div>
                                                     </div>
 
@@ -1512,7 +1512,7 @@
                                                     <tr>
                                                         <td colspan="7" class="text-center">
                                                             <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                                                        mplate="Masters/Views/pagination.custom.html"></div>-->
+                                                            mplate="Masters/Views/pagination.custom.html"></div>-->
                                                             <ul class="pagination" style="margin-left:110px;">
                                                                 <li>
                                                                     <a ng-click="setPage1(1)">First</a>
@@ -1554,9 +1554,9 @@
                                                             <input toggle-checkbox ng-model="OtherData_IsActive" type="checkbox" ng-change="Patient_OtherData_List();"
                                                                    title="Active / All">
                                                             <!--<a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
-                                                           class="theme-btn-1 ml-10" title='Add New Other Data' ng-show="(UserTypeId!= 6)">
-                                                            Add New
-                                                        </a>-->
+                                                               class="theme-btn-1 ml-10" title='Add New Other Data' ng-show="(UserTypeId!= 6)">
+                                                                Add New
+                                                            </a>-->
                                                         </div>
                                                     </div>
 
@@ -1568,13 +1568,13 @@
                                                        class="table themeTable">
                                                     <thead>
                                                         <!--<tr style="text-align: center">
-                                                        <th width="5%">#</th>
-                                                        <th width="20%">Document Name</th>
-                                                        <th width="20%">File</th>
-                                                        <th width="15%">Created By</th>
-                                                        <th width="15%">Created On</th>
-                                                        <th width="15%">Action</th>
-                                                    </tr>-->
+                                                            <th width="5%">#</th>
+                                                            <th width="20%">Document Name</th>
+                                                            <th width="20%">File</th>
+                                                            <th width="15%">Created By</th>
+                                                            <th width="15%">Created On</th>
+                                                            <th width="15%">Action</th>
+                                                        </tr>-->
                                                         <tr style="text-align: center">
                                                             <th st-ratio="5">#</th>
                                                             <th st-ratio="20">Document Name</th>
@@ -1643,7 +1643,7 @@
                                                         <tr>
                                                             <td colspan="7" class="text-center">
                                                                 <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/paginationustom.html">
-                                                            </div>-->
+                                                                </div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage5(1)">First</a>
@@ -1701,13 +1701,13 @@
                                                 </div>
 
                                                 <!--<div class="col-sm-4" ng-repeat="row in PatientLiveDataList">
-                                                <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
-                                                    <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
-                                                </div>
-                                                <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
-                                                    <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
-                                                </div>
-                                            </div>-->
+                                                    <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==false">
+                                                        <a href="home/GetPatient_OtherDataDocument?Id={{row.ParameterId}}" target="_blank">{{row.UOM_Name}}</a>
+                                                    </div>
+                                                    <div class="alert alert-success nibp" ng-if="row.Type_Id==2 && LiveData_IsImage(row.UOM_Name)==true">
+                                                        <img class="responsiveProfileImage" src="{{'data:image/png;base64,'+ row.LiveData_Blob}}" />
+                                                    </div>
+                                                </div>-->
                                                 <!--di-->
                                             </div>
                                         </div>
@@ -1765,87 +1765,87 @@
 
                             </div>
                             <!--<h1 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
-                            My Appointments({{PatientAppointmentCount}})
-                        </h1>
-                        <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
+                                My Appointments({{PatientAppointmentCount}})
+                            </h1>
+                            <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
 
 
-                            My Appoint
-                            ments
-                        </h1>-->
+                                My Appoint
+                                ments
+                            </h1>-->
                             <!--<div class="patientCard" ng-hide="PatientAppointmentCount==0">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                     valign="top" rowspan="6">
-                                    <img class="patientDetimg" src="../../Images/male.png" />
-                                </div>
-                                <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
-                                     valign="top" rowspan="6">
-                                    <img class="patientDetimg" src="../../Images/female.png" />
-                                </div>
-                                <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                     valign="top" rowspan="6">
-                                    <img class="patientDetimg" src="../../Images/Others.png" />
-                                </div>
-                                <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                    <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                </div>
-                                <h1>{{DoctorName}}</h1>-->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                         valign="top" rowspan="6">
+                                        <img class="patientDetimg" src="../../Images/male.png" />
+                                    </div>
+                                    <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
+                                         valign="top" rowspan="6">
+                                        <img class="patientDetimg" src="../../Images/female.png" />
+                                    </div>
+                                    <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                         valign="top" rowspan="6">
+                                        <img class="patientDetimg" src="../../Images/Others.png" />
+                                    </div>
+                                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                        <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                    </div>
+                                    <h1>{{DoctorName}}</h1>-->
                             <!--<span style="text-align: center"></span>-->
                             <!--<div class="row" style="margin-left: 0px!important;">
-                            <div class="column" style="float:left;">
-                                <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
-                                 height 30px;
-                                 width 30px;
-                                 display flex; cursor:pointer;border: 0px!important;">
-                            </div><div class="column" style="float:left;">
-                                <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
-                                 height 30px;
-                                 width 30px;
-                                 display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
-                            </div><div class="column" style="float:left;">
-                                <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
-                                 height 30px;
-                                 width 30px;
-                                 display flex; cursor:pointer;border: 0px!important;">
-                            </div>
-                        </div>-->
+                                <div class="column" style="float:left;">
+                                    <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
+                                     height 30px;
+                                     width 30px;
+                                     display flex; cursor:pointer;border: 0px!important;">
+                                </div><div class="column" style="float:left;">
+                                    <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
+                                     height 30px;
+                                     width 30px;
+                                     display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
+                                </div><div class="column" style="float:left;">
+                                    <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
+                                     height 30px;
+                                     width 30px;
+                                     display flex; cursor:pointer;border: 0px!important;">
+                                </div>
+                            </div>-->
                             <!--<i class="fa fa-comments my-float" style="font-size: 25px" onclick="openChatWindow()"></i>
-                        &nbsp;&nbsp;&nbsp;
-                        <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
+                            &nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
 
-                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
-                               ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
-                               id="Image4" />-->
+                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                                   ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
+                                   id="Image4" />-->
                             <!--</div>
-                                <div class="col-sm-6">
-                                    <label>Date</label>
-                                    <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
-                                    <label>Time</label>
-                                    <span>{{AppointmentTime | date :'hh:mm a'}}</span>
+                                    <div class="col-sm-6">
+                                        <label>Date</label>
+                                        <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
+                                        <label>Time</label>
+                                        <span>{{AppointmentTime | date :'hh:mm a'}}</span>
 
-                                    <span style="text-align: right">
-                                        <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
-                                           title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
-                                           ng-hide="index==0"></i>&nbsp;&nbsp;
-                                        <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
-                                           title="Next Appointment" ng-click="Next_PatientAppointment(1)"
-                                           ng-hide="index+1==PatientAppointmentCount"></i>
-                                    </span>
+                                        <span style="text-align: right">
+                                            <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
+                                               title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
+                                               ng-hide="index==0"></i>&nbsp;&nbsp;
+                                            <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
+                                               title="Next Appointment" ng-click="Next_PatientAppointment(1)"
+                                               ng-hide="index+1==PatientAppointmentCount"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h2>{{TimeDifference}} Left</h2>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <h2>{{TimeDifference}} Left</h2>
-                                </div>
-                            </div>
-                        </div>-->
+                            </div>-->
                             <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    No doctor appointments scheduled
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        No doctor appointments scheduled
+                                    </div>
                                 </div>
-                            </div>
-                        </div>-->
+                            </div>-->
                         </div>
                         <div ng-show="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
                             <div class="panel panel-default">
@@ -1904,66 +1904,61 @@
                             </div>
                         </div>
                         <div class="mt-15" ng-show="UserTypeId ==5">
-                            <button type="button" class="theme-btn-2 mt-10" ng-click="ShowAppointmentBookingPopUp()">
-                                + Book New
-                            </button>
+                            <div class="flex align-items-center justify-content-between mb-4">
+                                <p class="m-bottom-0 font-semibold self-center">My Appointment</p>
+                                <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
+                                    + Book New
+                                </button>
+                            </div>
                             <div class="panel panel-default patientProfileInfo">
 
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>
-                                    <li><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#appt">Up Coming</a></li>
+                                    <li><a data-toggle="tab" href="#alertclear">Past</a></li>
                                 </ul>
                                 <div class="tab-content" style="display:inherit !important">
                                     <div id="appt" class="tab-pane fade in active">
-                                        <div class="panel-body">
-                                            <div class="inputGroups">
-                                                <label for="usr">Doctor</label>
-                                                <input type="text" class="form-control" ng-model="searchquery" ng-click="DoctorSeachPopup()"
-                                                       placeholder="" />
-
-                                            </div>
-                                            <div class="inputGroups">
-                                                <label for="usr">Appointment Date</label>
-                                                <!--<div class="input-group date">-->
-                                                <input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">
-                                                <!--<span class="input-group-addon">
-                            <i class="glyphicon glyphicon-th"></i>
-                        </span>-->
-                                                <!--</div>-->
-                                            </div>
-                                            <div class="inputGroups">
-                                                <label for="usr">Appointment Time</label>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="input-group bootstrap-timepicker timepicker">
-                                                            <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentFromTime"
-                                                                   ng-init="AppointmentFromTime=''">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <div class="">
+                                            <div class=" upcoming-doctor">
+                                                <div class="flex justify-content-between align-items-center mb-4">
+                                                    <p class="up-time">11:00 - 11:30 AM, May 25 2021 (20 days to go)</p>
+                                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="flex">
+                                                    <div class="" style="width:20%">
+                                                        <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                                            <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="input-group bootstrap-timepicker timepicker">
-                                                            <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentToTime"
-                                                                   ng-init="AppointmentToTime=''">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                                        </div>
+                                                    <div class="" style="width:80%">
+                                                        <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. Clarence MD</p>
+                                                        <p class="m-bottom-0 secondary-text" style="font-size:13px;">Cardiologist</p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="inputGroups">
-                                                <label>Reason For Visit</label>
-                                                <textarea class="form-control mb-10" rows="4" style="width: 100%" ng-model="ReasonForVisit"
-                                                          maxlength="250" ng-maxlength="250"></textarea>
-                                            </div>
-                                            <div class="inputGroups">
-                                                <button type="button" class="theme-btn-1 mr-10 mt-10" title="Click to save Patient Appointment"
-                                                        ng-click="PatientAppointment_InsertUpdate(Doctor_Id)">
-                                                    Save
-                                                </button>
-                                                <button type="button" class="theme-btn-2 mt-10" ng-click="DoctorAppoinmentModal()">
-                                                    View
-                                                    History
-                                                </button>
+
+                                            <div class="upcoming-doctor">
+                                                <div class="flex justify-content-between align-items-center mb-4">
+                                                    <p class="up-time">11:00 - 11:30 AM, May 25 2021 (20 days to go)</p>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="flex">
+                                                    <div class="" style="width:20%">
+                                                        <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                                            <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="" style="width:80%">
+                                                        <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. Clarence MD</p>
+                                                        <p class="m-bottom-0 secondary-text" style="font-size:13px;">Cardiologist</p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex">
+                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
+                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
+                                                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2239,8 +2234,8 @@
                                             {{Allen.AllergyOnsetName}}<br />{{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
                                         </td>
                                         <!--  <td style="text-align: left">
-                                        {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
-                                    </td>-->
+                                            {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                        </td>-->
                                         <td style="text-align: left">
 
 
@@ -2786,9 +2781,9 @@
                                 <tr ng-repeat="row in AddMedicationDetails">
                                     <td class="textalign">{{$index+1}}</td>
                                     <!-- <td style="text-align: center">
-                                    <input type="text" class="form-control" id="Text14" ng-model="row.CodeSearch" ng-click="DrugcodeSearchPopup($index)"
-                                        ng-readonly="true" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
-                                </td>-->
+                                        <input type="text" class="form-control" id="Text14" ng-model="row.CodeSearch" ng-click="DrugcodeSearchPopup($index)"
+                                            ng-readonly="true" ng-maxlength="100" maxlength="100" placeholder="" onkeypress="">
+                                    </td>-->
 
                                     <td>
                                         {{row.DrugCode}}
@@ -2837,15 +2832,15 @@
                                             <input type="date" id="start_Date" max="2099-12-31" class="form-control" ng-model="row.StartDate" ng-init="row.StartDate=''"
                                                    style="width: 165px">
                                             <!--<span class="input-group-addon">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                        </span>-->
+                                                <i class="glyphicon glyphicon-th"></i>
+                                            </span>-->
                                         </div>
                                         <div class="col-md-10 input-group date">
                                             <input type="date" id="End_Date" max="2099-12-31" class="form-control" ng-model="row.EndDate" ng-init="row.EndDate=''"
                                                    style="width: 165px">
                                             <!--<span class="input-group-addon">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                        </span>-->
+                                                <i class="glyphicon glyphicon-th"></i>
+                                            </span>-->
                                         </div>
                                         <!--<input type="text" datepicker ng-model="row.StartDate" ng-init="StartDate=''" style="margin-bottom: 0px; width: 100px;"  />-->
                                         <!--<input type="text" datepicker ng-model="row.EndDate" ng-init="EndDate=''" style="height: 26px; margin-top: 22px; margin-bottom: 0px; width: 106px;"  />-->
@@ -3040,8 +3035,8 @@
                                                 <input type="date" id="AFDate" max="2099-12-31" class="form-control" ng-model="row.Active_From" ng-init="row.Active_From=''"
                                                        style="width: 165px">
                                                 <!--<span class="input-group-addon">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                            </span>-->
+                                                <i class="glyphicon glyphicon-th"></i>
+                                                </span>-->
                                             </div>
                                         </td>
                                         <td>
@@ -3049,8 +3044,8 @@
                                                 <input type="date" id="ATDate" max="2099-12-31" class="form-control" ng-model="row.Active_To" ng-init="row.Active_To=''"
                                                        style="width: 165px">
                                                 <!--<span class="input-group-addon">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                            </span>-->
+                                                <i class="glyphicon glyphicon-th"></i>
+                                                </span>-->
                                             </div>
                                         </td>
 
@@ -3265,15 +3260,15 @@
                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
 
                                 <!-- <tr ng-repeat="row in AddICD10List">
-                                 <td><label>ICD Code</label></td>
-                                 <td>
-                                  <select class="form-control" ng-model="row.Code_ID"  ng-required="true">
-                                       <option value="0">Select</option>
-                                             <option ng-repeat="del in ICDCodeListdata  | filter: {Category_ID : row.Category_ID}" ng-selected="row.Code_ID==del.Id"
-                                                  value="{{del.Id}}">{{del.ICD_Code}}</option>
-                                         </select>
-                                     </td>
-                             </tr>-->
+                                    <td><label>ICD Code</label></td>
+                                    <td>
+                                     <select class="form-control" ng-model="row.Code_ID"  ng-required="true">
+                                          <option value="0">Select</option>
+                                                <option ng-repeat="del in ICDCodeListdata  | filter: {Category_ID : row.Category_ID}" ng-selected="row.Code_ID==del.Id"
+                                                     value="{{del.Id}}">{{del.ICD_Code}}</option>
+                                            </select>
+                                        </td>
+                                </tr>-->
 
                                 <tr ng-repeat="row in AddICD10List">
                                     <td><label>ICD Code</label></td>
@@ -3294,9 +3289,9 @@
                                     <td>
                                         {{row.Category_Name}}
                                         <!-- <select class="form-control" data-style="form-control"  ng-model="row.Category_ID" id="EditCategory">
-                                    <option ng-repeat="sel in CategoryIDList" ng-selected="row.Category_ID==sel.Category_ID"
-                                                 value="{{sel.Id}}">{{sel.CategoryName}}</option>
-                                        </select>-->
+                                        <option ng-repeat="sel in CategoryIDList" ng-selected="row.Category_ID==sel.Category_ID"
+                                                     value="{{sel.Id}}">{{sel.CategoryName}}</option>
+                                            </select>-->
                                     </td>
                                 </tr>
 
@@ -3325,8 +3320,8 @@
                                             <input type="date" id="AFDate" max="2099-12-31" class="form-control" ng-model="row.Active_From"
                                                    style="width: 165px" ng-init="row.Active_From=Active_From">
                                             <!--<span class="input-group-addon">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                        </span>-->
+                                                <i class="glyphicon glyphicon-th"></i>
+                                            </span>-->
                                         </div>
                                     </td>
                                 </tr>
@@ -3337,8 +3332,8 @@
                                             <input type="date" id="ATDate" max="2099-12-31" class="form-control" ng-model="row.Active_To"
                                                    style="width: 165px" ng-init="row.Active_To=Active_To">
                                             <!--<span class="input-group-addon">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                        </span>-->
+                                                <i class="glyphicon glyphicon-th"></i>
+                                            </span>-->
                                         </div>
                                     </td>
                                 </tr>
@@ -3354,7 +3349,7 @@
                             </table>
                         </form>
                         <!--  <a href="javascript:" title="Click to Add"
-                      ng-click="PatientICD10Insert()">|Add|</a>-->
+                        ng-click="PatientICD10Insert()">|Add|</a>-->
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
@@ -3692,21 +3687,21 @@
                                 </td>
                                 <td>
                                     <!--<input type="text" datepicker ng-model="row.StartDate" ng-init="StartDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 93px" />
-                                <input type="text" datepicker ng-model="row.EndDate" ng-init="EndDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 91px" />                                                                                                    -->
+                                    <input type="text" datepicker ng-model="row.EndDate" ng-init="EndDate=''" ng-maxlength="20" maxlength="20" placeholder="" onkeypress="" style="width: 91px" />                                                                                                    -->
 
                                     <div class="inputGroups">
                                         <input type="date" id="S_Date" class="form-control" max="2099-12-31" ng-model="StartDate"
                                                style="width: 165px">
                                         <!--<span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-th"></i>
-                                    </span>-->
+                                        <i class="glyphicon glyphicon-th"></i>
+                                        </span>-->
                                     </div>
                                     <div class="inputGroups">
                                         <input type="date" id="E_Date" class="form-control" max="2099-12-31" ng-model="EndDate"
                                                style="width: 165px">
                                         <!--<span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-th"></i>
-                                    </span>-->
+                                        <i class="glyphicon glyphicon-th"></i>
+                                        </span>-->
                                     </div>
                                     <!--<input type="text" datepicker ng-model="row.StartDate" ng-init="StartDate=''" style="margin-bottom: 0px; width: 100px;"  />-->
                                     <!--<input type="text" datepicker ng-model="row.EndDate" ng-init="EndDate=''" style="height: 26px; margin-top: 22px; margin-bottom: 0px; width: 106px;"  />-->
@@ -3945,7 +3940,7 @@
                                                style="height: 0px !important; display: none;" />
 
                                         <!--<button type="button" class="btn  btn-autosize" id="EditDocLogo">
-                                    Upload File</button>-->
+                                        Upload File</button>-->
                                         <a ng-href="{{Resume}}" target="_blank"><div class="textwrap">{{EditFileName}}</div></a>
 
                                         <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-start;">
@@ -4711,113 +4706,1072 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
-                        <h4 class="modal-title">Book Appointment</h4>
+                        <h4 class="modal-title">Book Doctor Appointment</h4>
                     </div>
-                    <div class="modal-body">
-                        
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" title="Click to Cancel">
-                                Cancel
+                    <div  id="main-box">
+                        <div class="modal-body">
+                            <div class="flex">
+                                <div class="col-sm-4">
+                                    <div class="inputGroups">
+                                        <label for="usr">Select Specialty</label>
+                                        <select class="form-control">
+                                            <option>Dermatology</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="inputGroups">
+                                        <label for="usr">Select Date</label>
+                                        <!--<div class="input-group date">-->
+                                        <input type="date" class="form-control date">
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="inputGroups">
+                                        <label for="usr">Select TimeZone</label>
+                                        <select class="form-control">
+                                            <option>UAE Standard</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-10">
+                                <button type="button" class="btn-darkblue" title="Save">
+                                    Search
+                                </button>
+                            </div>
+                            <div class="flex mt-10 p-4">
+                                <div class="doc-found">
+                                    <p class="m-bottom-0">31 Doctors found</p>
+                                </div>
+                                <div class="col-sm-12 flex">
+                                    <input class="self-center m-0" type="checkbox">
+                                    <p class="font-semibold self-center m-bottom-0" style="margin-left:5px;font-size:10px">Show Previously Consulted Doctors Only</p>
+                                </div>
+                            </div>
+                            <div class="flex doc-details mt-10 p-4">
+                                <div class="col-sm-3">
+                                    <ul class="p-0">
+                                        <li>Dr. Kumar</li>
+                                        <li>Dr. karthi</li>
+                                        <li>Dr. Bala</li>
+                                        <li>Dr. Sundar</li>
+                                        <li>Dr. Bharathy</li>
+                                        <li>Dr. Sala</li>
+                                        <li>Dr. Jeya</li>
+                                        <li>Dr. sakthi</li>
+                                        <li>Dr. Kani</li>
+                                        <li>Dr. Sekar</li>
+                                        <li>Dr. Mohan</li>
+                                        <li>Dr. Sarath</li>
+                                        <li>Dr. Kamal</li>
+                                        <li>Dr. Kumar</li>
+                                        <li>Dr. karthi</li>
+                                        <li>Dr. Bala</li>
+                                        <li>Dr. Sundar</li>
+                                        <li>Dr. Bharathy</li>
+                                        <li>Dr. Sala</li>
+                                        <li>Dr. Jeya</li>
+                                        <li>Dr. sakthi</li>
+                                        <li>Dr. Kani</li>
+                                        <li>Dr. Sekar</li>
+                                        <li>Dr. Mohan</li>
+                                        <li>Dr. Sarath</li>
+                                        <li>Dr. Kamal</li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-9 p-8">
+                                    <div class="flex mb-8">
+                                        <div class="col-sm-7 flex p-0">
+                                            <div class="" style="width:20%">
+                                                <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                </div>
+                                            </div>
+                                            <div class="" style="width:80%">
+                                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. Clarence MD</p>
+                                                <p class="m-bottom-0 secondary-text" style="font-size:13px;">Cardiologist</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 flex self-center p-0 justify-end">
+                                            <div class="flex justify-end">
+                                                <button type="button" class="theme-btn-1" title="Save">
+                                                    You previously had 2 appointments
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <div class="col-sm-6">
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Health License</label>
+                                                <p class="col-sm-6 doc-p">UY-HM-98745</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Sex</label>
+                                                <p class="col-sm-6 doc-p">MALE</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Nationality</label>
+                                                <p class="col-sm-6 doc-p">Indian</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Date of birth</label>
+                                                <p class="col-sm-6 doc-p">28-02-1980</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Nationality</label>
+                                                <p class="col-sm-6 doc-p">Indian</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Email</label>
+                                                <p class="col-sm-6 doc-p">u1@gmail.com</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Contact Number</label>
+                                                <p class="col-sm-6 doc-p">9876543210<br />7854123695</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Address</label>
+                                                <p class="col-sm-6 doc-p">a2, block ascdgfg <br /> terta 123456<br /> ind- 654780</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Availability</label>
+                                                <p class="col-sm-6 doc-p">Available</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Languages Known</label>
+                                                <p class="col-sm-6 doc-p">English, Fresh</p>
+                                            </div>
+                                            <div class="flex">
+                                                <label class="col-sm-6 doc-label">Certification</label>
+                                                <p class="col-sm-6 doc-p">MPCKK- Board of medical examination</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="modal-footer">
+                        <div class="col-sm-12 flex justify-end mt-10">
+                            <button type="button" class="btn-darkblue" id="show" title="Save">
+                                Save this Doctor and Continue
                             </button>
                         </div>
                     </div>
-                </div>
+                        </div>
+
+                    <div id="box" style="display:none">
+                        <div class="modal-body">
+                            <div class="flex">
+                                <div class="col-sm-7">
+                                    <div class="flex justify-center align-items-center self-center">
+                                        <i class="arrow-icon fas fa-caret-left mr-8"></i>
+                                        <div class="col-sm-1 doc-date p-0">
+                                            <p class="m-bottom-0 text-center">23</p>
+                                            <p class="m-bottom-0 text-center">May</p>
+                                        </div>
+                                        <div class="col-sm-1 doc-date p-0">
+                                            <p class="m-bottom-0 text-center">24</p>
+                                            <p class="m-bottom-0 text-center">May</p>
+                                        </div>
+                                        <div class="col-sm-1 doc-date p-0">
+                                            <p class="m-bottom-0 text-center">25</p>
+                                            <p class="m-bottom-0 text-center">May</p>
+                                        </div>
+                                        <div class="col-sm-1 doc-date p-0">
+                                            <p class="m-bottom-0 text-center">26</p>
+                                            <p class="m-bottom-0 text-center">May</p>
+                                        </div>
+                                        <div class="col-sm-1 doc-date p-0">
+                                            <p class="m-bottom-0 text-center">27</p>
+                                            <p class="m-bottom-0 text-center">May</p>
+                                        </div>
+                                        <div class="col-sm-1 doc-date p-0">
+                                            <p class="m-bottom-0 text-center">28</p>
+                                            <p class="m-bottom-0 text-center">May</p>
+                                        </div>
+                                        <div class="col-sm-1 doc-date p-0">
+                                            <p class="m-bottom-0 text-center">29</p>
+                                            <p class="m-bottom-0 text-center">May</p>
+                                        </div>
+                                        <i class="arrow-icon fas fa-caret-right"></i>
+                                    </div>
+                                    <p class="text-center m-bottom-0 mt-10 mb-10 font-semibold">Available Slots</p>
+                                    <div class="flex justify-center">
+                                        <div class="col-sm-6 available-slot p-0">
+                                            <p class="new-book col-sm-6 p-0 m-bottom-0">New Booking</p>
+                                            <p class="col-sm-6 p-0 text-center self-center m-bottom-0">Follow Up</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 flex flex-wrap mt-10">
+                                        <div class="col-sm-4"><p class="time text-center">10.00 - 10.30 AṀ</p></div>
+                                        <div class="col-sm-4">
+                                            <p class="time text-center">10.30 - 11.00 AṀ</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <p class="time text-center">11.00 - 11.30 AṀ</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <p class="time text-center">11.30 - 12.00 PṀ</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <p class="time text-center">12.30 - 01.00 PṀ</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 flex mt-10">
+                                        <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methos</p>
+                                        <input class="" id="Radio1" type="radio" checked/><span class="m-left-1 mr-8">Self Pay</span>
+                                        <input class="mr-2" id="Radio1" type="radio" /><span class="m-left-1">Insurance</span>
+                                    </div>
+                                    <div class="col-sm-12 flex-col mt-10">
+                                        <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />
+                                        <textarea id="TextArea1" rows="3" cols="80"></textarea>
+                                    </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
+                                        <div class="col-sm-12 custom-file mt-10">
+                                            <label class="custom-file-upload text-center">
+                                                <input type="file" />
+                                                Drag and Drop File
+                                                <p class="m-bottom-0 mt-10 text-center">Brower File</p>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-12">
+                                        <div class="col-sm-12 file">
+                                            <p class="m-bottom-0">File name</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn-darkblue" id="show" title="Save">
+                                    Save and Continue
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
             </div>
         </div>
     </div>
-        <script>
-            //$("#StartDate").bootstrapDP({
-            //    format: "dd-M-yyyy",
-            //    forceParse: false,
-            //    //endDate: '+0d',
-            //    startDate: new Date(),
-            //    autoclose: true,
-            //    todayHighlight: true,
-            //    toggleActive: true,
-            //    todayBtn: true
-            //});
-        </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#show").click(function () {
+                $("#box").show();
+                $("#main-box").hide();
+            });
+        });
+    </script>
+    <script>
+        /*
+jQuery Image upload
+Images can be uploaded using:
+* File requester (Double click on box)
+* Drag&Drop (Drag and drop image on box)
+* Pasting. (Copy an image or make a screenshot, then activate the page and paste in the image.)
 
-        <script>
-            //$("#EndDate").bootstrapDP({
-            //    format: "dd-M-yyyy",
-            //    forceParse: false,
-            //    //endDate: '+0d',
-            //    startDate: new Date(),
-            //    autoclose: true,
-            //    todayHighlight: true,
-            //    toggleActive: true,
-            //    todayBtn: true
-            //});
-        </script>
-        <script>
+Works in Mozilla, Webkit & IE.
+*/
 
-            //$('#chatBoxOpener').click(function () {
-            //    $('.chatBox').toggleClass('chatBoxClose');
-            //    $(this).find('i').toggleClass('fa-arrow-up');
-            //    $(this).find('i').toggleClass('fa-arrow-down');
-            //})
-            //$("#AppointmentDate").bootstrapDP({
-            //    format: "dd-M-yyyy",
-            //    forceParse: false,
-            //    //endDate: '+0d',
-            //    startDate: new Date(),
-            //    autoclose: true,
-            //    todayHighlight: true,
-            //    toggleActive: true,
-            //    todayBtn: true
-            //});
+        (function ($) {
+            $.fn.imageUpload = function (options) {
+                var settings = $.extend({
+                    outputHandler: function () { }, // Callback function for processing output. Parameter is image source in base64 format
+                    onBeforeUpload: function () { },// Callback function called before upload processing
+                    onAfterUpload: function () { },	// Callback function called after upload processing
+                    maxUpload: 3,				// Max number of image files allowed to be uploaded.
+                    errorMsg: 'Error: The file you just uploaded is not an image!',
+                    trigger: 'click', 			// possible values: "click", "dblclick" or null
+                    errorContainer: null,		// Container for error message
+                    enableCliboardCapture: true, // Enable clipboard capturing
+                    enableDebug: true			// enable debugging output in console
+                }, options);
 
-            // chat window
-            function chatarrowclick() {
-                $('.chatBox').toggleClass('chatBoxClose');
-                $('#chatBoxOpener').find('i').toggleClass('fa-arrow-up');
-                $('#chatBoxOpener').find('i').toggleClass('fa-arrow-down');
+                var $this = $(this), dragging = false, pasting = false;
+
+                var $uploadField = $('<input type="file" style="display:none" name="fileselect[]" multiple="multiple" accept="image/*, .gif, .png, .jpg" />');
+
+                // Create capture area for Mozilla & IE
+                var $contentEditable = $('<div contenteditable="true" style="position:absolute;overflow:hidden;top:-20px;width:0;height:0;" />');
+
+                // Get file type from image data uri.
+                var getFileExtension = function (imgSrc) { return imgSrc.replace(/data:image\/([^;]*).*/ig, ".$1"); };
+
+                // Get mime type from data uri.
+                var getFileType = function (imgSrc) { return imgSrc.replace(/data:([^;]*).*/ig, "$1"); };
+
+                // Error display
+                var errorHandler = function (error) {
+                    if (error && settings.errorContainer !== null) {
+                        settings.errorContainer.html(settings.errorMsg).fadeIn(1000, function () {
+                            $(this).delay(5000).fadeOut(1000);
+                        });
+                    }
+                };
+
+                var readFile = function (file) {
+                    var reader = new FileReader();
+                    $(reader).on('load', file, function (e) {
+                        var returnValue = {
+                            name: (e.data.name ? e.data.name : 'CB_Image_' + (+new Date()) + getFileExtension(e.target.result)),
+                            type: (e.data.type ? e.data.type : getFileType(e.target.result)),
+                            size: (e.data.size ? e.data.size : 'n/a'),
+                            imgSrc: e.target.result
+                        };
+                        // Execute outputHandler callback function if available
+                        $.isFunction(settings.outputHandler) && settings.outputHandler.call(this, returnValue);
+                        // Execute onAfterUpload callback function if available
+                        $.isFunction(settings.onAfterUpload) && settings.onAfterUpload.call(this);
+                    });
+                    reader.readAsDataURL(file);
+                };
+
+                // Upload processing
+                var processUpload = function (files, originalEvent) {
+                    var error = false, imageFound = false, count = 0;
+                    if (files !== null) {
+                        for (var i = 0; i < files.length; i++) {
+                            if (files[i].type.indexOf("image") == -1) {
+                                //not image
+                                error = true;
+                                continue;
+                            }
+                            if (count == settings.maxUpload) break; // Max reached
+                            count++;
+                            imageFound = true;
+
+                            // Webkit clipboard data needs data converted through getAsFile()
+                            var blob = (typeof originalEvent !== 'undefined' && !originalEvent.msConvertURL) ? files[i].getAsFile() : files[i];
+
+                            readFile(blob);
+                        }
+                        if (!imageFound) {
+                            // Execute onAfterUpload callback function if available
+                            $.isFunction(settings.onAfterUpload) && settings.onAfterUpload.call(this);
+                        }
+                        errorHandler(error);
+                    }
+                };
+
+                // Alternate clipboard capturing function for Mozilla
+                var mozillaCaptureFunc = function () {
+                    pasting = false;
+                    var img = $contentEditable.find('img'), error = true;
+                    if (img.length) {
+                        error = false;
+                        var returnValue = {
+                            name: 'CB_Image_' + (+new Date()) + getFileExtension(img[0].src),
+                            type: getFileType(img[0].src),
+                            size: 'n/a',
+                            imgSrc: img[0].src
+                        };
+                        // Execute outputHandler callback function if available
+                        $.isFunction(settings.outputHandler) && settings.outputHandler.call(this, returnValue);
+                    }
+                    // Remove "input" event handler and clear capture area
+                    $contentEditable.off('input', mozillaCaptureFunc).text('');
+                    errorHandler(error);
+                    // Execute onAfterUpload callback function if available
+                    $.isFunction(settings.onAfterUpload) && settings.onAfterUpload.call(this);
+                };
+
+                // Paste handler
+                var pasteHandlerFunc = function (e) {
+
+                    // Remove existing Mozilla "input" event handler
+                    $contentEditable.off('input', mozillaCaptureFunc);
+
+                    // Execute onBeforeUpload callback function if available
+                    $.isFunction(settings.onBeforeUpload) && settings.onBeforeUpload.call(this);
+
+                    var clipboardData = e.originalEvent.clipboardData || window.clipboardData;
+                    if (clipboardData === false || clipboardData === undefined) {
+                        // empty
+                        // Execute onAfterUpload callback function if available
+                        $.isFunction(settings.onAfterUpload) && settings.onAfterUpload.call(this);
+                        pasting = false;
+                        return false;
+                    }
+
+                    var files = clipboardData.items || clipboardData.files;
+
+                    // No Items or files, so either nothing in clipboard or Mozilla browser
+                    if (files.length === 0) {
+                        // Enable "input" event handler for Mozilla, and set focus
+                        $contentEditable.on('input', mozillaCaptureFunc).focus();
+                    }
+                    else {
+                        pasting = false;
+                        processUpload(files, e.originalEvent);
+                        e.preventDefault();
+                    }
+                };
+
+                // Alternate triggering metod for clipboard capturing, required for IE & Mozilla
+                var keydownHandlerFunc = function (e) {
+                    if (!pasting && (e.ctrlKey || e.metaKey) && e.which == 86) {
+                        pasting = true;
+                        $contentEditable.focus();
+                    }
+                };
+
+                // Alternative to css :hover, adding class "dropzonehover" to body tag.
+                var mouseenterHandlerFunc = function (e) {
+                    e.preventDefault();
+                    if (!$('body').hasClass('dragging')) $('body').addClass('dropzonehover');
+                };
+                var mouseleaveHandlerFunc = function (e) {
+                    e.preventDefault();
+                    $('body').removeClass('dropzonehover');
+                };
+
+                // Submit handler to trigger hidden 'input type="file"' upload field
+                var submitFunc = function (e) {
+                    e.preventDefault();
+                    $uploadField.trigger('click');
+                };
+                // File upload handler
+                var uploadFunc = function (e) {
+                    e.preventDefault();
+                    processUpload(e.target.files);
+                };
+                // "drop" handler
+                var dropHandlerFunc = function (e) {
+                    e.preventDefault();
+                    $('body').removeClass('dragging dragover');
+                    dragging = false;
+                    processUpload(e.originalEvent.dataTransfer.files);
+                };
+                // General handler for preventing propragation and default action
+                var preventHandlerFunc = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                };
+                // Dragover handler for preventing propragation and default action
+                var preventDragoverHandlerFunc = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.originalEvent.dataTransfer.dropEffect = 'none';
+                    try {
+                        // IE won't allow setting of effectAllowed
+                        e.originalEvent.dataTransfer.effectAllowed = 'none';
+                    } catch (err) { }
+                };
+                // "dragover" handler
+                var dragoverHandlerFunc = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                    try {
+                        // IE won't allow setting of effectAllowed
+                        e.originalEvent.dataTransfer.effectAllowed = 'copyMove';
+                    } catch (err) { }
+                };
+                // "dragenter" handler, adding class "dragover" to body tag.
+                var dragenterHandlerFunc = function (e) {
+                    e.preventDefault();
+                    $('body').addClass('dragover');
+                };
+                // "dragleave" handler, removing class "dragover" from body tag.
+                var dragleaveHandlerFunc = function (e) {
+                    e.preventDefault();
+                    $('body').removeClass('dragover');
+                };
+
+                // Pseudo "dragstart" handler, adding class "dragging" to body tag.
+                var dragstartHandlerFunc = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!$('body').hasClass('dragging') && !dragging) {
+                        $('body').addClass('dragging');
+                        dragging = true;
+                    }
+                };
+                // Pseudo "dragend" handler, removing class "dragging" from body tag.
+                var dragendHandlerFunc = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if ($('body').hasClass('dragging') && dragging) {
+                        $('body').removeClass('dragging');
+                        dragging = false;
+                    }
+                };
+
+                // Enable clipboard capturing
+                if (settings.enableCliboardCapture) {
+                    $contentEditable.appendTo('body').focus();
+                    $(window).on({
+                        keydown: keydownHandlerFunc, // IE & Mozilla
+                        paste: pasteHandlerFunc
+                    });
+                }
+
+                // Enable file requester upload
+                if (settings.trigger !== null) {
+                    $uploadField.on('change', uploadFunc).appendTo('body').blur();
+                    $this.on(settings.trigger, submitFunc);
+                }
+                // Enable drag and drop upload
+                $this.on({
+                    dragenter: dragenterHandlerFunc,
+                    dragleave: dragleaveHandlerFunc,
+                    dragover: dragoverHandlerFunc,
+                    drop: dropHandlerFunc,
+                    mouseenter: mouseenterHandlerFunc,
+                    mouseleave: mouseleaveHandlerFunc
+                });
+                // Prevent dropping outside droparea
+                // Since dragstart and dragend is not triggered when dragging local files,
+                // the "html" tag is used as fake "triggers" (Using "body" tag has problems)
+                $('html').on({
+                    dragbetterenter: dragstartHandlerFunc,
+                    dragbetterleave: dragendHandlerFunc,
+                    dragover: preventDragoverHandlerFunc,
+                    drag: preventHandlerFunc,
+                    drop: preventHandlerFunc
+                });
+                // chainable
+                return this;
+            };
+        }(jQuery));
+
+        jQuery(document).ready(function ($) {
+
+            // Shared callback handler for processing output
+            var outputHandlerFunc = function (imgObj) {
+
+                var sizeInKB = function (bytes) { return (typeof bytes == 'number') ? (bytes / 1024).toFixed(2) + 'Kb' : bytes; };
+
+                var getThumbnail = function (original, maxWidth, maxHeight, upscale) {
+                    var canvas = document.createElement("canvas"), width, height;
+                    if (original.width < maxWidth && original.height < maxHeight && upscale == undefined) {
+                        width = original.width;
+                        height = original.height;
+                    }
+                    else {
+                        width = maxWidth;
+                        height = parseInt(original.height * (maxWidth / original.width));
+                        if (height > maxHeight) {
+                            height = maxHeight;
+                            width = parseInt(original.width * (maxHeight / original.height));
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext("2d").drawImage(original, 0, 0, width, height);
+                    $(canvas).attr('title', 'Original size: ' + original.width + 'x' + original.height);
+                    return canvas;
+                }
+
+
+
+                $(new Image()).on('load', function (e) {
+                    console.log('imgobj', e)
+                    var $wrapper = $('<li class="new-item"><div class="list-content"><span class="preview"></span><span class="type">' + imgObj.type + '<br>' + (e.target.width + '&times;' + e.target.height) + '<br>' + sizeInKB(imgObj.size) + '</span><span class="name">' + imgObj.name + '</span><span class="options"><span class="imagedelete" title="Remove image"></span></span></div></li>').appendTo('#output ul');
+                    $('.imagedelete', $wrapper).one('click', function (e) {
+                        $wrapper.toggleClass('new-item').addClass('removed-item');
+                        $wrapper.one('animationend webkitAnimationEnd MSAnimationEnd oAnimationEnd', function (e) {
+                            $wrapper.remove();
+                        });
+                    });
+
+                    var thumb = getThumbnail(e.target, 50, 50);
+                    var $link = $('<a rel="fancybox">').attr({
+                        target: "_blank",
+                        href: imgObj.imgSrc
+                    }).append(thumb).appendTo($('.preview', $wrapper));
+
+                }).attr('src', imgObj.imgSrc);
+
             }
-            function openChatAttachmentDialog() {
-                document.getElementById('filechat').click();
+
+            $("a[rel=fancybox]").fancybox();
+
+            var fileReaderAvailable = (typeof FileReader !== "undefined");
+            var clipBoardAvailable = (window.clipboardData !== false);
+            var pasteAvailable = Boolean(clipBoardAvailable & fileReaderAvailable & !eval('/*@cc_on !@*/false'));
+
+            if (fileReaderAvailable) {
+
+                // Enable drop area upload
+                $('#dropzone').imageUpload({
+                    errorContainer: $('span', '#errormessages'),
+                    trigger: 'dblclick',
+                    enableCliboardCapture: pasteAvailable,
+                    onBeforeUpload: function () { $('body').css('background-color', 'green'); console.log('start', Date.now()); },
+                    onAfterUpload: function () { $('body').css('background-color', '#eee'); console.log('end', Date.now()); },
+                    outputHandler: outputHandlerFunc
+                })
+
+                $('#dropzone').prev('#textbox-wrapper').find('#textbox').append('<p class="large">Drag and Drop<br>Image File here</p><p class="small">Doubleclick<br>for file requester</p>');
+            }
+            else {
+                $('body').addClass('nofilereader');
             }
 
-            //$("#ICDACtiveFrom").bootstrapDP({
-            //    format: "dd-M-yyyy",
-            //    forceParse: false,
-            //    //endDate: '+0d',
-            //    startDate: new Date(),
-            //    autoclose: true,
-            //    todayHighlight: true,
-            //    toggleActive: true,
-            //    todayBtn: true
-            //});
-            //$("#ICDACtiveTo").bootstrapDP({
-            //    format: "dd-M-yyyy",
-            //    forceParse: false,
-            //    //endDate: '+0d',
-            //    startDate: new Date(),
-            //    autoclose: true,
-            //    todayHighlight: true,
-            //    toggleActive: true,
-            //    todayBtn: true
-            //});
-            //$("#AllergyOnsetDate").bootstrapDP({
-            //    format: "dd-M-yyyy",
-            //    forceParse: false,
-            //    endDate: '+0d',
-            //    autoclose: true,
-            //    todayHighlight: true,
-            //    toggleActive: true,
-            //    todayBtn: true
-            //});
-            // this is not required
-            function loadICDDate(idxval) {
-                alert(1)
+            if (!pasteAvailable) {
+                $('body').addClass('nopaste');
             }
 
-        </script>
+        });
+    </script>
+    <style>
 
-        <script>
-            $('#timepicker1').timepicker();
-            $('#timepicker2').timepicker();
-        </script>
+        kbd {
+            background-color: #eee;
+            border: 1px solid gray;
+            display: inline-block;
+            font-size: 1.2em;
+            line-height: 1.4;
+            box-shadow: 1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;
+            border-radius: 3px;
+            margin: 6px 3px;
+            padding: 1px 5px;
+        }
+
+        #errormessages {
+            font: bold 13px Arial;
+            color: #DD3030;
+            min-height: 32px;
+            padding: 0px 10px;
+            text-align: center;
+        }
+
+        #dropzone-wrapper {
+            background-color: #fff;
+            margin: 10px;
+            border: 6px dotted #ddd;
+            border-radius: 10px;
+            height: 200px;
+            width: 200px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            #dropzone-wrapper #dropzone {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            #dropzone-wrapper #textbox-wrapper {
+                display: table;
+                width: 100%;
+                height: 100%;
+            }
+
+                #dropzone-wrapper #textbox-wrapper #textbox {
+                    display: table-cell;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+
+                    #dropzone-wrapper #textbox-wrapper #textbox p {
+                        transition: all 0.5s ease-in-out;
+                        margin: 0 0 10px 0;
+                        font: bold 20px Arial;
+                        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.42);
+                    }
+
+                        #dropzone-wrapper #textbox-wrapper #textbox p.small {
+                            color: #777;
+                            font: bold 12px Arial;
+                        }
+
+        /* Replacement for :hover */
+        .dropzonehover #dropzone-wrapper {
+            background-color: rgba(220, 109, 10, 0.2);
+            border-color: #dc6d0a;
+        }
+
+        .dragover #dropzone-wrapper {
+            background-color: #9bf79b;
+            border-color: #006d0a;
+        }
+
+        .dropzonehover #dropzone-wrapper #textbox-wrapper #textbox p.small {
+            color: #dc6d0a;
+            font-size: 21px;
+        }
+
+        .dropzonehover #dropzone-wrapper #textbox-wrapper #textbox p.large {
+            font-size: 0px;
+            transform: scale(0);
+        }
+
+        .dragging #dropzone-wrapper #textbox-wrapper #textbox p.small {
+            font-size: 0px;
+            transform: scale(0);
+        }
+
+        .dragging #dropzone-wrapper #textbox-wrapper #textbox p.large {
+            color: green;
+            font-size: 21px;
+        }
+
+        .dragover #dropzone-wrapper #textbox-wrapper #textbox p.small {
+            color: red;
+        }
+
+        .dragging #dropzone-wrapper {
+            z-index: 99999;
+            -webkit-animation: greenPulse 1.5s infinite;
+            animation: greenPulse 1.5s infinite;
+        }
+
+        #output canvas {
+            margin: 5px;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        #overlay {
+            background: rgba(0, 0, 0, 0);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: -99998;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .dragging #overlay {
+            z-index: 99998;
+            display: block;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        @-webkit-keyframes greenPulse {
+            from {
+                box-shadow: 0 0 4px #08FF00, 0 0 6px #fff;
+                border-color: #aaa;
+            }
+
+            50% {
+                box-shadow: 0 0 22px #0FBC09, 0 0 30px #fff;
+                border-color: #0FBC09;
+            }
+
+            to {
+                box-shadow: 0 0 9px #08FF00, 0 0 6px #fff;
+                border-color: #aaa;
+            }
+        }
+
+        @keyframes greenPulse {
+            from {
+                box-shadow: 0 0 4px #08FF00, 0 0 6px #fff;
+                border-color: #aaa;
+            }
+
+            50% {
+                box-shadow: 0 0 22px #0FBC09, 0 0 30px #fff;
+                border-color: #0FBC09;
+            }
+
+            to {
+                box-shadow: 0 0 9px #08FF00, 0 0 6px #fff;
+                border-color: #aaa;
+            }
+        }
+
+        #helpbutton {
+            background: #eee;
+            background: linear-gradient(#eee, #e2e2e2);
+            border: solid 1px #d0d0d0;
+            border-bottom: solid 3px #b2b1b1;
+            border-radius: 3px;
+            box-shadow: inset 0 0 0 1px #f5f5f5;
+            color: #555;
+            cursor: pointer;
+            display: inline-block;
+            font: bold 12px Arial, Helvetica, Clean, sans-serif;
+            margin: 0 0 0 25px;
+            padding: 10px 20px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            text-shadow: 0 1px 0 #fafafa;
+        }
+
+            #helpbutton:hover {
+                background: #e4e4e4;
+                background: linear-gradient(#e4e4e4, #ededed);
+                border: solid 1px #c2c2c2;
+                border-bottom: solid 3px #b2b1b1;
+                box-shadow: inset 0 0 0 1px #efefef;
+            }
+
+            #helpbutton #helpscreen {
+                color: #111;
+                text-align: left;
+                position: absolute;
+                top: -1px;
+                left: -1px;
+                width: 0px;
+                height: 0px;
+                padding: 0px;
+                border: 1px solid #E8E8E8;
+                background: #ffff88;
+                transition: all 0.2s ease-in-out;
+                font: normal 11px arial;
+                overflow: hidden;
+            }
+
+                #helpbutton:active #helpscreen, #helpbutton #helpscreen:hover {
+                    width: 380px;
+                    height: 280px;
+                    padding: 10px 15px;
+                    z-index: 10;
+                }
+
+        .nopaste #helpbutton, .nofilereader #dropzone-wrapper {
+            display: none;
+        }
+
+        #output ul {
+            max-width: 500px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            #output ul li {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+        .list-content {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #aaa;
+            margin: 5px 0;
+        }
+
+            .list-content span {
+                display: table-cell;
+                vertical-align: middle;
+                padding: 5px 10px;
+            }
+
+                .list-content span.preview {
+                    width: 55px;
+                }
+
+                .list-content span.type {
+                    text-align: center;
+                    width: 60px;
+                }
+
+                .list-content span.name {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .list-content span.options {
+                    width: 30px;
+                }
+
+                    .list-content span.options .imagedelete {
+                        cursor: pointer;
+                        display: block;
+                        float: right;
+                        width: 16px;
+                        height: 16px;
+                        padding: 0;
+                        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNJREFUeNrEVGtIU2EYfs7Ojh6nc+Jt5WWmk7w3cKnlDamQLqJIvyv6UQT9CIkiNPwTiIYQQqaFRf2MCCmQCgwKzB+GJEYpXipNzUuunO54tp1L36YbZ8tVrKAX3vN9H9/7vN9z3hslyzL+p6g9m9aecerl4GQzraKyE2Ii0sNYJpahVVpBkiiOd1ptnGN53mKb5BzCu9w0fX3Hmb2C0lGweC+BZ/0jT29dqK5kGGCFByyrPJa+r2NxxQabzRHLO5yxpkxVRkq89nBn98AeAilXEggWr/I4yEuNM+k0wLodsNsF8EQ5uxPcuhM2sjoEERKxi4tiYUrX5/iHMli8NwITM8sjY8vQR6pF8qGRHBUOIVEDSYyGKFNYIw7nljlMza9geGJh2J9AsHgvgeI8Q8W8VUTn23WoJCcoyQ7JwcO6asWKdQ2zixbMflnAqSP52Je/o8KfQLB4ldJJaQoNcxKNjG0sEnU0QtQUzEY9puaWUFVmBs9ZUVNuCljRgfAz81+9+KMVpq27wCUiSZJAlKXJnqERFqJGlDYUrlZl2VBiQUEguQwk/vjjRbEoMYaj/mA1Xk/bkR99CMXJKuhkw9YEiH+3yG6V3Q975sQfzQsFvjJDg93JLCa7mgFJQsHpehQYMjHW1oCI+ATAcPYAMev1JfC3M0mBdz3+4fZVfLzTsvGn4VoItlVM37/hPnNTE+ezLl3zI/APxZUOSs14z+Ptjb7BomkpYAqCFgV+cIZH4Yk6MFodRlsvuihtlj2DgptPoMsx9/9MwJ3rDd3yr0Txt1ny4DXMBhu7ZdE3N+RS4Fa9dH3aMIxELEajQnwEBae4UdESWV0TzUmqPz01FbqwwFnz4BN1FHK3h5KCu7xZA5KCgIA352pdd1d8CAx9+ma83j2MmrxQlKaxyDeEo8gYiaSYEHTUVaGYtNODxlq8GHiP3qHPO/0fV+KLUljYBRmaZKP3vrDrOcztPZsnGvzCTJM7DMr2Otb2qjgnSfvqVyHuH10qe9ywv2+rOyW+JEuPsmw9Zh/dg0zaMKn2JPpGFhDysGWA5Sy9u5ruNrjsfggwANaIwN5Hg9AjAAAAAElFTkSuQmCC");
+                        background-position: 0px 0px;
+                    }
+
+                        .list-content span.options .imagedelete:hover {
+                            background-position: -16px 0px;
+                        }
+
+        #output .removed-item {
+            -webkit-animation: removed-item-animation 0.6s cubic-bezier(0.55, -0.04, 0.91, 0.94) forwards;
+            animation: removed-item-animation 0.6s cubic-bezier(0.55, -0.04, 0.91, 0.94) forwards;
+        }
+
+        #output .new-item {
+            opacity: 0;
+            -webkit-animation: openspace 0.6s ease forwards, new-item-animation 0.3s 0.3s cubic-bezier(0, 0.8, 0.32, 1.07) forwards;
+            animation: openspace 0.6s ease forwards, new-item-animation 0.3s 0.3s cubic-bezier(0, 0.8, 0.32, 1.07) forwards;
+        }
+
+        @-webkit-keyframes openspace {
+            to {
+                height: auto;
+            }
+        }
+
+        @keyframes openspace {
+            to {
+                height: auto;
+            }
+        }
+
+        @-webkit-keyframes removed-item-animation {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        @keyframes removed-item-animation {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        @-webkit-keyframes new-item-animation {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes new-item-animation {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+    <script>
+        //$("#StartDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+    </script>
+
+    <script>
+        //$("#EndDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+    </script>
+    <script>
+
+        //$('#chatBoxOpener').click(function () {
+        //    $('.chatBox').toggleClass('chatBoxClose');
+        //    $(this).find('i').toggleClass('fa-arrow-up');
+        //    $(this).find('i').toggleClass('fa-arrow-down');
+        //})
+        //$("#AppointmentDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+
+        // chat window
+        function chatarrowclick() {
+            $('.chatBox').toggleClass('chatBoxClose');
+            $('#chatBoxOpener').find('i').toggleClass('fa-arrow-up');
+            $('#chatBoxOpener').find('i').toggleClass('fa-arrow-down');
+        }
+        function openChatAttachmentDialog() {
+            document.getElementById('filechat').click();
+        }
+
+        //$("#ICDACtiveFrom").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+        //$("#ICDACtiveTo").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    //endDate: '+0d',
+        //    startDate: new Date(),
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+        //$("#AllergyOnsetDate").bootstrapDP({
+        //    format: "dd-M-yyyy",
+        //    forceParse: false,
+        //    endDate: '+0d',
+        //    autoclose: true,
+        //    todayHighlight: true,
+        //    toggleActive: true,
+        //    todayBtn: true
+        //});
+        // this is not required
+        function loadICDDate(idxval) {
+            alert(1)
+        }
+
+    </script>
+
+    <script>
+        $('#timepicker1').timepicker();
+        $('#timepicker2').timepicker();
+    </script>
 </body>
