@@ -9603,7 +9603,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             document.getElementById("IconAllergy").style.color = '#FFD700';
                         }
                         else {
-                            document.getElementById("IconAllergy").style.color = '#FF0000';
+                            //document.getElementById("IconAllergy").style.color = '#FF0000';
                         }
                     }
                     $scope.PatientAssignedAllergyDataList = angular.copy($scope.PatientAllergyListData);
@@ -17900,9 +17900,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.ThursdayChildModuleList = [];
         $scope.FridayChildModuleList = [];
         $scope.SaturdayChildModuleList = [];
-        $scope.FromDate = "";
+        //$scope.FromDate = "";
         $scope.ToDate = "";
         $scope.Doctor_Id = [];
+        $scope.SpecialitiesSelectList = [];
+        $scope.Specialitiesinput = "";
 
         $scope.DuplicateId = "0";
         $scope.flag = 0;
@@ -17910,6 +17912,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.rowCollection = [];
         $scope.rowCollectionFilter = [];
         $scope.Id = 0;
+        $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+            $scope.DepartmentList = data;
+        });
 
         $scope.AddSlot = function () {
             $scope.Id = 0;
@@ -17926,6 +17931,28 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.CancelDoctorShiftpopup = function () {
             angular.element('#ViewDoctorShiftModal').modal('hide');
+        }
+
+        $scope.updateCheckSpecialities = function (Id, Department_Name, $event) {
+
+            var checked = $('#' + Id).is(":checked")
+            if (checked == true) {
+                $scope.SpecialitiesSelectList.push({
+                    Id: Id,
+                    Department: Department_Name
+                })
+                $('#Specialities').tagsinput('add', Department_Name);
+                //$scope.Specialitiesinput = Department_Name;
+                //$('.bootstrap-tagsinput').tagsinput('add', { Id: Id, Department: Department_Name });
+
+            } else {
+                angular.forEach($scope.SpecialitiesSelectList, function (Department_Name, index) {
+                    if (Id == Department_Name.Id) {
+                        $scope.SpecialitiesSelectList.splice(index, 1);
+                        $('#Specialities').tagsinput('remove', Department_Name.Department);
+                    }
+                });
+            }
         }
 
         /* on click view, view popup opened*/

@@ -283,7 +283,7 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId, long TimezoneId,DateTime Date, bool IsNew, Guid Login_Session_Id)
+        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId, long TimezoneId,DateTime Date, int IsNew, Guid Login_Session_Id)
         {
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();

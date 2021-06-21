@@ -182,7 +182,30 @@
                             <div class="tab-body">
                                 <div class="bs-example">
                                     <p class="sub-title">Select Specialities</p>
-                                    <input type="text" name="tags" value="Anesthesiology, Dermatology, Neurology" data-role="tagsinput" />
+                                    <!--<input type="text" name="tags" value="Anesthesiology, Dermatology, Neurology" data-role="tagsinput" />-->
+                                    <div class="container">
+                                        <div class="header">
+                                            <input type="text" id="Specialities" name="tags" ng-model="Specialitiesinput" data-role="tagsinput" />
+
+                                        </div>
+                                        <div class="content" style="width: 347px;">
+                                            <ul ng-repeat="row in DepartmentList" style=" padding-left: 15px;">
+                                                <div>
+                                                    <input type="checkbox" id="{{row.Id}}" ng-click="updateCheckSpecialities(row.Id,row.Department_Name, $event);" /> {{row.Department_Name}}
+                                                </div>
+                                                <!--<input type="checkbox">
+                                                {{row.Department_Name}}-->
+                                                <!--<input type="checkbox" ng-model="Specialities[$index]" />{{row.Department_Name}}
+                                                <br>-->
+                                                <!--<input type="checkbox"> value="Anesthesiology, Dermatology, Neurology"
+                                                Dermatology
+                                                <br>
+                                                <input type="checkbox">
+                                                Neurology
+                                                <br>-->
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row m-top-2">
                                     <div class="col-sm-5">
@@ -524,6 +547,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <script src='https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'></script>
 <link rel='stylesheet' href='https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'>
+
 <style>
     .modal-dialog {
         width: 1300px !important;
@@ -999,6 +1023,24 @@
         }
 </style>
 
+<script>
+    $(".header").click(function () {
+
+        $header = $(this);
+        //getting the next element
+        $content = $header.next();
+        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+        $content.slideToggle(100, function () {
+            //execute this after slideToggle is done
+            //change text of header based on visibility of content div
+            //$header.text(function () {
+            //change text based on condition
+            //return $content.is(":visible") ? "Collapse" : "Expand";
+            //});
+        });
+
+    });
+</script>
 <script>
 
     // Quick & dirty toggle to demonstrate modal toggle behavior

@@ -90,7 +90,6 @@ namespace MyCortex.User.Model
 
         public int ReturnFlag { get; set; }
         public IList<DoctorAppointmentTimeSlotModel> DoctorAppointmentTimeSlotList { get; set; }
-        public IList<DoctorAppointmentTimeSlotModel> DoctorFollowupTimeSlotList { get; set; }
     }
 
     public class AppointmentReasonType
