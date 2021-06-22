@@ -301,8 +301,7 @@ namespace MyCortex.Repositories.Uesr
                                                             {
                                                                 AppointmentFromDateTime = p.Field<DateTime>("APPOINTMENTFROMDATETIME"),
                                                                 AppointmentToDateTime = p.Field<DateTime>("APPOINTMENTTODATETIME"),
-                                                                AppointmentFromTime = p.Field<string>("APPOINTMENTFROMTIME"),
-                                                                AppointmentToTime = p.Field<string>("APPOINTMENTTOTIME"),
+                                                                AppointmentTime = p.Field<string>("APPOINTMENTTIME"),
                                                                 IsBooked = p.Field<bool>("ISBOOKED"),
                                                             }).ToList();
                 return lst;

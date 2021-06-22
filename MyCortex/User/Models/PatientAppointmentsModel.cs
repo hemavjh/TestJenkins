@@ -79,8 +79,7 @@ namespace MyCortex.User.Model
     {
         public DateTime AppointmentFromDateTime { get; set; }
         public DateTime AppointmentToDateTime { get; set; }
-        public string AppointmentFromTime { get; set; }
-        public string AppointmentToTime { get; set; }
+        public string AppointmentTime { get; set; }
         public bool IsBooked { get; set; }
     }
 
