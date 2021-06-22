@@ -7197,7 +7197,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.EditVitalRow_EditFlag = [];
         $scope.HistoryDetails = function (current_Tab) {
             $scope.TabClicked = current_Tab;
-            var ChartORData = 2;
+            if ($scope.VitalChart == '1') {
+                var ChartORData = '1';
+            } else if ($scope.VitalChart == '2') {
+                var ChartORData = 2;
+            }
+            //var ChartORData = 2;
             $scope.AllDetailsList($scope.TabClicked, ChartORData);
         };
 
@@ -17541,6 +17546,7 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
         $scope.ShiftName = "";
         $scope.IsActive = true;
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.currentTab = "1";
 
         $scope.page_size = 0;
         $scope.ConfigCode = "PAGINATION";
@@ -17873,6 +17879,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.page_size = 0;
+        $scope.currentTab = "1";
+        $scope.DevicesLists = [];
+        $scope.SelectedDepartment = "0";
         $scope.ConfigCode = "PAGINATION";
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             if (data[0] != undefined) {
@@ -17912,6 +17921,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.rowCollection = [];
         $scope.rowCollectionFilter = [];
         $scope.Id = 0;
+
         $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
             $scope.DepartmentList = data;
         });

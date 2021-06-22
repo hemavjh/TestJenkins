@@ -231,7 +231,7 @@
                                 My Appointments
                             </h3>
                             <div class="myAppoinmentspart">
-                                <div id="slides1" class="slides" ng-hide="PatientAppointmentCount==0" style="height: 120px;">
+                                <div id="slides1" class="slides" ng-hide="PatientAppointmentCount==0">
                                     <ul>
                                         <li>
                                             <div class="myAppoinmentsfull">
@@ -258,13 +258,20 @@
                                                     <p>Time</p> <span>- {{AppointmentTime | date :'hh:mm a'}}</span>
                                                     <div class="myAppoinmentsdayscountfull">
                                                         <div class="myAppoinmentsdayscountleft">{{TimeDifference}} Left</div>
-                                                        <div class="myAppoinmentsdayscountrite">
+                                                        <!--<div class="myAppoinmentsdayscountrite">
                                                             <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
                                                             <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
                                                             <a class="homepadamicon Video" onclick="openChatWindow();">
                                                             <img  style="height: 38px; width: 40px; padding-top: 0px; padding-left: 0px; padding-bottom: 4px; padding-right: 4px;" class="kutticon" src="images/Video-Icon.png"> </a>
                                                             <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
-                                                        </div>
+                                                        </div>-->
+                                                    </div>
+                                                    <div class="myAppoinmentsdayscountrite">
+                                                            <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                                                            <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
+                                                            <a class="homepadamicon Video" onclick="openChatWindow();">
+                                                            <img  style="height: 38px; width: 40px; padding-top: 0px; padding-left: 0px; padding-bottom: 4px; padding-right: 4px;" class="kutticon" src="images/Video-Icon.png"> </a>
+                                                            <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                                                     </div>
                                                 </div>
                                             </div>
