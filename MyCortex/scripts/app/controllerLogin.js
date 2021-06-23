@@ -528,7 +528,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
             $window.localStorage['UserTypeId'] = $scope.UserTypeId;
             $window.localStorage['UserId'] = $scope.UserId;
 
-            window.location.href = baseUrl + "/Home/Index/ChangePassword/1";
+            window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
             $scope.errorlist = Message;
         }
         else if (data == "7") {

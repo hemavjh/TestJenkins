@@ -411,6 +411,7 @@
     <Content Include="Images\unknownAllergy.png" />
     <Content Include="Images\uploadIcon.png" />
     <Content Include="Images\usericon.png" />
+    <Content Include="Images\Video-Icon.png" />
     <Content Include="Images\vivo-ringtone.mp3" />
     <Content Include="Images\word.jpg" />
     <Content Include="Login\Views\ChangePasswordPopUp.html" />
