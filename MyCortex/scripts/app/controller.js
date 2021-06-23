@@ -5068,6 +5068,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
        
         $scope.Tick = false;
+        $scope.UpComingAppointmentDetails = [];
+        $scope.PreviousAppointmentDetails = [];
         $scope.flag = 0;
         $scope.MNR_No = "";
         $scope.Type_Id = 0;
@@ -5543,6 +5545,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             if ($window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                 $("#chatLoaderPV").show();
                 photoview = true;
+                $scope.UpComingAppointmentCount = 0;
+                $scope.PreviousAppointmentCount = 0;
                 var methodcnt = 2;
                 $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.SelectedPatientId).success(function (data) {
                     methodcnt = methodcnt - 1;
@@ -5623,6 +5627,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     if ($scope.UserTypeId != 2) {
                         $scope.chattingWith = data.FullName;
                     }
+            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+                $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
+            });
+            
+            $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
+                $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
+            });
+
                 });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
