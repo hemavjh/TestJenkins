@@ -16581,13 +16581,26 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                 alert("Please select Email or App or Web for alert");
                 return false;
             }
-            if ($scope.AlertDays != null) { 
-                if (($scope.AlertDays + "") == "") {
-                    alert("Please enter valid values");
-                    return false;
+            $scope.EventCodeName = "";
+            angular.forEach($scope.AlertEvent, function (Selected, index) {
+                if ($scope.Event == Selected.Id) {
+                    $scope.Eventtype = Selected.EventType_Id;
+                    $scope.Eventtype = Selected.EventCode
                 }
-               
+            })
+            if ($scope.Eventtype == "DOCTOR_APPOINTMENT_REMINDER" || $scope.Eventtype == "PAT_APPOINTMENT_REMINDER" ||
+                $scope.Eventtype == "PASSWORD_EXPIRY" || $scope.Eventtype == "NEAR_PAT_LIMIT" || $scope.Eventtype == "NEAR_USR_LIMIT" ||
+                $scope.Eventtype == "TARGET_DAILY" || $scope.Eventtype == "TARGET_WEEKLY") {
+                if ($scope.AlertDays != null) {
+                    if (($scope.AlertDays + "") == "") {
+                        alert("Please enter valid values");
+                        $scope.DurationDisplayCheck();
+                        return false;
+                    }
+
+                }
             }
+            
             return true;
         };
 
@@ -16797,7 +16810,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                     $scope.ViewWebTemplateName = data.WebTemplate;
                 }
 
-                $scope.AlertDays = data.AlertDays;
+                $scope.AlertDays = data.AlertDays == null ? "" : data.AlertDays;
 
                 $scope.Event = data.Event_Id.toString();
                 $scope.ViewEvent = data.EventName;
