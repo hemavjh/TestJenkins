@@ -1,6 +1,4 @@
-﻿
-<script src='https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'></script>
-<link rel='stylesheet' href='https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'>
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <script>
     $(function () {
         var dtToday = new Date();
@@ -159,8 +157,8 @@
 
 <!--Add&Edit Modal-->
 <div id="DoctorShiftModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg">
+        <div class="model-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
                         ng-click="CancelPopup()">
@@ -169,747 +167,175 @@
                 <h4 class="modal-title">Doctor Shift</h4>
             </div>
             <div class="modal-body p-0">
-                <div class="row box m-0">
-                    <div class="col-sm-2 p-0">
-                        <div class="main-tab">
-                            <ul class="tabs">
-                                <li class="tab-link current" data-tab="tab-1">STEP 1:<p>Select Doctors & <br>Date Range</p></li>
-                                <li class="tab-link" data-tab="tab-2">STEP 2:<p>Set Appointments<br> Slots</p></li>
-                                <li class="tab-link" data-tab="tab-3">STEP 3:<p>Weekdays and <br>Shift time</p></li>
-                            </ul>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="themeTabs">
+                            <li>
+                                <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
+                                    <i class="far fa-file"></i>Select Doctors &
+                                    Date Range
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
+                                    <i class="far fa-file-alt"></i>Set Appointments
+                                    Slots
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3'">
+                                    <i class="fas fa-map-marker-alt"></i>Weekdays and
+                                    Shift time
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div id="Div4">
+                            <div>
+                                <form class="form-horizontal" role="form">
+                                    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            Select Speciality
+                                                        </label>
+                                                        <select id="department" ng-model="SelectedDepartment" multiple="multiple"
+                                                                ng-options="item1.ID as item1.Department_Name for item1 in DepartmentList"
+                                                                multiselect-dropdown style="width: 220px;"></select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            Select Doctor
+                                                        </label>
+                                                        <select id="department" ng-model="SelectedDoctor" multiple="multiple"
+                                                                ng-options="item1.ID as item1.Department_Name for item1 in DepartmentList"
+                                                                multiselect-dropdown style="width: 220px;"></select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            Select CC/CG
+                                                        </label>
+                                                        <select id="department" ng-model="SelectedCCCG" multiple="multiple"
+                                                                ng-options="item1.ID as item1.Department_Name for item1 in DepartmentList"
+                                                                multiselect-dropdown style="width: 220px;"></select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            Select Start Date
+                                                        </label>
+                                                        <input id="StartDate" class="form-control"type="date"/>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="inputGroups">
+                                                        <label>
+                                                            Select End Date
+                                                        </label>
+                                                        <input id="EndDate" class="form-control" type="date" />
+                                                    </div>
+
+                                                </div>
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                                       class="formControlGroup"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
+                                        <div id="collapse2" class="panel-collapse">
+                                            <div class="panel-body">
+                                                <div class="row" id="MyHomeUserList">
+                                                    <div class="col-sm-4">
+                                                        <div class="inputGroups">
+                                                            <table class="table themeTable" template-pagination="custom/pager" id="MyHomeUserTable">
+                                                                <thead>
+                                                                    <tr style="text-align: center">
+                                                                        <th width="7%">Sl No.</th>
+                                                                        <th width="60%">User</th>
+                                                                        <th width="40%">PIN</th>
+                                                                        <th width="8%">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-if="MyHomeflag==0 && (AddUserParameters | filter : {IsActive : true}).length==0">
+                                                                        <td colspan="5" style="text-align: center">
+                                                                            No Data Available
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
+                                                                        <td style="text-align: right;">{{$index+1}}</td>
+                                                                        <td>
+                                                                            <select ng-model="row.UserId" class="form-control" style="width:500px;"
+                                                                                    ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
+                                                                                <option value="">Select</option>
+                                                                            </select>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" class="form-control myhomedropdown"
+                                                                                   ng-model="row.PIN" maxlength="20"
+                                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintab">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
+                                                                                   ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2" />
+                                                                            <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <a href="javascript:" title="Click to Add" ng-show="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
+                                        <div id="collapse3" class="panel-collapse">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="inputGroups" style="margin-left:10px;width:300px;">
+                                                            <label style="margin-left:1px;">Devices</label>
+                                                            <select id="tabdevice" ng-model="SelectedDevice" multiple="multiple"
+                                                                    ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"
+                                                                    multiselect-dropdown style="width: 220px;"></select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-10 p-0">
-                        <div id="tab-1" class="tab-content current">
-                            <div class="tab-body">
-                                <div class="bs-example">
-                                    <p class="sub-title">Select Specialities</p>
-                                    <!--<input type="text" name="tags" value="Anesthesiology, Dermatology, Neurology" data-role="tagsinput" />-->
-                                    <div class="container">
-                                        <div class="header">
-                                            <input type="text" id="Specialities" name="tags" ng-model="Specialitiesinput" data-role="tagsinput" />
-                                        </div>
-                                        <div class="content" style="width: 347px;">
-                                            <ul ng-repeat="row in DepartmentList" style=" padding-left: 15px;">
-                                                <div>
-                                                    <input type="checkbox" id="{{row.Id}}" ng-click="updateCheckSpecialities(row.Id,row.Department_Name, $event);" /> {{row.DepartmentList}}
-                                                </div>
-                                            </ul>
-                                        </div>-->
-                                    </div>
-                                </div>
-                                <div class="row mt-10">
-                                    <div class="col-sm-5 mt-10">
-                                        <p class="sub-title">Select Doctor</p>
-                                        <div class="subject-info-box-1">
-                                            <p class="doctor">Available Doctor</p>
-                                            <select multiple="multiple" id='lstBox1' class="form-control">
-                                                <option value="ajax">Karthiga</option>
-                                                <option value="jquery">Vaisanth</option>
-                                                <option value="javascript">Vijay</option>
-                                                <option value="mootool">kumar</option>
-                                            </select>
-                                        </div>
-                                        <div class="subject-info-arrows text-center">
-                                            <input type='button' id='btnAllRight' value='>>' class="btn-select" /><br />
-                                            <input type='button' id='btnRight' value='>' class="btn-select" /><br />
-                                            <input type='button' id='btnLeft' value='<' class="btn-select" /><br />
-                                            <input type='button' id='btnAllLeft' value='<<' class="btn-select" />
-                                        </div>
-                                        <div class="subject-info-box-2">
-                                            <p class="doctor">Selected Doctor</p>
-                                            <select multiple="multiple" id='lstBox2' class="form-control">
-                                                <option value="asp">Madhavan</option>
-                                                <option value="c#">Hari</option>
-                                                <option value="vb">John</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-7 mt-10">
-                                        <p class="sub-title">Select Day Range</p>
-                                        <section class="col-sm-12 p-0 flex">
-                                            <div class="col-sm-6 mr-10 p-0">
-                                                <label for="usr">Select Start Date</label><br />
-                                                <input id="start-date" class="form-control" type="date" />
-                                            </div>
-                                            <div class="col-sm-6 p-0">
-                                                <label for="usr">Select End Date</label><br />
-                                                <input id="end-date" class="form-control" type="date" />
-                                            </div>
-                                        </section>
-                                        <div class="col-sm-12 flex justify-end mt-10 p-0">
-                                            <button class="btn-custom mt-2">Save</button>
-                                        </div>
-                                        <div class="bs-example mt-4">
-                                            <p class="sub-title">Select CC/CG</p>
-                                            <input type="text" name="tags" value="Karthi, Ram, Vaisanth" data-role="tagsinput" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="custom-modal-footer">
-                                <button class="btn-custom mt-2">SAVE AND CONTINUE</button>
-                            </div>
-                        </div>
-                        <div id="tab-2" class="tab-content">
-                            <div class="tab-body">
-                                <p class="sub-title">Appointment Slot</p>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <input type="checkbox" class="m-right-1">Use Org Default
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <p>New Appointment</p>
-                                                <div class="input-slot">
-                                                    <input type="text" class="input-size">
-                                                    <p>Min</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <p>Follow-up Appointment</p>
-                                                <div class="input-slot">
-                                                    <input type="text" class="input-size">
-                                                    <p>Min</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <p>Interval</p>
-                                                <div class="input-slot">
-                                                    <input type="text" class="input-size">
-                                                    <p>Min</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row m-top-2">
-                                            <div class="col-sm-3">
-                                                <p>Custom Slot</p>
-                                                <div class="input-slot">
-                                                    <input type="text" class="input-size">
-                                                    <p>Min</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <p class="mt-4">Booking Info</p>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <input type="checkbox" class="m-right-1">Use Org Default
-                                        </div>
-                                        <div class="col-sm-9 row">
-                                            <div class="col-sm-3">
-                                                <p>Booking Open</p>
-                                                <div class="input-slot">
-                                                    <input type="text" class="input-size">
-                                                    <p>Days</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <p>Booking Cancel Lock</p>
-                                                <div class="input-slot">
-                                                    <input type="text" class="input-size">
-                                                    <p>Hours</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="tab-3" class="tab-content">
-                            <div class="tab-body">
-                                <div class="col-sm-12 p-0">
-                                    <p class="sub-title">Select Week Days</p>
-                                    <div class="row col-sm-12">
-                                        <div class="col-sm-2 mr-3">
-                                            <div class="check">
-                                                <input type="checkbox" class="input-checkbox" checked>
-                                            </div>
-                                            <p class="input-text text-center mt-2">Sunday</p>
-                                        </div>
-                                        <div class="col-sm-2 mr-3">
-                                            <div class="check">
-                                                <input type="checkbox" class="input-checkbox" checked>
-                                            </div>
-                                            <p class="input-text text-center mt-2">Monday</p>
-                                        </div>
-                                        <div class="col-sm-2 mr-3">
-                                            <div class="check">
-                                                <input type="checkbox" class="input-checkbox" checked>
-                                            </div>
-                                            <p class="input-text text-center mt-2">Tuesday</p>
-                                        </div>
-                                        <div class="col-sm-2 mr-3">
-                                            <div class="check">
-                                                <input type="checkbox" class="input-checkbox" checked>
-                                            </div>
-                                            <p class="input-text text-center mt-2">Wednesday</p>
-                                        </div>
-                                        <div class="col-sm-2 mr-3">
-                                            <div class="check">
-                                                <input type="checkbox" class="input-checkbox" checked>
-                                            </div>
-                                            <p class="input-text text-center mt-2">Thursday</p>
-                                        </div>
-                                        <div class="col-sm-2 mr-3">
-                                            <div class="check">
-                                                <input type="checkbox" class="input-checkbox" checked>
-                                            </div>
-                                            <p class="input-text text-center mt-2">Friday</p>
-                                        </div>
-                                        <div class="col-sm-2 mr-3">
-                                            <div class="check">
-                                                <input type="checkbox" class="input-checkbox" checked>
-                                            </div>
-                                            <p class="input-text text-center mt-2">Saturday</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10 p-0">
-                                    <p class="sub-title mt-4">Select Time Slot</p>
-                                    <div class="flex col-sm-12 p-0">
-                                        <div class="col-sm-3 p-0">
-                                            <p class="shift">Date / Day</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0">
-                                            <p class="shift">Shift 1</p>
-                                            <div class="flex mt-1">
-                                                <input type="checkbox" class="mr-1">
-                                                <p class="ml-1">Copy to all</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3 p-0">
-                                            <p class="shift">Shift 2</p>
-                                            <div class="flex mt-1">
-                                                <input type="checkbox" class="mr-1">
-                                                <p class="ml-1">Copy to all</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3 p-0">
-                                            <p class="shift">Shift 3</p>
-                                            <div class="flex mt-1">
-                                                <input type="checkbox" class="mr-1">
-                                                <p class="ml-1">Copy to all</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3 p-0">
-                                            <p class="add-shift"><i class="fa fa-plus mr-1" aria-hidden="true"></i>Add Shift</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-10 p-0 flex">
-                                        <div class="col-sm-3 p-0 mt-2">
-                                            <p>Sunday, May 01, 2021</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">8.00 AM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">4.00 PM</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">4.00 PM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">12.00 AM</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">12.00 AM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">8.00 PM</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-10 p-0 flex">
-                                        <div class="col-sm-3 p-0 mt-2">
-                                            <p>Monday, May 01, 2021</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">8.00 AM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">4.00 PM</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">4.00 PM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">12.00 AM</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">12.00 AM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">8.00 PM</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-10 p-0 flex">
-                                        <div class="col-sm-3 p-0 mt-2">
-                                            <p>Tuesday, May 01, 2021</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">8.00 AM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">4.00 PM</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">4.00 PM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">12.00 AM</p>
-                                        </div>
-                                        <div class="col-sm-3 p-0 mt-2 flex">
-                                            <p class="time">12.00 AM</p>
-                                            <p class="to">to</p>
-                                            <p class="time">8.00 PM</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div style="text-align: center;">
+                        <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytab" title="Click to Save">
+                            Save
+                        </button>
+                        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytab">
+                            Cancel
+                        </button>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!--View Modal--->
-<div id="ViewDoctorShiftModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="width: 70%">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
-                        title="Close">
-                    &times;
-                </button>
-                <h1 class="page-title">Doctor Shift</h1>
-            </div>
-
-            <div class="modal-body" id="Div2">
-
-
-                <form role="form">
-                    <div class="inputGroups">
-                        <label>Doctor</label>
-                        <span> {{Doctor_Name}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>{{day1}}</label>
-                        <span>{{SundayShiftview}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>{{day2}}</label>
-                        <span> {{MondayShiftview}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>{{day3}}</label>
-                        <span> {{TuesdayShiftview}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>{{day4}}</label>
-                        <span> {{WednessdayShiftview}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>{{day5}}</label>
-                        <span> {{ThursdayShiftview}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>{{day6}}</label>
-                        <span> {{FridayShiftview}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>{{day7}}</label>
-                        <span>{{SaturdayShiftview}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>
-                            From Date
-                        </label>
-                        <span>  {{FromDate | date:'dd-MMM-yyyy '}}</span>
-                    </div>
-                    <div class="inputGroups">
-                        <label>To Date</label>
-                        <span> {{ToDate | date:'dd-MMM-yyyy '}}</span>
-                    </div>
-
-
-                </form>
-
-
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-2" title="Click to Cancel"
-                        ng-click="CancelDoctorShiftpopup()">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .modal-dialog {
-        width: 1300px !important;
-        margin: 30px auto;
-    }
-
-    @media (min-width: 768px) {
-        .modal-dialog {
-            width: 1300px !important;
-            margin: 30px auto;
-        }
-    }
-
-    .link {
-        display: block;
-        color: white;
-        opacity: 0.8;
-        text-decoration: none;
-        margin: 1em;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-    }
-
-        .link:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-</style>
-
-<script>
-    $(".header").click(function () {
-
-        $header = $(this);
-        //getting the next element
-        $content = $header.next();
-        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
-        $content.slideToggle(100, function () {
-            //execute this after slideToggle is done
-            //change text of header based on visibility of content div
-            //$header.text(function () {
-            //change text based on condition
-            //return $content.is(":visible") ? "Collapse" : "Expand";
-            //});
-        });
-
-    });
-</script>
-
-
-<script>
-
-    // Quick & dirty toggle to demonstrate modal toggle behavior
-
-
-    function strDes(a, b) {
-        if (a.value > b.value) return 1;
-        else if (a.value < b.value) return -1;
-        else return 0;
-    }
-
-    console.clear();
-    (function () {
-        $('#btnRight').click(function (e) {
-            var selectedOpts = $('#lstBox1 option:selected');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-
-            /* -- Uncomment for optional sorting --
-            var box2Options = $('#lstBox2 option');
-            var box2OptionsSorted;
-            box2OptionsSorted = box2Options.toArray().sort(strDes);
-            $('#lstBox2').empty();
-            box2OptionsSorted.forEach(function(opt){
-              $('#lstBox2').append(opt);
-            })
-            */
-
-            e.preventDefault();
-        });
-
-        $('#btnAllRight').click(function (e) {
-            var selectedOpts = $('#lstBox1 option');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-            e.preventDefault();
-        });
-
-        $('#btnLeft').click(function (e) {
-            var selectedOpts = $('#lstBox2 option:selected');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-            e.preventDefault();
-        });
-
-        $('#btnAllLeft').click(function (e) {
-            var selectedOpts = $('#lstBox2 option');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-            e.preventDefault();
-        });
-    }(jQuery));
-
-
-
-
-    $(document).ready(function () {
-
-        $('ul.tabs li').click(function () {
-            var tab_id = $(this).attr('data-tab');
-
-            $('ul.tabs li').removeClass('current');
-            $('.tab-content').removeClass('current');
-
-            $(this).addClass('current');
-            $("#" + tab_id).addClass('current');
-        })
-
-    })
-
-
-    console.clear();
-
-    $(function () {
-        $('input').on('change', function (event) {
-
-            var $element = $(event.target);
-            var $container = $element.closest('.example');
-
-            if (!$element.data('tagsinput'))
-                return;
-
-            var val = $element.val();
-            if (val === null)
-                val = "null";
-            var items = $element.tagsinput('items');
-            console.log(items[items.length - 1]);
-
-            $('code', $('pre.val', $container)).html(($.isArray(val) ? JSON.stringify(val) : "\"" + val.replace('"', '\\"') + "\""));
-            $('code', $('pre.items', $container)).html(JSON.stringify($element.tagsinput('items')));
-
-            console.log(val);
-            console.log(items);
-            console.log(JSON.stringify(val));
-            console.log(JSON.stringify(items));
-
-            console.log(items[items.length - 1]);
-
-        }).trigger('change');
-    });
-
-    $("#button").click(function () {
-        var input = $("input[name='tags']").tagsinput('items');
-        console.clear();
-        console.log(input);
-        console.log(JSON.stringify(input));
-        console.log(input[input.length - 1]);
-    });
-
-
-</script>
-
-<!--Move-->
-<script>
-
-    (function () {
-        $('#btnRight').click(function (e) {
-            var selectedOpts = $('#lstBox1 option:selected');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-
-            /* -- Uncomment for optional sorting --
-            var box2Options = $('#lstBox2 option');
-            var box2OptionsSorted;
-            box2OptionsSorted = box2Options.toArray().sort(strDes);
-            $('#lstBox2').empty();
-            box2OptionsSorted.forEach(function(opt){
-              $('#lstBox2').append(opt);
-            })
-            */
-
-            e.preventDefault();
-        });
-
-        $('#btnAllRight').click(function (e) {
-            var selectedOpts = $('#lstBox1 option');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox2').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-            e.preventDefault();
-        });
-
-        $('#btnLeft').click(function (e) {
-            var selectedOpts = $('#lstBox2 option:selected');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-            e.preventDefault();
-        });
-
-        $('#btnAllLeft').click(function (e) {
-            var selectedOpts = $('#lstBox2 option');
-            if (selectedOpts.length == 0) {
-                alert("Nothing to move.");
-                e.preventDefault();
-            }
-
-            $('#lstBox1').append($(selectedOpts).clone());
-            $(selectedOpts).remove();
-            e.preventDefault();
-        });
-    }(jQuery));
-
-
-</script>
-<!-- Tag -->
-<script>
-    console.clear();
-
-    $(function () {
-        $('input').on('change', function (event) {
-
-            var $element = $(event.target);
-            var $container = $element.closest('.example');
-
-            if (!$element.data('tagsinput'))
-                return;
-
-            var val = $element.val();
-            if (val === null)
-                val = "null";
-            var items = $element.tagsinput('items');
-            console.log(items[items.length - 1]);
-
-            $('code', $('pre.val', $container)).html(($.isArray(val) ? JSON.stringify(val) : "\"" + val.replace('"', '\\"') + "\""));
-            $('code', $('pre.items', $container)).html(JSON.stringify($element.tagsinput('items')));
-
-            console.log(val);
-            console.log(items);
-            console.log(JSON.stringify(val));
-            console.log(JSON.stringify(items));
-
-            console.log(items[items.length - 1]);
-
-        }).trigger('change');
-    });
-
-    $("#button").click(function () {
-        var input = $("input[name='tags']").tagsinput('items');
-        console.clear();
-        console.log(input);
-        console.log(JSON.stringify(input));
-        console.log(input[input.length - 1]);
-    });
-</script>
-
-<!-- tab design-->
-
-<script>
-
-    $(document).ready(function () {
-
-        $('ul.tabs li').click(function () {
-            var tab_id = $(this).attr('data-tab');
-
-            $('ul.tabs li').removeClass('current');
-            $('.tab-content').removeClass('current');
-
-            $(this).addClass('current');
-            $("#" + tab_id).addClass('current');
-        })
-
-    })
-</script>
-<script>
-
-    $(function () {
-        $('input').on('change', function (event) {
-
-            var $element = $(event.target);
-            var $container = $element.closest('.example');
-
-            if (!$element.data('tagsinput'))
-                return;
-
-            var val = $element.val();
-            if (val === null)
-                val = "null";
-            var items = $element.tagsinput('items');
-            console.log(items[items.length - 1]);
-
-            $('code', $('pre.val', $container)).html(($.isArray(val) ? JSON.stringify(val) : "\"" + val.replace('"', '\\"') + "\""));
-            $('code', $('pre.items', $container)).html(JSON.stringify($element.tagsinput('items')));
-
-            console.log(val);
-            console.log(items);
-            console.log(JSON.stringify(val));
-            console.log(JSON.stringify(items));
-
-            console.log(items[items.length - 1]);
-
-        }).trigger('change');
-    });
-
-    $("#button").click(function () {
-        var input = $("input[name='tags']").tagsinput('items');
-        console.clear();
-        console.log(input);
-        console.log(JSON.stringify(input));
-        console.log(input[input.length - 1]);
-    });
-</script>
-
-
-
-
-<script>
-                                                // $('#FromDate').timepicker();
-                                                // $('#ToDate').timepicker();
-                                                //$(".date").bootstrapDP({
-                                                //    format: "dd-M-yyyy",
-                                                //    forceParse: false,
-                                                //    //endDate: '+0d',
-                                                //    startDate: new Date(),
-                                                //    autoclose: true,
-                                                //    todayHighlight: true,
-                                                //    toggleActive: true,
-                                                //    todayBtn: true
-                                                //});
-                                                // $("#ToDate").bootstrapDP({
-                                                //     format: "dd-M-yyyy",
-                                                //     forceParse: false,
-                                                //     //endDate: '+0d',
-                                                //     startDate: new Date(),
-                                                //     autoclose: true,
-                                                //     todayHighlight: true,
-                                                //     toggleActive: true,
-                                                //     todayBtn: true
-                                                // });
-</script>
