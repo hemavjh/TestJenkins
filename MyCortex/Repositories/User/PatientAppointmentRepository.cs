@@ -156,6 +156,54 @@ namespace MyCortex.Repositories.Uesr
 
 
         }
+        
+        public IList<PatientAppointmentsModel> AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, PatientAppointmentsModel obj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", obj.Id));
+            param.Add(new DataParameter("@UserId", obj.CancelledBy_Id));
+            param.Add(new DataParameter("@Cancel_Remarks", obj.Cancelled_Remarks));
+            param.Add(new DataParameter("@ReasonTypeId", obj.ReasonTypeId));
+            //param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+            param.Add(new DataParameter("@DOCTOR_ID", obj.Doctor_Id));
+            param.Add(new DataParameter("@PATIENT_ID", obj.Patient_Id));
+            param.Add(new DataParameter("@APPOINTMENTDATE", obj.Appointment_Date));
+            param.Add(new DataParameter("@APPOINTMENT_FROMTIME", obj.AppointmentFromTime));
+            param.Add(new DataParameter("@APPOINTMENT_TOTIME", obj.AppointmentToTime));
+            param.Add(new DataParameter("@APPOINTMENTTYPE_ID", obj.Appointment_Type));
+            param.Add(new DataParameter("@REASONFOR_VISIT", obj.ReasonForVisit));
+            // param.Add(new DataParameter("@REASONTYPE_ID", obj.ReasonTypeId));
+            //param.Add(new DataParameter("@REMARKS", obj.Remarks));
+            param.Add(new DataParameter("@STATUS", obj.Status));
+            //param.Add(new DataParameter("@CANCELED_DATE", obj.Canceled_Date));
+            //param.Add(new DataParameter("@CANCEL_REMARKS", obj.Cancel_Remarks));
+            // param.Add(new DataParameter("@CREATED_DATE", obj.Created_Date));
+            param.Add(new DataParameter("@Page_Type", obj.Page_Type));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            DataEncryption DecryptFields = new DataEncryption();
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_UPDATE_RESCHEDULEAPPOINTMENT", param);
+
+            IList<PatientAppointmentsModel> INS = (from p in dt.AsEnumerable()
+                                                   select
+                                                   new PatientAppointmentsModel()
+                                                   {
+                                                       Id = p.Field<long>("Id"),
+                                                       flag = p.Field<int>("flag"),
+                                                       Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                       Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                       DoctorName = DecryptFields.Decrypt(p.Field<string>("DoctorName")),
+                                                       PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                       Status = p.Field<int>("Status"),
+                                                       Cancelled_By = DecryptFields.Decrypt(p.Field<string>("Cancelled_Name")),
+                                                       Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
+                                                       Cancelled_Date = p.Field<DateTime>("CANCELED_DATE"),
+                                                       Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                       NewAppointmentId = p.Field<long>("NewAppointmentId")
+                                                   }).ToList();
+            return INS;
+
+
+        }
         private TimeSpan GetTimeSpan(string timeString)
         {
             //var takeTimePart = timeString.Split(new char[] { ' ' });

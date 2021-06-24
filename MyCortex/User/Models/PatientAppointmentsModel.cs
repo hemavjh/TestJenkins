@@ -42,6 +42,7 @@ namespace MyCortex.User.Model
         public string ViewGenderName { get; set; }
         public int Page_Type { get; set; }
         public long ReasonTypeId { get; set; }
+        public long NewAppointmentId { get; set; }
         public string ReasonType { get; set; }
         public int IsActive { get; set; }
     }
