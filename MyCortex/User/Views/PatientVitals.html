@@ -1922,9 +1922,63 @@
 
                                 <ul class="nav nav-tabs">
                                     <!--<li class=""><a data-toggle="tab" href="#"></a></li>-->
-                                    <li class="active"><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>
+                                    <li ><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
                                 </ul>
                                 <div class="tab-content centerScroll" style="display:inherit !important;">
+                                    <div id="appt" class="tab-pane fade in active">
+                                        <div class="panel-body">
+                                            <div class="inputGroups">
+                                                <label for="usr">Doctor</label>
+                                                <input type="text" class="form-control" ng-model="searchquery" ng-click="DoctorSeachPopup()"
+                                                       placeholder="" />
+
+                                            </div>
+                                            <div class="inputGroups">
+                                                <label for="usr">Appointment Date</label>
+                                                <!--<div class="input-group date">-->
+                                                <input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">
+                                                <!--<span class="input-group-addon">
+                                                    <i class="glyphicon glyphicon-th"></i>
+                                                </span>-->
+                                                <!--</div>-->
+                                            </div>
+                                            <div class="inputGroups">
+                                                <label for="usr">Appointment Time</label>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group bootstrap-timepicker timepicker">
+                                                            <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentFromTime"
+                                                                   ng-init="AppointmentFromTime=''">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group bootstrap-timepicker timepicker">
+                                                            <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentToTime"
+                                                                   ng-init="AppointmentToTime=''">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="inputGroups">
+                                                <label>Reason For Visit</label>
+                                                <textarea class="form-control mb-10" rows="4" style="width: 100%" ng-model="ReasonForVisit"
+                                                          maxlength="250" ng-maxlength="250"></textarea>
+                                            </div>
+                                            <div class="inputGroups">
+                                                <button type="button" class="theme-btn-1 mr-10 mt-10" title="Click to save Patient Appointment"
+                                                        ng-click="PatientAppointment_InsertUpdate(Doctor_Id)">
+                                                    Save
+                                                </button>
+                                                <button type="button" class="theme-btn-2 mt-10" ng-click="DoctorAppoinmentModal()">
+                                                    View
+                                                    History
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!--<div id="appt" class="tab-pane fade in active">
                                         <div class="" ng-repeat="Row in UpComingAppointmentDetails">
                                             <div class=" upcoming-doctor">
@@ -1955,7 +2009,7 @@
                                             </div>
                                         </div>
                                     </div>-->
-                                    <div id="alertclear" class="tab-pane fade in active">
+                                    <div id="alertclear" class="tab-pane fade">
                                         <div class="panel-body">
                                             <div class="inputGroups">
                                                 <label for="usr">Call Notes/Remarks:</label>
