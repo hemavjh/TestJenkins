@@ -168,19 +168,23 @@ namespace MyCortex.User.Controllers
                 {
                     messagestr = "Tab Login Successfully";
                     model.ReturnFlag = 1;
-                }else if (ModelData.Any(item => item.Flag == 2) == true)
+                    model.Status = "True";
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
                 {
                     messagestr = "TabID are not matching, please verify";
                     model.ReturnFlag = 0;
+                    model.Status = "False";
                 }
                 else if (ModelData.Any(item => item.Flag == 3) == true)
                 {
                     messagestr = "UserId and/or Pin are not matching, please verify";
                     model.ReturnFlag = 0;
+                    model.Status = "False";
                 }
                 model.GetTabUserDetails = ModelData;
                 model.Message = messagestr;// "User created successfully";
-                model.Status = "True";
+                
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model); 
                 return response;
             }
