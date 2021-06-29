@@ -17467,6 +17467,7 @@ MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', 
 
         $scope.EditSelectedDoctor = [];
         $scope.EditSelectedDoctorList = [];
+        $scope.CCCG_DetailsList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.AppoinmentSlot_View = function (Id, DoctorId) {
             $("#chatLoaderPV").show();
@@ -17948,9 +17949,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.rowCollection = [];
         $scope.rowCollectionFilter = [];
         $scope.Id = 0;
+        $scope.CC_Id = 3;
 
         $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
             $scope.DepartmentList = data;
+        });
+        $http.get(baseUrl + '/api/User/UserDetailsbyUserType_List/Id?=' + $scope.CC_Id + '&IsActive=' + 1 + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.CCCG_DetailsList = data;
         });
 
         $scope.AddSlot = function () {
@@ -17958,6 +17963,32 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             // $scope.AppoinmentSlotClear();
             angular.element('#DoctorShiftModal').modal('show');
         }
+        $scope.onChangeDepartment = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            var SelectedDepartmentId = "";
+            angular.forEach($scope.SelectedDepartment, function (Department_Id, index) {
+                if ($scope.SelectedDepartment.length == 1) {
+                    SelectedDepartmentId = Department_Id.toString();
+                }
+                else if (SelectedDepartmentId != "" || $scope.SelectedDepartment.length > 1) {
+                    SelectedDepartmentId = SelectedDepartmentId + Department_Id + ',';
+                    
+                }
+            });
+            if ($scope.SelectedDepartment.length != 1) {
+                SelectedDepartmentId = SelectedDepartmentId.toString().slice(0, -1);
+            }
+            if (SelectedDepartmentId != "") {
+                $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentId=' + SelectedDepartmentId + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
+                    '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $scope.SelectedDoctorList = data;
+                    });
+            } else {
+                $scope.SelectedDoctorList = [];
+            }
+            
+        }
+
         $scope.CancelSlot = function () {
             angular.element('#DoctorShiftModal').modal('hide');
         }

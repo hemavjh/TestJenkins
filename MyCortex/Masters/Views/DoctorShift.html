@@ -18,6 +18,7 @@
     });
 </script>
 
+
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
@@ -201,10 +202,12 @@
                                                 <div class="col-sm-4">
                                                     <div class="inputGroups">
                                                         <label>
-                                                            Select Speciality
+                                                            Select Speciality<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
                                                         </label>
-                                                        <select id="department" ng-model="SelectedDepartment" multiple="multiple"
-                                                                ng-options="item1.ID as item1.Department_Name for item1 in DepartmentList"
+                                                        <select ng-model="SelectedDepartment" multiple="multiple" id="department" ng-change="onChangeDepartment()"
+                                                                ng-options="item1.Id as item1.Department_Name for item1 in DepartmentList"
                                                                 multiselect-dropdown style="width: 220px;"></select>
                                                     </div>
 
@@ -214,8 +217,8 @@
                                                         <label>
                                                             Select Doctor
                                                         </label>
-                                                        <select id="department" ng-model="SelectedDoctor" multiple="multiple"
-                                                                ng-options="item1.ID as item1.Department_Name for item1 in DepartmentList"
+                                                        <select id="Specialist" ng-model="SelectedSpecialist" multiple="multiple"
+                                                                ng-options="item2.Doctor_Id as item2.DoctorName for item2 in SelectedDoctorList"
                                                                 multiselect-dropdown style="width: 220px;"></select>
                                                     </div>
 
@@ -225,8 +228,8 @@
                                                         <label>
                                                             Select CC/CG
                                                         </label>
-                                                        <select id="department" ng-model="SelectedCCCG" multiple="multiple"
-                                                                ng-options="item1.ID as item1.Department_Name for item1 in DepartmentList"
+                                                        <select id="CCCG" ng-model="SelectedCCCG" multiple="multiple"
+                                                                ng-options="item3.Id as item3.FullName for item3 in CCCG_DetailsList"
                                                                 multiselect-dropdown style="width: 220px;"></select>
                                                     </div>
 
@@ -236,7 +239,7 @@
                                                         <label>
                                                             Select Start Date
                                                         </label>
-                                                        <input id="StartDate" class="form-control"type="date"/>
+                                                        <input id="StartDate" class="form-control" type="date" />
                                                     </div>
 
                                                 </div>
@@ -253,60 +256,297 @@
                                                        class="formControlGroup"></table>
                                             </div>
                                         </div>
+                                        <div style="text-align: center;">
+                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" title="Click to Save">
+                                                Save
+                                            </button>
+                                            <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
+                                                Cancel
+                                            </button>
+
+                                        </div>
                                     </div>
                                     <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row" id="MyHomeUserList">
-                                                    <div class="col-sm-4">
-                                                        <div class="inputGroups">
-                                                            <table class="table themeTable" template-pagination="custom/pager" id="MyHomeUserTable">
-                                                                <thead>
-                                                                    <tr style="text-align: center">
-                                                                        <th width="7%">Sl No.</th>
-                                                                        <th width="60%">User</th>
-                                                                        <th width="40%">PIN</th>
-                                                                        <th width="8%">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr ng-if="MyHomeflag==0 && (AddUserParameters | filter : {IsActive : true}).length==0">
-                                                                        <td colspan="5" style="text-align: center">
-                                                                            No Data Available
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
-                                                                        <td style="text-align: right;">{{$index+1}}</td>
-                                                                        <td>
-                                                                            <select ng-model="row.UserId" class="form-control" style="width:500px;"
-                                                                                    ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
-                                                                                <option value="">Select</option>
-                                                                            </select>
 
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="text" class="form-control myhomedropdown"
-                                                                                   ng-model="row.PIN" maxlength="20"
-                                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintab">
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
-                                                                                   ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2" />
-                                                                            <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                            <a href="javascript:" title="Click to Add" ng-show="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
+                                                    <!--<div class="col-sm-4">
+                <div class="inputGroups">
+                    <table class="table themeTable" template-pagination="custom/pager" id="MyHomeUserTable">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th width="7%">Sl No.</th>
+                                <th width="60%">User</th>
+                                <th width="40%">PIN</th>
+                                <th width="8%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="MyHomeflag==0 && (AddUserParameters | filter : {IsActive : true}).length==0">
+                                <td colspan="5" style="text-align: center">
+                                    No Data Available
+                                </td>
+                            </tr>
+                            <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
+                                <td style="text-align: right;">{{$index+1}}</td>
+                                <td>
+                                    <select ng-model="row.UserId" class="form-control" style="width:500px;"
+                                            ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
+                                        <option value="">Select</option>
+                                    </select>
+
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control myhomedropdown"
+                                           ng-model="row.PIN" maxlength="20"
+                                           ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintab">
+                                </td>
+                                <td>
+                                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
+                                           ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2" />-->
+                                                    <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
+                                                    <!--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="javascript:" title="Click to Add" ng-show="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
+                </div>
+            </div>-->
+                                                    <div class="tab-body" style=" min-height: 22rem;">
+                                                        <p class="sub-title" style=" margin-left: 8px;">Appointment Slot</p>
+                                                        <div style="margin-right: -63px; margin-left: -7px;">
+                                                            <div class="col-sm-3">
+                                                                <input type="checkbox" class="m-right-1">Use Org Default
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <div class="row">
+                                                                    <div class="col-sm-3">
+                                                                        <p>New Appointment</p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" class="input-size">
+                                                                            <p>Min</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <p>Follow-up Appointment</p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" class="input-size">
+                                                                            <p>Min</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <p>Interval</p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" class="input-size">
+                                                                            <p>Min</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row m-top-2">
+                                                                    <div class="col-sm-3">
+                                                                        <p>Custom Slot</p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" class="input-size">
+                                                                            <p>Min</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <p class="mt-4" style="font-weight: bold; font-size: 16px; margin-left: 9px;">Booking Info</p>
+                                                            <div class="row" style="margin-right: -63px; margin-left: -7px;">
+                                                                <div class="col-sm-3">
+                                                                    <input type="checkbox" class="m-right-1">Use Org Default
+                                                                </div>
+                                                                <div class="col-sm-9 row">
+                                                                    <div class="col-sm-3">
+                                                                        <p>Booking Open</p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" class="input-size">
+                                                                            <p>Days</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <p>Booking Cancel Lock</p>
+                                                                        <div class="input-slot">
+                                                                            <input type="text" class="input-size">
+                                                                            <p>Hours</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" title="Click to Save">
+                                                    Save
+                                                </button>
+                                                <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
+                                                    Cancel
+                                                </button>
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
                                         <div id="collapse3" class="panel-collapse">
-                                            <div class="panel-body">
+                                            <div class="tab-body" style="min-height: 34rem;">
+                                                <div class="col-sm-12 p-0">
+                                                    <p class="sub-title" style="margin-left: 8px;">Select Week Days</p>
+                                                    <div class="row col-sm-12">
+                                                        <div class="col-sm-2 mr-3">
+                                                            <div class="check">
+                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            </div>
+                                                            <p class="input-text text-center mt-2">Sunday</p>
+                                                        </div>
+                                                        <div class="col-sm-2 mr-3">
+                                                            <div class="check">
+                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            </div>
+                                                            <p class="input-text text-center mt-2">Monday</p>
+                                                        </div>
+                                                        <div class="col-sm-2 mr-3">
+                                                            <div class="check">
+                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            </div>
+                                                            <p class="input-text text-center mt-2">Tuesday</p>
+                                                        </div>
+                                                        <div class="col-sm-2 mr-3">
+                                                            <div class="check">
+                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            </div>
+                                                            <p class="input-text text-center mt-2">Wednesday</p>
+                                                        </div>
+                                                        <div class="col-sm-2 mr-3">
+                                                            <div class="check">
+                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            </div>
+                                                            <p class="input-text text-center mt-2">Thursday</p>
+                                                        </div>
+                                                        <div class="col-sm-2 mr-3">
+                                                            <div class="check">
+                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            </div>
+                                                            <p class="input-text text-center mt-2">Friday</p>
+                                                        </div>
+                                                        <div class="col-sm-2 mr-3">
+                                                            <div class="check">
+                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            </div>
+                                                            <p class="input-text text-center mt-2">Saturday</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-10 p-0">
+                                                    <p class="sub-title mt-4" style="margin-left: 8px;">Select Time Slot</p>
+                                                    <div class="flex col-sm-12 p-0" style=" margin-left: 25px;">
+                                                        <div class="col-sm-3 p-0">
+                                                            <p class="shift">Date / Day</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0">
+                                                            <p class="shift">Shift 1</p>
+                                                            <div class="flex mt-1">
+                                                                <input type="checkbox" class="mr-1">
+                                                                <p class="ml-1">Copy to all</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0">
+                                                            <p class="shift">Shift 2</p>
+                                                            <div class="flex mt-1">
+                                                                <input type="checkbox" class="mr-1">
+                                                                <p class="ml-1">Copy to all</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0">
+                                                            <p class="shift">Shift 3</p>
+                                                            <div class="flex mt-1">
+                                                                <input type="checkbox" class="mr-1">
+                                                                <p class="ml-1">Copy to all</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0">
+                                                            <p class="add-shift"><i class="fa fa-plus mr-1" aria-hidden="true"></i>Add Shift</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-10 p-0 flex" style=" margin-left: 25px;">
+                                                        <div class="col-sm-3 p-0 mt-2">
+                                                            <p>Sunday, May 01, 2021</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">8.00 AM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">4.00 PM</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">4.00 PM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">12.00 AM</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">12.00 AM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">8.00 PM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-10 p-0 flex" style=" margin-left: 25px;">
+                                                        <div class="col-sm-3 p-0 mt-2">
+                                                            <p>Monday, May 01, 2021</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">8.00 AM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">4.00 PM</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">4.00 PM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">12.00 AM</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">12.00 AM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">8.00 PM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-10 p-0 flex" style=" margin-left: 25px;">
+                                                        <div class="col-sm-3 p-0 mt-2">
+                                                            <p>Tuesday, May 01, 2021</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">8.00 AM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">4.00 PM</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">4.00 PM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">12.00 AM</p>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                            <p class="time">12.00 AM</p>
+                                                            <p class="to">to</p>
+                                                            <p class="time">8.00 PM</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" title="Click to Save">
+                                                    Save
+                                                </button>
+                                                <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
+                                                    Cancel
+                                                </button>
+
+                                            </div>
+
+                                            <!--<div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         <div class="inputGroups" style="margin-left:10px;width:300px;">
@@ -318,22 +558,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>-->
+
+
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div style="text-align: center;">
-                        <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="savemytab" title="Click to Save">
+                    <!--<div style="text-align: center;">
+                        <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" title="Click to Save">
                             Save
                         </button>
-                        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" id="cancelmytab">
+                        <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
                             Cancel
                         </button>
 
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
