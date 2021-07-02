@@ -17948,8 +17948,53 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.IsActive = true;
         $scope.rowCollection = [];
         $scope.rowCollectionFilter = [];
+
         $scope.Id = 0;
         $scope.CC_Id = 3;
+        $scope.TimeSlot1 = new Date();
+        $scope.TimeSlot2 = new Date();
+        $scope.TimeSlot3 = new Date();
+        $scope.TimeSlot4 = new Date();
+        $scope.TimeSlot5 = new Date();
+        $scope.TimeSlot6 = new Date();
+        $scope.TimeSlot7 = new Date();
+        $scope.TimeSlot8 = new Date();
+        $scope.TimeSlot9 = new Date();
+        $scope.TimeSlot10 = new Date();
+        $scope.TimeSlot11 = new Date();
+        $scope.TimeSlot12 = new Date();
+        $scope.TimeSlot13 = new Date();
+        $scope.TimeSlot14 = new Date();
+        $scope.TimeSlot15 = new Date();
+        $scope.TimeSlot16 = new Date();
+        $scope.TimeSlot17 = new Date();
+        $scope.TimeSlot18 = new Date();
+        $scope.TimeSlot19 = new Date();
+        $scope.TimeSlot20 = new Date();
+        $scope.TimeSlot21 = new Date();
+        $scope.TimeSlot22 = new Date();
+        $scope.TimeSlot23 = new Date();
+        $scope.TimeSlot24 = new Date();
+        $scope.TimeSlot25 = new Date();
+        $scope.TimeSlot26 = new Date();
+        $scope.TimeSlot27 = new Date();
+        $scope.TimeSlot28 = new Date();
+        $scope.TimeSlot29 = new Date();
+        $scope.TimeSlot30 = new Date();
+        $scope.TimeSlot31 = new Date();
+        $scope.TimeSlot32 = new Date();
+        $scope.TimeSlot33 = new Date();
+        $scope.TimeSlot34 = new Date();
+        $scope.TimeSlot35 = new Date();
+        $scope.TimeSlot36 = new Date();
+        $scope.TimeSlot37 = new Date();
+        $scope.TimeSlot38 = new Date();
+        $scope.TimeSlot39 = new Date();
+        $scope.TimeSlot40 = new Date();
+        $scope.TimeSlot41 = new Date();
+        $scope.TimeSlot42 = new Date();
+
+
 
         $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
             $scope.DepartmentList = data;
@@ -17987,6 +18032,36 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.SelectedDoctorList = [];
             }
             
+        }
+
+        $scope.OrgDefaultClick = function (event) {
+            var checked = $('#OrgDefaultId').is(":checked")
+            if (checked == true) {
+                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    $scope.NewAppointment = data.NewAppointmentDuration;
+                    $scope.followup = data.FollowUpDuration;
+                    $scope.IntervalBt = data.AppointmentInterval;
+
+                });
+            } else {
+                $scope.NewAppointment = "0";
+                $scope.followup = "0";
+                $scope.IntervalBt = "0";
+            }
+        }
+
+        $scope.OrgBookInfoDefaultClick = function (event) {
+            var checked = $('#OrgBookInfoId').is(":checked")
+            if (checked == true) {
+                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    $scope.Days = data.MinRescheduleDays;
+                    $scope.Minutes = data.MinRescheduleMinutes;
+
+                });
+            } else {
+                $scope.Days = "0";
+                $scope.Minutes = "0";
+            }
         }
 
         $scope.CancelSlot = function () {
@@ -18634,9 +18709,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.NewAppointment = "0";
             $scope.followup = "0";
             $scope.IntervalBt = "0";
+            $scope.CustomSlot = "0";
             $scope.Days = "0";
             $scope.AppointmentDay = "";
-            $scope.Minutest = "0";
+            $scope.Minutes = "0";
             $scope.TimeZoneList = [];
             $scope.SelectedTimeZone = "";
             $scope.sunday = true;
