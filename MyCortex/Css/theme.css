@@ -441,8 +441,8 @@ color:red;
     border-radius: 2px;
 }
 .to {
-    margin-right: .5rem;
-    margin-left: .5rem;
+    margin-right: 0.1rem;
+    margin-left: 1.1rem;
 }
 .input-slot {
     display: flex;

@@ -17951,6 +17951,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.Id = 0;
         $scope.CC_Id = 3;
+        $('#SundayCheck').hide();
+        $('#MondayCheck').hide();
+        $('#TuesdayCheck').hide();
+        $('#WednesdayCheck').hide();
+        $('#ThursdayCheck').hide();
+        $('#FridayCheck').hide();
+        $('#SaturdayCheck').hide();
         $scope.TimeSlot1 = new Date();
         $scope.TimeSlot2 = new Date();
         $scope.TimeSlot3 = new Date();
@@ -17993,7 +18000,20 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.TimeSlot40 = new Date();
         $scope.TimeSlot41 = new Date();
         $scope.TimeSlot42 = new Date();
-
+        $scope.TimeSlot43 = new Date();
+        $scope.TimeSlot44 = new Date();
+        $scope.TimeSlot45 = new Date();
+        $scope.TimeSlot46 = new Date();
+        $scope.TimeSlot47 = new Date();
+        $scope.TimeSlot48 = new Date();
+        $scope.TimeSlot49 = new Date();
+        $scope.TimeSlot50 = new Date();
+        $scope.TimeSlot51 = new Date();
+        $scope.TimeSlot52 = new Date();
+        $scope.TimeSlot53 = new Date();
+        $scope.TimeSlot54 = new Date();
+        $scope.TimeSlot55 = new Date();
+        $scope.TimeSlot56 = new Date();
 
 
         $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
@@ -18063,6 +18083,70 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.Minutes = "0";
             }
         }
+
+        $scope.SundayClick = function (event) {
+            var checked = $('#SundayId').is(":checked")
+            if (checked == true) {
+                $('#SundayCheck').show();
+            } else {
+                $('#SundayCheck').hide();
+            }
+        }
+
+        $scope.MondayClick = function (event) {
+            var checked = $('#MondayId').is(":checked")
+            if (checked == true) {
+                $('#MondayCheck').show();
+            } else {
+                $('#MondayCheck').hide();
+            }
+        }
+
+        $scope.TuesdayClick = function (event) {
+            var checked = $('#TuesdayId').is(":checked")
+            if (checked == true) {
+                $('#TuesdayCheck').show();
+            } else {
+                $('#TuesdayCheck').hide();
+            }
+        }
+
+        $scope.WednesdayClick = function (event) {
+            var checked = $('#WednesdayId').is(":checked")
+            if (checked == true) {
+                $('#WednesdayCheck').show();
+            } else {
+                $('#WednesdayCheck').hide();
+            }
+        }
+
+        $scope.ThursdayClick = function (event) {
+            var checked = $('#ThursdayId').is(":checked")
+            if (checked == true) {
+                $('#ThursdayCheck').show();
+            } else {
+                $('#ThursdayCheck').hide();
+            }
+        }
+
+        $scope.FridayClick = function (event) {
+            var checked = $('#FridayId').is(":checked")
+            if (checked == true) {
+                $('#FridayCheck').show();
+            } else {
+                $('#FridayCheck').hide();
+            }
+        }
+
+        $scope.SaturdayClick = function (event) {
+            var checked = $('#SaturdayId').is(":checked")
+            if (checked == true) {
+                $('#SaturdayCheck').show();
+            } else {
+                $('#SaturdayCheck').hide();
+            }
+        }
+
 
         $scope.CancelSlot = function () {
             angular.element('#DoctorShiftModal').modal('hide');

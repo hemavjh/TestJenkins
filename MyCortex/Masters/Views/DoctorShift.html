@@ -61,6 +61,20 @@
     $('#timepicker40').timepicker();
     $('#timepicker41').timepicker();
     $('#timepicker42').timepicker();
+    $('#timepicker43').timepicker();
+    $('#timepicker44').timepicker();
+    $('#timepicker45').timepicker();
+    $('#timepicker46').timepicker();
+    $('#timepicker47').timepicker();
+    $('#timepicker48').timepicker();
+    $('#timepicker49').timepicker();
+    $('#timepicker50').timepicker();
+    $('#timepicker51').timepicker();
+    $('#timepicker52').timepicker();
+    $('#timepicker53').timepicker();
+    $('#timepicker54').timepicker();
+    $('#timepicker55').timepicker();
+    $('#timepicker56').timepicker();
 </script>
 
 
@@ -445,44 +459,44 @@
                                                     <p class="sub-title" style="margin-left: 8px;">Select Week Days</p>
                                                     <div class="row col-sm-6">
                                                         <div class="col-sm-2 mr-3">
-                                                            <div class="check">
-                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                            <div class="check">     
+                                                                <input class="input-checkbox" type="checkbox" id="SundayId" ng-click="SundayClick($event)">
                                                             </div>
                                                             <p class="input-text text-center mt-2">Sunday</p>
                                                         </div>
                                                         <div class="col-sm-2 mr-3">
                                                             <div class="check">
-                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                                <input class="input-checkbox" type="checkbox" id="MondayId" ng-click="MondayClick($event)">
                                                             </div>
                                                             <p class="input-text text-center mt-2">Monday</p>
                                                         </div>
                                                         <div class="col-sm-2 mr-3">
                                                             <div class="check">
-                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                                <input class="input-checkbox" type="checkbox" id="TuesdayId" ng-click="TuesdayClick($event)">
                                                             </div>
                                                             <p class="input-text text-center mt-2">Tuesday</p>
                                                         </div>
                                                         <div class="col-sm-2 mr-3">
                                                             <div class="check">
-                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                                <input class="input-checkbox" type="checkbox" id="WednesdayId" ng-click="WednesdayClick($event)">
                                                             </div>
                                                             <p class="input-text text-center mt-2">Wednesday</p>
                                                         </div>
                                                         <div class="col-sm-2 mr-3">
                                                             <div class="check">
-                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                                <input class="input-checkbox" type="checkbox" id="ThursdayId" ng-click="ThursdayClick($event)">
                                                             </div>
                                                             <p class="input-text text-center mt-2">Thursday</p>
                                                         </div>
                                                         <div class="col-sm-2 mr-3">
                                                             <div class="check">
-                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                                <input class="input-checkbox" type="checkbox" id="FridayId" ng-click="FridayClick($event)">
                                                             </div>
                                                             <p class="input-text text-center mt-2">Friday</p>
                                                         </div>
                                                         <div class="col-sm-2 mr-3">
                                                             <div class="check">
-                                                                <input type="checkbox" class="input-checkbox" checked="">
+                                                                <input class="input-checkbox" type="checkbox" id="SaturdayId" ng-click="SaturdayClick($event)">
                                                             </div>
                                                             <p class="input-text text-center mt-2">Saturday</p>
                                                         </div>
@@ -491,39 +505,46 @@
                                                 <div class="col-sm-10 p-0">
                                                     <p class="sub-title mt-4" style="margin-left: 8px;">Select Time Slot</p>
                                                     <div class="flex col-sm-12 p-0" style=" margin-left: 25px;">
-                                                        <div class="col-sm-3 p-0" style="left: 20px;">
-                                                            <p class="shift">Date / Day</p>
+                                                        <div class="col-sm-3 p-0" style="left: -8px;">
+                                                            <p class="shift">Day</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0" style="left: 70px;">
+                                                        <div class="col-sm-3 p-0" style="left: -11px;">
                                                             <p class="shift">Shift 1</p>
                                                             <div class="flex mt-1">
-                                                                <input type="checkbox" class="mr-1">
-                                                                <p class="ml-1">Copy to all</p>
+                                                                <!--<input type="checkbox" class="mr-1">
+                                                                <p class="ml-1">Copy to all</p>-->
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0" style="left: 130px;">
+                                                        <div class="col-sm-3 p-0" style="left: 67px;">
                                                             <p class="shift">Shift 2</p>
                                                             <div class="flex mt-1">
-                                                                <input type="checkbox" class="mr-1">
-                                                                <p class="ml-1">Copy to all</p>
+                                                                <!--<input type="checkbox" class="mr-1">
+                                                                <p class="ml-1">Copy to all</p>-->
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0" style="left: 190px;">
+                                                        <div class="col-sm-3 p-0" style="left: 153px;">
                                                             <p class="shift">Shift 3</p>
                                                             <div class="flex mt-1">
-                                                                <input type="checkbox" class="mr-1">
-                                                                <p class="ml-1">Copy to all</p>
+                                                                <!--<input type="checkbox" class="mr-1">
+                                                                <p class="ml-1">Copy to all</p>-->
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0" style="left: 225px;">
-                                                            <p class="add-shift"><i class="fa fa-plus mr-1" aria-hidden="true"></i>Add Shift</p>
+                                                        <div class="col-sm-3 p-0" style="left: 233px;">
+                                                            <p class="shift">Shift 4</p>
+                                                            <div class="flex mt-1">
+                                                                <!--<input type="checkbox" class="mr-1">
+                                                                <p class="ml-1">Copy to all</p>-->
+                                                            </div>
                                                         </div>
+                                                        <!--<div class="col-sm-3 p-0" style="left: 225px;">
+                                                            <p class="add-shift"><i class="fa fa-plus mr-1" aria-hidden="true"></i>Add Shift</p>
+                                                        </div>-->
                                                     </div>
-                                                    <div class="col-sm-12 p-0 flex" style=" margin-left: 25px;">
+                                                    <div class="col-sm-12 p-4 flex" id="SundayCheck" style=" margin-left: 25px;">
                                                         <div class="col-sm-2 p-0 mt-2">
                                                             <p>Sunday</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 55px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker1" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot1"
@@ -531,7 +552,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker2" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot2"
@@ -540,7 +561,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 79px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker3" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot3"
@@ -548,7 +569,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker4" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot4"
@@ -557,7 +578,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 111px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker5" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot5"
@@ -565,7 +586,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker6" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot6"
@@ -574,12 +595,29 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 138px;">
+                                                            <div class="col-sm-3" style="margin-right: 61px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker43" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot43"
+                                                                           ng-init="TimeSlot43=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="to">To</p>
+                                                            <div class="col-sm-3" style="margin-left: -7px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker44" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot44"
+                                                                           ng-init="TimeSlot44=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-12 p-0 flex" style=" margin-left: 25px;">
+                                                    <div class="col-sm-12 p-4 flex" id="MondayCheck" style=" margin-left: 25px;">
                                                         <div class="col-sm-2 p-0 mt-2">
                                                             <p>Monday</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 52px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker7" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot7"
@@ -587,7 +625,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker8" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot8"
@@ -596,7 +634,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 76px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker9" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot9"
@@ -604,7 +642,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker10" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot10"
@@ -613,7 +651,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 108px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker11" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot11"
@@ -621,7 +659,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker12" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot12"
@@ -630,12 +668,29 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 135px;">
+                                                            <div class="col-sm-3" style="margin-right: 61px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker45" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot45"
+                                                                           ng-init="TimeSlot45=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="to">To</p>
+                                                            <div class="col-sm-3" style="margin-left: -7px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker46" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot46"
+                                                                           ng-init="TimeSlot46=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-12 p-0 flex" style=" margin-left: 25px;">
+                                                    <div class="col-sm-12 p-4 flex" id="TuesdayCheck" style=" margin-left: 25px;">
                                                         <div class="col-sm-2 p-0 mt-2">
                                                             <p>Tuesday</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 52px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker13" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot13"
@@ -643,7 +698,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker14" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot14"
@@ -652,7 +707,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 76px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker15" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot15"
@@ -660,7 +715,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker16" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot16"
@@ -669,7 +724,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 108px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker17" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot17"
@@ -677,7 +732,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker18" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot18"
@@ -686,12 +741,29 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 135px;">
+                                                            <div class="col-sm-3" style="margin-right: 61px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker47" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot47"
+                                                                           ng-init="TimeSlot47=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="to">To</p>
+                                                            <div class="col-sm-3" style="margin-left: -7px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker48" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot48"
+                                                                           ng-init="TimeSlot48=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-12 p-0 flex" style=" margin-left: 25px;">
+                                                    <div class="col-sm-12 p-4 flex" id="WednesdayCheck" style=" margin-left: 25px;">
                                                         <div class="col-sm-2 p-0 mt-2">
                                                             <p>Wednesday</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 32px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker19" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot19"
@@ -699,7 +771,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker20" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot20"
@@ -708,7 +780,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 55px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker21" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot21"
@@ -716,7 +788,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker22" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot22"
@@ -725,7 +797,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 88px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker23" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot23"
@@ -733,7 +805,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker24" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot24"
@@ -742,12 +814,29 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 114px;">
+                                                            <div class="col-sm-3" style="margin-right: 61px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker49" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot49"
+                                                                           ng-init="TimeSlot49=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="to">To</p>
+                                                            <div class="col-sm-3" style="margin-left: -7px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker50" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot50"
+                                                                           ng-init="TimeSlot50=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-12 p-0 flex" style=" margin-left: 25px;">
+                                                    <div class="col-sm-12 p-4 flex" id="ThursdayCheck" style=" margin-left: 25px;">
                                                         <div class="col-sm-2 p-0 mt-2">
                                                             <p>Thursday</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 45px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker25" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot25"
@@ -755,7 +844,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker26" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot26"
@@ -764,7 +853,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 70px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker27" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot27"
@@ -772,7 +861,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker28" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot28"
@@ -781,7 +870,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 103px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker29" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot29"
@@ -789,7 +878,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker30" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot30"
@@ -798,12 +887,29 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 128px;">
+                                                            <div class="col-sm-3" style="margin-right: 61px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker51" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot51"
+                                                                           ng-init="TimeSlot51=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="to">To</p>
+                                                            <div class="col-sm-3" style="margin-left: -7px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker52" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot52"
+                                                                           ng-init="TimeSlot52=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-12 p-0 flex" style=" margin-left: 25px;">
+                                                    <div class="col-sm-12 p-4 flex" id="FridayCheck" style=" margin-left: 25px;">
                                                         <div class="col-sm-2 p-0 mt-2">
                                                             <p>Friday</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 64px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker31" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot31"
@@ -811,7 +917,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker32" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot32"
@@ -820,7 +926,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 89px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker33" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot33"
@@ -828,7 +934,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker34" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot34"
@@ -837,7 +943,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 123px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker35" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot35"
@@ -845,7 +951,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker36" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot36"
@@ -854,12 +960,29 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 148px;">
+                                                            <div class="col-sm-3" style="margin-right: 61px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker53" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot53"
+                                                                           ng-init="TimeSlot53=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="to">To</p>
+                                                            <div class="col-sm-3" style="margin-left: -7px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker54" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot54"
+                                                                           ng-init="TimeSlot54=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-12 p-0 flex" style=" margin-left: 25px;">
+                                                    <div class="col-sm-12 p-4 flex" id="SaturdayCheck" style="margin-left: 25px;">
                                                         <div class="col-sm-2 p-0 mt-2">
                                                             <p>Saturday</p>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 47px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker37" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot37"
@@ -867,7 +990,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker38" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot38"
@@ -876,7 +999,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 71px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker39" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot39"
@@ -884,7 +1007,7 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker40" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot40"
@@ -893,7 +1016,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-3 p-0 mt-2 flex">
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 106px;">
                                                             <div class="col-sm-3" style="margin-right: 61px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker41" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot41"
@@ -901,11 +1024,28 @@
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
-                                                            <p class="to">to</p>
+                                                            <p class="to">To</p>
                                                             <div class="col-sm-3" style="margin-left: -7px;">
                                                                 <div class="input-group bootstrap-timepicker timepicker">
                                                                     <input id="timepicker42" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot42"
                                                                            ng-init="TimeSlot42=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 p-0 mt-2 flex" style="left: 131px;">
+                                                            <div class="col-sm-3" style="margin-right: 61px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker55" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot55"
+                                                                           ng-init="TimeSlot55=''">
+                                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="to">To</p>
+                                                            <div class="col-sm-3" style="margin-left: -7px;">
+                                                                <div class="input-group bootstrap-timepicker timepicker">
+                                                                    <input id="timepicker56" type="text" style="font-size:13px;margin-right: 49px;" class="form-control input-small" ng-model="TimeSlot56"
+                                                                           ng-init="TimeSlot56=''">
                                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                                                 </div>
                                                             </div>
