@@ -7014,6 +7014,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.ShowAppointmentBookingPopUp = function () {
             angular.element('#BookAppointmentModal').modal('show');
         }
+        $scope.ShowStripePopup = function () {
+            angular.element('#StripePayOptions').modal('show');
+        }
 
         // Add row concept for Patient Vital Parameters
         $scope.AddVitalParameters = [{

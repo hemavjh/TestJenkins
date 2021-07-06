@@ -267,11 +267,12 @@
                                                         </div>-->
                                                     </div>
                                                     <div class="myAppoinmentsdayscountrite">
-                                                            <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                                                            <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
-                                                            <a class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
-                                                            <img  style="height: 38px; width: 40px; padding-top: 0px; padding-left: 0px; padding-bottom: 4px; padding-right: 4px;" class="kutticon" src="images/Video-Icon.png"> </a>
-                                                            <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                                                        <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                                                        <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
+                                                        <a class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                                                            <img style="height: 38px; width: 40px; padding-top: 0px; padding-left: 0px; padding-bottom: 4px; padding-right: 4px;" class="kutticon" src="images/Video-Icon.png">
+                                                        </a>
+                                                        <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1923,7 +1924,7 @@
                                 <ul class="nav nav-tabs">
                                     <!--<li class=""><a data-toggle="tab" href="#"></a></li>-->
                                     <li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>
-                                    <li ><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
+                                    <li><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
                                 </ul>
                                 <div class="tab-content centerScroll" style="display:inherit !important;">
                                     <div id="appt" class="tab-pane fade in active">
@@ -2036,6 +2037,9 @@
                             <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
                                 + Book New
                             </button>
+                            <button type="button" class="theme-btn-3" ng-click="ShowStripePopup()">
+                                Stripe
+                            </button>
                         </div>
 
 
@@ -2047,8 +2051,8 @@
                                     <li><a data-toggle="tab" href="#Past">Past</a></li>
                                 </ul>
                                 <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
-                            
-                                    <div id="Past" class="tab-pane fade" >
+
+                                    <div id="Past" class="tab-pane fade">
                                         <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
                                             <div class=" upcoming-doctor">
                                                 <div class="flex justify-content-between align-items-center mb-4">
@@ -2119,10 +2123,10 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
         <div id="searchDoctor" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
@@ -3885,19 +3889,18 @@
                                                         <label>Clinical Notes</label>
                                                     </td>
                                                     <div>
-                                                        <td>
-                                                            <div class="textwrap">{{Notes}}</div>
-                                                        </td>
-                                                    </div>
-                                                </tr>
-                                            </table>
-                                        </form>
+                                                    <td>
+                                                        <div class="textwrap">{{Notes}}</div>
+                                                    </td>
                                     </div>
-                                    <div class="modal-footer" style="text-align: center;">
-                                        <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewPatientNotespopup()">
-                                            Cancel
-                                        </button>
-                                    </div>
+                                    </tr>
+                                    </table>
+                                    </form>
+                                </div>
+                                <div class="modal-footer" style="text-align: center;">
+                                    <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewPatientNotespopup()">
+                                        Cancel
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -3905,261 +3908,78 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="Patient_OtherData_AddModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 60%">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Other Data</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
-
-                                <tr style="text-align: center">
-
-                                    <th width="7%">#</th>
-                                    <th width="15%">Document Name</th>
-                                    <th width="30%">Upload Files</th>
-                                    <th width="20%">Remarks</th>
-                                    <th width="5%">Action</th>
-                                </tr>
-                                <tr ng-if="Add_OtherDataflag==0 && Patient_OtherData.length==0">
-                                    <td colspan="8" style="text-align: center">
-                                        No Data Available
-                                    </td>
-                                </tr>
-                                <tr ng-repeat="row in Patient_OtherData">
-                                    <td class="textalign">{{$index+1}}</td>
-                                    <td style="text-align: left">
-                                        <input type="text" class="form-control" ng-model="row.DocumentName" maxlength="100"
-                                               ng-maxlength="100" />
-                                    </td>
-                                    <td style="text-align: left">
-                                        <input type="file" id="OtherDataDocumment{{$index}}" fileread="row.resumedoc"
-                                               onchange="angular.element(this).scope().docfileChange(this, angular.element(this).scope().$index)"
-                                               name="Resume" title="Click to Upload document"
-                                               style="height: 0px !important; display: none;" />
-
-                                        <a ng-href="{{row.Resume}}" target="_blank"><div class="textwrap">{{row.CertificateFileName}}</div></a>
-                                        <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-end;">
-                                            <label for="OtherDataDocumment{{$index}}" class="uploadIconBtn" title="Click to Upload document" ng-click="CertificateUplaodSelected()">
-                                                <i class="fa fa-upload" aria-hidden="true"></i>
-                                            </label>
-                                            <span style="text-align: right;">Upload File</span>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: left">
-                                        <textarea type="text" ng-model="row.Remarks" class="form-control" maxlength="250"
-                                                  ng-maxlength="250" />
-                                    </td>
-                                    <td style="text-align: center">
-                                        <input type="image" src="../../Images/deleteNewIcon.png"
-                                               title='Click to delete'
-                                               ng-click="RemovePatient_OtherData_Item($index)"
-                                               ng-model="row.selectedOtherData"
-                                               style="width: 20px;" id="Image3" />
-
-                                    </td>
-                                </tr>
-
-                            </table>
-                        </form>
-                        <a href="javascript:" title="Click to Add" style="color: #337ab7;"
-                           ng-click="AddPatient_OtherData()">|Add|</a>
-                        <div class="modal-footer" style="text-align: center;">
-                            <div class="col-sm-offset-2 col-sm-9">
-                                <button type="button" class="theme-btn-2 btn  btn-save" ng-click="Patient_OtherData_InsertUpdate()"
-                                        title="Click to Save">
-                                    Save
-                                </button>
-                                <button type="button" class="theme-btn-2 btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+    <div id="Patient_OtherData_AddModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 60%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Other Data</h4>
                 </div>
-            </div>
-        </div>
+                <div class="modal-body">
+                    <form>
+                        <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
 
-        <div id="Patient_OtherData_ViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 40%">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" title="">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Other Data</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal" role="form" style="font-size: small">
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                <tr>
-                                    <td width="30%" valign="top">
-                                        <label>Document Name</label>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <div class="textwrap">{{DocumentName}}</div>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td valign="top">
-                                        <label>File Name</label>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <a href="home/GetPatient_OtherDataDocument?Id={{OtherData_Id}}" target="_blank"><div class="textwrap">{{FileName}}</div></a>
-                                        </span>
+                            <tr style="text-align: center">
 
+                                <th width="7%">#</th>
+                                <th width="15%">Document Name</th>
+                                <th width="30%">Upload Files</th>
+                                <th width="20%">Remarks</th>
+                                <th width="5%">Action</th>
+                            </tr>
+                            <tr ng-if="Add_OtherDataflag==0 && Patient_OtherData.length==0">
+                                <td colspan="8" style="text-align: center">
+                                    No Data Available
+                                </td>
+                            </tr>
+                            <tr ng-repeat="row in Patient_OtherData">
+                                <td class="textalign">{{$index+1}}</td>
+                                <td style="text-align: left">
+                                    <input type="text" class="form-control" ng-model="row.DocumentName" maxlength="100"
+                                           ng-maxlength="100" />
+                                </td>
+                                <td style="text-align: left">
+                                    <input type="file" id="OtherDataDocumment{{$index}}" fileread="row.resumedoc"
+                                           onchange="angular.element(this).scope().docfileChange(this, angular.element(this).scope().$index)"
+                                           name="Resume" title="Click to Upload document"
+                                           style="height: 0px !important; display: none;" />
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 15%" valign="top">
-                                        <label>Remarks</label>
-                                    </td>
-                                    <td>
-                                        <span>
-                                            <div class="textwrap">{{Remarks}}</div>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <button type="button" class="btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="OtherData_EditModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false" ng-init="Get_DocumentBlobData()">
-            <div class="modal-dialog" style="width: 40%">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" title="">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Other Data</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal" role="form" style="font-size: small">
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                <tr>
-                                    <td width="30%" valign="top">
-                                        <label>Document Name</label>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" ng-model="DocumentName" maxlength="100" ng-maxlength="100" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td valign="top">
-                                        <label>File Name</label>
-                                    </td>
-                                    <td>
-                                        <input type="file" id="EditDocument" fileread="Editresumedoc"
-                                               onchange="angular.element(this).scope().EditdocfileChange(this)"
-                                               name="Resume" title="Click to Upload Image "
-                                               style="height: 0px !important; display: none;" />
-
-                                        <!--<button type="button" class="btn  btn-autosize" id="EditDocLogo">
-                                        Upload File</button>-->
-                                        <a ng-href="{{Resume}}" target="_blank"><div class="textwrap">{{EditFileName}}</div></a>
-
-                                        <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-start;">
-                                            <label for="EditDocument" class="uploadIconBtn" title="Click to Upload Logo">
-                                                <i class="fa fa-upload" aria-hidden="true"></i>
-                                            </label>
-                                            <span style="text-align: left;">Upload File</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 15%" valign="top">
-                                        <label>Remarks</label>
-                                    </td>
-                                    <td>
-                                        <textarea type="text" ng-model="Remarks" class="form-control" maxlength="250"
-                                                  ng-maxlength="250" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <button type="button" class="btn  btn-save" ng-click="Patient_OtherData_Edit()" title="Click to Save">
-                            Save
-                        </button>
-                        <button type="button" class="btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="PatientAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Cancel Appointment</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                <tr>
-                                    <td width="10%">
-                                        <label for="usr">
-                                            Reason Type <sup>
-                                                <font class='mandatory-field'>*</font>
-                                            </sup>
+                                    <a ng-href="{{row.Resume}}" target="_blank"><div class="textwrap">{{row.CertificateFileName}}</div></a>
+                                    <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-end;">
+                                        <label for="OtherDataDocumment{{$index}}" class="uploadIconBtn" title="Click to Upload document" ng-click="CertificateUplaodSelected()">
+                                            <i class="fa fa-upload" aria-hidden="true"></i>
                                         </label>
-                                    </td>
-                                    <td width="30%">
-                                        <select class="form-control" data-style="form-control"
-                                                data-live-search="true" data-selectpicker
-                                                data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
-                                            <option ng-repeat="sel in AppointmentReasonTypeList"
-                                                    ng-required="true" value="{{sel.ReasonTypeId}}">
-                                                {{sel.ReasonType}}
-                                            </option>
-                                        </select>
-                                    </td>
+                                        <span style="text-align: right;">Upload File</span>
+                                    </div>
+                                </td>
+                                <td style="text-align: left">
+                                    <textarea type="text" ng-model="row.Remarks" class="form-control" maxlength="250"
+                                              ng-maxlength="250" />
+                                </td>
+                                <td style="text-align: center">
+                                    <input type="image" src="../../Images/deleteNewIcon.png"
+                                           title='Click to delete'
+                                           ng-click="RemovePatient_OtherData_Item($index)"
+                                           ng-model="row.selectedOtherData"
+                                           style="width: 20px;" id="Image3" />
 
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label>
-                                            Reason
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" ng-model="Cancelled_Remarks" maxlength="100"
-                                               ng-maxlength="100" />
-                                    </td>
-                                </tr>
+                                </td>
+                            </tr>
 
-                            </table>
-                        </form>
-                    </div>
+                        </table>
+                    </form>
+                    <a href="javascript:" title="Click to Add" style="color: #337ab7;"
+                       ng-click="AddPatient_OtherData()">|Add|</a>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" ng-click="Update_CancelledAppointment()">
+                            <button type="button" class="theme-btn-2 btn  btn-save" ng-click="Patient_OtherData_InsertUpdate()"
+                                    title="Click to Save">
                                 Save
                             </button>
-                            <button type="button" class="btn btn-save" ng-click="Cancel_CancelledAppointment()">
+                            <button type="button" class="theme-btn-2 btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
                                 Cancel
                             </button>
                         </div>
@@ -4167,167 +3987,442 @@
                 </div>
             </div>
         </div>
-        <div id="DoctorSelectionModal" class="modal fade right" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 30%">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" title="Close"
-                                ng-click="CancelPopup()" style="color: #8B0000;">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Doctor</h4>
-                    </div>
-                    <div class="modal-body modalwindowscroll">
-                        <div class="panel panel-default panel-info" id="Div3">
-                            <form class="form-horizontal" role="form">
-                                <table cellpadding="0" cellspacing="0" border="0" width="100%"
-                                       class="formControlGroup">
-                                    <tr>
-                                        <td width="5%">
-                                            <label>Search</label>
-                                        </td>
-                                        <td width="95%">
-                                            <div class="modernSearch">
-                                                <input type="text" ng-model="searchquery"
-                                                       ng-change="filterDoctorListforAppointmentCreation()" style="width: 180px"
-                                                       placeholder="Search for -name or specialist" />
-                                                <i class="fa fa-search"></i>
-                                            </div>
-                                        </td>
-                                    </tr>
+    </div>
 
-                                </table>
-                            </form>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12" style="cursor: pointer">
-                                <div ng-if="DoctorCollectionFilter.length==0">
-                                    No Data Available
-                                </div>
-                                <div class="patientCard" ng-repeat="row in DoctorCollectionFilter">
-                                    <div class="row" ng-click="DoctorSelection(row)">
-                                        <div class="col-sm-6">
-                                            <!--<i class="fa fa-star" style="font-size: 25px"></i>-->
-                                            <!--  <img class="patientDetimg" src="../../Images/male.png"
-                                                        alt="">-->
-                                            <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
-                                                 valign="top" rowspan="6">
-                                                <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/male.png" />
-                                            </div>
-                                            <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob=='')"
-                                                 valign="top" rowspan="6">
-                                                <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/female.png" />
-                                            </div>
-                                            <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
-                                                 valign="top" rowspan="6">
-                                                <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/Others.png" />
-                                            </div>
-                                            <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!='')" valign="top"
-                                                 rowspan="6">
-                                                <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg"
-                                                     src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <span>{{row.DoctorName}}</span>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <span>{{row.Doctor_DepartmentName}}</span>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <i class="fa fa-comments my-float"
-                                                       style="font-size: 25px"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-phone" style="font-size: 25px"></i>
-                                                </div>
-                                            </div>
-                                        </div>
+    <div id="Patient_OtherData_ViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 40%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Other Data</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" style="font-size: small">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                            <tr>
+                                <td width="30%" valign="top">
+                                    <label>Document Name</label>
+                                </td>
+                                <td>
+                                    <span>
+                                        <div class="textwrap">{{DocumentName}}</div>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    <label>File Name</label>
+                                </td>
+                                <td>
+                                    <span>
+                                        <a href="home/GetPatient_OtherDataDocument?Id={{OtherData_Id}}" target="_blank"><div class="textwrap">{{FileName}}</div></a>
+                                    </span>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 15%" valign="top">
+                                    <label>Remarks</label>
+                                </td>
+                                <td>
+                                    <span>
+                                        <div class="textwrap">{{Remarks}}</div>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="OtherData_EditModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false" ng-init="Get_DocumentBlobData()">
+        <div class="modal-dialog" style="width: 40%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Other Data</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" style="font-size: small">
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                            <tr>
+                                <td width="30%" valign="top">
+                                    <label>Document Name</label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="DocumentName" maxlength="100" ng-maxlength="100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    <label>File Name</label>
+                                </td>
+                                <td>
+                                    <input type="file" id="EditDocument" fileread="Editresumedoc"
+                                           onchange="angular.element(this).scope().EditdocfileChange(this)"
+                                           name="Resume" title="Click to Upload Image "
+                                           style="height: 0px !important; display: none;" />
+
+                                    <!--<button type="button" class="btn  btn-autosize" id="EditDocLogo">
+                                    Upload File</button>-->
+                                    <a ng-href="{{Resume}}" target="_blank"><div class="textwrap">{{EditFileName}}</div></a>
+
+                                    <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-start;">
+                                        <label for="EditDocument" class="uploadIconBtn" title="Click to Upload Logo">
+                                            <i class="fa fa-upload" aria-hidden="true"></i>
+                                        </label>
+                                        <span style="text-align: left;">Upload File</span>
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 15%" valign="top">
+                                    <label>Remarks</label>
+                                </td>
+                                <td>
+                                    <textarea type="text" ng-model="Remarks" class="form-control" maxlength="250"
+                                              ng-maxlength="250" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn  btn-save" ng-click="Patient_OtherData_Edit()" title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <button type="button" class="btn  btn-save" title="Click  to Cancel"
-                                ng-click="CancelDoctorSelectionModalPopup()">
+    <div id="PatientAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Cancel Appointment</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                            <tr>
+                                <td width="10%">
+                                    <label for="usr">
+                                        Reason Type <sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                </td>
+                                <td width="30%">
+                                    <select class="form-control" data-style="form-control"
+                                            data-live-search="true" data-selectpicker
+                                            data-collection-name="AppointmentReasonTypeList" ng-model="ReasonTypeId">
+                                        <option ng-repeat="sel in AppointmentReasonTypeList"
+                                                ng-required="true" value="{{sel.ReasonTypeId}}">
+                                            {{sel.ReasonType}}
+                                        </option>
+                                    </select>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        Reason
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="Cancelled_Remarks" maxlength="100"
+                                           ng-maxlength="100" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <div class="col-sm-offset-2 col-sm-9">
+                        <button type="button" class="btn btn-save" ng-click="Update_CancelledAppointment()">
+                            Save
+                        </button>
+                        <button type="button" class="btn btn-save" ng-click="Cancel_CancelledAppointment()">
                             Cancel
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div id="DoctorSelectionModal" class="modal fade right" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 30%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close"
+                            ng-click="CancelPopup()" style="color: #8B0000;">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Doctor</h4>
+                </div>
+                <div class="modal-body modalwindowscroll">
+                    <div class="panel panel-default panel-info" id="Div3">
+                        <form class="form-horizontal" role="form">
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%"
+                                   class="formControlGroup">
+                                <tr>
+                                    <td width="5%">
+                                        <label>Search</label>
+                                    </td>
+                                    <td width="95%">
+                                        <div class="modernSearch">
+                                            <input type="text" ng-model="searchquery"
+                                                   ng-change="filterDoctorListforAppointmentCreation()" style="width: 180px"
+                                                   placeholder="Search for -name or specialist" />
+                                            <i class="fa fa-search"></i>
+                                        </div>
+                                    </td>
+                                </tr>
 
-        <div id="ViewClearAlertsHistoryModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 70%">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
-                                title="Close">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">Clear Alerts History</h4>
+                            </table>
+                        </form>
                     </div>
-                    <table cellpadding="0" cellspacing="0" border="0"
-                           width="100%"
-                           class="formControlGroup">
-                        <tr>
-                            <td width="5%">
-                                <label>Search</label>
-                            </td>
-                            <td width="85%">
-
-                                <div class="modernSearch">
-                                    <input type="text" ng-model="searchqueryval" ng-change="filterViewAlertHistory()"
-                                           style="width: 180px" placeholder="" />
-                                    <i class="fa fa-search"></i>
+                    <div class="row">
+                        <div class="col-sm-12" style="cursor: pointer">
+                            <div ng-if="DoctorCollectionFilter.length==0">
+                                No Data Available
+                            </div>
+                            <div class="patientCard" ng-repeat="row in DoctorCollectionFilter">
+                                <div class="row" ng-click="DoctorSelection(row)">
+                                    <div class="col-sm-6">
+                                        <!--<i class="fa fa-star" style="font-size: 25px"></i>-->
+                                        <!--  <img class="patientDetimg" src="../../Images/male.png"
+                                                    alt="">-->
+                                        <div ng-if="(row.ViewGenderName| lowercase)=='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
+                                             valign="top" rowspan="6">
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/male.png" />
+                                        </div>
+                                        <div ng-if="(row.ViewGenderName| lowercase)=='female' && (row.PhotoBlob == null || row.PhotoBlob=='')"
+                                             valign="top" rowspan="6">
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/female.png" />
+                                        </div>
+                                        <div ng-if="(row.ViewGenderName| lowercase)!='female' && (row.ViewGenderName| lowercase)!='male' && (row.PhotoBlob == null || row.PhotoBlob=='')"
+                                             valign="top" rowspan="6">
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg" src="../../Images/Others.png" />
+                                        </div>
+                                        <div ng-if="(row.PhotoBlob!=null && row.PhotoBlob!='')" valign="top"
+                                             rowspan="6">
+                                            <img style="margin-left:45px;width:100px;height:100px;border-radius: 50%;margin: 0 auto;border: 1px solid #efefef;" class="patientDetimg"
+                                                 src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <span>{{row.DoctorName}}</span>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <span>{{row.Doctor_DepartmentName}}</span>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <i class="fa fa-comments my-float"
+                                                   style="font-size: 25px"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-phone" style="font-size: 25px"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </td>
-                        </tr>
 
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn  btn-save" title="Click  to Cancel"
+                            ng-click="CancelDoctorSelectionModalPopup()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ViewClearAlertsHistoryModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
+                            title="Close">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Clear Alerts History</h4>
+                </div>
+                <table cellpadding="0" cellspacing="0" border="0"
+                       width="100%"
+                       class="formControlGroup">
+                    <tr>
+                        <td width="5%">
+                            <label>Search</label>
+                        </td>
+                        <td width="85%">
+
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchqueryval" ng-change="filterViewAlertHistory()"
+                                       style="width: 180px" placeholder="" />
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="modal-body">
+
+                    <table st-table="FilterView" style="width: 100%" st-safe-src="FilterViewData" class="table themeTable">
+                        <thead>
+                            <tr>
+                                <th st-ratio="5" st-sort="Id">#</th>
+                                <!--                                                            <th st-ratio="30" st-sort="CareGiverId">Caregiver Id</th>-->
+                                <th st-ratio="20" st-sort="CareGiver_Name">Care Giver Name</th>
+                                <th st-ratio="57" st-sort="Remarks">Notes/Remarks</th>
+                                <th st-ratio="18" st-sort="Alerts">Alerts Created On</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr ng-repeat="row in FilterView">
+
+                                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+
+                                <td style="text-align: left">
+                                    <div class="textwrap">{{row.CaregiverName}}</div>
+                                </td>
+                                <td style="text-align: left">
+                                    <div class="textwrap">{{row.CC_Remarks}}</div>
+                                </td>
+                                <td style="text-align: left">
+                                    <div class="textwrap">{{row.Created_Dt| date:'dd-MMM-yyyy hh:mm a' }}</div>
+                                </td>
+
+                            </tr>
+
+                            <tr ng-if="FilterView.length==0">
+                                <td colspan="7" style="text-align: center">
+                                    {{SearchMsg}}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot ng-show="FilterViewData.length >page_size">
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
+                                         st-pagination="" st-template="Masters/Views/pagination.custom.html">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
+                </div>
 
-                    <div class="modal-body">
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelAlertHistorypopup()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        <table st-table="FilterView" style="width: 100%" st-safe-src="FilterViewData" class="table themeTable">
+    <div id="MonitoringProtocolHistoryPopup" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 60%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            title="Close"
+                            style="color: #8B0000;">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">History</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="col-md-12">
+                            <div class="panel panel-default panel-info" id="Div10">
+                                <form class="form-horizontal" role="form">
+
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                        <tr>
+                                            <td width="1%">
+                                                <label>Search</label>
+                                            </td>
+                                            <td width="20%">
+                                                <div class="modernSearch">
+                                                    <input type="text" ng-model="searchquery"
+                                                           ng-change="filterassignedProtocolList()"
+                                                           placeholder="" />
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                        <table st-table="MonitoringProtocolEmptyData" style="width: 100%" st-safe-src="PatientAssignedProtocolDataList"
+                               class="table themeTable">
                             <thead>
                                 <tr>
-                                    <th st-ratio="5" st-sort="Id">#</th>
-                                    <!--                                                            <th st-ratio="30" st-sort="CareGiverId">Caregiver Id</th>-->
-                                    <th st-ratio="20" st-sort="CareGiver_Name">Care Giver Name</th>
-                                    <th st-ratio="57" st-sort="Remarks">Notes/Remarks</th>
-                                    <th st-ratio="18" st-sort="Alerts">Alerts Created On</th>
+                                    <th st-ratio="5" st-sort="">#</th>
+                                    <th st-ratio="25" st-sort="ProtocolName">Protocol Name</th>
+                                    <th st-ratio="20" st-sort="Doctor_Name">Doctor Name</th>
+                                    <th st-ratio="25" st-sort="Protocol_Assigned_On">Protocol Assigned On</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr ng-repeat="row in FilterView">
-
-                                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-
-                                    <td style="text-align: left">
-                                        <div class="textwrap">{{row.CaregiverName}}</div>
-                                    </td>
-                                    <td style="text-align: left">
-                                        <div class="textwrap">{{row.CC_Remarks}}</div>
-                                    </td>
-                                    <td style="text-align: left">
-                                        <div class="textwrap">{{row.Created_Dt| date:'dd-MMM-yyyy hh:mm a' }}</div>
-                                    </td>
-
-                                </tr>
-
-                                <tr ng-if="FilterView.length==0">
+                                <tr ng-if="PatientAssignedProtocolDataList.length==0">
                                     <td colspan="7" style="text-align: center">
                                         {{SearchMsg}}
                                     </td>
                                 </tr>
+
+                                <tr ng-repeat="Protocol in MonitoringProtocolEmptyData| filter : query">
+                                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+
+                                    <td style="text-align: left">
+                                        <div class="textwrap">{{Protocol.ProtocolName}}</div>
+                                    </td>
+                                    <td style="text-align: left">
+                                        <div class="textwrap">{{Protocol.Doctor_Name }}</div>
+                                    </td>
+                                    <td style="text-align: left">
+                                        <div class="textwrap">
+                                            {{Protocol.Protocol_Assigned_On|date:"dd-MMM-yyyy hh:mm a" }}
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
-                            <tfoot ng-show="FilterViewData.length >page_size">
+                            <tfoot ng-show="PatientAssignedProtocolDataList.length >page_size">
                                 <tr>
-                                    <td colspan="7" class="text-center">
+                                    <td colspan="5" class="text-center">
                                         <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
                                              st-pagination="" st-template="Masters/Views/pagination.custom.html">
                                         </div>
@@ -4335,90 +4430,88 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </div>
-
-                    <div class="modal-footer" style="text-align: center;">
-                        <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelAlertHistorypopup()">
-                            Cancel
-                        </button>
-                    </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <div class="col-sm-offset-2 col-sm-9">
+                                <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="MonitoringProtocolHistoryListCancelPopUp()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+
             </div>
         </div>
+    </div>
 
-        <div id="MonitoringProtocolHistoryPopup" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 60%">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                title="Close"
-                                style="color: #8B0000;">
-                            &times;
-                        </button>
-                        <h4 class="modal-title">History</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="col-md-12">
-                                <div class="panel panel-default panel-info" id="Div10">
-                                    <form class="form-horizontal" role="form">
+    <div id="DoctorAppoinmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <h4 class="modal-title">Doctor Appointment History</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="col-md-12">
+                            <div class="panel panel-default panel-info" id="ICD10Id">
+                                <form class="form-horizontal" role="form">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                        <tr>
+                                            <td width="5%">
+                                                <label>Search</label>
+                                            </td>
+                                            <td width="70%">
+                                                <div class="modernSearch">
+                                                    <input type="text" ng-model="DoctorAppointmentsearchquery" ng-change="filterDoctorList()"
+                                                           placeholder="" />
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+                                            </td>
 
-                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                            <tr>
-                                                <td width="1%">
-                                                    <label>Search</label>
-                                                </td>
-                                                <td width="20%">
-                                                    <div class="modernSearch">
-                                                        <input type="text" ng-model="searchquery"
-                                                               ng-change="filterassignedProtocolList()"
-                                                               placeholder="" />
-                                                        <i class="fa fa-search"></i>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </div>
+                                        </tr>
+                                    </table>
+                                </form>
                             </div>
-                            <table st-table="MonitoringProtocolEmptyData" style="width: 100%" st-safe-src="PatientAssignedProtocolDataList"
+                        </div>
+                        <div class="col-md-12">
+                            <table st-table="DoctorAppoinmentemptydata" style="width: 100%" st-safe-src="DoctorAppoinmentFilter"
                                    class="table themeTable">
                                 <thead>
-                                    <tr>
-                                        <th st-ratio="5" st-sort="">#</th>
-                                        <th st-ratio="25" st-sort="ProtocolName">Protocol Name</th>
-                                        <th st-ratio="20" st-sort="Doctor_Name">Doctor Name</th>
-                                        <th st-ratio="25" st-sort="Protocol_Assigned_On">Protocol Assigned On</th>
+                                    <tr style="text-align: center">
+                                        <th st-ratio="5">#</th>
+                                        <th st-ratio="17" st-sort="Appointment_Date">Appointment Date</th>
+                                        <th st-ratio="10" st-sort="DoctorName">Doctor Name</th>
+                                        <th st-ratio="10" st-sort="Appointment_FromTime">From Time</th>
+                                        <th st-ratio="10" st-sort="Appointment_ToTime">To Time</th>
+                                        <th st-ratio="14" st-sort="Created_By_Name">Created by</th>
+                                        <th st-ratio="13" st-sort="Created_Dt">Created On</th>
+                                        <th st-ratio="17" st-sort="ReasonForVisit">Reason for visit</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-if="PatientAssignedProtocolDataList.length==0">
-                                        <td colspan="7" style="text-align: center">
+                                    <tr ng-if="DoctorAppoinmentFilter.length==0 ">
+                                        <td colspan="15" style="text-align: center">
                                             {{SearchMsg}}
                                         </td>
                                     </tr>
-
-                                    <tr ng-repeat="Protocol in MonitoringProtocolEmptyData| filter : query">
+                                    <tr ng-repeat="row in DoctorAppoinmentemptydata">
                                         <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                        <td style="text-align: left">{{row.Appointment_Date| date :'dd-MMM-yyyy'}}</td>
+                                        <td style="text-align: left">{{row.DoctorName}}</td>
+                                        <td style="text-align: left">{{row.Appointment_FromTime | date :'hh:mm a'}}</td>
+                                        <td style="text-align: left">{{row.Appointment_ToTime | date :'hh:mm a'}}</td>
+                                        <td style="text-align: left">{{row.Created_By_Name}}</td>
+                                        <td style="text-align: left">{{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
+                                        <td style="text-align: left">{{row.ReasonForVisit}}</td>
 
-                                        <td style="text-align: left">
-                                            <div class="textwrap">{{Protocol.ProtocolName}}</div>
-                                        </td>
-                                        <td style="text-align: left">
-                                            <div class="textwrap">{{Protocol.Doctor_Name }}</div>
-                                        </td>
-                                        <td style="text-align: left">
-                                            <div class="textwrap">
-                                                {{Protocol.Protocol_Assigned_On|date:"dd-MMM-yyyy hh:mm a" }}
-                                            </div>
-                                        </td>
                                     </tr>
                                 </tbody>
-                                <tfoot ng-show="PatientAssignedProtocolDataList.length >page_size">
+                                <tfoot ng-show="DoctorAppoinmentFilter.length >page_size">
                                     <tr>
-                                        <td colspan="5" class="text-center">
+                                        <td colspan="15" class="text-center">
                                             <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
                                                  st-pagination="" st-template="Masters/Views/pagination.custom.html">
                                             </div>
@@ -4426,567 +4519,478 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                            <div class="modal-footer" style="text-align: center;">
-                                <div class="col-sm-offset-2 col-sm-9">
-                                    <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="MonitoringProtocolHistoryListCancelPopUp()">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div id="DoctorAppoinmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 70%">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
-                        <h4 class="modal-title">Doctor Appointment History</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="col-md-12">
-                                <div class="panel panel-default panel-info" id="ICD10Id">
-                                    <form class="form-horizontal" role="form">
-                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                            <tr>
-                                                <td width="5%">
-                                                    <label>Search</label>
-                                                </td>
-                                                <td width="70%">
-                                                    <div class="modernSearch">
-                                                        <input type="text" ng-model="DoctorAppointmentsearchquery" ng-change="filterDoctorList()"
-                                                               placeholder="" />
-                                                        <i class="fa fa-search"></i>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <table st-table="DoctorAppoinmentemptydata" style="width: 100%" st-safe-src="DoctorAppoinmentFilter"
-                                       class="table themeTable">
-                                    <thead>
-                                        <tr style="text-align: center">
-                                            <th st-ratio="5">#</th>
-                                            <th st-ratio="17" st-sort="Appointment_Date">Appointment Date</th>
-                                            <th st-ratio="10" st-sort="DoctorName">Doctor Name</th>
-                                            <th st-ratio="10" st-sort="Appointment_FromTime">From Time</th>
-                                            <th st-ratio="10" st-sort="Appointment_ToTime">To Time</th>
-                                            <th st-ratio="14" st-sort="Created_By_Name">Created by</th>
-                                            <th st-ratio="13" st-sort="Created_Dt">Created On</th>
-                                            <th st-ratio="17" st-sort="ReasonForVisit">Reason for visit</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-if="DoctorAppoinmentFilter.length==0 ">
-                                            <td colspan="15" style="text-align: center">
-                                                {{SearchMsg}}
-                                            </td>
-                                        </tr>
-                                        <tr ng-repeat="row in DoctorAppoinmentemptydata">
-                                            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                                            <td style="text-align: left">{{row.Appointment_Date| date :'dd-MMM-yyyy'}}</td>
-                                            <td style="text-align: left">{{row.DoctorName}}</td>
-                                            <td style="text-align: left">{{row.Appointment_FromTime | date :'hh:mm a'}}</td>
-                                            <td style="text-align: left">{{row.Appointment_ToTime | date :'hh:mm a'}}</td>
-                                            <td style="text-align: left">{{row.Created_By_Name}}</td>
-                                            <td style="text-align: left">{{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
-                                            <td style="text-align: left">{{row.ReasonForVisit}}</td>
-
-                                        </tr>
-                                    </tbody>
-                                    <tfoot ng-show="DoctorAppoinmentFilter.length >page_size">
-                                        <tr>
-                                            <td colspan="15" class="text-center">
-                                                <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                     st-pagination="" st-template="Masters/Views/pagination.custom.html">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelDoctorAppoinmentModal()">
-                                Cancel
-                            </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </div>
-        </div>
-        <div id="CareCoordinatorModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 70%">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
-                        <h4 class="modal-title">Assign Care Giver History</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="col-md-12">
-                                <div class="panel panel-default panel-info" id="Div2">
-                                    <form class="form-horizontal" role="form">
-                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                            <tr>
-                                                <td width="5%">
-                                                    <label>Search</label>
-                                                </td>
-
-                                                <td width="75%">
-                                                    <div class="modernSearch">
-                                                        <input type="text" ng-model="CareCoordinatorsearchquery" ng-change="filterCareCoordinatorList()"
-                                                               placeholder="" />
-                                                        <i class="fa fa-search"></i>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <table st-table="CareCoordinatoremptydata" style="width: 100%" st-safe-src="CareCoordinatorFilter"
-                                       class="table themeTable">
-                                    <thead>
-                                        <tr style="text-align: center">
-                                            <th st-ratio="5">#</th>
-                                            <th st-ratio="25" st-sort="Coordinator">Coordinator Name </th>
-                                            <th st-ratio="25" st-sort="CareGiver">Care Giver Name</th>
-                                            <th st-ratio="25" st-sort="CC_Remarks">Comments</th>
-                                            <th st-ratio="20" st-sort="Created_Dt">Created On</th>
-
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr ng-if="CareCoordinatorFilter.length==0|| CareCoordinatorFilter.length==''">
-                                            <td colspan="5" style="text-align: center">
-                                                {{SearchMsg}}
-                                            </td>
-                                        </tr>
-                                        <tr ng-repeat="row in CareCoordinatorFilter">
-                                            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                                            <td style="text-align: left">{{row.Coordinator}}</td>
-                                            <td style="text-align: left">{{row.CareGiver}}</td>
-                                            <td style="text-align: left">{{row.CC_Remarks}}</td>
-                                            <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot ng-show="CareCoordinatorFilter.length >page_size">
-                                        <tr>
-                                            <td colspan="15" class="text-center">
-                                                <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                                                     st-pagination="" st-template="Masters/Views/pagination.custom.html">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelCareCoordinatorModal()">
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="MonitoringProtocolCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 90%">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" title="Close" style="color: #8B0000;">
-                            &times;
+                <div class="modal-footer" style="text-align: center;">
+                    <div class="col-sm-offset-2 col-sm-9">
+                        <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelDoctorAppoinmentModal()">
+                            Cancel
                         </button>
-                        <h4 class="modal-title">Monitoring Protocol</h4>
                     </div>
-                    <ul class="themeTabs">
-                        <li>
-                            <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
-                                <i class="far fa-file"></i>Diagnostic
-                            </a>
-                        </li>
-                        <li>
-                            <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
-                                <i class="far fa-file-alt"></i>Compliance
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="panel panel-default panel-info" id="Div6">
-                        <form class="form-horizontal" role="form" style="font-size: small">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="CareCoordinatorModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <h4 class="modal-title">Assign Care Giver History</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="col-md-12">
+                            <div class="panel panel-default panel-info" id="Div2">
+                                <form class="form-horizontal" role="form">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                        <tr>
+                                            <td width="5%">
+                                                <label>Search</label>
+                                            </td>
 
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                <tr>
+                                            <td width="75%">
+                                                <div class="modernSearch">
+                                                    <input type="text" ng-model="CareCoordinatorsearchquery" ng-change="filterCareCoordinatorList()"
+                                                           placeholder="" />
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+                                            </td>
 
-                                    <td style="width: 5%">
-                                        <label>Protocol Name<sup><font class='mandatory-field'>*</font></sup></label>
-                                    </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table st-table="CareCoordinatoremptydata" style="width: 100%" st-safe-src="CareCoordinatorFilter"
+                                   class="table themeTable">
+                                <thead>
+                                    <tr style="text-align: center">
+                                        <th st-ratio="5">#</th>
+                                        <th st-ratio="25" st-sort="Coordinator">Coordinator Name </th>
+                                        <th st-ratio="25" st-sort="CareGiver">Care Giver Name</th>
+                                        <th st-ratio="25" st-sort="CC_Remarks">Comments</th>
+                                        <th st-ratio="20" st-sort="Created_Dt">Created On</th>
 
-                                    <td style="width: 40%">
-                                        <span>{{PROTOCOLNAME}}</span>
-                                    </td>
-                                </tr>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr ng-if="CareCoordinatorFilter.length==0|| CareCoordinatorFilter.length==''">
+                                        <td colspan="5" style="text-align: center">
+                                            {{SearchMsg}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="row in CareCoordinatorFilter">
+                                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                        <td style="text-align: left">{{row.Coordinator}}</td>
+                                        <td style="text-align: left">{{row.CareGiver}}</td>
+                                        <td style="text-align: left">{{row.CC_Remarks}}</td>
+                                        <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot ng-show="CareCoordinatorFilter.length >page_size">
+                                    <tr>
+                                        <td colspan="15" class="text-center">
+                                            <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
+                                                 st-pagination="" st-template="Masters/Views/pagination.custom.html">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
-                            <div class="panel panel-default patientProfileInfo">
-                                <div id="Div7" class="panel-collapse" ng-show="currentTab=='1'">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <div class="col-sm-offset-2 col-sm-9">
+                        <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelCareCoordinatorModal()">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="MonitoringProtocolCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 90%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close" style="color: #8B0000;">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Monitoring Protocol</h4>
+                </div>
+                <ul class="themeTabs">
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
+                            <i class="far fa-file"></i>Diagnostic
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
+                            <i class="far fa-file-alt"></i>Compliance
+                        </a>
+                    </li>
+                </ul>
+                <div class="panel panel-default panel-info" id="Div6">
+                    <form class="form-horizontal" role="form" style="font-size: small">
+
+                        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                            <tr>
+
+                                <td style="width: 5%">
+                                    <label>Protocol Name<sup><font class='mandatory-field'>*</font></sup></label>
+                                </td>
+
+                                <td style="width: 40%">
+                                    <span>{{PROTOCOLNAME}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="panel panel-default patientProfileInfo">
+                            <div id="Div7" class="panel-collapse" ng-show="currentTab=='1'">
+                                <div class="panel-body">
+                                    <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="1" rowspan="3">Parameter</th>
+                                                <th colspan="1" rowspan="3">Unit</th>
+                                                <th colspan="2" rowspan="2">Normal Range</th>
+                                                <th colspan="6">Diagnostic</th>
+                                                <th colspan="6">Diagnostic</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" rowspan="1">High</th>
+                                                <th colspan="2" rowspan="1">Medium</th>
+                                                <th colspan="2" rowspan="1">Low</th>
+                                                <th colspan="2" rowspan="1">Low</th>
+                                                <th colspan="2" rowspan="1">Medium</th>
+                                                <th colspan="2" rowspan="1">High</th>
+
+                                            </tr>
+                                            <tr>
+
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="row in ParameterSettingslist">
+
+                                                <td style="width: 10%"><span>{{row.ParameterName}}</span></td>
+                                                <td style="width: 10%"><span>{{row.UnitsName}}</span></td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.NormalRange_Low}}</span>
+                                                </td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.NormalRange_High}}</span>
+                                                </td>
+                                                <!--                                                         <th style="width: 15%">High</th>-->
+
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_HighMin_One}}</span>
+                                                </td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_HighMax_One}}</span>
+                                                </td>
+                                                <!--                                                             <th>Medium</th>-->
+
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_MediumMin_One}}</span>
+                                                </td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_MediumMax_One}}</span>
+                                                </td>
+                                                <!--                                                        <th>Low</th>-->
+
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_LowMin_One}}</span>
+                                                </td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_LowMax_One}}</span>
+                                                </td>
+                                                <!--                                                            <th>Low</th>-->
+
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_LowMin_Two}}</span>
+                                                </td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_LowMax_Two}}</span>
+                                                </td>
+                                                <!--                                                        <th>Medium</th>-->
+
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_MediumMin_Two}}</span>
+                                                </td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_MediumMax_Two}}</span>
+                                                </td>
+                                                <!--                                                        <th>High</th>-->
+
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_HighMin_Two}}</span>
+                                                </td>
+                                                <td style="width: 5%">
+                                                    <span>{{row.Diag_HighMax_Two}}</span>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+
+
+
+                            <div class="panel panel-info" ng-show="currentTab=='2'">
+                                <!--<div class="panel-heading containeralign" style="text-align: left;"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
+                                    </a></h4></div>-->
+                                <div id="Div8" class="panel-collapse">
                                     <div class="panel-body">
-                                        <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
+                                        <table class="table themeTable" template-pagination="custom/pager">
                                             <thead>
-                                                <tr>
-                                                    <th colspan="1" rowspan="3">Parameter</th>
-                                                    <th colspan="1" rowspan="3">Unit</th>
-                                                    <th colspan="2" rowspan="2">Normal Range</th>
-                                                    <th colspan="6">Diagnostic</th>
-                                                    <th colspan="6">Diagnostic</th>
-                                                </tr>
-                                                <tr>
-                                                    <th colspan="2" rowspan="1">High</th>
-                                                    <th colspan="2" rowspan="1">Medium</th>
-                                                    <th colspan="2" rowspan="1">Low</th>
-                                                    <th colspan="2" rowspan="1">Low</th>
-                                                    <th colspan="2" rowspan="1">Medium</th>
-                                                    <th colspan="2" rowspan="1">High</th>
-
-                                                </tr>
-                                                <tr>
-
-                                                    <th>From</th>
-                                                    <th>To</th>
-                                                    <th>From</th>
-                                                    <th>To</th>
-                                                    <th>From</th>
-                                                    <th>To</th>
-                                                    <th>From</th>
-                                                    <th>To</th>
-                                                    <th>From</th>
-                                                    <th>To</th>
-                                                    <th>From</th>
-                                                    <th>To</th>
-                                                    <th>From</th>
-                                                    <th>To</th>
+                                                <tr style="text-align: center">
+                                                    <th>Parameter</th>
+                                                    <th>Duration</th>
+                                                    <th>Count</th>
+                                                    <th>High</th>
+                                                    <th>Medium</th>
+                                                    <th>Low</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="row in ParameterSettingslist">
-
-                                                    <td style="width: 10%"><span>{{row.ParameterName}}</span></td>
-                                                    <td style="width: 10%"><span>{{row.UnitsName}}</span></td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.NormalRange_Low}}</span>
-                                                    </td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.NormalRange_High}}</span>
-                                                    </td>
-                                                    <!--                                                         <th style="width: 15%">High</th>-->
-
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_HighMin_One}}</span>
-                                                    </td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_HighMax_One}}</span>
-                                                    </td>
-                                                    <!--                                                             <th>Medium</th>-->
-
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_MediumMin_One}}</span>
-                                                    </td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_MediumMax_One}}</span>
-                                                    </td>
-                                                    <!--                                                        <th>Low</th>-->
-
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_LowMin_One}}</span>
-                                                    </td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_LowMax_One}}</span>
-                                                    </td>
-                                                    <!--                                                            <th>Low</th>-->
-
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_LowMin_Two}}</span>
-                                                    </td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_LowMax_Two}}</span>
-                                                    </td>
-                                                    <!--                                                        <th>Medium</th>-->
-
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_MediumMin_Two}}</span>
-                                                    </td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_MediumMax_Two}}</span>
-                                                    </td>
-                                                    <!--                                                        <th>High</th>-->
-
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_HighMin_Two}}</span>
-                                                    </td>
-                                                    <td style="width: 5%">
-                                                        <span>{{row.Diag_HighMax_Two}}</span>
+                                                <tr ng-if="ParameterSettingslist.length==0">
+                                                    <td colspan="14" style="text-align: center">
+                                                        {{SearchMsg}}
                                                     </td>
                                                 </tr>
+                                                <tr ng-repeat="row in ParameterSettingslist">
+                                                    <td>
+                                                        <span>{{row.ParameterName}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{row.DurationName}}</span>
 
+                                                    </td>
+                                                    <td>
+                                                        <span>{{row.Comp_Duration}}</span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span>{{row.Comp_High}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{row.Comp_Medium}}</span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span>{{row.Comp_Low}}</span>
+
+                                                    </td>
+                                                    <!--  <td style="text-align: center">
+                                                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                                                            ng-click="MonitoringProtocolDelete($index,row.Parameter_Id)" ng-model="row.selectedQual"
+                                                            style="width: 20px;" id="Image3" />
+                                                    </td>-->
+                                                </tr>
                                             </tbody>
                                         </table>
-
-
-                                    </div>
-
-
-                                </div>
-
-
-
-
-
-
-                                <div class="panel panel-info" ng-show="currentTab=='2'">
-                                    <!--<div class="panel-heading containeralign" style="text-align: left;"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
-                                        </a></h4></div>-->
-                                    <div id="Div8" class="panel-collapse">
-                                        <div class="panel-body">
-                                            <table class="table themeTable" template-pagination="custom/pager">
-                                                <thead>
-                                                    <tr style="text-align: center">
-                                                        <th>Parameter</th>
-                                                        <th>Duration</th>
-                                                        <th>Count</th>
-                                                        <th>High</th>
-                                                        <th>Medium</th>
-                                                        <th>Low</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-if="ParameterSettingslist.length==0">
-                                                        <td colspan="14" style="text-align: center">
-                                                            {{SearchMsg}}
-                                                        </td>
-                                                    </tr>
-                                                    <tr ng-repeat="row in ParameterSettingslist">
-                                                        <td>
-                                                            <span>{{row.ParameterName}}</span>
-                                                        </td>
-                                                        <td>
-                                                            <span>{{row.DurationName}}</span>
-
-                                                        </td>
-                                                        <td>
-                                                            <span>{{row.Comp_Duration}}</span>
-
-                                                        </td>
-                                                        <td>
-                                                            <span>{{row.Comp_High}}</span>
-                                                        </td>
-                                                        <td>
-                                                            <span>{{row.Comp_Medium}}</span>
-
-                                                        </td>
-                                                        <td>
-                                                            <span>{{row.Comp_Low}}</span>
-
-                                                        </td>
-                                                        <!--  <td style="text-align: center">
-                                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
-                                                                ng-click="MonitoringProtocolDelete($index,row.Parameter_Id)" ng-model="row.selectedQual"
-                                                                style="width: 20px;" id="Image3" />
-                                                        </td>-->
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="modal-footer" style="text-align: center;">
 
-                                <button type="button" class="theme-btn-2 btn  btn-save" title="Click to Cancel" ng-click="CancelProtocol()">
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+
+                            <button type="button" class="theme-btn-2 btn  btn-save" title="Click to Cancel" ng-click="CancelProtocol()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <div id="BookAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 70%">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
-                        <h4 class="modal-title">Book Doctor Appointment</h4>
-                    </div>
-                    <div  id="main-box">
-                        <div class="modal-body">
-                            <div class="flex">
-                                <div class="col-sm-4">
-                                    <div class="inputGroups">
-                                        <label for="usr">Select Specialty</label>
-                                        <select class="form-control">
-                                            <option>Dermatology</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="inputGroups">
-                                        <label for="usr">Select Date</label>
-                                        <!--<div class="input-group date">-->
-                                        <input type="date" class="form-control date">
-                                        <!--</div>-->
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="inputGroups">
-                                        <label for="usr">Select TimeZone</label>
-                                        <select class="form-control">
-                                            <option>UAE Standard</option>
-                                        </select>
-                                    </div>
+    </div>
+    <div id="BookAppointmentModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <h4 class="modal-title">Book Doctor Appointment</h4>
+                </div>
+                <div id="main-box">
+                    <div class="modal-body">
+                        <div class="flex">
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label for="usr">Select Specialty</label>
+                                    <select class="form-control">
+                                        <option>Dermatology</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="mt-10">
-                                <button type="button" class="btn-darkblue" title="Save">
-                                    Search
-                                </button>
-                            </div>
-                            <div class="flex mt-10 p-4">
-                                <div class="doc-found">
-                                    <p class="m-bottom-0">31 Doctors found</p>
-                                </div>
-                                <div class="col-sm-12 flex">
-                                    <input class="self-center m-0" type="checkbox">
-                                    <p class="font-semibold self-center m-bottom-0" style="margin-left:5px;font-size:10px">Show Previously Consulted Doctors Only</p>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label for="usr">Select Date</label>
+                                    <!--<div class="input-group date">-->
+                                    <input type="date" class="form-control date">
+                                    <!--</div>-->
                                 </div>
                             </div>
-                            <div class="flex doc-details mt-10 p-4">
-                                <div class="col-sm-3">
-                                    <ul class="p-0">
-                                        <li>Dr. Kumar</li>
-                                        <li>Dr. karthi</li>
-                                        <li>Dr. Bala</li>
-                                        <li>Dr. Sundar</li>
-                                        <li>Dr. Bharathy</li>
-                                        <li>Dr. Sala</li>
-                                        <li>Dr. Jeya</li>
-                                        <li>Dr. sakthi</li>
-                                        <li>Dr. Kani</li>
-                                        <li>Dr. Sekar</li>
-                                        <li>Dr. Mohan</li>
-                                        <li>Dr. Sarath</li>
-                                        <li>Dr. Kamal</li>
-                                        <li>Dr. Kumar</li>
-                                        <li>Dr. karthi</li>
-                                        <li>Dr. Bala</li>
-                                        <li>Dr. Sundar</li>
-                                        <li>Dr. Bharathy</li>
-                                        <li>Dr. Sala</li>
-                                        <li>Dr. Jeya</li>
-                                        <li>Dr. sakthi</li>
-                                        <li>Dr. Kani</li>
-                                        <li>Dr. Sekar</li>
-                                        <li>Dr. Mohan</li>
-                                        <li>Dr. Sarath</li>
-                                        <li>Dr. Kamal</li>
-                                    </ul>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label for="usr">Select TimeZone</label>
+                                    <select class="form-control">
+                                        <option>UAE Standard</option>
+                                    </select>
                                 </div>
-                                <div class="col-sm-9 p-8">
-                                    <div class="flex mb-8">
-                                        <div class="col-sm-7 flex p-0">
-                                            <div class="" style="width:20%">
-                                                <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                                </div>
-                                            </div>
-                                            <div class="" style="width:80%">
-                                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. Clarence MD</p>
-                                                <p class="m-bottom-0 secondary-text" style="font-size:13px;">Cardiologist</p>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <button type="button" class="btn-darkblue" title="Save">
+                                Search
+                            </button>
+                        </div>
+                        <div class="flex mt-10 p-4">
+                            <div class="doc-found">
+                                <p class="m-bottom-0">31 Doctors found</p>
+                            </div>
+                            <div class="col-sm-12 flex">
+                                <input class="self-center m-0" type="checkbox">
+                                <p class="font-semibold self-center m-bottom-0" style="margin-left:5px;font-size:10px">Show Previously Consulted Doctors Only</p>
+                            </div>
+                        </div>
+                        <div class="flex doc-details mt-10 p-4">
+                            <div class="col-sm-3">
+                                <ul class="p-0">
+                                    <li>Dr. Kumar</li>
+                                    <li>Dr. karthi</li>
+                                    <li>Dr. Bala</li>
+                                    <li>Dr. Sundar</li>
+                                    <li>Dr. Bharathy</li>
+                                    <li>Dr. Sala</li>
+                                    <li>Dr. Jeya</li>
+                                    <li>Dr. sakthi</li>
+                                    <li>Dr. Kani</li>
+                                    <li>Dr. Sekar</li>
+                                    <li>Dr. Mohan</li>
+                                    <li>Dr. Sarath</li>
+                                    <li>Dr. Kamal</li>
+                                    <li>Dr. Kumar</li>
+                                    <li>Dr. karthi</li>
+                                    <li>Dr. Bala</li>
+                                    <li>Dr. Sundar</li>
+                                    <li>Dr. Bharathy</li>
+                                    <li>Dr. Sala</li>
+                                    <li>Dr. Jeya</li>
+                                    <li>Dr. sakthi</li>
+                                    <li>Dr. Kani</li>
+                                    <li>Dr. Sekar</li>
+                                    <li>Dr. Mohan</li>
+                                    <li>Dr. Sarath</li>
+                                    <li>Dr. Kamal</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-9 p-8">
+                                <div class="flex mb-8">
+                                    <div class="col-sm-7 flex p-0">
+                                        <div class="" style="width:20%">
+                                            <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                                <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                             </div>
                                         </div>
-                                        <div class="col-sm-5 flex self-center p-0 justify-end">
-                                            <div class="flex justify-end">
-                                                <button type="button" class="theme-btn-1" title="Save">
-                                                    You previously had 2 appointments
-                                                </button>
-                                            </div>
+                                        <div class="" style="width:80%">
+                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. Clarence MD</p>
+                                            <p class="m-bottom-0 secondary-text" style="font-size:13px;">Cardiologist</p>
                                         </div>
                                     </div>
-                                    <div class="flex">
-                                        <div class="col-sm-6">
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Health License</label>
-                                                <p class="col-sm-6 doc-p">UY-HM-98745</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Sex</label>
-                                                <p class="col-sm-6 doc-p">MALE</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Nationality</label>
-                                                <p class="col-sm-6 doc-p">Indian</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Date of birth</label>
-                                                <p class="col-sm-6 doc-p">28-02-1980</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Nationality</label>
-                                                <p class="col-sm-6 doc-p">Indian</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Email</label>
-                                                <p class="col-sm-6 doc-p">u1@gmail.com</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Contact Number</label>
-                                                <p class="col-sm-6 doc-p">9876543210<br />7854123695</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Address</label>
-                                                <p class="col-sm-6 doc-p">a2, block ascdgfg <br /> terta 123456<br /> ind- 654780</p>
-                                            </div>
+                                    <div class="col-sm-5 flex self-center p-0 justify-end">
+                                        <div class="flex justify-end">
+                                            <button type="button" class="theme-btn-1" title="Save">
+                                                You previously had 2 appointments
+                                            </button>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Availability</label>
-                                                <p class="col-sm-6 doc-p">Available</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Languages Known</label>
-                                                <p class="col-sm-6 doc-p">English, Fresh</p>
-                                            </div>
-                                            <div class="flex">
-                                                <label class="col-sm-6 doc-label">Certification</label>
-                                                <p class="col-sm-6 doc-p">MPCKK- Board of medical examination</p>
-                                            </div>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="col-sm-6">
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Health License</label>
+                                            <p class="col-sm-6 doc-p">UY-HM-98745</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Sex</label>
+                                            <p class="col-sm-6 doc-p">MALE</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Nationality</label>
+                                            <p class="col-sm-6 doc-p">Indian</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Date of birth</label>
+                                            <p class="col-sm-6 doc-p">28-02-1980</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Nationality</label>
+                                            <p class="col-sm-6 doc-p">Indian</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Email</label>
+                                            <p class="col-sm-6 doc-p">u1@gmail.com</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Contact Number</label>
+                                            <p class="col-sm-6 doc-p">9876543210<br />7854123695</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Address</label>
+                                            <p class="col-sm-6 doc-p">a2, block ascdgfg <br /> terta 123456<br /> ind- 654780</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Availability</label>
+                                            <p class="col-sm-6 doc-p">Available</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Languages Known</label>
+                                            <p class="col-sm-6 doc-p">English, Fresh</p>
+                                        </div>
+                                        <div class="flex">
+                                            <label class="col-sm-6 doc-label">Certification</label>
+                                            <p class="col-sm-6 doc-p">MPCKK- Board of medical examination</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
                     <div class="modal-footer">
                         <div class="col-sm-12 flex justify-end mt-10">
@@ -4995,103 +4999,146 @@
                             </button>
                         </div>
                     </div>
-                        </div>
+                </div>
 
-                    <div id="box" style="display:none">
-                        <div class="modal-body">
-                            <div class="flex">
-                                <div class="col-sm-7">
-                                    <div class="flex justify-center align-items-center self-center">
-                                        <i class="arrow-icon fas fa-caret-left mr-8"></i>
-                                        <div class="col-sm-1 doc-date p-0">
-                                            <p class="m-bottom-0 text-center">23</p>
-                                            <p class="m-bottom-0 text-center">May</p>
-                                        </div>
-                                        <div class="col-sm-1 doc-date p-0">
-                                            <p class="m-bottom-0 text-center">24</p>
-                                            <p class="m-bottom-0 text-center">May</p>
-                                        </div>
-                                        <div class="col-sm-1 doc-date p-0">
-                                            <p class="m-bottom-0 text-center">25</p>
-                                            <p class="m-bottom-0 text-center">May</p>
-                                        </div>
-                                        <div class="col-sm-1 doc-date p-0">
-                                            <p class="m-bottom-0 text-center">26</p>
-                                            <p class="m-bottom-0 text-center">May</p>
-                                        </div>
-                                        <div class="col-sm-1 doc-date p-0">
-                                            <p class="m-bottom-0 text-center">27</p>
-                                            <p class="m-bottom-0 text-center">May</p>
-                                        </div>
-                                        <div class="col-sm-1 doc-date p-0">
-                                            <p class="m-bottom-0 text-center">28</p>
-                                            <p class="m-bottom-0 text-center">May</p>
-                                        </div>
-                                        <div class="col-sm-1 doc-date p-0">
-                                            <p class="m-bottom-0 text-center">29</p>
-                                            <p class="m-bottom-0 text-center">May</p>
-                                        </div>
-                                        <i class="arrow-icon fas fa-caret-right"></i>
+                <div id="box" style="display:none">
+                    <div class="modal-body">
+                        <div class="flex">
+                            <div class="col-sm-7">
+                                <div class="flex justify-center align-items-center self-center">
+                                    <i class="arrow-icon fas fa-caret-left mr-8"></i>
+                                    <div class="col-sm-1 doc-date p-0">
+                                        <p class="m-bottom-0 text-center">23</p>
+                                        <p class="m-bottom-0 text-center">May</p>
                                     </div>
-                                    <p class="text-center m-bottom-0 mt-10 mb-10 font-semibold">Available Slots</p>
-                                    <div class="flex justify-center">
-                                        <div class="col-sm-6 available-slot p-0">
-                                            <p class="new-book col-sm-6 p-0 m-bottom-0">New Booking</p>
-                                            <p class="col-sm-6 p-0 text-center self-center m-bottom-0">Follow Up</p>
-                                        </div>
+                                    <div class="col-sm-1 doc-date p-0">
+                                        <p class="m-bottom-0 text-center">24</p>
+                                        <p class="m-bottom-0 text-center">May</p>
                                     </div>
-                                    <div class="col-sm-12 flex flex-wrap mt-10">
-                                        <div class="col-sm-4"><p class="time text-center">10.00 - 10.30 AṀ</p></div>
-                                        <div class="col-sm-4">
-                                            <p class="time text-center">10.30 - 11.00 AṀ</p>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <p class="time text-center">11.00 - 11.30 AṀ</p>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <p class="time text-center">11.30 - 12.00 PṀ</p>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <p class="time text-center">12.30 - 01.00 PṀ</p>
-                                        </div>
+                                    <div class="col-sm-1 doc-date p-0">
+                                        <p class="m-bottom-0 text-center">25</p>
+                                        <p class="m-bottom-0 text-center">May</p>
                                     </div>
-                                    <div class="col-sm-12 flex mt-10">
-                                        <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methos</p>
-                                        <input class="" id="Radio1" type="radio" checked/><span class="m-left-1 mr-8">Self Pay</span>
-                                        <input class="mr-2" id="Radio1" type="radio" /><span class="m-left-1">Insurance</span>
+                                    <div class="col-sm-1 doc-date p-0">
+                                        <p class="m-bottom-0 text-center">26</p>
+                                        <p class="m-bottom-0 text-center">May</p>
                                     </div>
-                                    <div class="col-sm-12 flex-col mt-10">
-                                        <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />
-                                        <textarea id="TextArea1" rows="3" cols="80"></textarea>
+                                    <div class="col-sm-1 doc-date p-0">
+                                        <p class="m-bottom-0 text-center">27</p>
+                                        <p class="m-bottom-0 text-center">May</p>
                                     </div>
+                                    <div class="col-sm-1 doc-date p-0">
+                                        <p class="m-bottom-0 text-center">28</p>
+                                        <p class="m-bottom-0 text-center">May</p>
                                     </div>
-                                    <div class="col-sm-5">
-                                        <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
-                                        <div class="col-sm-12 custom-file mt-10">
-                                            <label class="custom-file-upload text-center">
-                                                <input type="file" />
-                                                Drag and Drop File
-                                                <p class="m-bottom-0 mt-10 text-center">Brower File</p>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-12">
-                                        <div class="col-sm-12 file">
-                                            <p class="m-bottom-0">File name</p>
-                                        </div>
-                                        </div>
+                                    <div class="col-sm-1 doc-date p-0">
+                                        <p class="m-bottom-0 text-center">29</p>
+                                        <p class="m-bottom-0 text-center">May</p>
+                                    </div>
+                                    <i class="arrow-icon fas fa-caret-right"></i>
+                                </div>
+                                <p class="text-center m-bottom-0 mt-10 mb-10 font-semibold">Available Slots</p>
+                                <div class="flex justify-center">
+                                    <div class="col-sm-6 available-slot p-0">
+                                        <p class="new-book col-sm-6 p-0 m-bottom-0">New Booking</p>
+                                        <p class="col-sm-6 p-0 text-center self-center m-bottom-0">Follow Up</p>
                                     </div>
                                 </div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="col-sm-12">
-                                <button type="button" class="btn-darkblue" id="show" title="Save">
-                                    Save and Continue
-                                </button>
+                                <div class="col-sm-12 flex flex-wrap mt-10">
+                                    <div class="col-sm-4"><p class="time text-center">10.00 - 10.30 AṀ</p></div>
+                                    <div class="col-sm-4">
+                                        <p class="time text-center">10.30 - 11.00 AṀ</p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p class="time text-center">11.00 - 11.30 AṀ</p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p class="time text-center">11.30 - 12.00 PṀ</p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p class="time text-center">12.30 - 01.00 PṀ</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 flex mt-10">
+                                    <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methos</p>
+                                    <input class="" id="Radio1" type="radio" checked /><span class="m-left-1 mr-8">Self Pay</span>
+                                    <input class="mr-2" id="Radio1" type="radio" /><span class="m-left-1">Insurance</span>
+                                </div>
+                                <div class="col-sm-12 flex-col mt-10">
+                                    <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />
+                                    <textarea id="TextArea1" rows="3" cols="80"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
+                                <div class="col-sm-12 custom-file mt-10">
+                                    <label class="custom-file-upload text-center">
+                                        <input type="file" />
+                                        Drag and Drop File
+                                        <p class="m-bottom-0 mt-10 text-center">Brower File</p>
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12 file">
+                                        <p class="m-bottom-0">File name</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                    <div class="modal-footer">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn-darkblue" id="show" title="Save">
+                                Save and Continue
+                            </button>
+                        </div>
                     </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <h4 class="modal-title">Stripe Payment Integration POC</h4>
+                </div>
+                <div id="main-box">
+                    <div class="modal-body">
+                        <div class="flex">
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label for="usr">Pay Using Charge</label>
+                                    <form action="/Home/CreateCharge" method="POST">
+                                        <article>
+                                            <label>Amount: $20.00</label>
+                                        </article>
+                                        <script src="//checkout.stripe.com/v2/checkout.js"
+                                                class="stripe-button"
+                                                data-key="pk_test_h9vi1G6N5s2dSfHnvRsJhUJg"
+                                                data-locale="auto"
+                                                data-description="Tele Appointment Charges"
+                                                data-amount="2000">
+                                        </script>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label for="usr">Pay Using Checkout</label>
+                                    <form action="/Home/CreateCheckoutSession" method="POST">
+                                        <button type="submit">Checkout</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

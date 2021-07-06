@@ -25,6 +25,8 @@ using MyCortex.Provider;
 using MyCortex.Repositories.Masters;
 using MyCortex.Repositories;
 using MyCortex.Utilities;
+using Stripe;
+using Stripe.Checkout;
 
 namespace MyCortex.Home.Controllers
 {
@@ -65,6 +67,7 @@ namespace MyCortex.Home.Controllers
             {
                 RedirectUrl = model[0].ConfigValue;
             }
+            StripeConfiguration.ApiKey = "sk_test_4pcdIsoglCrClOcCveS68nis";
 
         }
 
@@ -614,6 +617,66 @@ namespace MyCortex.Home.Controllers
                 FileDownloadName = model.FileName
             };
             return result;
+        }
+
+        [CheckSessionOutFilter]
+        [HttpPost]
+        public ActionResult CreateCharge(string stripeToken, string stripeEmail)
+        {
+            Stripe.StripeConfiguration.ApiKey = "sk_test_4pcdIsoglCrClOcCveS68nis";
+
+            var myCharge = new Stripe.ChargeCreateOptions();
+            // always set these properties
+            myCharge.Amount = 2000;
+            myCharge.Currency = "USD";
+            myCharge.ReceiptEmail = stripeEmail;
+            myCharge.Description = "Tele Appointment Charges";
+            myCharge.Source = stripeToken;
+            myCharge.Capture = true;
+            var chargeService = new Stripe.ChargeService();
+            Charge stripeCharge = chargeService.Create(myCharge);
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult CreateCheckoutSession(string stripeToken, string stripeEmail)
+        {
+            Stripe.StripeConfiguration.ApiKey = "sk_test_4pcdIsoglCrClOcCveS68nis";
+
+            SessionCreateOptions options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string>
+                {
+                  "card",
+                  //"alipay",
+                  //"alipay, card, ideal, fpx, bacs_debit, bancontact, giropay, p24, eps, sofort, sepa_debit, grabpay, afterpay_clearpay, acss_debit, wechat_pay, boleto, or oxxo"
+                },
+                LineItems = new List<SessionLineItemOptions>
+                {
+                  new SessionLineItemOptions
+                  {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                      UnitAmount = 2000,
+                      Currency = "usd",
+                      ProductData = new SessionLineItemPriceDataProductDataOptions
+                      {
+                        Name = "Tele Appointment Charges",
+                      },
+                    },
+                    Quantity = 1,
+                  },
+                },
+                Mode = "payment",
+                //SuccessUrl = "http://localhost:49000/Home/Index#/PatientVitals/0/1",
+                //CancelUrl = "http://localhost:49000/Home/Index#/PatientVitals/0/1",
+                SuccessUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1,
+                CancelUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1",
+            };
+            var service = new SessionService();
+            Session session = service.Create(options);
+
+            return new RedirectResult(session.Url);
         }
     }
 }
