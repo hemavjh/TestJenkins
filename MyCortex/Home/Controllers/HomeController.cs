@@ -670,7 +670,7 @@ namespace MyCortex.Home.Controllers
                 Mode = "payment",
                 //SuccessUrl = "http://localhost:49000/Home/Index#/PatientVitals/0/1",
                 //CancelUrl = "http://localhost:49000/Home/Index#/PatientVitals/0/1",
-                SuccessUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1,
+                SuccessUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1",
                 CancelUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1",
             };
             var service = new SessionService();

@@ -573,7 +573,7 @@ namespace MyCortex.Template.Controllers
         /// <param name="SendEmail_Id">Email config id</param>
         /// <returns>inserted/updated notification</returns>
         [HttpPost]
-        public HttpResponseMessage Notification_Update(long SendEmail_Id, Guid Login_Session_Id)
+        public HttpResponseMessage Notification_Update(Guid Login_Session_Id, [FromBody]SendEmailModel sendEmailModel)
         {
             UserNotificationModel ModelData = new UserNotificationModel();
             NotificationReturnModel model = new NotificationReturnModel();
@@ -587,7 +587,7 @@ namespace MyCortex.Template.Controllers
             string messagestr = "";
             try
             {
-                ModelData = repository.Notification_Update(SendEmail_Id, Login_Session_Id);
+                ModelData = repository.Notification_Update(sendEmailModel.Id, Login_Session_Id);
                 messagestr = "Notification updated successfully";
                 model.NotificationDetails = ModelData;
                 model.Message = messagestr;

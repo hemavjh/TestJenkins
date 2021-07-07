@@ -16447,7 +16447,10 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 $scope.MessageSubject = MessageSubject;
                 $scope.MessageContent = MessageContent;
                 if (ReadFlag == 1) {
-                    $http.post(baseUrl + '/api/SendEmail/Notification_Update/?SendEmail_Id=' + $scope.SendEmail_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&User_Id=' + $scope.User_Id).success(function (data) {
+                    var obj = {
+                        Id: $scope.SendEmail_Id,
+                    }
+                    $http.post(baseUrl + '/api/SendEmail/Notification_Update/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                          
                         angular.forEach($scope.UserNotificationList_Filter, function (row, index) {
                             if (index == index1)
