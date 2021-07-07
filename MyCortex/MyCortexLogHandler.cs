@@ -17,6 +17,19 @@ namespace MyCortex
         {
             string requestBody = string.Empty;
             string responseBody = string.Empty;
+            
+            string SessionID;
+            var queryStringCollection = HttpUtility.ParseQueryString(request.RequestUri.Query);
+            bool iskey = queryStringCollection.ToString().ToUpper().Contains("LOGIN_SESSION_ID");
+            if (iskey)
+            {
+                SessionID = queryStringCollection["Login_Session_Id"];
+            }
+            else
+            {
+                SessionID = (String)HttpContext.Current.Session["Login_Session_Id"];
+            }
+            
             if (request.Content != null)
             {
                 requestBody = await request.Content.ReadAsStringAsync();
@@ -39,7 +52,8 @@ namespace MyCortex
                     , DateTime.Now
                     , result.StatusCode
                     , responseBody
-                    , DateTime.Now);
+                    , DateTime.Now
+                    , SessionID);
             }
             catch 
             { 

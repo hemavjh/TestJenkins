@@ -27,16 +27,19 @@ namespace MyCortex.Repositories.LogHandler
             ,DateTime? RequestTimestamp
             ,HttpStatusCode ResponseStatusCode
             ,string ResponseBody
-            ,DateTime? ResponseTimestamp)
+            ,DateTime? ResponseTimestamp
+            ,string SessionId)
         {
+            DataEncryption EncryptContent = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@RequestUrl", RequestUrl));
             param.Add(new DataParameter("@RequestMethod", RequestMethod));
-            param.Add(new DataParameter("@RequestBody", RequestBody));
+            param.Add(new DataParameter("@RequestBody", EncryptContent.Encrypt(RequestBody)));
             param.Add(new DataParameter("@RequestTimestamp", RequestTimestamp));
             param.Add(new DataParameter("@ResponseStatusCode", ResponseStatusCode.ToString()));
-            param.Add(new DataParameter("@ResponseBody", ResponseBody));
+            param.Add(new DataParameter("@ResponseBody", EncryptContent.Encrypt(ResponseBody)));
             param.Add(new DataParameter("@ResponseTimestamp", ResponseTimestamp));
+            param.Add(new DataParameter("@SessionId", SessionId));
 
             try
             {

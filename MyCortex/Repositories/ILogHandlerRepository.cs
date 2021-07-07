@@ -14,6 +14,7 @@ namespace MyCortex.Repositories
             ,DateTime? RequestTimestamp
             ,HttpStatusCode ResponseStatusCode
             ,string ResponseBody
-            ,DateTime? ResponseTimestamp);
+            ,DateTime? ResponseTimestamp
+            ,string SessionId);
     }
 }
