@@ -60,6 +60,7 @@ namespace MyCortex.User.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
+
         [HttpPost]
         public HttpResponseMessage Tab_InsertUpdate([FromBody] TabListModel obj)
         {
@@ -99,6 +100,43 @@ namespace MyCortex.User.Controllers
                 model.Status = "False";
                 model.Message = "Error in creating MyHome";
                 model.TabUserDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Tab_User_Pin_Update([FromBody] TabUserPinModel obj)
+        {
+
+            IList<TabUserPinModel> ModelData = new List<TabUserPinModel>();
+            TabUserPinReturnModels model = new TabUserPinReturnModels();
+
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Tab_User_Pin_Update(obj);
+                if (ModelData.Any(item => item.Flag == 0) == true)
+                {
+                    messagestr = "UserID or TabId Mismatched";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                else if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "User Pin updated Successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                model.Message = messagestr;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating MyHome";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -152,6 +190,7 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
+
         [AllowAnonymous]
         [HttpPost]
         public HttpResponseMessage TabPin_CheckValidity([FromBody] TabUserDetails TabLoginObj)

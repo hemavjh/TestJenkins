@@ -71,7 +71,7 @@ namespace MyCortex.Masters.Models
         public long UserTypeId { get; set; }
         public long GenderId { get; set; }
         public string GenderName { get; set; }
-
+        public bool IsTemp { get; set; }
     }
 
     public class TabUserReturnModels
@@ -82,6 +82,22 @@ namespace MyCortex.Masters.Models
         public IList<TabListModel> TabUserDetails { get; set; }
         public IList<TabUserDetails> GetTabUserDetails { get; set; }
 
+    }
+
+    public class TabUserPinModel
+    {
+        public long InstitutionId { get; set; }
+        public long TabId { get; set; }
+        public long UserId { get; set; }
+        public string PIN { get; set; }
+        public int Flag { get; set; }
+    }
+
+    public class TabUserPinReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
     }
 
     public class TabDeviceListReturnModels

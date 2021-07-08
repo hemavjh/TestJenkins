@@ -191,7 +191,12 @@ namespace MyCortexDB
                     string ServerName;
 
                     // get server name to find the client 
-                    ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
+                    if (HttpContext.Current != null)
+                    {
+                        ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
+                    } else {
+                        ServerName = "localhost";
+                    }
                     ServerName = "[" + ServerName + "]";
                    
                     // the file is reached.

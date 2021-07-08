@@ -154,6 +154,36 @@ namespace MyCortex.Repositories.Masters
             }
             
         }
+
+        public IList<TabUserPinModel> Tab_User_Pin_Update(TabUserPinModel insobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
+            param.Add(new DataParameter("@TAB_ID", insobj.TabId));
+            param.Add(new DataParameter("@USER_ID", insobj.UserId));
+            param.Add(new DataParameter("@PIN", insobj.PIN));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.TAB_USER_PIN_UPDATE", param);
+                DataRow dr = dt.Rows[0];
+                
+                IList<TabUserPinModel> INS = (from p in dt.AsEnumerable()
+                                           select
+                                           new TabUserPinModel()
+                                           {
+                                              Flag = p.Field<int>("flag")
+                                           }).ToList();
+                return INS;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }
         public TabListModel Tab_ListView(int id)
             {
             DataEncryption DecryptFields = new DataEncryption();
@@ -297,6 +327,7 @@ namespace MyCortex.Repositories.Masters
                                               UserTypeId = p.Field<long>("USERTYPE_ID"),
                                               GenderId = p.Field<long>("GENDER_ID"),
                                               GenderName = p.Field<string>("GENDER_NAME"),
+                                              IsTemp = p.Field<bool>("ISTEMP"),
                                           }).ToList();
                 return lst;
             }
