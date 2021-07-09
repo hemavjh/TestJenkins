@@ -17915,7 +17915,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.page_size = 0;
         $scope.currentTab = "1";
         $scope.DevicesLists = [];
-        $scope.SelectedDepartment = "0";
+        $scope.SelectedDepartment = "";
+        $scope.SelectedSpecialist = "";
+        $scope.SelectedCCCG = "";
         $scope.ConfigCode = "PAGINATION";
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             if (data[0] != undefined) {
@@ -17943,7 +17945,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.ThursdayChildModuleList = [];
         $scope.FridayChildModuleList = [];
         $scope.SaturdayChildModuleList = [];
-        //$scope.FromDate = "";
+        $scope.FromDate = "";
         $scope.ToDate = "";
         $scope.Doctor_Id = [];
         $scope.SpecialitiesSelectList = [];
@@ -18050,7 +18052,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 SelectedDepartmentId = SelectedDepartmentId.toString().slice(0, -1);
             }
             if (SelectedDepartmentId != "") {
-                $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentId=' + SelectedDepartmentId + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
+                $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + SelectedDepartmentId + '&InstitutionId=' + $window.localStorage['InstitutionId'] +
                     '&Date=' + today + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.SelectedDoctorList = data;
                     });
@@ -18161,6 +18163,110 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.ViewAppoinmentpopup = function () {
             angular.element('#ViewDoctorShiftModal').modal('show');
         }
+
+        $scope.DoctorShift_InsertUpdate = function () {
+            if ($scope.ValidationcontrolsDoctorShift() == true) {
+                //$("#chatLoaderPV").show();
+                $scope.SelectedDepartment_List = [];
+                angular.forEach($scope.SelectedDepartment, function (value, index) {
+                    var obj = {
+                        //ID: 0,
+                        Id: value,
+                        IsActive: 1
+                    }
+                    $scope.SelectedDepartment_List.push(obj);
+                });
+                $scope.SelectedSpecialist_List = [];
+                angular.forEach($scope.SelectedSpecialist, function (value, index) {
+                    var obj = {
+                        //ID: 0,
+                        Id: value,
+                        IsActive: 1
+                    }
+                    $scope.SelectedSpecialist_List.push(obj);
+                });
+                $scope.SelectedCCCG_List = [];
+                angular.forEach($scope.SelectedCCCG, function (value, index) {
+                    var obj = {
+                        //ID: 0,
+                        Id: value,
+                        IsActive: 1
+                    }
+                    $scope.SelectedCCCG_List.push(obj);
+                });
+
+
+                var obj = {
+                    ID: $scope.id,
+                    InstitutionId: $window.localStorage['InstitutionId'],
+                    CreatedBy: $window.localStorage['UserId'],
+                    SelectDepartment: $scope.SelectedDepartment,
+                    SelectedSpecialist: $scope.SelectedSpecialist,
+                    SelectedCCCG: $scope.SelectedCCCG,
+                    SelectStartDate: $scope.FromDate,
+                    SelectEndDate: $scope.ToDate,
+                    NewAppointment: $scope.NewAppointment,
+                    followup: $scope.followup,
+                    Interval: $scope.IntervalBt,
+                    CustomSlot: $scope.CustomSlot,
+                    Days: $scope.Days,
+                    Minutes: $scope.Minutes
+                };
+                //console.log(obj);
+            }
+        }
+
+        /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
+        $scope.ValidationcontrolsDoctorShift = function () {
+            if (typeof ($scope.SelectedDepartment) == "undefined" || $scope.SelectedDepartment == "") {
+                alert("Please Select Department");
+                return false;
+            }
+            else if (typeof ($scope.SelectedSpecialist) == "undefined" || $scope.SelectedSpecialist == "") {
+                alert("Please Select Specialist");
+                return false;
+            }
+            else if (typeof ($scope.SelectedCCCG) == "undefined" || $scope.SelectedCCCG == "") {
+                alert("Please Select CCCG");
+                return false;
+            }
+            else if (typeof ($scope.FromDate) == "undefined" || $scope.FromDate == "") {
+                alert("Please select From Date");
+                return false;
+            }
+            else if (typeof ($scope.ToDate) == "undefined" || $scope.ToDate == 0) {
+                alert("Please select  End Date");
+                return false;
+            }
+            else if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0") {
+                alert("Please Enter NewAppointment Time Slot");
+                return false;
+            }
+            else if (typeof ($scope.followup) == "undefined" || $scope.followup == "0") {
+                alert("Please Enter followup Time Slot");
+                return false;
+            }
+
+            else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0") {
+                alert("Please Enter Interval Time Slot");
+                return false;
+            }
+            else if (typeof ($scope.CustomSlot) == "undefined" || $scope.CustomSlot == "0") {
+                alert("Please Enter CustomSlot Time");
+                return false;
+            }
+            else if (typeof ($scope.Days) == "undefined" || $scope.Days == "0") {
+                alert("Please Enter Days");
+                return false;
+            }
+            else if (typeof ($scope.Minutes) == "undefined" || $scope.Minutes == "0") {
+                alert("Please Enter Minutes");
+                return false;
+            }
+
+            return true;
+        };
+
 
         $scope.CancelDoctorShiftpopup = function () {
             angular.element('#ViewDoctorShiftModal').modal('hide');

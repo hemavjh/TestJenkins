@@ -260,7 +260,7 @@
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="inputGroups">
-                                                        <label>
+                                                        <label class="sub-title">
                                                             Select Speciality<sup>
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup>
@@ -273,8 +273,10 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="inputGroups">
-                                                        <label>
-                                                            Select Doctor
+                                                        <label class="sub-title">
+                                                            Select Doctor<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
                                                         </label>
                                                         <select id="Specialist" ng-model="SelectedSpecialist" multiple="multiple"
                                                                 ng-options="item2.Doctor_Id as item2.DoctorName for item2 in SelectedDoctorList"
@@ -284,8 +286,10 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="inputGroups">
-                                                        <label>
-                                                            Select CC/CG
+                                                        <label class="sub-title">
+                                                            Select CC/CG<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
                                                         </label>
                                                         <select id="CCCG" ng-model="SelectedCCCG" multiple="multiple"
                                                                 ng-options="item3.Id as item3.FullName for item3 in CCCG_DetailsList"
@@ -295,19 +299,23 @@
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="inputGroups">
-                                                        <label>
-                                                            Select Start Date
+                                                        <label class="sub-title">
+                                                            Select Start Date<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
                                                         </label>
-                                                        <input id="StartDate" class="form-control" type="date" />
+                                                        <input id="FromDate" class="form-control" type="date" ng-model="FromDate" ng-init="FromDate=''" />
                                                     </div>
 
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="inputGroups">
-                                                        <label>
-                                                            Select End Date
+                                                        <label class="sub-title">
+                                                            Select End Date<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
                                                         </label>
-                                                        <input id="EndDate" class="form-control" type="date" />
+                                                        <input id="ToDate" class="form-control" type="date" ng-model="ToDate" ng-init="ToDate=''" />
                                                     </div>
 
                                                 </div>
@@ -316,7 +324,7 @@
                                             </div>
                                         </div>
                                         <div style="text-align: center;">
-                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" title="Click to Save">
+                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                 Save
                                             </button>
                                             <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
@@ -381,21 +389,27 @@
                                                             <div class="col-sm-9">
                                                                 <div class="row">
                                                                     <div class="col-sm-3">
-                                                                        <p>New Appointment</p>
+                                                                        <p>New Appointment<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                                         <div class="input-slot">
                                                                             <input type="text" ng-model="NewAppointment" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <p>Follow-up Appointment</p>
+                                                                        <p>Follow-up Appointment<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                                         <div class="input-slot">
                                                                             <input type="text" ng-model="followup" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <p>Interval</p>
+                                                                        <p>Interval<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                                         <div class="input-slot">
                                                                             <input type="text" ng-model="IntervalBt" class="input-size">
                                                                             <p>Min</p>
@@ -404,7 +418,9 @@
                                                                 </div>
                                                                 <div class="row m-top-2">
                                                                     <div class="col-sm-3">
-                                                                        <p>Custom Slot</p>
+                                                                        <p>Custom Slot<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                                         <div class="input-slot">
                                                                             <input type="text" ng-model="CustomSlot" class="input-size">
                                                                             <p>Min</p>
@@ -421,14 +437,18 @@
                                                                 </div>
                                                                 <div class="col-sm-9 row">
                                                                     <div class="col-sm-3">
-                                                                        <p>Booking Open</p>
+                                                                        <p>Booking Open<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                                         <div class="input-slot">
                                                                             <input type="text" ng-model="Days" class="input-size">
                                                                             <p>Days</p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <p>Booking Cancel Lock</p>
+                                                                        <p>Booking Cancel Lock<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                                         <div class="input-slot">
                                                                             <input type="text" ng-model="Minutes" class="input-size">
                                                                             <p>Hours</p>
@@ -442,7 +462,7 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
                                                 <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
@@ -456,7 +476,9 @@
                                         <div id="collapse3" class="panel-collapse">
                                             <div class="tab-body" style="min-height: 50rem;">
                                                 <div class="col-sm-12 p-0">
-                                                    <p class="sub-title" style="margin-left: 8px;">Select Week Days</p>
+                                                    <p class="sub-title" style="margin-left: 8px;">Select Week Days<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                     <div class="row col-sm-6">
                                                         <div class="col-sm-2 mr-3">
                                                             <div class="check">     
@@ -503,7 +525,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-10 p-0">
-                                                    <p class="sub-title mt-4" style="margin-left: 8px;">Select Time Slot</p>
+                                                    <p class="sub-title mt-4" style="margin-left: 8px;">Select Time Slot<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup></p>
                                                     <div class="flex col-sm-12 p-0" style=" margin-left: 25px;">
                                                         <div class="col-sm-3 p-0" style="left: -8px;">
                                                             <p class="shift">Day</p>
@@ -1054,7 +1078,7 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
                                                 <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
