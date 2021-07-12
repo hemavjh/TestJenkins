@@ -303,6 +303,7 @@ namespace MyCortex.Repositories.Masters
 
         public IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID)
         {
+            DataEncryption decrypt = new DataEncryption();
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
@@ -318,6 +319,7 @@ namespace MyCortex.Repositories.Masters
                                               UserId = p.Field<long>("USER_ID"),
                                               PIN = p.Field<string>("PIN"),
                                               //PHOTO = p.Field<string>("PHOTO"),
+                                              PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                               FingerPrint = p.Field<string>("FINGERPRINT"),
                                               IsActive = p.Field<bool>("ISACTIVE"),
                                               FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),

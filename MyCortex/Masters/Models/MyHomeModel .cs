@@ -62,6 +62,7 @@ namespace MyCortex.Masters.Models
         public long UserId { get; set; }
         public string PIN { get; set; }
         public string Photo { get; set; }
+        public byte[] PhotoBlob { get; set; }
         public string FingerPrint { get; set; }
         public bool IsActive { get; set; }
         public string FirstName { get; set; }

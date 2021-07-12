@@ -1473,6 +1473,7 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                       }).ToList();
                 return lst;

@@ -13,6 +13,8 @@ namespace MyCortex.User.Model
         public long Doctor_Id { get; set; }
         public long Patient_Id { get; set; }
         public string DoctorName { get; set; }
+
+        public long DoctorDepartmentId { get; set; }
         public string Doctor_DepartmentName { get; set; }
         public string PatientName { get; set; }
         public DateTime Appointment_Date { get; set; }
