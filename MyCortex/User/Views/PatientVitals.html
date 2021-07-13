@@ -30,7 +30,7 @@
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
         <!--Hide by Yogeswaran Please-->
         <div class="patientCharts" style="display:none"
-             ng-init="getParameterList();getUnitGroupType_List();UnitGroupPreference();PatientGroupNameList();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();MyAppointments()">
+             ng-init="getParameterList();getUnitGroupType_List();UnitGroupPreference();PatientGroupNameList();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();MyAppointments();;SearchAvailibleDoctorsList();GetDoctorDetails();newAppoinmentDates();DateMinus();DatePlus()">
             <div class="patientCards ">
                 <img src="../../Images/MRN.png" class="patientVitalscard" />
                 <h1>MRN</h1>
@@ -4850,36 +4850,36 @@
                             <div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label for="usr">Select Specialty</label>
-                                    <select class="form-control">
-                                        <option>Dermatology</option>
-                                    </select>
+                                    <select class="form-control" id="speciality" ng-model="SelectedSpeciality"
+                                            multiple="multiple" ng-change="DeptIDStr()" ng-options="row.Id as row.Department_Name for row in DepartmentList"
+                                            multiselect-dropdown style="width: 220px;"></select>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label for="usr">Select Date</label>
                                     <!--<div class="input-group date">-->
-                                    <input type="date" class="form-control date">
+                                    <input ng-model="AppoimDate" type="date" class="form-control date">
                                     <!--</div>-->
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label for="usr">Select TimeZone</label>
-                                    <select class="form-control">
-                                        <option>UAE Standard</option>
+                                    <select class="form-control" ng-model="TimeZoneID">
+                                        <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneName}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="mt-10">
-                            <button type="button" class="btn-darkblue" title="Save">
+                            <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
                                 Search
                             </button>
                         </div>
                         <div class="flex mt-10 p-4">
                             <div class="doc-found">
-                                <p class="m-bottom-0">31 Doctors found</p>
+                                <p class="m-bottom-0">{{DoctorListWithTimeZone.length}} Doctors found</p>
                             </div>
                             <div class="col-sm-12 flex">
                                 <input class="self-center m-0" type="checkbox">
@@ -4889,32 +4889,8 @@
                         <div class="flex doc-details mt-10 p-4">
                             <div class="col-sm-3">
                                 <ul class="p-0">
-                                    <li>Dr. Kumar</li>
-                                    <li>Dr. karthi</li>
-                                    <li>Dr. Bala</li>
-                                    <li>Dr. Sundar</li>
-                                    <li>Dr. Bharathy</li>
-                                    <li>Dr. Sala</li>
-                                    <li>Dr. Jeya</li>
-                                    <li>Dr. sakthi</li>
-                                    <li>Dr. Kani</li>
-                                    <li>Dr. Sekar</li>
-                                    <li>Dr. Mohan</li>
-                                    <li>Dr. Sarath</li>
-                                    <li>Dr. Kamal</li>
-                                    <li>Dr. Kumar</li>
-                                    <li>Dr. karthi</li>
-                                    <li>Dr. Bala</li>
-                                    <li>Dr. Sundar</li>
-                                    <li>Dr. Bharathy</li>
-                                    <li>Dr. Sala</li>
-                                    <li>Dr. Jeya</li>
-                                    <li>Dr. sakthi</li>
-                                    <li>Dr. Kani</li>
-                                    <li>Dr. Sekar</li>
-                                    <li>Dr. Mohan</li>
-                                    <li>Dr. Sarath</li>
-                                    <li>Dr. Kamal</li>
+                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)"
+                                        ng-class="{selected : list === idSelectedVote}">{{list.DoctorName}}</li>
                                 </ul>
                             </div>
                             <div class="col-sm-9 p-8">
@@ -4926,7 +4902,7 @@
                                             </div>
                                         </div>
                                         <div class="" style="width:80%">
-                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. Clarence MD</p>
+                                            <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
                                             <p class="m-bottom-0 secondary-text" style="font-size:13px;">Cardiologist</p>
                                         </div>
                                     </div>
@@ -4942,50 +4918,115 @@
                                     <div class="col-sm-6">
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Health License</label>
-                                            <p class="col-sm-6 doc-p">UY-HM-98745</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Sex</label>
-                                            <p class="col-sm-6 doc-p">MALE</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.GENDER_NAME}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Nationality</label>
-                                            <p class="col-sm-6 doc-p">Indian</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.Nationality}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Date of birth</label>
-                                            <p class="col-sm-6 doc-p">28-02-1980</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Nationality</label>
-                                            <p class="col-sm-6 doc-p">Indian</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Email</label>
-                                            <p class="col-sm-6 doc-p">u1@gmail.com</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Contact Number</label>
-                                            <p class="col-sm-6 doc-p">9876543210<br />7854123695</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.MOBILE_NO}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Address</label>
-                                            <p class="col-sm-6 doc-p">a2, block ascdgfg <br /> terta 123456<br /> ind- 654780</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.ADDRESS1}} <br />{{DoctorDetailList.ADDRESS2}}<br /> {{DoctorDetailList.ADDRESS3}}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Availability</label>
-                                            <p class="col-sm-6 doc-p">Available</p>
+                                            <p class="col-sm-6 doc-p"></p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Languages Known</label>
-                                            <p class="col-sm-6 doc-p">English, Fresh</p>
+                                            <p class="col-sm-6 doc-p">{{DoctorDetailList.LanguageKnown}}</p>
                                         </div>
                                         <div class="flex">
                                             <label class="col-sm-6 doc-label">Certification</label>
-                                            <p class="col-sm-6 doc-p">MPCKK- Board of medical examination</p>
+                                            <p class="col-sm-6 doc-p"></p>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-sm-12 flex justify-end mt-10">
+                            <button type="button" class="btn-darkblue" ng-click="newAppoinmentDates()" id="show" title="Save">
+                                Save this Doctor and Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="box" style="display:none">
+                    <div class="modal-body">
+                        <div class="flex">
+                            <div class="col-sm-7">
+                                <div class="flex justify-center align-items-center self-center">
+                                    <span ng-click="DateMInus()">
+                                        <i class="arrow-icon fas fa-caret-left mr-8"></i>
+                                    </span>
+                                    <div class="col-sm-1 doc-date p-0" ng-repeat="list in newScheduledDatesSplit">
+                                        <p class="m-bottom-0 text-center">{{list.Day}}</p>
+                                        <p class="m-bottom-0 text-center">{{list.Month}}</p>
+                                    </div>
+                                    <span ng-click="DatePlus()">
+                                        <i class="arrow-icon fas fa-caret-right"></i>
+                                    </span>
+                                </div>
+                                <p class="text-center m-bottom-0 mt-10 mb-10 font-semibold">Available Slots</p>
+                                <div class="flex justify-center">
+                                    <div class="col-sm-6 available-slot p-0">
+                                        <p class="new-book col-sm-6 p-0 m-bottom-0">New Booking</p>
+                                        <p class="col-sm-6 p-0 text-center self-center m-bottom-0">Follow Up</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 flex flex-wrap mt-10">
+                                    <div class="col-sm-4" ng-repeat="list in newAppoiTimeSlot">
+                                        <p class="time text-center">{{list.AppointmentTime}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 flex mt-10">
+                                    <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methos</p>
+                                    <input class="" id="Radio1" type="radio" checked /><span class="m-left-1 mr-8">Self Pay</span>
+                                    <input class="mr-2" id="Radio1" type="radio" /><span class="m-left-1">Insurance</span>
+                                </div>
+                                <div class="col-sm-12 flex-col mt-10">
+                                    <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />
+                                    <textarea id="TextArea1" rows="3" cols="80"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
+                                <div class="col-sm-12 custom-file mt-10">
+                                    <label class="custom-file-upload text-center">
+                                        <input type="file" />
+                                        Drag and Drop File
+                                        <p class="m-bottom-0 mt-10 text-center">Brower File</p>
+                                    </label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12 file">
+                                        <p class="m-bottom-0">File name</p>
                                     </div>
                                 </div>
                             </div>

@@ -5636,12 +5636,96 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
                 $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
             });
+            $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+                $scope.DepartmentList = data;
+            });
+            $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.TimeZoneList = data;
+            });
 
-                });
+        });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
         }
+        $scope.DoctorListWithTimeZone = [];
+        $scope.SearchAvailibleDoctorsList = function () {
+            var DeptID = $scope.DeptIDAsSTR;
+            var AppDate = $scope.AppoimDate;
+            var res = convert(AppDate);
+            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + DeptID + '&InstitutionId=' + $scope.SelectedInstitutionId + '&Date=' + res + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.DoctorListWithTimeZone = data;
+            })
+        }
+        $scope.DeptIDStr = function () {
+            $scope.DeptIDAsSTR = [];
+            angular.forEach($scope.SelectedSpeciality, function (value, key) {
+
+                var obj = value.toString();
+                $scope.DeptIDAsSTR.push(obj);
+            });
+        }
+        $scope.DoctorDetailList = [];
+        $scope.idSelectedVote = null;
+        $scope.GetDoctorDetails = function (list) {
+            $scope.idSelectedVote = list;
+            $scope.DoctorID = list.Doctor_Id;
+            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+            $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.DoctorDetailList = data;
+            })
+        }
+        function convert(str) {
+            var date = new Date(str),
+                mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                day = ("0" + date.getDate()).slice(-2);
+            return [date.getFullYear(), mnth, day].join("-");
+        }
+        $scope.newAppoinmentDates = function () {
+            $scope.newAppoiTimeSlot = [];
+            $scope.newScheduledDates = [];
+            var DoctorIDs = $scope.DoctorID;
+            var TimeZoneID = $scope.TimeZoneID;
+            var AppoDate = $scope.AppoimDate;
+            var res1 = convert(AppoDate);
+            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+            $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?TimezoneId=' + TimeZoneID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.newScheduledDates = data;
+                var dateOption = workingDate();
+            })
+            $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&TimezoneId=' + TimeZoneID + '&Date=' + res1 + '&IsNew=0' + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
+                $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
+                console.log($scope.newAppoiTimeSlot);
+            })
+        }
+        $scope.a = 0;
+        $scope.b = 5;
+        function workingDate() {
+            $scope.newScheduledDatesSplit = [];
+            var a = $scope.a;
+            var b = $scope.b;
+            data = $scope.newScheduledDates;
+            var datas = data.ScheduledDaysList;
+            $scope.newScheduledDatesSplit = datas.slice(a, b);
+        }
+        $scope.DateMInus = function () {
+            if ($scope.a != 0) {
+                $scope.a = $scope.a - 1;
+                $scope.b = $scope.b - 1;
+            }
+            workingDate();
+        }
+        $scope.DatePlus = function () {
+            data = $scope.newScheduledDates.ScheduledDaysList.length;
+            if ($scope.b != data) {
+                $scope.a = $scope.a + 1;
+                $scope.b = $scope.b + 1;
+            }
+            workingDate();
+        }
+
 
         $scope.myMeetingURL = '';
         $scope.myMeeting = function (meetingdomain) {
