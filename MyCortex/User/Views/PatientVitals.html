@@ -4849,7 +4849,7 @@
                         <div class="flex">
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label for="usr">Select Specialty</label>
+                                    <label for="usr">Select Specialty<sup><font class='mandatory-field'>*</font></sup></label>
                                     <select class="form-control" id="speciality" ng-model="SelectedSpeciality"
                                             multiple="multiple" ng-change="DeptIDStr()" ng-options="row.Id as row.Department_Name for row in DepartmentList"
                                             multiselect-dropdown style="width: 220px;"></select>
@@ -4857,15 +4857,13 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label for="usr">Select Date</label>
-                                    <!--<div class="input-group date">-->
+                                    <label for="usr">Select Date<sup><font class='mandatory-field'>*</font></sup></label>
                                     <input ng-model="AppoimDate" type="date" class="form-control date">
-                                    <!--</div>-->
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label for="usr">Select TimeZone</label>
+                                    <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
                                     <select class="form-control" ng-model="TimeZoneID">
                                         <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneName}}</option>
                                     </select>
@@ -4985,7 +4983,8 @@
                                     <span ng-click="DateMInus()">
                                         <i class="arrow-icon fas fa-caret-left mr-8"></i>
                                     </span>
-                                    <div class="col-sm-1 doc-date p-0" ng-repeat="list in newScheduledDatesSplit">
+                                    <div class="col-sm-1 doc-date p-0" ng-click="clickSchedule(list)" ng-repeat="list in newScheduledDatesSplit"
+                                         ng-class="{selected : list === idSelectedSchedule}">
                                         <p class="m-bottom-0 text-center">{{list.Day}}</p>
                                         <p class="m-bottom-0 text-center">{{list.Month}}</p>
                                     </div>
@@ -5001,8 +5000,8 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12 flex flex-wrap mt-10">
-                                    <div class="col-sm-4" ng-repeat="list in newAppoiTimeSlot">
-                                        <p class="time text-center">{{list.AppointmentTime}}</p>
+                                    <div class="col-sm-4" ng-click="ClickAppointment(list)" ng-repeat="list in newAppoiTimeSlot">
+                                        <p class="time text-center" ng-class="{selected : list === idSelectedAppoi}">{{list.AppointmentTime}}</p>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 flex mt-10">
@@ -5035,7 +5034,7 @@
 
                     <div class="modal-footer">
                         <div class="col-sm-12 flex justify-end mt-10">
-                            <button type="button" class="btn-darkblue" id="show" title="Save">
+                            <button type="button" class="btn-darkblue" ng-click="SavePatientAppointment()" id="show" title="Save">
                                 Save this Doctor and Continue
                             </button>
                         </div>
@@ -5678,6 +5677,10 @@ Works in Mozilla, Webkit & IE.
             z-index: 99998;
             display: block;
             background: rgba(0, 0, 0, 0.5);
+        }
+
+        .selected {
+            background: lightblue;
         }
 
         @-webkit-keyframes greenPulse {
