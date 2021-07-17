@@ -5694,18 +5694,20 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.newScheduledDates = [];
                     var TimeZoneID = $scope.TimeZoneID;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                    TimeSlot();
                     $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?TimezoneId=' + TimeZoneID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.newScheduledDates = data;
                         var dattas = data.ScheduledDaysList;
                         var AppDate = $scope.AppoimDate;
                         var ApppDate = AppDate.getTime();
-                        for (i = 0; i <= dattas.length; i++) {
+                        for (i = 0; i <= dattas.length - 1; i++) {
                             var today = dattas[i].Date;
                             var toToday = new Date(today);
                             var ApppoDate = toToday.getTime();
                             if (ApppDate == ApppoDate) {
                                 $scope.a = i - 2;
                                 $scope.b = i + 3;
+                                workingDate();
                                 $scope.idSelectedSchedule = dattas[i];
                                 var list = dattas[i];
                                 var day = list.Day;
@@ -5714,13 +5716,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 var year = Datee.getFullYear();
                                 var AppoiDate = (day + "-" + month + "-" + year)
                                 $scope.AppoiDate = AppoiDate;
+                                break;
                             } else {
+                                $scope.a = 0;
+                                $scope.b = 5;
                                 workingDate();
                             }
                         }
                         
                     })
-                    TimeSlot();
                 }
             }
             $scope.IsNew = 0;
