@@ -1344,6 +1344,7 @@
     <Compile Include="Repositories\User\UserRepository.cs" />
     <Compile Include="Notification\SendGridApiManager.cs" />
     <Compile Include="Notification\SendGridEvents.cs" />
+    <Compile Include="RsaHelper.cs" />
     <Compile Include="Template\Controllers\EmailAlertConfigController.cs" />
     <Compile Include="Template\Controllers\EmailTemplateController.cs" />
     <Compile Include="Template\Controllers\SendEmailController.cs" />
@@ -1390,6 +1391,7 @@
     <Compile Include="User\Models\PatientDeviceDataModel.cs" />
     <Compile Include="User\Models\PatientHealthDataModel.cs" />
     <Compile Include="User\Models\Patient_OtherDataModel.cs" />
+    <Compile Include="User\Models\PayByModel.cs" />
     <Compile Include="User\Models\RelationshipMasterModel.cs" />
     <Compile Include="User\Models\ScheduleMasterModel.cs" />
     <Compile Include="User\Models\UserModel.cs" />

@@ -2038,7 +2038,7 @@
                                 + Book New
                             </button>
                             <button type="button" class="theme-btn-3" ng-click="ShowStripePopup()">
-                                Stripe
+                                Pay Now
                             </button>
                         </div>
 
@@ -5147,32 +5147,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
-                    <h4 class="modal-title">Stripe Payment Integration POC</h4>
+                    <h4 class="modal-title">Payment Integration POC</h4>
                 </div>
                 <div id="main-box">
                     <div class="modal-body">
                         <div class="flex">
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label for="usr">Pay Using Charge</label>
-                                    <form action="/Home/CreateCharge" method="POST">
-                                        <article>
-                                            <label>Amount: $20.00</label>
-                                        </article>
-                                        <script src="//checkout.stripe.com/v2/checkout.js"
-                                                class="stripe-button"
-                                                data-key="pk_test_h9vi1G6N5s2dSfHnvRsJhUJg"
-                                                data-locale="auto"
-                                                data-description="Tele Appointment Charges"
-                                                data-amount="2000">
-                                        </script>
+                                    <label for="usr">Stripe</label>
+                                    <form action="/Home/CreateStripeCheckoutSession" method="POST">
+                                        <button type="submit">Checkout</button>
                                     </form>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label for="usr">Pay Using Checkout</label>
-                                    <form action="/Home/CreateCheckoutSession" method="POST">
+                                    <label for="usr">PayBy</label>
+                                    <form action="/Home/CreatePayByCheckoutSession" method="POST">
                                         <button type="submit">Checkout</button>
                                     </form>
                                 </div>

@@ -27,6 +27,10 @@ using MyCortex.Repositories;
 using MyCortex.Utilities;
 using Stripe;
 using Stripe.Checkout;
+using System.Net;
+using System.Text;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace MyCortex.Home.Controllers
 {
@@ -37,7 +41,7 @@ namespace MyCortex.Home.Controllers
         private CommonMenuRepository db = new CommonMenuRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         private LoginRepository login = new LoginRepository();
-        private UserRepository repository = new UserRepository();  
+        private UserRepository repository = new UserRepository();
 
         private InstitutionRepository Insrepository = new InstitutionRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -113,14 +117,14 @@ namespace MyCortex.Home.Controllers
         // GET: Login Index
         public ActionResult LoginIndex()
         {
-             
+
             Session["UserId"] = "0";
             Session["key"] = "";
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             Response.Cache.SetNoStore();
             Session.Abandon();
-            
+
             return View((object)returnError);
         }
 
@@ -141,7 +145,7 @@ namespace MyCortex.Home.Controllers
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
                 Response.Cache.SetNoStore();
-                Session.Abandon(); 
+                Session.Abandon();
 
                 //var claimsIdentity = (ClaimsIdentity)User.Identity;
                 //IEnumerable<Claim> claims = claimsIdentity.Claims;
@@ -231,7 +235,7 @@ namespace MyCortex.Home.Controllers
                 IList<PatientChronicCondition_List> lst = repository.Chronic_Conditions(Patient_Id);
                 //foreach (var i in lst)
                 //{
-                    
+
                 //}
                 var json = jsonSerialiser.Serialize(lst);
                 return Content(json);
@@ -273,7 +277,7 @@ namespace MyCortex.Home.Controllers
             var res = "";
 
             List<string> t = new List<string>();
-            var jsonSerialiser = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue};
+            var jsonSerialiser = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue };
             try
             {
                 IList<EmployeeLoginModel> lst = login.UserLogged_Details(EmployeeId);
@@ -368,7 +372,7 @@ namespace MyCortex.Home.Controllers
                 _logger.Error(ex.Message, ex);
                 return null;
             }
-        } 
+        }
         /// <summary>
         /// Institution logo of the logged in user
         /// </summary>
@@ -417,7 +421,7 @@ namespace MyCortex.Home.Controllers
             Session["Login_Country"] = Login_Country;
             Session["Login_City"] = Login_City;
             Session["Login_IPAdddress"] = IPAdddress;
-            
+
             Response.Redirect($"https://accounts.google.com/o/oauth2/v2/auth?client_id={ClientId}&response_type=code&scope=openid%20email%20profile&redirect_uri={RedirectUrl}&state=abcdef");
         }
 
@@ -466,7 +470,7 @@ namespace MyCortex.Home.Controllers
             model1.Login_City = (Session["Login_City"].ToString());
             model1.Login_IpAddress = (Session["Login_IPAdddress"].ToString());
 
-       
+
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -554,24 +558,25 @@ namespace MyCortex.Home.Controllers
         {
 
             List<string> t = new List<string>();
-            Int64 InstanceNameId =  Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
+            Int64 InstanceNameId = Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
             var jsonSerialiser = new JavaScriptSerializer();
             try
-            { 
-               
-                string[] list  = new string[3] { "MyHealth", "STC MyCortex", "MyCortex.health" }; 
-                 
-                if(InstanceNameId == 1)
+            {
+
+                string[] list = new string[3] { "MyHealth", "STC MyCortex", "MyCortex.health" };
+
+                if (InstanceNameId == 1)
                 {
                     t.Add(list[0].ToString());
-                }else if(InstanceNameId == 2)
+                }
+                else if (InstanceNameId == 2)
                 {
                     t.Add(list[1].ToString());
                 }
                 else
                 {
                     t.Add(list[2].ToString());
-                } 
+                }
 
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);
@@ -639,7 +644,7 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateCheckoutSession(string stripeToken, string stripeEmail)
+        public ActionResult CreateStripeCheckoutSession(string stripeToken, string stripeEmail)
         {
             Stripe.StripeConfiguration.ApiKey = "sk_test_4pcdIsoglCrClOcCveS68nis";
 
@@ -677,6 +682,168 @@ namespace MyCortex.Home.Controllers
             Session session = service.Create(options);
 
             return new RedirectResult(session.Url);
+        }
+
+        [HttpPost]
+        public ActionResult CreatePayByCheckoutSession()
+        {
+            string redirectUrl = string.Empty;
+
+            string privateKey = @"-----BEGIN RSA PRIVATE KEY-----
+            MIIEpAIBAAKCAQEAq9KVwPAF+DuJXeRgHj4Q70iLuYEa/iAlY9ah1IIhr1h/H6dW
+            PEC/kOTMauOC+xtmeMoCnrYGxFAG+L5j10d9bXbgMXET1eFeEjVrsLUnM1MokqGd
+            S7nrnZjcvlnJhfNCSsbel3wCOvj4OVTaJwk0VOK5Q2tWslP+fqYSG+TjIuIO7kdz
+            HP2BKmIaCUt8yzcVyuKizE5es+8as+qZm/TRCy23mAJOLRppuHKjf7Hb6X/eLo0F
+            CQ85u5TD3veBxTVe4gEoU/v/mHHB1DACFDOh2z4Qm/g0sLrZgb4AGzIBtn4u59q4
+            okPCzfNEiP+TfHR6EbmYsojYWdy0qnWHUpSBnwIDAQABAoIBADe/y/cd6dHw/1EH
+            mGg3mycIUs2NpkRuCbOrIDbjQiqyfAy5LrG+EGni0rCbwRPYgBcQ9GiqhueLT7fF
+            jn97IqcxuuxP1C/BP9SIoLhlDqMIiFGLPo4jdN9dicH5P/nGQ+wfOnnMMq0Puvpf
+            Haksw14HcjT9ztNtjVVqbNXAHjJivlOJWrrkXmTUKm4TLmVPsDZVUfd8WEZjOoxe
+            DBRMAXJ9vQNwoS9B1RL523ihWsI8sifPEvmiGijZajqXO23lBGzg+/Fmi1b7xkgJ
+            8EKV3i8Wlp4sHrdaFwZMQE/fCzQlkShzHxmBdqVi1cng/WuKRKdaJ68k9pApgpDl
+            /kG0GIECgYEA3BhSD3fC9T6zKn55AoJwf73PK66ofAQ5AMfW8kA2rxaakSDxfsnH
+            pj355DMTkRxnDaxZSFA2SiOTQxW6ClUykkw9UfOKZ2pzMfCtDXCSyYMZ0AxvQ49m
+            hyDtCotxIF6VC2QczUUwF3dn+UipBJqJyphg2NnR2M8DOdB+tuaSZiUCgYEAx9pL
+            5jHbRwrbokWyvKNVQWpu3NxeO0Luh4gAGMlxNKh/UNQh5e01DApgTW1nKQxhkwG0
+            qrP4ex2lMrltW6M+fDy05iSzIGVikWJBv4QoDy7cuB/HY+S9IUD+VuJl09I4DTGh
+            tIF5867YZwdujGuNQm2cX2vr5tMVWo68prjWc3MCgYEAyDGK+qzJdT8pwp41PZYd
+            8+NXPHlqoRtKKi6bkc/crZeW0ikv4E5zPgAje3EF/Djkd6hrsX3cU8VWHm/1v45N
+            KIsWP6ORIY3O5/7tuUrLCWYpJXcaAU6/SGwnkC7ToEjHswvFsuSa4M1oknOH4Tsb
+            2F6PwM8ns9hgK8c8ausBAM0CgYBJIEsdU6jUedibq70W4PzVDsi577hbHsaAuPaw
+            GyVdCzpqrPQqWX1LhpBuRFW241zgmYMt4uRMyDAmO0sUeMroUp4uh8czV2WVpMpB
+            9W1jANaqWJZwqsW5YTqvN+/ibc0sprhwf9/LlnKAYGvG3aO2Zr0M/UQ4FYx+sjO9
+            HWz6mQKBgQCvsIA537U/S/MIqS+7+sYZwSFwiUAD7xyd/l5+W9jTq8Semdo4vskL
+            ai7BeVU1uyvYEjomDShe+huGJ7LJXAhDbdwZALxcwpKYZhKT0/oNEj7//XYWcjNG
+            z9LP0BCe9xOgmCg/BbKn1VVKrXLcaI76xTkISdAkULA/DAZUf65NaQ==
+            -----END RSA PRIVATE KEY-----";
+
+            string publicKey = @"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoEJwfig+cc1tDspuy1KlfSJabiZBechcDX9+iqBy8WjMHN+Y7XxIF9xaxBmcts65gh4Dle0mhcDR8j8pX1mDLyjzGhLFizyevqNIlC84TRLpzUden0pp59S35dP5TmrgCpM/M6LMaxy1CgBT2RTJKIGaaC9ac7of+QRAiyhdMftO1wIaaf4jno3P2EdVBLzup5ZyC3wq+CNe/D9SHS7bZRg7WXul2of4YeELToXvXx3pbWffhd8uLveJiLZxwvsE0o4Rf+1uOi79x63LzEuDQtgrVMQ2ayM3+QSLVyOneTZlUYju8i1SMxA7PlfQC/AFnR8Z6UHdmQ5vGwVt+UvgwIDAQAB";
+
+            privateKey = privateKey.Replace("-----BEGIN RSA PRIVATE KEY-----", "")
+                .Replace("-----END RSA PRIVATE KEY-----", "");
+
+            RsaHelper rsaHelper = new RsaHelper();
+            Console.OutputEncoding = System.Text.Encoding.Default;
+            PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
+            BizContent bizContent = new BizContent
+            {
+                merchantOrderNo = Guid.NewGuid().ToString().Replace("-","").PadLeft(10),
+                subject = "TeleConsultation",
+                totalAmount = new TotalAmount
+                {
+                    currency = "AED",
+                    amount = 25
+                },
+                paySceneCode = "PAYPAGE",
+                paySceneParams = new PaySceneParams
+                {
+                    redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                },
+                notifyUrl = "https://mycortexdev.vjhsoftware.in",
+                accessoryContent = new AccessoryContent
+                {
+                    amountDetail = new AmountDetail
+                    {
+                        vatAmount = new VatAmount
+                        {
+                            currency = "AED",
+                            amount = 20.65
+                        },
+                        amount = new Amount
+                        {
+                            currency = "AED",
+                            amount = 1.09
+                        }
+                    },
+                    goodsDetail = new GoodsDetail
+                    {
+                        body = "TeleConsultation",
+                        categoriesTree = "CT12",
+                        goodsCategory = "GC10",
+                        goodsId = "GI1005",
+                        goodsName = "Consulation",
+                        price = new User.Model.Price
+                        {
+                            currency = "AED",
+                            amount = 10.87
+                        },
+                        quantity = 2
+                    },
+                    terminalDetail = new TerminalDetail
+                    {
+                        operatorId = "OP1000000000000001",
+                        storeId = "SI100000000000002",
+                        terminalId = "TI100999999999900",
+                        merchantName = "MyCortex",
+                        storeName = "MyCortexQA"
+                    }
+                }
+            };
+            DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
+
+            payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
+            payByCreateReq.bizContent = bizContent;
+            try
+            {
+                string url = "https://uat.test2pay.com/sgs/api/acquire2/placeOrder";
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                req.Method = "POST";
+                req.ContentType = "application/json";
+                req.Headers["Content-Language"] = "en";
+
+                string strJPostData = JsonConvert.SerializeObject(payByCreateReq, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                string signParams = strJPostData.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("\\", "");
+                privateKey = privateKey.Replace("\r\n", "");
+                string sign = rsaHelper.Sign(signParams, privateKey);
+                req.Headers["sign"] = sign;
+                req.Headers["Partner-Id"] = "200000042613";
+
+                UTF8Encoding encoding = new UTF8Encoding();
+                byte[] post = encoding.GetBytes(strJPostData);
+                req.ContentLength = post.Length;
+
+                using (Stream writer = req.GetRequestStream())
+                {
+                    writer.Write(post, 0, post.Length);
+                }
+
+                using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+                {
+                    DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(PayByCreateOrderResponse));
+                    object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+                    PayByCreateOrderResponse tokenRes = objResponse as PayByCreateOrderResponse;
+                    if (tokenRes != null && tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
+                    {
+                        redirectUrl = tokenRes.body.interActionParams.tokenUrl;
+                    }
+                }
+            }
+            catch (WebException wx)
+            {
+                if (wx.Message != null)
+                {
+                    using (WebResponse response = wx.Response)
+                    {
+                        if (wx.Response != null)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)response;
+                            using (Stream data = response.GetResponseStream())
+                            {
+                                string text = new StreamReader(data).ReadToEnd();
+                                if (!string.IsNullOrEmpty(text))
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return new RedirectResult(redirectUrl);
         }
     }
 }
