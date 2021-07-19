@@ -5707,6 +5707,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             if (ApppDate == ApppoDate) {
                                 $scope.a = i - 2;
                                 $scope.b = i + 3;
+                                if ($scope.a == -1 || $scope.a == -2) {
+                                    $scope.a = 0;
+                                    $scope.b = 5;
+                                } else if ($scope.b >= dattas.length - 1) {
+                                    $scope.a = dattas.length - 5;
+                                    $scope.b = dattas.length;
+                                } else {
+                                    $scope.a = i - 2;
+                                    $scope.b = i + 3;
+                                }
                                 workingDate();
                                 $scope.idSelectedSchedule = dattas[i];
                                 var list = dattas[i];
@@ -5727,7 +5737,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     })
                 }
             }
-            $scope.IsNew = 0;
+            $scope.IsNew = 1;
             function TimeSlot() {
                 $scope.newAppoiTimeSlot = [];
                 var DoctorIDs = $scope.DoctorID;
@@ -5740,11 +5750,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 })
             }
             $scope.clickNewBooking = function () {
-                $scope.IsNew = 0;
+                $scope.IsNew = 1;
                 TimeSlot();
             }
             $scope.clickFollowUp = function () {
-                $scope.IsNew = 1;
+                $scope.IsNew = 0;
                 TimeSlot();
             }
             $scope.a = 0;
@@ -5838,6 +5848,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             $scope.AppoiDate = [];
                             $scope.AppoiFromTime = [];
                             $scope.AppoiToTime = [];
+                            $scope.IsNew = 1;
                         }
 
                     });
@@ -5863,6 +5874,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.AppoiDate = [];
                 $scope.AppoiFromTime = [];
                 $scope.AppoiToTime = [];
+                $scope.IsNew = 1;
             }
 
         });

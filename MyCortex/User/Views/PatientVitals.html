@@ -30,7 +30,7 @@
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
         <!--Hide by Yogeswaran Please-->
         <div class="patientCharts" style="display:none"
-             ng-init="getParameterList();getUnitGroupType_List();UnitGroupPreference();PatientGroupNameList();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();MyAppointments();;SearchAvailibleDoctorsList();GetDoctorDetails();newAppoinmentDates();DateMinus();DatePlus()">
+             ng-init="getParameterList();getUnitGroupType_List();UnitGroupPreference();PatientGroupNameList();PatientBasicDetails_List();StepCountDateBased();PatientAllergiesNameList();currentTab='1';MonitoringProtocolList();PatientAllergyList();MyAppointments()">
             <div class="patientCards ">
                 <img src="../../Images/MRN.png" class="patientVitalscard" />
                 <h1>MRN</h1>
@@ -2034,10 +2034,10 @@
                         </div>
                         <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
                             <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
-                            <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
+                            <button type="button" class="btn-darkblue" ng-click="ShowAppointmentBookingPopUp()">
                                 + Book New
                             </button>
-                            <button type="button" class="theme-btn-3" ng-click="ShowStripePopup()">
+                            <button type="button" class="btn-darkblue" ng-click="ShowStripePopup()">
                                 Pay Now
                             </button>
                         </div>
@@ -4996,10 +4996,10 @@
                                 <p class="text-center m-bottom-0 mt-10 mb-10 font-semibold">Available Slots</p>
                                 <div class="flex justify-center">
                                     <div class="col-sm-6 available-slot p-0">
-                                        <div class="col-sm-6 p-0 m-bottom-0" ng-click="clickNewBooking()"
-                                             ng-class="{selected : 0 === IsNew }">New Booking</div>
+                                        <div class="col-sm-6 text-center self-center p-0 m-bottom-0" ng-click="clickNewBooking()"
+                                             ng-class="{selected : 1 === IsNew }">New Booking</div>
                                         <div class="col-sm-6 p-0 text-center self-center m-bottom-0" ng-click="clickFollowUp()"
-                                             ng-class="{selected : 1 === IsNew }">Follow Up</div>
+                                             ng-class="{selected : 0 === IsNew }">Follow Up</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 flex flex-wrap mt-10">
