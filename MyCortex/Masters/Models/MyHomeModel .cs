@@ -30,6 +30,17 @@ namespace MyCortex.Masters.Models
         public IList<UserTabDevicesList> SelectedTabDeviceList { get; set; }
     }
 
+    public class TabIdReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public int data { get; set; }
+        public long InstitutionId { get; set; }
+        public long TabId { get; set; }
+        public string RefId { get; set; }
+    }
+
     public class TabDevicesModel
     {
         public long ID { get; set; }

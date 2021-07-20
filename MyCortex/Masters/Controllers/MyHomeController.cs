@@ -142,6 +142,33 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        public HttpResponseMessage Get_Tab_ID(long InstitutionId, string Ref_ID)
+        {
+            TabIdReturnModels model = new TabIdReturnModels();
+            try
+            {
+                model = repository.Get_Tab_ID(InstitutionId, Ref_ID);
+                model.Message = "";
+                if (model.data == 1)
+                {
+                    model.Status = "True";
+                } else
+                {
+                    model.Status = "False";
+                }
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in get TabID";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
         {
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();

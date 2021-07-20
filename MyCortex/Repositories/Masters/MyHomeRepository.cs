@@ -268,6 +268,36 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public TabIdReturnModels Get_Tab_ID(long Institution_ID, string Ref_ID)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InstitutionId", Institution_ID));
+            param.Add(new DataParameter("@Ref_Id", Ref_ID));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_TAB_ID]", param);
+                TabIdReturnModels lst = (from p in dt.AsEnumerable()
+                                             select new TabIdReturnModels()
+                                             {
+                                                 ReturnFlag = 0,
+                                                 Status = "True",
+                                                 Message = p.Field<string>("Messagetype"),
+                                                 data = p.Field<int>("data"),
+                                                 InstitutionId = p.Field<long>("InstitutionId"),
+                                                 TabId = p.Field<long>("TABID"),
+                                                 RefId = p.Field<string>("REFID"),
+                                             }).FirstOrDefault();
+
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public IList<TabDevicesModel> Get_TabDevices(long Institution_ID, long Tab_ID)
         {
             List<DataParameter> param = new List<DataParameter>();
