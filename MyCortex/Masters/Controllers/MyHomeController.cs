@@ -148,7 +148,6 @@ namespace MyCortex.User.Controllers
             try
             {
                 model = repository.Get_Tab_ID(InstitutionId, Ref_ID);
-                model.Message = "";
                 if (model.data == 1)
                 {
                     model.Status = "True";
