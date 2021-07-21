@@ -5876,6 +5876,27 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.AppoiToTime = [];
                 $scope.IsNew = 1;
             }
+            $scope.OldAppointmentID =null ;
+            $scope.RescheduleDocAppointment = function (Row) {
+                $scope.OldAppointmentID = Row.Id;
+                angular.element('#BookAppointmentModal').modal('show');
+            }
+            $scope.CancelDocAppointment = function (Row) {
+                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                console.log(Row);
+                var objectCancel = {
+                    "Id": Row.Id,
+                    "CancelledBy_Id": $window.localStorage['UserId'],
+                    "Cancel_Remarks": "Test",
+                    "ReasonTypeId": "1",
+                    "SESSION_ID": $scope.LoginSessionId
+                }
+                if (confirm("Confirm to cancel appointment")) {
+                    $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
+                        alert(data.Message)
+                    });
+                }
+            }
 
         });
             } else {

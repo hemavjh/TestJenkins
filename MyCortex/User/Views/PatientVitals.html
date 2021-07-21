@@ -2034,10 +2034,10 @@
                         </div>
                         <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
                             <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
-                            <button type="button" class="btn-darkblue" ng-click="ShowAppointmentBookingPopUp()">
+                            <button type="button" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
                                 + Book New
                             </button>
-                            <button type="button" class="btn-darkblue" ng-click="ShowStripePopup()">
+                            <button type="button" class="btnn-check" ng-click="ShowStripePopup()">
                                 Pay Now
                             </button>
                         </div>
@@ -2111,8 +2111,8 @@
                                                 <div class="flex">
                                                     <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
                                                     <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
-                                                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>
+                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
+                                                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -5765,6 +5765,24 @@ Works in Mozilla, Webkit & IE.
         .nopaste #helpbutton, .nofilereader #dropzone-wrapper {
             display: none;
         }
+        .btnn-check {
+            color: var(--positiveBtnText);
+            background: var(--positiveBtnBg);
+            padding: 5px 5px;
+            border: 2px solid var(--positiveBtnBorder);
+            border-radius: 5px;
+            display: inline-block !important;
+            text-decoration: none;
+            outline: none;
+        }
+
+            .btnn-check:hover {
+                color: var(--positiveHoverBtnText) !important;
+                background: var(--positiveHoverBtnBg);
+                border: 2px solid var(--positiveHoverBtnBorder);
+                text-decoration: none;
+                outline: none;
+            }
 
         #output ul {
             max-width: 500px;
