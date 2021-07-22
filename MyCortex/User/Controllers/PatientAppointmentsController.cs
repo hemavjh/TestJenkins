@@ -354,5 +354,48 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage AddDoctorShiftInsertUpdate([FromBody] DoctorShiftModel obj, Guid Login_Session_Id)
+        {
+
+            IList<DoctorShiftModel> ModelData = new List<DoctorShiftModel>();
+            DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
+
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.DoctorShift_InsertUpdate(obj, Login_Session_Id);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "Doctor Shift already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "Doctor Shift Added successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.Flag == 3) == true)
+                {
+                    messagestr = "DoctorShift Updated Successfully";
+                    model.ReturnFlag = 1;
+                }
+                model.DoctorShiftAddList = ModelData;
+                model.Message = messagestr;// "Doctor Shift created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Add DoctorShift";
+                model.DoctorShiftAddList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
     }
 }

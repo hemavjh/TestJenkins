@@ -94,6 +94,8 @@ namespace MyCortex.User.Model
 
         public int ReturnFlag { get; set; }
         public IList<DoctorAppointmentTimeSlotModel> DoctorAppointmentTimeSlotList { get; set; }
+
+        public IList<DoctorShiftModel> DoctorShiftAddList { get; set; }
     }
 
     public class AppointmentReasonType
@@ -102,4 +104,55 @@ namespace MyCortex.User.Model
         public string ReasonType { get; set; }
         public int IsActive { get; set; }
     }
+
+    public class DoctorShiftModel
+    {
+        public long ID { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public long NewAppointment { get; set; }
+        public long FollowUp { get; set; }
+        public long Intervel { get; set; }
+        public long CustomSlot { get; set; }
+        public long BookingOpen { get; set; }
+        public long BookingCancelLock { get; set; }
+        public long Institution_Id { get; set; }
+        public long CreatedBy { get; set; }
+        public long ModifiedBy { get; set; }
+        public int Flag { get; set; }
+        public long DoctorId { get; set; }
+        public IList<SelectedDaysList> SelectedDaysList { get; set; }
+        public IList<DoctorsId> Doctor_Id { get; set; }
+    }
+    public class DoctorsId
+    {
+        public long DoctorId { get; set; }
+        public int IsActive { get; set; }
+    }
+    public class SlotsList
+    {
+        public DateTime TimeSlotFromTime { get; set; }
+
+        public DateTime TimeSlotToTime { get; set; }
+    }
+    public class SelectedDaysList
+    {
+        public long Id { get; set; }
+        public long DoctorShiftId { get; set; }
+
+        public DateTime Day { get; set; }
+        public IList<SlotsList> TimeSlot { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public int IsActive { get; set; }
+
+        public long ShiftId { get; set; }
+
+    }
+
+
+
 }

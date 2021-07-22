@@ -18213,6 +18213,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.Doctor_Id = [];
         $scope.SpecialitiesSelectList = [];
         $scope.Specialitiesinput = "";
+        $scope.SelectedDays = [];
 
         $scope.DuplicateId = "0";
         $scope.flag = 0;
@@ -18229,6 +18230,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $('#ThursdayCheck').hide();
         $('#FridayCheck').hide();
         $('#SaturdayCheck').hide();
+        $("#SundayId").attr("disabled", true);
+        $("#MondayId").attr("disabled", true);
+        $("#TuesdayId").attr("disabled", true);
+        $("#WednesdayId").attr("disabled", true);
+        $("#ThursdayId").attr("disabled", true);
+        $("#FridayId").attr("disabled", true);
+        $("#SaturdayId").attr("disabled", true);
         $scope.TimeSlot1 = new Date();
         $scope.TimeSlot2 = new Date();
         $scope.TimeSlot3 = new Date();
@@ -18443,7 +18451,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 angular.forEach($scope.SelectedSpecialist, function (value, index) {
                     var obj = {
                         //ID: 0,
-                        Id: value,
+                        DoctorId: value,
                         IsActive: 1
                     }
                     $scope.SelectedSpecialist_List.push(obj);
@@ -18458,24 +18466,155 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.SelectedCCCG_List.push(obj);
                 });
 
+                angular.forEach($scope.SelectedDays, function (value, index) {
+                    var Day = value.Day.toString();
+                    if (Day.includes("Sun") == true) {
+                        var shift1 = {};
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot1), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot2) }
+                        value.TimeSlot[0] = shift1;
+
+                        var shift2 = {};
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot3), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot4) }
+                        value.TimeSlot[1] = shift2;
+
+                        var shift3 = {};
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot5), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot6) }
+                        value.TimeSlot[2] = shift3;
+
+                        var shift4 = {};
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot43), TimeSlotToTime: Convert12To24Timeformat( $scope.TimeSlot44) }
+                        value.TimeSlot[3] = shift4;
+                    }
+                    else if (Day.includes("Mon") == true) {
+                        var shift1 = {};
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot7), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot8) }
+                        value.TimeSlot[0] = shift1;
+
+                        var shift2 = {};
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot9), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot10) }
+                        value.TimeSlot[1] = shift2;
+
+                        var shift3 = {};
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot11), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot12) }
+                        value.TimeSlot[2] = shift3;
+
+                        var shift4 = {};
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot45), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot46) }
+                        value.TimeSlot[3] = shift4;
+                    }
+                    else if (Day.includes("Tue") == true) {
+                        var shift1 = {};
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot13), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot14) }
+                        value.TimeSlot[0] = shift1;
+
+                        var shift2 = {};
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot15), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot16) }
+                        value.TimeSlot[1] = shift2;
+
+                        var shift3 = {};
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot17), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot18) }
+                        value.TimeSlot[2] = shift3;
+
+                        var shift4 = {};
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot47), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot48) }
+                        value.TimeSlot[3] = shift4;
+                    }
+                    else if (Day.includes("Wed") == true) {
+                        var shift1 = {};
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot19), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot20) }
+                        value.TimeSlot[0] = shift1;
+
+                        var shift2 = {};
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot21), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot22) }
+                        value.TimeSlot[1] = shift2;
+
+                        var shift3 = {};
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot23), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot24) }
+                        value.TimeSlot[2] = shift3;
+
+                        var shift4 = {};
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot49), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot50) }
+                        value.TimeSlot[3] = shift4;
+                    }
+                    else if (Day.includes("Thu") == true) {
+                        var shift1 = {};
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot25), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot26) }
+                        value.TimeSlot[0] = shift1;
+
+                        var shift2 = {};
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot27), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot28) }
+                        value.TimeSlot[1] = shift2;
+
+                        var shift3 = {};
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot29), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot30) }
+                        value.TimeSlot[2] = shift3;
+
+                        var shift4 = {};
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot51), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot52) }
+                        value.TimeSlot[3] = shift4;
+                    }
+                    else if (Day.includes("Fri") == true) {
+                        var shift1 = {};
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot31), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot32) }
+                        value.TimeSlot[0] = shift1;
+
+                        var shift2 = {};
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot33), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot34) }
+                        value.TimeSlot[1] = shift2;
+
+                        var shift3 = {};
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot35), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot36) }
+                        value.TimeSlot[2] = shift3;
+
+                        var shift4 = {};
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot53), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot54) }
+                        value.TimeSlot[3] = shift4;
+                    }
+                    else if (Day.includes("Sat") == true) {
+                        var shift1 = {};
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot37), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot38) }
+                        value.TimeSlot[0] = shift1;
+
+                        var shift2 = {};
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot39), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot40) }
+                        value.TimeSlot[1] = shift2;
+
+                        var shift3 = {};
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot41), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot42) }
+                        value.TimeSlot[2] = shift3;
+
+                        var shift4 = {};
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot55), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot56) }
+                        value.TimeSlot[3] = shift4;
+                    }
+                });
 
                 var obj = {
-                    ID: $scope.id,
-                    InstitutionId: $window.localStorage['InstitutionId'],
+                    ID: $scope.Id,
+                    Institution_Id: $window.localStorage['InstitutionId'],
                     CreatedBy: $window.localStorage['UserId'],
-                    SelectDepartment: $scope.SelectedDepartment,
-                    SelectedSpecialist: $scope.SelectedSpecialist,
-                    SelectedCCCG: $scope.SelectedCCCG,
-                    SelectStartDate: $scope.FromDate,
-                    SelectEndDate: $scope.ToDate,
+                    SelectDepartment: $scope.SelectedDepartment_List,
+                    Doctor_Id: $scope.SelectedSpecialist_List,
+                    SelectedCCCG: $scope.SelectedCCCG_List,
+                    FromDate: $scope.FromDate,
+                    ToDate: $scope.ToDate,
                     NewAppointment: $scope.NewAppointment,
-                    followup: $scope.followup,
-                    Interval: $scope.IntervalBt,
-                    CustomSlot: $scope.CustomSlot,
-                    Days: $scope.Days,
-                    Minutes: $scope.Minutes
+                    FollowUp: $scope.followup,
+                    Intervel: $scope.IntervalBt,
+                    CustomSlot: parseInt($scope.CustomSlot),
+                    BookingOpen: $scope.Days,
+                    BookingCancelLock: parseInt($scope.Minutes),
+                    SelectedDaysList: $scope.SelectedDays
                 };
-                //console.log(obj);
+                $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    alert(data.Message);
+                    //$scope.DeviceList();
+                    //$scope.CancelDeviceList();
+
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while Adding Docor Shift" + data;
+                });
             }
         }
 
@@ -18526,10 +18665,510 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please Enter Minutes");
                 return false;
             }
+            if ($('#SundayId').prop('disabled') == false) {
+                if ($scope.TimeSlot1 == "" || $scope.TimeSlot1 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot2 == "" || $scope.TimeSlot2 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot3 == "" || $scope.TimeSlot3 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot4 == "" || $scope.TimeSlot4 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot5 == "" || $scope.TimeSlot5 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot6 == "" || $scope.TimeSlot6 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot43 == "" || $scope.TimeSlot43 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot44 == "" || $scope.TimeSlot44 == "0") {
+                    alert('Please Check The Sunday TimeSlot');
+                    $('#SundayCheck').show();
+                    $('#SundayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+            }
+            if ($('#MondayId').prop('disabled') == false) {
+                if ($scope.TimeSlot7 == "" || $scope.TimeSlot7 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot8 == "" || $scope.TimeSlot8 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot9 == "" || $scope.TimeSlot9 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot10 == "" || $scope.TimeSlot10 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot11 == "" || $scope.TimeSlot11 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot12 == "" || $scope.TimeSlot12 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot45 == "" || $scope.TimeSlot45 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot46 == "" || $scope.TimeSlot46 == "0") {
+                    alert('Please Check The Monday TimeSlot');
+                    $('#MondayCheck').show();
+                    $('#MondayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+            }
+            if ($('#TuesdayId').prop('disabled') == false) {
+                if ($scope.TimeSlot13 == "" || $scope.TimeSlot13 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot14 == "" || $scope.TimeSlot14 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot15 == "" || $scope.TimeSlot15 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot16 == "" || $scope.TimeSlot16 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot17 == "" || $scope.TimeSlot17 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot18 == "" || $scope.TimeSlot18 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot47 == "" || $scope.TimeSlot47 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot48 == "" || $scope.TimeSlot48 == "0") {
+                    alert('Please Check The Tuesday TimeSlot');
+                    $('#TuesdayCheck').show();
+                    $('#TuesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+            }
+            if ($('#WednesdayId').prop('disabled') == false) {
+                if ($scope.TimeSlot19 == "" || $scope.TimeSlot19 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot20 == "" || $scope.TimeSlot20 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot21 == "" || $scope.TimeSlot21 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot22 == "" || $scope.TimeSlot22 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot23 == "" || $scope.TimeSlot23 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot24 == "" || $scope.TimeSlot24 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot49 == "" || $scope.TimeSlot49 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot50 == "" || $scope.TimeSlot50 == "0") {
+                    alert('Please Check The Wednesday TimeSlot');
+                    $('#WednesdayCheck').show();
+                    $('#WednesdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+            }
+            if ($('#ThursdayId').prop('disabled') == false) {
+                if ($scope.TimeSlot25 == "" || $scope.TimeSlot25 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot26 == "" || $scope.TimeSlot26 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot27 == "" || $scope.TimeSlot27 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot28 == "" || $scope.TimeSlot28 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot29 == "" || $scope.TimeSlot29 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot30 == "" || $scope.TimeSlot30 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot51 == "" || $scope.TimeSlot51 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot52 == "" || $scope.TimeSlot52 == "0") {
+                    alert('Please Check The Thursday TimeSlot');
+                    $('#ThursdayCheck').show();
+                    $('#ThursdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+            }
+            if ($('#FridayId').prop('disabled') == false) {
+                if ($scope.TimeSlot31 == "" || $scope.TimeSlot31 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#FridayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot32 == "" || $scope.TimeSlot32 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#FridayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot33 == "" || $scope.TimeSlot33 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#FridayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot34 == "" || $scope.TimeSlot34 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#FridayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot35 == "" || $scope.TimeSlot35 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#FridayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot36 == "" || $scope.TimeSlot36 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot53 == "" || $scope.TimeSlot53 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#FridayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot54 == "" || $scope.TimeSlot54 == "0") {
+                    alert('Please Check The Friday TimeSlot');
+                    $('#FridayCheck').show();
+                    $('#FridayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+            }
+            if ($('#SaturdayId').prop('disabled') == false) {
+                if ($scope.TimeSlot37 == "" || $scope.TimeSlot37 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot38 == "" || $scope.TimeSlot38 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot39 == "" || $scope.TimeSlot39 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot40 == "" || $scope.TimeSlot40 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot41 == "" || $scope.TimeSlot41 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot42 == "" || $scope.TimeSlot42 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot55 == "" || $scope.TimeSlot55 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+                if ($scope.TimeSlot56 == "" || $scope.TimeSlot56 == "0") {
+                    alert('Please Check The Saturday TimeSlot');
+                    $('#SaturdayCheck').show();
+                    $('#SaturdayId').prop("checked", true);
+                    $scope.currentTab = "3";
+                    return false;
+                }
+            }
 
             return true;
         };
-
+        $scope.TimeslotClear = function () {
+            $scope.TimeSlot1 = "";
+            $scope.TimeSlot2 = "";
+            $scope.TimeSlot3 = "";
+            $scope.TimeSlot4 = "";
+            $scope.TimeSlot5 = "";
+            $scope.TimeSlot6 = "";
+            $scope.TimeSlot7 = "";
+            $scope.TimeSlot8 = "";
+            $scope.TimeSlot9 = "";
+            $scope.TimeSlot10 = "";
+            $scope.TimeSlot11 = "";
+            $scope.TimeSlot12 = "";
+            $scope.TimeSlot13 = "";
+            $scope.TimeSlot14 = "";
+            $scope.TimeSlot15 = "";
+            $scope.TimeSlot16 = "";
+            $scope.TimeSlot17 = "";
+            $scope.TimeSlot18 = "";
+            $scope.TimeSlot19 = "";
+            $scope.TimeSlot20 = "";
+            $scope.TimeSlot21 = "";
+            $scope.TimeSlot22 = "";
+            $scope.TimeSlot23 = "";
+            $scope.TimeSlot24 = "";
+            $scope.TimeSlot25 = "";
+            $scope.TimeSlot26 = "";
+            $scope.TimeSlot27 = "";
+            $scope.TimeSlot28 = "";
+            $scope.TimeSlot29 = "";
+            $scope.TimeSlot30 = "";
+            $scope.TimeSlot31 = "";
+            $scope.TimeSlot32 = "";
+            $scope.TimeSlot33 = "";
+            $scope.TimeSlot34 = "";
+            $scope.TimeSlot35 = "";
+            $scope.TimeSlot36 = "";
+            $scope.TimeSlot37 = "";
+            $scope.TimeSlot38 = "";
+            $scope.TimeSlot39 = "";
+            $scope.TimeSlot40 = "";
+            $scope.TimeSlot41 = "";
+            $scope.TimeSlot42 = "";
+            $scope.TimeSlot43 = "";
+            $scope.TimeSlot44 = "";
+            $scope.TimeSlot45 = "";
+            $scope.TimeSlot46 = "";
+            $scope.TimeSlot47 = "";
+            $scope.TimeSlot48 = "";
+            $scope.TimeSlot49 = "";
+            $scope.TimeSlot50 = "";
+            $scope.TimeSlot51 = "";
+            $scope.TimeSlot52 = "";
+            $scope.TimeSlot53 = "";
+            $scope.TimeSlot54 = "";
+            $scope.TimeSlot55 = "";
+            $scope.TimeSlot56 = "";
+        }
+        $scope.onDateRange = function () {
+            if ((typeof $scope.FromDate) != undefined && $scope.FromDate != "" && (typeof ($scope.ToDate) != undefined && $scope.ToDate != 0)) {
+                $scope.SelectedDays = dateRange($scope.FromDate, $scope.ToDate);
+                $("#SundayId").attr("disabled", true);
+                $("#MondayId").attr("disabled", true);
+                $("#TuesdayId").attr("disabled", true);
+                $("#WednesdayId").attr("disabled", true);
+                $("#ThursdayId").attr("disabled", true);
+                $("#FridayId").attr("disabled", true);
+                $("#SaturdayId").attr("disabled", true);
+                $scope.TimeslotClear();
+                angular.forEach($scope.SelectedDays, function (value, index) {
+                    var Day = value.Day.toString();
+                    if (Day.includes("Sun") == true) {
+                        $("#SundayId").removeAttr("disabled");
+                    }
+                    if (Day.includes("Mon") == true) {
+                        $("#MondayId").removeAttr("disabled");
+                    }
+                    if (Day.includes("Tue") == true) {
+                        $("#TuesdayId").removeAttr("disabled");
+                    }
+                    if (Day.includes("Wed") == true) {
+                        $("#WednesdayId").removeAttr("disabled");
+                    }
+                    if (Day.includes("Thu") == true) {
+                        $("#ThursdayId").removeAttr("disabled");
+                    }
+                    if (Day.includes("Fri") == true) {
+                        $("#FridayId").removeAttr("disabled");
+                    }
+                    if (Day.includes("Sat") == true) {
+                        $("#SaturdayId").removeAttr("disabled");
+                    }
+                });
+            }
+        }
 
         $scope.CancelDoctorShiftpopup = function () {
             angular.element('#ViewDoctorShiftModal').modal('hide');

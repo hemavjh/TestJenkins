@@ -304,7 +304,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup>
                                                         </label>
-                                                        <input id="FromDate" class="form-control" type="date" ng-model="FromDate" ng-init="FromDate=''" />
+                                                        <input id="FromDate" class="form-control" ng-change="onDateRange()" type="date" ng-model="FromDate" ng-init="FromDate=''" />
                                                     </div>
 
                                                 </div>
@@ -315,7 +315,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup>
                                                         </label>
-                                                        <input id="ToDate" class="form-control" type="date" ng-model="ToDate" ng-init="ToDate=''" />
+                                                        <input id="ToDate" class="form-control" ng-change="onDateRange()" type="date" ng-model="ToDate" ng-init="ToDate=''" />
                                                     </div>
 
                                                 </div>
@@ -393,7 +393,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="NewAppointment" class="input-size">
+                                                                            <input type="text" onkeypress="OnlySpecCharNum(event)" ng-model="NewAppointment" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -402,7 +402,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="followup" class="input-size">
+                                                                            <input type="text" ng-model="followup" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -411,7 +411,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="IntervalBt" class="input-size">
+                                                                            <input type="text" ng-model="IntervalBt" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -422,7 +422,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="CustomSlot" class="input-size">
+                                                                            <input type="text" ng-model="CustomSlot" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -433,7 +433,8 @@
                                                             <p class="mt-4" style="font-weight: bold; font-size: 16px; margin-left: 9px;">Booking Info</p>
                                                             <div class="row" style="margin-right: -63px; margin-left: -7px;">
                                                                 <div class="col-sm-3">
-                                                                    <input type="checkbox" ng-model="OrgBookInfoDefault" id="OrgBookInfoId" ng-click="OrgBookInfoDefaultClick($event)" class="m-right-1">Use Org Default
+                                                                    <input type="checkbox" ng-model="OrgBookInfoDefault" onkeypress="OnlySpecCharNum(event)"
+                                                                           id="OrgBookInfoId" ng-click="OrgBookInfoDefaultClick($event)" class="m-right-1">Use Org Default
                                                                 </div>
                                                                 <div class="col-sm-9 row">
                                                                     <div class="col-sm-3">
@@ -441,7 +442,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="Days" class="input-size">
+                                                                            <input type="text" onkeypress="OnlySpecCharNum(event)" ng-model="Days" class="input-size">
                                                                             <p>Days</p>
                                                                         </div>
                                                                     </div>
@@ -450,7 +451,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="Minutes" class="input-size">
+                                                                            <input type="text" onkeypress="OnlySpecCharNum(event)" ng-model="Minutes" class="input-size">
                                                                             <p>Hours</p>
                                                                         </div>
                                                                     </div>

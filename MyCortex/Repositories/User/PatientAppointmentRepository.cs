@@ -360,5 +360,89 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+
+
+        public IList<DoctorShiftModel> DoctorShift_InsertUpdate(DoctorShiftModel obj, Guid Login_Session_Id)
+        {
+            long InsertId = 0;
+            foreach (DoctorsId item in obj.Doctor_Id)
+            {
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@ID", obj.ID));
+                param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+                param.Add(new DataParameter("@DOCTOR_ID", item.DoctorId));
+                param.Add(new DataParameter("@FROMDATE", obj.FromDate));
+                param.Add(new DataParameter("@TODATE", obj.ToDate));
+                param.Add(new DataParameter("@NEWAPPOINTMENT", obj.NewAppointment));
+                param.Add(new DataParameter("@FOLLOWUP", obj.FollowUp));
+                param.Add(new DataParameter("@INTERVAL", obj.Intervel));
+                param.Add(new DataParameter("@CUSTOMSLOT", obj.CustomSlot));
+                param.Add(new DataParameter("@BOOKINGOPEN", obj.BookingOpen));
+                param.Add(new DataParameter("@BOOKINGCANCELLOCK", obj.BookingCancelLock));
+                param.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
+                param.Add(new DataParameter("@MODIFIED_BY", obj.CreatedBy));
+                //param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+                _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+                try
+                {
+                    DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLNEWDOCTORSHIFT_SP_INSERTUPDATE]", param);
+                    DataRow dr = dt.Rows[0];
+                    if (dr.IsNull("Id") == true)
+                    {
+                        InsertId = 0;
+                    }
+                    else
+                    {
+                        InsertId = long.Parse((dr["Id"].ToString()));
+                    }
+                    if (InsertId > 0)
+                    {
+                        foreach (SelectedDaysList item1 in obj.SelectedDaysList)
+                        {
+                            foreach (SlotsList item2 in item1.TimeSlot)
+                            {
+                                List<DataParameter> param1 = new List<DataParameter>();
+                                param1.Add(new DataParameter("@Id", item1.Id));
+                                param1.Add(new DataParameter("@DOCTORSHIFT_ID", InsertId));
+                                param1.Add(new DataParameter("@SHIFT_DATE", item1.Day));
+                                param1.Add(new DataParameter("@SHIFT_STARTTIME", item2.TimeSlotFromTime.TimeOfDay.ToString()));
+                                param1.Add(new DataParameter("@SHIFT_ENDTIME", item2.TimeSlotToTime.TimeOfDay.ToString()));
+                                param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
+                                param1.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
+                                param1.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+                                _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+                                try
+                                {
+                                    DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[DoctorShift_TimeSlot_INSERTUPDATE]", param1);
+                                    DataRow dr1 = dt1.Rows[0];
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.Error(ex.Message, ex);
+                                    return null;
+
+                                }
+                            }
+                        }
+                    }
+                    IList<DoctorShiftModel> INS = (from p in dt.AsEnumerable()
+                                                   select
+                                                   new DoctorShiftModel()
+                                                   {
+                                                       ID = p.Field<long>("Id"),
+                                                       Flag = p.Field<int>("flag"),
+                                                   }).ToList();
+                    return INS;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.Message, ex);
+                    return null;
+
+                }
+            }
+
+            return null;
+        }
     }
 }

@@ -172,6 +172,55 @@ function isDate(txtDate) {
     }
     return true;
 }
+function dateRange(startDate, endDate, steps = 1) {
+    const dateArray = [];
+    var EmptySlot = {};
+    let currentDate = new Date(startDate);
+    
+    while (currentDate <= new Date(endDate)) {
+        EmptySlot = {
+            Day: new Date(currentDate),
+            TimeSlot: [
+                [], [], [], []
+            ]
+        }
+        dateArray.push(EmptySlot);
+        currentDate.setUTCDate(currentDate.getUTCDate() + steps);
+    }
+    return dateArray;
+}
+
+function Convert24to12Timeformat(inputTime) {
+    var outputTime = null;
+    if (inputTime != '' && inputTime != null) {
+        inputTime = inputTime.toString(); //value to string for splitting
+        var splitTime = inputTime.split(':');
+        splitTime.splice(2, 1);
+        var ampm = (splitTime[0] >= 12 ? ' PM' : ' AM'); //determine AM or PM
+        splitTime[0] = splitTime[0] % 12;
+        splitTime[0] = (splitTime[0] == 0 ? 12 : splitTime[0]); //adjust for 0 = 12
+        outputTime = splitTime.join(':') + ampm;
+    }
+    return outputTime;
+};
+function Convert12To24Timeformat(timeval) {
+    var outputTime = null;
+    if (timeval != '' && timeval != null) {
+        var time = timeval;
+        var hours = Number(time.match(/^(\d+)/)[1]);
+        var minutes = Number(time.match(/:(\d+)/)[1]);
+        var AMPM = time.match(/\s(.*)$/)[1];
+        if (AMPM == "PM" && hours < 12) hours = hours + 12;
+        if (AMPM == "AM" && hours == 12) hours = hours - 12;
+        var sHours = hours.toString();
+        var sMinutes = minutes.toString();
+        if (hours < 10) sHours = "0" + sHours;
+        if (minutes < 10) sMinutes = "0" + sMinutes;
+        outputTime = sHours + ":" + sMinutes;
+    }
+    return outputTime;
+};
+
 function DateFormatEdit(txtDate) {
     var currVal = txtDate;
     if (currVal == '' || currVal == null)
