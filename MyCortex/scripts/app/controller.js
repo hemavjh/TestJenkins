@@ -5813,47 +5813,95 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
                     alert('Please select Appointment Time')
                 } else {
-                    var objectSave = {
-                        "Institution_Id": $scope.SelectedInstitutionId,
-                        "Doctor_Id": $scope.DoctorID,
-                        "Patient_Id": $scope.SelectedPatientId,
-                        "Appointment_Date": $scope.AppoiDate,
-                        "AppointmentFromTime": $scope.AppoiFromTime,
-                        "AppointmentToTime": $scope.AppoiToTime,
-                        "Appointment_Type": 1,
-                        "ReasonForVisit": "Test",
-                        "Status": 1,
-                        "Created_By": $window.localStorage['UserId'],
-                        "Page_Type": 0
-                    }
-                    $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-
-                    $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
-                        alert(data.Message);
-                        if (data.ReturnFlag == 1) {
-                            angular.element('#BookAppointmentModal').modal('hide');
-                            document.getElementById("main-box").style = "";
-                            document.getElementById("box").style = "display:none";
-                            document.getElementById("DocDetails").hidden = true;
-                            $scope.SelectedSpeciality = "";
-                            $scope.AppoimDate = "";
-                            $scope.TimeZoneID = "";
-                            $scope.DoctorID = [];
-                            $scope.DoctorListWithTimeZone = [];
-                            $scope.DeptIDAsSTR = [];
-                            $scope.DoctorDetailList = [];
-                            $scope.newScheduledDates = [];
-                            $scope.newAppoiTimeSlot = [];
-                            $scope.newScheduledDatesSplit = [];
-                            $scope.AppoiDate = [];
-                            $scope.AppoiFromTime = [];
-                            $scope.AppoiToTime = [];
-                            $scope.IsNew = 1;
+                    if ($scope.OldAppointmentID == null) {
+                        var objectSave = {
+                            "Institution_Id": $scope.SelectedInstitutionId,
+                            "Doctor_Id": $scope.DoctorID,
+                            "Patient_Id": $scope.SelectedPatientId,
+                            "Appointment_Date": $scope.AppoiDate,
+                            "AppointmentFromTime": $scope.AppoiFromTime,
+                            "AppointmentToTime": $scope.AppoiToTime,
+                            "Appointment_Type": 1,
+                            "ReasonForVisit": "Test",
+                            "Status": 1,
+                            "Created_By": $window.localStorage['UserId'],
+                            "Page_Type": 0
                         }
+                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
-                    });
+                        $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
+                            alert(data.Message);
+                            if (data.ReturnFlag == 1) {
+                                angular.element('#BookAppointmentModal').modal('hide');
+                                document.getElementById("main-box").style = "";
+                                document.getElementById("box").style = "display:none";
+                                document.getElementById("DocDetails").hidden = true;
+                                $scope.SelectedSpeciality = "";
+                                $scope.AppoimDate = "";
+                                $scope.TimeZoneID = "";
+                                $scope.DoctorID = [];
+                                $scope.DoctorListWithTimeZone = [];
+                                $scope.DeptIDAsSTR = [];
+                                $scope.DoctorDetailList = [];
+                                $scope.newScheduledDates = [];
+                                $scope.newAppoiTimeSlot = [];
+                                $scope.newScheduledDatesSplit = [];
+                                $scope.AppoiDate = [];
+                                $scope.AppoiFromTime = [];
+                                $scope.AppoiToTime = [];
+                                $scope.IsNew = 1;
+                                $scope.OldAppointmentID = null;
+                            }
+
+                        });
+                    } else {
+                        var objectReshedule = {
+                            "Id": $scope.OldAppointmentID,
+                            "CancelledBy_Id": $window.localStorage['UserId'],
+                            "Cancelled_Remarks": "Reschedule",
+                            "ReasonTypeId": 76,
+                            "Institution_Id": $scope.SelectedInstitutionId,
+                            "Doctor_Id": $scope.DoctorID,
+                            "Patient_Id": $scope.SelectedPatientId,
+                            "Appointment_Date": $scope.AppoiDate,
+                            "AppointmentFromTime": $scope.AppoiFromTime,
+                            "AppointmentToTime": $scope.AppoiToTime,
+                            "Appointment_Type": "1",
+                            "ReasonForVisit": "Test",
+                            "Status": "1",
+                            "Created_By": $window.localStorage['UserId'],
+                            "Page_Type": "0"
+                        }
+                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                        $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
+                            alert(data.Message);
+                            if (data.ReturnFlag == 1) {
+                                angular.element('#BookAppointmentModal').modal('hide');
+                                document.getElementById("main-box").style = "";
+                                document.getElementById("box").style = "display:none";
+                                document.getElementById("DocDetails").hidden = true;
+                                $scope.SelectedSpeciality = "";
+                                $scope.AppoimDate = "";
+                                $scope.TimeZoneID = "";
+                                $scope.DoctorID = [];
+                                $scope.DoctorListWithTimeZone = [];
+                                $scope.DeptIDAsSTR = [];
+                                $scope.DoctorDetailList = [];
+                                $scope.newScheduledDates = [];
+                                $scope.newAppoiTimeSlot = [];
+                                $scope.newScheduledDatesSplit = [];
+                                $scope.AppoiDate = [];
+                                $scope.AppoiFromTime = [];
+                                $scope.AppoiToTime = [];
+                                $scope.IsNew = 1;
+                                $scope.OldAppointmentID = null;
+                            }
+
+                        });
+                    }
+
                 }
-                
+
 
             }
             $scope.CancelMyAppointment = function () {
