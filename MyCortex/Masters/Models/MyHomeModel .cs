@@ -225,7 +225,8 @@ namespace MyCortex.Masters.Models
         public string DeviceType { get; set; }
         public long UserTypeId { get; set; }
         public  TabDeviceUserDetails  UserDetails { get; set; }
-        public IList<TabDeviceParameterDetails> TabParameterList { get; set; }
+        /*public IList<TabDeviceParameterDetails> TabParameterList { get; set; }*/
+        public IList<TabDeviceParameterList> TabParameterList { get; set; }
         public IList<TabDashBoardAlertDetails> TabAlertsList { get; set; }
         public IList<TabDashBoardAppointmentDetails> TabAppointmentList { get; set; }
         public IList<TabDashBoardMedicationDetails> TabMedicationList { get; set; }
@@ -248,6 +249,25 @@ namespace MyCortex.Masters.Models
         public decimal Average { get; set; }
         public int IsFormulaParam { get; set; }
         public DateTime? ModifiedDate { get; set; }
+
+    }
+    public class TabDeviceParameterList
+    {
+        public IList<TabDeviceParameterValues> Parameter1 { get; set; }
+        public IList<TabDeviceParameterValues> Parameter2 { get; set; }
+        public IList<TabDeviceParameterValues> Parameter3 { get; set; }
+        public IList<TabDeviceParameterValues> Parameter4 { get; set; }
+        public IList<TabDeviceParameterValues> Parameter5 { get; set; }
+    }
+    public class TabDeviceParameterValues
+    {
+        public DateTime ActivityDate { get; set; }
+        public long ParameterId { get; set; }
+        public string ParameterName { get; set; }
+        public decimal ParameterValue { get; set; }
+        public long UomId { get; set; }
+        public string UomName { get; set; }
+        public DateTime CreatedDateTime { get; set; }
 
     }
     public class TabDeviceUserDetails

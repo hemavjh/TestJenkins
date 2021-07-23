@@ -459,7 +459,7 @@ namespace MyCortex.Repositories.Masters
                         Get_UsersGroupId.UserGroupId = 2;
                     }
 
-                    lst.TabParameterList = GroupParameterNameList(lst.UserId, Get_UsersGroupId.UserGroupId);
+                    lst.TabParameterList = GroupParameterNameList(lst.InstitutionId, lst.UserId, Get_UsersGroupId.UserGroupId);
                     lst.TabAlertsList = Get_ParameterValue(lst.UserId,lst.UserTypeId,Login_Session_Id);
                     lst.TabAppointmentList = DoctorAppoinmentsList(lst.UserId, Login_Session_Id);
                     lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
@@ -526,7 +526,7 @@ namespace MyCortex.Repositories.Masters
         }
 
 
-        public IList<TabDeviceParameterDetails> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id)
+        public IList<TabDeviceParameterDetails> GroupParameterNameLists(long Patient_Id, long UnitGroupType_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@ParamGroup_Id", Group_Id));
@@ -555,6 +555,64 @@ namespace MyCortex.Repositories.Masters
 
                                                   }).ToList();
                 return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<TabDeviceParameterList> GroupParameterNameList(long InstitutionId, long Patient_Id, long UnitGroupType_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            try
+            {
+                param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+                param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
+                param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
+                DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD_TEMP]", param);
+                TabDeviceParameterList paramlist = new TabDeviceParameterList();
+                List<TabDeviceParameterList> lst = new List<TabDeviceParameterList>();
+                if (ds.Tables.Count > 0)
+                {
+                    for (int i = 0; i < ds.Tables.Count; i++)
+                    {
+                        List<TabDeviceParameterValues> list = (from p in ds.Tables[i].AsEnumerable()
+                                select new TabDeviceParameterValues()
+                                {
+                                    ActivityDate = p.Field<DateTime>("ACTIVITY_DATE"),
+                                    CreatedDateTime = p.Field<DateTime>("CREATED_DT"),
+                                    ParameterId = p.Field<long>("PARAMETER_ID"),
+                                    ParameterValue = p.Field<decimal>("PARAMETER_VALUE"),
+                                    ParameterName = p.Field<string>("PARAMETER_NAME"),
+                                    UomId = p.Field<long>("UNIT_ID"),
+                                    UomName = p.Field<string>("UNIT_NAME"),
+                                }).ToList();
+                        if (i == 0)
+                        {
+                            paramlist.Parameter1 = list;
+                        } else if (i == 1)
+                        {
+                            paramlist.Parameter2 = list;
+                        }
+                        else if (i == 2)
+                        {
+                            paramlist.Parameter3 = list;
+                        }
+                        else if (i == 3)
+                        {
+                            paramlist.Parameter4 = list;
+                        }
+                        else if (i == 4)
+                        {
+                            paramlist.Parameter5 = list;
+                        }
+                    }
+                }
+                
+                lst.Add(paramlist);
+                return lst;
             }
             catch (Exception ex)
             {
