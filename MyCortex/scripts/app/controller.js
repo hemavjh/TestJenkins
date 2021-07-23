@@ -5642,8 +5642,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.TimeZoneList = data;
             });
-            $scope.DoctorListWithTimeZone = [];
             $scope.SearchAvailibleDoctorsList = function () {
+                $scope.DoctorListWithTimeZone = [];
+                document.getElementById("show").disabled = true;
                 if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
                     alert('Please select Speciality')
                 } else if ($scope.AppoimDate == undefined || $scope.AppoimDate == null || $scope.AppoimDate == "") {
@@ -5674,6 +5675,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.GetDoctorDetails = function (list) {
                 $scope.DoctorID = [];
                 document.getElementById("DocDetails").hidden = false;
+                document.getElementById("show").disabled = false;
                 $scope.idSelectedVote = list;
                 $scope.DoctorID = list.Doctor_Id;
                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
@@ -5835,6 +5837,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 angular.element('#BookAppointmentModal').modal('hide');
                                 document.getElementById("main-box").style = "";
                                 document.getElementById("box").style = "display:none";
+                                document.getElementById("show").disabled = true;
                                 document.getElementById("DocDetails").hidden = true;
                                 $scope.SelectedSpeciality = "";
                                 $scope.AppoimDate = "";
@@ -5879,6 +5882,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 angular.element('#BookAppointmentModal').modal('hide');
                                 document.getElementById("main-box").style = "";
                                 document.getElementById("box").style = "display:none";
+                                document.getElementById("show").disabled = true;
                                 document.getElementById("DocDetails").hidden = true;
                                 $scope.SelectedSpeciality = "";
                                 $scope.AppoimDate = "";
@@ -5908,6 +5912,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 angular.element('#BookAppointmentModal').modal('hide');
                 document.getElementById("main-box").style = "";
                 document.getElementById("box").style = "display:none";
+                document.getElementById("show").disabled = true;
                 document.getElementById("DocDetails").hidden = true;
                 $scope.SelectedSpeciality = "";
                 $scope.AppoimDate = "";

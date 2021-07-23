@@ -4888,8 +4888,8 @@
                         <div class="flex doc-details mt-10 p-4">
                             <div class="col-sm-3">
                                 <ul class="p-0">
-                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)"
-                                        ng-class="{selected : list === idSelectedVote}">{{list.DoctorName}}</li>
+                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)" 
+                                        ng-class="{clickdoc : list === idSelectedVote}">{{list.DoctorName}}</li>
                                 </ul>
                             </div>
                             <div class="col-sm-9 p-8" id="DocDetails" hidden>
@@ -4902,7 +4902,7 @@
                                         </div>
                                         <div class="" style="width:80%">
                                             <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
-                                            <p class="m-bottom-0 secondary-text" style="font-size:13px;">Cardiologist</p>
+                                            <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{DoctorDetailList.Department_Name}}</p>
                                         </div>
                                     </div>
                                     <!--<div class="col-sm-5 flex self-center p-0 justify-end">
@@ -4968,8 +4968,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <div class="col-sm-12 flex justify-end mt-10">
-                            <button type="button" class="btn-darkblue" ng-click="newAppoinmentDates()" id="show" title="Save">
+                        <div class="col-sm-12 " >
+                            <button type="button" [ngClass]="isDisabled()" class="btn-darkblue" ng-disabled="true" ng-click="newAppoinmentDates()" id="show" title="Save">
                                 Save this Doctor and Continue
                             </button>
                         </div>
@@ -4985,7 +4985,7 @@
                                         <i class="arrow-icon fas fa-caret-left mr-8"></i>
                                     </span>
                                     <div class="col-sm-1 doc-date p-0" ng-click="clickSchedule(list)" ng-repeat="list in newScheduledDatesSplit"
-                                         ng-class="{selected : list === idSelectedSchedule}">
+                                         ng-class="{highframe : list === idSelectedSchedule}">
                                         <p class="m-bottom-0 text-center">{{list.Day}}</p>
                                         <p class="m-bottom-0 text-center">{{list.Month}}</p>
                                     </div>
@@ -4997,24 +4997,24 @@
                                 <div class="flex justify-center">
                                     <div class="col-sm-6 available-slot p-0">
                                         <div class="col-sm-6 text-center self-center p-0 m-bottom-0" ng-click="clickNewBooking()"
-                                             ng-class="{selected : 1 === IsNew }">New Booking</div>
+                                             ng-class="{highframe : 1 === IsNew }">New Booking</div>
                                         <div class="col-sm-6 p-0 text-center self-center m-bottom-0" ng-click="clickFollowUp()"
-                                             ng-class="{selected : 0 === IsNew }">Follow Up</div>
+                                             ng-class="{highframe : 0 === IsNew }">Follow Up</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 flex flex-wrap mt-10">
                                     <div class="col-sm-4" ng-click="ClickAppointment(list)" ng-repeat="list in newAppoiTimeSlot">
-                                        <p class="time text-center" ng-class="{selected : list === idSelectedAppoi}">{{list.AppointmentTime}}</p>
+                                        <p class="time text-center" ng-class="{highframe : list === idSelectedAppoi}">{{list.AppointmentTime}}</p>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 flex mt-10">
-                                    <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methos</p>
+                                    <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methods</p>
                                     <input class="" id="Radio1" type="radio" checked /><span class="m-left-1 mr-8">Self Pay</span>
                                     <input class="mr-2" id="Radio1" type="radio" /><span class="m-left-1">Insurance</span>
                                 </div>
                                 <div class="col-sm-12 flex-col mt-10">
                                     <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />
-                                    <textarea id="TextArea1" rows="3" cols="80"></textarea>
+                                    <textarea id="TextArea1" rows="3" cols="70"></textarea>
                                 </div>
                             </div>
                             <div class="col-sm-5">
@@ -5037,7 +5037,7 @@
 
                     <div class="modal-footer">
                         <div class="col-sm-12 flex justify-end mt-10">
-                            <button type="button" class="btn-darkblue" ng-click="SavePatientAppointment()" id="show" title="Save">
+                            <button type="button" class="btn-darkblue" ng-click="SavePatientAppointment()" id="shown" title="Save">
                                 Save this Doctor and Continue
                             </button>
                         </div>
@@ -5673,8 +5673,13 @@ Works in Mozilla, Webkit & IE.
             background: rgba(0, 0, 0, 0.5);
         }
 
-        .selected {
-            background: var(--headerBg);
+        li.clickdoc {
+            background-color: var(--headerBg);
+            color: white;
+            overflow:auto;
+        }
+        .highframe {
+            background-color: var(--headerBg);
             color: white;
         }
 
