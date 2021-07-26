@@ -268,6 +268,9 @@ namespace MyCortex.Masters.Models
         public long UomId { get; set; }
         public string UomName { get; set; }
         public DateTime CreatedDateTime { get; set; }
+        public int HighCount { get; set; }
+        public int MediumCount { get; set; }
+        public int LowCount { get; set; }
 
     }
     public class TabDeviceUserDetails
@@ -294,6 +297,7 @@ namespace MyCortex.Masters.Models
         public string TypeName { get; set; }
         public string CreatedByShortName { get; set; }
         public string ComDurationType { get; set; }
+        public string TimeDifference { get; set; }
     }
     public class TabDashBoardAppointmentDetails
     {

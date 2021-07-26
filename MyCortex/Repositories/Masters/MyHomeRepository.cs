@@ -454,7 +454,7 @@ namespace MyCortex.Repositories.Masters
                     if(Get_UsersGroupId.UserGroupName == "Metric")
                     {
                         Get_UsersGroupId.UserGroupId = 1;
-                    }else
+                    } else
                     {
                         Get_UsersGroupId.UserGroupId = 2;
                     }
@@ -515,6 +515,7 @@ namespace MyCortex.Repositories.Masters
                                                          TypeName = p.Field<string>("TYPENAME"),
                                                          CreatedByShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          ComDurationType = p.Field<string>("DurationType"),
+                                                         TimeDifference = p.Field<string>("TIME_DIFFERENCE")
                                                      }).ToList();
                 return list;
             }
@@ -588,6 +589,9 @@ namespace MyCortex.Repositories.Masters
                                     ParameterName = p.Field<string>("PARAMETER_NAME"),
                                     UomId = p.Field<long>("UNIT_ID"),
                                     UomName = p.Field<string>("UNIT_NAME"),
+                                    HighCount = p.Field<int>("HighCount"),
+                                    MediumCount = p.Field<int>("MediumCount"),
+                                    LowCount = p.Field<int>("LowCount"),
                                 }).ToList();
                         if (i == 0)
                         {
