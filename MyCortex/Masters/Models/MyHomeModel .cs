@@ -361,14 +361,12 @@ namespace MyCortex.Masters.Models
         public long InstitutionId { get; set; }
         public string InstitutionName { get; set; }
         public long PatientId { get; set; }
-        public long? DrugId { get; set; }
-        public long? FrequencyId { get; set; }
-        public long? RouteId { get; set; }
         public decimal? NoOfDays { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string FrequencyName { get; set; }
         public string RouteName { get; set; }
         public string CreatedByName { get; set; }
+        public string TimeDifference { get; set; }
     }
 }

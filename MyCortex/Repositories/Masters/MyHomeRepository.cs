@@ -534,7 +534,7 @@ namespace MyCortex.Repositories.Masters
                 param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
                 param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
                 param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
-                DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD_TEMP]", param);
+                DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD]", param);
                 TabDeviceParameterList paramlist = new TabDeviceParameterList();
                 List<TabDeviceParameterList> lst = new List<TabDeviceParameterList>();
                 if (ds.Tables.Count > 0)
@@ -629,28 +629,27 @@ namespace MyCortex.Repositories.Masters
         {
             //long ViewId;
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@PATIENT_ID", Id));
+            param.Add(new DataParameter("@ISACTIVE", 1));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
 
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_VIEW", param);
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_LIST", param);
             IList <TabDashBoardMedicationDetails> View = (from p in dt.AsEnumerable()
                                       select
                                       new TabDashBoardMedicationDetails()
                                       {
                                           ID = p.Field<long>("ID"),
-                                          FrequencyId = p.Field<long?>("FREQUENCYID"),
                                           FrequencyName = p.Field<string>("FREQUENCYNAME"),
-                                          RouteId = p.Field<long?>("ROUTEID"),
                                           RouteName = p.Field<string>("ROUTENAME"),
-                                          DrugId = p.Field<long?>("DRUGID"),
                                           DrugCode = p.Field<string>("DRUGCODE"),
                                           StartDate = p.Field<DateTime>("STARTDATE"),
                                           EndDate = p.Field<DateTime>("ENDDATE"),
-                                          GenericName = p.Field<string>("GENERIC_NAME"),
+                                          GenericName = "(" + p.Field<string>("GENERIC_NAME") + ")",
                                           ItemCode = p.Field<string>("ITEMCODE"),
                                           StrengthName = p.Field<string>("STRENGTHNAME"),
                                           DosageFromName = p.Field<string>("DOSAGEFORMNAME"),
-                                          NoOfDays = p.Field<decimal?>("NO_OF_DAYS")
+                                          NoOfDays = p.Field<decimal?>("NO_OF_DAYS"),
+                                          TimeDifference = p.Field<string>("TIME_DIFFERNCE")
                                       }).ToList();
             return View;
 
