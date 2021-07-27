@@ -301,36 +301,43 @@ namespace MyCortex.Masters.Models
     }
     public class TabDashBoardAppointmentDetails
     {
-        public long ID { get; set; }
-        public long InstitutionId { get; set; }
-        public long DoctorId { get; set; }
-        public long PatientId { get; set; }
+        public long Id { get; set; }
+        public long Institution_Id { get; set; }
+        public long Doctor_Id { get; set; }
+        public long Patient_Id { get; set; }
         public string DoctorName { get; set; }
-        public string DoctorDepartmentName { get; set; }
+
+        public long DoctorDepartmentId { get; set; }
+        public string Doctor_DepartmentName { get; set; }
         public string PatientName { get; set; }
-        public DateTime AppointmentDate { get; set; }
-        public DateTime AppointmentFromTime { get; set; }
-        public DateTime AppointmentToTime { get; set; }  
-        public long AppointmentType { get; set; }
+        public DateTime Appointment_Date { get; set; }
+        public DateTime Appointment_FromTime { get; set; }
+        public DateTime Appointment_ToTime { get; set; }
+
+        public TimeSpan AppointmentFromTime { get; set; }
+        public TimeSpan AppointmentToTime { get; set; }
+
+        public long Appointment_Type { get; set; }
         public string ReasonForVisit { get; set; }
         public string Remarks { get; set; }
         public long Status { get; set; }
-        public long CreatedBy { get; set; }
-        public string CreatedByName { get; set; }
-        public string CancelledRemarks { get; set; }
-        public DateTime? CancelledDate { get; set; }
-        public string CancelledBy { get; set; }
-        public DateTime CreatedDt { get; set; }
-        public int Flag { get; set; }
-        public long CancelledById { get; set; }
-        public string MrnNo { get; set; }
+        public long Created_By { get; set; }
+        public string Created_By_Name { get; set; }
+        public string Cancelled_Remarks { get; set; }
+        public DateTime? Cancelled_Date { get; set; }
+        public string Cancelled_By { get; set; }
+        public DateTime Created_Dt { get; set; }
+        public int flag { get; set; }
+        public long CancelledBy_Id { get; set; }
+        public string MRN_No { get; set; }
         public string Photo { get; set; }
         public string TimeDifference { get; set; }
         public string Smoker { get; set; }
         public byte[] PhotoBlob { get; set; }
         public string ViewGenderName { get; set; }
-        public int PageType { get; set; }
+        public int Page_Type { get; set; }
         public long ReasonTypeId { get; set; }
+        public long NewAppointmentId { get; set; }
         public string ReasonType { get; set; }
         public int IsActive { get; set; }
     }

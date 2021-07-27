@@ -461,7 +461,7 @@ namespace MyCortex.Repositories.Masters
 
                     lst.TabParameterList = GroupParameterNameList(lst.InstitutionId, lst.UserId, Get_UsersGroupId.UserGroupId);
                     lst.TabAlertsList = Get_ParameterValue(lst.UserId,lst.UserTypeId,Login_Session_Id);
-                    lst.TabAppointmentList = DoctorAppoinmentsList(lst.UserId, Login_Session_Id);
+                    lst.TabAppointmentList = PatientAppoinmentsList(lst.UserId, Login_Session_Id);
                     lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
                 }
 
@@ -515,46 +515,8 @@ namespace MyCortex.Repositories.Masters
                                                          TypeName = p.Field<string>("TYPENAME"),
                                                          CreatedByShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          ComDurationType = p.Field<string>("DurationType"),
-                                                         TimeDifference = p.Field<string>("TIME_DIFFERENCE")
+                                                         TimeDifference = "(" + p.Field<string>("TIME_DIFFERENCE") + ")"
                                                      }).ToList();
-                return list;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message, ex);
-                return null;
-            }
-        }
-
-
-        public IList<TabDeviceParameterDetails> GroupParameterNameLists(long Patient_Id, long UnitGroupType_Id)
-        {
-            List<DataParameter> param = new List<DataParameter>();
-            //param.Add(new DataParameter("@ParamGroup_Id", Group_Id));
-            try
-            {
-                param.Add(new DataParameter("@Patient_Id", Patient_Id));
-                param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD]", param);
-                List<TabDeviceParameterDetails> list = (from p in dt.AsEnumerable()
-                                                  select new TabDeviceParameterDetails()
-                                                  {
-
-                                                      GroupId = p.Field<long>("PARAMGROUP_ID"),
-                                                      ParameterId = p.Field<long>("PARAMETER_ID"),
-                                                      ParameterValue = p.Field<decimal>("ParamterValue"),
-                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
-                                                      GroupName = p.Field<string>("PARAMGROUPNAME"),
-                                                      MaxPossible = p.IsNull("MAX_POSSIBLE") ? 0 : p.Field<decimal>("MAX_POSSIBLE"),
-                                                      MinPossible = p.IsNull("MIN_POSSIBLE") ? 0 : p.Field<decimal>("MIN_POSSIBLE"),
-                                                      Average = p.IsNull("AVERAGE") ? 0 : p.Field<decimal>("AVERAGE"),
-                                                      UomId = p.Field<long>("UOM_ID"),
-                                                      UomName = p.Field<string>("UOM_NAME"),
-                                                      RangeMax = p.IsNull("NORMALRANGE_HIGH") ? 0 : p.Field<decimal>("NORMALRANGE_HIGH"),
-                                                      RangeMin = p.IsNull("NORMALRANGE_LOW") ? 0 : p.Field<decimal>("NORMALRANGE_LOW"),
-                                                      ModifiedDate = p.Field<DateTime?>("ModifiedDate")
-
-                                                  }).ToList();
                 return list;
             }
             catch (Exception ex)
@@ -625,38 +587,34 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDashBoardAppointmentDetails> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id)
+        public IList<TabDashBoardAppointmentDetails> PatientAppoinmentsList(long PatientId, Guid Login_Session_Id)
         {
             DataEncryption decrypt = new DataEncryption();
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@PATIENTID", PatientId));
+            param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DOCTORAPPOINMENTS_SP_VIEW]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENTS_SP_LIST]", param);
                 List<TabDashBoardAppointmentDetails> lst = (from p in dt.AsEnumerable()
                                                       select new TabDashBoardAppointmentDetails()
                                                       {
-                                                          ID = p.Field<long>("Id"),
-                                                          InstitutionId = p.Field<long>("INSTITUTION_ID"),
-                                                          PatientId = p.Field<long>("PATIENT_ID"),
-                                                          DoctorId = p.Field<long>("DOCTOR_ID"),
-                                                          AppointmentDate = p.Field<DateTime>("APPOINTMENT_DATE"),
-                                                          AppointmentFromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
-                                                          AppointmentToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
-                                                          AppointmentType = p.Field<long>("APPOINTMENT_TYPE"),
-                                                          ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
-                                                          Remarks = p.Field<string>("REMARKS"), 
-                                                          CancelledDate = p.Field<DateTime?>("CANCELED_DATE"),
-                                                          CancelledRemarks = p.Field<string>("CANCEL_REMARKS"), 
-                                                          CreatedBy = p.Field<int>("CREATED_BY"),
+                                                          Id = p.Field<long>("Id"),
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                          Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
                                                           DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")), 
-                                                          CreatedByName = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
-                                                          CreatedDt = p.Field<DateTime>("CREATED_DT"),
+                                                          Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                          Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
+                                                          ViewGenderName = p.Field<string>("GENDER_NAME"),
+                                                          TimeDifference = p.Field<string>("TIME_DIFFERENCE"),
                                                       }).ToList();
                 return lst;
             }
