@@ -122,6 +122,7 @@ namespace MyCortex.User.Model
         public int Flag { get; set; }
         public long DoctorId { get; set; }
         public IList<SelectedDaysList> SelectedDaysList { get; set; }
+        public IList<SlotsList> TimeSlot { get; set; }
         public IList<DoctorsId> Doctor_Id { get; set; }
     }
     public class DoctorsId
@@ -131,6 +132,7 @@ namespace MyCortex.User.Model
     }
     public class SlotsList
     {
+        public int Shift { get; set; }
         public DateTime TimeSlotFromTime { get; set; }
 
         public DateTime TimeSlotToTime { get; set; }

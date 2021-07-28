@@ -365,6 +365,7 @@ namespace MyCortex.Repositories.Uesr
         public IList<DoctorShiftModel> DoctorShift_InsertUpdate(DoctorShiftModel obj, Guid Login_Session_Id)
         {
             long InsertId = 0;
+            long Flag = 0;
             foreach (DoctorsId item in obj.Doctor_Id)
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -394,8 +395,9 @@ namespace MyCortex.Repositories.Uesr
                     else
                     {
                         InsertId = long.Parse((dr["Id"].ToString()));
+                        Flag = long.Parse((dr["flag"].ToString()));
                     }
-                    if (InsertId > 0)
+                    if (InsertId > 0 && (Flag == 2 || Flag == 3))
                     {
                         foreach (SelectedDaysList item1 in obj.SelectedDaysList)
                         {
@@ -407,6 +409,7 @@ namespace MyCortex.Repositories.Uesr
                                 param1.Add(new DataParameter("@SHIFT_DATE", item1.Day));
                                 param1.Add(new DataParameter("@SHIFT_STARTTIME", item2.TimeSlotFromTime.TimeOfDay.ToString()));
                                 param1.Add(new DataParameter("@SHIFT_ENDTIME", item2.TimeSlotToTime.TimeOfDay.ToString()));
+                                param1.Add(new DataParameter("@SHIFT", item2.Shift));
                                 param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
                                 param1.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
                                 param1.Add(new DataParameter("@SESSION_ID", Login_Session_Id));

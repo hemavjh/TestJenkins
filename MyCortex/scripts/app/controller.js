@@ -18230,10 +18230,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.page_size = 0;
         $scope.currentTab = "1";
+        $scope.DoctorSave = true;
         $scope.DevicesLists = [];
-        $scope.SelectedDepartment = "";
-        $scope.SelectedSpecialist = "";
-        $scope.SelectedCCCG = "";
+        $scope.SelectedDepartment = [];
+        $scope.SelectedSpecialist = [];
+        $scope.SelectedCCCG = [];
         $scope.ConfigCode = "PAGINATION";
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             if (data[0] != undefined) {
@@ -18357,6 +18358,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.AddSlot = function () {
             $scope.Id = 0;
+            var $sel1 = $('#department');
+            $sel1.multiselect('enable');
+            var $sel2 = $('#Specialist');
+            $sel2.multiselect('enable');
+            var $sel3 = $('#CCCG');
+            $sel3.multiselect('enable');
+            //$scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
             angular.element('#DoctorShiftModal').modal('show');
         }
@@ -18483,7 +18491,14 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.CancelSlot = function () {
             angular.element('#DoctorShiftModal').modal('hide');
         }
-
+        $scope.CancelDoctorShift = function () {
+            $scope.DoctorShiftClear();
+            angular.element('#DoctorShiftModal').modal('hide');
+        }
+        $scope.CancelDoctorShift = function () {
+            $scope.DoctorShiftClear();
+            angular.element('#DoctorShiftModal').modal('hide');
+        }
         $scope.ViewAppoinmentpopup = function () {
             angular.element('#ViewDoctorShiftModal').modal('show');
         }
@@ -18523,123 +18538,124 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     var Day = value.Day.toString();
                     if (Day.includes("Sun") == true) {
                         var shift1 = {};
-                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot1), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot2) }
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot1), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot2), Shift: 1 }
                         value.TimeSlot[0] = shift1;
 
                         var shift2 = {};
-                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot3), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot4) }
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot3), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot4), Shift: 2 }
                         value.TimeSlot[1] = shift2;
 
                         var shift3 = {};
-                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot5), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot6) }
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot5), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot6), Shift: 3 }
                         value.TimeSlot[2] = shift3;
 
                         var shift4 = {};
-                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot43), TimeSlotToTime: Convert12To24Timeformat( $scope.TimeSlot44) }
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot43), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot44), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
                     else if (Day.includes("Mon") == true) {
                         var shift1 = {};
-                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot7), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot8) }
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot7), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot8), Shift: 1 }
                         value.TimeSlot[0] = shift1;
 
                         var shift2 = {};
-                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot9), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot10) }
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot9), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot10), Shift: 2 }
                         value.TimeSlot[1] = shift2;
 
                         var shift3 = {};
-                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot11), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot12) }
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot11), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot12), Shift: 3 }
                         value.TimeSlot[2] = shift3;
 
                         var shift4 = {};
-                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot45), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot46) }
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot45), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot46), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
                     else if (Day.includes("Tue") == true) {
                         var shift1 = {};
-                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot13), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot14) }
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot13), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot14), Shift: 1 }
                         value.TimeSlot[0] = shift1;
 
                         var shift2 = {};
-                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot15), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot16) }
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot15), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot16), Shift: 2 }
                         value.TimeSlot[1] = shift2;
 
                         var shift3 = {};
-                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot17), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot18) }
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot17), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot18), Shift: 3 }
                         value.TimeSlot[2] = shift3;
 
                         var shift4 = {};
-                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot47), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot48) }
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot47), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot48), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
                     else if (Day.includes("Wed") == true) {
                         var shift1 = {};
-                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot19), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot20) }
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot19), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot20), Shift: 1 }
                         value.TimeSlot[0] = shift1;
 
                         var shift2 = {};
-                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot21), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot22) }
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot21), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot22), Shift: 2 }
                         value.TimeSlot[1] = shift2;
 
                         var shift3 = {};
-                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot23), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot24) }
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot23), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot24), Shift: 3 }
                         value.TimeSlot[2] = shift3;
 
                         var shift4 = {};
-                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot49), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot50) }
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot49), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot50), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
                     else if (Day.includes("Thu") == true) {
                         var shift1 = {};
-                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot25), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot26) }
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot25), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot26), Shift: 1 }
                         value.TimeSlot[0] = shift1;
 
                         var shift2 = {};
-                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot27), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot28) }
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot27), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot28), Shift: 2 }
                         value.TimeSlot[1] = shift2;
 
                         var shift3 = {};
-                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot29), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot30) }
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot29), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot30), Shift: 3 }
                         value.TimeSlot[2] = shift3;
 
                         var shift4 = {};
-                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot51), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot52) }
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot51), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot52), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
                     else if (Day.includes("Fri") == true) {
                         var shift1 = {};
-                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot31), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot32) }
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot31), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot32), Shift: 1 }
                         value.TimeSlot[0] = shift1;
 
                         var shift2 = {};
-                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot33), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot34) }
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot33), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot34), Shift: 2 }
                         value.TimeSlot[1] = shift2;
 
                         var shift3 = {};
-                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot35), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot36) }
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot35), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot36), Shift: 3 }
                         value.TimeSlot[2] = shift3;
 
                         var shift4 = {};
-                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot53), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot54) }
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot53), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot54), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
                     else if (Day.includes("Sat") == true) {
                         var shift1 = {};
-                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot37), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot38) }
+                        shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot37), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot38), Shift: 1 }
                         value.TimeSlot[0] = shift1;
 
                         var shift2 = {};
-                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot39), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot40) }
+                        shift2 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot39), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot40), Shift: 2 }
                         value.TimeSlot[1] = shift2;
 
                         var shift3 = {};
-                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot41), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot42) }
+                        shift3 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot41), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot42), Shift: 3 }
                         value.TimeSlot[2] = shift3;
 
                         var shift4 = {};
-                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot55), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot56) }
+                        shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot55), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot56), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
+                    value.Day = moment(value.Day).format('DD-MMM-YYYY');
                 });
 
                 var obj = {
@@ -18662,8 +18678,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
-                    //$scope.DeviceList();
-                    //$scope.CancelDeviceList();
+                    $scope.DoctorShiftClear();
+                    $scope.CancelDoctorShift();
+                    $scope.DoctorShiftListGo();
 
                 }).error(function (data) {
                     $scope.error = "An error has occurred while Adding Docor Shift" + data;
@@ -19188,6 +19205,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.onDateRange = function () {
             if ((typeof $scope.FromDate) != undefined && $scope.FromDate != "" && (typeof ($scope.ToDate) != undefined && $scope.ToDate != 0)) {
                 $scope.SelectedDays = dateRange($scope.FromDate, $scope.ToDate);
+                $('#SundayCheck').hide();
+                $('#MondayCheck').hide();
+                $('#TuesdayCheck').hide();
+                $('#WednesdayCheck').hide();
+                $('#ThursdayCheck').hide();
+                $('#FridayCheck').hide();
+                $('#SaturdayCheck').hide();
                 $("#SundayId").attr("disabled", true);
                 $("#MondayId").attr("disabled", true);
                 $("#TuesdayId").attr("disabled", true);
@@ -19200,24 +19224,38 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     var Day = value.Day.toString();
                     if (Day.includes("Sun") == true) {
                         $("#SundayId").removeAttr("disabled");
+                        $('#SundayId').attr('checked', true);
+                        $('#SundayCheck').show();
                     }
                     if (Day.includes("Mon") == true) {
                         $("#MondayId").removeAttr("disabled");
+                        $('#MondayId').attr('checked', true);
+                        $('#MondayCheck').show();
                     }
                     if (Day.includes("Tue") == true) {
                         $("#TuesdayId").removeAttr("disabled");
+                        $('#TuesdayId').attr('checked', true);
+                        $('#TuesdayCheck').show();
                     }
                     if (Day.includes("Wed") == true) {
                         $("#WednesdayId").removeAttr("disabled");
+                        $('#WednesdayId').attr('checked', true);
+                        $('#WednesdayCheck').show();
                     }
                     if (Day.includes("Thu") == true) {
                         $("#ThursdayId").removeAttr("disabled");
+                        $('#ThursdayId').attr('checked', true);
+                        $('#ThursdayCheck').show();
                     }
                     if (Day.includes("Fri") == true) {
                         $("#FridayId").removeAttr("disabled");
+                        $('#FridayId').attr('checked', true);
+                        $('#FridayCheck').show();
                     }
                     if (Day.includes("Sat") == true) {
                         $("#SaturdayId").removeAttr("disabled");
+                        $('#SaturdayId').attr('checked', true);
+                        $('#SaturdayCheck').show();
                     }
                 });
             }
@@ -19254,20 +19292,22 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.DoctorShiftClear();
             $scope.Id = DId;
             $scope.DoctorShift_View(DoctorId);
-            angular.element('#ViewDoctorShiftModal').modal('show');
+            $scope.ViewShiftDoctor();
+            angular.element('#DoctorShiftModal').modal('show');
 
         };
         /* on click Edit, edit popup opened*/
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId) {
-            if (activeFlag == 1) {
-                $scope.DoctorShiftClear();
-                $scope.Id = DId;
-                $scope.DoctorShift_View(DoctorId);
-                angular.element('#DoctorShiftModal').modal('show');
-            }
-            else {
-                alert("Inactive record cannot be edited");
-            }
+            //if (activeFlag == 1) {
+            $scope.DoctorShiftClear();
+            $scope.Id = DId;
+            $scope.DoctorShift_View(DoctorId);
+            $scope.EditShiftDoctor();
+            angular.element('#DoctorShiftModal').modal('show');
+            //}
+            //else {
+            //    alert("Inactive record cannot be edited");
+            //}
         };
         /* 
      Calling api method for the dropdown list in the html page for the fields 
@@ -19580,39 +19620,214 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         }
 
         $scope.DoctorShiftClear = function () {
-            $scope.Institution_Name = "";
-            $scope.Doctor_Id = "0";
-            $scope.Doctor_Id1 = "0";
-            $scope.Doctor_Id = [];
-            //$scope.Doctor_Id = "";
-            $scope.Doctor_Name = "";
-            //   $scope.DoctorList =[];
-            $scope.SundayShift = [];
-            $scope.MondayShift = [];
-            $scope.TuesdayShift = [];
-            $scope.WednessdayShift = [];
-            $scope.ThursdayShift = [];
-            $scope.FridayShift = [];
-            $scope.SaturdayShift = [];
+            $scope.currentTab = "1";
+            $scope.SelectedDepartment = [];
+            $scope.SelectedSpecialist = [];
+            $scope.SelectedCCCG = [];
             $scope.FromDate = "";
             $scope.ToDate = "";
-
-            $scope.EditSundayChildModuleList = [];
-            $scope.EditMondayChildModuleList = [];
-            $scope.EditTuesdayChildModuleList = [];
-            $scope.EditWednessdayChildModuleList = [];
-            $scope.EditThursdayChildModuleList = [];
-            $scope.EditFridayChildModuleList = [];
-            $scope.EditSaturdayChildModuleList = [];
-
-            $scope.SundayShiftview = "";
-            $scope.MondayShiftview = "";
-            $scope.TuesdayShiftview = "";
-            $scope.WednessdayShiftview = "";
-            $scope.ThursdayShiftview = "";
-            $scope.FridayShiftview = "";
-            $scope.SaturdayShiftview = "";
+            $scope.NewAppointment = "0";
+            $scope.followup = "0";
+            $scope.IntervalBt = "0";
+            $scope.CustomSlot = "0";
+            $scope.Days = "0";
+            $scope.Minutes = "0";
+            $('#SundayCheck').hide();
+            $('#MondayCheck').hide();
+            $('#TuesdayCheck').hide();
+            $('#WednesdayCheck').hide();
+            $('#ThursdayCheck').hide();
+            $('#FridayCheck').hide();
+            $('#SaturdayCheck').hide();
+            $("#SundayId").attr("disabled", true);
+            $("#MondayId").attr("disabled", true);
+            $("#TuesdayId").attr("disabled", true);
+            $("#WednesdayId").attr("disabled", true);
+            $("#ThursdayId").attr("disabled", true);
+            $("#FridayId").attr("disabled", true);
+            $("#SaturdayId").attr("disabled", true);
+            $('#SundayId').prop('checked', false);
+            $('#MondayId').prop("checked", false);
+            $('#TuesdayId').prop('checked', false);
+            $('#WednesdayId').prop("checked", false);
+            $('#ThursdayId').prop('checked', false);
+            $('#FridayId').prop('checked', false);
+            $('#SaturdayId').prop('checked', false);
+            $('#OrgDefaultId').prop('checked', false);
+            $('#OrgBookInfoId').prop("checked", false);
+            $scope.TimeslotClear();
         }
+
+        $scope.ViewShiftDoctor = function () {
+            $scope.currentTab = "1";
+            $scope.DoctorSave = false;
+            var $sel1 = $('#department');
+            $sel1.multiselect('disable');
+            var $sel2 = $('#Specialist');
+            $sel2.multiselect('disable');
+            var $sel3 = $('#CCCG');
+            $sel3.multiselect('disable');
+            document.getElementById("FromDate").disabled = true;
+            document.getElementById("ToDate").disabled = true;
+            $("#OrgDefaultId").attr("disabled", true);
+            $("#OrgBookInfoId").attr("disabled", true);
+            $('#NewAppointment').prop('disabled', true);
+            $('#followup').prop('disabled', true);
+            $('#IntervalBt').prop('disabled', true);
+            $('#CustomSlot').prop('disabled', true);
+            $('#Days').prop('disabled', true);
+            $('#Minutes').prop('disabled', true);
+            $("#SundayId").attr("disabled", true);
+            $("#MondayId").attr("disabled", true);
+            $("#TuesdayId").attr("disabled", true);
+            $("#WednesdayId").attr("disabled", true);
+            $("#ThursdayId").attr("disabled", true);
+            $("#FridayId").attr("disabled", true);
+            $("#SaturdayId").attr("disabled", true);
+            $('#timepicker1').prop('disabled', true);
+            $('#timepicker2').prop('disabled', true);
+            $('#timepicker3').prop('disabled', true);
+            $('#timepicker4').prop('disabled', true);
+            $('#timepicker5').prop('disabled', true);
+            $('#timepicker6').prop('disabled', true);
+            $('#timepicker7').prop('disabled', true);
+            $('#timepicker8').prop('disabled', true);
+            $('#timepicker9').prop('disabled', true);
+            $('#timepicker10').prop('disabled', true);
+            $('#timepicker11').prop('disabled', true);
+            $('#timepicker12').prop('disabled', true);
+            $('#timepicker13').prop('disabled', true);
+            $('#timepicker14').prop('disabled', true);
+            $('#timepicker15').prop('disabled', true);
+            $('#timepicker16').prop('disabled', true);
+            $('#timepicker17').prop('disabled', true);
+            $('#timepicker18').prop('disabled', true);
+            $('#timepicker19').prop('disabled', true);
+            $('#timepicker20').prop('disabled', true);
+            $('#timepicker21').prop('disabled', true);
+            $('#timepicker22').prop('disabled', true);
+            $('#timepicker23').prop('disabled', true);
+            $('#timepicker24').prop('disabled', true);
+            $('#timepicker25').prop('disabled', true);
+            $('#timepicker26').prop('disabled', true);
+            $('#timepicker27').prop('disabled', true);
+            $('#timepicker28').prop('disabled', true);
+            $('#timepicker29').prop('disabled', true);
+            $('#timepicker30').prop('disabled', true);
+            $('#timepicker31').prop('disabled', true);
+            $('#timepicker32').prop('disabled', true);
+            $('#timepicker33').prop('disabled', true);
+            $('#timepicker34').prop('disabled', true);
+            $('#timepicker35').prop('disabled', true);
+            $('#timepicker36').prop('disabled', true);
+            $('#timepicker37').prop('disabled', true);
+            $('#timepicker38').prop('disabled', true);
+            $('#timepicker39').prop('disabled', true);
+            $('#timepicker40').prop('disabled', true);
+            $('#timepicker41').prop('disabled', true);
+            $('#timepicker42').prop('disabled', true);
+            $('#timepicker43').prop('disabled', true);
+            $('#timepicker44').prop('disabled', true);
+            $('#timepicker45').prop('disabled', true);
+            $('#timepicker46').prop('disabled', true);
+            $('#timepicker47').prop('disabled', true);
+            $('#timepicker48').prop('disabled', true);
+            $('#timepicker49').prop('disabled', true);
+            $('#timepicker50').prop('disabled', true);
+            $('#timepicker51').prop('disabled', true);
+            $('#timepicker52').prop('disabled', true);
+            $('#timepicker53').prop('disabled', true);
+            $('#timepicker54').prop('disabled', true);
+            $('#timepicker55').prop('disabled', true);
+            $('#timepicker56').prop('disabled', true);
+        }
+
+        $scope.EditShiftDoctor = function () {
+            $scope.currentTab = "1";
+            $scope.DoctorSave = true;
+
+            var $sel1 = $('#department');
+            $sel1.multiselect('enable');
+            var $sel2 = $('#Specialist');
+            $sel2.multiselect('enable');
+            var $sel3 = $('#CCCG');
+            $sel3.multiselect('enable');
+
+            document.getElementById("FromDate").disabled = false;
+            document.getElementById("ToDate").disabled = false;
+            $("#OrgDefaultId").attr("disabled", false);
+            $("#OrgBookInfoId").attr("disabled", false);
+            $('#NewAppointment').prop('disabled', false);
+            $('#followup').prop('disabled', false);
+            $('#IntervalBt').prop('disabled', false);
+            $('#CustomSlot').prop('disabled', false);
+            $('#Days').prop('disabled', false);
+            $('#Minutes').prop('disabled', false);
+            $("#SundayId").attr("disabled", false);
+            $("#MondayId").attr("disabled", false);
+            $("#TuesdayId").attr("disabled", false);
+            $("#WednesdayId").attr("disabled", false);
+            $("#ThursdayId").attr("disabled", false);
+            $("#FridayId").attr("disabled", false);
+            $("#SaturdayId").attr("disabled", false);
+            $('#timepicker1').prop('disabled', false);
+            $('#timepicker2').prop('disabled', false);
+            $('#timepicker3').prop('disabled', false);
+            $('#timepicker4').prop('disabled', false);
+            $('#timepicker5').prop('disabled', false);
+            $('#timepicker6').prop('disabled', false);
+            $('#timepicker7').prop('disabled', false);
+            $('#timepicker8').prop('disabled', false);
+            $('#timepicker9').prop('disabled', false);
+            $('#timepicker10').prop('disabled', false);
+            $('#timepicker11').prop('disabled', false);
+            $('#timepicker12').prop('disabled', false);
+            $('#timepicker13').prop('disabled', false);
+            $('#timepicker14').prop('disabled', false);
+            $('#timepicker15').prop('disabled', false);
+            $('#timepicker16').prop('disabled', false);
+            $('#timepicker17').prop('disabled', false);
+            $('#timepicker18').prop('disabled', false);
+            $('#timepicker19').prop('disabled', false);
+            $('#timepicker20').prop('disabled', false);
+            $('#timepicker21').prop('disabled', false);
+            $('#timepicker22').prop('disabled', false);
+            $('#timepicker23').prop('disabled', false);
+            $('#timepicker24').prop('disabled', false);
+            $('#timepicker25').prop('disabled', false);
+            $('#timepicker26').prop('disabled', false);
+            $('#timepicker27').prop('disabled', false);
+            $('#timepicker28').prop('disabled', false);
+            $('#timepicker29').prop('disabled', false);
+            $('#timepicker30').prop('disabled', false);
+            $('#timepicker31').prop('disabled', false);
+            $('#timepicker32').prop('disabled', false);
+            $('#timepicker33').prop('disabled', false);
+            $('#timepicker34').prop('disabled', false);
+            $('#timepicker35').prop('disabled', false);
+            $('#timepicker36').prop('disabled', false);
+            $('#timepicker37').prop('disabled', false);
+            $('#timepicker38').prop('disabled', false);
+            $('#timepicker39').prop('disabled', false);
+            $('#timepicker40').prop('disabled', false);
+            $('#timepicker41').prop('disabled', false);
+            $('#timepicker42').prop('disabled', false);
+            $('#timepicker43').prop('disabled', false);
+            $('#timepicker44').prop('disabled', false);
+            $('#timepicker45').prop('disabled', false);
+            $('#timepicker46').prop('disabled', false);
+            $('#timepicker47').prop('disabled', false);
+            $('#timepicker48').prop('disabled', false);
+            $('#timepicker49').prop('disabled', false);
+            $('#timepicker50').prop('disabled', false);
+            $('#timepicker51').prop('disabled', false);
+            $('#timepicker52').prop('disabled', false);
+            $('#timepicker53').prop('disabled', false);
+            $('#timepicker54').prop('disabled', false);
+            $('#timepicker55').prop('disabled', false);
+            $('#timepicker56').prop('disabled', false);
+        }
+
 
         $scope.SundayShift2 = [];
         $scope.MondayShift2 = [];
@@ -19634,7 +19849,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.ISact = 1  //active
                 }
                 else if ($scope.IsActive == false) {
-                    $scope.ISact = -1 //all
+                    $scope.ISact = 0 //all
                 }
 
                 $http.get(baseUrl + '/api/DoctorShift/DoctorShift_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
@@ -19693,101 +19908,358 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
             }
-            $scope.SundayShift1 = [];
-            $scope.MondayShift1 = [];
-            $scope.TuesdayShift1 = [];
-            $scope.WednessdayShift1 = [];
-            $scope.ThursdayShift1 = [];
-            $scope.FridayShift1 = [];
-            $scope.SaturdayShift1 = [];
-            $http.get(baseUrl + '/api/DoctorShift/DoctorShift_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                //   $scope.Id = data.Id;
-                $scope.Doctor_Id1 = data.Doctor_Id.toString();
-                $scope.Doctor_Name = data.Doctor_Name;
-                $scope.FromDate = DateFormatEdit($filter('date')(data.FromDate, "dd-MMM-yyyy"));
-                $scope.ToDate = DateFormatEdit($filter('date')(data.ToDate, "dd-MMM-yyyy"));
-                $scope.EditSelectedDoctor.push(data.Doctor_Id);
-                $scope.Doctor_Id = $scope.EditSelectedDoctor;
+            $http.get(baseUrl + '/api/DoctorShift/DoctorShift_View/?Id=' + DoctorId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                if (data != null) {
+                    $scope.SelectedSpecialist.push(data.DoctorId);
+                    $scope.SelectedDepartment.push(data.DepartmentId);
+                    $scope.FromDate = DateFormatEdit($filter('date')(data.FromDate, "dd-MMM-yyyy"));
+                    $scope.ToDate = DateFormatEdit($filter('date')(data.ToDate, "dd-MMM-yyyy"));
+                    $scope.onDateRange();
+                    $('#OrgDefaultId').prop('checked', true);
+                    $('#OrgBookInfoId').prop("checked", true);
+                    $scope.NewAppointment = data.NewAppointment;
+                    $scope.followup = data.FollowUp;
+                    $scope.IntervalBt = data.Intervel;
+                    $scope.CustomSlot = data.CustomSlot;
+                    $scope.Days = data.BookingOpen;
+                    $scope.Minutes = data.BookingCancelLock;
+                    angular.forEach(data.SelectedDaysList, function (value, index) {
+                        //Day = value.Day.toString();
+                        Day = DateFormatEdit($filter('date')(value.Day, "dd-MMM-yyyy")).toString();
+                        if (Day.includes("Sun") == true) {
+                            $('#SundayId').prop('checked', true);
+                            if (value.SHIFT == 1) {
+                                var From = value.TimeSlotFromTime;
+                                var From1 = From.split('T')[1];
+                                var Set_Time = From1.slice(0, 5);
+                                $scope.TimeSlot1 = Convert24to12Timeformat(Set_Time);
 
-                // var weekDays = {Sunday:[],Monday:[],Tuesday:[],Wednesday:[],Thursday:[],Friday:[],Saturday:[]}
-                var shiftName = $ff(data.ChildModuleList, function (value) {
-                    if (value.WeekdayName == $scope.day1) {
-                        if ($scope.SundayShiftview == "") {
-                            $scope.SundayShiftview = ($scope.SundayShiftview + value.ShiftName);
-                        }
-                        else {
-                            $scope.SundayShiftview = $scope.SundayShiftview + "," + value.ShiftName;
-                        }
-                        return $scope.SundayShift1.push(value.Shift_Id)
-                        //$scope.SundayShift = $scope.SundayShift;
-                    }
-                    if (value.WeekdayName == $scope.day2) {
-                        if ($scope.MondayShiftview == "") {
-                            $scope.MondayShiftview = $scope.MondayShiftview + value.ShiftName;
-                        }
-                        else {
-                            $scope.MondayShiftview = $scope.MondayShiftview + "," + value.ShiftName;
-                        }
-                        return $scope.MondayShift1.push(value.Shift_Id)
-                    }
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot2 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 2) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot3 = Convert24to12Timeformat(Set_Time);
 
-                    if (value.WeekdayName == $scope.day3) {
-                        if ($scope.TuesdayShiftview == "") {
-                            $scope.TuesdayShiftview = $scope.TuesdayShiftview + value.ShiftName;
-                        }
-                        else {
-                            $scope.TuesdayShiftview = $scope.TuesdayShiftview + "," + value.ShiftName;
-                        }
-                        return $scope.TuesdayShift1.push(value.Shift_Id)
-                    }
-                    if (value.WeekdayName == $scope.day4) {
-                        if ($scope.WednessdayShiftview == "") {
-                            $scope.WednessdayShiftview = $scope.WednessdayShiftview + value.ShiftName;
-                        }
-                        else {
-                            $scope.WednessdayShiftview = $scope.WednessdayShiftview + "," + value.ShiftName;
-                        }
-                        return $scope.WednessdayShift1.push(value.Shift_Id)
-                    }
-                    if (value.WeekdayName == $scope.day5) {
-                        if ($scope.ThursdayShiftview == "") {
-                            $scope.ThursdayShiftview = $scope.ThursdayShiftview + value.ShiftName;
-                        }
-                        else {
-                            $scope.ThursdayShiftview = $scope.ThursdayShiftview + "," + value.ShiftName;
-                        }
-                        return $scope.ThursdayShift1.push(value.Shift_Id)
-                    }
-                    if (value.WeekdayName == $scope.day6) {
-                        if ($scope.FridayShiftview == "") {
-                            $scope.FridayShiftview = $scope.FridayShiftview + value.ShiftName;
-                        }
-                        else {
-                            $scope.FridayShiftview = $scope.FridayShiftview + "," + value.ShiftName;
-                        }
-                        return $scope.FridayShift1.push(value.Shift_Id)
-                    }
-                    if (value.WeekdayName == $scope.day7) {
-                        if ($scope.SaturdayShiftview == "") {
-                            $scope.SaturdayShiftview = $scope.SaturdayShiftview + value.ShiftName;
-                        }
-                        else {
-                            $scope.SaturdayShiftview = $scope.SaturdayShiftview + "," + value.ShiftName;
-                        }
-                        return $scope.SaturdayShift1.push(value.Shift_Id)
-                    }
-                })
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot4 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 3) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot5 = Convert24to12Timeformat(Set_Time);
 
-                //$scope.MondayShift=[2,3];
-                $scope.SundayShift = $scope.SundayShift1;
-                $scope.MondayShift = $scope.MondayShift1;
-                $scope.TuesdayShift = $scope.TuesdayShift1;
-                $scope.WednessdayShift = $scope.WednessdayShift1;
-                $scope.ThursdayShift = $scope.ThursdayShift1;
-                $scope.FridayShift = $scope.FridayShift1;
-                $scope.SaturdayShift = $scope.SaturdayShift1;
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot6 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 4) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot43 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot44 = Convert24to12Timeformat(Set_Time1);
+                            }
+
+                        }
+                        if (Day.includes("Mon") == true) {
+                            $('#MondayId').prop('checked', true);
+                            if (value.SHIFT == 1) {
+                                var From = value.TimeSlotFromTime;
+                                var From1 = From.split('T')[1];
+                                var Set_Time = From1.slice(0, 5);
+                                $scope.TimeSlot7 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot8 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 2) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot9 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot10 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 3) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot11 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot12 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 4) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot45 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot46 = Convert24to12Timeformat(Set_Time1);
+                            }
+                        }
+                        if (Day.includes("Tue") == true) {
+                            $('#TuesdayId').prop('checked', true);
+                            if (value.SHIFT == 1) {
+                                var From = value.TimeSlotFromTime;
+                                var From1 = From.split('T')[1];
+                                var Set_Time = From1.slice(0, 5);
+                                $scope.TimeSlot13 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot14 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 2) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot15 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot16 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 3) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot17 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot18 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 4) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot47 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot48 = Convert24to12Timeformat(Set_Time1);
+                            }
+                        }
+                        if (Day.includes("Wed") == true) {
+                            $('#WednesdayId').prop('checked', true);
+                            if (value.SHIFT == 1) {
+                                var From = value.TimeSlotFromTime;
+                                var From1 = From.split('T')[1];
+                                var Set_Time = From1.slice(0, 5);
+                                $scope.TimeSlot19 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot20 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 2) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot21 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot22 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 3) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot23 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot24 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 4) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot49 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot50 = Convert24to12Timeformat(Set_Time1);
+                            }
+                        }
+                        if (Day.includes("Thu") == true) {
+                            $('#ThursdayId').prop('checked', true);
+                            if (value.SHIFT == 1) {
+                                var From = value.TimeSlotFromTime;
+                                var From1 = From.split('T')[1];
+                                var Set_Time = From1.slice(0, 5);
+                                $scope.TimeSlot25 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot26 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 2) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot27 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot28 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 3) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot29 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot30 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 4) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot51 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot52 = Convert24to12Timeformat(Set_Time1);
+                            }
+                        }
+                        if (Day.includes("Fri") == true) {
+                            $('#FridayId').prop('checked', true);
+                            if (value.SHIFT == 1) {
+                                var From = value.TimeSlotFromTime;
+                                var From1 = From.split('T')[1];
+                                var Set_Time = From1.slice(0, 5);
+                                $scope.TimeSlot31 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot32 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 2) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot33 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot34 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 3) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot35 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot36 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 4) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot53 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot54 = Convert24to12Timeformat(Set_Time1);
+                            }
+                        }
+                        if (Day.includes("Sat") == true) {
+                            $('#SaturdayId').prop('checked', true);
+                            if (value.SHIFT == 1) {
+                                var From = value.TimeSlotFromTime;
+                                var From1 = From.split('T')[1];
+                                var Set_Time = From1.slice(0, 5);
+                                $scope.TimeSlot37 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot38 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 2) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot39 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot40 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 3) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot41 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot42 = Convert24to12Timeformat(Set_Time1);
+                            }
+                            if (value.SHIFT == 4) {
+                                var From = value.TimeSlotFromTime;
+                                var From_To = From.split('T')[1];
+                                var Set_Time = From_To.slice(0, 5);
+                                $scope.TimeSlot55 = Convert24to12Timeformat(Set_Time);
+
+                                var To = value.TimeSlotToTime;
+                                var To1 = To.split('T')[1];
+                                var Set_Time1 = To1.slice(0, 5);
+                                $scope.TimeSlot56 = Convert24to12Timeformat(Set_Time1);
+                            }
+                        }
+
+                    });
+                }
                 $("#chatLoaderPV").hide();
-
             })
         };
 
@@ -19796,8 +20268,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         for the Doctor shift Id,
         and redirected to the list page.
         */
-        $scope.DeleteDoctorShift = function (comId) {
-            $scope.Id = comId;
+        $scope.DeleteDoctorShift = function (ID, DoctorId) {
+            $scope.Id = ID;
             $scope.DoctorShift_Delete();
         };
         $scope.DoctorShift_Delete = function () {
@@ -19837,7 +20309,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     alert("Activate Doctor Shift is already created, Please check");
                 }
                 else {
-                    var Ins = confirm("Do you like to activate the selected Appoinment Slot?");
+                    var Ins = confirm("Do you like to activate the selected Doctor Shift?");
                     if (Ins == true) {
                         var obj =
                         {
@@ -19848,7 +20320,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             alert(data.Message);
                             $scope.DoctorShiftListGo();
                         }).error(function (data) {
-                            $scope.error = "An error has occurred while ReInsertAppoinment Slot" + data;
+                            $scope.error = "An error has occurred while ReInsertDoctor Shift" + data;
                         });
                     };
                 }

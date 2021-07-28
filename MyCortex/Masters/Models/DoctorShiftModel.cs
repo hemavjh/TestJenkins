@@ -16,6 +16,67 @@ namespace MyCortex.Masters.Models
         public string WeekDayNumber { get; set; }
         public int OrderNumber { get; set; }
     }
+    public class New_DoctorShiftModel
+    {
+        public long ID { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int NewAppointment { get; set; }
+        public int FollowUp { get; set; }
+        public int Intervel { get; set; }
+        public int CustomSlot { get; set; }
+        public int BookingOpen { get; set; }
+        public int BookingCancelLock { get; set; }
+        public long Institution_Id { get; set; }
+        public long CreatedBy { get; set; }
+        public long ModifiedBy { get; set; }
+        public int Flag { get; set; }
+        public long DoctorId { get; set; }
+        public IList<SelectedDaysList> SelectedDaysList { get; set; }
+        public IList<SlotsList> TimeSlot { get; set; }
+        public IList<DoctorsId> Doctor_Id { get; set; }
+        public long INSTITUTION_ID { get; set; }
+        public int IsActive { get; set; }
+
+        public long DepartmentId { get; set; }
+
+        public string Doctor_Name { get; set; }
+    }
+    public class DoctorsId
+    {
+        public long DoctorId { get; set; }
+        public int IsActive { get; set; }
+    }
+    public class SlotsList
+    {
+        public DateTime Day { get; set; }
+        public int SHIFT { get; set; }
+        public DateTime TimeSlotFromTime { get; set; }
+
+        public DateTime TimeSlotToTime { get; set; }
+    }
+    public class SelectedDaysList
+    {
+        public long Id { get; set; }
+        //public long DoctorShiftId { get; set; }
+
+        public DateTime Day { get; set; }
+        public IList<SlotsList> TimeSlot { get; set; }
+
+        //public DateTime CreatedAt { get; set; }
+
+        //public string CreatedBy { get; set; }
+        public DateTime TimeSlotFromTime { get; set; }
+
+        public DateTime TimeSlotToTime { get; set; }
+
+        public int SHIFT { get; set; }
+
+        //public int IsActive { get; set; }
+
+        //public long ShiftId { get; set; }
+
+    }
     public class DoctorShiftModel
     {
         public long Id { get; set; }

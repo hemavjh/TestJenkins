@@ -29,34 +29,37 @@ namespace MyCortex.Repositories.Masters
         /// </summary>        
         /// <param name="Id">Id of a Doctor Shift</param>    
         /// <returns>Populated a Doctor Shift Details DataTable </returns>
-        public IList<DoctorShiftDayDetailsModel> DoctorShiftDayDetails_View(long Id)
+        public IList<SelectedDaysList> DoctorShiftDayDetails_View(long Id, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@DoctorShift_id", Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLDOCTORSHIFT_DETAILS_SP_VIEW", param);
-                List<DoctorShiftDayDetailsModel> INS = (from p in dt.AsEnumerable()
-                                                        select
-                                                        new DoctorShiftDayDetailsModel()
-                                                        {
-                                                            Id = p.Field<long>("Id"),
-                                                            DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
-                                                            WeekdayName = p.Field<string>("WEEKDAYNAME"),
-                                               //Sunday = p.Field<string>("SUNDAY"),
-                                               //Monday = p.Field<string>("MONDAY"),
-                                               //Tuesday = p.Field<string>("TUESDAY"),
-                                               //Wednessday = p.Field<string>("WEDNESSDAY"),
-                                               //Thursday = p.Field<string>("THURSDAY"),
-                                               //Friday = p.Field<string>("FRIDAY"),
-                                               //Saturday = p.Field<string>("SATURDAY"),
-                                               Shift_Id = p.Field<long?>("SHIFT_ID"),
-                                                            ShiftName = p.Field<string>("SHIFTNAME"),
-                                                            IsActive = p.Field<int>("ISACTIVE"),
-                                                            Created_By = p.Field<long>("CREATED_BY"),
-                                                            Modified_By = p.Field<long?>("MODIFIED_BY"),
-                                                        }).ToList();
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Doctor_Shift_Details_WithDates_SP]", param);
+                List<SelectedDaysList> INS = (from p in dt.AsEnumerable()
+                                              select
+                                              new SelectedDaysList()
+                                              {
+                                                  //Id = p.Field<long>("Id"),
+                                                  Day = p.Field<DateTime>("SHIFT_DATE"),
+                                                  TimeSlotFromTime = p.Field<DateTime>("SHIFT_Starttime"),
+                                                  TimeSlotToTime = p.Field<DateTime>("SHIFT_Endtime"),
+                                                  SHIFT = p.Field<int>("SHIFT_No"),
+                                                  //Sunday = p.Field<string>("SUNDAY"),
+                                                  //Monday = p.Field<string>("MONDAY"),
+                                                  //Tuesday = p.Field<string>("TUESDAY"),
+                                                  //Wednessday = p.Field<string>("WEDNESSDAY"),
+                                                  //Thursday = p.Field<string>("THURSDAY"),
+                                                  //Friday = p.Field<string>("FRIDAY"),
+                                                  //Saturday = p.Field<string>("SATURDAY"),
+                                                  //Shift_Id = p.Field<long?>("SHIFT_ID"),
+                                                  //ShiftName = p.Field<string>("SHIFTNAME"),
+                                                  //IsActive = p.Field<int>("ISACTIVE"),
+                                                  //Created_By = p.Field<long>("CREATED_BY"),
+                                                  //Modified_By = p.Field<long?>("MODIFIED_BY"),
+                                              }).ToList();
                 return INS;
             }
             catch (Exception ex)
@@ -75,25 +78,26 @@ namespace MyCortex.Repositories.Masters
         /// <param name="Id">Id of a Institution Id</param> 
         /// <param name="Id">Id of a Doctor Id</param> 
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
-        public IList<DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
+        public IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             DataEncryption DecryptFields = new DataEncryption();
-            param.Add(new DataParameter("@IsActive", IsActive));
+            //param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLDOCTORSHIFT_SP_LIST", param);
-                List<DoctorShiftModel> list = (from p in dt.AsEnumerable()
-                                               select new DoctorShiftModel()
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLDOCTORSHIFT_SP_VIEWLIST]", param);
+                List<New_DoctorShiftModel> list = (from p in dt.AsEnumerable()
+                                               select new New_DoctorShiftModel()
                                                {
-                                                   Id = p.Field<long>("ID"),
-                                                   Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                   ID = p.Field<long>("ID"),
+                                                   DoctorId = p.Field<long>("DOCTOR_ID"),
                                                    Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                   DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
-                                                   WeekDayName = p.Field<string>("WEEKDAYNAME"),
+                                                   //DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
+                                                   //WeekDayName = p.Field<string>("WEEKDAYNAME"),
                                                    //Sunday = p.Field<string>("SUNDAY"),
                                                    //Monday = p.Field<string>("MONDAY"),
                                                    //Tuesday = p.Field<string>("TUESDAY"),
@@ -102,9 +106,9 @@ namespace MyCortex.Repositories.Masters
                                                    //Friday = p.Field<string>("FRIDAY"),
                                                    //Saturday = p.Field<string>("SATURDAY"),
                                                    //Shift_Id = p.Field<long?>("SHIFT_ID"),
-                                                   ShiftName = p.Field<string>("SHIFTNAME"),
-                                                   FromDate = p.Field<DateTime?>("FROMDATE"),
-                                                   ToDate = p.Field<DateTime?>("TODATE"),
+                                                   //ShiftName = p.Field<string>("SHIFTNAME"),
+                                                   FromDate = p.Field<DateTime>("FROMDATE"),
+                                                   ToDate = p.Field<DateTime>("TODATE"),
                                                    IsActive = p.Field<int>("ISACTIVE")
                                                }).ToList();
                 return list;
@@ -355,33 +359,36 @@ namespace MyCortex.Repositories.Masters
         /// </summary>      
         /// <param name="Id">Id of a Doctor Shift</param>        
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
-        public DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id)
+        public New_DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@doctor_id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLDOCTORSHIFT_SP_VIEW]", param);
-                DoctorShiftModel INS = (from p in dt.AsEnumerable()
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Doctor_Shift_Details_SP]", param);
+                New_DoctorShiftModel INS = (from p in dt.AsEnumerable()
                                         select
-                                        new DoctorShiftModel()
+                                        new New_DoctorShiftModel()
                                         {
-                                            Id = p.Field<long>("Id"),
-                                            Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                            Institution_Name = p.Field<string>("INSTITUTION_NAME"),
-                                            Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                            Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                            FromDate = p.Field<DateTime?>("FROMDATE"),
-                                            ToDate = p.Field<DateTime?>("TODATE"),
-                                            IsActive = p.Field<int>("ISACTIVE"),
-                                            Created_By = p.Field<long>("CREATED_BY"),
-                                            Modified_By = p.Field<long?>("MODIFIED_BY"),
-                                            Department_Name = p.Field<string>("DEPARTMENT_NAME"),
+                                            ID = p.Field<long>("ID"),
+                                            DoctorId = p.Field<long>("DOCTOR_ID"),
+                                            FromDate = p.Field<DateTime>("FROMDATE"),
+                                            ToDate = p.Field<DateTime>("TODATE"),
+                                            //IsActive = p.Field<int>("ISACTIVE"),
+                                            CreatedBy = p.Field<long>("CREATED_BY"),
+                                            //ModifiedBy = p.Field<long>("MODIFIED_BY"),
+                                            NewAppointment = p.Field<int>("NEWAPPOINTMNET"),
+                                            FollowUp = p.Field<int>("FOLLOWUP"),
+                                            Intervel = p.Field<int>("INTERVAL"),
+                                            CustomSlot = p.Field<int>("CUSTOM_SLOT"),
+                                            BookingOpen = p.Field<int>("BOOKING_OPEN"),
+                                            BookingCancelLock = p.Field<int>("BOOKING_CANCEL_LOCK"),
+                                            DepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                         }).FirstOrDefault();
-                INS.ChildModuleList = DoctorShiftDayDetails_View(INS.Id);
+                INS.SelectedDaysList = DoctorShiftDayDetails_View(INS.ID, Login_Session_Id);
                 return INS;
             }
             catch (Exception ex)

@@ -137,15 +137,15 @@
             <tr style="text-align: center">
                 <th st-ratio="5">#</th>
                 <th st-ratio="10" st-sort="Generic_Name">Doctor</th>
-                <th st-ratio="8" st-sort="WeekDayName">Week Day Name</th>
+                <!-- <th st-ratio="8" st-sort="WeekDayName">Week Day Name</th>
                 <th st-ratio="8" st-sort="ShiftName">Shift Name</th>
-                <!-- <th st-ratio="8" st-sort="StrengthName">Sun</th>
-                    <th st-ratio="8" st-sort="Dosage_FromName">Mon</th>
-                    <th st-ratio="8" st-sort="StrengthName">Tue</th>
-                    <th st-ratio="8" st-sort="Dosage_FromName">Wed</th>
-                    <th st-ratio="8" st-sort="StrengthName">Thu</th>
-                    <th st-ratio="8" st-sort="Dosage_FromName">Fri</th>
-                    <th st-ratio="8" st-sort="Dosage_FromName">Sat</th>-->
+                <th st-ratio="8" st-sort="StrengthName">Sun</th>
+                <th st-ratio="8" st-sort="Dosage_FromName">Mon</th>
+                <th st-ratio="8" st-sort="StrengthName">Tue</th>
+                <th st-ratio="8" st-sort="Dosage_FromName">Wed</th>
+                <th st-ratio="8" st-sort="StrengthName">Thu</th>
+                <th st-ratio="8" st-sort="Dosage_FromName">Fri</th>
+                <th st-ratio="8" st-sort="Dosage_FromName">Sat</th>-->
                 <th st-ratio="8" st-sort="FromDate">From Date</th>
                 <th st-ratio="8" st-sort="ToDate">To Date</th>
                 <th st-ratio="8">Action</th>
@@ -163,8 +163,8 @@
                 <td style="text-align: left">
                     <div class="textwrap">{{row.Doctor_Name}}</div>
                 </td>
-                <td style="text-align:left">{{row.WeekDayName}}</td>
-                <td style="text-align:left">{{row.ShiftName}}</td>
+                <!--<td style="text-align:left">{{row.WeekDayName}}</td>
+                <td style="text-align:left">{{row.ShiftName}}</td>-->
                 <!--  <td style="text-align: left">{{SundayShift2}}
                  </td>
                 <td style="text-align: left">{{MondayShift2}}
@@ -187,16 +187,16 @@
                     {{row.ToDate | date:'dd-MMM-yyyy '}}
                 </td>
                 <td style="text-align: center">
-                    <a href="javascript:" ng-click="ViewDoctorShift(row.Id,row.Doctor_Id)" title="View">
+                    <a href="javascript:" ng-click="ViewDoctorShift(row.ID,row.DoctorId)" title="View">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a href="javascript:" title="Edit" ng-click="EditDoctorShift(row.Id, row.IsActive,row.Doctor_Id)">
+                    <a href="javascript:" title="Edit" ng-click="EditDoctorShift(row.ID, row.IsActive,row.DoctorId)">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
-                    <a href="javascript:;" ng-click="DeleteDoctorShift(row.Id)" title="Active">
+                    <a href="javascript:;" ng-click="DeleteDoctorShift(row.ID,row.DoctorId)" title="Active">
                         <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
 
-                        <a href="javascript:" ng-click="ReInsertDoctorShift(row.Id,row.Doctor_Id)" title="Inactive">
+                        <a href="javascript:" ng-click="ReInsertDoctorShift(row.ID,row.DoctorId)" title="Inactive">
                             <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
 
                         </a>
@@ -221,7 +221,7 @@
         <div class="model-content">
             <div class="modal-header" style="margin-right: -197px; margin-left: -228px;">
                 <button type="button" style="left: 1055px;" class="close" data-dismiss="modal" title="Close"
-                        ng-click="CancelPopup()">
+                        ng-click="CancelDoctorShift()">
                     &times;
                 </button>
                 <h4 class="modal-title">Doctor Shift</h4>
@@ -324,10 +324,10 @@
                                             </div>
                                         </div>
                                         <div style="text-align: center;">
-                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                 Save
                                             </button>
-                                            <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
+                                            <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
                                                 Cancel
                                             </button>
 
@@ -393,7 +393,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" onkeypress="OnlySpecCharNum(event)" ng-model="NewAppointment" class="input-size">
+                                                                            <input type="text" id="NewAppointment" onkeypress="OnlySpecCharNum(event)" ng-model="NewAppointment" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -402,7 +402,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="followup" onkeypress="OnlySpecCharNum(event)" class="input-size">
+                                                                            <input type="text" id="followup" ng-model="followup" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -411,7 +411,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="IntervalBt" onkeypress="OnlySpecCharNum(event)" class="input-size">
+                                                                            <input type="text" id="IntervalBt" ng-model="IntervalBt" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -422,7 +422,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" ng-model="CustomSlot" onkeypress="OnlySpecCharNum(event)" class="input-size">
+                                                                            <input type="text" id="CustomSlot" ng-model="CustomSlot" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
@@ -442,7 +442,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" onkeypress="OnlySpecCharNum(event)" ng-model="Days" class="input-size">
+                                                                            <input type="text" id="Days" onkeypress="OnlySpecCharNum(event)" ng-model="Days" class="input-size">
                                                                             <p>Days</p>
                                                                         </div>
                                                                     </div>
@@ -451,7 +451,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup></p>
                                                                         <div class="input-slot">
-                                                                            <input type="text" onkeypress="OnlySpecCharNum(event)" ng-model="Minutes" class="input-size">
+                                                                            <input type="text" id="Minutes" onkeypress="OnlySpecCharNum(event)" ng-model="Minutes" class="input-size">
                                                                             <p>Hours</p>
                                                                         </div>
                                                                     </div>
@@ -463,10 +463,10 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
-                                                <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
+                                                <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
                                                     Cancel
                                                 </button>
 
@@ -1079,10 +1079,10 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
-                                                <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelSlot()" title="Click to Cancel" id="cancelDoctorShift">
+                                                <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
                                                     Cancel
                                                 </button>
 

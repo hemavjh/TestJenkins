@@ -89,9 +89,9 @@ namespace MyCortex.Masters.Controllers
         /// <returns>Populated List of Doctor Shift Details DataTable</returns>
 
         [HttpGet]
-        public IList<DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
+        public IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
         {
-            IList<DoctorShiftModel> model;
+            IList<New_DoctorShiftModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -113,14 +113,14 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a Doctor Shift</param>    
         /// <returns>Populated a Doctor Shift Details DataTable </returns>
         [HttpGet]
-        public IList<DoctorShiftDayDetailsModel> DoctorShiftDayDetails_View(long Id)
+        public IList<SelectedDaysList> DoctorShiftDayDetails_View(long Id, Guid Login_Session_Id)
         {
-            IList<DoctorShiftDayDetailsModel> model;
+            IList<SelectedDaysList> model;
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.DoctorShiftDayDetails_View(Id);
+                model = repository.DoctorShiftDayDetails_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
@@ -139,9 +139,9 @@ namespace MyCortex.Masters.Controllers
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
 
         [HttpGet]
-        public DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id)
+        public New_DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id)
         {
-            DoctorShiftModel model = new DoctorShiftModel();
+            New_DoctorShiftModel model = new New_DoctorShiftModel();
             try
             {
                 if (_logger.IsInfoEnabled)
