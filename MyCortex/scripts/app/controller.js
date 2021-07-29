@@ -5031,25 +5031,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
             $('.chartTabs').addClass('charTabsNone');
-            if ($scope.LiveDataCurrentTime == "") {
-                $scope.LiveDataCurrentTime = $filter('date')(new Date(), "dd-MMM-yyyy hh:mm:ss a");
-            }
-
-            //Initialize the Timer to run every 10000 milliseconds i.e. 10 second.
+            var ConfigCode = "LIVEDATA_STARTFROM";
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                $scope.date_size = data1[0].ConfigValue;
+                var tempp = new Date(new Date().setDate(new Date().getDate() - ($scope.date_size - 1)));
+                $scope.tempdate = $filter('date')(tempp, "dd-MMM-yyyy");
+            });
             $scope.LiveDataPromise = $interval(function () {
-                $http.get(baseUrl + '/api/User/PatientLiveData_List/?Patient_Id=' + $scope.SelectedPatientId + '&DataTime=' + $scope.LiveDataCurrentTime + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $http.get(baseUrl + '/api/User/PatientLiveData_List/?Patient_Id=' + $scope.SelectedPatientId + '&DataTime=' + $scope.tempdate + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.PatientLiveDataList = angular.copy(data.PatientHealthDataList);
-                    //    $scope.SearchMsg="No Live data";
                 })
             }, 10000) // 10000 ms execution
 
-           
-            /*cancel timer
-            
-            if (angular.isDefined($scope.LiveDataPromise)) {
-                $interval.cancel($scope.LiveDataPromise);
-            }
-            */
         }
         $scope.CancelLiveData = function () {
             if (angular.isDefined($scope.LiveDataPromise)) {
@@ -6081,6 +6074,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
 
         $scope.setPage = function (PageNo) {
+            if (PageNo > $scope.patientvitals_pages) {
+                return false;
+            } else if (PageNo == 0) {
+                return false;
+            }
             if (PageNo == 0) {
                 PageNo = $scope.inputPageNo;
             }
