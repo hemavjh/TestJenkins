@@ -18356,6 +18356,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.AddSlot = function () {
             $scope.Id = 0;
+            $scope.DoctorSave = true;
             var $sel1 = $('#department');
             $sel1.multiselect('enable');
             var $sel2 = $('#Specialist');
@@ -18655,7 +18656,15 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     }
                     value.Day = moment(value.Day).format('DD-MMM-YYYY');
                 });
-
+                angular.forEach($scope.SelectedDays, function (value, index) {
+                    for (let i = 3; i >= 0; i--) {
+                        const y = $scope.SelectedDays[index].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
+                        if (y.length !== 0) {
+                            const h = $scope.SelectedDays[index].TimeSlot.findIndex(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
+                            $scope.SelectedDays[index].TimeSlot.splice(h, 1);
+                        }
+                    }
+                });
                 var obj = {
                     ID: $scope.Id,
                     Institution_Id: $window.localStorage['InstitutionId'],
@@ -18733,413 +18742,412 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please Enter Minutes");
                 return false;
             }
-            if ($('#SundayId').prop('disabled') == false) {
-                if ($scope.TimeSlot1 == "" || $scope.TimeSlot1 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot2 == "" || $scope.TimeSlot2 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot3 == "" || $scope.TimeSlot3 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot4 == "" || $scope.TimeSlot4 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot5 == "" || $scope.TimeSlot5 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot6 == "" || $scope.TimeSlot6 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot43 == "" || $scope.TimeSlot43 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot44 == "" || $scope.TimeSlot44 == "0") {
-                    alert('Please Check The Sunday TimeSlot');
-                    $('#SundayCheck').show();
-                    $('#SundayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-            }
-            if ($('#MondayId').prop('disabled') == false) {
-                if ($scope.TimeSlot7 == "" || $scope.TimeSlot7 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot8 == "" || $scope.TimeSlot8 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot9 == "" || $scope.TimeSlot9 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot10 == "" || $scope.TimeSlot10 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot11 == "" || $scope.TimeSlot11 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot12 == "" || $scope.TimeSlot12 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot45 == "" || $scope.TimeSlot45 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot46 == "" || $scope.TimeSlot46 == "0") {
-                    alert('Please Check The Monday TimeSlot');
-                    $('#MondayCheck').show();
-                    $('#MondayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-            }
-            if ($('#TuesdayId').prop('disabled') == false) {
-                if ($scope.TimeSlot13 == "" || $scope.TimeSlot13 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot14 == "" || $scope.TimeSlot14 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot15 == "" || $scope.TimeSlot15 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot16 == "" || $scope.TimeSlot16 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot17 == "" || $scope.TimeSlot17 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot18 == "" || $scope.TimeSlot18 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot47 == "" || $scope.TimeSlot47 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot48 == "" || $scope.TimeSlot48 == "0") {
-                    alert('Please Check The Tuesday TimeSlot');
-                    $('#TuesdayCheck').show();
-                    $('#TuesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-            }
-            if ($('#WednesdayId').prop('disabled') == false) {
-                if ($scope.TimeSlot19 == "" || $scope.TimeSlot19 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot20 == "" || $scope.TimeSlot20 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot21 == "" || $scope.TimeSlot21 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot22 == "" || $scope.TimeSlot22 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot23 == "" || $scope.TimeSlot23 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot24 == "" || $scope.TimeSlot24 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot49 == "" || $scope.TimeSlot49 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot50 == "" || $scope.TimeSlot50 == "0") {
-                    alert('Please Check The Wednesday TimeSlot');
-                    $('#WednesdayCheck').show();
-                    $('#WednesdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-            }
-            if ($('#ThursdayId').prop('disabled') == false) {
-                if ($scope.TimeSlot25 == "" || $scope.TimeSlot25 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot26 == "" || $scope.TimeSlot26 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot27 == "" || $scope.TimeSlot27 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot28 == "" || $scope.TimeSlot28 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot29 == "" || $scope.TimeSlot29 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot30 == "" || $scope.TimeSlot30 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot51 == "" || $scope.TimeSlot51 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot52 == "" || $scope.TimeSlot52 == "0") {
-                    alert('Please Check The Thursday TimeSlot');
-                    $('#ThursdayCheck').show();
-                    $('#ThursdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-            }
-            if ($('#FridayId').prop('disabled') == false) {
-                if ($scope.TimeSlot31 == "" || $scope.TimeSlot31 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#FridayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot32 == "" || $scope.TimeSlot32 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#FridayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot33 == "" || $scope.TimeSlot33 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#FridayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot34 == "" || $scope.TimeSlot34 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#FridayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot35 == "" || $scope.TimeSlot35 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#FridayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot36 == "" || $scope.TimeSlot36 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot53 == "" || $scope.TimeSlot53 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#FridayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot54 == "" || $scope.TimeSlot54 == "0") {
-                    alert('Please Check The Friday TimeSlot');
-                    $('#FridayCheck').show();
-                    $('#FridayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-            }
-            if ($('#SaturdayId').prop('disabled') == false) {
-                if ($scope.TimeSlot37 == "" || $scope.TimeSlot37 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot38 == "" || $scope.TimeSlot38 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot39 == "" || $scope.TimeSlot39 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot40 == "" || $scope.TimeSlot40 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot41 == "" || $scope.TimeSlot41 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot42 == "" || $scope.TimeSlot42 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot55 == "" || $scope.TimeSlot55 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-                if ($scope.TimeSlot56 == "" || $scope.TimeSlot56 == "0") {
-                    alert('Please Check The Saturday TimeSlot');
-                    $('#SaturdayCheck').show();
-                    $('#SaturdayId').prop("checked", true);
-                    $scope.currentTab = "3";
-                    return false;
-                }
-            }
-
+            //if ($('#SundayId').prop('disabled') == false) {
+            //    if ($scope.TimeSlot1 == "" || $scope.TimeSlot1 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot2 == "" || $scope.TimeSlot2 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot3 == "" || $scope.TimeSlot3 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot4 == "" || $scope.TimeSlot4 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot5 == "" || $scope.TimeSlot5 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot6 == "" || $scope.TimeSlot6 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot43 == "" || $scope.TimeSlot43 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot44 == "" || $scope.TimeSlot44 == "0") {
+            //        alert('Please Check The Sunday TimeSlot');
+            //        $('#SundayCheck').show();
+            //        $('#SundayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //}
+            //if ($('#MondayId').prop('disabled') == false) {
+            //    if ($scope.TimeSlot7 == "" || $scope.TimeSlot7 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot8 == "" || $scope.TimeSlot8 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot9 == "" || $scope.TimeSlot9 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot10 == "" || $scope.TimeSlot10 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot11 == "" || $scope.TimeSlot11 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot12 == "" || $scope.TimeSlot12 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot45 == "" || $scope.TimeSlot45 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot46 == "" || $scope.TimeSlot46 == "0") {
+            //        alert('Please Check The Monday TimeSlot');
+            //        $('#MondayCheck').show();
+            //        $('#MondayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //}
+            //if ($('#TuesdayId').prop('disabled') == false) {
+            //    if ($scope.TimeSlot13 == "" || $scope.TimeSlot13 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot14 == "" || $scope.TimeSlot14 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot15 == "" || $scope.TimeSlot15 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot16 == "" || $scope.TimeSlot16 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot17 == "" || $scope.TimeSlot17 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot18 == "" || $scope.TimeSlot18 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot47 == "" || $scope.TimeSlot47 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot48 == "" || $scope.TimeSlot48 == "0") {
+            //        alert('Please Check The Tuesday TimeSlot');
+            //        $('#TuesdayCheck').show();
+            //        $('#TuesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //}
+            //if ($('#WednesdayId').prop('disabled') == false) {
+            //    if ($scope.TimeSlot19 == "" || $scope.TimeSlot19 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot20 == "" || $scope.TimeSlot20 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot21 == "" || $scope.TimeSlot21 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot22 == "" || $scope.TimeSlot22 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot23 == "" || $scope.TimeSlot23 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot24 == "" || $scope.TimeSlot24 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot49 == "" || $scope.TimeSlot49 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot50 == "" || $scope.TimeSlot50 == "0") {
+            //        alert('Please Check The Wednesday TimeSlot');
+            //        $('#WednesdayCheck').show();
+            //        $('#WednesdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //}
+            //if ($('#ThursdayId').prop('disabled') == false) {
+            //    if ($scope.TimeSlot25 == "" || $scope.TimeSlot25 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot26 == "" || $scope.TimeSlot26 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot27 == "" || $scope.TimeSlot27 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot28 == "" || $scope.TimeSlot28 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot29 == "" || $scope.TimeSlot29 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot30 == "" || $scope.TimeSlot30 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot51 == "" || $scope.TimeSlot51 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot52 == "" || $scope.TimeSlot52 == "0") {
+            //        alert('Please Check The Thursday TimeSlot');
+            //        $('#ThursdayCheck').show();
+            //        $('#ThursdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //}
+            //if ($('#FridayId').prop('disabled') == false) {
+            //    if ($scope.TimeSlot31 == "" || $scope.TimeSlot31 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#FridayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot32 == "" || $scope.TimeSlot32 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#FridayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot33 == "" || $scope.TimeSlot33 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#FridayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot34 == "" || $scope.TimeSlot34 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#FridayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot35 == "" || $scope.TimeSlot35 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#FridayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot36 == "" || $scope.TimeSlot36 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot53 == "" || $scope.TimeSlot53 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#FridayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot54 == "" || $scope.TimeSlot54 == "0") {
+            //        alert('Please Check The Friday TimeSlot');
+            //        $('#FridayCheck').show();
+            //        $('#FridayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //}
+            //if ($('#SaturdayId').prop('disabled') == false) {
+            //    if ($scope.TimeSlot37 == "" || $scope.TimeSlot37 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot38 == "" || $scope.TimeSlot38 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot39 == "" || $scope.TimeSlot39 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot40 == "" || $scope.TimeSlot40 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot41 == "" || $scope.TimeSlot41 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot42 == "" || $scope.TimeSlot42 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot55 == "" || $scope.TimeSlot55 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //    if ($scope.TimeSlot56 == "" || $scope.TimeSlot56 == "0") {
+            //        alert('Please Check The Saturday TimeSlot');
+            //        $('#SaturdayCheck').show();
+            //        $('#SaturdayId').prop("checked", true);
+            //        $scope.currentTab = "3";
+            //        return false;
+            //    }
+            //}
             return true;
         };
         $scope.TimeslotClear = function () {
