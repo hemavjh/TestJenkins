@@ -18363,7 +18363,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $sel2.multiselect('enable');
             var $sel3 = $('#CCCG');
             $sel3.multiselect('enable');
-            //$scope.EditShiftDoctor();
+            $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
             angular.element('#DoctorShiftModal').modal('show');
         }
@@ -18685,9 +18685,14 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
-                    $scope.DoctorShiftClear();
-                    $scope.CancelDoctorShift();
-                    $scope.DoctorShiftListGo();
+                    if (data.ReturnFlag == 1) {
+                        $scope.DoctorShiftClear();
+                        $scope.CancelDoctorShift();
+                        $scope.DoctorShiftListGo();
+                    }
+                    else {
+                        return false;
+                    }
 
                 }).error(function (data) {
                     $scope.error = "An error has occurred while Adding Docor Shift" + data;
@@ -20264,6 +20269,17 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         }
 
                     });
+                    if ($scope.DoctorSave == true) {
+                        var $sel1 = $('#department');
+                        $sel1.multiselect('disable');
+                        var $sel2 = $('#Specialist');
+                        $sel2.multiselect('disable');
+                        //var $sel3 = $('#CCCG');
+                        //$sel3.multiselect('disable');
+                    }
+                    if ($scope.DoctorSave == false) {
+                        $scope.ViewShiftDoctor();
+                    }
                 }
                 $("#chatLoaderPV").hide();
             })

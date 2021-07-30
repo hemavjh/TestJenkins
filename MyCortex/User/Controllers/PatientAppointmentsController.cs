@@ -381,6 +381,11 @@ namespace MyCortex.User.Controller
                     messagestr = "DoctorShift Updated Successfully";
                     model.ReturnFlag = 1;
                 }
+                else if (ModelData.Any(item => item.Flag == 4) == true)
+                {
+                    messagestr = "Doctor Shift already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                }
                 model.DoctorShiftAddList = ModelData;
                 model.Message = messagestr;// "Doctor Shift created successfully";
                 model.Status = "True";
