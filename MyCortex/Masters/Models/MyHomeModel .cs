@@ -96,6 +96,20 @@ namespace MyCortex.Masters.Models
 
     }
 
+    public class ParameterModels
+    {
+        public long ParameterId { get; set; }
+        public string ParameterName { get; set; }
+    }
+
+    public class ParameterReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IList<ParameterModels> ParameterList { get; set; }
+    }
+
     public class TabUserPinModel
     {
         public long InstitutionId { get; set; }

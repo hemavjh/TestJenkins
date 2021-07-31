@@ -192,6 +192,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public HttpResponseMessage TabUser_List(long InstitutionId, long Tab_ID)
         {
@@ -202,7 +203,7 @@ namespace MyCortex.User.Controllers
                 ModelData = repository.Get_TabUsers(InstitutionId, Tab_ID);
 
                 model.TabUserList = ModelData;
-                model.Message = "";// "User created successfully";
+                model.Message = "";
                 model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                 return response;
@@ -213,6 +214,31 @@ namespace MyCortex.User.Controllers
                 model.Status = "False";
                 model.Message = "Error in Listing Users";
                 model.TabUserList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Parameter_List_GroupID(long ParamGroup_ID, long TabId)
+        {
+            IList<ParameterModels> ModelData = new List<ParameterModels>();
+            ParameterReturnModels model = new ParameterReturnModels();
+            try
+            {
+                ModelData = repository.Parameter_Lists(ParamGroup_ID, TabId);
+
+                model.ParameterList = ModelData;
+                model.Message = "";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Listing Users";
+                model.ParameterList = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }

@@ -370,6 +370,31 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PARAMGROUPID", ParamGroup_ID));
+            param.Add(new DataParameter("@Tab_ID", TabId));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PARAMETER_LIST_ON_GROUPID]", param);
+                List<ParameterModels> lst = (from p in dt.AsEnumerable()
+                                          select new ParameterModels()
+                                          {
+                                              ParameterId = p.Field<long>("ID"),
+                                              ParameterName = p.Field<string>("NAME"),
+                                          }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public IList<TabUserDetails> Get_TabLoginUserDetails(TabUserDetails TabLoginObj)
         {
             DataEncryption DecryptFields = new DataEncryption();

@@ -16,6 +16,7 @@ namespace MyCortex.Repositories
         TabIdReturnModels Get_Tab_ID(long InstitutionId, string Ref_ID);
         IList<TabDevicesModel> Get_TabDevices(long Institution_ID, long Tab_ID);
         IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID);
+        IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId);
         IList<TabUserDetails> Get_TabLoginUserDetails(TabUserDetails TabLoginObj);
         TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId,Guid Login_Session_Id);
         IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID);
