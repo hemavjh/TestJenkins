@@ -723,7 +723,7 @@ namespace MyCortex.Home.Controllers
                 .Replace("-----END RSA PRIVATE KEY-----", "");
 
             RsaHelper rsaHelper = new RsaHelper();
-            Console.OutputEncoding = System.Text.Encoding.Default;
+            //Console.OutputEncoding = System.Text.Encoding.Default;
             PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
             BizContent bizContent = new BizContent
             {

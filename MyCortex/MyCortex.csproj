@@ -492,6 +492,7 @@
     <Content Include="Masters\Views\DeviceList.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
+    <Content Include="Masters\Views\GateWaySettings.html" />
     <Content Include="Masters\Views\LanguageSettings.html" />
     <Content Include="Masters\Views\MyAppointmentSetting.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
@@ -1198,6 +1199,7 @@
     <Compile Include="Admin\Models\LanguageMasterModel.cs" />
     <Compile Include="Admin\Models\ModuleMasterModel.cs" />
     <Compile Include="Admin\Models\MonitoringProtocolModel.cs" />
+    <Compile Include="Admin\Models\PaymentGatewayMaster.cs" />
     <Compile Include="Admin\Models\ProtocolModel.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />

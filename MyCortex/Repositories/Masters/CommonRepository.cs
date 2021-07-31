@@ -676,6 +676,56 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<GatewayMaster> InstitutionPayments(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ISUBSCRIPTIONPAYMENT_SP_LIST]", param);
+                List<GatewayMaster> lst = (from p in dt.AsEnumerable()
+                                                 select new GatewayMaster()
+                                                 {
+                                                     Id = p.Field<long>("ID"),
+                                                     PaymentGatewayName = p.Field<string>("NAME"),
+                                                     IsActive = p.Field<int>("ISACTIVE"),
+                                                     DefaultPaymentGatewayId = p.Field<long>("Preference")
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<GatewayMaster> InstitutionInsurances(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ISUBSCRIPTIONINSURANCE_SP_LIST]", param);
+                List<GatewayMaster> lst = (from p in dt.AsEnumerable()
+                                                  select new GatewayMaster()
+                                                  {
+                                                      Id = p.Field<long>("ID"),
+                                                      PaymentGatewayName = p.Field<string>("NAME"),
+                                                      IsActive = p.Field<int>("ISACTIVE"),
+                                                      DefaultPaymentGatewayId = p.Field<long>("Preference")
+                                                  }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public object DBQueryAPI(string qry)
         {
             List<DataParameter> param = new List<DataParameter>();

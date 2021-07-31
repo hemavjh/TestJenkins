@@ -34,6 +34,8 @@ namespace MyCortex.Repositories
         IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id);
         IList<UnitGroupTypeModel> UnitGroupTypeList();
         IList<LanguageMasterModel> InstitutionLanguages(long Institution_Id);
+        IList<GatewayMaster> InstitutionPayments(long Institution_Id);
+        IList<GatewayMaster> InstitutionInsurances(long Institution_Id);
         IList<TabDevicesList> Deviceslist();
         IList<TabUserList> UserList(long Institution_Id);
         TabUserList USERPINDETAILS(long ID);

@@ -888,6 +888,42 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        public IList<GatewayMaster> getInstitutionPayment(long Institution_Id)
+        {
+            IList<GatewayMaster> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.InstitutionPayments(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        public IList<GatewayMaster> getInstitutionInsurance(long Institution_Id)
+        {
+            IList<GatewayMaster> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.InstitutionInsurances(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>      
         /// to get password policy configuration of a institution
         /// </summary>          

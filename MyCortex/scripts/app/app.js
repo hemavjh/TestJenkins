@@ -216,6 +216,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Masters/Views/LanguageSettings.html',
         controller: 'LanguageSettingsController'
     }).
+    when('/GateWaySettings', {
+        templateUrl: baseUrl + 'Masters/Views/GateWaySettings.html',
+        controller: 'GateWaySettingsController'
+    }).
     //when('/EditParameterSettings/:Id', {
     //    templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
     //    controller: 'ParameterSettingsController'

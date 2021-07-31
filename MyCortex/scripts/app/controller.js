@@ -21544,6 +21544,78 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
     }
 ]);
 
+
+MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+        $scope.IsActive = true;
+        $scope.Id = 0;
+        $scope.User_Id = 0;
+        $scope.InstitutionPaymentList = [];
+        $scope.InstitutionInsuranceList = [];
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.selectedGateway = "0";
+        $scope.selectedGatewayText = '';
+        $("#insurance").hide();
+        $("#payment").show();
+
+        $scope.PaymentList = function () {
+            $http.get(baseUrl + '/api/Common/getInstitutionPayment/?Institution_Id=' + $window.localStorage['InstitutionId']
+            ).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.InstitutionPaymentList = [];
+                $scope.InstitutionPaymentList = data;
+                $scope.selectedPayment = data[0].DefaultPaymentGatewayId.toString();
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            });
+        };
+
+        $scope.InsuranceList = function () {
+            $http.get(baseUrl + '/api/Common/getInstitutionInsurance/?Institution_Id=' + $window.localStorage['InstitutionId']
+            ).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.InstitutionInsuranceList = [];
+                $scope.InstitutionInsuranceList = data;
+                $scope.selectedInsurance = data[0].DefaultPaymentGatewayId.toString();
+            }).error(function (data) {
+                $scope.error = "AN error has occured while Listing the records!" + data;
+            });
+        };
+
+        $scope.searchqueryLanguageSettings = "";
+        $scope.PaymentGatewaySettingsList = function () {
+            if ($window.localStorage['UserTypeId'] == 3) {
+                if ($scope.selectedGateway == 1) {
+                    $("#chatLoaderPV").show();
+                    $("#insurance").hide();
+                    $("#payment").show();
+                    $scope.selectedGatewayText = "Payment";
+                    $scope.PaymentList();
+                } else if ($scope.selectedGateway == 2) {
+                    $("#chatLoaderPV").show();
+                    $("#payment").hide();
+                    $("#insurance").show();
+                    $scope.selectedGatewayText = "Insurance";
+                    $scope.InsuranceList();
+                }
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
+        };
+
+        $scope.ChangePayment = function (selectedGatewayName) {
+            $scope.SelectedGatewayName = selectedGatewayName;
+            angular.element('#GateWayPopupModal').modal('show');
+        }
+
+        $scope.ChangeInsurance = function (selectedGatewayName) {
+            $scope.SelectedGatewayName = selectedGatewayName;
+            angular.element('#GateWayPopupModal').modal('show');
+        }
+
+    }
+]);
+
 MyCortexControllers.controller("DirectCallController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
         $scope.UserId = $window.localStorage['UserId'];
