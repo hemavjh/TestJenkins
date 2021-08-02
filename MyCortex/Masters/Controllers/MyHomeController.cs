@@ -89,7 +89,7 @@ namespace MyCortex.User.Controllers
                     model.ReturnFlag = 1;
                 }
                 model.TabUserDetails = ModelData;
-                model.Message = messagestr;// "User created successfully";
+                model.Message = messagestr;
                 model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                 return response;
@@ -246,35 +246,33 @@ namespace MyCortex.User.Controllers
         [AllowAnonymous]
         [HttpPost]
         public HttpResponseMessage TabPin_CheckValidity([FromBody] TabUserDetails TabLoginObj)
-
         {
-             
-            IList<TabUserDetails> ModelData = new List<TabUserDetails>();
+            TabUserDetails ModelData = new TabUserDetails();
             TabUserReturnModels model = new TabUserReturnModels();
             string messagestr = "";
             try
             {
-                ModelData = repository.Get_TabLoginUserDetails(TabLoginObj);
-                if (ModelData.Any(item => item.Flag == 1) == true)
+                ModelData = repository.Tab_User_Validation(TabLoginObj);
+                if (ModelData.Flag == 1)
                 {
-                    messagestr = "Tab Login Successfully";
+                    messagestr = "Tab User Login Successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
                 }
-                else if (ModelData.Any(item => item.Flag == 2) == true)
+                else if (ModelData.Flag == 2)
                 {
                     messagestr = "TabID are not matching, please verify";
                     model.ReturnFlag = 0;
                     model.Status = "False";
                 }
-                else if (ModelData.Any(item => item.Flag == 3) == true)
+                else if (ModelData.Flag == 3)
                 {
                     messagestr = "UserId and/or Pin are not matching, please verify";
                     model.ReturnFlag = 0;
                     model.Status = "False";
                 }
-                model.GetTabUserDetails = ModelData;
-                model.Message = messagestr;// "User created successfully";
+                model.TabUserDetail = ModelData;
+                model.Message = messagestr;
                 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model); 
                 return response;
@@ -283,8 +281,8 @@ namespace MyCortex.User.Controllers
             {
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
-                model.Message = "Error in Tab Users";
-                model.GetTabUserDetails = ModelData;
+                model.Message = "Error in Tab User Validation";
+                model.TabUserDetail = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }

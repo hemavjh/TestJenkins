@@ -395,7 +395,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabUserDetails> Get_TabLoginUserDetails(TabUserDetails TabLoginObj)
+        public TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>(); 
@@ -405,24 +405,24 @@ namespace MyCortex.Repositories.Masters
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_USERSINFOR_LIST]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_USER_PIN_VALIDATION]", param);
                
-                    List<TabUserDetails> lst = (from p in dt.AsEnumerable()
+                    TabUserDetails lst = (from p in dt.AsEnumerable()
                                                 select new TabUserDetails()
                                                 {
                                                     TabId = p.Field<long>("TAB_ID"),
+                                                    TabRefId = p.Field<string>("TAB_REF_ID"),
                                                     UserId = p.Field<long>("USER_ID"),
                                                     PIN = p.Field<string>("PIN"),
-                                                    ModifiedDate = p.Field<DateTime?>("MODIFIED_AT"),
-                                                    IsActive = p.Field<bool>("ISACTIVE"),
+                                                    UserName = DecryptFields.Decrypt(p.Field<string>("USER_NAME")),
                                                     FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
                                                     MiddleName = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
                                                     LastName = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
                                                     EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                    Password = DecryptFields.Decrypt(p.Field<string>("PASSWORD")),
                                                     UserTypeId = p.Field<long>("USERTYPE_ID"),
-                                                    UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
                                                     Flag = p.Field<int>("flag")
-                                                }).ToList();
+                                                }).FirstOrDefault();
              
                 return lst;
             }

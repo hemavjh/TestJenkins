@@ -92,7 +92,7 @@ namespace MyCortex.Masters.Models
         public string Status { get; set; }
         public string Message { get; set; }
         public IList<TabListModel> TabUserDetails { get; set; }
-        public IList<TabUserDetails> GetTabUserDetails { get; set; }
+        public TabUserDetails TabUserDetail { get; set; }
 
     }
 
@@ -186,18 +186,17 @@ namespace MyCortex.Masters.Models
     public class TabUserDetails
     {
         public long TabId { get; set; }
+        public string TabRefId { get; set; }
         public string UserName { get; set; }
         public long  UserId { get; set; }
         public string PIN { get; set; }
         public int Flag { get; set; }
-        public bool IsActive { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string EmailId { get; set; }
+        public string Password { get; set; }
         public long UserTypeId { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-         
     }
 
     public class SelectedDeviceParameterList

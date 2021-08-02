@@ -17,7 +17,7 @@ namespace MyCortex.Repositories
         IList<TabDevicesModel> Get_TabDevices(long Institution_ID, long Tab_ID);
         IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID);
         IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId);
-        IList<TabUserDetails> Get_TabLoginUserDetails(TabUserDetails TabLoginObj);
+        TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj);
         TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId,Guid Login_Session_Id);
         IList<TabDevicesModel> Get_DeviceList(int? IsActive, long Institution_ID);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
