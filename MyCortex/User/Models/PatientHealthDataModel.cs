@@ -9,6 +9,7 @@ namespace MyCortex.User.Model
     public class PatientHealthDataModel
     {
         public string TotalRecord { get; set; }
+        public int RowNumber { get; set; }
         public long Id { get; set; }
         public long Patient_Id { get; set; }
         public int Type_Id { get; set; }
@@ -54,8 +55,8 @@ namespace MyCortex.User.Model
         public string Status { get; set; }
         public string Message { get; set; }
         public string Error_Code { get; set; }
-        
         public int ReturnFlag { get; set; }
+        public decimal Average_Value { get; set; }
         public PatientHealthDataModel PatientHealthDataDetails { get; set; }
         public PatientHealthDataPagination _metadata { get; set; }
         public IList<PatientHealthDataModel> PatientHealthDataList { get; set; }

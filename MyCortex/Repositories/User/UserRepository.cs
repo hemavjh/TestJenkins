@@ -1229,6 +1229,52 @@ namespace MyCortex.Repositories.Uesr
         }
 
         /// <summary>
+        /// Patient Health Data List of a Patient for the selected option and parameter type
+        /// </summary>
+        /// <param name="Patient_Id">Patient Id</param>
+        /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
+        /// <returns>List of Health Data</returns>
+        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Active", Active));
+            param.Add(new DataParameter("@PATIENTID", Patient_Id));
+            param.Add(new DataParameter("@TYPE", OptionType_Id));
+            param.Add(new DataParameter("@PARAMGROUP_ID", Group_Id));
+            param.Add(new DataParameter("@PARAMETER_ID", Parameter_Id));
+            param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTH_DATA_SP_LIST]", param);
+            DataEncryption DecryptFields = new DataEncryption();
+            List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
+                                                 select new PatientHealthDataModel()
+                                                 {
+                                                     TotalRecord = p.Field<string>("TotalRecords"),
+                                                     RowNumber = p.Field<int>("ROW_NUM"),
+                                                     ParameterId = p.Field<long>("PARAMETER"),
+                                                     ParameterName = p.Field<string>("PARAMETERNAME"),
+                                                     XAxis = p.Field<string>("xaxis") ?? "",
+                                                     // Average = p.IsNull("PARAM_AVG") ? 0 : p.Field<decimal>("PARAM_AVG"),
+                                                     UOM_Name = p.Field<string>("UNITNAME") ?? "",
+                                                     Activity_Date = p.Field<DateTime>("ACTIVITYDATE"),
+                                                     Activity_DateTime = p.Field<DateTime>("ACTIVITY_DATETIME"),
+                                                     ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
+                                                     Id = p.Field<long>("LIFESTYLEID"),
+                                                     IsActive = p.Field<int>("ISACTIVE"),
+                                                     DeviceType = p.Field<string>("DeviceType"),
+                                                     DeviceNo = p.Field<string>("Device_No"),
+                                                     TypeName = p.Field<string>("TYPENAME") ?? "",
+                                                     //Createdby_FullName = p.Field<string>("CREATEDBY_FULLNAME"),
+                                                     Createdby_FullName = DecryptFields.Decrypt(p.Field<string>("CREATEDBY_FULLNAME")),
+                                                     Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME") ?? "",
+                                                     Created_Dt = p.Field<DateTime>("CREATED_DT")
+                                                 }).ToList();
+            return list;
+        }
+
+        /// <summary>
         /// Patient Health Data List of a Patient for the selected option
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
