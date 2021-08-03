@@ -10,6 +10,7 @@ namespace MyCortex.Masters.Models
     public class MasterICDModel
     {
         public string TotalRecord { get; set; }
+        public int RowNumber { get; set; }
         public long Id { get; set; }        
         public string ICD_Code { get; set; }
         public string Description { get; set; }

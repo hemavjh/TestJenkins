@@ -29,3 +29,4 @@ namespace MyCortex.Admin.Models
         public string Message { get; set; }
         public GatewaySettingsModel GatewaySettings { get; set; }
     }
+}

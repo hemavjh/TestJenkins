@@ -397,6 +397,7 @@ namespace MyCortex.Repositories.Masters
 
         public TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj)
         {
+            String Flag = "";
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>(); 
             param.Add(new DataParameter("@Tab_ID", TabLoginObj.TabId));
@@ -406,24 +407,28 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_USER_PIN_VALIDATION]", param);
+                
+                if (dt.Rows.Count > 0)
+                {
+                    Flag = dt.Rows[0]["flag"].ToString();
+                }
                
                     TabUserDetails lst = (from p in dt.AsEnumerable()
                                                 select new TabUserDetails()
                                                 {
-                                                    TabId = p.Field<long>("TAB_ID"),
-                                                    TabRefId = p.Field<string>("TAB_REF_ID"),
-                                                    UserId = p.Field<long>("USER_ID"),
-                                                    PIN = p.Field<string>("PIN"),
-                                                    UserName = DecryptFields.Decrypt(p.Field<string>("USER_NAME")),
-                                                    FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
-                                                    MiddleName = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
-                                                    LastName = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
-                                                    EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
-                                                    Password = DecryptFields.Decrypt(p.Field<string>("PASSWORD")),
-                                                    UserTypeId = p.Field<long>("USERTYPE_ID"),
+                                                    TabId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("TAB_ID") : 0,
+                                                    TabRefId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("TAB_REF_ID") : "",
+                                                    UserId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USER_ID") : 0,
+                                                    PIN = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("PIN") : "",
+                                                    UserName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("USER_NAME")) : "",
+                                                    FirstName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")) : "",
+                                                    MiddleName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")) : "",
+                                                    LastName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("LASTNAME")) : "",
+                                                    EmailId = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("EMAILID")) : "",
+                                                    Password = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("PASSWORD")) : "",
+                                                    UserTypeId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USERTYPE_ID") : 0,
                                                     Flag = p.Field<int>("flag")
-                                                }).FirstOrDefault();
-             
+                                                }).FirstOrDefault(); 
                 return lst;
             }
             catch (Exception ex)

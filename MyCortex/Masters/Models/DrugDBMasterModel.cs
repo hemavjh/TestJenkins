@@ -11,6 +11,7 @@ namespace MyCortex.Masters.Models
     public class DrugDBMasterModel
     {
         public string TotalRecord { get; set; }
+        public int RowNumber { get; set; }
         public long Id { get; set; }
         public string Generic_name { get; set; }
         public long Strength_ID { get; set; }

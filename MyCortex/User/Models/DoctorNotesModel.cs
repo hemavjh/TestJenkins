@@ -7,11 +7,8 @@ namespace MyCortex.Masters.Models
 {
     public class DoctorNotesModel
     {
-        public DoctorNotesModel()
-        {
-
-        }
         public string TotalRecord { get; set; }
+        public int RowNumber { get; set; }
         public long Id { get; set; }
         public long PatientId { get; set; }
         public string Notes { get; set; }

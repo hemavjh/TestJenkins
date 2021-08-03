@@ -2222,6 +2222,7 @@ namespace MyCortex.Repositories.Uesr
                                          select new MasterICDModel()
                                          {
                                              TotalRecord = p.Field<string>("TotalRecords"),
+                                             RowNumber = p.Field<int>("ROW_NUM"),
                                              Id = p.Field<long>("ID"),
                                              CategoryName = p.Field<string>("CATEGORY_NAME"),
                                              ICD_Code = p.Field<string>("ICDCODE"),
@@ -2525,6 +2526,7 @@ namespace MyCortex.Repositories.Uesr
                                            select new DrugDBMasterModel()
                                            {
                                                TotalRecord = p.Field<string>("TotalRecords"),
+                                               RowNumber = p.Field<int>("ROW_NUM"),
                                                Id = p.Field<long>("ID"),
                                                FrequencyName = p.Field<string>("FREQUENCYNAME"),
                                                RouteName = p.Field<string>("ROUTENAME"),
@@ -2820,6 +2822,7 @@ namespace MyCortex.Repositories.Uesr
                                       select new AllergyModel()
                                       {
                                           TotalRecord = p.Field<String>("TotalRecords"),
+                                          RowNumber = p.Field<int>("ROW_NUM"),
                                           Id = p.Field<long>("ID"),
                                           AllergenName = p.Field<string>("ALLERGENNAME"),
                                           AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
@@ -2946,12 +2949,13 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
                 param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
                 param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDOCTORNOTES_SP_LIST ", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDOCTORNOTES_SP_LIST", param);
 
                 List<DoctorNotesModel> list = (from p in dt.AsEnumerable()
                                                select new DoctorNotesModel()
                                                {
                                                    TotalRecord = p.Field<string>("TotalRecords"),
+                                                   RowNumber = p.Field<int>("ROW_NUM"),
                                                    Id = p.Field<long>("ID"),
                                                    PatientId = p.Field<long>("PATIENT_ID"),
                                                    Notes = p.Field<string>("NOTES"),
@@ -3163,6 +3167,7 @@ namespace MyCortex.Repositories.Uesr
                                                     select new Patient_OtherDataModel()
                                                     {
                                                         TotalRecord = p.Field<string>("TotalRecords"),
+                                                        RowNumber = p.Field<int>("ROW_NUM"),
                                                         Id = p.Field<long>("Id"),
                                                         Patient_Id = p.Field<long>("PATIENT_ID"),
                                                         DocumentName = p.Field<string>("DOCUMENT_NAME"),
