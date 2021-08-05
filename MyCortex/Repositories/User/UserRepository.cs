@@ -1207,6 +1207,7 @@ namespace MyCortex.Repositories.Uesr
                                                  select new PatientHealthDataModel()
                                                  {
                                                      TotalRecord = p.Field<string>("TotalRecords"),
+                                                     RowNumber = p.Field<int>("ROW_NUM"),
                                                      ParameterId = p.Field<long>("PARAMETER"),
                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
                                                      XAxis = p.Field<string>("xaxis") ?? "",

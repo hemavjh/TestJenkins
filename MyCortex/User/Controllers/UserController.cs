@@ -921,7 +921,13 @@ namespace MyCortex.User.Controller
                 {
                     modelReturn._metadata = _metadata;
                 }
-                modelReturn.Average_Value = getAverage(model);
+                if (model.Count > 0)
+                {
+                    modelReturn.Average_Value = getAverage(model);
+                } else
+                {
+                    modelReturn.Average_Value = 0;
+                }
                 modelReturn.PatientHealthDataList = model;
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, modelReturn);
