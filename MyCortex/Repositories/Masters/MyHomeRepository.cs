@@ -346,6 +346,7 @@ namespace MyCortex.Repositories.Masters
                                           select new TabUserModel()
                                           {
                                               ID = p.Field<long>("ID"),
+                                              UnreadCount = p.Field<int>("UNREAD_COUNT"),
                                               UserId = p.Field<long>("USER_ID"),
                                               PIN = p.Field<string>("PIN"),
                                               //PHOTO = p.Field<string>("PHOTO"),
@@ -466,6 +467,7 @@ namespace MyCortex.Repositories.Masters
                                             select new TabUserDashBordDetails()
                                             {  
                                                 UserId = p.Field<long>("UserId"),
+                                                UnreadCount = p.Field<int>("UnreadCount"),
                                                 TabId = p.Field<long>("TabId"),
                                                 UserTypeId = p.Field<long>("UserTypeId"),
                                                 InstitutionId =p.Field<long>("InstitutionId"),

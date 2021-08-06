@@ -70,6 +70,7 @@ namespace MyCortex.Masters.Models
     public class TabUserModel
     {
         public long ID { get; set; }
+        public int UnreadCount { get; set; }
         public long UserId { get; set; }
         public string PIN { get; set; }
         public string Photo { get; set; }
@@ -234,6 +235,7 @@ namespace MyCortex.Masters.Models
         public long InstitutionId { get; set; }
         public long TabId { get; set; }
         public long UserId { get; set; }
+        public int UnreadCount { get; set; }
         public int Flag { get; set; }
         public string DeviceType { get; set; }
         public long UserTypeId { get; set; }
