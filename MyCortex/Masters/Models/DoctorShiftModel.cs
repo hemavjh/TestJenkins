@@ -149,6 +149,7 @@ namespace MyCortex.Masters.Models
         public long TimeZoneId { get; set; }
         public string TimeZoneName { get; set; }
         public string UtcOffSet { get; set; }
+        public string TimeZoneDisplayName { get; set; }
         public int IsActive { get; set; }
     }
     public class OrgAppointmentSettings

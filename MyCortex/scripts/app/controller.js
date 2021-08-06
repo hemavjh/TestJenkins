@@ -726,6 +726,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 $scope.emptydata = [];
                 $scope.rowCollection = [];
                 $scope.Institution_Id = "";
+                $scope.TimeZone_Id = "";
 
                 $scope.ISact = 1;       // default active
                 if ($scope.IsActive == true) {
@@ -911,6 +912,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         //Declaration and initialization of Scope Variables.
         $scope.ChildId = 0;
         $scope.Institution_Id = "0";
+        $scope.TimeZone_Id = "0";
+        $scope.TimeZoneId = "0";
         $scope.Health_Care_Professionals = "";
         $scope.Patients = "";
         $scope.Contract_Period_From = "";
@@ -932,6 +935,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.AddIntstitutionSubPopup = function () {
             $scope.Id = 0;
             $scope.Institution_Id = "0";
+            $scope.TimeZone_Id = "0";
             $scope.ClearInstitutionSubscriptionPopup();
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
         }
@@ -979,6 +983,9 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $http.get(baseUrl + '/api/InstitutionSubscription/ModuleNameList/').success(function (data) {
             // only active Module    
             $scope.InstitutiontypeList = data;
+        });
+        $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.TimeZoneListID = data;
         });
         // This is for to get Institution Language List 
         $http.get(baseUrl + '/api/InstitutionSubscription/LanguageNameList/').success(function (data) {
@@ -1034,6 +1041,10 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             }
             else if (typeof ($scope.Contract_Period_To) == "undefined" || $scope.Contract_Period_To == "") {
                 alert("Please select Contract Period To");
+                return false;
+            }
+            else if (typeof ($scope.TimeZone_Id) == "undefined" || $scope.TimeZone_Id == "") {
+                alert("Please select TimeZone");
                 return false;
             }
             if (($scope.Contract_Period_From != "0") && ($scope.Contract_Period_To != "0")) {
@@ -1098,7 +1109,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Institution_Modules: $scope.InstitutionModule_List,
                     Module_List: $scope.InstitutiontypeList,
                     Institution_Languages: $scope.InstitutionLanguage_List,
-                    Language_List: $scope.LanguageList
+                    Language_List: $scope.LanguageList,
+                    TimeZone_ID: $scope.TimeZone_Id
                 }
 
                 $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
@@ -1106,6 +1118,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     if (data.ReturnFlag == "1") {
                         $scope.CancelIntstitutionSubPopup();
                         $scope.InstitutionSubscriptionDetailsListTemplate();
+                        $scope.TimeZone_Id = "";
                     }
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {
@@ -1204,6 +1217,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.Country = data.Institution.CountryName;
                     $scope.State = data.Institution.StateName;
                     $scope.City = data.Institution.CityName;
+                    $scope.TimeZoneId = data.TimeZone_ID;
                     //$scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
                     $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
                     $scope.Health_Care_Professionals = data.Health_Care_Professionals;
@@ -1263,6 +1277,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.Country = "";
             $scope.State = "";
             $scope.City = "";
+            $scope.TimeZone_ID = "0";
+            $scope.TimeZoneId = "0";
         }
         $scope.InstitutionSubscription_Delete = function () {
             alert("Subscription cannot be activated / deactivated")
@@ -1880,6 +1896,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.CertificateFileName = "";
             $scope.appleUserID = "";
             $scope.PATIENT_ID = "";
+            $scope.TimeZone_Id = "0";
+            $scope.TimeZoneId = "0";
         }
 
 
@@ -4691,6 +4709,7 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
         $scope.InstitutionChildList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
+            $scope.TimeZoneIDName = [];
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
@@ -4721,6 +4740,12 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.Contract_Period_To = $filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy");
                     $scope.Subscription_Type = data.Subscription_Type;
                     $scope.InsSub_Id = data.SubscriptionId;
+                    $scope.TimeZoneId = data.TimeZone_ID;
+                    $scope.TimeZoneIDName = null;
+                    $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
+                        $scope.TimeZoneList = data2;
+                        $scope.TimeZoneIDName = data2[$scope.TimeZoneId];
+                    });
 
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
                         if ($ff($scope.InstitutionChildList, function (value) {
@@ -5031,6 +5056,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
             $('.chartTabs').addClass('charTabsNone');
+            $("#chatLoaderPV").show();
             var ConfigCode = "LIVEDATA_STARTFROM";
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
                 $scope.date_size = data1[0].ConfigValue;
@@ -5041,6 +5067,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $http.get(baseUrl + '/api/User/PatientLiveData_List/?Patient_Id=' + $scope.SelectedPatientId + '&DataTime=' + $scope.tempdate + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.PatientLiveDataList = angular.copy(data.PatientHealthDataList);
                 })
+                $("#chatLoaderPV").hide();
             }, 10000) // 10000 ms execution
 
         }
@@ -5622,9 +5649,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
             $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
-                $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
+                if ($scope.UpComingAppointmentDetails != null) {
+                    $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
+                }
             });
-            
             $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
                 $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
@@ -7220,7 +7248,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.getMyAppointments = function () {
             $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (Patientdata) {
                 $scope.PatientListData = Patientdata.PatientAppointmentList;
-                $scope.PatientAppointmentCount = $scope.PatientListData.length;
+                if ($scope.PatientListData != null) {
+                    $scope.PatientAppointmentCount = $scope.PatientListData.length;
+                }
                 // to show first appointment
                 if ($scope.PatientAppointmentCount > 0) {
                     $scope.PatientData = $scope.PatientListData[0];

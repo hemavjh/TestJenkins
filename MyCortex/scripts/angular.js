@@ -26575,10 +26575,12 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
           });
 
           if (value) {
-            value.forEach(function(item) {
-              var option = options.getOptionFromViewValue(item);
-              if (option && !option.disabled) option.element.selected = true;
-            });
+              if (value != 0) {
+                value.forEach(function(item) {
+                  var option = options.getOptionFromViewValue(item);
+                  if (option && !option.disabled) option.element.selected = true;
+                });
+              }
           }
         };
 

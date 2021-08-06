@@ -571,6 +571,7 @@ namespace MyCortex.Repositories.Masters
                                                       TimeZoneId = p.Field<long>("TimeZoneID"),
                                                       TimeZoneName = p.Field<string>("TimeZoneName"),
                                                       UtcOffSet = p.Field<string>("UTCOFFSET"),
+                                                      TimeZoneDisplayName = p.Field<string>("TimeZoneDisplayName"),
                                                       IsActive = p.Field<int>("IsActive")
 
                                                   }).ToList();
