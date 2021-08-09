@@ -200,6 +200,22 @@ namespace MyCortex.Masters.Models
         public long UserTypeId { get; set; }
     }
 
+    public class TabAdminDetails
+    {
+        public long InstitutionId { get; set; }
+        public long UserId { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public int Flag { get; set; }
+    }
+
+    public class TabAdminDetailsReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+    }
+
     public class SelectedDeviceParameterList
     {
         public long ID { get; set; }

@@ -408,28 +408,55 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_USER_PIN_VALIDATION]", param);
-                
-                if (dt.Rows.Count > 0)
-                {
-                    Flag = dt.Rows[0]["flag"].ToString();
-                }
                
-                    TabUserDetails lst = (from p in dt.AsEnumerable()
-                                                select new TabUserDetails()
-                                                {
-                                                    TabId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("TAB_ID") : 0,
-                                                    TabRefId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("TAB_REF_ID") : "",
-                                                    UserId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USER_ID") : 0,
-                                                    PIN = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("PIN") : "",
-                                                    UserName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("USER_NAME")) : "",
-                                                    FirstName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")) : "",
-                                                    MiddleName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")) : "",
-                                                    LastName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("LASTNAME")) : "",
-                                                    EmailId = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("EMAILID")) : "",
-                                                    Password = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("PASSWORD")) : "",
-                                                    UserTypeId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USERTYPE_ID") : 0,
-                                                    Flag = p.Field<int>("flag")
-                                                }).FirstOrDefault(); 
+                TabUserDetails lst = (from p in dt.AsEnumerable()
+                                            select new TabUserDetails()
+                                            {
+                                                TabId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("TAB_ID") : 0,
+                                                TabRefId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("TAB_REF_ID") : "",
+                                                UserId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USER_ID") : 0,
+                                                PIN = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("PIN") : "",
+                                                UserName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("USER_NAME")) : "",
+                                                FirstName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")) : "",
+                                                MiddleName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")) : "",
+                                                LastName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("LASTNAME")) : "",
+                                                EmailId = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("EMAILID")) : "",
+                                                Password = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("PASSWORD")) : "",
+                                                UserTypeId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USERTYPE_ID") : 0,
+                                                Flag = p.Field<int>("flag")
+                                            }).FirstOrDefault(); 
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabAdminObj)
+        {
+            String Flag = "";
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", TabAdminObj.InstitutionId));
+            param.Add(new DataParameter("@USERID", TabAdminObj.UserId));
+            param.Add(new DataParameter("@USERNAME", TabAdminObj.UserName));
+            param.Add(new DataParameter("@PASSWORD", TabAdminObj.Password));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TAB_LOGOUT_VALIDATION]", param);
+
+                TabAdminDetails lst = (from p in dt.AsEnumerable()
+                                      select new TabAdminDetails()
+                                      {
+                                          InstitutionId = dt.Rows[0]["FLAG"].ToString() == "1" ? p.Field<long>("INSTITUTION_ID") : 0,
+                                          UserId = dt.Rows[0]["FLAG"].ToString() == "1" ? p.Field<long>("USERID") : 0,
+                                          UserName = dt.Rows[0]["FLAG"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("USERNAME")) : "",
+                                          Password = dt.Rows[0]["FLAG"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("PASSWORD")) : "",
+                                          Flag = p.Field<int>("FLAG")
+                                      }).FirstOrDefault();
                 return lst;
             }
             catch (Exception ex)

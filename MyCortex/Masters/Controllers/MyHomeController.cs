@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using MyCortex.Masters.Models;
 using MyCortex.Repositories.Masters;
 using MyCortex.Provider;
- 
+using MyCortex.Utilities;
 
 namespace MyCortex.User.Controllers
 {
@@ -291,6 +291,46 @@ namespace MyCortex.User.Controllers
                 model.Status = "False";
                 model.Message = "Error in Tab User Validation";
                 model.TabUserDetail = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Tab_Logout_Validation([FromBody] TabAdminDetails TabAdminObj)
+        {
+            TabAdminDetails ModelData = new TabAdminDetails();
+            TabAdminDetailsReturnModels model = new TabAdminDetailsReturnModels();
+
+            var username = TabAdminObj.UserName.ToLower();
+            DataEncryption EncryptPassword = new DataEncryption();
+            TabAdminObj.Password = EncryptPassword.Encrypt(TabAdminObj.Password);
+            TabAdminObj.UserName = EncryptPassword.Encrypt(username);
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Tab_Logout_Validation(TabAdminObj);
+                if (ModelData.Flag == 1)
+                {
+                    messagestr = "Tab Admin User Validation Successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                else if (ModelData.Flag == 0)
+                {
+                    messagestr = "Tab Admin credentials not matching, please verify";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                model.Message = messagestr;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Tab Admin User Validation";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
