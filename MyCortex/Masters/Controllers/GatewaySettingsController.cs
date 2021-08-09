@@ -64,5 +64,21 @@ namespace MyCortex.Masters.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
+
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage GatewayDefault_Save(long InstitutionId, long GatewayTypeId, long GatewayId)
+        {
+            try
+            {
+                int id = repository.GatewayDefault_Save(InstitutionId, GatewayTypeId, GatewayId);
+                return Request.CreateResponse(HttpStatusCode.OK, id);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
     }
 }

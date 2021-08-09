@@ -18,13 +18,14 @@ using MyCortex.Provider;
 namespace MyCortex.User.Controllers
 {
     // [Authorize]
-    [CheckSessionOutFilter]
+    
     public class MyHomeController : ApiController
     {
         static readonly IMyHomeRepository repository = new MyHomeRepository(); 
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             IList<TabListModel> model;
@@ -40,6 +41,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public TabListModel Tab_ListView(int Id)
         {
             TabListModel model = new TabListModel();
@@ -47,6 +49,7 @@ namespace MyCortex.User.Controllers
             return model;
         }
         [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Tab_List_Delete(int Id)
         {
             if (Id > 0)
@@ -62,6 +65,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpPost]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Tab_InsertUpdate([FromBody] TabListModel obj)
         {
 
@@ -105,6 +109,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpPost]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Tab_User_Pin_Update([FromBody] TabUserPinModel obj)
         {
 
@@ -142,6 +147,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Get_Tab_ID(long InstitutionId, string Ref_ID)
         {
             TabIdReturnModels model = new TabIdReturnModels();
@@ -168,6 +174,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
         {
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
@@ -219,6 +226,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Parameter_List_GroupID(long ParamGroup_ID, long TabId)
         {
             IList<ParameterModels> ModelData = new List<ParameterModels>();
@@ -288,6 +296,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage TabDashboardDetails(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
         {
             TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
@@ -326,6 +335,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Device_List(int? IsActive, long InstitutionId)
         {
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
@@ -351,6 +361,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpPost]
+        [CheckSessionOutFilter]
         public HttpResponseMessage AddDeviceInsertUpdate([FromBody] TabDevicesModel obj)
         {
 
@@ -394,6 +405,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public TabDevicesModel ViewDevice_List(long Id)
         {
             TabDevicesModel model = new TabDevicesModel();
@@ -402,6 +414,7 @@ namespace MyCortex.User.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Device_Delete(int Id)
         {
             if (Id > 0)

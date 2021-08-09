@@ -21716,9 +21716,9 @@ MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', 
 
         };
 
-        $scope.LanguageDefaultSave = function () {
+        $scope.GatewayDefaultSave = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/LanguageSettings/LanguageDefault_Save/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Language_Id=' + $scope.selectedLanguage
+            $http.get(baseUrl + '/api/GatewaySettings/GatewayDefault_Save/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Language_Id=' + $scope.selectedLanguage
             ).success(function (data) {
                 if (data == 1) {
                     $scope.LanguageList();

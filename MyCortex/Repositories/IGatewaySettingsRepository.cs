@@ -10,5 +10,6 @@ namespace MyCortex.Repositories
     {
         IList<GatewaySettingsModel> GatewaySettings_List(long Institution_Id, Guid Login_Session_Id);
         int GatewaySettings_Update(List<GatewaySettingsModel> model);
+        int GatewayDefault_Save(long InstitutionId, long GatewayTypeId, long GatewayId);
     }
 }

@@ -73,5 +73,23 @@ namespace MyCortex.Repositories.Masters
                 return 0;
             }
         }
+
+        public int GatewayDefault_Save(long InstitutionId, long GatewayTypeId, long GatewayId)
+        {
+            try
+            {
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+                param.Add(new DataParameter("@GATEWAYTYPE_ID", GatewayTypeId));
+                param.Add(new DataParameter("@GATEWAY_ID", GatewayId));
+                var retid = ClsDataBase.GetScalar("[MYCORTEX].[INSTITUTEGATEWAYDEFAULT_SAVE]", param).ToString();
+                return Int32.Parse(retid);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
     }
 }
