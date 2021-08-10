@@ -124,6 +124,14 @@ namespace MyCortex.User.Model
         public IList<SelectedDaysList> SelectedDaysList { get; set; }
         public IList<SlotsList> TimeSlot { get; set; }
         public IList<DoctorsId> Doctor_Id { get; set; }
+
+        public IList<CcCg> CC_CG { get; set; }
+    }
+    public class CcCg
+    {
+        public int Id { get; set; }
+        public long CcCg_Id { get; set; }
+        public int IsActive { get; set; }
     }
     public class DoctorsId
     {

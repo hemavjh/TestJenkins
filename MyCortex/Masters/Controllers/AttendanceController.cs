@@ -109,6 +109,11 @@ namespace MyCortex.Masters.Controllers
                     messagestr = "Holiday updated Successfully";
                     model.ReturnFlag = 1;
                 }
+                else if ((retflag == 4) == true)
+                {
+                    messagestr = "Holiday Can't Be Added AppointmentSlot Exist!";
+                    model.ReturnFlag = 2;
+                }
                 model.Attendance = ModelData;
                 model.Message = messagestr;// "User created successfully";
                 model.Status = "True";

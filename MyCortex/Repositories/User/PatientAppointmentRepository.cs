@@ -420,6 +420,22 @@ namespace MyCortex.Repositories.Uesr
                             InsertId = long.Parse((dr["Id"].ToString()));
                             Flag = int.Parse((dr["flag"].ToString()));
                         }
+                        if (InsertId > 0)
+                        {
+                            foreach (CcCg item3 in obj.CC_CG)
+                            {
+                                List<DataParameter> param2 = new List<DataParameter>();
+                                param2.Add(new DataParameter("@Id", item3.Id));
+                                param2.Add(new DataParameter("@DOCTORSHIFT_ID", InsertId));
+                                param2.Add(new DataParameter("@CC_CG", item3.CcCg_Id));
+                                param2.Add(new DataParameter("@ISACTIVE", item3.IsActive));
+                                param2.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
+                                param2.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+
+                                DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[DoctorShift_CcCg_INSERTUPDATE]", param2);
+                                DataRow dr_1 = dt_1.Rows[0];
+                            }
+                        }
                         if (InsertId > 0 && (Flag == 2 || Flag == 3))
                         {
                             foreach (SelectedDaysList item1 in obj.SelectedDaysList)

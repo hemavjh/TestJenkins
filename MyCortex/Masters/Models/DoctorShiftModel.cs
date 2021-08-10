@@ -41,6 +41,13 @@ namespace MyCortex.Masters.Models
         public long DepartmentId { get; set; }
 
         public string Doctor_Name { get; set; }
+
+        public IList<CcCg> CC_CG { get; set; }
+    }
+    public class CcCg
+    {
+        public long CcCg_Id { get; set; }
+        public int IsActive { get; set; }
     }
     public class DoctorsId
     {

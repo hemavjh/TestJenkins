@@ -389,6 +389,7 @@ namespace MyCortex.Repositories.Masters
                                             DepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                         }).FirstOrDefault();
                 INS.SelectedDaysList = DoctorShiftDayDetails_View(INS.ID, Login_Session_Id);
+                INS.CC_CG = DoctorShift_CCCG_View(INS.ID);
                 return INS;
             }
             catch (Exception ex)
@@ -396,6 +397,22 @@ namespace MyCortex.Repositories.Masters
                 _logger.Error(ex.Message, ex);
                 return null;
             }
+        }
+
+        public IList<CcCg> DoctorShift_CCCG_View(long ID)
+        {
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DoctorShift_id", ID));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DoctorShift_CCCG_View]", param);
+            List<CcCg> INS1 = (from p in dt.AsEnumerable()
+                               select new CcCg()
+                               {
+                                   //ID = p.Field<long>('Id'),
+                                   CcCg_Id = p.Field<long>("Cc_Cg"),
+                                   IsActive = p.Field<int>("IsActive"),
+                               }).ToList();
+            return INS1;
         }
 
         /// <summary>
