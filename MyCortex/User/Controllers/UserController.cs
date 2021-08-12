@@ -954,6 +954,7 @@ namespace MyCortex.User.Controller
                 Total = Total + PatientHealthDataList[i].ParameterValue;
             }
             Average = Total / PatientHealthDataList.Count;
+            Average = Math.Round(Average, 2);
             return Average;
             /*return Average.ToString("#.##");*/
         }
