@@ -18727,7 +18727,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if (chk2 === 1) {
                     return false;
                 }
-                var chk;
+                var chk = 2;
                 for (let y = 0; y < daylen; y++) {
                     var timeshift = $scope.SelectedDays[y].TimeSlot.length;
                     var arr = [];
@@ -18768,7 +18768,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         break;
                     }
                 }
-                if (chk === 1) {
+                if (chk === 1 || chk == 2) {
                     angular.forEach($scope.SelectedDays, function (value, index) {
                         for (let i = 3; i >= 0; i--) {
                             const y = $scope.SelectedDays[index].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
@@ -18928,6 +18928,114 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             }
             return true;
         };
+        $scope.OrganisationSettingsSelectedDays = function () {
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                const OrgDay = ""; 
+                const OrgSelectedDate = data.DefaultWorkingDays.split(',');
+                angular.forEach($scope.SelectedDays, function (value, index) {
+                    angular.forEach(OrgSelectedDate, function (value1, index1) {
+                        if (value1 == "monday") {
+                            value1 = "mon";
+                            var DateDay = $scope.SelectedDays[index].Day;
+                            DateDay = DateDay.toString();
+                            if (DateDay.includes("Mon") == true) {
+                                $scope.SelectedDays[index].exist = 1;
+                            }
+                        }
+                        else if (value1 == "tuesday") {
+                            value1 = "tue";
+                            var DateDay = $scope.SelectedDays[index].Day;
+                            DateDay = DateDay.toString();
+                            if (DateDay.includes("Tue") == true) {
+                                $scope.SelectedDays[index].exist = 1;
+                            } 
+                        }
+                        else if (value1 == "wednesday") {
+                            value1 = "wed";
+                            var DateDay = $scope.SelectedDays[index].Day;
+                            DateDay = DateDay.toString();
+                            if (DateDay.includes("Wed") == true) {
+                                $scope.SelectedDays[index].exist = 1;
+                            } 
+                        }
+                        else if (value1 == "thursday") {
+                            value1 = "thu";
+                            var DateDay = $scope.SelectedDays[index].Day;
+                            DateDay = DateDay.toString();
+                            if (DateDay.includes("Thu") == true) {
+                                $scope.SelectedDays[index].exist = 1;
+                            } 
+                        }
+                        else if (value1 == "friday") {
+                            value1 = "fri";
+                            var DateDay = $scope.SelectedDays[index].Day;
+                            DateDay = DateDay.toString();
+                            if (DateDay.includes("Fri") == true) {
+                                $scope.SelectedDays[index].exist = 1;
+                            } 
+                        }
+                        else if (value1 == "saturday") {
+                            value1 = "sat";
+                            var DateDay = $scope.SelectedDays[index].Day;
+                            DateDay = DateDay.toString();
+                            if (DateDay.includes("Sat") == true) {
+                                $scope.SelectedDays[index].exist = 1;
+                            } 
+                        }
+                        else if (value1 == "sunday") {
+                            value1 = "sun";
+                            var DateDay = $scope.SelectedDays[index].Day;
+                            DateDay = DateDay.toString();
+                            if (DateDay.includes("Sun") == true) {
+                                $scope.SelectedDays[index].exist = 1;
+                            } 
+                        }
+                    });
+                });
+                const xy = $scope.SelectedDays.filter(x => x.exist == 1);
+                $scope.SelectedDays = xy;
+
+                angular.forEach($scope.SelectedDays, function (value2, index) {
+                    var Day = value2.Day.toString();
+                    if (Day.includes("Sun") == true) {
+                        $("#SundayId").removeAttr("disabled");
+                        $('#SundayId').prop('checked', true);
+                        $('#SundayCheck').show();
+                    }
+                    if (Day.includes("Mon") == true) {
+                        $("#MondayId").removeAttr("disabled");
+                        $('#MondayId').prop('checked', true);
+                        $('#MondayCheck').show();
+                    }
+                    if (Day.includes("Tue") == true) {
+                        $("#TuesdayId").removeAttr("disabled");
+                        $('#TuesdayId').prop('checked', true);
+                        $('#TuesdayCheck').show();
+                    }
+                    if (Day.includes("Wed") == true) {
+                        $("#WednesdayId").removeAttr("disabled");
+                        $('#WednesdayId').prop('checked', true);
+                        $('#WednesdayCheck').show();
+                    }
+                    if (Day.includes("Thu") == true) {
+                        $("#ThursdayId").removeAttr("disabled");
+                        $('#ThursdayId').prop('checked', true);
+                        $('#ThursdayCheck').show();
+                    }
+                    if (Day.includes("Fri") == true) {
+                        $("#FridayId").removeAttr("disabled");
+                        $('#FridayId').prop('checked', true);
+                        $('#FridayCheck').show();
+                    }
+                    if (Day.includes("Sat") == true) {
+                        $("#SaturdayId").removeAttr("disabled");
+                        $('#SaturdayId').prop('checked', true);
+                        $('#SaturdayCheck').show();
+                    }
+                });
+            });
+            
+        }
         $scope.TimeslotClear = function () {
             $scope.TimeSlot1 = "";
             $scope.TimeSlot2 = "";
@@ -19004,44 +19112,45 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $("#FridayId").attr("disabled", true);
                 $("#SaturdayId").attr("disabled", true);
                 $scope.TimeslotClear();
-                angular.forEach($scope.SelectedDays, function (value, index) {
-                    var Day = value.Day.toString();
-                    if (Day.includes("Sun") == true) {
-                        $("#SundayId").removeAttr("disabled");
-                        $('#SundayId').prop('checked', true);
-                        $('#SundayCheck').show();
-                    }
-                    if (Day.includes("Mon") == true) {
-                        $("#MondayId").removeAttr("disabled");
-                        $('#MondayId').prop('checked', true);
-                        $('#MondayCheck').show();
-                    }
-                    if (Day.includes("Tue") == true) {
-                        $("#TuesdayId").removeAttr("disabled");
-                        $('#TuesdayId').prop('checked', true);
-                        $('#TuesdayCheck').show();
-                    }
-                    if (Day.includes("Wed") == true) {
-                        $("#WednesdayId").removeAttr("disabled");
-                        $('#WednesdayId').prop('checked', true);
-                        $('#WednesdayCheck').show();
-                    }
-                    if (Day.includes("Thu") == true) {
-                        $("#ThursdayId").removeAttr("disabled");
-                        $('#ThursdayId').prop('checked', true);
-                        $('#ThursdayCheck').show();
-                    }
-                    if (Day.includes("Fri") == true) {
-                        $("#FridayId").removeAttr("disabled");
-                        $('#FridayId').prop('checked', true);
-                        $('#FridayCheck').show();
-                    }
-                    if (Day.includes("Sat") == true) {
-                        $("#SaturdayId").removeAttr("disabled");
-                        $('#SaturdayId').prop('checked', true);
-                        $('#SaturdayCheck').show();
-                    }
-                });
+                $scope.OrganisationSettingsSelectedDays();
+                //angular.forEach($scope.SelectedDays, function (value, index) {
+                //    var Day = value.Day.toString();
+                //    if (Day.includes("Sun") == true) {
+                //        $("#SundayId").removeAttr("disabled");
+                //        $('#SundayId').prop('checked', true);
+                //        $('#SundayCheck').show();
+                //    }
+                //    if (Day.includes("Mon") == true) {
+                //        $("#MondayId").removeAttr("disabled");
+                //        $('#MondayId').prop('checked', true);
+                //        $('#MondayCheck').show();
+                //    }
+                //    if (Day.includes("Tue") == true) {
+                //        $("#TuesdayId").removeAttr("disabled");
+                //        $('#TuesdayId').prop('checked', true);
+                //        $('#TuesdayCheck').show();
+                //    }
+                //    if (Day.includes("Wed") == true) {
+                //        $("#WednesdayId").removeAttr("disabled");
+                //        $('#WednesdayId').prop('checked', true);
+                //        $('#WednesdayCheck').show();
+                //    }
+                //    if (Day.includes("Thu") == true) {
+                //        $("#ThursdayId").removeAttr("disabled");
+                //        $('#ThursdayId').prop('checked', true);
+                //        $('#ThursdayCheck').show();
+                //    }
+                //    if (Day.includes("Fri") == true) {
+                //        $("#FridayId").removeAttr("disabled");
+                //        $('#FridayId').prop('checked', true);
+                //        $('#FridayCheck').show();
+                //    }
+                //    if (Day.includes("Sat") == true) {
+                //        $("#SaturdayId").removeAttr("disabled");
+                //        $('#SaturdayId').prop('checked', true);
+                //        $('#SaturdayCheck').show();
+                //    }
+                //});
             }
         }
 
@@ -20051,19 +20160,25 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         }
 
                     });
-                    if ($scope.DoctorSave == true) {
-                        var $sel1 = $('#department');
-                        $sel1.multiselect('disable');
-                        var $sel2 = $('#Specialist');
-                        $sel2.multiselect('disable');
-                        //var $sel3 = $('#CCCG');
-                        //$sel3.multiselect('disable');
-                    }
-                    if ($scope.DoctorSave == false) {
-                        $scope.ViewShiftDoctor();
-                    }
                 }
                 $("#chatLoaderPV").hide();
+                if ($scope.DoctorSave == true) {
+                    var sel1 = $('#department');
+                    sel1.multiselect('disable');
+                    var sel2 = $('#Specialist');
+                    sel2.multiselect('disable');
+                    var sel3 = $('#CCCG');
+                    sel3.multiselect('enable');
+                }
+                if ($scope.DoctorSave == false) {
+                    $scope.ViewShiftDoctor();
+                    var sel1 = $('#department');
+                    sel1.multiselect('disable');
+                    var sel2 = $('#Specialist');
+                    sel2.multiselect('disable');
+                    var sel3 = $('#CCCG');
+                    sel3.multiselect('disable');
+                }
             })
         };
 

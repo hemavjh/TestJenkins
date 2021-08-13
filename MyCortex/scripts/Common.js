@@ -182,7 +182,8 @@ function dateRange(startDate, endDate, steps = 1) {
             Day: new Date(currentDate),
             TimeSlot: [
                 [], [], [], []
-            ]
+            ],
+            exist: 0
         }
         dateArray.push(EmptySlot);
         currentDate.setUTCDate(currentDate.getUTCDate() + steps);
