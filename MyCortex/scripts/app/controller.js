@@ -21591,10 +21591,14 @@ MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', 
 
         $scope.GatewayDefaultSave = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/GatewaySettings/GatewayDefault_Save/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Language_Id=' + $scope.selectedLanguage
+            $http.get(baseUrl + '/api/GatewaySettings/GatewayDefault_Save/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&GatewayTypeId=' + $scope.selectedGatewaySettings + '&GatewayId=' + $scope.selectedGateway
             ).success(function (data) {
                 if (data == 1) {
-                    $scope.LanguageList();
+                    if ($scope.selectedGatewaySettings == 1) {
+                        $scope.PaymentList();
+                    } else if ($scope.selectedGatewaySettings == 2) {
+                        $scope.InsuranceList();
+                    }
                     $("#chatLoaderPV").hide();
                     alert("Saved successfully.");
                 }
