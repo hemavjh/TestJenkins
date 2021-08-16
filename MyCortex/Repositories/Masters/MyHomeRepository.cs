@@ -606,6 +606,7 @@ namespace MyCortex.Repositories.Masters
                                     ActivityDate = p.Field<DateTime>("ACTIVITY_DATE"),
                                     CreatedDateTime = p.Field<DateTime>("CREATED_DT"),
                                     ParameterId = p.Field<long>("PARAMETER_ID"),
+                                    ParameterGroupId = p.Field<long>("PARAMETER_GROUPID"),
                                     ParameterValue = p.Field<decimal>("PARAMETER_VALUE"),
                                     ParameterName = p.Field<string>("PARAMETER_NAME"),
                                     UomId = p.Field<long>("UNIT_ID"),

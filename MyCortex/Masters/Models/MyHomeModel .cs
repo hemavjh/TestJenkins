@@ -294,6 +294,7 @@ namespace MyCortex.Masters.Models
     {
         public DateTime ActivityDate { get; set; }
         public long ParameterId { get; set; }
+        public long ParameterGroupId { get; set; }
         public string ParameterName { get; set; }
         public decimal ParameterValue { get; set; }
         public long UomId { get; set; }
