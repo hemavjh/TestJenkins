@@ -6,7 +6,7 @@
 </script>
 <ul class="secondaryMenu">
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/ICD10Master" data-menu="Master">ICD 10</a>
+        <a href="Home/Index#/ICD10Master" data-menu="Master">ICD 10</a>
     </li>
     <li>
         <a href="Home/Index#/DrugDBMaster">Drug DB</a>
@@ -15,15 +15,15 @@
         <a href="Home/Index#/AllergyMaster">Allergies</a>
     </li>
     <li>
-        <a  href="Home/Index#/Payor">Payor</a>
+        <a class="secondaryMenuActive" href="Home/Index#/Payor">Payor</a>
     </li>
 </ul>
 
-<h1 class="page-title">ICD 10</h1>
+<h1 class="page-title">PayOr</h1>
 <div class="container" style="max-width: 1530px;">
     <div class="row">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-        <div class="" ng-init="ICD10list()">
+        <div class="" ng-init="Payorlist()">
             <div class="panel panel-default" id="ICD10Id">
                 <form class="form-horizontal" role="form">
                     <div class="panel-body">
@@ -32,22 +32,21 @@
                                 <div class="inputGroups">
                                     <label>Search</label>
                                     <div class="modernSearch">
-                                        <input type="text" ng-model="searchquery" ng-change="fliterICD10List()"
+                                        <input type="text" ng-model="searchquery" ng-change="fliterPayorList()"
                                                placeholder="" style="width: 200px" />
                                         <i class="fa fa-search"></i>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label>Active</label>
                                 </div>
-                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="ICD10list();" title="Active / All">
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Payorlist();" title="Active / All">
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <a href="javascript:" ng-click="ClearPopup();AddICD10PopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New ICD 10">Add New</a>
+                                    <a href="javascript:" ng-click="ClearPopup();AddPayorPopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New ICD 10">Add New</a>
                                 </div>
                             </div>
                         </div>
@@ -55,16 +54,18 @@
                 </form>
             </div>
         </div>
-        <!-- <a href="javascript:" ng-click="AddICD10PopUP()" class="btn btn-autosize pull-right mb-15" title="Click to Add New ICD 10">Add New</a>-->
         <div class="">
             <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
                 <thead>
                     <tr style="text-align: center">
-                        <th st-ratio="5">#</th>
-                        <th st-ratio="29" st-sort="ICD_Code">ICD Code</th>
-                        <th st-ratio="29" st-sort="Description">Description</th>
-                        <th st-ratio="29" st-sort="CategoryName">Category</th>
-                        <th st-ratio="8" >Action</th>
+                        <th st-ratio="3">#</th>
+                        <!--<th st-ratio="29" st-sort="ICD_Code">Payor</th>
+                        <th st-ratio="25" st-sort="CategoryName">Plan</th>-->
+                        <th st-ratio="20" st-sort="CategoryName">PayorName</th>
+                        <th st-ratio="20" st-sort="CategoryName">ShortCode</th>
+                        <th st-ratio="20" st-sort="Description">Description</th>
+                        <th st-ratio="20" st-sort="CategoryName">ReferCode</th>
+                        <th st-ratio="8">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,25 +76,34 @@
                     </tr>
                     <tr ng-repeat="row in emptydata">
                         <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                        <td style="text-align: left">{{row.ICD_Code}}</td>
+                        <!--<td style="text-align: left">{{row.ICD_Code}}</td>
+                        <td style="text-align: left"> <div class="textwrap">{{row.PayorName}}</div></td>-->
+                        <td style="text-align: left">{{row.PayorName}}</td>
+                        <td style="text-align: left">{{row.ShortCode}}</td>
                         <td style="text-align: left"> <div class="textwrap">{{row.Description}}</div></td>
-                        <td style="text-align: left">{{row.CategoryName}}</td>
+                        <td style="text-align: left">{{row.ReferCode}}</td>
                         <td st-ratio="10">
 
-                            <a href="javascript:" ng-click="ViewICD1OPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <a href="javascript:" ng-click="ViewPayorPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
-                            <a href="javascript:" ng-click="row.IsActive == 0 ||  EditICD10PopUP(row.Id)" title="Edit">
+                            <a href="javascript:" ng-click="row.IsActive == 0 ||  EditPayorPopUP(row.Id)" title="Edit">
                                 <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                                 <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
 
                                 </a>
                             </a>
-                            <a href="javascript:" ng-click="DeleteICD10(row.Id)" title="Active">
-                                <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                                <a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
+                            <!--<a href="javascript:" ng-click="DeletePayor(row.Id)" title="Active" ng-if="row.IsActive==0">
+                                <i class="fa fa-check-circle-o ng-scope" aria-hidden="true"></i>
+                                <a href="javascript:" ng-click="ActivePayor(row.Id)" title="InActive" ng-if="row.IsActive==0">
 
-                                </a>
-                            </a>
+                                </a>-->
+                        <a href="javascript:;" ng-click="DeletePayor(row.Id)" title="Active" ng-if="row.IsActive==1">
+                        <i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+
+                        <a href="javascript:" ng-click="ActivePayor(row.Id)" title="Inactive" ng-if="row.IsActive==0">
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ></i>
+
+                        </a>
                         </td>
                     </tr>
                 </tbody>
@@ -125,46 +135,55 @@
 </div>
 
 <!--ADD&EDIT MODAL-->
-<div id="ICD10Modal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+<div id="PayorModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"title="Close" ng-click="CancelPopup()"  style="color:#fff;">&times;</button>
-                <h4 class="modal-title">ICD 10</h4>
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
+                <h4 class="modal-title">Payor</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" style="font-size:small">
+                    <!--<div class="inputGroups">
+                        <label>Payor<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="Text1" name="ICD_Code" ng-model="Payor" ng-init="Payor=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>-->
+                    <!--<div class="inputGroups">
+                        <label>Plan<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="Text2" name="Plan" ng-model="Plan" ng-init="Plan=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>-->
                     <div class="inputGroups">
-                        <label>ICD Code<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="Text6" name="ICD_Code" ng-model="ICD_Code" ng-init="ICD_Code=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <label>PayorName<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="PayorName" name="PayorName" ng-model="PayorName" ng-init="PayorName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>ShortCode<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
                     </div>
                     <div class="inputGroups">
                         <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
-                        <textarea class="form-control" id="Textarea1" rows="2" name="Description" ng-model="Description" placeholder="" ng-maxlength="250" maxlength="250"></textarea>
+                        <input type="text" class="form-control" id="Description" name="Description" ng-model="Description" ng-init="Description=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
                     </div>
                     <div class="inputGroups">
-                        <label>Category</label>
-                        <select class="" data-style="form-control" ng-model="Category_ID" id="selectpicker" data-live-search="true" data-selectpicker data-collection-name="CategoryIDList">
-                            <option ng-repeat="sel in CategoryIDList" value="{{sel.Id}}">{{sel.Name}}</option>
-                        </select>
+                        <label>ReferCode<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="ReferCode" name="ReferCode" ng-model="ReferCode" ng-init="ReferCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-click="ICD10AddEdit()" title="Click to Save">Save</button>
-                <button type="button" class="theme-btn-2  btn-save"  ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-show="PayorSave == true" ng-click="PayorAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
             </div>
         </div>
     </div>
 </div>
 <!--VIEW MODAL-->
-<div id="ICD10ViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false" ng-int="ViewICD10()">
+<!--<div id="PayorViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false" ng-int="ViewICD10()">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()">&times;</button>
-                <h4 class="modal-title">ICD 10</h4>
+                <h4 class="modal-title">Payor</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" style="font-size:small">
@@ -188,13 +207,4 @@
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-
-
-
-
-
+</div>-->
