@@ -20,50 +20,50 @@ namespace MyCortex.Masters.Controllers
     [Authorize]
     [CheckSessionOutFilter]
 
-    public class PayorMasterController : ApiController
+    public class PlanMasterController : ApiController
     {
-        static readonly IPayorMasterRepository repository = new PayorMasterRepository();
+        static readonly IPlanMasterRepository repository = new PlanMasterRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
-        /// to insert/update a Payor Master list
+        /// to insert/update a Plan Master list
         /// </summary>
-        /// <param name="obj">a Payor Master detail</param>
-        /// <returns>inserted/updated Payor Master list</returns>
-        public HttpResponseMessage PayorMaster_AddEdit([FromBody] PayorMasterModel obj)
+        /// <param name="obj">a Plan Master detail</param>
+        /// <returns>inserted/updated Plan Master list</returns>
+        public HttpResponseMessage PlanMasterAddEdit([FromBody] PlanMasterModel obj)
         {
 
-            IList<PayorMasterModel> ModelData = new List<PayorMasterModel>();
-            PayorMasterReturnModels model = new PayorMasterReturnModels();
-            if (!ModelState.IsValid)
-            {
-                model.Status = "False";
-                model.Message = "Invalid data";
-                model.PayorMasterDetail = ModelData;
-                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            IList<PlanMasterModel> ModelData = new List<PlanMasterModel>();
+            PlanMasterReturnModels model = new PlanMasterReturnModels();
+            //if (!ModelState.IsValid)
+            //{
+            //    model.Status = "False";
+            //    model.Message = "Invalid data";
+            //    model.PlanMasterDetail = ModelData;
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
 
-            }
+            //}
 
             string messagestr = "";
             try
             {
-                ModelData = repository.PayorMaster_AddEdit(obj);
+                ModelData = repository.PlanMaster_AddEdit(obj);
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
-                    messagestr = "Payor Master already exists, cannot be Duplicated";
+                    messagestr = "Plan Master already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
                 }
                 else if (ModelData.Any(item => item.flag == 2) == true)
                 {
-                    messagestr = "Payor Master created successfully";
+                    messagestr = "Plan Master created successfully";
                     model.ReturnFlag = 1;
                 }
                 else if (ModelData.Any(item => item.flag == 3) == true)
                 {
-                    messagestr = "Payor Master updated Successfully";
+                    messagestr = "Plan Master updated Successfully";
                     model.ReturnFlag = 1;
                 }
-                model.PayorMasterDetail = ModelData;
+                model.PlanMasterDetail = ModelData;
                 model.Message = messagestr;// "";
                 model.Status = "True";
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
@@ -72,30 +72,30 @@ namespace MyCortex.Masters.Controllers
             catch
             {
                 model.Status = "False";
-                model.Message = "Error in creating Payor";
-                model.PayorMasterDetail = ModelData;
+                model.Message = "Error in creating Plan";
+                model.PlanMasterDetail = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
 
         [HttpGet]
-        public IList<PayorMasterModel> PayorList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
+        public IList<PlanMasterModel> PlanList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
         {
-            IList<PayorMasterModel> model;
-            model = repository.PayorMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber);
+            IList<PlanMasterModel> model;
+            model = repository.PlanMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber);
             return model;
         }
 
         /// <summary>
-        /// to get Payor master details of a Payor master
+        /// to get Plan master details of a Plan master
         /// </summary>
-        /// <param name="Id">Id of a Payor Master</param>
-        /// <returns>Payor master details of a Payor master</returns>
+        /// <param name="Id">Id of a Plan Master</param>
+        /// <returns>Plan master details of a Plan master</returns>
         [HttpGet]
-        public PayorMasterModel PayorMasterView(int Id)
+        public PlanMasterModel PlanMasterView(int Id)
         {
-            PayorMasterModel model = new PayorMasterModel();
-            model = repository.PayorMasterView(Id);
+            PlanMasterModel model = new PlanMasterModel();
+            model = repository.PlanMasterView(Id);
             return model;
         }
 
@@ -107,11 +107,11 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">id of ICD Master</param>
         /// <returns>success response of deactivate</returns>
         [HttpGet]
-        public HttpResponseMessage PayorMaster_Delete(int Id)
+        public HttpResponseMessage PlanMaster_Delete(int Id)
         {
             if (Id > 0)
             {
-                repository.PayorMaster_Delete(Id);
+                repository.PlanMaster_Delete(Id);
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
                 return response;
             }
@@ -122,16 +122,16 @@ namespace MyCortex.Masters.Controllers
         }
 
         /// <summary>
-        /// to activate a Payor Master
+        /// to activate a Plan Master
         /// </summary>
-        /// <param name="Id">id of Payor Master</param>
+        /// <param name="Id">id of Plan Master</param>
         /// <returns>success response of activate</returns>
         [HttpGet]
-        public HttpResponseMessage PayorMaster_Active(int Id)
+        public HttpResponseMessage PlanMaster_Active(int Id)
         {
             if (Id > 0)
             {
-                repository.PayorMaster_Active(Id);
+                repository.PlanMaster_Active(Id);
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
 
                 return response;

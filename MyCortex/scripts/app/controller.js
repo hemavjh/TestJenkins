@@ -12415,7 +12415,7 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
 ]);
 
 // This is for Payor controller functions//    
-MyCortexControllers.controller("PayorController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
+MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
 
         $scope.Id = "0";
@@ -12453,19 +12453,19 @@ MyCortexControllers.controller("PayorController", ['$scope', '$http', '$filter',
             //    return false;
             //}
             if (typeof ($scope.PayorName) == "undefined" || $scope.PayorName == "") {
-                alert("Please enter ICD Description");
+                alert("Please enter PayorName");
                 return false;
             }
             else if (typeof ($scope.ShortCode) == "undefined" || $scope.ShortCode == "") {
-                alert("Please enter ICD Description");
+                alert("Please enter ShortCode");
                 return false;
             }
             else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
-                alert("Please enter ICD Description");
+                alert("Please enter Description");
                 return false;
             }
             else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
-                alert("Please enter ICD Description");
+                alert("Please enter ReferCode");
                 return false;
             }
 
@@ -12699,6 +12699,363 @@ MyCortexControllers.controller("PayorController", ['$scope', '$http', '$filter',
             }
             $scope.Id = CatId;
             $scope.PayorCodeList();
+
+        }
+    }
+]);
+
+// This is for Plan controller functions//    
+MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+
+        $scope.Id = "0";
+        $scope.DuplicateId = "0";
+        $scope.flag = 0;
+        $scope.Category_ID = "0";
+        $scope.IsActive = true;
+        $scope.SelectedPayor = [];
+        $scope.PayorMasterList = [];
+        $scope.PlanName = "";
+        $scope.SelectedPayorList = [];
+        $scope.ShortCode = "";
+        $scope.Description = "";
+        $scope.PackageName = "";
+        $scope.FinancialClass = "";
+        $scope.PriceCode = "";
+        $scope.ReferCode = "";
+        $scope.ValidFromDate = new Date();
+        $scope.ValidToDate = new Date();
+        $scope.PlanSave = true;
+
+        /*List Page Pagination*/
+        $scope.listdata = [];
+        $scope.current_page = 1;
+        $scope.total_page = 1;
+        $scope.page_size = $window.localStorage['Pagesize'];
+        $scope.rembemberCurrentPage = function (p) {
+            $scope.current_page = p
+        }
+        $scope.User_Id = $window.localStorage['UserId'];
+        $scope.InstituteId = $window.localStorage['InstitutionId'];
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+
+        $scope.ConfigCode = "PATIENTPAGE_COUNT";
+        $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+        $scope.page_size = data1[0].ConfigValue;
+        $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+        $scope.PageEnd = $scope.current_page * $scope.page_size;
+            $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                $scope.PayorMasterList = data;
+            });
+        }).error(function (data) {
+            $("#chatLoaderPV").hide();
+            $scope.error = "AN error has occured while Listing the records!" + data;
+        })
+
+        /* THIS IS FOR VALIDATION CONTROL */
+        $scope.Validationcontrols = function () {
+            //if (typeof ($scope.Payor) == "undefined" || $scope.Payor == "") {
+            //    alert("Please enter Payor");
+            //    return false;
+            //}
+            //else if (typeof ($scope.Plan) == "undefined" || $scope.Plan == "") {
+            //    alert("Please enter ICD Description");
+            //    return false;
+            //}
+
+            //if (typeof ($scope.PayorName) == "undefined" || $scope.PayorName == "") {
+            //    alert("Please enter PayorName");
+            //    return false;
+            //}
+            //else if (typeof ($scope.ShortCode) == "undefined" || $scope.ShortCode == "") {
+            //    alert("Please enter ShortCode");
+            //    return false;
+            //}
+            //else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
+            //    alert("Please enter Description");
+            //    return false;
+            //}
+            //else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
+            //    alert("Please enter ReferCode");
+            //    return false;
+            //}
+
+            return true;
+        };
+
+        $scope.Planlist = function () {
+            if ($window.localStorage['UserTypeId'] == 3) {
+                $("#chatLoaderPV").show();
+                $scope.ISact = 1;       // default active
+
+                if ($scope.IsActive == true) {
+                    $scope.ISact = 1  //active
+                }
+                else if ($scope.IsActive == false) {
+                    $scope.ISact = 0 //all
+                }
+
+                $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                    $scope.page_size = data1[0].ConfigValue;
+                    $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                    $scope.PageEnd = $scope.current_page * $scope.page_size;
+                    $http.get(baseUrl + '/api/PlanMaster/PlanList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
+                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                            $("#chatLoaderPV").hide();
+                            $scope.emptydata = [];
+                            $scope.rowCollection = [];
+                            $scope.rowCollection = data;
+                            $scope.PatientCount = $scope.rowCollection[0].TotalRecord;
+                            $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+
+                            if ($scope.rowCollectionFilter.length > 0) {
+                                $scope.flag = 1;
+                            }
+                            else {
+                                $scope.flag = 0;
+                            }
+                            $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                        })
+                }).error(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                })
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
+        };
+
+        /* THIS IS FOR ADD/EDIT PROCEDURE */
+        $scope.PlanAddEdit = function () {
+            if ($scope.Validationcontrols() == true) {
+                $("#chatLoaderPV").show();
+                var obj = {
+                    Id: $scope.Id,
+                    SelectPayor: parseInt($scope.SelectedPayor),
+                    PlanName: $scope.PlanName,
+                    ShortCode: $scope.ShortCode,
+                    Description: $scope.Description,
+                    FinancialClass: $scope.FinancialClass,
+                    PackageName: $scope.PackageName,
+                    PriceCode: $scope.PriceCode,
+                    ReferCode: $scope.ReferCode,
+                    ValidFromDate: $scope.ValidFromDate,
+                    ValidToDate: $scope.ValidToDate,
+                    CreatedBy: $scope.User_Id,
+                    InstitutionId: $scope.InstituteId
+                }
+                $http.post(baseUrl + '/api/PlanMaster/PlanMasterAddEdit/', obj).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        $scope.ClearPopup();
+                        $scope.Planlist();
+                        angular.element('#PlanMasterModal').modal('hide');
+                    }
+                    //$scope.AddId = data;
+                    //angular.element('#ICD10Modal').modal('hide');
+                });
+            }
+        }
+
+        /* THIS IS FOR LIST PROCEDURE */
+        $scope.emptydata = [];
+        $scope.rowCollection = [];
+        $scope.flag = 0;
+        $scope.rowCollectionFilter = [];
+        $scope.setPage = function (PageNo) {
+            if (PageNo == 0) {
+                PageNo = $scope.inputPageNo;
+            }
+            else
+                $scope.inputPageNo = PageNo;
+
+            $scope.current_page = PageNo;
+            $scope.ICD10list();
+        }
+
+        $scope.searchquery = "";
+        /* FILTER THE MASTER LIST FUNCTION.*/
+        $scope.fliterPayorList = function () {
+            $scope.ResultListFiltered = [];
+            var searchstring = angular.lowercase($scope.searchquery);
+            if ($scope.searchquery == "") {
+                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+            }
+            else {
+                $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
+                    return angular.lowercase(value.PayorName).match(searchstring) ||
+                        angular.lowercase(value.ShortCode).match(searchstring) ||
+                        angular.lowercase(value.ReferCode).match(searchstring) ||
+                        angular.lowercase(value.Description).match(searchstring);
+                });
+            }
+        }
+
+        /* THIS IS FOR VIEW PROCEDURE */
+
+        $scope.ViewPlan = function () {
+            $("#chatLoaderPV").show();
+            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                $scope.Id = $routeParams.Id;
+                $scope.DuplicatesId = $routeParams.Id;
+            }
+            $scope.EditSelectedPayor = [];
+            //$scope.SelectedPayor = [];
+            $http.get(baseUrl + '/api/PlanMaster/PlanMasterView/?Id=' + $scope.Id).success(function (data) {
+                $("#chatLoaderPV").hide();
+                $scope.SelectedPayor = [];
+                $scope.EditSelectedPayor = data.SelectPayor.toString();
+                $scope.SelectedPayor.push($scope.EditSelectedPayor);
+                $scope.PlanName = data.PlanName;
+                $scope.ShortCode = data.ShortCode;
+                $scope.Description = data.Description;
+                $scope.PackageName = data.PackageName;
+                $scope.FinancialClass = data.FinancialClass;
+                $scope.PriceCode = data.PriceCode;
+                $scope.ReferCode = data.ReferCode;
+                $scope.ValidFromDate = DateFormatEdit($filter('date')(data.ValidFromDate, "dd-MMM-yyyy"));
+                $scope.ValidToDate = DateFormatEdit($filter('date')(data.ValidToDate, "dd-MMM-yyyy"));
+                
+            });
+        }
+
+        $scope.DeletePlan = function (DId) {
+            $scope.Id = DId;
+            $scope.PlanMaster_Delete();
+        };
+        /*THIS IS FOR DELETE FUNCTION */
+        $scope.PlanMaster_Delete = function () {
+
+            var del = confirm("Do you like to deactivate the selected Plan Master details?");
+            if (del == true) {
+                $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                    alert("Plan details has been deactivated Successfully");
+                    $scope.Planlist();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting  Plan Master details" + data;
+                });
+            }
+        };
+
+        $scope.ActivePlan = function (PId) {
+            $scope.Id = PId;
+            $scope.PlanMaster_Active();
+        };
+
+        $scope.PlanMaster_Active = function () {
+
+            var Ins = confirm("Do you like to activate the selected Plan Master details?");
+            if (Ins == true) {
+                $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                    alert("Selected Plan details has been activated successfully");
+                    $scope.Planlist();
+                }).error(function (data) {
+                    $scope.error = "An error has occured while deleting Payor records" + data;
+                });
+            }
+        };
+
+        $scope.Active_ErrorFunction = function () {
+            alert("Inactive Payor details cannot be edited");
+        };
+
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.ErrorFunction = function () {
+            alert("Inactive record cannot be edited");
+        }
+
+
+        /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
+        $scope.AddPlanPopUP = function () {
+            $scope.Id = 0;
+            $scope.PlanSave = true;
+            var sel1 = $('#SelectedPayor');
+            sel1.prop('disabled', false);
+            $("#PlanName").attr("disabled", false);
+            $("#ShortCode").attr("disabled", false);
+            $("#Description").attr("disabled", false);
+            $("#FinancialClass").attr("disabled", false);
+            $("#PackageName").attr("disabled", false);
+            $("#PriceCode").attr("disabled", false);
+            $("#ReferCode").attr("disabled", false);
+            $("#ValidFromDate").attr("disabled", false);
+            $("#ValidToDate").attr("disabled", false);
+            $("#ReferCode").attr("disabled", false);
+            angular.element('#PlanMasterModal').modal('show');
+            $scope.ClearPopup();
+        }
+        /* THIS IS OPENING POP WINDOW FORM VIEW */
+        $scope.ViewPlanPopUP = function (CatId) {
+            $scope.Id = CatId;
+            $scope.ViewPlan();
+            $scope.PlanSave = false;
+            var sel1 = $('#SelectedPayor');
+            sel1.prop('disabled', true);
+            $("#PlanName").attr("disabled", true);
+            $("#ShortCode").attr("disabled", true);
+            $("#Description").attr("disabled", true);
+            $("#FinancialClass").attr("disabled", true);
+            $("#PackageName").attr("disabled", true);
+            $("#PriceCode").attr("disabled", true);
+            $("#ReferCode").attr("disabled", true);
+            $("#ValidFromDate").attr("disabled", true);
+            $("#ValidToDate").attr("disabled", true);
+            $("#ReferCode").attr("disabled", true);
+            angular.element('#PlanMasterModal').modal('show');
+        }
+        /* THIS IS OPENING POP WINDOW FORM EDIT */
+        $scope.EditPlanPopUP = function (CatId) {
+            $scope.Id = CatId;
+            $scope.ViewPlan();
+            $scope.PlanSave = true;
+            var sel1 = $('#SelectedPayor');
+            sel1.prop('disabled', false);
+            $("#PlanName").attr("disabled", false);
+            $("#ShortCode").attr("disabled", false);
+            $("#Description").attr("disabled", false);
+            $("#FinancialClass").attr("disabled", false);
+            $("#PackageName").attr("disabled", false);
+            $("#PriceCode").attr("disabled", false);
+            $("#ReferCode").attr("disabled", false);
+            $("#ValidFromDate").attr("disabled", false);
+            $("#ValidToDate").attr("disabled", false);
+            $("#ReferCode").attr("disabled", false);
+            angular.element('#PlanMasterModal').modal('show');
+        }
+        /* THIS IS CANCEL POPUP FUNCTION */
+        $scope.CancelPopUP = function () {
+            $scope.ClearPopup();
+            angular.element('#PlanMasterModal').modal('hide')
+        }
+        /* THIS IS CANCEL VIEW POPUP FUNCTION*/
+        $scope.CancelViewPopup = function () {
+            $scope.ClearPopup();
+            angular.element('#PlanMasterModal').modal('hide')
+        }
+        /* THIS IS CLEAR POPUP FUNCTION */
+        $scope.ClearPopup = function () {
+            $scope.Id = "0";
+            $scope.PlanName = "";
+            $scope.SelectedPayor = "0";
+            $scope.ShortCode = "";
+            $scope.Description = "";
+            $scope.PackageName = "";
+            $scope.FinancialClass = "";
+            $scope.PriceCode = "";
+            $scope.ReferCode = "";
+            $scope.ValidFromDate = new Date();
+            $scope.ValidToDate = new Date();
+        }
+        /* THIS IS OPENING POP WINDOW FORM LIST */
+        $scope.ListPayorPopUP = function (CatId) {
+            if ($routeParams.Id == 0) {
+                $scope.rowCollection = [];
+            }
+            $scope.Id = CatId;
 
         }
     }

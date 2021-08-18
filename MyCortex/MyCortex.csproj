@@ -496,6 +496,7 @@
     <Content Include="Masters\Views\LanguageSettings.html" />
     <Content Include="Masters\Views\MyAppointmentSetting.html" />
     <Content Include="Masters\Views\Payor.html" />
+    <Content Include="Masters\Views\PlanMaster.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
     <Content Include="Masters\Views\ChatSettings.html" />
     <Content Include="Masters\Views\DrugDBlist.html" />
@@ -1235,6 +1236,7 @@
     <Compile Include="Masters\Controllers\MasterICDController.cs" />
     <Compile Include="Masters\Controllers\ParameterSettingsController.cs" />
     <Compile Include="Masters\Controllers\PayorMasterController.cs" />
+    <Compile Include="Masters\Controllers\PlanMasterController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
     <Compile Include="Masters\Controllers\WebConfigurationController.cs" />
     <Compile Include="Masters\Models\AllergyMasterModel.cs" />
@@ -1262,6 +1264,7 @@
     <Compile Include="Masters\Models\PasswordPolicyModel.cs" />
     <Compile Include="Masters\Models\PayorMasterModel.cs" />
     <Compile Include="Masters\Models\PhotoUploadModal.cs" />
+    <Compile Include="Masters\Models\PlanMasterModel.cs" />
     <Compile Include="Masters\Models\ProtocolParameterMasterModel.cs" />
     <Compile Include="Masters\Models\ShiftTimingsModel.cs" />
     <Compile Include="Masters\Models\StateMasterModel.cs" />
@@ -1313,6 +1316,7 @@
     <Compile Include="Repositories\IPatientDeviceDataRepository.cs" />
     <Compile Include="Repositories\IPatientReportDetailsRepositoy.cs" />
     <Compile Include="Repositories\IPayorMasterRepository.cs" />
+    <Compile Include="Repositories\IPlanMasterRepository.cs" />
     <Compile Include="Repositories\IProtocolRepository.cs" />
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
@@ -1335,6 +1339,7 @@
     <Compile Include="Repositories\Masters\ParameterSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\PasswordPolicyRepository.cs" />
     <Compile Include="Repositories\Masters\PayorMasterRepository.cs" />
+    <Compile Include="Repositories\Masters\PlanMasterRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
     <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
@@ -1647,6 +1652,7 @@
     <Folder Include="Admin\Views\ColorPreference\" />
     <Folder Include="Admin\Views\IMasterAllergyRepository\" />
     <Folder Include="Admin\Views\IPayorMasterRepository\" />
+    <Folder Include="Admin\Views\IPlanMasterRepository\" />
     <Folder Include="Admin\Views\LanguageSettings\" />
     <Folder Include="Admin\Views\MasterAllergyRepository\" />
     <Folder Include="Admin\Views\PatientDeviceData\" />
@@ -1654,6 +1660,9 @@
     <Folder Include="Admin\Views\PayorMasterRepository\" />
     <Folder Include="Admin\Views\PayorMaster\" />
     <Folder Include="Admin\Views\Payor\" />
+    <Folder Include="Admin\Views\PlanMasterModel\" />
+    <Folder Include="Admin\Views\PlanMasterRepository\" />
+    <Folder Include="Admin\Views\PlanMaster\" />
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />

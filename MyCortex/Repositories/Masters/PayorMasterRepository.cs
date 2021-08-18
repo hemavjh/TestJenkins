@@ -34,7 +34,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@SHORTCODE", obj.ShortCode));
             param.Add(new DataParameter("@REFERCODE", obj.ReferCode));
             param.Add(new DataParameter("@INSTITUTION_ID", obj.InstitutionId));
-            param.Add(new DataParameter("@CREATED_BY", obj.User_Id));
+            param.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

@@ -162,7 +162,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     }).
     when('/Payor', {
         templateUrl: baseUrl + 'Masters/Views/Payor.html',
-        controller: 'PayorController'
+        controller: 'PayorMasterController'
+    }).
+    when('/Plan', {
+        templateUrl: baseUrl + 'Masters/Views/PlanMaster.html',
+        controller: 'PlanMasterController'
     }).
     when('/DrugDBMaster', {
         templateUrl: baseUrl + 'Masters/Views/DrugDBlist.html',
