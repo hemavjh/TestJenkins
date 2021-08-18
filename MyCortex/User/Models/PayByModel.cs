@@ -8,12 +8,14 @@ namespace MyCortex.User.Model
     public class TotalAmount
     {
         public string currency { get; set; }
-        public int amount { get; set; }
+        public double amount { get; set; }
     }
 
     public class PaySceneParams
     {
         public string redirectUrl { get; set; }
+        public string iapDeviceId { get; set; }
+        public string appId { get; set; }
     }
 
     public class VatAmount

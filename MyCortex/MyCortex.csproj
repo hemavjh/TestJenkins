@@ -1194,6 +1194,7 @@
   <ItemGroup>
     <Compile Include="Admin\Controllers\InstitutionController.cs" />
     <Compile Include="Admin\Controllers\InstitutionSubscriptionController.cs" />
+    <Compile Include="Admin\Controllers\PayByController.cs" />
     <Compile Include="Admin\Controllers\ProtocolController.cs" />
     <Compile Include="Admin\Models\DurationModel.cs" />
     <Compile Include="Admin\Models\InstitutionModel.cs" />
