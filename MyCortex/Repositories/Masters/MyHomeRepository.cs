@@ -674,7 +674,7 @@ namespace MyCortex.Repositories.Masters
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
                                                           DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
-                                                          TimeDifference = p.Field<string>("TIME_DIFFERENCE"),
+                                                          TimeDifference = p.Field<string>("TimeDifference"),
                                                       }).ToList();
                 return lst;
             }
