@@ -914,6 +914,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Institution_Id = "0";
         $scope.TimeZone_Id = "0";
         $scope.TimeZoneId = "0";
+        $scope.AppointmentModule_Id = "0";
+        $scope.AppointmentModuleId = "0";
         $scope.Health_Care_Professionals = "";
         $scope.Patients = "";
         $scope.Contract_Period_From = "";
@@ -991,6 +993,10 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $http.get(baseUrl + '/api/InstitutionSubscription/LanguageNameList/').success(function (data) {
             // only active Language    
             $scope.LanguageList = data;
+        });
+        $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
+            // only active Language    
+            $scope.AppointmentModuleListID = data;
         });
         /*This is for Auto fill Details by selected Name of the Institution */
         $scope.InstituteGetDetails = function () {
@@ -1110,7 +1116,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Module_List: $scope.InstitutiontypeList,
                     Institution_Languages: $scope.InstitutionLanguage_List,
                     Language_List: $scope.LanguageList,
-                    TimeZone_ID: $scope.TimeZone_Id
+                    TimeZone_ID: $scope.TimeZone_Id,
+                    Appointment_Module_Id: $scope.AppointmentModule_Id
                 }
 
                 $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
@@ -1119,6 +1126,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                         $scope.CancelIntstitutionSubPopup();
                         $scope.InstitutionSubscriptionDetailsListTemplate();
                         $scope.TimeZone_Id = "";
+                        $scope.AppointmentModule_Id = "";
                     }
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {
@@ -1218,6 +1226,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.State = data.Institution.StateName;
                     $scope.City = data.Institution.CityName;
                     $scope.TimeZoneId = data.TimeZone_ID;
+                    $scope.AppointmentModuleId = data.Appointment_Module_Id;
                     //$scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
                     $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
                     $scope.Health_Care_Professionals = data.Health_Care_Professionals;
@@ -1279,6 +1288,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.City = "";
             $scope.TimeZone_ID = "0";
             $scope.TimeZoneId = "0";
+            $scope.AppointmentModule_Id = "0";
+            $scope.AppointmentModuleId = "0";
         }
         $scope.InstitutionSubscription_Delete = function () {
             alert("Subscription cannot be activated / deactivated")
@@ -4836,12 +4847,16 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.Subscription_Type = data.Subscription_Type;
                     $scope.InsSub_Id = data.SubscriptionId;
                     $scope.TimeZoneId = data.TimeZone_ID;
+                    $scope.AppointmentModuleId = data.Appointment_Module_Id;
                     $scope.TimeZoneIDName = null;
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
                         $scope.TimeZoneIDName = data2[$scope.TimeZoneId];
                     });
-
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
+                        // only active Language    
+                        $scope.AppointmentModuleName = data[$scope.AppointmentModuleId - 1];
+                    });
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
                         if ($ff($scope.InstitutionChildList, function (value) {
                             return value.ModuleId == item.Id;

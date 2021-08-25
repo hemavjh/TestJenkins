@@ -21,5 +21,6 @@ namespace MyCortex.Repositories
         IList<OrgAppointmentSettings> GetOrgAppointmentSettings(Guid Login_Session_Id, OrgAppointmentSettings insobj);
         OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId);
         void APPOINTMENTRESETDETAILS(long InstitutionId);
+        IList<AppointmentModule> GetAppointmentModuleList();
     }
 }                                        

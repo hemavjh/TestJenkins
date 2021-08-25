@@ -344,6 +344,25 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        public IList<AppointmentModule> AppointmentModuleList()
+        {
+            IList<AppointmentModule> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetAppointmentModuleList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage Org_AppointmentSettings_InsertUpdate(Guid Login_Session_Id, [FromBody] OrgAppointmentSettings obj)
         {

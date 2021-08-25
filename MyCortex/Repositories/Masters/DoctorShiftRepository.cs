@@ -600,6 +600,29 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<AppointmentModule> GetAppointmentModuleList()
+        {
+            // int returnval; 
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.APPOINTMENT_MODULE_MASTERLIST");
+
+                IList<AppointmentModule> lst = (from p in dt.AsEnumerable()
+                                                  select new AppointmentModule()
+                                                  {
+                                                      Id = p.Field<long>("ID"),
+                                                      Name = p.Field<string>("NAME"),
+                                                      IsActive = p.Field<int>("ISACTIVE")
+
+                                                  }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public IList<OrgAppointmentSettings> GetOrgAppointmentSettings(Guid Login_Session_Id, OrgAppointmentSettings InObj)
         {

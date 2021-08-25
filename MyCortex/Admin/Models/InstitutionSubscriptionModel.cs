@@ -32,6 +32,7 @@ namespace MyCortex.Admin.Models
         public int? CreatedBy_Id { get; set; }
         public DateTime Created_Dt { get; set; }
         public int TimeZone_ID { get; set; }
+        public int Appointment_Module_Id { get; set; }
         public int returnval { get; set; }
         public int flag { get; set; }
 

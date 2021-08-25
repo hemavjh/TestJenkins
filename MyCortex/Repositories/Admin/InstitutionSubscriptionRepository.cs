@@ -76,6 +76,7 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@SESSION_ID", LoginSession));
             param.Add(new DataParameter("@Created_by", HttpContext.Current.Session["UserId"]));
             param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_ID));
+            param.Add(new DataParameter("@APPOINTMENT_MODULE_ID", obj.Appointment_Module_Id));
             {
                 // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SUBSCRIPTION_SP_INSERTUPDATE", param);
@@ -95,6 +96,7 @@ namespace MyCortex.Repositories.Admin
                                                                Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                                TimeZone_ID = p.Field<int>("TIMEZONE_ID"),
                                                                flag = p.Field<int>("flag"),
+                                                               Appointment_Module_Id = p.Field<int>("APPOINTMENT_MODULE_ID")
                                                                //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                            }).ToList();
 
@@ -271,6 +273,7 @@ namespace MyCortex.Repositories.Admin
                                                     Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                     Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                     TimeZone_ID = p.IsNull("TIMEZONE_ID") ? 0 : p.Field<int>("TIMEZONE_ID"),
+                                                    Appointment_Module_Id = p.IsNull("APPOINTMENT_MODULE_ID") ? 0 : p.Field<int>("APPOINTMENT_MODULE_ID")
                                                     //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                 }).FirstOrDefault();
             //ViewId = INS.Id;

@@ -214,4 +214,11 @@ namespace MyCortex.Masters.Models
         public long CreatedBy { get; set; }
         public int IsActive { get; set; }
     }
+
+    public class AppointmentModule
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int IsActive { get; set; }
+    }
 }
