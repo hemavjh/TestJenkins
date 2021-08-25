@@ -43,6 +43,7 @@ namespace MyCortex.Masters.Models
 
     public class TabDevicesModel
     {
+        public int RowNumber { get; set; }
         public long ID { get; set; }
         public long TabId { get; set; }
         public string DeviceId { get; set; }

@@ -310,6 +310,7 @@ namespace MyCortex.Repositories.Masters
                 List<TabDevicesModel> lst = (from p in dt.AsEnumerable()
                                              select new TabDevicesModel()
                                              {
+                                                 RowNumber = p.Field<int>("ROW_NUM"),
                                                  ID = p.Field<long>("ID"),
                                                  DeviceId = p.Field<string>("DEVICE_ID"),
                                                  DeviceName = p.Field<string>("DEVICE_NAME"), 
