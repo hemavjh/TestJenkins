@@ -12666,7 +12666,7 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.ICD10list();
+            $scope.Payorlist();
         }
 
         $scope.searchquery = "";
@@ -12865,32 +12865,60 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
-            //if (typeof ($scope.Payor) == "undefined" || $scope.Payor == "") {
-            //    alert("Please enter Payor");
-            //    return false;
-            //}
-            //else if (typeof ($scope.Plan) == "undefined" || $scope.Plan == "") {
-            //    alert("Please enter ICD Description");
-            //    return false;
-            //}
+            $scope.ValidFromDate = moment($scope.ValidFromDate).format('DD-MMM-YYYY');
+            $scope.ValidToDate = moment($scope.ValidToDate).format('DD-MMM-YYYY');
 
-            //if (typeof ($scope.PayorName) == "undefined" || $scope.PayorName == "") {
-            //    alert("Please enter PayorName");
-            //    return false;
-            //}
-            //else if (typeof ($scope.ShortCode) == "undefined" || $scope.ShortCode == "") {
-            //    alert("Please enter ShortCode");
-            //    return false;
-            //}
-            //else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
-            //    alert("Please enter Description");
-            //    return false;
-            //}
-            //else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
-            //    alert("Please enter ReferCode");
-            //    return false;
-            //}
+            if (typeof ($scope.SelectedPayor) == "undefined" || $scope.SelectedPayor == "") {
+                alert("Please Select Any Payor");
+                return false;
+            }
+            else if (typeof ($scope.PlanName) == "undefined" || $scope.PlanName == "") {
+                alert("Please enter PlanName");
+                return false;
+            }
 
+            if (typeof ($scope.ShortCode) == "undefined" || $scope.ShortCode == "") {
+                alert("Please enter ShortCode");
+                return false;
+            }
+            else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
+                alert("Please enter Description");
+                return false;
+            }
+            else if (typeof ($scope.PackageName) == "undefined" || $scope.PackageName == "") {
+                alert("Please enter PackageName");
+                return false;
+            }
+            else if (typeof ($scope.FinancialClass) == "undefined" || $scope.FinancialClass == "") {
+                alert("Please enter FinancialClass");
+                return false;
+            }
+            else if (typeof ($scope.PriceCode) == "undefined" || $scope.PriceCode == "") {
+                alert("Please enter PriceCode");
+                return false;
+            }
+            else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
+                alert("Please enter ReferCode");
+                return false;
+            }
+            else if (typeof ($scope.ValidFromDate) == "undefined" || $scope.ValidFromDate == "") {
+                alert("Please enter ValidFromDate");
+                return false;
+            }
+            else if (typeof ($scope.ValidToDate) == "undefined" || $scope.ValidToDate == "") {
+                alert("Please enter ValidToDate");
+                return false;
+            }
+            if (($scope.ValidFromDate !== null) && ($scope.ValidToDate !== null)) {
+                if ((ParseDate($scope.ValidToDate) < ParseDate($scope.ValidFromDate))) {
+                    alert("From Date should not be greater than To Date");
+                    $scope.ValidFromDate = DateFormatEdit($scope.ValidFromDate);
+                    $scope.ValidToDate = DateFormatEdit($scope.ValidToDate);
+                    return false;
+                }
+            }
+            $scope.ValidFromDate = DateFormatEdit($scope.ValidFromDate);
+            $scope.ValidToDate = DateFormatEdit($scope.ValidToDate);
             return true;
         };
 
@@ -12913,7 +12941,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $http.get(baseUrl + '/api/PlanMaster/PlanList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        '&EndRowNumber=' + $scope.PageEnd + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $("#chatLoaderPV").hide();
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
@@ -12957,7 +12985,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                     CreatedBy: $scope.User_Id,
                     InstitutionId: $scope.InstituteId
                 }
-                $http.post(baseUrl + '/api/PlanMaster/PlanMasterAddEdit/', obj).success(function (data) {
+                $http.post(baseUrl + '/api/PlanMaster/PlanMasterAddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
                     if (data.ReturnFlag == 1) {
@@ -12984,7 +13012,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.ICD10list();
+            $scope.Planlist();
         }
 
         $scope.searchquery = "";
@@ -13015,7 +13043,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             }
             $scope.EditSelectedPayor = [];
             //$scope.SelectedPayor = [];
-            $http.get(baseUrl + '/api/PlanMaster/PlanMasterView/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/PlanMaster/PlanMasterView/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.SelectedPayor = [];
                 $scope.EditSelectedPayor = data.SelectPayor.toString();
@@ -19644,6 +19672,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
         $scope.ValidationcontrolsDoctorShift = function () {
+            var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.FromDate = moment($scope.FromDate).format('DD-MMM-YYYY');
+            $scope.ToDate = moment($scope.ToDate).format('DD-MMM-YYYY');
+
             if (typeof ($scope.SelectedDepartment) == "undefined" || $scope.SelectedDepartment == "") {
                 alert("Please Select Department");
                 return false;
@@ -19660,9 +19692,17 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please select From Date");
                 return false;
             }
-            else if (typeof ($scope.ToDate) == "undefined" || $scope.ToDate == 0) {
+            else if (typeof ($scope.ToDate) == "undefined" || $scope.ToDate == "") {
                 alert("Please select  End Date");
                 return false;
+            }
+            if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
+                if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
+                    alert("Start Date should not be greater than End Date");
+                    $scope.FromDate = DateFormatEdit($scope.FromDate);
+                    $scope.ToDate = DateFormatEdit($scope.ToDate);
+                    return false;
+                }
             }
             else if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0" || $scope.NewAppointment == '') {
                 alert("Please Enter NewAppointment Time Slot");
@@ -19689,6 +19729,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please Enter Minutes");
                 return false;
             }
+
+            $scope.FromDate = DateFormatEdit($scope.FromDate);
+            $scope.ToDate = DateFormatEdit($scope.ToDate);
             return true;
         };
         $scope.OrganisationSettingsSelectedDays = function () {

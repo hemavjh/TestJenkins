@@ -24,7 +24,7 @@ namespace MyCortex.Repositories.Masters
             db = new ClsDataBase();
         }
 
-        public IList<PlanMasterModel> PlanMaster_AddEdit(PlanMasterModel obj)
+        public IList<PlanMasterModel> PlanMaster_AddEdit(Guid Login_Session_Id, PlanMasterModel obj)
         {
             List<DataParameter> param = new List<DataParameter>();
 
@@ -41,6 +41,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@VALIDTODATE", obj.ValidToDate));
             param.Add(new DataParameter("@INSTITUTION_ID", obj.InstitutionId));
             param.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -75,13 +76,14 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<PlanMasterModel> PlanMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
+        public IList<PlanMasterModel> PlanMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -89,6 +91,7 @@ namespace MyCortex.Repositories.Masters
                 List<PlanMasterModel> lst = (from p in dt.AsEnumerable()
                                               select new PlanMasterModel()
                                               {
+                                                  TotalRecord = p.Field<string>("TotalRecords"),
                                                   Id = p.Field<long>("PLANID"),
                                                   SelectPayor = p.Field<long>("SELECTEDPAYOR"),
                                                   PayorName = p.Field<string>("PAYORNAME"),
@@ -114,10 +117,11 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public PlanMasterModel PlanMasterView(int Id)
+        public PlanMasterModel PlanMasterView(Guid Login_Session_Id, int Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

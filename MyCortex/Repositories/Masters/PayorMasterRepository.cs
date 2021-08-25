@@ -76,6 +76,7 @@ namespace MyCortex.Repositories.Masters
                 List<PayorMasterModel> lst = (from p in dt.AsEnumerable()
                                             select new PayorMasterModel()
                                             {
+                                                TotalRecord = p.Field<string>("TotalRecords"),
                                                 Id = p.Field<long>("PayorId"),
                                                 PayorName = p.Field<string>("PayorName"),
                                                 ShortCode = p.Field<string>("ShortCode"),

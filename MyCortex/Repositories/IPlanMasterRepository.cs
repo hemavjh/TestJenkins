@@ -11,9 +11,9 @@ namespace MyCortex.Repositories
 {
     interface IPlanMasterRepository
     {
-        IList<PlanMasterModel> PlanMaster_AddEdit(PlanMasterModel obj);
-        IList<PlanMasterModel> PlanMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber);
-        PlanMasterModel PlanMasterView(int Id);
+        IList<PlanMasterModel> PlanMaster_AddEdit(Guid Login_Session_Id, PlanMasterModel obj);
+        IList<PlanMasterModel> PlanMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, Guid Login_Session_Id);
+        PlanMasterModel PlanMasterView(Guid Login_Session_Id, int Id);
 
         IList<PlanMasterModel> PayorBasedPlanList(int Id);
         void PlanMaster_Delete(int Id);

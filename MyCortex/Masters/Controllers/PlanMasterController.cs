@@ -30,24 +30,24 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <param name="obj">a Plan Master detail</param>
         /// <returns>inserted/updated Plan Master list</returns>
-        public HttpResponseMessage PlanMasterAddEdit([FromBody] PlanMasterModel obj)
+        public HttpResponseMessage PlanMasterAddEdit(Guid Login_Session_Id, [FromBody] PlanMasterModel obj)
         {
 
             IList<PlanMasterModel> ModelData = new List<PlanMasterModel>();
             PlanMasterReturnModels model = new PlanMasterReturnModels();
-            //if (!ModelState.IsValid)
-            //{
-            //    model.Status = "False";
-            //    model.Message = "Invalid data";
-            //    model.PlanMasterDetail = ModelData;
-            //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.PlanMasterDetail = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
 
-            //}
+            }
 
             string messagestr = "";
             try
             {
-                ModelData = repository.PlanMaster_AddEdit(obj);
+                ModelData = repository.PlanMaster_AddEdit(Login_Session_Id, obj);
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
                     messagestr = "Plan Master already exists, cannot be Duplicated";
@@ -79,10 +79,10 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpGet]
-        public IList<PlanMasterModel> PlanList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber)
+        public IList<PlanMasterModel> PlanList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber, Guid Login_Session_Id)
         {
             IList<PlanMasterModel> model;
-            model = repository.PlanMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber);
+            model = repository.PlanMasterList(IsActive, InstitutionId, StartRowNumber, EndRowNumber, Login_Session_Id);
             return model;
         }
 
@@ -92,10 +92,10 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a Plan Master</param>
         /// <returns>Plan master details of a Plan master</returns>
         [HttpGet]
-        public PlanMasterModel PlanMasterView(int Id)
+        public PlanMasterModel PlanMasterView(Guid Login_Session_Id, int Id)
         {
             PlanMasterModel model = new PlanMasterModel();
-            model = repository.PlanMasterView(Id);
+            model = repository.PlanMasterView(Login_Session_Id, Id);
             return model;
         }
 
