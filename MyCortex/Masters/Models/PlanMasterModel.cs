@@ -14,6 +14,8 @@ namespace MyCortex.Masters.Models
         public long Id { get; set; }
         public long InstitutionId { get; set; }
         public long SelectPayor { get; set; }
+
+        public long SelectedPayorId { get; set; }
         public IList<SelectedPayor> SelectedPayor { get; set; }
         public string PayorName { get; set; }
         public string PlanName { get; set; }
@@ -34,6 +36,8 @@ namespace MyCortex.Masters.Models
         public DateTime ModifiedDT { get; set; }
         public int StartRowNumber { get; set; }
         public int EndRowNumber { get; set; }
+
+        
     }
     public class SelectedPayor
     {

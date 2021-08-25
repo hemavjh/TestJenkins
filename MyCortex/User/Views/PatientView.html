@@ -47,6 +47,11 @@
                         <i class="far fa-hospital"></i>Medical Info
                     </a>
                 </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='6'}" ng-click="currentTab='6';TabClickLoad(currentTab)">
+                        <i class="fas fa-notes-medical"></i>Insurance Info
+                    </a>
+                </li>
             </ul>
             <div class="panel panel-default bt-0 m-0 b-0 bs-0" id="Div4">
                 <form class="form-horizontal" role="form" style="font-size: small">
@@ -549,6 +554,45 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='6'">
+                                    <div id="collapse11" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
+                                                        <label>Member ID</label>
+                                                        <span>{{Member_ID}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Policy Number</label>
+                                                        <span>{{Policy_Number}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Reference ID</label>
+                                                        <span>{{Reference_ID}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
+                                                        <label>Expiry Date</label>
+                                                        <span> {{ExpiryDate | date : format : "dd-MM-yyyy"}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Payor Name</label>
+                                                        <span>{{PayorName}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Plan Name</label>
+                                                        <span>{{PlanName}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

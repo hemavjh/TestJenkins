@@ -52,6 +52,14 @@ namespace MyCortex.User.Model
 	    public string ADDRESS1 { get; set; }
 	    public string ADDRESS2 { get; set; }
 	    public string ADDRESS3 { get; set; }
+        public string Memberid { get; set; }
+        public string PolicyNumber { get; set; }
+        public string RefernceId { get; set; }
+        public string ExpiryDate { get; set; }
+        public string PayorId { get; set; }
+        public string PlanId { get; set; }
+        public string PayorName { get; set; }
+        public string PlanName { get; set; }
         public long? COUNTRY_ID { get; set; }
         public long? STATE_ID { get; set; }
         public long? CITY_ID { get; set; }

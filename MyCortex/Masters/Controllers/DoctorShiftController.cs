@@ -227,6 +227,11 @@ namespace MyCortex.Masters.Controllers
                     messagestr = "doctor Shift deactivated successfully";
                     model.ReturnFlag = 2;
                 }
+                if (ModelData.Any(item => item.flag == 2) == true)
+                {
+                    messagestr = "doctor Shift cannot be deactivated";
+                    model.ReturnFlag = 2;
+                }
                 model.DoctorShift = ModelData;
                 model.Message = messagestr;
                 model.Status = "True";

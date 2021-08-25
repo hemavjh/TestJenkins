@@ -14,6 +14,8 @@ namespace MyCortex.Repositories
         IList<PlanMasterModel> PlanMaster_AddEdit(PlanMasterModel obj);
         IList<PlanMasterModel> PlanMasterList(int IsActive, long InstitutionId, int StartRowNumber, int EndRowNumber);
         PlanMasterModel PlanMasterView(int Id);
+
+        IList<PlanMasterModel> PayorBasedPlanList(int Id);
         void PlanMaster_Delete(int Id);
         void PlanMaster_Active(int Id);
     }

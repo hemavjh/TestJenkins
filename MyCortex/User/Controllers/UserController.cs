@@ -273,6 +273,12 @@ namespace MyCortex.User.Controller
                 userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
                 userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
                 userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
+                userObj.Memberid = EncryptPassword.Encrypt(userObj.Memberid);
+                userObj.PolicyNumber = EncryptPassword.Encrypt(userObj.PolicyNumber);
+                userObj.RefernceId = EncryptPassword.Encrypt(userObj.RefernceId);
+                userObj.ExpiryDate = EncryptPassword.Encrypt(userObj.ExpiryDate);
+                //userObj.PayorId = EncryptPassword.Encrypt(userObj.PayorId);
+                //userObj.PlanId = EncryptPassword.Encrypt(userObj.PlanId);
                 //userObj.PATIENT_ID = EncryptPassword.Encrypt(userObj.PATIENT_ID);
                 if (userObj.ApprovalFlag == "0")
                 {

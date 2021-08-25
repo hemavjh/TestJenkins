@@ -189,5 +189,41 @@ namespace MyCortex.Repositories.Masters
                 _logger.Error(ex.Message, ex);
             }
         }
+
+        public IList<PlanMasterModel> PayorBasedPlanList(int Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@SELECTEDPAYOR", Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PAYORBASEDPLAN_SP_LIST]", param);
+                List<PlanMasterModel> lst = (from p in dt.AsEnumerable()
+                                             select new PlanMasterModel()
+                                             {
+                                                 Id = p.Field<long>("PLANID"),
+                                                 SelectPayor = p.Field<long>("SELECTEDPAYOR"),
+                                                 //PayorName = p.Field<string>("PAYORNAME"),
+                                                 PlanName = p.Field<string>("PLANNAME"),
+                                                 //ShortCode = p.Field<string>("SHORTCODE"),
+                                                 //Description = p.Field<string>("DESCRIPTION"),
+                                                 //FinancialClass = p.Field<string>("FINANCIALCLASS"),
+                                                 //PackageName = p.Field<string>("PACKAGENAME"),
+                                                 //PriceCode = p.Field<string>("PRICECODE"),
+                                                 //ReferCode = p.Field<string>("REFERCODE"),
+                                                 //ValidFromDate = p.Field<DateTime>("VALIDFROMDATE"),
+                                                 //ValidToDate = p.Field<DateTime>("VALIDTODATE"),
+                                                 IsActive = p.Field<int>("ISACTIVE"),
+                                                 //CreatedBy = p.Field<long>("CREATED_BY"),
+                                                 //InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
     }
 }

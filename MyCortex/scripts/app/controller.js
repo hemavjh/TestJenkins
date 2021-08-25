@@ -1439,6 +1439,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Chronic = [];
         $scope.Chronic_Details = [];
         $scope.Chronic_Name = "";
+        $scope.Member_ID = "";
+        $scope.Policy_Number = "";
+        $scope.Reference_ID = "";
+        $scope.Expiry_Date = "";
+        $scope.SelectedPayor = [];
+        $scope.SelectedPlan = [];
+        $scope.EditPayorId = [];
+        $scope.EditPlanId = [];
 
         $scope.loadCount = 3;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -1862,6 +1870,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.CAFFEINATED_BEVERAGESID = "0";
             $scope.ChronicConditionList = [];
             $scope.RelationshipList = [];
+            $scope.PayorMasterList = [];
+            $scope.PayorBasedPlanList = [];
             $scope.DietTypeList = [];
             $scope.ScheduleList = [];
             $scope.AlergySubstanceList = [];
@@ -1898,6 +1908,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.PATIENT_ID = "";
             $scope.TimeZone_Id = "0";
             $scope.TimeZoneId = "0";
+            $scope.Member_ID = "";
+            $scope.Policy_Number = "";
+            $scope.Reference_ID = "";
+            $scope.ExpiryDate = "";
+            $scope.SelectedPayor = [];
+            $scope.SelectedPlan = [];
         }
 
 
@@ -2040,8 +2056,24 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.tab1 = $scope.tab1 + 1;
                 });
             }
-
             if ($scope.tab1 == 8) {
+                $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                $scope.ISact = 1;
+                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                    $scope.page_size = data1[0].ConfigValue;
+                    $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                    $scope.PageEnd = $scope.current_page * $scope.page_size;
+
+                    $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
+                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                            $scope.PayorMasterList = data;
+                            $scope.tab1 = $scope.tab1 + 1;
+                        });
+                });
+            }
+
+            if ($scope.tab1 == 9) {
                 $http.get(baseUrl + '/api/Common/OptionTypeList/').success(function (data) {
                     $scope.OptionTypeList = data;
                     $scope.tab1 = $scope.tab1 + 1;
@@ -2145,7 +2177,29 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
             }
         }
-
+        $scope.PayorBased_PlanFunction = function (id) {
+            $scope.PayorBasedPlanList = [];
+            if ($scope.loadCount != 0) {
+                $scope.loadCount = 0;
+            }
+            if ($scope.SelectedPayor.length == 1) {
+                var SelectedPayor = $scope.SelectedPayor[0];
+            }
+            else {
+                SelectedPayor = $scope.SelectedPayor;
+            }
+            if ($scope.loadCount == 0) {
+                $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + SelectedPayor).success(function (data) {
+                    $scope.PayorBasedPlanList = data;
+                    if (id != null && id != 0) {
+                        //$('#PLANID').val(id);
+                        setTimeout(function () {
+                            $('#PLANID').val(id);
+                        }, 5000);
+                    }
+                });
+            }
+        }
 
         $scope.CountryBased_StateFunction = function () {
             if ($scope.loadCount == 0) {
@@ -2253,6 +2307,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.PageCountArray = [];
                 $scope.Patientemptydata = [];
                 $scope.PatientList = [];
+                $scope.ISact = 1;
 
                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -2891,6 +2946,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     }
                 }
                 $scope.EditSelectedGroup = [];
+                $scope.EditPayorId = [];
+                $scope.EditPlanId = [];
                 $scope.SelectedGroup = [];
                 $scope.EditSelectedInstitution = [];
                 $scope.SelectedInstitution = [];
@@ -3070,6 +3127,32 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.AddMedicalHistory = data.AddMedicalHistory;
                                 $scope.AddHealthProblem = data.AddHealthProblem;
                                 $scope.ApprovalFlag = data.Approval_flag;
+                                $scope.PayorName = data.PayorName;
+                                $scope.PlanName = data.PlanName;
+                                $scope.Member_ID = data.Memberid;
+                                $scope.Policy_Number = data.PolicyNumber;
+                                $scope.Reference_ID = data.RefernceId;
+                                $scope.ExpiryDate = DateFormatEdit($filter('date')(data.ExpiryDate, "dd-MMM-yyyy"));
+                                $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                                $scope.ISact = 1;
+                                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                                    $scope.page_size = data1[0].ConfigValue;
+                                    $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                                    $scope.PageEnd = $scope.current_page * $scope.page_size;
+                                    $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
+                                        '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
+                                            $scope.PayorMasterList = data1;
+                                            $scope.SelectedPayor = [];
+                                            $scope.EditPayorId = data.PayorId;
+                                            $scope.SelectedPayor.push($scope.EditPayorId);
+                                            $scope.PayorBased_PlanFunction(data.PlanId);
+                                            setTimeout(function () {
+                                                $('#SelectPayor').val(data.PayorId);
+                                            }, 10000);
+                                        });                                    
+                                });
+
                                 methodcnt = methodcnt - 1;
                                 if (methodcnt == 0)
                                     $scope.uploadview = true;
@@ -3444,7 +3527,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             appleUserID: $scope.appleUserID,
                             PatientId: $scope.PATIENT_ID,
                             MrnPrefix: $scope.PrefixMRN,
-                            USER_ID: $window.localStorage['UserId']
+                            USER_ID: $window.localStorage['UserId'],
+                            Memberid: $scope.Member_ID,
+                            PolicyNumber: $scope.Policy_Number,
+                            RefernceId: $scope.Reference_ID,
+                            ExpiryDate: $scope.ExpiryDate,
+                            PayorId: $scope.SelectedPayor,
+                            PlanId: $scope.SelectedPlan,
                         }
                     } else {
                         var obj = {
@@ -3532,7 +3621,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             appleUserID: $scope.appleUserID,
                             PatientId: $scope.PATIENT_ID,
                             MrnPrefix: $scope.PrefixMRN,
-                            USER_ID: $window.localStorage['UserId']
+                            USER_ID: $window.localStorage['UserId'],
+                            Memberid: $scope.Member_ID,
+                            PolicyNumber: $scope.Policy_Number,
+                            RefernceId: $scope.Reference_ID,
+                            ExpiryDate: $scope.ExpiryDate,
+                            PayorId: $scope.SelectedPayor,
+                            PlanId: $scope.SelectedPlan,
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
@@ -12716,7 +12811,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
         $scope.SelectedPayor = [];
         $scope.PayorMasterList = [];
         $scope.PlanName = "";
-        $scope.SelectedPayorList = [];
+        $scope.SelectedPlan = [];
         $scope.ShortCode = "";
         $scope.Description = "";
         $scope.PackageName = "";
@@ -17550,6 +17645,13 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
         }
+
+        $scope.Member_ID = "";
+        $scope.Policy_Number = "";
+        $scope.Reference_ID = "";
+        $scope.ExpiryDate = "";
+        $scope.SelectedPayor = [];
+        $scope.SelectedPlan = [];
         $scope.Patient_Id = $window.localStorage['UserId'];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']

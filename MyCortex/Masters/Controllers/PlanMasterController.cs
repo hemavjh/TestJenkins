@@ -133,14 +133,20 @@ namespace MyCortex.Masters.Controllers
             {
                 repository.PlanMaster_Active(Id);
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-
                 return response;
-
             }
             else
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
+        }
+
+        [HttpGet]
+        public IList<PlanMasterModel> PayorBasedPlan(int Id)
+        {
+            IList<PlanMasterModel> model;
+            model = repository.PayorBasedPlanList(Id);
+            return model;
         }
 
     }

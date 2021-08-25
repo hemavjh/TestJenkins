@@ -192,6 +192,12 @@ namespace MyCortex.Repositories.Uesr
             //param.Add(new DataParameter("@CREATED_DT", insobj.CREATED_DT));
             param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
             param.Add(new DataParameter("@PATIENT_ID", insobj.PatientId));
+            param.Add(new DataParameter("@Memberid", insobj.Memberid));
+            param.Add(new DataParameter("@PolicyNumber", insobj.PolicyNumber));
+            param.Add(new DataParameter("@RefernceId", insobj.RefernceId));
+            param.Add(new DataParameter("@ExpiryDate", insobj.ExpiryDate));
+            param.Add(new DataParameter("@PayorId", insobj.PayorId));
+            param.Add(new DataParameter("@PlanId", insobj.PlanId));
 
             if(insobj.Id == 0)
             {
@@ -466,7 +472,13 @@ namespace MyCortex.Repositories.Uesr
                                     Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
                                     FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
                                     appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
-                                    PatientId = p.Field<string>("PATIENT_ID")
+                                    PatientId = p.Field<string>("PATIENT_ID"),
+                                    Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
+                                    PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
+                                    RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
+                                    ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                    PayorId = p.Field<string>("PAYORID"),
+                                    PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
             if (insert.DOB_Encrypt != "")
             {
@@ -763,8 +775,15 @@ namespace MyCortex.Repositories.Uesr
                                   Approval_flag = p.Field<int>("APPROVAL_FLAG"),
                                   Createdby_ShortName = p.Field<string>("SHORTNAME_CODE"),
                                   appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
-                                  PatientId = p.Field<string>("PATIENT_ID")
-
+                                  PatientId = p.Field<string>("PATIENT_ID"),
+                                  Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
+                                  PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
+                                  RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
+                                  ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                  PayorId = p.Field<string>("PAYORID"),
+                                  PlanId = p.Field<string>("PLANID"),
+                                  PayorName = p.Field<string>("PayorName"),
+                                  PlanName = p.Field<string>("PlanName"),
                                 }).FirstOrDefault();
             
 
