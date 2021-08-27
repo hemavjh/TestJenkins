@@ -83,14 +83,14 @@
                     </tr>
                     <tr ng-repeat="row in emptydata">
                         <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                        <td style="text-align: left">{{row.PayorName}}</td>
-                        <td style="text-align: left">{{row.PlanName}}</td>
-                        <td style="text-align: left">{{row.ShortCode}}</td>
-                        <td style="text-align: left">{{row.Description}}</td>
-                        <td style="text-align: left">{{row.PackageName}}</td>
-                        <td style="text-align: left">{{row.FinancialClass}}</td>
-                        <td style="text-align: left">{{row.PriceCode}}</td>
-                        <td style="text-align: left">{{row.ReferCode}}</td>
+                        <td class="textWrap" style="text-align: left">{{row.PayorName}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.PlanName}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.ShortCode}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.Description}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.PackageName}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.FinancialClass}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.PriceCode}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.ReferCode}}</td>
                         <td style="text-align: left">{{row.ValidFromDate | date : format : "dd-MM-yyyy"}}</td>
                         <td style="text-align: left">{{row.ValidToDate | date : format : "dd-MM-yyyy"}}</td>
                         <td st-ratio="10">
