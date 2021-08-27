@@ -41,6 +41,8 @@ namespace MyCortex.Repositories
         TabUserList USERPINDETAILS(long ID);
         object DBQueryAPI(string qry);
         int DefaultConfig_InsertUpdate(long Institution_Id, int Step);
+        IList<GatewayInsuranceList> InstitutionInsurance();
+        IList<GatewayInsuranceList> InstitutionPayment();
 
     }
 }

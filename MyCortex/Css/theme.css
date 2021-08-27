@@ -2315,7 +2315,7 @@ a.disabled {
 }
 
 .myAppoinmentsdayscountleft {
-    width: 40%;
+    width: 60%;
     float: left;
     padding: 5px 0 4px 0;
     margin: 0;
@@ -2750,4 +2750,8 @@ a.disabled {
     overflow: scroll;
     height: 170px;
     width: 347px;
+}
+.centerallign {
+    display: flex;
+    justify-content: center;
 }

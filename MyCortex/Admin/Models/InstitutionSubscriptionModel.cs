@@ -43,6 +43,8 @@ namespace MyCortex.Admin.Models
         public IList<InstitutionSubscriptionLanguageModels> Institution_Languages { get; set; }
         public IList<LanguageMasterModel> Language_List { get; set; }
         public IList<InstitutionSubscriptionLanguageModels> ChildLanguageList { get; set; }
+        public int Payment_ID { get; set; }
+        public int Gateway_ID { get; set; }
 
     }
 

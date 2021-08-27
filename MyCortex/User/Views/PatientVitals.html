@@ -1,4 +1,6 @@
-﻿<!DOCTYPE HTML>
+﻿Patient vitals
+
+<!DOCTYPE HTML>
 <script>
     $(function () {
         var dtToday = new Date();
@@ -136,7 +138,7 @@
         <div class="mainbody resBody">
             <div class="row">
                 <!-- Hide By Yoges-->
-                <div class="col-sm-3 p-15" style="display:none">
+                <div class="col-sm-4 p-15" style="display:none">
                     <div class="patientProfilePic">
                         <div ng-if="(ViewGenderName| lowercase)=='male' && (uploadme == null || uploadme==0)&&uploadview ==true"
                              valign="top" rowspan="6">
@@ -213,7 +215,7 @@
                 </div>-->
                 <!--<div class="mainbody resBody ng-scope">
                 <div class="rows">-->
-                <div class="col-sm-3 p-15">
+                <div class="col-sm-4 p-15 centerScroll">
                     <div style="border: 1px solid #ccc;box-shadow: 2px 2px 10px #ccc;background:#fff">
                         <div id="DemoChart" style="max-width:80%;margin: 0 auto;">
                         </div>
@@ -221,57 +223,57 @@
                     <script>
 
                     </script>
-                    <div class="panel panel-default patientProfileInfo mt-10">
-                        <div class="panel-body">
-                            <!--<h1 class="title2 text-left">My Appointments</h1>-->
-                            <h3 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
-                                My Appointments({{PatientAppointmentCount}})
-                            </h3>
-                            <h3 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
-                                My Appointments
-                            </h3>
-                            <div class="myAppoinmentspart">
-                                <div id="slides1" class="slides" ng-hide="PatientAppointmentCount==0">
-                                    <ul>
-                                        <li>
-                                            <div class="myAppoinmentsfull">
-                                                <div class="myAppoinmentleft">
-                                                    <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')" valign="top" rowspan="6">
-                                                        <img class="patientDetimg" src="../../Images/male.png" />
-                                                    </div>
-                                                    <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
-                                                         valign="top" rowspan="6">
-                                                        <img class="patientDetimg" src="../../Images/female.png" />
-                                                    </div>
-                                                    <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                                         valign="top" rowspan="6">
-                                                        <img class="patientDetimg" src="../../Images/Others.png" />
-                                                    </div>
-                                                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                                        <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                                    </div>
-                                                </div>
-                                                <div class="myAppoinmentright">
-                                                    <!--<h3>Jegan Nathan</h3>-->
-                                                    <h3>{{DoctorName}}</h3>
-                                                    <p>Date</p> <span>- {{Appointmentdate | date :'dd-MMM-yyyy'}}</span>
-                                                    <p>Time</p> <span>- {{AppointmentTime | date :'hh:mm a'}}</span>
-                                                    <div class="myAppoinmentsdayscountfull">
-                                                        <div class="myAppoinmentsdayscountleft">{{TimeDifference}} Left</div>
-                                                        <!--<div class="myAppoinmentsdayscountrite">
-                                                            <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                                                            <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
-                                                            <a class="homepadamicon Video" onclick="openChatWindow();">
-                                                            <img  style="height: 38px; width: 40px; padding-top: 0px; padding-left: 0px; padding-bottom: 4px; padding-right: 4px;" class="kutticon" src="images/Video-Icon.png"> </a>
-                                                            <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
-                                                        </div>-->
-                                                    </div>
+                    <!--<div class="panel panel-default patientProfileInfo mt-10">
+                    <div class="panel-body">-->
+                    <!--<h1 class="title2 text-left">My Appointments</h1>-->
+                    <!--<h3 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
+                        My Appointments({{PatientAppointmentCount}})
+                    </h3>
+                    <h3 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
+                        My Appointments
+                    </h3>
+                    <div class="myAppoinmentspart">
+                        <div id="slides1" class="slides" ng-hide="PatientAppointmentCount==0">
+                            <ul>
+                                <li>
+                                    <div class="myAppoinmentsfull">
+                                        <div class="myAppoinmentleft">
+                                            <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')" valign="top" rowspan="6">
+                                                <img class="patientDetimg" src="../../Images/male.png" />
+                                            </div>
+                                            <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
+                                                 valign="top" rowspan="6">
+                                                <img class="patientDetimg" src="../../Images/female.png" />
+                                            </div>
+                                            <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                                 valign="top" rowspan="6">
+                                                <img class="patientDetimg" src="../../Images/Others.png" />
+                                            </div>
+                                            <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                                <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                            </div>
+                                        </div>
+                                        <div class="myAppoinmentright">-->
+                    <!--<h3>Jegan Nathan</h3>-->
+                    <!--<h3>{{DoctorName}}</h3>
+                    <p>Date</p> <span>- {{Appointmentdate | date :'dd-MMM-yyyy'}}</span>
+                    <p>Time</p> <span>- {{AppointmentTime | date :'hh:mm a'}}</span>
+                    <div class="myAppoinmentsdayscountfull">
+                        <div class="myAppoinmentsdayscountleft">{{TimeDifference}} Left</div>-->
+                    <!--<div class="myAppoinmentsdayscountrite">
+                        <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                        <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
+                        <a class="homepadamicon Video" onclick="openChatWindow();">
+                        <img  style="height: 38px; width: 40px; padding-top: 0px; padding-left: 0px; padding-bottom: 4px; padding-right: 4px;" class="kutticon" src="images/Video-Icon.png"> </a>
+                        <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                    </div>-->
+                    <!--</div>
                                                     <div class="myAppoinmentsdayscountrite">
                                                         <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                                                        <a class="homepadamicon phones" onclick="openChatWindow();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </a>
-                                                        <a class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                                                        <button id="AudioDisable" ng-disabled="CallButton > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img class="kutticon" src="images/phones-icon.png"> </button>
+                                                        <button id="videoDisable" ng-disabled="CallButton > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
                                                             <img style="height: 38px; width: 40px; padding-top: 0px; padding-left: 0px; padding-bottom: 4px; padding-right: 4px;" class="kutticon" src="images/Video-Icon.png">
-                                                        </a>
+                                                        </button>
                                                         <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                                                     </div>
                                                 </div>
@@ -289,11 +291,433 @@
                                 </p>
                             </div>
                         </div>
+                    </div>-->
+                    <div ng-show="UserTypeId==6" ng-init="CareGiverAssign_Function()">
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <h1 class="title2">Assign Caregiver</h1>
+                                <div class="inputGroups">
+                                    <select ng-model="CareGiver_Id" multiple="multiple"
+                                            ng-options="item1.Id as item1.Name for item1 in CareGiverList" multiselect-dropdown
+                                            style="width: 230px;"></select>
+                                </div>
+                                <div class="inputGroups">
+                                    <label style="text-align: left">Comments</label>
+                                    <textarea type="text" ng-model="CC_Remarks" class="form-control" maxlength="250"
+                                              ng-maxlength="250" />
+                                </div>
+
+
+
+                                <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="Assign_CareGiver()" title="Click to Assign the Care Giver">
+                                    Save
+                                </button>
+                                <button type="button" class="theme-btn-2" ng-click="CareCoordinatorModal()" title="Click to View History">
+                                    View History
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="mt-15" ng-show="UserTypeId==2">
+
+                        <h1 class="title2 text-left" ng-if="Mode==1">Other Info</h1>
+
+                        <div class="panel panel-default patientProfileInfo" style=" border-top: 1px solid #ccc;" ng-if="Mode==1">
+
+
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#home">Family & Friends</a></li>
+                                <li><a data-toggle="tab" href="#menu1">Connect With</a></li>
+                            </ul>
+                            <div class="tab-content">
+
+                                <div id="home" class="tab-pane fade in active">
+                                    ">
+                                    as
+                                    <div class="panel-body">
+                                        <div class="inputGroups">
+                                            <label for="usr">Search:</label>
+                                            <input type="text" class="form-control" placeholder="Search">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="menu1" class="tab-pane fade">
+                                    <div class="panel-body">
+                                        <div class="inputGroups">
+                                            <label for="usr">Connect With:</label>
+                                            <input type="text" class="form-control" placeholder="Connect">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--<h1 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
+                            My Appointments({{PatientAppointmentCount}})
+                        </h1>
+                        <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
+
+
+                            My Appoint
+                            ments
+                        </h1>-->
+                        <!--<div class="patientCard" ng-hide="PatientAppointmentCount==0">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                     valign="top" rowspan="6">
+                                    <img class="patientDetimg" src="../../Images/male.png" />
+                                </div>
+                                <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
+                                     valign="top" rowspan="6">
+                                    <img class="patientDetimg" src="../../Images/female.png" />
+                                </div>
+                                <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                     valign="top" rowspan="6">
+                                    <img class="patientDetimg" src="../../Images/Others.png" />
+                                </div>
+                                <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                    <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                </div>
+                                <h1>{{DoctorName}}</h1>-->
+                        <!--<span style="text-align: center"></span>-->
+                        <!--<div class="row" style="margin-left: 0px!important;">
+                            <div class="column" style="float:left;">
+                                <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
+                                 height 30px;
+                                 width 30px;
+                                 display flex; cursor:pointer;border: 0px!important;">
+                            </div><div class="column" style="float:left;">
+                                <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
+                                 height 30px;
+                                 width 30px;
+                                 display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
+                            </div><div class="column" style="float:left;">
+                                <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
+                                 height 30px;
+                                 width 30px;
+                                 display flex; cursor:pointer;border: 0px!important;">
+                            </div>
+                        </div>-->
+                        <!--<i class="fa fa-comments my-float" style="font-size: 25px" onclick="openChatWindow()"></i>
+                        &nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
+
+                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                               ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
+                               id="Image4" />-->
+                        <!--</div>
+                                <div class="col-sm-6">
+                                    <label>Date</label>
+                                    <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
+                                    <label>Time</label>
+                                    <span>{{AppointmentTime | date :'hh:mm a'}}</span>
+
+                                    <span style="text-align: right">
+                                        <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
+                                           title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
+                                           ng-hide="index==0"></i>&nbsp;&nbsp;
+                                        <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
+                                           title="Next Appointment" ng-click="Next_PatientAppointment(1)"
+                                           ng-hide="index+1==PatientAppointmentCount"></i>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h2>{{TimeDifference}} Left</h2>
+                                </div>
+                            </div>
+                        </div>-->
+                        <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    No doctor appointments scheduled
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                    <!--                        <div ng-show="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
+                        el
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <h1 class="title2"><hAssign Caregiver</</h1>
+                                <div class="inputGroups">
+                                    <select ng-model="CareGiver_Id" multiple="multiple"
+                                            ng-options="item1.Id as item1.Name for item1 in CareGiverList" multiselect-dropdown
+                                            style="width: 230px;"></select>
+                                </div>
+                                <div class="inputGroups">
+                                    <label style="text-align: left">Comments</label>
+                                    <textarea type="text" ng-model="CC_Remarks" class="form-control" maxlength="250"
+                                              ng-maxlength="250" />
+                                </div>
+
+
+
+                                <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="Assign_CareGiver()" title="Click to Assign the Care Giver">
+                                    Save
+                                </button>
+                                <button type="button" class="theme-btn-2" ng-click="CareCoordinatorModal()" title="Click to View History">
+                                    View History
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>-->
+                    <div class="mt-15" ng-show="UserTypeId ==4||UserTypeId==7">
+
+                        <div class="panel panel-default patientProfileInfo">
+                            <div class="panel-body">
+
+                                <h1 class="title2">Monitoring Protocol</h1>
+                                <select class="form-control" data-style="form-control" id="selectedMonitoringProtocol"
+                                        data-live-search="true"
+                                        data-selectpicker data-collection-name="MonitoringProtocol_List" ng-model="Monitoring_ProtocolId">
+
+                                    <option ng-repeat="sel in MonitoringProtocol_List" ng-required="true"
+                                            value="{{sel.Id}}">
+                                        {{sel.ProtocolName}}
+                                    </option>
+                                </select>
+
+
+                                <button type="button" class="theme-btn-1 mt-10 mr-10" title="Click to Save Protocol" ng-click="AssignedProtocol_InsertUpdate()">
+                                    Save
+                                </button>
+                                <button type="button" class="theme-btn-2 mt-10" title="Click to View Protocol History"
+                                        ng-click="MonitoringHistoryListPopUP()">
+                                    History
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="mt-15" ng-show="UserTypeId ==5">
+                        <!--<div class="flex align-items-center justify-content-between mb-4">
+                            <p class="m-bottom-0 font-semibold self-center">Appointment</p>
+                            <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
+                                + Book New
+                            </button>
+                        </div>-->
+                        <div class="panel panel-default patientProfileInfo">
+
+                            <ul class="nav nav-tabs">
+                                <!--<li class=""><a data-toggle="tab" href="#"></a></li>-->
+                                <!--<li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>-->
+                                <li class="active"><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
+                            </ul>
+                            <div class="tab-content centerScroll" style="display:inherit !important;">
+                                <!--<div id="appt" class="tab-pane fade in active">
+                                <div class="panel-body">
+                                    <div class="inputGroups">
+                                        <label for="usr">Doctor</label>
+                                        <input type="text" class="form-control" ng-model="searchquery" ng-click="DoctorSeachPopup()"
+                                               placeholder="" />
+
+                                    </div>
+                                    <div class="inputGroups">
+                                        <label for="usr">Appointment Date</label>-->
+                                <!--<div class="input-group date">-->
+                                <!--<input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">-->
+                                <!--<span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-th"></i>
+                                </span>-->
+                                <!--</div>-->
+                                <!--</div>
+                                        <div class="inputGroups">
+                                            <label for="usr">Appointment Time</label>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="input-group bootstrap-timepicker timepicker">
+                                                        <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentFromTime"
+                                                               ng-init="AppointmentFromTime=''">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="input-group bootstrap-timepicker timepicker">
+                                                        <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentToTime"
+                                                               ng-init="AppointmentToTime=''">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="inputGroups">
+                                            <label>Reason For Visit</label>
+                                            <textarea class="form-control mb-10" rows="4" style="width: 100%" ng-model="ReasonForVisit"
+                                                      maxlength="250" ng-maxlength="250"></textarea>
+                                        </div>
+                                        <div class="inputGroups">
+                                            <button type="button" class="theme-btn-1 mr-10 mt-10" title="Click to save Patient Appointment"
+                                                    ng-click="PatientAppointment_InsertUpdate(Doctor_Id)">
+                                                Save
+                                            </button>
+                                            <button type="button" class="theme-btn-2 mt-10" ng-click="DoctorAppoinmentModal()">
+                                                View
+                                                History
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <!--<div id="appt" class="tab-pane fade in active">
+                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails">
+                                        <div class=" upcoming-doctor">
+                                            <div class="flex justify-content-between align-items-center mb-4">
+                                                <p class="up-time">
+                                                    {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                                    {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
+                                                </p>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="flex">
+                                                <div class="" style="width:20%">
+                                                    <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="" style="width:80%">
+                                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex">
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
+                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div id="alertclear" class="tab-pane fade in active">
+                                    <div class="panel-body">
+                                        <div class="inputGroups">
+                                            <label for="usr">Call Notes/Remarks:</label>
+                                            <textarea type="text" ng-model="CG_Remarks" class="form-control" maxlength="250"
+                                                      ng-maxlength="250" />
+                                        </div>
+                                        <div class="inputGroups">
+                                            <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="CG_Update_ClearAlerts()" title="Click here to Clear the alert">
+                                                Clear
+                                            </button>
+                                            <button type="button" class="theme-btn-2 mt-10" ng-click="ViewClearAlertHistoryPopup()"
+                                                    title="Click here to open the alert history">
+                                                View History
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
+                        <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
+                        <button type="button" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
+                            + Book New
+                        </button>
+                        <button type="button" class="btnn-check" ng-click="ShowStripePopup()">
+                            Pay Now
+                        </button>
+                    </div>
+
+
+                    <div class="mt-15">
+                        <div class="panel panel-default patientProfileInfo">
+
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#appt">Up Coming</a></li>
+                                <li><a data-toggle="tab" href="#Past">Past</a></li>
+                            </ul>
+                            <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
+
+                                <div id="Past" class="tab-pane fade">
+                                    <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
+                                        <div class=" upcoming-doctor">
+                                            <div class="flex justify-content-between align-items-center mb-4">
+                                                <p class="up-time">
+                                                    {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                                    {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
+                                                </p>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="flex">
+                                                <div class="" style="width:20%">
+                                                    <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="" style="width:80%">
+                                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex">
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                                                <!--<a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
+                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
+                                        No Past Appointment...
+                                    </div>
+                                </div>
+
+                                <div id="appt" class="tab-pane fade in active">
+                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
+                                        <div class=" upcoming-doctor">
+                                            <div class="flex justify-content-between align-items-center mb-4">
+                                                <p class="up-time">
+                                                    {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                                    {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
+                                                </p>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="flex">
+                                                <div class="" style="width:20%">
+                                                    <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="" style="width:80%">
+                                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex">
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
+                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
+                                            </div>
+                                            <div class="flex">
+                                                <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                                                <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="padding-right:30px;" src="images/phones-icon.png"> </button>
+                                                <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                                                    <img style="height: 40px; width: 35px; padding: 0 15px 12px 0; padding-right: 20px; " src="images/Video-Icon.png">
+                                                </button>
+                                                <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
+                                        No Upcoming Appointment...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--</div>
                 </div>-->
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                     <h1 class="page-title" ng-show="ParameterValueList.length>=0">
                         Alerts<sub>
                             <input type="image" src="../../Images/expand.gif"
@@ -547,7 +971,7 @@
                     </div>
                     <!-- added by yoges-->
                     <div class="row">
-                        <div class="col-sm-8 p-0 centerScroll">
+                        <div class="col-sm-12 p-0">
 
 
 
@@ -1739,7 +2163,7 @@
 
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <!--<div class="col-sm-4">
                         <div class="mt-15" ng-show="UserTypeId==2">
 
                             <h1 class="title2 text-left" ng-if="Mode==1">Other Info</h1>
@@ -1754,6 +2178,8 @@
                                 <div class="tab-content">
 
                                     <div id="home" class="tab-pane fade in active">
+                                        ">
+                                        as
                                         <div class="panel-body">
                                             <div class="inputGroups">
                                                 <label for="usr">Search:</label>
@@ -1772,354 +2198,426 @@
 
                                 </div>
 
+                            </div>-->
+                    <!--<h1 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
+                        My Appointments({{PatientAppointmentCount}})
+                    </h1>
+                    <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
+
+
+                        My Appoint
+                        ments
+                    </h1>-->
+                    <!--<div class="patientCard" ng-hide="PatientAppointmentCount==0">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                 valign="top" rowspan="6">
+                                <img class="patientDetimg" src="../../Images/male.png" />
                             </div>
-                            <!--<h1 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
-                                My Appointments({{PatientAppointmentCount}})
-                            </h1>
-                            <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
-
-
-                                My Appoint
-                                ments
-                            </h1>-->
-                            <!--<div class="patientCard" ng-hide="PatientAppointmentCount==0">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                         valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="../../Images/male.png" />
-                                    </div>
-                                    <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
-                                         valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="../../Images/female.png" />
-                                    </div>
-                                    <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
-                                         valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="../../Images/Others.png" />
-                                    </div>
-                                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
-                                        <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                    </div>
-                                    <h1>{{DoctorName}}</h1>-->
-                            <!--<span style="text-align: center"></span>-->
-                            <!--<div class="row" style="margin-left: 0px!important;">
-                                <div class="column" style="float:left;">
-                                    <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
-                                     height 30px;
-                                     width 30px;
-                                     display flex; cursor:pointer;border: 0px!important;">
-                                </div><div class="column" style="float:left;">
-                                    <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
-                                     height 30px;
-                                     width 30px;
-                                     display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
-                                </div><div class="column" style="float:left;">
-                                    <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
-                                     height 30px;
-                                     width 30px;
-                                     display flex; cursor:pointer;border: 0px!important;">
-                                </div>
-                            </div>-->
-                            <!--<i class="fa fa-comments my-float" style="font-size: 25px" onclick="openChatWindow()"></i>
-                            &nbsp;&nbsp;&nbsp;
-                            <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
-
-                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
-                                   ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
-                                   id="Image4" />-->
-                            <!--</div>
-                                    <div class="col-sm-6">
-                                        <label>Date</label>
-                                        <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
-                                        <label>Time</label>
-                                        <span>{{AppointmentTime | date :'hh:mm a'}}</span>
-
-                                        <span style="text-align: right">
-                                            <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
-                                               title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
-                                               ng-hide="index==0"></i>&nbsp;&nbsp;
-                                            <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
-                                               title="Next Appointment" ng-click="Next_PatientAppointment(1)"
-                                               ng-hide="index+1==PatientAppointmentCount"></i>
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h2>{{TimeDifference}} Left</h2>
-                                    </div>
-                                </div>
-                            </div>-->
-                            <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        No doctor appointments scheduled
-                                    </div>
-                                </div>
-                            </div>-->
+                            <div ng-if="(ViewGenderName| lowercase)=='female' && (PhotoBlob == null || PhotoBlob=='')"
+                                 valign="top" rowspan="6">
+                                <img class="patientDetimg" src="../../Images/female.png" />
+                            </div>
+                            <div ng-if="(ViewGenderName| lowercase)!='female'&& (ViewGenderName| lowercase)!='male' && (PhotoBlob == null || PhotoBlob=='')"
+                                 valign="top" rowspan="6">
+                                <img class="patientDetimg" src="../../Images/Others.png" />
+                            </div>
+                            <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                <img class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                            </div>
+                            <h1>{{DoctorName}}</h1>-->
+                    <!--<span style="text-align: center"></span>-->
+                    <!--<div class="row" style="margin-left: 0px!important;">
+                        <div class="column" style="float:left;">
+                            <img src="../../Images/chat_icon.png" onclick="openChatWindow()" style="
+                             height 30px;
+                             width 30px;
+                             display flex; cursor:pointer;border: 0px!important;">
+                        </div><div class="column" style="float:left;">
+                            <img src="../../Images/call_icon.png" onclick="openChatWindow();audioCallUser()" style="
+                             height 30px;
+                             width 30px;
+                             display flex; cursor:pointer;border: 0px!important;margin-left 5px;">
+                        </div><div class="column" style="float:left;">
+                            <img src="../../Images/deleteNewIcon.png" ng-click="CancelAppointmentModal(Appointment_Id)" style="
+                             height 30px;
+                             width 30px;
+                             display flex; cursor:pointer;border: 0px!important;">
                         </div>
-                        <div ng-show="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
-                            <div class="panel panel-default">
+                    </div>-->
+                    <!--<i class="fa fa-comments my-float" style="font-size: 25px" onclick="openChatWindow()"></i>
+                    &nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-phone" style="font-size: 25px" onclick="audioCallUser()"></i>
 
-                                <div class="panel-body">
-                                    <h1 class="title2">Assign Caregiver</h1>
-                                    <div class="inputGroups">
-                                        <select ng-model="CareGiver_Id" multiple="multiple"
-                                                ng-options="item1.Id as item1.Name for item1 in CareGiverList" multiselect-dropdown
-                                                style="width: 230px;"></select>
-                                    </div>
-                                    <div class="inputGroups">
-                                        <label style="text-align: left">Comments</label>
-                                        <textarea type="text" ng-model="CC_Remarks" class="form-control" maxlength="250"
-                                                  ng-maxlength="250" />
-                                    </div>
+                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                           ng-click="CancelAppointmentModal(Appointment_Id)" style="width: 20px;"
+                           id="Image4" />-->
+                    <!--</div>
+                            <div class="col-sm-6">
+                                <label>Date</label>
+                                <span>{{AppointmentDate | date :'dd-MMM-yyyy'}}</span>
+                                <label>Time</label>
+                                <span>{{AppointmentTime | date :'hh:mm a'}}</span>
 
-
-
-                                    <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="Assign_CareGiver()" title="Click to Assign the Care Giver">
-                                        Save
-                                    </button>
-                                    <button type="button" class="theme-btn-2" ng-click="CareCoordinatorModal()" title="Click to View History">
-                                        View History
-                                    </button>
-                                </div>
-
+                                <span style="text-align: right">
+                                    <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
+                                       title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
+                                       ng-hide="index==0"></i>&nbsp;&nbsp;
+                                    <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
+                                       title="Next Appointment" ng-click="Next_PatientAppointment(1)"
+                                       ng-hide="index+1==PatientAppointmentCount"></i>
+                                </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <h2>{{TimeDifference}} Left</h2>
                             </div>
                         </div>
-                        <div class="mt-15" ng-show="UserTypeId ==4||UserTypeId==7">
-
-                            <div class="panel panel-default patientProfileInfo">
-                                <div class="panel-body">
-
-                                    <h1 class="title2">Monitoring Protocol</h1>
-                                    <select class="form-control" data-style="form-control" id="selectedMonitoringProtocol"
-                                            data-live-search="true"
-                                            data-selectpicker data-collection-name="MonitoringProtocol_List" ng-model="Monitoring_ProtocolId">
-
-                                        <option ng-repeat="sel in MonitoringProtocol_List" ng-required="true"
-                                                value="{{sel.Id}}">
-                                            {{sel.ProtocolName}}
-                                        </option>
-                                    </select>
-
-
-                                    <button type="button" class="theme-btn-1 mt-10 mr-10" title="Click to Save Protocol" ng-click="AssignedProtocol_InsertUpdate()">
-                                        Save
-                                    </button>
-                                    <button type="button" class="theme-btn-2 mt-10" title="Click to View Protocol History"
-                                            ng-click="MonitoringHistoryListPopUP()">
-                                        History
-                                    </button>
-                                </div>
-
+                    </div>-->
+                    <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                No doctor appointments scheduled
                             </div>
                         </div>
-                        <div class="mt-15" ng-show="UserTypeId ==5">
-                            <!--<div class="flex align-items-center justify-content-between mb-4">
-                                <p class="m-bottom-0 font-semibold self-center">Appointment</p>
-                                <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
-                                    + Book New
+                    </div>-->
+                    <!--</div>-->
+                    <!--                        <div ng-show="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
+                                                el
+                                                <div class="panel panel-default">
+
+                                                    <div class="panel-body">
+                                                        <h1 class="title2"><hAssign Caregiver</</h1>
+                                                        <div class="inputGroups">
+                                                            <select ng-model="CareGiver_Id" multiple="multiple"
+                                                                    ng-options="item1.Id as item1.Name for item1 in CareGiverList" multiselect-dropdown
+                                                                    style="width: 230px;"></select>
+                                                        </div>
+                                                        <div class="inputGroups">
+                                                            <label style="text-align: left">Comments</label>
+                                                            <textarea type="text" ng-model="CC_Remarks" class="form-control" maxlength="250"
+                                                                      ng-maxlength="250" />
+                                                        </div>
+
+
+
+                                                        <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="Assign_CareGiver()" title="Click to Assign the Care Giver">
+                                                            Save
+                                                        </button>
+                                                        <button type="button" class="theme-btn-2" ng-click="CareCoordinatorModal()" title="Click to View History">
+                                                            View History
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>-->
+                    <!--<div class="mt-15" ng-show="UserTypeId ==4||UserTypeId==7">
+
+                        <div class="panel panel-default patientProfileInfo">
+                            <div class="panel-body">
+
+                                <h1 class="title2">Monitoring Protocol</h1>
+                                <select class="form-control" data-style="form-control" id="selectedMonitoringProtocol"
+                                        data-live-search="true"
+                                        data-selectpicker data-collection-name="MonitoringProtocol_List" ng-model="Monitoring_ProtocolId">
+
+                                    <option ng-repeat="sel in MonitoringProtocol_List" ng-required="true"
+                                            value="{{sel.Id}}">
+                                        {{sel.ProtocolName}}
+                                    </option>
+                                </select>
+
+
+                                <button type="button" class="theme-btn-1 mt-10 mr-10" title="Click to Save Protocol" ng-click="AssignedProtocol_InsertUpdate()">
+                                    Save
                                 </button>
-                            </div>-->
-                            <div class="panel panel-default patientProfileInfo">
+                                <button type="button" class="theme-btn-2 mt-10" title="Click to View Protocol History"
+                                        ng-click="MonitoringHistoryListPopUP()">
+                                    History
+                                </button>
+                            </div>
 
-                                <ul class="nav nav-tabs">
-                                    <!--<li class=""><a data-toggle="tab" href="#"></a></li>-->
-                                    <!--<li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>-->
-                                    <li class="active"><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
-                                </ul>
-                                <div class="tab-content centerScroll" style="display:inherit !important;">
-                                    <!--<div id="appt" class="tab-pane fade in active">
-                                        <div class="panel-body">
-                                            <div class="inputGroups">
-                                                <label for="usr">Doctor</label>
-                                                <input type="text" class="form-control" ng-model="searchquery" ng-click="DoctorSeachPopup()"
-                                                       placeholder="" />
+                        </div>
+                    </div>
+                    <div class="mt-15" ng-show="UserTypeId ==5">-->
+                    <!--<div class="flex align-items-center justify-content-between mb-4">
+                        <p class="m-bottom-0 font-semibold self-center">Appointment</p>
+                        <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
+                            + Book New
+                        </button>
+                    </div>-->
+                    <!--<div class="panel panel-default patientProfileInfo">
 
-                                            </div>
-                                            <div class="inputGroups">
-                                                <label for="usr">Appointment Date</label>-->
-                                                <!--<div class="input-group date">-->
-                                                <!--<input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">-->
-                                                <!--<span class="input-group-addon">
-                                                    <i class="glyphicon glyphicon-th"></i>
-                                                </span>-->
-                                                <!--</div>-->
-                                            <!--</div>
-                                            <div class="inputGroups">
-                                                <label for="usr">Appointment Time</label>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="input-group bootstrap-timepicker timepicker">
-                                                            <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentFromTime"
-                                                                   ng-init="AppointmentFromTime=''">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="input-group bootstrap-timepicker timepicker">
-                                                            <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentToTime"
-                                                                   ng-init="AppointmentToTime=''">
-                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="inputGroups">
-                                                <label>Reason For Visit</label>
-                                                <textarea class="form-control mb-10" rows="4" style="width: 100%" ng-model="ReasonForVisit"
-                                                          maxlength="250" ng-maxlength="250"></textarea>
-                                            </div>
-                                            <div class="inputGroups">
-                                                <button type="button" class="theme-btn-1 mr-10 mt-10" title="Click to save Patient Appointment"
-                                                        ng-click="PatientAppointment_InsertUpdate(Doctor_Id)">
-                                                    Save
-                                                </button>
-                                                <button type="button" class="theme-btn-2 mt-10" ng-click="DoctorAppoinmentModal()">
-                                                    View
-                                                    History
-                                                </button>
-                                            </div>
+                        <ul class="nav nav-tabs">-->
+                    <!--<li class=""><a data-toggle="tab" href="#"></a></li>-->
+                    <!--<li class="active"><a data-toggle="tab" href="#appt">Book Appointment</a></li>-->
+                    <!--<li class="active"><a data-toggle="tab" href="#alertclear">Clear Alerts</a></li>
+                    </ul>
+                    <div class="tab-content centerScroll" style="display:inherit !important;">-->
+                    <!--<div id="appt" class="tab-pane fade in active">
+                    <div class="panel-body">
+                        <div class="inputGroups">
+                            <label for="usr">Doctor</label>
+                            <input type="text" class="form-control" ng-model="searchquery" ng-click="DoctorSeachPopup()"
+                                   placeholder="" />
+
+                        </div>
+                        <div class="inputGroups">
+                            <label for="usr">Appointment Date</label>-->
+                    <!--<div class="input-group date">-->
+                    <!--<input type="date" max="2099-12-31" id="AppointmentDate" class="form-control date" ng-model="AppointmentDate" ng-init="AppointmentDate=''">-->
+                    <!--<span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                    </span>-->
+                    <!--</div>-->
+                    <!--</div>
+                            <div class="inputGroups">
+                                <label for="usr">Appointment Time</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentFromTime"
+                                                   ng-init="AppointmentFromTime=''">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
-                                    </div>-->
-                                    <!--<div id="appt" class="tab-pane fade in active">
-                                        <div class="" ng-repeat="Row in UpComingAppointmentDetails">
-                                            <div class=" upcoming-doctor">
-                                                <div class="flex justify-content-between align-items-center mb-4">
-                                                    <p class="up-time">
-                                                        {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                                        {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
-                                                    </p>
-                                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                                </div>
-                                                <div class="flex">
-                                                    <div class="" style="width:20%">
-                                                        <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
-                                                            <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="" style="width:80%">
-                                                        <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
-                                                        <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex">
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
-                                                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
-                                    <div id="alertclear" class="tab-pane fade in active">
-                                        <div class="panel-body">
-                                            <div class="inputGroups">
-                                                <label for="usr">Call Notes/Remarks:</label>
-                                                <textarea type="text" ng-model="CG_Remarks" class="form-control" maxlength="250"
-                                                          ng-maxlength="250" />
-                                            </div>
-                                            <div class="inputGroups">
-                                                <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="CG_Update_ClearAlerts()" title="Click here to Clear the alert">
-                                                    Clear
-                                                </button>
-                                                <button type="button" class="theme-btn-2 mt-10" ng-click="ViewClearAlertHistoryPopup()"
-                                                        title="Click here to open the alert history">
-                                                    View History
-                                                </button>
-                                            </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="AppointmentToTime"
+                                                   ng-init="AppointmentToTime=''">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="inputGroups">
+                                <label>Reason For Visit</label>
+                                <textarea class="form-control mb-10" rows="4" style="width: 100%" ng-model="ReasonForVisit"
+                                          maxlength="250" ng-maxlength="250"></textarea>
+                            </div>
+                            <div class="inputGroups">
+                                <button type="button" class="theme-btn-1 mr-10 mt-10" title="Click to save Patient Appointment"
+                                        ng-click="PatientAppointment_InsertUpdate(Doctor_Id)">
+                                    Save
+                                </button>
+                                <button type="button" class="theme-btn-2 mt-10" ng-click="DoctorAppoinmentModal()">
+                                    View
+                                    History
+                                </button>
                             </div>
                         </div>
-                        <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
-                            <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
-                            <button type="button" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
-                                + Book New
-                            </button>
-                            <button type="button" class="btnn-check" ng-click="ShowStripePopup()">
-                                Pay Now
-                            </button>
+                    </div>-->
+                    <!--<div id="appt" class="tab-pane fade in active">
+                        <div class="" ng-repeat="Row in UpComingAppointmentDetails">
+                            <div class=" upcoming-doctor">
+                                <div class="flex justify-content-between align-items-center mb-4">
+                                    <p class="up-time">
+                                        {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                        {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
+                                    </p>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                                <div class="flex">
+                                    <div class="" style="width:20%">
+                                        <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                            <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                        </div>
+                                    </div>
+                                    <div class="" style="width:80%">
+                                        <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                        <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
+                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
+                                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>
+                                </div>
+                            </div>
                         </div>
+                    </div>-->
+                    <!--<div id="alertclear" class="tab-pane fade in active">
+                                    <div class="panel-body">
+                                        <div class="inputGroups">
+                                            <label for="usr">Call Notes/Remarks:</label>
+                                            <textarea type="text" ng-model="CG_Remarks" class="form-control" maxlength="250"
+                                                      ng-maxlength="250" />
+                                        </div>
+                                        <div class="inputGroups">
+                                            <button type="button" class="theme-btn-1 mt-10 mr-10" ng-click="CG_Update_ClearAlerts()" title="Click here to Clear the alert">
+                                                Clear
+                                            </button>
+                                            <button type="button" class="theme-btn-2 mt-10" ng-click="ViewClearAlertHistoryPopup()"
+                                                    title="Click here to open the alert history">
+                                                View History
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
+                        <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
+                        <button type="button" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
+                            + Book New
+                        </button>
+                        <button type="button" class="btnn-check" ng-click="ShowStripePopup()">
+                            Pay Now
+                        </button>
+                    </div>
 
 
-                        <div class="mt-15">
-                            <div class="panel panel-default patientProfileInfo">
+                    <div class="mt-15">
+                        <div class="panel panel-default patientProfileInfo">
 
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#appt">Up Coming</a></li>
-                                    <li><a data-toggle="tab" href="#Past">Past</a></li>
-                                </ul>
-                                <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#appt">Up Coming</a></li>
+                                <li><a data-toggle="tab" href="#Past">Past</a></li>
+                            </ul>
+                            <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
 
-                                    <div id="Past" class="tab-pane fade">
-                                        <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
-                                            <div class=" upcoming-doctor">
-                                                <div class="flex justify-content-between align-items-center mb-4">
-                                                    <p class="up-time">
-                                                        {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                                        {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
-                                                    </p>
-                                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                                </div>
-                                                <div class="flex">
-                                                    <div class="" style="width:20%">
-                                                        <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
-                                                            <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                                        </div>
+                                <div id="Past" class="tab-pane fade">
+                                    <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
+                                        <div class=" upcoming-doctor">
+                                            <div class="flex justify-content-between align-items-center mb-4">
+                                                <p class="up-time">
+                                                    {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                                    {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
+                                                </p>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="flex">
+                                                <div class="" style="width:20%">
+                                                    <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                                     </div>
-                                                    <div class="" style="width:80%">
-                                                        <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
-                                                        <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
-                                                    </div>
                                                 </div>
-                                                <div class="flex">
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
-                                                    <!--<a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
-                                                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>-->
+                                                <div class="" style="width:80%">
+                                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
-                                            No Past Appointment...
+                                            <div class="flex">
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>-->
+                    <!--<a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
+                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>-->
+                    <!--</div>
                                         </div>
                                     </div>
 
-                                    <div id="appt" class="tab-pane fade in active">
-                                        <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
-                                            <div class=" upcoming-doctor">
-                                                <div class="flex justify-content-between align-items-center mb-4">
-                                                    <p class="up-time">
-                                                        {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
-                                                        {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
-                                                    </p>
-                                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                                </div>
-                                                <div class="flex">
-                                                    <div class="" style="width:20%">
-                                                        <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
-                                                            <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
-                                                        </div>
+                                    <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
+                                        No Past Appointment...
+                                    </div>
+                                </div>
+
+                                <div id="appt" class="tab-pane fade in active">
+                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
+                                        <div class=" upcoming-doctor">
+                                            <div class="flex justify-content-between align-items-center mb-4">
+                                                <p class="up-time">
+                                                    {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                                    {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
+                                                </p>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="flex">
+                                                <div class="" style="width:20%">
+                                                    <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                                     </div>
-                                                    <div class="" style="width:80%">
-                                                        <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
-                                                        <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
-                                                    </div>
                                                 </div>
-                                                <div class="flex">
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
-                                                    <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
-                                                    <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
+                                                <div class="" style="width:80%">
+                                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
-                                            No Upcoming Appointment...
+                                            <div class="flex">
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
+                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
+                                        No Upcoming Appointment...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        <div id="DoctorsBio" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style="width: 50%">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" title="Close"
+                                ng-click="CancelDocBio()">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">Doctor's Biography</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="flex">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6" style="width:20%">
+                                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="width:80%">
+                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailBio.FirstName}}</p>
+                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{DoctorDetailBio.Department_Name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="col-sm-12">
+                                <div class="flex">
+
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Health License</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.HEALTH_LICENSE}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Sex</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.GENDER_NAME}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Nationality</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.Nationality}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Date of birth</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.DOB.split('T')[0]}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Nationality</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.HEALTH_LICENSE}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Email</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.EMAILID}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Contact Number</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.MOBILE_NO}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Languages Known</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.LanguageKnown}}</p>
+                                </div>
+                                <div class="flex">
+                                    <label class="col-sm-6 doc-label">Address</label>
+                                    <p class="col-sm-6 doc-p">{{DoctorDetailBio.ADDRESS1}} <br />{{DoctorDetailBio.ADDRESS2}}<br /> {{DoctorDetailBio.ADDRESS3}}</p>
                                 </div>
                             </div>
                         </div>
@@ -2127,7 +2625,6 @@
                 </div>
             </div>
         </div>
-
         <div id="searchDoctor" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -3475,11 +3972,11 @@
                                 </tr>
 
                                 <!-- <td style="text-align: center">
-                                 <input type="image" src="../../Images/deleteNewIcon.png"
-                                     title='Click to delete'
-                                     ng-click="ICD10Delete($index)"
-                                     ng-model="row.selectedICD10"
-                                     style="width: 20px;" id="Image3" /></td>-->
+                                <input type="image" src="../../Images/deleteNewIcon.png"
+                                    title='Click to delete'
+                                    ng-click="ICD10Delete($index)"
+                                    ng-model="row.selectedICD10"
+                                    style="width: 20px;" id="Image3" /></td>-->
 
 
                             </table>
@@ -4841,8 +5338,10 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" title="Close" 
-                            ng-click="CancelMyAppointment()">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" title="Close"
+                            ng-click="CancelMyAppointment()">
+                        &times;
+                    </button>
                     <h4 class="modal-title">Book Doctor Appointment</h4>
                 </div>
                 <div id="main-box">
@@ -4888,7 +5387,7 @@
                         <div class="flex doc-details mt-10 p-4">
                             <div class="col-sm-3">
                                 <ul class="p-0">
-                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)" 
+                                    <li ng-repeat="list in DoctorListWithTimeZone" ng-click="GetDoctorDetails(list)"
                                         ng-class="{clickdoc : list === idSelectedVote}">{{list.DoctorName}}</li>
                                 </ul>
                             </div>
@@ -4968,7 +5467,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <div class="col-sm-12 " >
+                        <div class="col-sm-12 ">
                             <button type="button" [ngClass]="isDisabled()" class="btn-darkblue" ng-disabled="true" ng-click="newAppoinmentDates()" id="show" title="Save">
                                 Save this Doctor and Continue
                             </button>
@@ -5009,8 +5508,8 @@
                                 </div>
                                 <div class="col-sm-12 flex mt-10">
                                     <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methods</p>
-                                    <input class="" id="Radio1" type="radio" checked /><span class="m-left-1 mr-8">Self Pay</span>
-                                    <input class="mr-2" id="Radio1" type="radio" /><span class="m-left-1">Insurance</span>
+                                    <input class="" id="Radio1" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1 mr-8">Self Pay</span>
+                                    <input class="mr-2" id="Radio2" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1">Insurance</span>
                                 </div>
                                 <div class="col-sm-12 flex-col mt-10">
                                     <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />
@@ -5676,8 +6175,9 @@ Works in Mozilla, Webkit & IE.
         li.clickdoc {
             background-color: var(--headerBg);
             color: white;
-            overflow:auto;
+            overflow: auto;
         }
+
         .highframe {
             background-color: var(--headerBg);
             color: white;
@@ -5770,6 +6270,7 @@ Works in Mozilla, Webkit & IE.
         .nopaste #helpbutton, .nofilereader #dropzone-wrapper {
             display: none;
         }
+
         .btnn-check {
             color: var(--positiveBtnText);
             background: var(--positiveBtnBg);

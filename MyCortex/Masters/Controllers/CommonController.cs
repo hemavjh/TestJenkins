@@ -924,6 +924,23 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        public IList<GatewayInsuranceList> InstitutionInsurance()
+        {
+            IList<GatewayInsuranceList> model;
+            model = repository.InstitutionInsurance();
+            return model;
+        }
+        [Authorize]
+        [HttpGet]
+        public IList<GatewayInsuranceList> InstitutionPayment()
+        {
+            IList<GatewayInsuranceList> model;
+            model = repository.InstitutionPayment();
+            return model;
+        }
+
         /// <summary>      
         /// to get password policy configuration of a institution
         /// </summary>          

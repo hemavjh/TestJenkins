@@ -725,6 +725,34 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+        public IList<GatewayInsuranceList> InstitutionInsurance()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONINSURANCE_SP_LIST]");
+            List<GatewayInsuranceList> list = (from p in dt.AsEnumerable()
+                                               select new GatewayInsuranceList()
+                                               {
+                                                   Id = p.Field<long>("ID"),
+                                                   PaymentName = p.Field<string>("PAYMENTNAME"),
+                                                   GateWayType = p.Field<int>("GATEWAYTYPE"),
+                                                   IsActive = p.Field<int>("ISACTIVE")
+                                               }).ToList();
+            return list;
+        }
+        public IList<GatewayInsuranceList> InstitutionPayment()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONPAYMENT_SP_LIST]");
+            List<GatewayInsuranceList> list = (from p in dt.AsEnumerable()
+                                               select new GatewayInsuranceList()
+                                               {
+                                                   Id = p.Field<long>("ID"),
+                                                   PaymentName = p.Field<string>("PAYMENTNAME"),
+                                                   GateWayType = p.Field<int>("GATEWAYTYPE"),
+                                                   IsActive = p.Field<int>("ISACTIVE")
+                                               }).ToList();
+            return list;
+        }
 
         public object DBQueryAPI(string qry)
         {

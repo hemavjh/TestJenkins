@@ -144,6 +144,34 @@
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Insurance</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="listIns in InstitutionInsuranceName">
+                                                                <input type="checkbox" ng-model="listIns.selected" />{{listIns.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Payment</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="listPay in InstitutionPaymentMethod">
+                                                                <input type="checkbox" ng-model="listPay.selected" />{{listPay.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
                                                 <tr>
                                                     <td width="13%">
