@@ -932,6 +932,9 @@ namespace MyCortex.Repositories.Login
 
                 if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow)
                     isExpired = false;
+
+                if(Convert.ToDateTime(ExpiryDate) == DateTime.UtcNow.Date)
+                    isExpired = false;
             }
             catch (Exception ex)
             {
