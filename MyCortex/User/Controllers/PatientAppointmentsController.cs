@@ -386,6 +386,11 @@ namespace MyCortex.User.Controller
                     messagestr = "Doctor Shift already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
                 }
+                else if (ModelData.Any(item => item.Flag == 5) == true)
+                {
+                    messagestr = "Doctor have holiday, Entry not allowed";
+                    model.ReturnFlag = 0;
+                }
                 model.DoctorShiftAddList = ModelData;
                 model.Message = messagestr;// "Doctor Shift created successfully";
                 model.Status = "True";

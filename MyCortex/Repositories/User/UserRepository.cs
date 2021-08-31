@@ -784,6 +784,7 @@ namespace MyCortex.Repositories.Uesr
                                   PlanId = p.Field<string>("PLANID"),
                                   PayorName = p.Field<string>("PayorName"),
                                   PlanName = p.Field<string>("PlanName"),
+                                  Appointment_Module_Id = p.Field<int>("APPOINTMENT_MODULE_ID"),
                                 }).FirstOrDefault();
             
 

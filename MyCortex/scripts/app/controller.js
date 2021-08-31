@@ -5204,7 +5204,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             else { return false; }
         }
-
+        $scope.AppointmoduleID = 0;
        
         $scope.Tick = false;
         $scope.UpComingAppointmentDetails = [];
@@ -5855,6 +5855,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                 $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.DoctorDetailList = data;
+                    $scope.AppointmoduleID = data.Appointment_Module_Id;
                 })
             }
             function convert(str) {

@@ -5506,10 +5506,18 @@
                                         <p class="time text-center" ng-class="{highframe : list === idSelectedAppoi}">{{list.AppointmentTime}}</p>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 flex mt-10">
-                                    <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methods</p>
-                                    <input class="" id="Radio1" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1 mr-8">Self Pay</span>
-                                    <input class="mr-2" id="Radio2" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1">Insurance</span>
+                                <div ng-switch="AppointmoduleID" class="col-sm-12 flex mt-10">
+                                    <div ng-switch-when="1"></div>
+                                    <div ng-switch-when="2">
+                                        <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methods</p>
+                                        <input class="" id="Radio1" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1 mr-8">Self Pay</span>
+                                        <input class="mr-2" disabled id="Radio2" name="check" type="radio" onclick="onlyOne(this)" /><span class="m-left-1">Insurance</span>
+                                    </div>
+                                    <div ng-switch-when="3">
+                                        <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methods</p>
+                                        <input class="" id="Radio1" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1 mr-8">Self Pay</span>
+                                        <input class="mr-2" id="Radio2" name="check" type="radio" onclick="onlyOne(this)" /><span class="m-left-1">Insurance</span>
+                                    </div>
                                 </div>
                                 <div class="col-sm-12 flex-col mt-10">
                                     <p class="col-sm-3 m-bottom-0 font-semibold p-0">Reason</p><br />

@@ -432,6 +432,8 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                 $scope.UserTypeId = data.UserTypeId;
                 $scope.InstitutionId = data.InstitutionId;
                 $window.localStorage['UserId'] = $scope.UserId;
+                $window.sessionStorage['UserId'] = $scope.UserId;
+                $window.localStorage['Auth_Session_Id'] = 1;
                 $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                 $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
                 if ($scope.UserTypeId == 1) {
