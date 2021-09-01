@@ -1,13 +1,13 @@
-////var firebaseConfig = {
-////    apiKey: "AIzaSyBQRI1TZ3k9f13rtedqMtz0Ef8jtgYCeOY",
-////    authDomain: "mycortex-2b207.firebaseapp.com",
-////    databaseURL: "https://mycortex-2b207.firebaseio.com",
-////    projectId: "mycortex-2b207",
-////    storageBucket: "mycortex-2b207.appspot.com",
-////    messagingSenderId: "538725094029",
-////    appId: "1:538725094029:web:e1de3f6e70fd5bf464c8c4",
-////    measurementId: "G-PYBLJGPE0S"
-////};
+var firebaseConfig = {
+    apiKey: "AIzaSyBQRI1TZ3k9f13rtedqMtz0Ef8jtgYCeOY",
+    authDomain: "mycortex-2b207.firebaseapp.com",
+    databaseURL: "https://mycortex-2b207.firebaseio.com",
+    projectId: "mycortex-2b207",
+    storageBucket: "mycortex-2b207.appspot.com",
+    messagingSenderId: "538725094029",
+    appId: "1:538725094029:web:e1de3f6e70fd5bf464c8c4",
+    measurementId: "G-PYBLJGPE0S"
+};
 
 jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_CONFIG&Institution_Id=' + window.localStorage.getItem('InstitutionId'))
     .done(function (data) {
