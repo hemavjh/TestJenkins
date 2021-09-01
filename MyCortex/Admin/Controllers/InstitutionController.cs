@@ -13,6 +13,7 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
+using MyCortex.Utilities;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -70,6 +71,18 @@ namespace MyCortex.Admin.Controllers
                     {
                         messagestr = "Institution updated Successfully";
                         model.ReturnFlag = 1;
+                    }
+                    if (model.ReturnFlag == 1)
+                    {
+                        EmailGeneration Generator = new EmailGeneration();
+                        EmailGenerateModel MailMessage = new EmailGenerateModel();
+                        MailMessage.Institution_Id = -1;
+                        MailMessage.MessageToId = insobj.Email;
+                        MailMessage.MessageSubject = "Welcome - Mycortex Registration";
+                        MailMessage.MessageBody = "";
+                        MailMessage.Created_By = 0;
+                        MailMessage.UserId = 0;
+                        var insData = Generator.SendEmail(MailMessage);
                     }
                     model.Institute = ModelData;
                     model.Message = messagestr;// "User created successfully";
