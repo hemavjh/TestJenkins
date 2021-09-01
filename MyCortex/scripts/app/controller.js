@@ -994,14 +994,16 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             // only active Language    
             $scope.LanguageList = data;
         });
+        $http.get(baseUrl + '/api/InstitutionSubscription/PaymentModule_List/').success(function (data) {
+            // only active Language    
+            $scope.PaymentList = data;
+        });
         $http.get(baseUrl + '/api/Common/InstitutionInsurance/').success(function (data) {
             $scope.InstitutionInsuranceName = data;
-            console.log($scope.InstitutionInsuranceName);
         });
 
         $http.get(baseUrl + '/api/Common/InstitutionPayment/').success(function (data) {
             $scope.InstitutionPaymentMethod = data;
-            console.log($scope.InstitutionPaymentMethod);
         });
         $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
             // only active Language    
@@ -1068,7 +1070,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $scope.Contract_Period_To = moment($scope.Contract_Period_To).format('DD-MMM-YYYY');
 
                 if ((ParseDate($scope.Contract_Period_To) < ParseDate($scope.Contract_Period_From))) {
-                alert("Contract Period From should not be greater than Contract Period To");
+                    alert("Contract Period From should not be greater than Contract Period To");
                     $scope.Contract_Period_From = DateFormatEdit($scope.Contract_Period_From);
                     $scope.Contract_Period_To = DateFormatEdit($scope.Contract_Period_To);
                     return false;
@@ -1076,8 +1078,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $scope.Contract_Period_From = DateFormatEdit($scope.Contract_Period_From);
                 $scope.Contract_Period_To = DateFormatEdit($scope.Contract_Period_To);
             }
-        
-        return true;
+
+            return true;
         };
         /*on click Save calling the insert update function for Institution Subscription */
         $scope.InstitutionAddList = [];
@@ -1271,41 +1273,41 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $("#chatLoaderPV").hide();
                 });
             } else {
-                window.location.href = baseUrl + "/Home/LoginIndex"; 
+                window.location.href = baseUrl + "/Home/LoginIndex";
             }
         };
 
-        //This is for clear the contents in the Page
-        $scope.ClearInstitutionSubscriptionPopup = function () {
-            $scope.Health_Care_Professionals = "";
-            $scope.Patients = "";
-            $scope.Contract_Period_From = "";
-            $scope.Contract_Period_To = "";
-            $scope.Subscription_Type = "1";
-            $scope.InstitutionModule_List = [];
-            $scope.InstitutionAddList = [];
-            $scope.InstitutionAddLanguageList = [];
-            $scope.Institution_Id = "0";
+//This is for clear the contents in the Page
+    $scope.ClearInstitutionSubscriptionPopup = function () {
+        $scope.Health_Care_Professionals = "";
+        $scope.Patients = "";
+        $scope.Contract_Period_From = "";
+        $scope.Contract_Period_To = "";
+        $scope.Subscription_Type = "1";
+        $scope.InstitutionModule_List = [];
+        $scope.InstitutionAddList = [];
+        $scope.InstitutionAddLanguageList = [];
+        $scope.Institution_Id = "0";
 
-            $scope.Email = "";
-            $scope.Address1 = "";
-            $scope.Address2 = "";
-            $scope.Address3 = "";
-            $scope.ZipCode = "";
-            $scope.Country = "";
-            $scope.State = "";
-            $scope.City = "";
-            $scope.TimeZone_ID = "0";
-            $scope.TimeZoneId = "0";
-            $scope.AppointmentModule_Id = "0";
-            $scope.AppointmentModuleId = "0";
-        }
-        $scope.InstitutionSubscription_Delete = function () {
-            alert("Subscription cannot be activated / deactivated")
-        };
-
+        $scope.Email = "";
+        $scope.Address1 = "";
+        $scope.Address2 = "";
+        $scope.Address3 = "";
+        $scope.ZipCode = "";
+        $scope.Country = "";
+        $scope.State = "";
+        $scope.City = "";
+        $scope.TimeZone_ID = "0";
+        $scope.TimeZoneId = "0";
+        $scope.AppointmentModule_Id = "0";
+        $scope.AppointmentModuleId = "0";
     }
-]);
+    $scope.InstitutionSubscription_Delete = function () {
+        alert("Subscription cannot be activated / deactivated")
+    };
+
+        }
+    ]);
 
 // This is for User controller functions/ /
 MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
@@ -5869,6 +5871,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     alert('Please select Doctor')
                 } else {
                     $scope.newScheduledDates = [];
+                    $scope.DataNotAvailible = 0;
                     var TimeZoneID = $scope.TimeZoneID;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                     TimeSlot();
@@ -5915,61 +5918,75 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
             }
             $scope.IsNew = 1;
-            function TimeSlot() {
-                $scope.newAppoiTimeSlot = [];
-                var DoctorIDs = $scope.DoctorID;
-                var TimeZoneID = $scope.TimeZoneID;
-                var AppoDate = $scope.AppoimDate;
-                var res1 = convert(AppoDate);
-                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&TimezoneId=' + TimeZoneID + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
-                    $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
-                })
-            }
-            $scope.clickNewBooking = function () {
-                $scope.IsNew = 1;
-                TimeSlot();
-            }
-            $scope.clickFollowUp = function () {
-                $scope.IsNew = 0;
-                TimeSlot();
-            }
-            $scope.a = 0;
-            $scope.b = 5;
-            function workingDate() {
-                $scope.newScheduledDatesSplit = [];
-                var a = $scope.a;
-                var b = $scope.b;
-                data = $scope.newScheduledDates;
-                var datas = data.ScheduledDaysList;
-                $scope.newScheduledDatesSplit = datas.slice(a, b);
-            }
-            $scope.DateMInus = function () {
-                if ($scope.a != 0) {
-                    $scope.a = $scope.a - 1;
-                    $scope.b = $scope.b - 1;
-                }
-                workingDate();
-            }
-            $scope.DatePlus = function () {
-                data = $scope.newScheduledDates.ScheduledDaysList.length;
-                if ($scope.b != data) {
-                    $scope.a = $scope.a + 1;
-                    $scope.b = $scope.b + 1;
-                }
-                workingDate();
-            }
-            $scope.idSelectedSchedule = null;
-            $scope.clickSchedule = function (list) {
-                $scope.AppoiDate = [];
-                $scope.idSelectedSchedule = list;
-                var day = list.Day;
-                var month = list.Month;
-                var Datee = new Date(list.Date);
-                var year = Datee.getFullYear();
-                var AppoiDate = (day + "-" + month + "-" +year)
-                $scope.AppoiDate = AppoiDate;
-            }
+                    function TimeSlotChange(AppoiDate) {
+                        $scope.AppoimDate = AppoiDate;
+                        TimeSlot();
+                    }
+                    $scope.IsNew = 1;
+                    function TimeSlot() {
+                        $scope.AppoiDate = [];
+                        $scope.AppoiFromTime = [];
+                        $scope.AppoiToTime = [];
+                        $scope.newAppoiTimeSlot = [];
+                        var DoctorIDs = $scope.DoctorID;
+                        var TimeZoneID = $scope.TimeZoneID;
+                        var AppoDate = $scope.AppoimDate;
+                        var res1 = convert(AppoDate);
+                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                        $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&TimezoneId=' + TimeZoneID + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
+                            $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
+                            if ($scope.newAppoiTimeSlot.length == 0) {
+                                $scope.DataNotAvailible = 1;
+                            } else {
+                                $scope.DataNotAvailible = 0;
+                            }
+                        })
+                    }
+                    $scope.clickNewBooking = function () {
+                        $scope.IsNew = 1;
+                        TimeSlot();
+                    }
+                    $scope.clickFollowUp = function () {
+                        $scope.IsNew = 0;
+                        TimeSlot();
+                    }
+                    $scope.a = 0;
+                    $scope.b = 5;
+                    function workingDate() {
+                        $scope.newScheduledDatesSplit = [];
+                        var a = $scope.a;
+                        var b = $scope.b;
+                        data = $scope.newScheduledDates;
+                        var datas = data.ScheduledDaysList;
+                        $scope.newScheduledDatesSplit = datas.slice(a, b);
+                    }
+                    $scope.DateMInus = function () {
+                        if ($scope.a != 0) {
+                            $scope.a = $scope.a - 1;
+                            $scope.b = $scope.b - 1;
+                        }
+                        workingDate();
+                    }
+                    $scope.DatePlus = function () {
+                        data = $scope.newScheduledDates.ScheduledDaysList.length;
+                        if ($scope.b != data) {
+                            $scope.a = $scope.a + 1;
+                            $scope.b = $scope.b + 1;
+                        }
+                        workingDate();
+                    }
+                    $scope.idSelectedSchedule = null;
+                    $scope.clickSchedule = function (list) {
+                        $scope.AppoiDate = [];
+                        $scope.idSelectedSchedule = list;
+                        var day = list.Day;
+                        var month = list.Month;
+                        var Datee = new Date(list.Date);
+                        var year = Datee.getFullYear();
+                        var AppoiDate = (day + "-" + month + "-" + year)
+                        $scope.AppoiDate = AppoiDate;
+                        TimeSlotChange(AppoiDate);
+                    }
             $scope.idSelectedAppoi = null;
             $scope.AppoiFromTime = [];
             $scope.AppoiToTime = [];
