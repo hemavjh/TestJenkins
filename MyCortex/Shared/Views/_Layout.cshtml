@@ -22,7 +22,7 @@
     <meta http-equiv="pragma" content="no-cache" />
     <link rel="icon" type="image/png" href="images/favicon.png" />
 
-    <title>MyCortex</title>
+    <title id="ProductName"></title>
     <base href="@Url.Content("~/")" />
     <link href="@Url.Content("~/Css/Site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/mycortexTheme.css?v1.0")" rel="stylesheet" type="text/css" />
@@ -84,7 +84,7 @@
     @*
         <script src="@Url.Content(" ~ /scripts/jquery.mcautocomplete.js")" type="text/javascript"></script>*@
 
-    <script type="text/javascript">
+<script type="text/javascript">
     $(function () {
         $('.fav-click').click(function (e) {
             e.stopPropagation();
@@ -113,6 +113,28 @@
         }
     });
 
+    var PhotoList = jQuery.parseJSON('@Html.Action("LoginLogoDetails", "Home")');
+        $(document).ready(function () {
+            document.getElementById("InstLogo").src = PhotoList[0];
+        });
+
+        var ProductName = jQuery.parseJSON('@Html.Action("GetProduct_Details", "Home")');
+        $(document).ready(function () {
+            var ProductNameId = document.getElementById('ProductName');
+            if ('textContent' in ProductNameId) {
+                ProductNameId.textContent = ProductName[0];
+            } else {
+                    ProductNameId.innerText = ProductName[0];
+            }
+
+            var productnamespan = document.getElementById('productnamespan');
+
+            if ('textContent' in productnamespan) {
+                productnamespan.textContent = ProductName[0];
+            } else {
+                productnamespan.innerText = ProductName[0];
+            }
+        });
 
     var nameList = jQuery.parseJSON('@Html.Action("LoginDetails", "Home")');
     $(document).ready(function() {
@@ -152,23 +174,42 @@
             }
         });
     });
-        var PhotoList = jQuery.parseJSON('@Html.Action("LoginLogoDetails", "Home")');
+        @*var PhotoList = jQuery.parseJSON('@Html.Action("LoginLogoDetails", "Home")');
         $(document).ready(function () {
+            console.log('NAmesss');
             document.getElementById("InstLogo").src = PhotoList[0];
         });
 
-        var productList = jQuery.parseJSON('@Html.Action("ProductDetails", "Home")');
+        var ProductName = jQuery.parseJSON('@Html.Action("GetProduct_Details", "Home")');
         $(document).ready(function () {
-        var productnamespan = document.getElementById('productnamespan');
+            var ProductNameId = document.getElementById('ProductName');
+            if ('textContent' in ProductNameId) {
+                ProductNameId.textContent = ProductName[0];
+            } else {
+                    ProductNameId.innerText = ProductName[0];
+            }
+
+            var productnamespan = document.getElementById('productnamespan');
 
             if ('textContent' in productnamespan) {
-                productnamespan.textContent = productList[0];
-        } else {
-                productnamespan.innerText = productList[0];
-        }
+                productnamespan.textContent = ProductName[0];
+            } else {
+                productnamespan.innerText = ProductName[0];
+            }
+        });*@
+
+        var productList = jQuery.parseJSON('@Html.Action("ProductDetails", "Home")');
+        $(document).ready(function () {
+        //var productnamespan = document.getElementById('productnamespan');
+
+        //    if ('textContent' in productnamespan) {
+        //        productnamespan.textContent = productList[0];
+        //} else {
+        //        productnamespan.innerText = productList[0];
+        //}
     });
 
-    </script>
+</script>
     <link href="@Url.Content("~/Css/theme.css?v1.32")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/spacing.css?v1.01")" rel="stylesheet" type="text/css" />
 </head>

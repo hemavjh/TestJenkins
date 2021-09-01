@@ -647,7 +647,7 @@ namespace MyCortex.Repositories.Login
                 DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERLOGIN_SP_DETAILS]", param);
 
-                List<EmployeeLoginModel> LPH = (from p in dt.AsEnumerable()
+                IList<EmployeeLoginModel> LPH = (from p in dt.AsEnumerable()
                                                 select new EmployeeLoginModel()
                                                 {
                                                     LogInTime = p.Field<DateTime?>("LogInTime"),
@@ -941,6 +941,29 @@ namespace MyCortex.Repositories.Login
                 _logger.Error(ex.Message, ex);
             }
             return isExpired;
+        }
+        /// <summary>
+        /// Product details
+        /// </summary>
+        /// <returns>Product details</returns>
+        public IList<EmployeeLoginModel> GetProduct_Details()
+        {
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_SP_EXPIRYDATE");
+
+                IList<EmployeeLoginModel> lst = (from p in dt.AsEnumerable()
+                                                 select new EmployeeLoginModel()
+                                                 {
+                                                    ProductName = p.Field<string>("PRODUCTNAME"),
+                                                    ProductImg = p.Field<string>("PRODUCTIMAGE"),
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

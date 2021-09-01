@@ -65,6 +65,28 @@ namespace MyCortex.Login.Controller
             return isExpired;
         }
 
+        /// <summary>
+        /// Product details
+        /// </summary>
+        /// <returns>Product details</returns>
+        [HttpGet]
+        public IList<EmployeeLoginModel> GetProduct_Details()
+        {
+            IList<EmployeeLoginModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetProduct_Details();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// check login user authentication, stores Login History

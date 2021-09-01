@@ -44,6 +44,9 @@ namespace MyCortex.Login.Model
         public string FullName { get; set; }
 
         public string GENDER_NAME { get; set; }
+
+        public string ProductName { get; set; }
+        public string ProductImg { get; set; }
     }
 
     public class UsertypeModal

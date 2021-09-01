@@ -19,7 +19,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" href="images/favicon.png" />
 
-    <title>MyCortex</title>
+    <title id="ProductName"></title>
     <base href="@Url.Content("~/")" />
     <link href="@Url.Content("~/Css/Site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/mycortexTheme.css")" rel="stylesheet" type="text/css" />
@@ -63,6 +63,27 @@
                 Buildnamespan.textContent = BuildList[0];
             } else {
                 Buildnamespan.innerText = BuildList[0];
+            }
+        });
+        var PhotoList = jQuery.parseJSON('@Html.Action("LoginPageLogoDetails", "Home")');
+        $(document).ready(function () {
+            document.getElementById("InstLogo").src = PhotoList[0];
+        });
+
+        var ProductName = jQuery.parseJSON('@Html.Action("GetProduct_Details", "Home")');
+        $(document).ready(function () {
+            var ProductNameId = document.getElementById('ProductName');
+            if ('textContent' in ProductNameId) {
+                ProductNameId.textContent = ProductName[0];
+            } else {
+                    ProductNameId.innerText = ProductName[0];
+            }
+
+            var productnamespan = document.getElementById('productnamespan');
+            if ('textContent' in productnamespan) {
+                productnamespan.textContent = ProductName[0];
+            } else {
+                productnamespan.innerText = ProductName[0];
             }
         });
     </script>

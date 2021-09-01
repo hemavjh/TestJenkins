@@ -15,6 +15,7 @@ namespace MyCortex.Repositories
         long User_LogOut(long UserId, string SessionId);
         long Get_UserInstitution(string EmailId);
         IList<EmployeeLoginModel> BuildVersion_Details();
+        IList<EmployeeLoginModel> GetProduct_Details();
         bool CheckDBConnection();
         IList<EmployeeLoginModel> UserLogged_Details(long Id);
         LoginModel UserDetails_Get_GoogleMail(string EmailId);
@@ -30,6 +31,8 @@ namespace MyCortex.Repositories
 
 
         bool CheckExpiryDate();
+
+
     }
 }
 

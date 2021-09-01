@@ -248,23 +248,6 @@ namespace MyCortex.Home.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// logged in user basic details - user name, last login, user photo, patient type
         /// </summary>
@@ -281,57 +264,88 @@ namespace MyCortex.Home.Controllers
             try
             {
                 IList<EmployeeLoginModel> lst = login.UserLogged_Details(EmployeeId);
-                foreach (var i in lst)
+                if(lst != null)
                 {
-                    string sqlFormattedDate = "";
+                    foreach (var i in lst)
+                    {
+                        string sqlFormattedDate = "";
 
-                    if (i.LogInTime != null)
-                    {
-                        sqlFormattedDate = ((DateTime)i.LogInTime).ToString("dd-MMM-yyyy hh:mm:ss tt");
-                    }
+                        if (i.LogInTime != null)
+                        {
+                            sqlFormattedDate = ((DateTime)i.LogInTime).ToString("dd-MMM-yyyy hh:mm:ss tt");
+                        }
 
-                    res = "" + i.LogInTime.ToString();
+                        res = "" + i.LogInTime.ToString();
 
-                    t.Add(sqlFormattedDate);
+                        t.Add(sqlFormattedDate);
 
-                    if ((i.PhotoBlob != null))
-                    {
-                        //t.Add(i.PhotoBlob.ToString());                      
-                        var base64 = Convert.ToBase64String(i.PhotoBlob);
-                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                        t.Add(imgSrc);
+                        if ((i.PhotoBlob != null))
+                        {
+                            //t.Add(i.PhotoBlob.ToString());                      
+                            var base64 = Convert.ToBase64String(i.PhotoBlob);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            t.Add(imgSrc);
 
+                        }
+                        else if (((i.PhotoBlob == null)) && (i.Name.ToLower() == "male"))
+                        {
+                            t.Add("Images/maleemp.png");
+                        }
+                        else if (((i.PhotoBlob == null)) && (i.Name.ToLower() == "female"))
+                        {
+                            t.Add("Images/femaleemp.png");
+                        }
+                        else if (((i.Name.ToLower() != "male") && (i.Name.ToLower() != "female")) && ((i.PhotoBlob == null)))
+                        {
+                            t.Add("Images/admin.jpg");
+                        }
+                        t.Add(i.NATIONALITY_ID.ToString());
+                        string DOB = "";
+                        DOB = ((DateTime)i.DOB).ToString("dd-MM-yyyy");
+                        t.Add(DOB.ToString());
+                        t.Add(i.UserType.ToString());
+                        t.Add(i.MOBILE_NO.ToString());
+                        if (i.FullName != null)
+                        {
+                            string fullname = " ";
+                            fullname = (i.FullName).ToString();
+                            fullname = fullname.Replace(",", "");
+                            t.Add(fullname);
+                        }
+                        t.Add(i.GENDER_NAME.ToString());
+                        t.Add(i.Employee_Name.ToString());
+                        t.Add(i.PatientType.ToString());
+                        t.Add(i.UserType.ToString());
                     }
-                    else if (((i.PhotoBlob == null)) && (i.Name.ToLower() == "male"))
-                    {
-                        t.Add("Images/maleemp.png");
-                    }
-                    else if (((i.PhotoBlob == null)) && (i.Name.ToLower() == "female"))
-                    {
-                        t.Add("Images/femaleemp.png");
-                    }
-                    else if (((i.Name.ToLower() != "male") && (i.Name.ToLower() != "female")) && ((i.PhotoBlob == null)))
-                    {
-                        t.Add("Images/admin.jpg");
-                    }
-                    t.Add(i.NATIONALITY_ID.ToString());
-                    string DOB = "";
-                    DOB = ((DateTime)i.DOB).ToString("dd-MM-yyyy");
-                    t.Add(DOB.ToString());
-                    t.Add(i.UserType.ToString());
-                    t.Add(i.MOBILE_NO.ToString());
-                    if (i.FullName != null)
-                    {
-                        string fullname = " ";
-                        fullname = (i.FullName).ToString();
-                        fullname = fullname.Replace(",", "");
-                        t.Add(fullname);
-                    }
-                    t.Add(i.GENDER_NAME.ToString());
-                    t.Add(i.Employee_Name.ToString());
-                    t.Add(i.PatientType.ToString());
-                    t.Add(i.UserType.ToString());
+                    var json = jsonSerialiser.Serialize(t);
+                    return Content(json);
                 }
+                return null;
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// get unread Product Details of the logged in user
+        /// </summary>
+        /// <returns>Product Details</returns>
+        [AllowAnonymous]
+        [CheckSessionOutFilter]
+        public ActionResult GetProduct_Details()
+        {
+            //long EmployeeId = Convert.ToInt32(Session["UserId"].ToString());
+            //long UserTypeId = Convert.ToInt32(Session["UserTypeId"].ToString());
+            List<string> t = new List<string>();
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            {
+                IList<EmployeeLoginModel> lst = login.GetProduct_Details();
+                t.Add(lst[0].ProductName);
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);
             }
@@ -342,6 +356,9 @@ namespace MyCortex.Home.Controllers
                 return null;
             }
         }
+
+
+
         /// <summary>
         /// get unread notification count of the logged in user
         /// </summary>
@@ -398,13 +415,37 @@ namespace MyCortex.Home.Controllers
                 }
                 else
                 {
-                    t.Add("images/MyCortexlogotheme.JPG");
+                    IList<EmployeeLoginModel> lst = login.GetProduct_Details();
+                    t.Add(lst[0].ProductImg);
                 }
 
                 var json = jsonSerialiser.Serialize(t);
                 return Content(json);
             }
 
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        /// <summary>
+        /// Institution logo of the logged in user
+        /// </summary>
+        /// <returns>Institution logo blob</returns>
+        public ActionResult LoginPageLogoDetails()
+        {
+            var res = "";
+            List<string> t = new List<string>();
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            {
+                IList<EmployeeLoginModel> lst = login.GetProduct_Details();
+                t.Add(lst[0].ProductImg);
+
+                var json = jsonSerialiser.Serialize(t);
+                return Content(json);
+            }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);

@@ -153,6 +153,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
     $scope.UserTypeId = 2;
     $scope.NationalityList = [];
     $scope.GenderList = [];
+    $scope.ProductName = "";
     $window.localStorage['UserId'] = "0";
 
     // for Remember Me
@@ -692,9 +693,10 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
             $scope.errorlist = "Your MyCortex version is outdated. Please contact Administrator for upgrade or email us on admin@mycortex.health";
             $scope.isExpired = true;
         }
-
     });
-
+    $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data1) {
+        $scope.ProductName = data1[0].ProductName;
+    });
 }
 ]);
 
