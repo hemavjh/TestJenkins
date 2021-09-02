@@ -151,8 +151,8 @@
                                                             <div class="centerallign">
                                                                 <label>Insurance</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="listIns in InstitutionInsuranceName">
-                                                                <input type="checkbox" ng-model="listIns.selected" />{{listIns.PaymentName}}
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                                <input type="checkbox" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -165,8 +165,8 @@
                                                             <div class="centerallign">
                                                                 <label>Payment</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="listPay in InstitutionPaymentMethod">
-                                                                <input type="checkbox" ng-model="listPay.selected" />{{listPay.PaymentName}}
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                                <input type="checkbox" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>
@@ -357,6 +357,34 @@
                                                         <div class="row">
                                                             <div class="col-sm-6" ng-repeat="row in LanguageList">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddLanguageList[$index]" />{{row.LanguageName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Insurance</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Payment</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>

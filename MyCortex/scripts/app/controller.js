@@ -1084,11 +1084,17 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         /*on click Save calling the insert update function for Institution Subscription */
         $scope.InstitutionAddList = [];
         $scope.InstitutionAddLanguageList = [];
+        $scope.InstitutionAddInsuranceList = [];
+        $scope.InstitutionAddPaymentList = [];
         $scope.InstitutionModule_List = [];
         $scope.InstitutionLanguage_List = [];
+        $scope.InstitutionInsurance_List = [];
+        $scope.InstitutionPayment_List = [];
         $scope.Institution_SubscriptionAddEdit = function () {
             $scope.InstitutionModule_List = [];
             $scope.InstitutionLanguage_List = [];
+            $scope.InstitutionInsurance_List = [];
+            $scope.InstitutionPayment_List = [];
             if ($scope.Institution_SubscriptionAddEditValidations() == true) {
                 //$("#chatLoaderPV").show();
                 angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
@@ -1115,6 +1121,35 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                         }
                     }
                 });
+                angular.forEach($scope.InstitutionAddInsuranceList, function (SelectedInstitutiontype, index) {
+                    if (SelectedInstitutiontype == true) {
+                        {
+                            var obj = {
+                                Id: $scope.InstitutionInsuranceName[index].Id
+                            }
+                            $scope.InstitutionInsurance_List.push(obj);
+                        }
+                    }
+                });
+                angular.forEach($scope.InstitutionAddPaymentList, function (SelectedInstitutiontype, index) {
+                    if (SelectedInstitutiontype == true) {
+                        {
+                            var obj = {
+                                Id: $scope.InstitutionPaymentMethod[index].Id
+                            }
+                            $scope.InstitutionPayment_List.push(obj);
+                        }
+                    }
+                });
+                var obj1 = $scope.InstitutionInsurance_List;
+                var obj2 = $scope.InstitutionPayment_List;
+                var Payment_List_Id = obj2.concat(obj1);
+                var objInstituteName = $scope.InstitutionInsuranceName;
+                var obj2InstitutePay = $scope.InstitutionPaymentMethod;
+                var InstitutionSelectedPaymentList = obj2InstitutePay.concat(objInstituteName);
+                console.log(InstitutionSelectedPaymentList);
+                /*Array.prototype.push.apply(obj2InstitutePay, objInstituteName);
+                console.log(obj2InstitutePay);*/
                 var obj = {
                     Id: $scope.Id,
                     Institution_Id: $scope.Institution_Id,
@@ -1128,7 +1163,9 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Institution_Languages: $scope.InstitutionLanguage_List,
                     Language_List: $scope.LanguageList,
                     TimeZone_ID: $scope.TimeZone_Id,
-                    Appointment_Module_Id: $scope.AppointmentModule_Id
+                    Appointment_Module_Id: $scope.AppointmentModule_Id,
+                    Payment_List: InstitutionSelectedPaymentList,
+                    Payment_Module_Id: Payment_List_Id
                 }
 
                 $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
@@ -1222,10 +1259,14 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 }
                 $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.DuplicatesId = data.Id;
+                    console.log(data);
                     $scope.InstitutiontypeList = data.Module_List;
                     $scope.InstitutionChildList = data.ChildModuleList;
                     $scope.LanguageList = data.Language_List;
                     $scope.InstitutionLanguageList = data.ChildLanguageList;
+                    $scope.PaymentList = data.Payment_List;
+                    $scope.InstitutionInsurnceList = data.ChildInsuranceList;
+                    $scope.InstitutionPaymentList = data.ChildPaymentList;
                     $scope.Institution_Id = data.Institution_Id.toString();
                     $scope.ViewInstitution_Name = data.Institution.Institution_Name;
                     $scope.Email = data.Institution.Email;
@@ -1237,6 +1278,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.State = data.Institution.StateName;
                     $scope.City = data.Institution.CityName;
                     $scope.TimeZoneId = data.TimeZone_ID;
+                    $scope.TimeZone_Id = data.TimeZone_ID;
                     $scope.AppointmentModuleId = data.Appointment_Module_Id;
                     //$scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
                     $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
@@ -1270,6 +1312,30 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                             $scope.InstitutionAddLanguageList[modIndex] = false;
                         }
                     })
+                    $scope.InstitutionAddInsuranceList = [];
+                    angular.forEach($scope.InstitutionInsuranceName, function (item, modIndex) {
+
+                        if ($ff($scope.InstitutionInsurnceList, function (value) {
+                            return value.Id == item.Id;
+                        }).length > 0) {
+                            $scope.InstitutionAddInsuranceList[modIndex] = true;
+                        }
+                        else {
+                            $scope.InstitutionAddInsuranceList[modIndex] = false;
+                        }
+                    })
+                    $scope.InstitutionAddPaymentList = [];
+                    angular.forEach($scope.InstitutionPaymentMethod, function (item, modIndex) {
+
+                        if ($ff($scope.InstitutionPaymentList, function (value) {
+                            return value.Id == item.Id;
+                        }).length > 0) {
+                            $scope.InstitutionAddPaymentList[modIndex] = true;
+                        }
+                        else {
+                            $scope.InstitutionAddPaymentList[modIndex] = false;
+                        }
+                    })
                     $("#chatLoaderPV").hide();
                 });
             } else {
@@ -1301,6 +1367,9 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.TimeZoneId = "0";
         $scope.AppointmentModule_Id = "0";
         $scope.AppointmentModuleId = "0";
+        $scope.InstitutionAddInsuranceList = [];
+        $scope.InstitutionAddPaymentList = [];
+
     }
     $scope.InstitutionSubscription_Delete = function () {
         alert("Subscription cannot be activated / deactivated")
@@ -4823,6 +4892,8 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
         $scope.InstitutionAddLanguageList = [];
         $scope.InstitutionModule_List = [];
         $scope.InstitutionLanguage_List = [];
+        $scope.InstitutionInsurance_List = [];
+        $scope.InstitutionPayment_List = [];
         $scope.InstitutionChildList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
@@ -4840,6 +4911,10 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.InstitutiontypeList = data.Module_List;
                     $scope.InstitutionChildList = data.ChildModuleList;
                     $scope.LanguageList = data.Language_List;
+                    $scope.InstitutionLanguageList = data.ChildLanguageList;
+                    $scope.PaymentList = data.Payment_List;
+                    $scope.InstitutionInsurnceList = data.ChildInsuranceList;
+                    $scope.InstitutionPaymentList = data.ChildPaymentList;
                     $scope.InstitutionLanguageList = data.ChildLanguageList;
                     $scope.Institution_Id = data.Institution_Id.toString();
                     $scope.ViewInstitution_Name = data.Institution.Institution_Name;
@@ -4868,6 +4943,13 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                         // only active Language    
                         $scope.AppointmentModuleName = data[$scope.AppointmentModuleId - 1];
                     });
+                    $http.get(baseUrl + '/api/Common/InstitutionInsurance/').success(function (data) {
+                        $scope.InstitutionInsuranceName = data;
+                    });
+
+                    $http.get(baseUrl + '/api/Common/InstitutionPayment/').success(function (data) {
+                        $scope.InstitutionPaymentMethod = data;
+                    });
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
                         if ($ff($scope.InstitutionChildList, function (value) {
                             return value.ModuleId == item.Id;
@@ -4888,6 +4970,30 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                         }
                         else {
                             $scope.InstitutionAddLanguageList[modIndex] = false;
+                        }
+                    })
+                    $scope.InstitutionAddInsuranceList = [];
+                    angular.forEach($scope.InstitutionInsuranceName, function (item, modIndex) {
+
+                        if ($ff($scope.InstitutionInsurnceList, function (value) {
+                            return value.Id == item.Id;
+                        }).length > 0) {
+                            $scope.InstitutionAddInsuranceList[modIndex] = true;
+                        }
+                        else {
+                            $scope.InstitutionAddInsuranceList[modIndex] = false;
+                        }
+                    })
+                    $scope.InstitutionAddPaymentList = [];
+                    angular.forEach($scope.InstitutionPaymentMethod, function (item, modIndex) {
+
+                        if ($ff($scope.InstitutionPaymentList, function (value) {
+                            return value.Id == item.Id;
+                        }).length > 0) {
+                            $scope.InstitutionAddPaymentList[modIndex] = true;
+                        }
+                        else {
+                            $scope.InstitutionAddPaymentList[modIndex] = false;
                         }
                     })
                 });
@@ -5772,7 +5878,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data) {
                 $scope.TimeSizeeLeft = data[0].ConfigValue;
-                console.log($scope.TimeSizeeLeft);
             });
             $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
@@ -5806,7 +5911,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if ($scope.UpComingAppointmentDetails != null) {
                     $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
                 }
-                console.log($scope.UpComingAppointmentDetails);
             });
             $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.PreviousAppointmentDetails = data.PatientAppointmentList;

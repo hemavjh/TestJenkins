@@ -43,9 +43,10 @@ namespace MyCortex.Admin.Models
         public IList<InstitutionSubscriptionLanguageModels> Institution_Languages { get; set; }
         public IList<LanguageMasterModel> Language_List { get; set; }
         public IList<InstitutionSubscriptionLanguageModels> ChildLanguageList { get; set; }
-        public int Payment_ID { get; set; }
-        public int Gateway_ID { get; set; }
-
+        public IList<GatewayMasterModel> Payment_Module_Id { get; set; }
+        public IList<GatewayMasterModel> ChildPaymentList { get; set; }
+        public IList<GatewayMasterModel> Payment_List { get; set; }
+        public IList<GatewayMasterModel> ChildInsuranceList { get; set; }
     }
 
   
@@ -75,6 +76,18 @@ namespace MyCortex.Admin.Models
         public string Message { get; set; }
         public IList<InstitutionSubscriptionModel> Institute { get; set; }
     }
-
-
+    public class GatewayMasterModel
+    {
+        public long Id { get; set; }
+        public string PaymentGatewayName { get; set; }
+        public int IsActive { get; set; }
+        public long DefaultPaymentGatewayId { get; set; }
+        public string PaymentName { get; internal set; }
+        public long GateWayType { get; set; }
+    }
+    public class GatewayMasterReturn
+    {
+        public long Id { get; set; }
+        public int GateWayType { get; set; }
+    }
 }

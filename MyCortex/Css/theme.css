@@ -2758,3 +2758,6 @@ a.disabled {
 .pointerview {
     cursor: pointer;
 }
+.leftallign{
+    justify-content:left;
+}
