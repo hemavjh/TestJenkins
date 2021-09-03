@@ -195,6 +195,15 @@
     <script src="@Url.Content("~/scripts/mixer.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/jquery.datetimepicker.js")" type="text/javascript"></script>
     <script src="http://skyblueenglish.co.uk/wp-content/plugins/fancybox-for-wordpress/fancybox/jquery.fancybox.js?ver=1.3.4" type="text/javascript"></script>
+    <link rel="manifest" href="manifest.json" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-messaging.js"></script>
+    <script src="firebase-messaging-sw.js?v1.2"></script>
+    <script src="@Url.Content("~/scripts/messaging/notification.js?v1.1")"></script>
 </head>
 <body class="" id="idbody">
     <div class="container" style="max-width: 1530px;">
@@ -1469,12 +1478,3 @@
     makeResizableDiv('.resizable')
 
 </script>
-<link rel="manifest" href="manifest.json" />
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-messaging.js"></script>
-<script src="firebase-messaging-sw.js?v1.2"></script>
-<script src="@Url.Content("~/scripts/messaging/notification.js?v1.1")"></script>
