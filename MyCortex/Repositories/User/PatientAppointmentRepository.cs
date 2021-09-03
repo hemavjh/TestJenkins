@@ -303,11 +303,10 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<ScheduledDaysListModel> GetScheduledDates(long TimezoneId, Guid Login_Session_Id)
+        public IList<ScheduledDaysListModel> GetScheduledDates(Guid Login_Session_Id)
         {
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@TIMEZONEID", TimezoneId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -331,12 +330,11 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId, long TimezoneId,DateTime Date, int IsNew, Guid Login_Session_Id)
+        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id)
         {
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@DOCTORID", DoctorId));
-            param.Add(new DataParameter("@TIMEZONEID", TimezoneId));
             param.Add(new DataParameter("@DATE", Date));
             param.Add(new DataParameter("@ISNEW", IsNew));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));

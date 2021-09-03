@@ -5929,9 +5929,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     alert('Please select Speciality')
                 } else if ($scope.AppoimDate == undefined || $scope.AppoimDate == null || $scope.AppoimDate == "") {
                     alert('Please select Date')
-                } else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
+                }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
-                } else {
+                }*/ else {
                     var DeptID = $scope.DeptIDAsSTR;
                     var AppDate = $scope.AppoimDate;
                     var res = convert(AppDate);
@@ -5974,12 +5974,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
                     alert('Please select Doctor')
                 } else {
+                    $scope.TimeZoneID = 92;
                     $scope.newScheduledDates = [];
                     $scope.DataNotAvailible = 0;
-                    var TimeZoneID = $scope.TimeZoneID;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                     TimeSlot();
-                    $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?TimezoneId=' + TimeZoneID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.newScheduledDates = data;
                         var dattas = data.ScheduledDaysList;
                         var AppDate = $scope.AppoimDate;
@@ -6033,11 +6033,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.AppoiToTime = [];
                         $scope.newAppoiTimeSlot = [];
                         var DoctorIDs = $scope.DoctorID;
-                        var TimeZoneID = $scope.TimeZoneID;
                         var AppoDate = $scope.AppoimDate;
                         var res1 = convert(AppoDate);
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                        $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&TimezoneId=' + TimeZoneID + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
+                        $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
                             $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;
@@ -6110,7 +6109,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     alert('Please select Appointment Time')
                 } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
                     alert('Please select Appointment Time')
-                } else {
+                }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
+                    alert('Please select TimeZone')
+                } */else {
                     if ($scope.OldAppointmentID == null) {
                         var objectSave = {
                             "Institution_Id": $scope.SelectedInstitutionId,

@@ -5361,14 +5361,14 @@
                                     <input ng-model="AppoimDate" type="date" class="form-control date">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <!--<div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
                                     <select class="form-control" ng-model="TimeZoneID">
                                         <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="mt-10">
                             <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
@@ -5492,6 +5492,11 @@
                                         <i class="arrow-icon fas fa-caret-right"></i>
                                     </span>
                                 </div>
+                                <div class="flex justify-center">
+                                    <select class="col-sm-6" ng-model="TimeZoneID">
+                                        <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+                                    </select>
+                                </div>
                                 <p class="text-center m-bottom-0 mt-10 mb-10 font-semibold">Available Slots</p>
                                 <div class="flex justify-center">
                                     <div class="col-sm-6 available-slot p-0">
@@ -5500,6 +5505,9 @@
                                         <div class="col-sm-6 p-0 text-center self-center m-bottom-0 pointerview" ng-click="clickFollowUp()"
                                              ng-class="{highframe : 0 === IsNew }">Follow Up</div>
                                     </div>
+                                </div>
+                                <div class="col-sm-12 flex centerallign" ng-show="DataNotAvailible == 1">
+                                    <label>Sorry, slots not available for the day</label>
                                 </div>
                                 <div class="col-sm-12 flex flex-wrap mt-10">
                                     <div class="col-sm-4 pointerview" ng-repeat="list in newAppoiTimeSlot">

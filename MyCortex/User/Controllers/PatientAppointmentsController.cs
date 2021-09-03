@@ -297,14 +297,14 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage GetScheduledDates(long TimezoneId, Guid Login_Session_Id)
+        public HttpResponseMessage GetScheduledDates(Guid Login_Session_Id)
         {
             IList<ScheduledDaysListModel> ModelData = new List<ScheduledDaysListModel>();
             ScheduledDaysListReturnModel model = new ScheduledDaysListReturnModel();
             string messagestr = "";
             try
             {
-                ModelData = repository.GetScheduledDates(TimezoneId, Login_Session_Id);
+                ModelData = repository.GetScheduledDates(Login_Session_Id);
                 model.Status = "True";
                 model.Message = "List of Scheduled Date Data";
                 model.Error_Code = "";
@@ -326,14 +326,14 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,long TimezoneId,DateTime Date, int IsNew, Guid Login_Session_Id)
+        public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id)
         {
             IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
             DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
             string messagestr = "";
             try
             {
-                ModelData = repository.GetAppointmentTimeSlots(DoctorId, TimezoneId, Date, IsNew, Login_Session_Id);
+                ModelData = repository.GetAppointmentTimeSlots(DoctorId, Date, IsNew, Login_Session_Id);
                 model.DoctorAppointmentTimeSlotList = ModelData;
                 model.Status = "True";
                 model.Message = "List of Slots";
