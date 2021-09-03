@@ -34,6 +34,21 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        public string GatewaySettings_Details(long InstitutionId, long GatewayId, string GatewayKey)
+        {
+            IList<GatewaySettingsModel> model;
+            try
+            {
+                model = repository.GatewaySettings_Details(InstitutionId, GatewayId, GatewayKey);
+                return model[0].GatewayValue;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         [HttpPost]
         [CheckSessionOutFilter]
         public HttpResponseMessage GatewaySettings_Edit(List<GatewaySettingsModel> model)

@@ -45,6 +45,35 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<GatewaySettingsModel> GatewaySettings_Details(long InstitutionId, long GatewayId, string GatewayKey)
+        {
+            //  DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            param.Add(new DataParameter("@GATEWAY_ID", GatewayId));
+            param.Add(new DataParameter("@GATEWAY_KEY", GatewayKey));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLGATEWAY_VALUE_SP_DETAILS]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                List<GatewaySettingsModel> list = (from p in dt.AsEnumerable()
+                                                   select new GatewaySettingsModel()
+                                                   {
+                                                       Id = p.Field<long>("ID"),
+                                                       InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                       GatewayKey = p.Field<string>("GATEWAY_KEY"),
+                                                       GatewayValue = p.Field<string>("GATEWAY_VALUE"),
+                                                       GatewayId = p.Field<long>("GATEWAY_ID"),
+                                                   }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public int GatewaySettings_Update(List<GatewaySettingsModel> obj)
         {
             try
