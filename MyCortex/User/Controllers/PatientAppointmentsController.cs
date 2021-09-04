@@ -326,7 +326,7 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id)
+        public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId = 0)
         {
             IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
             DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
