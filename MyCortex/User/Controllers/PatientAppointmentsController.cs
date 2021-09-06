@@ -328,14 +328,14 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId = 0)
+        public HttpResponseMessage GetDoctorAppointmentTimeSlot(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
             IList<DoctorAppointmentTimeSlotModel> ModelData = new List<DoctorAppointmentTimeSlotModel>();
             DoctorAppointmentTimeSlotReturnModel model = new DoctorAppointmentTimeSlotReturnModel();
             string messagestr = "";
             try
             {
-                ModelData = repository.GetAppointmentTimeSlots(DoctorId, Date, IsNew, Login_Session_Id);
+                ModelData = repository.GetAppointmentTimeSlots(DoctorId, Date, IsNew, Login_Session_Id, TimeZoneId, Institution_Id);
                 model.DoctorAppointmentTimeSlotList = ModelData;
                 model.Status = "True";
                 model.Message = "List of Slots";

@@ -330,7 +330,7 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId = 0)
+        public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
@@ -338,6 +338,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@DATE", Date));
             param.Add(new DataParameter("@ISNEW", IsNew));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@TIMEZONE_ID", TimeZoneId));
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

@@ -6036,7 +6036,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         var AppoDate = $scope.AppoimDate;
                         var res1 = convert(AppoDate);
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                        $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
+                        $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
                             $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;
@@ -6045,6 +6045,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             }
                         })
                     }
+                    $scope.ddltimezonechange = function () { TimeSlot(); }
                     $scope.clickNewBooking = function () {
                         $scope.IsNew = 1;
                         TimeSlot();
