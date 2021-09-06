@@ -160,14 +160,14 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a AppoinmentSlot</param>    
         /// <returns>Populated a AppoinmentSlot Details DataTable </returns>
         [HttpGet]
-        public AttendanceModel Attendance_View(long Id, Guid Login_Session_Id)
+        public AttendanceModel Attendance_View(long Id, Guid Login_Session_Id, long institution_id)
         {
             AttendanceModel model = new AttendanceModel();
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.Attendance_View(Id, Login_Session_Id);
+                model = repository.Attendance_View(Id, Login_Session_Id, institution_id);
                 return model;
             }
             catch (Exception ex)

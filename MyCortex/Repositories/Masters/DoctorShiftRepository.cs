@@ -95,6 +95,7 @@ namespace MyCortex.Repositories.Masters
                                                {
                                                    ID = p.Field<long>("ID"),
                                                    DoctorId = p.Field<long>("DOCTOR_ID"),
+                                                   Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                    Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
                                                    //DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
                                                    //WeekDayName = p.Field<string>("WEEKDAYNAME"),
@@ -359,12 +360,13 @@ namespace MyCortex.Repositories.Masters
         /// </summary>      
         /// <param name="Id">Id of a Doctor Shift</param>        
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
-        public New_DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id)
+        public New_DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id, long institution_id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@doctor_id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@INSTITUTION_ID", institution_id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

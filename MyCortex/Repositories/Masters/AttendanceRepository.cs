@@ -214,12 +214,13 @@ namespace MyCortex.Repositories.Masters
         /// </summary>        
         /// <param name="Id">Id of a AppoinmentSlot</param>    
         /// <returns>Populated a AppoinmentSlot Details DataTable </returns>
-        public AttendanceModel Attendance_View(long Id, Guid Login_Session_Id)
+        public AttendanceModel Attendance_View(long Id, Guid Login_Session_Id, long institution_id)
         {
             //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@INSTITUTION_ID", institution_id));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ATTENDANCE_SP_VIEW", param);

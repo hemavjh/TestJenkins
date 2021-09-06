@@ -187,10 +187,10 @@
                     {{row.ToDate | date:'dd-MMM-yyyy '}}
                 </td>
                 <td style="text-align: center">
-                    <a href="javascript:" ng-click="ViewDoctorShift(row.ID,row.DoctorId)" title="View">
+                    <a href="javascript:" ng-click="ViewDoctorShift(row.ID,row.DoctorId,row.Institution_Id)" title="View">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a href="javascript:" title="Edit" ng-click="EditDoctorShift(row.ID, row.IsActive,row.DoctorId)">
+                    <a href="javascript:" title="Edit" ng-click="EditDoctorShift(row.ID, row.IsActive,row.DoctorId,row.Institution_Id)">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                     <a href="javascript:;" ng-click="DeleteDoctorShift(row.ID,row.DoctorId)" title="Active">

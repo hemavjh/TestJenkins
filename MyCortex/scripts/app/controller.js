@@ -20153,20 +20153,20 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         }
 
         /* on click view, view popup opened*/
-        $scope.ViewDoctorShift = function (DId, DoctorId) {
+        $scope.ViewDoctorShift = function (DId, DoctorId, Institution_Id) {
             $scope.DoctorShiftClear();
             $scope.Id = DId;
-            $scope.DoctorShift_View(DoctorId);
+            $scope.DoctorShift_View(DoctorId, Institution_Id);
             $scope.ViewShiftDoctor();
             angular.element('#DoctorShiftModal').modal('show');
 
         };
         /* on click Edit, edit popup opened*/
-        $scope.EditDoctorShift = function (DId, activeFlag, DoctorId) {
+        $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             //if (activeFlag == 1) {
             $scope.DoctorShiftClear();
             $scope.Id = DId;
-            $scope.DoctorShift_View(DoctorId);
+            $scope.DoctorShift_View(DoctorId, Institution_Id);
             $scope.EditShiftDoctor();
             angular.element('#DoctorShiftModal').modal('show');
             //}
@@ -20767,7 +20767,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.EditSundayChildModuleList1 = [];
         /*THIS IS FOR View FUNCTION*/
-        $scope.DoctorShift_View = function (DoctorId) {
+        $scope.DoctorShift_View = function (DoctorId, Institution_Id) {
             $("#chatLoaderPV").show();
             $scope.EditSelectedDoctor = [];
             $scope.EditSelectedDepartment = [];
@@ -20775,7 +20775,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/DoctorShift/DoctorShift_View/?Id=' + DoctorId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/DoctorShift_View/?Id=' + DoctorId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + Institution_Id).success(function (data) {
                 if (data != null) {
                     $scope.EditSelectedDepartment.push(data.DepartmentId);
                     $scope.SelectedDepartment = $scope.EditSelectedDepartment;	
@@ -21943,7 +21943,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            $http.get(baseUrl + '/api/Attendance/Attendance_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/Attendance/Attendance_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&institution_id=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $scope.DuplicatesId = data.Id;
                 $scope.Doctor_Id = data.Doctor_Id.toString();
                 $scope.DoctorName = data.DoctorName;

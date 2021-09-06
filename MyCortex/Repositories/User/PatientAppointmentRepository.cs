@@ -452,6 +452,7 @@ namespace MyCortex.Repositories.Uesr
                                     param1.Add(new DataParameter("@ISACTIVE", item.IsActive));
                                     param1.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
                                     param1.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+                                    param1.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
                                     _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
                                     try
                                     {
