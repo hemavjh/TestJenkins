@@ -138,22 +138,24 @@ namespace MyCortex.User.Controller
                 ModelData = repository.PatientAppointment_InsertUpdate(Login_Session_Id,insobj);
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
+                    model.Status = "True";
                     model.ReturnFlag = 1;
                     messagestr = "Patient Appointment created Successfully";
                 }
                 else if (ModelData.Any(item => item.flag == 2) == true)
                 {
+                    model.Status = "True";
                     model.ReturnFlag = 1;
                     messagestr = "Patient Appointment updated Successfully";
                 }
                 else if (ModelData.Any(item => item.flag == 3) == true)
                 {
+                    model.Status = "False";
                     model.ReturnFlag = 0;
                     messagestr = "Patient Appointment already created by CareGiver, cannot be created";
                 }
                 model.PatientAppointmentList = ModelData;
                 model.Message = messagestr;// "User created successfully";
-                model.Status = "True";
 
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
