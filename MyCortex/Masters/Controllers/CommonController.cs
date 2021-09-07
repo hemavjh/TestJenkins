@@ -941,6 +941,15 @@ namespace MyCortex.Masters.Controllers
             return model;
         }
 
+        [Authorize]
+        [HttpGet]
+        public AppointmentTimeZone getTimeZoneMasterId(string name)
+        {
+            AppointmentTimeZone model;
+            model = repository.getTimeZoneMasterId(name);
+            return model;
+        }
+
         /// <summary>      
         /// to get password policy configuration of a institution
         /// </summary>          

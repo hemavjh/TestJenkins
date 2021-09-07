@@ -781,6 +781,20 @@ namespace MyCortex.Repositories.Masters
             //await Task.Delay(1000);
             return retid;
         }
+
+        public AppointmentTimeZone getTimeZoneMasterId(string Name)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@NAME", Name));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLTIMEZONEMATCHING]",param);
+            AppointmentTimeZone list = (from p in dt.AsEnumerable()
+                                               select new AppointmentTimeZone()
+                                               {
+                                                   TimeZoneId = p.Field<long>("TIMEZONEID"),
+                                                   TimeZoneDisplayName = p.Field<string>("DISPLAYNAME")
+                                               }).FirstOrDefault();
+            return list;
+        }
     }
 }
 

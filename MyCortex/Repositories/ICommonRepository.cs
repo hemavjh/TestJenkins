@@ -43,6 +43,7 @@ namespace MyCortex.Repositories
         int DefaultConfig_InsertUpdate(long Institution_Id, int Step);
         IList<GatewayInsuranceList> InstitutionInsurance();
         IList<GatewayInsuranceList> InstitutionPayment();
+        AppointmentTimeZone getTimeZoneMasterId(string Name);
 
     }
 }
