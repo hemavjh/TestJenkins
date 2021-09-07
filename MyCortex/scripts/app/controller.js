@@ -6028,7 +6028,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
                     $scope.IsNew = 1;
                     function TimeSlot() {
-                        $scope.AppoiDate = [];
+                        //$scope.AppoiDate = [];
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
                         $scope.newAppoiTimeSlot = [];
@@ -6147,7 +6147,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.newScheduledDates = [];
                                 $scope.newAppoiTimeSlot = [];
                                 $scope.newScheduledDatesSplit = [];
-                                $scope.AppoiDate = [];
+                                //$scope.AppoiDate = [];
                                 $scope.AppoiFromTime = [];
                                 $scope.AppoiToTime = [];
                                 $scope.IsNew = 1;
@@ -6192,7 +6192,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.newScheduledDates = [];
                                 $scope.newAppoiTimeSlot = [];
                                 $scope.newScheduledDatesSplit = [];
-                                $scope.AppoiDate = [];
+                                //$scope.AppoiDate = [];
                                 $scope.AppoiFromTime = [];
                                 $scope.AppoiToTime = [];
                                 $scope.IsNew = 1;
