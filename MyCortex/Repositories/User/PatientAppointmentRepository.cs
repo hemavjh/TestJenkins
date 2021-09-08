@@ -303,11 +303,12 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<ScheduledDaysListModel> GetScheduledDates(Guid Login_Session_Id)
+        public IList<ScheduledDaysListModel> GetScheduledDates(Guid Login_Session_Id, long InstitutionId)
         {
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

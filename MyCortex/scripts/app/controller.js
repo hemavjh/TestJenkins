@@ -21377,7 +21377,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.NewAppointment = data.NewAppointmentDuration;
                     $scope.followup = data.FollowUpDuration;
                     $scope.IntervalBt = data.AppointmentInterval;
-                    $scope.AppointmentDay = data.MinRescheduleDays;
+                    $scope.AppointmentDay = data.MaxScheduleDays;
                     $scope.Minutest = data.MinRescheduleMinutes;
                     $scope.SelectedTimeZone = data.DefautTimeZone;
                     $scope.DefaultworkingDays = data.DefaultWorkingDays;
@@ -21391,7 +21391,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.confirmBook = data.IsDirectAppointment;
                     $scope.AddReminderParameters = data.ReminderTimeInterval;
                     $scope.AutoEnable = data.IsAutoReschedule;
-                    $scope.ReduceNumberofavailableAppointmentes = data.MaxScheduleDays;
+                    $scope.ReduceNumberofavailableAppointmentes = data.MinRescheduleDays;
                     var weekly = data.DefaultWorkingDays.split(',');
 
                     angular.forEach(weekly, function (value, index) {
@@ -21623,7 +21623,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     NewAppointmentDuration: $scope.NewAppointment,
                     FollowUpDuration: $scope.followup,
                     AppointmentInterval: $scope.IntervalBt,
-                    MinRescheduleDays: $scope.AppointmentDay,
+                    MinRescheduleDays: $scope.ReduceNumberofavailableAppointmentes,
                     MinRescheduleMinutes: $scope.Minutest,
                     DefautTimeZone: $scope.SelectedTimeZone,
                     DefaultWorkingDays: $scope.DefaultWorkingDays,
@@ -21637,7 +21637,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     IsDirectAppointment: $scope.confirmBook,
                     ReminderTimeInterval: $scope.AddReminderParameters,
                     IsAutoReschedule: $scope.AutoEnable,
-                    MaxScheduleDays: $scope.ReduceNumberofavailableAppointmentes
+                    MaxScheduleDays: $scope.AppointmentDay
                 };
 
                 $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {

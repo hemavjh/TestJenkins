@@ -299,14 +299,14 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public HttpResponseMessage GetScheduledDates(Guid Login_Session_Id)
+        public HttpResponseMessage GetScheduledDates(Guid Login_Session_Id,long InstitutionId)
         {
             IList<ScheduledDaysListModel> ModelData = new List<ScheduledDaysListModel>();
             ScheduledDaysListReturnModel model = new ScheduledDaysListReturnModel();
             string messagestr = "";
             try
             {
-                ModelData = repository.GetScheduledDates(Login_Session_Id);
+                ModelData = repository.GetScheduledDates(Login_Session_Id, InstitutionId);
                 model.Status = "True";
                 model.Message = "List of Scheduled Date Data";
                 model.Error_Code = "";
