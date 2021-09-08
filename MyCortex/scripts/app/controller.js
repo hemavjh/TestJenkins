@@ -4895,6 +4895,8 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
         $scope.InstitutionInsurance_List = [];
         $scope.InstitutionPayment_List = [];
         $scope.InstitutionChildList = [];
+        $scope.InstitutionAddInsuranceList = [];
+        $scope.InstitutionAddPaymentList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
             $scope.TimeZoneIDName = [];
@@ -4945,10 +4947,33 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     });
                     $http.get(baseUrl + '/api/Common/InstitutionInsurance/').success(function (data) {
                         $scope.InstitutionInsuranceName = data;
+                        angular.forEach($scope.InstitutionInsuranceName, function (item, modIndex) {
+
+                            if ($ff($scope.InstitutionInsurnceList, function (value) {
+                                return value.Id == item.Id;
+                            }).length > 0) {
+                                $scope.InstitutionAddInsuranceList[modIndex] = true;
+                            }
+                            else {
+                                $scope.InstitutionAddInsuranceList[modIndex] = false;
+                            }
+                        })
                     });
 
                     $http.get(baseUrl + '/api/Common/InstitutionPayment/').success(function (data) {
                         $scope.InstitutionPaymentMethod = data;
+
+                        angular.forEach($scope.InstitutionPaymentMethod, function (item, modIndex) {
+
+                            if ($ff($scope.InstitutionPaymentList, function (value) {
+                                return value.Id == item.Id;
+                            }).length > 0) {
+                                $scope.InstitutionAddPaymentList[modIndex] = true;
+                            }
+                            else {
+                                $scope.InstitutionAddPaymentList[modIndex] = false;
+                            }
+                        })
                     });
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
                         if ($ff($scope.InstitutionChildList, function (value) {
@@ -4972,35 +4997,11 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                             $scope.InstitutionAddLanguageList[modIndex] = false;
                         }
                     })
-                    $scope.InstitutionAddInsuranceList = [];
-                    angular.forEach($scope.InstitutionInsuranceName, function (item, modIndex) {
-
-                        if ($ff($scope.InstitutionInsurnceList, function (value) {
-                            return value.Id == item.Id;
-                        }).length > 0) {
-                            $scope.InstitutionAddInsuranceList[modIndex] = true;
-                        }
-                        else {
-                            $scope.InstitutionAddInsuranceList[modIndex] = false;
-                        }
-                    })
-                    $scope.InstitutionAddPaymentList = [];
-                    angular.forEach($scope.InstitutionPaymentMethod, function (item, modIndex) {
-
-                        if ($ff($scope.InstitutionPaymentList, function (value) {
-                            return value.Id == item.Id;
-                        }).length > 0) {
-                            $scope.InstitutionAddPaymentList[modIndex] = true;
-                        }
-                        else {
-                            $scope.InstitutionAddPaymentList[modIndex] = false;
-                        }
-                    })
                 });
             } else {
-                window.location.href = baseUrl + "/Home/LoginIndex"; 
+                window.location.href = baseUrl + "/Home/LoginIndex";
             }
-        }; 
+        };
 
     }
 ]);
@@ -5974,7 +5975,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
                     alert('Please select Doctor')
                 } else {
-                    $scope.TimeZoneID = 92;
+                    var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
+                    for (i = 0; i <= $scope.TimeZoneList.length - 1; i++) {
+                        if ($scope.TimeZoneList[i].TimeZoneName == timezone) {
+                            $scope.TimeZoneID = $scope.TimeZoneList[i].TimeZoneId;
+                        }
+                    }
                     $scope.newScheduledDates = [];
                     $scope.DataNotAvailible = 0;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];

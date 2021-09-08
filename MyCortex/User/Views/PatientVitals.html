@@ -5493,7 +5493,7 @@
                                     </span>
                                 </div>
                                 <div class="flex justify-center">
-                                    <select class="col-sm-6" ng-model="TimeZoneID" ng-change="ddltimezonechange()">
+                                    <select class="col-sm-6" ng-model="TimeZoneID" ng-init="TimeZoneID" ng-change="ddltimezonechange()">
                                         <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
                                     </select>
                                 </div>
