@@ -412,6 +412,14 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpGet]
+        public OrgAppointmentModuleSettings AppointmentModuleSettingView(long InstitutionId)
+        {
+            OrgAppointmentModuleSettings model = new OrgAppointmentModuleSettings();
+            model = repository.ORG_APPOINTMENT_MODULE_SETTINGS(InstitutionId);
+            return model;
+        }
+
+        [HttpGet]
         public HttpResponseMessage AppointmentSettingDelete(long InstitutionId)
         {
             if (InstitutionId > 0)

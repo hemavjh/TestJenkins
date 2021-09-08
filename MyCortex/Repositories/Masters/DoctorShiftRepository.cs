@@ -779,6 +779,40 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public OrgAppointmentModuleSettings ORG_APPOINTMENT_MODULE_SETTINGS(long InstitutionId)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.GETAPPOINTMENTSETTINGS", param);
+
+                OrgAppointmentModuleSettings list = (from p in dt.AsEnumerable()
+                                               select new OrgAppointmentModuleSettings()
+                                               {
+
+                                                   InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                   MaxScheduleDays = p.Field<int>("MAX_SCHEDULE_DAYS"),
+                                                   IsPatient = p.Field<bool>("IS_PATIENT"),
+                                                   MinRescheduleDays = p.Field<int>("MIN_RESCHEDULE_DAYS"),
+                                                   MinRescheduleHours = p.Field<int>("MIN_RESCHEDULE_HOURS"),
+                                                   MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
+                                                   TimeZoneId = p.Field<int>("TIMEZONE_ID"),
+                                                   TimeZoneDisplayName = p.Field<string>("DISPLAYNAME"),
+                                                   AppointmentModuleId = p.Field<int>("APPOINTMENT_MODULE_ID"),
+                                                   AppointmentModuleName = p.Field<string>("APPOINTMENT_MODULE_NAME"),
+                                               }).FirstOrDefault();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public IList<ReminderUserLists> ReminderUserLists(long MyAppConfigId,long InstitutionId)
         {
             DataEncryption DecryptFields = new DataEncryption();

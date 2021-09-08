@@ -196,6 +196,21 @@ namespace MyCortex.Masters.Models
 
     }
 
+    public class OrgAppointmentModuleSettings
+    {
+        public long InstitutionId { get; set; }
+        public int MaxScheduleDays { get; set; }
+        public bool IsDirectAppointment { get; set; }
+        public bool IsPatient { get; set; }
+        public int MinRescheduleDays { get; set; }
+        public int MinRescheduleHours { get; set; }
+        public int MinRescheduleMinutes { get; set; }
+        public int TimeZoneId { get; set; }
+        public string TimeZoneDisplayName { get; set; }
+        public int AppointmentModuleId { get; set; }
+        public string AppointmentModuleName { get; set; }
+    }
+
     public class OrgAppointmentSettingsReturnModels
     {
         public int ReturnFlag { get; set; }
