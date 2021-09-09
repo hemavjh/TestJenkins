@@ -31,17 +31,23 @@
     <script src="http://skyblueenglish.co.uk/wp-content/plugins/fancybox-for-wordpress/fancybox/jquery.fancybox.js?ver=1.3.4" type="text/javascript"></script>
 </head>
 <body id="idbody">
-    <header class="loginHeader">
-        <div class="wrapper">
-            <img src="" style="height: 66px; width: 120px;" id="InstLogo">
-        </div>
-    </header>
-
-    <section class="loginBg" ng-view></section>
+    <div id="loginhead"  style="display:none;">
+        <header class="loginHeader">
+            <div class="wrapper">
+                <img src="" style="height: 66px; width: 120px;" id="InstLogo">
+            </div>
+        </header>
+    </div>
+    <div id="loginCor" style="display:none;">
+        <section class="loginBgCor" ng-view></section>
+    </div>
+    <div id="loginHel" style="display:none;">
+        <section class="loginBgHel" ng-view></section>
+    </div>
     <footer class="webfooter">
         <div class="wrapper">
             <p>Copyright © 2020 FlowMed. All Rights Reserved. <span style="float:right;">Build Version <span id="Buildnamespan"></span></span></p>
-            
+
         </div>
     </footer>
 

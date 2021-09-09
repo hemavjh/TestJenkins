@@ -16,55 +16,61 @@
         }
 </style>
 
-<div class="loginContainer">    
-       <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-       <h1>{{ProductName}} Sign In</h1>
-    <!--<p>New to MyCortex?<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>-->
-    <form>
-        <label>Username</label>
-        <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
-               class="form-control" onkeypress="EmailFormate(event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
-        <label>Password</label>
-        <div class="viewPassword">
-            <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
-            <input type="password" placeholder="Enter Your Password" required="required" ng-model="Password"
-                   ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" id="psw" name="psw" class="form-control">
+    <div class="loginContainer">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div ng-hide="Productlogin == 1">
+            <h1>{{ProductName}} Sign In</h1>
         </div>
-        <div class="alert alert-danger def" ng-if="errorlist!=null">
-            <div ng-if="errorlist!=null">
-                {{errorlist}}
-            </div>
+        <div ng-hide="Productlogin == 0">
+            <h3>Sign In</h3>
+            <h2>New to {{ProductName}}? Sign Up</h2>
         </div>
-        <button type="button" class="loginBtn" ng-click="UserLogin_AddEdit()">Log in</button>
-        <div class="row">
-            <div class="col-xs-6">
-                <input id="rem" ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
-                <label for="rem" class="pr-8">Remember Me</label>
+        <!--<p>New to MyCortex?<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>-->
+        <form>
+            <label>Username</label>
+            <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
+                   class="form-control" onkeypress="EmailFormate(event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
+            <label>Password</label>
+            <div class="viewPassword">
+                <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
+                <input type="password" placeholder="Enter Your Password" required="required" ng-model="Password"
+                       ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" id="psw" name="psw" class="form-control">
             </div>
-            <div class="col-xs-6 text-right">
-                <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
+            <div class="alert alert-danger def" ng-if="errorlist!=null">
+                <div ng-if="errorlist!=null">
+                    {{errorlist}}
+                </div>
             </div>
-        </div>
-        <h2>Or login with</h2>
-        <div class="row">
-            <div class="col-xs-6">
-                <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
-                    <img src="./images/fb.png" style="width:30px;height:30px;" />
-                    <span>Facebook</span>
-                </a>
+            <button type="button" class="loginBtn" ng-click="UserLogin_AddEdit()">Log in</button>
+            <div class="row">
+                <div class="col-xs-6">
+                    <input id="rem" ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
+                    <label for="rem" class="pr-8">Remember Me</label>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
+                </div>
             </div>
-            <div class="col-xs-6">
-                <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
-                    <img src="./images/google.png" style="width:30px;height:30px;" />
-                    <span>Google</span>
-                </a>
+            <h2>Or login with</h2>
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
+                        <img src="./images/fb.png" style="width:30px;height:30px;" />
+                        <span>Facebook</span>
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
+                        <img src="./images/google.png" style="width:30px;height:30px;" />
+                        <span>Google</span>
+                    </a>
+                </div>
             </div>
-        </div>
-        <!--<div class="version">
+            <!--<div class="version">
             V1.3
         </div>-->
-    </form>
-</div>
+        </form>
+    </div>
 
 <div id="signupModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
