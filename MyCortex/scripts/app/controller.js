@@ -5975,7 +5975,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
                     alert('Please select Doctor')
                 } else {
-                    alert(Intl.DateTimeFormat().resolvedOptions().timeZone);
+                    //alert(Intl.DateTimeFormat().resolvedOptions().timeZone);
                     var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
                     for (i = 0; i <= $scope.TimeZoneList.length - 1; i++) {
                         if ($scope.TimeZoneList[i].TimeZoneName == timezone) {
