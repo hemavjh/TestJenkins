@@ -21,8 +21,8 @@ namespace MyCortex.User.Model
         public DateTime Appointment_FromTime { get; set; }
         public DateTime Appointment_ToTime { get; set; }
 
-        public TimeSpan AppointmentFromTime { get; set; }
-        public TimeSpan AppointmentToTime { get; set; }
+        public DateTime AppointmentFromTime { get; set; }
+        public DateTime AppointmentToTime { get; set; }
 
         public long Appointment_Type { get; set; }
         public string ReasonForVisit { get; set; }
@@ -39,6 +39,7 @@ namespace MyCortex.User.Model
         public string MRN_No { get; set; }
         public string Photo { get; set; }
         public string TimeDifference { get; set; }
+        public long TimeZone_Id { get; set; }
         public string Smoker { get; set; }
         public byte[] PhotoBlob { get; set; }
         public string ViewGenderName { get; set; }

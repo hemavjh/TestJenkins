@@ -123,6 +123,7 @@ namespace MyCortex.Repositories.Uesr
             // param.Add(new DataParameter("@CREATED_DATE", obj.Created_Date));
             param.Add(new DataParameter("@Page_Type", obj.Page_Type));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_Id));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_INSERTUPDATE", param);
 
@@ -137,9 +138,10 @@ namespace MyCortex.Repositories.Uesr
                                                        Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                        Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
                                                        Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
-                                                       AppointmentFromTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_FROMTIME").ToString()),
-                                                       AppointmentToTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_TOTIME").ToString()),
-
+                                                       //AppointmentFromTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_FROMTIME").ToString()),
+                                                       //AppointmentToTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_TOTIME").ToString()),
+                                                       AppointmentFromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                       AppointmentToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
                                                        Appointment_Type = p.Field<long>("APPOINTMENT_TYPE"),
                                                        ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
                                                        Remarks = p.Field<string>("REMARKS"),
@@ -179,6 +181,7 @@ namespace MyCortex.Repositories.Uesr
             //param.Add(new DataParameter("@CANCEL_REMARKS", obj.Cancel_Remarks));
             // param.Add(new DataParameter("@CREATED_DATE", obj.Created_Date));
             param.Add(new DataParameter("@Page_Type", obj.Page_Type));
+            param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataEncryption DecryptFields = new DataEncryption();
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_UPDATE_RESCHEDULEAPPOINTMENT", param);

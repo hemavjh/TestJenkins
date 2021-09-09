@@ -5975,17 +5975,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
                     alert('Please select Doctor')
                 } else {
+                    alert(Intl.DateTimeFormat().resolvedOptions().timeZone);
                     var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
                     for (i = 0; i <= $scope.TimeZoneList.length - 1; i++) {
                         if ($scope.TimeZoneList[i].TimeZoneName == timezone) {
-                            $scope.TimeZoneID = $scope.TimeZoneList[i].TimeZoneId;
+                            $scope.TimeZoneID = $scope.TimeZoneList[i].TimeZoneId.toString();
                         }
                     }
                     $scope.newScheduledDates = [];
                     $scope.DataNotAvailible = 0;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                     TimeSlot();
-                    $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                         $scope.newScheduledDates = data;
                         var dattas = data.ScheduledDaysList;
                         var AppDate = $scope.AppoimDate;
@@ -6102,12 +6103,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.AppoiToTime = [];
             $scope.ClickAppointment = function (list) {
                 $scope.idSelectedAppoi = list;
-                var AppointmentFrom = list.AppointmentFromDateTime;
-                var AppointmentTo = list.AppointmentToDateTime;
-                var From = AppointmentFrom.split('T')[1];
-                var To = AppointmentTo.split('T')[1];
-                $scope.AppoiFromTime = From.slice(0, 5);
-                $scope.AppoiToTime = To.slice(0, 5);
+                //var AppointmentFrom = list.AppointmentFromDateTime;
+                //var AppointmentTo = list.AppointmentToDateTime;
+                //var From = AppointmentFrom.split('T')[1];
+                //var To = AppointmentTo.split('T')[1];
+                //$scope.AppoiFromTime = From.slice(0, 5);
+                //$scope.AppoiToTime = To.slice(0, 5);
+                $scope.AppoiFromTime = list.AppointmentFromDateTime;
+                $scope.AppoiToTime = list.AppointmentToDateTime;
+
             }
             $scope.SavePatientAppointment = function () {
                 if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
@@ -6127,6 +6131,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             "Appointment_Date": $scope.AppoiDate,
                             "AppointmentFromTime": $scope.AppoiFromTime,
                             "AppointmentToTime": $scope.AppoiToTime,
+                            "TimeZone_Id": $scope.TimeZoneID,
                             "Appointment_Type": 1,
                             "ReasonForVisit": "Test",
                             "Status": 1,
@@ -6177,7 +6182,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             "ReasonForVisit": "Test",
                             "Status": "1",
                             "Created_By": $window.localStorage['UserId'],
-                            "Page_Type": "0"
+                            "Page_Type": "0",
+                            "TimeZone_Id": $scope.TimeZoneID
                         }
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                         $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
