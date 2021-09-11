@@ -699,7 +699,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         $scope.ProductName = data1[0].ProductName;
         if ($scope.ProductName == 'MyCortex') {
             $scope.Productlogin = 0;
-            /*document.getElementById("loginHel").style.display = "none";*/
+            document.getElementById("loginHel").style.display = "none";
             document.getElementById("loginCor").style.display = "block";
             document.getElementById("loginhead").style.display = "block";
         } else {
