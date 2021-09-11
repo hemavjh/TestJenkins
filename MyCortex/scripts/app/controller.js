@@ -5317,6 +5317,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
        
         $scope.Tick = false;
         $scope.UpComingAppointmentDetails = [];
+        $scope.UpComingWaitingAppointmentDetails = [];
+        $scope.userTypeId = $window.localStorage['UserTypeId'];
         $scope.PreviousAppointmentDetails = [];
         $scope.flag = 0;
         $scope.MNR_No = "";
@@ -5913,6 +5915,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
                 }
             });
+            if ($scope.userTypeId == 5) {
+                $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
+                    if ($scope.UpComingWaitingAppointmentDetails != null) {
+                        $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
+                    }
+                });
+            }
             $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
                 $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
@@ -6260,7 +6270,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     });
                 }
             }
-
+            $scope.ConfirmAppointment = function (Row) {}
         });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";

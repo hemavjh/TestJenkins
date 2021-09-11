@@ -1192,6 +1192,36 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id)
+        {
+            IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
+            PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
+            try
+            {
+
+                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id);
+                model.Status = "True";
+                model.Message = "Patient Appointment";
+                model.Error_Code = "";
+                model.ReturnFlag = 1;
+                model.PatientAppointmentList = ModelData;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in getting Patient Appointments";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.PatientAppointmentList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
 
         [HttpGet]
         [CheckSessionOutFilter]
