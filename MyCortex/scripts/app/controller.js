@@ -5933,6 +5933,24 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.TimeZoneList = data;
             });
+            $scope.bookcc = 0;
+            $scope.bookCg = 0;
+            $scope.bookCl = 0;
+            $scope.bookSc = 0;
+            $scope.bookpa = 0;
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                if (data.IsCc) { $scope.bookcc = 6; }
+                if (data.IsCg) { $scope.bookCg = 5; }
+                if (data.IsCl) { $scope.bookCl = 4; }
+                if (data.IsSc) { $scope.bookSc = 7; }
+                if (data.IsPatient) { $scope.bookpa = 2; }
+                $scope.UserTypeId = $window.localStorage['UserTypeId'];
+                if ($scope.bookcc == $scope.UserTypeId || $scope.bookCg == $scope.UserTypeId || $scope.bookCl == $scope.UserTypeId || $scope.bookSc == $scope.UserTypeId || $scope.bookpa == $scope.UserTypeId) {
+                    document.getElementById("BookNew").disabled = false;
+                } else {
+                    document.getElementById("BookNew").disabled = true;
+                }
+            });
             $scope.SearchAvailibleDoctorsList = function () {
                 $scope.DoctorListWithTimeZone = [];
                 document.getElementById("show").disabled = true;
@@ -5960,6 +5978,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     var obj = value.toString();
                     $scope.DeptIDAsSTR.push(obj);
                 });
+            }
+            $scope.ViewDoctorBio = function (Doctor_Id) {
+                angular.element('#DoctorBioModal').modal('show');
+                $scope.DoctorID = Doctor_Id;
+                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.DoctorDetailList = data;
+                })
             }
             $scope.DoctorDetailList = [];
             $scope.idSelectedVote = null;

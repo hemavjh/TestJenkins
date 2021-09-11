@@ -617,7 +617,7 @@
                     </div>
                     <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
                         <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
-                        <button type="button" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
+                        <button type="button" id="BookNew" disabled class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
                             + Book New
                         </button>
                         <button type="button" class="btnn-check" ng-click="ShowStripePopup()">
@@ -665,7 +665,7 @@
                                                 <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
                                                 <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
                                                 <!--<a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
-                        <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>-->
+                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>-->
                                             </div>
                                         </div>
                                     </div>
@@ -1605,9 +1605,9 @@
                                                         <tr>
                                                             <td colspan="7" class="text-center">
                                                                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                         st-pagination=""
-                         st-template="Masters/Views/pagination.custom.html">
-                    </div>-->
+                                                                     st-pagination=""
+                                                                     st-template="Masters/Views/pagination.custom.html">
+                                                                </div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage3(1)">First</a>
@@ -1713,10 +1713,10 @@
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
                                                                     <!--<a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
-                        <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
-                    <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
-                        <img
-                            src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
+                                                                        <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
+                                                                    <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
+                                                                        <img
+                                                                            src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
                                                                     <a href="javascript:" title="Active" title="Active" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                                     </a>
@@ -1731,8 +1731,8 @@
                                                             <tr>
                                                                 <td colspan="8" class="text-center">
                                                                     <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                         st-pagination="" st-template="Masters/Views/pagination.custom.html">
-                    </div>-->
+                                                                         st-pagination="" st-template="Masters/Views/pagination.custom.html">
+                                                                    </div>-->
                                                                     <ul class="pagination" style="margin-left:110px;">
                                                                         <li>
                                                                             <a ng-click="setPage2(1)">First</a>
@@ -1833,8 +1833,8 @@
 
 
                                                             <!-- <td style="text-align: left">
-                    {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
-                </td>-->
+                                                                {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                                            </td>-->
                                                             <td style="text-align: left">
                                                                 {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                             </td>
@@ -1866,9 +1866,9 @@
                                                         <tr>
                                                             <td colspan="9" class="text-center">
                                                                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
-                         st-pagination=""
-                         st-template="Masters/Views/pagination.custom.html">
-                    </div>-->
+                                                                     st-pagination=""
+                                                                     st-template="Masters/Views/pagination.custom.html">
+                                                                </div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage4(1)">First</a>
@@ -1985,7 +1985,7 @@
                                                         <tr>
                                                             <td colspan="7" class="text-center">
                                                                 <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                    mplate="Masters/Views/pagination.custom.html"></div>-->
+                                                                mplate="Masters/Views/pagination.custom.html"></div>-->
                                                                 <ul class="pagination" style="margin-left:110px;">
                                                                     <li>
                                                                         <a ng-click="setPage1(1)">First</a>
@@ -2041,13 +2041,13 @@
                                                            class="table themeTable">
                                                         <thead>
                                                             <!--<tr style="text-align: center">
-                <th width="5%">#</th>
-                <th width="20%">Document Name</th>
-                <th width="20%">File</th>
-                <th width="15%">Created By</th>
-                <th width="15%">Created On</th>
-                <th width="15%">Action</th>
-            </tr>-->
+                                                                <th width="5%">#</th>
+                                                                <th width="20%">Document Name</th>
+                                                                <th width="20%">File</th>
+                                                                <th width="15%">Created By</th>
+                                                                <th width="15%">Created On</th>
+                                                                <th width="15%">Action</th>
+                                                            </tr>-->
                                                             <tr style="text-align: center">
                                                                 <th st-ratio="5">#</th>
                                                                 <th st-ratio="20">Document Name</th>
@@ -2116,7 +2116,7 @@
                                                             <tr>
                                                                 <td colspan="7" class="text-center">
                                                                     <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/paginationustom.html">
-                    </div>-->
+                                                                    </div>-->
                                                                     <ul class="pagination" style="margin-left:110px;">
                                                                         <li>
                                                                             <a ng-click="setPage5(1)">First</a>
@@ -5694,6 +5694,72 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <div id="DoctorBioModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 40%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close"
+                            ng-click="CancelMyAppointment()">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Doctor Biography</h4>
+                </div>
+                <div id="main-box">
+                    <div class="flex doc-details p-4">
+                        <div class="col-sm-12 p-8" id="DocDetails">
+                            <div class="flex">
+                                <div class="" style="width:50%">
+                                    <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
+                                        <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                    </div>
+                                </div>
+                                <div class="" style="width:50%">
+                                    <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
+                                    <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{DoctorDetailList.Department_Name}}</p>
+                                </div>
+                            </div>
+                            <div class="centerallign">
+                                <div class="col-sm-10">
+                                    <div class="flex">
+                                        <label class="col-sm-6">Health License</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="col-sm-6">Sex</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.GENDER_NAME}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="col-sm-6">Nationality</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.Nationality}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="col-sm-6">Date of birth</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="col-sm-6">Nationality</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="col-sm-6">Email</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="col-sm-6">Contact Number</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.MOBILE_NO}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <label class="col-sm-6">Address</label>
+                                        <p class="col-sm-6 doc-p">{{DoctorDetailList.ADDRESS1}} <br />{{DoctorDetailList.ADDRESS2}}<br /> {{DoctorDetailList.ADDRESS3}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
