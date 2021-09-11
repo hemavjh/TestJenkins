@@ -110,4 +110,12 @@ namespace MyCortex.User.Model
         public string last { get; set; }
     }
 
+    public class CG_PatientAppointmentConfirm
+    {
+        public string Id { get; set; }
+        public string SESSION_ID { get; set; }
+        public string Institution_Id { get; set; }
+        public string user_id { get; set; }
+    }
+
 }

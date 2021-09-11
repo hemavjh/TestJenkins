@@ -5916,6 +5916,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
             });
             if ($scope.userTypeId == 5) {
+                CG_PatientAppointment_List();
+            }
+            function CG_PatientAppointment_List() {
                 $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
                     if ($scope.UpComingWaitingAppointmentDetails != null) {
@@ -6296,7 +6299,24 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     });
                 }
             }
-            $scope.ConfirmAppointment = function (Row) {}
+            $scope.ConfirmAppointment = function (Row) {
+                if (confirm("Confirm to appointment")) {
+                    var obj = {
+                        "Id": Row.Id,
+                        "SESSION_ID": $window.localStorage['Login_Session_Id'],
+                        "Institution_Id": $window.localStorage['InstitutionId'],
+                        "user_id": $window.localStorage['UserId']
+                    }
+                    $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
+                        if (data.ReturnFlag == 1) {
+                            CG_PatientAppointment_List();
+                            alert(data.Message);
+                        } else {
+                            alert(data.Message);
+                        }
+                    });
+                }
+            }
         });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";

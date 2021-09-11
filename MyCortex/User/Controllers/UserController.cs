@@ -1223,6 +1223,36 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage CG_Confirm_PatientAppointments([FromBody] CG_PatientAppointmentConfirm obj)
+        {
+            IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
+            PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
+            try
+            {
+
+                ModelData = repository.CG_Confirm_PatientAppointments(obj);
+                model.Status = "True";
+                model.Message = "Successfully Confirmed Patient Appointment";
+                model.Error_Code = "";
+                model.ReturnFlag = 1;
+                model.PatientAppointmentList = ModelData;
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Confirmation for Patient Appointments";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.PatientAppointmentList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage PatientPreviousAppointmentList(long Patient_Id, Guid Login_Session_Id)

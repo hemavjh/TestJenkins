@@ -1592,6 +1592,55 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments (CG_PatientAppointmentConfirm obj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ROW_ID", obj.Id));
+            param.Add(new DataParameter("@USER_ID", obj.user_id));
+            param.Add(new DataParameter("@Institution_Id", obj.Institution_Id));
+            param.Add(new DataParameter("@SESSION_ID", obj.SESSION_ID));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_UPDATE_PATIENTAPPOINTMENTS]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                DataEncryption decrypt = new DataEncryption();
+                IList<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                       select
+                                                       new PatientAppointmentsModel()
+                                                       {
+                                                           Id = p.Field<long>("Id"),
+                                                       //Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                       Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                           Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                           Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                       //AppointmentFromTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_FROMTIME").ToString()),
+                                                       //AppointmentToTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_TOTIME").ToString()),
+                                                       AppointmentFromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                           AppointmentToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                           Appointment_Type = p.Field<long>("APPOINTMENT_TYPE"),
+                                                           ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
+                                                           Remarks = p.Field<string>("REMARKS"),
+                                                           Status = p.Field<int>("STATUS"),
+                                                       //Canceled_Date = p.Field<DateTime>("CANCELED_DATE"),
+                                                       //Cancel_Remarks = p.Field<string>("CANCEL_REMARKS"),
+                                                       Created_By = p.Field<int>("CREATED_BY"),
+                                                       //   ReasonTypeId = p.Field<long>("REASONTYPE_ID"),    
+                                                       //   Created_Date = p.Field<DateTime>("CREATED_DATE"),
+                                                       flag = p.Field<int>("flag")
+
+                                                       }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
