@@ -5313,7 +5313,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             else { return false; }
         }
-        $scope.AppointmoduleID = 0;
+        $scope.AppointmoduleID = 1;
        
         $scope.Tick = false;
         $scope.UpComingAppointmentDetails = [];
@@ -6152,6 +6152,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.AppoiToTime = list.AppointmentToDateTime;
 
             }
+            $scope.setappoint_type = function(type) {
+                $scope.AppointmoduleID = type;
+            }
             $scope.SavePatientAppointment = function () {
                 if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
                     alert('Please select Appointment Date')
@@ -6163,6 +6166,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     alert('Please select TimeZone')
                 } */else {
                     if ($scope.OldAppointmentID == null) {
+                        var Appointment_Type = 1;
+                        if ($scope.AppointmoduleID === 2) {
+                            Appointment_Type = 2;
+                        }
+                        if ($scope.AppointmoduleID === 3) {
+                            Appointment_Type = 3;
+                        }
                         var objectSave = {
                             "Institution_Id": $scope.SelectedInstitutionId,
                             "Doctor_Id": $scope.DoctorID,
@@ -6171,7 +6181,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             "AppointmentFromTime": $scope.AppoiFromTime,
                             "AppointmentToTime": $scope.AppoiToTime,
                             "TimeZone_Id": $scope.TimeZoneID,
-                            "Appointment_Type": 1,
+                            "Appointment_Type": Appointment_Type,
                             "ReasonForVisit": "Test",
                             "Status": 1,
                             "Created_By": $window.localStorage['UserId'],
@@ -6202,6 +6212,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.AppoiToTime = [];
                                 $scope.IsNew = 1;
                                 $scope.OldAppointmentID = null;
+                                if ($scope.AppointmoduleID == 2) {
+                                    setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                }
                             }
 
                         });

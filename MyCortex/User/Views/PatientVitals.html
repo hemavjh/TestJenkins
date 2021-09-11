@@ -5559,13 +5559,13 @@
                                     <div ng-switch-when="1"></div>
                                     <div ng-switch-when="2">
                                         <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methods</p>
-                                        <input class="" id="Radio1" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1 mr-8">Self Pay</span>
-                                        <input class="mr-2" disabled id="Radio2" name="check" type="radio" onclick="onlyOne(this)" /><span class="m-left-1">Insurance</span>
+                                        <input class="" id="Radio1" type="radio" name="check" ng-click="setappoint_type(2)" /><span class="m-left-1 mr-8">Self Pay</span>
+                                        <input class="mr-2" disabled id="Radio2" name="check" type="radio" ng-click="setappoint_type(3)" /><span class="m-left-1">Insurance</span>
                                     </div>
                                     <div ng-switch-when="3">
                                         <p class="col-sm-4 m-bottom-0 font-semibold p-0">Payment methods</p>
-                                        <input class="" id="Radio1" type="radio" name="check" onclick="onlyOne(this)" /><span class="m-left-1 mr-8">Self Pay</span>
-                                        <input class="mr-2" id="Radio2" name="check" type="radio" onclick="onlyOne(this)" /><span class="m-left-1">Insurance</span>
+                                        <input class="" id="Radio1" type="radio" name="check" ng-click="setappoint_type(2)" /><span class="m-left-1 mr-8">Self Pay</span>
+                                        <input class="mr-2" id="Radio2" name="check" type="radio" ng-click="setappoint_type(3)" /><span class="m-left-1">Insurance</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 flex-col mt-10">
@@ -5786,7 +5786,7 @@
                                 <div class="inputGroups">
                                     <label for="usr">PayBy</label>
                                     <form action="/Home/CreatePayByCheckoutSession" method="POST">
-                                        <button type="submit">Checkout</button>
+                                        <button id="but_payby" type="submit">Checkout</button>
                                     </form>
                                 </div>
                             </div>
