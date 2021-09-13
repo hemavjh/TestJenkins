@@ -139,14 +139,14 @@ namespace MyCortex.Masters.Controllers
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
 
         [HttpGet]
-        public New_DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id, long institution_id)
+        public New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id)
         {
             New_DoctorShiftModel model = new New_DoctorShiftModel();
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.DoctorShift_View(Id, Login_Session_Id, institution_id);
+                model = repository.DoctorShift_View(DoctorId, Id, Login_Session_Id, institution_id);
             }
             catch (Exception ex)
             {

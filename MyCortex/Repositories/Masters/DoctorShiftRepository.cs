@@ -360,11 +360,12 @@ namespace MyCortex.Repositories.Masters
         /// </summary>      
         /// <param name="Id">Id of a Doctor Shift</param>        
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
-        public New_DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id, long institution_id)
+        public New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@doctor_id", Id));
+            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@doctor_id", DoctorId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@INSTITUTION_ID", institution_id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));

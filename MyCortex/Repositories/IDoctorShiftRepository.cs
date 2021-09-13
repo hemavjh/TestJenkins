@@ -11,7 +11,7 @@ namespace MyCortex.Repositories
         IList<SelectedDaysList> DoctorShiftDayDetails_View(long Id, Guid Login_Session_Id);
         IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id);
         long DoctorShift_AddEdit(List<DoctorShiftModel> obj);
-        New_DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id, long institution_id);
+        New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id);
         IList<ShiftTimingsModel> Shift_List(long InstitutionId);
         IList<WeekDayModel> Days_List(long InstitutionId);
         IList<DoctorShiftModel> DoctorShift_Active(DoctorShiftModel noteobj);
