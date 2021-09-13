@@ -99,6 +99,7 @@ namespace MyCortex.Repositories
 
         Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By);
         Patient_OtherDataModel Patient_OtherData_View(long Id);
+        AppointmentFeeModel GetAppointmentFee(long Institution_Id, long Department_Id);
         IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber);
         Patient_OtherDataModel Patient_OtherData_GetDocument(long Id);
         Patient_OtherDataModel Patient_OtherData_InActive(long Id, long Modified_By);

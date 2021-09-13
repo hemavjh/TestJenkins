@@ -3300,6 +3300,34 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public AppointmentFeeModel GetAppointmentFee(long Institution_Id, long Department_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@DEPARTMENT_ID", Department_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBL_GETAPPOINTMENTFEES]", param);
+                AppointmentFeeModel View = (from p in dt.AsEnumerable()
+                                               select
+                                               new AppointmentFeeModel()
+                                               {
+                                                   Id = p.Field<long>("Id"),
+                                                   InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                   DepartmentId = p.Field<long>("DEPARTMENT_ID"),
+                                                   DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                   Amount = p.Field<string>("AMOUNT")
+                                               }).FirstOrDefault();
+                return View;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Patient other data list of a selected patient and active flag
         /// </summary>

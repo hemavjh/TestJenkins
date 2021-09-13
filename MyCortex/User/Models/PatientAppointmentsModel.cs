@@ -166,6 +166,15 @@ namespace MyCortex.User.Model
 
     }
 
+    public class AppointmentFeeModel
+    {
+        public long Id { get; set; }
+        public long InstitutionId { get; set; }
+        public long DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
+        public string Amount { get; set; }
+    }
+
 
 
 }

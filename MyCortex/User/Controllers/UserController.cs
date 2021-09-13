@@ -3685,5 +3685,24 @@ namespace MyCortex.User.Controller
             return destImage;
         }
 
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public AppointmentFeeModel GetAppointmentFee(long Institution_Id,long Department_Id,Guid Login_Session_Id)
+        {
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                AppointmentFeeModel model = new AppointmentFeeModel();
+                model = repository.GetAppointmentFee(Institution_Id, Department_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
     }
 }
