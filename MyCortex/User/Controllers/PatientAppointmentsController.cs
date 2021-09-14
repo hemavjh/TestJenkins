@@ -77,6 +77,12 @@ namespace MyCortex.User.Controller
                     model.ReturnFlag = 1;
                     model.Status = "True";
                 }
+                else if ((ModelData.flag == 3) == true)
+                {
+                    messagestr = "Appointment Can't Be Cancelled! Cancelation Time End!";
+                    model.ReturnFlag = 0;
+                    model.Status = "True";
+                }
                 else
                 {
                     messagestr = "Error in Cancelling the Appointment";
@@ -204,6 +210,11 @@ namespace MyCortex.User.Controller
                 {
                     model.ReturnFlag = 1;
                     messagestr = "Patient Appointment ReScheduled Successfully";
+                }
+                else if (ModelData.Any(item => item.flag == 2) == true)
+                {
+                    model.ReturnFlag = 0;
+                    messagestr = "Patient Appointment Cannot be ReScheduled!";
                 }
                 else if (ModelData.Any(item => item.flag == 3) == true)
                 {

@@ -144,7 +144,7 @@ MyCortexControllers.directive("fileread", [
                             //scope.filename = changeEvent.target.files[0].name;
                         });
                     }
-                    if (changeEvent.target.files[0].lenght !== 0) {
+                    if (changeEvent.target.files.length !== 0) {
                         reader.readAsDataURL(changeEvent.target.files[0]);
                     } 
                 });
@@ -19604,7 +19604,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
                 angular.forEach($scope.SelectedDays, function (value, index) {
                     var Day = new Date(value.Day).toString();
-                    if (Day.includes("Sun") == true) {
+                    if (Day.includes("Sun") == true && value.exist == 1) {
                         var shift1 = {};
                         shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot1), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot2), Shift: 1 }
                         value.TimeSlot[0] = shift1;
@@ -19621,7 +19621,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot43), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot44), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
-                    else if (Day.includes("Mon") == true) {
+                    else if (Day.includes("Mon") == true && value.exist == 1) {
                         var shift1 = {};
                         shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot7), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot8), Shift: 1 }
                         value.TimeSlot[0] = shift1;
@@ -19638,7 +19638,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot45), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot46), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
-                    else if (Day.includes("Tue") == true) {
+                    else if (Day.includes("Tue") == true && value.exist == 1) {
                         var shift1 = {};
                         shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot13), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot14), Shift: 1 }
                         value.TimeSlot[0] = shift1;
@@ -19655,7 +19655,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot47), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot48), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
-                    else if (Day.includes("Wed") == true) {
+                    else if (Day.includes("Wed") == true && value.exist == 1) {
                         var shift1 = {};
                         shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot19), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot20), Shift: 1 }
                         value.TimeSlot[0] = shift1;
@@ -19672,7 +19672,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot49), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot50), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
-                    else if (Day.includes("Thu") == true) {
+                    else if (Day.includes("Thu") == true && value.exist == 1) {
                         var shift1 = {};
                         shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot25), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot26), Shift: 1 }
                         value.TimeSlot[0] = shift1;
@@ -19689,7 +19689,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot51), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot52), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
-                    else if (Day.includes("Fri") == true) {
+                    else if (Day.includes("Fri") == true && value.exist == 1) {
                         var shift1 = {};
                         shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot31), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot32), Shift: 1 }
                         value.TimeSlot[0] = shift1;
@@ -19706,7 +19706,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         shift4 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot53), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot54), Shift: 4 }
                         value.TimeSlot[3] = shift4;
                     }
-                    else if (Day.includes("Sat") == true) {
+                    else if (Day.includes("Sat") == true && value.exist == 1) {
                         var shift1 = {};
                         shift1 = { TimeSlotFromTime: Convert12To24Timeformat($scope.TimeSlot37), TimeSlotToTime: Convert12To24Timeformat($scope.TimeSlot38), Shift: 1 }
                         value.TimeSlot[0] = shift1;
@@ -19745,7 +19745,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         dateName = 'Saturday';
                     }
                     var y = $scope.SelectedDays[i].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
-                    if (y.length === 4) {
+                    if (y.length === 4 && $scope.SelectedDays[i].exist == 1) {
                         alert('Please Enter any one time slot for ' + dateName + '');
                         chk2 = 1;
                         break;
@@ -19771,7 +19771,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     var timeshift = $scope.SelectedDays[y].TimeSlot.length;
                     var arr = [];
                     for (let z = 0; z < timeshift; z++) {
-                        if ($scope.SelectedDays[y].TimeSlot[z].TimeSlotFromTime !== null && $scope.SelectedDays[y].TimeSlot[z].TimeSlotToTime !== null) {
+                        if ($scope.SelectedDays[y].TimeSlot[z].TimeSlotFromTime !== null && $scope.SelectedDays[y].TimeSlot[z].TimeSlotToTime !== null && $scope.SelectedDays[y].exist == 1) {
                             var from = new Date($scope.SelectedDays[y].Day + ' ' + $scope.SelectedDays[y].TimeSlot[z].TimeSlotFromTime).getTime();
                             var to = new Date($scope.SelectedDays[y].Day + ' ' + $scope.SelectedDays[y].TimeSlot[z].TimeSlotToTime).getTime();
                             if (arr.length == 0) {
@@ -19810,7 +19810,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if (chk === 1 || chk == 2) {
                     angular.forEach($scope.SelectedDays, function (value, index) {
                         for (let i = 3; i >= 0; i--) {
-                            const y = $scope.SelectedDays[index].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
+                            const y = $scope.SelectedDays[index].TimeSlot.filter(x => (x.TimeSlotFromTime === null && x.TimeSlotToTime === null) || (x.TimeSlotFromTime === undefined && x.TimeSlotToTime === undefined));
                             if (y.length !== 0) {
                                 const h = $scope.SelectedDays[index].TimeSlot.findIndex(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
                                 $scope.SelectedDays[index].TimeSlot.splice(h, 1);

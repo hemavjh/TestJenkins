@@ -620,9 +620,9 @@
                         <button type="button" id="BookNew" disabled class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
                             + Book New
                         </button>
-                        <button type="button" class="btnn-check" ng-click="ShowStripePopup()">
+                        <!--<button type="button" class="btnn-check" ng-click="ShowStripePopup()">
                             Pay Now
-                        </button>
+                        </button>-->
                     </div>
 
 
@@ -662,10 +662,15 @@
                                                 </div>
                                             </div>
                                             <div class="flex">
-                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px"> View Doctor Bio |</a>
-                                                <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
-                                                <!--<a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">Reschedule |</a>
-                                                <a href="" class="font-semibold m-bottom-0 text-red" style="font-size:9px"> Cancel</a>-->
+                                                <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                                                <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
+                                                <!--<button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                                                    <img style="padding-right:30px;" src="images/Video-icon1.png">
+                                                </button>-->
+                                                <a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
+                                                <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png"> 
+                                                </a>
+                                                <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                                             </div>
                                         </div>
                                     </div>
@@ -706,7 +711,7 @@
                                                 <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
                                                 <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="padding-right:30px;" src="images/phones-icon.png"> </button>
                                                 <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
-                                                    <img style="height: 40px; width: 35px; padding: 0 15px 12px 0; padding-right: 20px; " src="images/Video-Icon.png">
+                                                    <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
                                                 </button>
                                                 <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                                             </div>

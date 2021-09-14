@@ -33,7 +33,13 @@
                 }).then(function () {
                 });
             }
-            reader.readAsDataURL(this.files[0]);
+            for (var i = 0; i < this.files.length; i++) {
+                var det = this.files[i];
+                reader.readAsDataURL(det);
+                console.log('det');
+            }
+            //reader.readAsDataURL(this.files[0]);
+            console.log('che');
             $('#insertimageModal').modal('show');
         });
 
@@ -50,6 +56,99 @@
             });
         });
 
+        var image1 = $('#NationalLogo').val();
+        $image_crop1 = $('#image_demo1').croppie({
+            enableExif: true,
+            url: image1,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'rectangle' //rectangle
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            },
+            points: {
+                topLeftX: 0,
+                topLeftY: 0,
+                bottomRightX: 0,
+                bottomRightY: 0
+            }
+        });
+
+        $('#NationalLogo').on('change', function () {
+            var reader = new FileReader();
+            console.log('National');
+            reader.onload = function (event) {
+                $image_crop1.croppie('bind', {
+                    url: event.target.result
+                }).then(function () {
+                });
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#insertimageModal1').modal('show');
+        });
+
+        $('.crop_images').click(function (event) {
+            $image_crop1.croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                //type: 'canvas',
+                size: 'viewport'
+                //size: {width: 150, height: 200}
+            }).then(function (response) {
+                $('#item-img-output1').attr('src', response);
+                $('#insertimageModal1').modal('hide');
+            });
+        });
+
+        var image1 = $('#InsuranceLogo').val();
+        $image_crop2 = $('#image_demo2').croppie({
+            enableExif: true,
+            url: image1,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'rectangle' //rectangle
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            },
+            points: {
+                topLeftX: 0,
+                topLeftY: 0,
+                bottomRightX: 0,
+                bottomRightY: 0
+            }
+        });
+
+        $('#InsuranceLogo').on('change', function () {
+            var reader = new FileReader();
+            console.log('Insuarance');
+            reader.onload = function (event) {
+                $image_crop2.croppie('bind', {
+                    url: event.target.result
+                }).then(function () {
+                });
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#insertimageModal2').modal('show');
+        });
+
+        $('.insurancecrop_image').click(function (event) {
+            $image_crop2.croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                //type: 'canvas',
+                size: 'viewport'
+                //size: {width: 150, height: 200}
+            }).then(function (response) {
+                $('#item-img-output2').attr('src', response);
+                $('#insertimageModal2').modal('hide');
+            });
+        });
     });
 
     $(function () {
@@ -165,13 +264,13 @@
 
                                 </div>
                                 <!--<div class="inputGroups">
-                            <label valign="top">Patient ID</label>
-                            <span>{{PatientNo}}</span>
-                    </div>
-                    <div class="inputGroups">
-                            <label>Short Name</label>
-                            <span>{{Createdby_ShortName}}</span>
-                    </div>-->
+                <label valign="top">Patient ID</label>
+                <span>{{PatientNo}}</span>
+        </div>
+        <div class="inputGroups">
+                <label>Short Name</label>
+                <span>{{Createdby_ShortName}}</span>
+        </div>-->
                                 <div class="inputGroups">
                                     <label>
                                         National ID<sup>
@@ -248,8 +347,8 @@
                                     <label>
                                         Patient ID
                                         <!--<sup>
-                                <font class='mandatory-field'>*</font>
-                            </sup>-->
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>-->
                                     </label>
                                     <input type="text" class="form-control" id="PATIENT_ID" name="PATIENT_ID" ng-model="PATIENT_ID"
                                            ng-init="PATIENT_ID=''" ng-required="true" placeholder="" ng-maxlength="50"
@@ -311,8 +410,60 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+
+
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <div class="imgAdd1">
+                                        <input type="file" id="NationalLogo" fileread="uploadme1"
+                                               onchange="angular.element(this).scope().NationalLogophotoChange(this)"
+                                               name="FileName" title="Click to Upload Nationality Photo "
+                                               style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
+                                               ng-click="NationalityPhotoUplaodSelected()" />
+
+                                        <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
+                                            <img id="item-img-output1" class="responsiveProfileImage1" src="{{uploadme1}}" />
+                                        </div>
+
+                                        <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
+                                           title="Clear" ng-hide="Pat_UserTypeId==2">
+                                            Clear
+                                        </a>
+                                        <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                            <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
+                                                <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
+                                                <span>Upload Photo</span>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal" tabindex="-1" role="dialog" id="insertimageModal1">
+                                        <div class="modal-dialog" role="document" style="min-width: 700px">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Crop Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div id="image_demo1"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary crop_images">Crop and Save</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -1009,11 +1160,11 @@
                                     <div class="inputGroups">
                                         <label>Expiry Date</label>
                                         <input max="2099-12-31" type="date" id="Expiry_Date" class="form-control" ng-model="ExpiryDate" ng-init="ExpiryDate=''"
-                                           style="width: 165px" ng-disabled="Pat_UserTypeId==2">
+                                               style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                         <!--<input type="text" class="form-control" id="Text8"
-                                               ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"
-                                               maxlength="100" ng-maxlength="100" placeholder=""
-                                               onkeypress="ParticularSpec(event)" ng-disabled="Pat_UserTypeId==2">-->
+                   ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"
+                   maxlength="100" ng-maxlength="100" placeholder=""
+                   onkeypress="ParticularSpec(event)" ng-disabled="Pat_UserTypeId==2">-->
                                     </div>
                                     <div class="inputGroups">
                                         <label>Payor Name</label>
@@ -1038,6 +1189,58 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-4">
+                                    <div class="inputGroups">
+                                        <div class="imgAdd">
+                                            <input type="file" id="InsuranceLogo" fileread="uploadme2"
+                                                   onchange="angular.element(this).scope().photoChange(this)"
+                                                   name="FileName" title="Click to Upload Photo "
+                                                   style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
+                                                   ng-click="PhotoUplaodSelected()" />
+
+                                            <div ng-if="(uploadme2!=null || uploadme2!='')" valign="top" rowspan="6">
+                                                <img id="item-img-output2" class="responsiveProfileImage2" src="{{uploadme2}}" />
+                                            </div>
+
+                                            <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientInsurance();"
+                                               title="Clear" ng-hide="Pat_UserTypeId==2">
+                                                Clear
+                                            </a>
+                                            <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                                <label for="InsuranceLogo" class="mb-0" title="Click to Upload Logo">
+                                                    <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
+                                                    <span>Upload Insurance Photo</span>
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                        <div class="modal" tabindex="-1" role="dialog" id="insertimageModal2">
+                                            <div class="modal-dialog" role="document" style="min-width: 700px">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crop Image</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center">
+                                                                <div id="image_demo2"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary insurancecrop_image">Crop and Save</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
