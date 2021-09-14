@@ -5882,31 +5882,55 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data) {
                 $scope.TimeSizeeLeft = data[0].ConfigValue;
             });
-            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+            patientAppointmentList();
+            function patientAppointmentList() {
+                $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.UpComingAppointmentDetails = [];
+                    $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+                    compareAppointmentDates();
+                });
+            }
+            $scope.calcNewYear;
+            function compareAppointmentDates() {
+                $scope.calcNewYear = setInterval(checkdates(), 1000);
+            }
+            function checkdates() {
                 var AppoinList = $scope.UpComingAppointmentDetails;
                 for (i = 0; i < AppoinList.length; i++) {
                     var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime));
                     var enddate1 = moment(new Date());
                     var diff1 = Math.abs(enddate1 - startdate1);
-                    var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
-                    var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
-                    var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
-                    var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
+                    //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
+                    //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
+                    //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
+                    //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
                     var CallRemain1 = Math.floor(diff1 / (60 * 1000));
                     $scope.CallButton1 = CallRemain1;
+                    var date_future = new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime);
+                    var date_now = new Date();
+
+                    var seconds = Math.floor((date_future - (date_now)) / 1000);
+                    var minutes = Math.floor(seconds / 60);
+                    var hours = Math.floor(minutes / 60);
+                    var days = Math.floor(hours / 24);
+                    if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+
+                    }
+                    hours = hours - (days * 24);
+                    minutes = minutes - (days * 24 * 60) - (hours * 60);
+                    seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
                     var timeDiffString1 = "";
-                    if (days1 != 0) {
-                        timeDiffString1 = timeDiffString1 + days1 + ' day ';
+                    if (days != 0) {
+                        timeDiffString1 = timeDiffString1 + days + ' day ';
                     }
-                    else if (hours1 != 0) {
-                        timeDiffString1 = timeDiffString1 + hours1 + ' hr ';
+                    if (hours != 0) {
+                        timeDiffString1 = timeDiffString1 + hours + ' hr ';
                     }
-                    else if (minutes1 != 0) {
-                        timeDiffString1 = timeDiffString1 + minutes1 + ' min ';
+                    if (minutes != 0) {
+                        timeDiffString1 = timeDiffString1 + minutes + ' min ';
                     }
-                    else if (seconds1 != 0) {
-                        timeDiffString1 = timeDiffString1 + seconds1 + ' sec';
+                    if (seconds != 0) {
+                        timeDiffString1 = timeDiffString1 + seconds + ' sec';
                     }
                     AppoinList[i].TimeDifference = timeDiffString1;
                     AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
@@ -5914,7 +5938,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if ($scope.UpComingAppointmentDetails != null) {
                     $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
                 }
-            });
+                $scope.UpComingAppointmentDetails = AppoinList;
+                $scope.$apply();
+            }
             if ($scope.userTypeId == 5) {
                 CG_PatientAppointment_List();
             }
