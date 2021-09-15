@@ -5967,12 +5967,19 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.bookCl = 0;
             $scope.bookSc = 0;
             $scope.bookpa = 0;
+            var current_date = new Date().getFullYear() + '-' + (((new Date().getMonth() + 1).toString().length > 1) ? ((new Date().getMonth() + 1).toString()) : '0' + (new Date().getMonth() + 1).toString()) + '-' + (((new Date().getDate()).toString().length > 1) ? ((new Date().getDate()).toString()) : '0' + (new Date().getDate()).toString());
+            angular.element(document.getElementById('datee')).attr('min', current_date);
             $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                 if (data.IsCc) { $scope.bookcc = 6; }
                 if (data.IsCg) { $scope.bookCg = 5; }
                 if (data.IsCl) { $scope.bookCl = 4; }
                 if (data.IsSc) { $scope.bookSc = 7; }
                 if (data.IsPatient) { $scope.bookpa = 2; }
+                if (data.MaxScheduleDays) {
+                    var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
+                    var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());
+                    angular.element(document.getElementById('datee')).attr('max', futureDate);
+                }
                 $scope.UserTypeId = $window.localStorage['UserTypeId'];
                 if ($scope.bookcc == $scope.UserTypeId || $scope.bookCg == $scope.UserTypeId || $scope.bookCl == $scope.UserTypeId || $scope.bookSc == $scope.UserTypeId || $scope.bookpa == $scope.UserTypeId) {
                     document.getElementById("BookNew").disabled = false;
@@ -6028,6 +6035,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.DoctorDetailList = data;
                     $scope.AppointmoduleID = data.Appointment_Module_Id;
+                    if (data.Appointment_Module_Id == 2) {
+                        setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
+                    }
+                    else if (data.Appointment_Module_Id == 3) {
+                        setTimeout(function () { document.getElementById('Radio2').click(); }, 5000);
+                    }
                 })
             }
             function convert(str) {
