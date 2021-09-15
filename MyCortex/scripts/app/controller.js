@@ -15929,6 +15929,49 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 $("#chatLoaderPV").hide();
             }
         };
+        $scope.PasswordChecking = function () {
+            var elless = $scope.NewPassword;
+            var isUpperCaseLetter = (/[A-Z]/.test(elless));
+            if (isUpperCaseLetter) {
+                document.getElementById("UpperCase").checked = true;
+            } else {
+                document.getElementById("UpperCase").checked = false;
+            }
+            var isNumber = (/[0-9]/.test(elless));
+            if (isNumber) {
+                document.getElementById("Numeric").checked = true;
+            } else {
+                document.getElementById("Numeric").checked = false;
+            }
+            if (elless == null || elless == undefined || elless == "") {
+                document.getElementById("Blank").checked = true;
+            } else {
+                document.getElementById("Blank").checked = false;
+            }
+            var Passwordlength = elless.length;
+            if (Passwordlength >= $scope.Minimum_Length) {
+                document.getElementById("Minchar").checked = true;
+            } else {
+                document.getElementById("Minchar").checked = false;
+            }
+            if (Passwordlength <= $scope.Maximum_Length & Passwordlength >= $scope.Minimum_Length) {
+                document.getElementById("Maxchar").checked = true;
+            } else {
+                document.getElementById("Maxchar").checked = false;
+            }
+            if ($scope.NewPassword == $scope.confirmpassword & $scope.NewPassword != "") {
+                document.getElementById("MatchOk").checked = true;
+            } else {
+                document.getElementById("MatchOk").checked = false;
+            }
+        }
+        $scope.PasswordConfirm = function () {
+            if ($scope.NewPassword == $scope.confirmpassword & $scope.NewPassword != "") {
+                document.getElementById("MatchOk").checked = true;
+            } else {
+                document.getElementById("MatchOk").checked = false;
+            }
+        }
 
         /* User type details list*/
         $http.get(baseUrl + '/api/Login/Usertypedetailslist/').success(function (data) {
