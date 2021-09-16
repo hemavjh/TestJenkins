@@ -543,29 +543,29 @@
                                                         <div class="col-sm-3 p-0" style="left: -11px;">
                                                             <p class="shift">Shift 1</p>
                                                             <div class="flex mt-1">
-                                                                <!--<input type="checkbox" class="mr-1">
-                                                                <p class="ml-1">Copy to all</p>-->
+                                                                <input type="checkbox" class="mr-1" id="Shift1Select" ng-click="Shift1_SelectAllClick($event)" style="cursor: pointer;">
+                                                                <p class="ml-1">Copy to all</p>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-3 p-0" style="left: 67px;">
                                                             <p class="shift">Shift 2</p>
                                                             <div class="flex mt-1">
-                                                                <!--<input type="checkbox" class="mr-1">
-                                                                <p class="ml-1">Copy to all</p>-->
+                                                                <input type="checkbox" class="mr-1" id="Shift2Select" ng-click="Shift2_SelectAllClick($event)" style="cursor: pointer;">
+                                                                <p class="ml-1">Copy to all</p>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-3 p-0" style="left: 153px;">
                                                             <p class="shift">Shift 3</p>
                                                             <div class="flex mt-1">
-                                                                <!--<input type="checkbox" class="mr-1">
-                                                                <p class="ml-1">Copy to all</p>-->
+                                                                <input type="checkbox" class="mr-1" id="Shift3Select" ng-click="Shift3_SelectAllClick($event)" style="cursor: pointer;">
+                                                                <p class="ml-1">Copy to all</p>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-3 p-0" style="left: 233px;">
                                                             <p class="shift">Shift 4</p>
                                                             <div class="flex mt-1">
-                                                                <!--<input type="checkbox" class="mr-1">
-                                                                <p class="ml-1">Copy to all</p>-->
+                                                                <input type="checkbox" class="mr-1" id="Shift4Select" ng-click="Shift4_SelectAllClick($event)" style="cursor: pointer;">
+                                                                <p class="ml-1">Copy to all</p>
                                                             </div>
                                                         </div>
                                                         <!--<div class="col-sm-3 p-0" style="left: 225px;">
@@ -1085,7 +1085,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style="text-align: center;">
+                                            <div style="text-align: center;padding-top: 60px;">
                                                 <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>

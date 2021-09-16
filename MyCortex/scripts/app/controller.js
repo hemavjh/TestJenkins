@@ -6307,8 +6307,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
 
                 }
-
-
             }
             $scope.CancelMyAppointment = function () {
                 angular.element('#BookAppointmentModal').modal('hide');
@@ -6348,7 +6346,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
                 if (confirm("Confirm to cancel appointment")) {
                     $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
-                        alert(data.Message)
+                        alert(data.Message);
+                        if (data.ReturnFlag == 1) {
+                            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                                $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+                            });
+                        }
                     });
                 }
             }
@@ -19572,6 +19575,673 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $scope.Days = "0";
                 $scope.Minutes = "0";
+            }
+        }
+
+        $scope.Shift1_SelectAllClick = function (event) {
+            var checked = $('#Shift1Select').is(":checked")
+            if (checked == true) {
+                if (($scope.TimeSlot1 == 0 && $scope.TimeSlot2 == 0) && ($scope.TimeSlot7 == 0 && $scope.TimeSlot8 == 0) && ($scope.TimeSlot13 == 0 && $scope.TimeSlot14 == 0) && ($scope.TimeSlot19 == 0 && $scope.TimeSlot20 == 0) &&
+                    ($scope.TimeSlot25 == 0 && $scope.TimeSlot26 == 0) && ($scope.TimeSlot31 == 0 && $scope.TimeSlot32 == 0) && ($scope.TimeSlot37 == 0 && $scope.TimeSlot38 == 0)) {
+                    alert('Please Enter Any One Shift !');
+                    $('#Shift1Select').prop('checked', false);
+                }
+                else {
+                    if ($scope.TimeSlot1 != 0 && $scope.TimeSlot2 != 0) {
+                        $scope.TimeSlot7 = angular.copy($scope.TimeSlot1);
+                        $scope.TimeSlot8 = angular.copy($scope.TimeSlot2);
+
+                        $scope.TimeSlot13 = angular.copy($scope.TimeSlot1);
+                        $scope.TimeSlot14 = angular.copy($scope.TimeSlot2);
+
+                        $scope.TimeSlot19 = angular.copy($scope.TimeSlot1);
+                        $scope.TimeSlot20 = angular.copy($scope.TimeSlot2);
+
+                        $scope.TimeSlot25 = angular.copy($scope.TimeSlot1);
+                        $scope.TimeSlot26 = angular.copy($scope.TimeSlot2);
+
+                        $scope.TimeSlot31 = angular.copy($scope.TimeSlot1);
+                        $scope.TimeSlot32 = angular.copy($scope.TimeSlot2);
+
+                        $scope.TimeSlot37 = angular.copy($scope.TimeSlot1);
+                        $scope.TimeSlot38 = angular.copy($scope.TimeSlot2);
+                    }
+                    else if ($scope.TimeSlot7 != 0 && $scope.TimeSlot8 != 0) {
+                        $scope.TimeSlot1 = angular.copy($scope.TimeSlot7);
+                        $scope.TimeSlot2 = angular.copy($scope.TimeSlot8);
+
+                        $scope.TimeSlot13 = angular.copy($scope.TimeSlot7);
+                        $scope.TimeSlot14 = angular.copy($scope.TimeSlot8);
+
+                        $scope.TimeSlot19 = angular.copy($scope.TimeSlot7);
+                        $scope.TimeSlot20 = angular.copy($scope.TimeSlot8);
+
+                        $scope.TimeSlot25 = angular.copy($scope.TimeSlot7);
+                        $scope.TimeSlot26 = angular.copy($scope.TimeSlot8);
+
+                        $scope.TimeSlot31 = angular.copy($scope.TimeSlot7);
+                        $scope.TimeSlot32 = angular.copy($scope.TimeSlot8);
+
+                        $scope.TimeSlot37 = angular.copy($scope.TimeSlot7);
+                        $scope.TimeSlot38 = angular.copy($scope.TimeSlot8);
+                    }
+                    else if ($scope.TimeSlot13 != 0 && $scope.TimeSlot14 != 0) {
+                        $scope.TimeSlot1 = angular.copy($scope.TimeSlot13);
+                        $scope.TimeSlot2 = angular.copy($scope.TimeSlot14);
+
+                        $scope.TimeSlot7 = angular.copy($scope.TimeSlot13);
+                        $scope.TimeSlot8 = angular.copy($scope.TimeSlot14);
+
+                        $scope.TimeSlot19 = angular.copy($scope.TimeSlot13);
+                        $scope.TimeSlot20 = angular.copy($scope.TimeSlot14);
+
+                        $scope.TimeSlot25 = angular.copy($scope.TimeSlot13);
+                        $scope.TimeSlot26 = angular.copy($scope.TimeSlot14);
+
+                        $scope.TimeSlot31 = angular.copy($scope.TimeSlot13);
+                        $scope.TimeSlot32 = angular.copy($scope.TimeSlot14);
+
+                        $scope.TimeSlot37 = angular.copy($scope.TimeSlot13);
+                        $scope.TimeSlot38 = angular.copy($scope.TimeSlot14);
+                    }
+                    else if ($scope.TimeSlot19 != 0 && $scope.TimeSlot20 != 0) {
+                        $scope.TimeSlot1 = angular.copy($scope.TimeSlot19);
+                        $scope.TimeSlot2 = angular.copy($scope.TimeSlot20);
+
+                        $scope.TimeSlot7 = angular.copy($scope.TimeSlot19);
+                        $scope.TimeSlot8 = angular.copy($scope.TimeSlot20);
+
+                        $scope.TimeSlot13 = angular.copy($scope.TimeSlot19);
+                        $scope.TimeSlot14 = angular.copy($scope.TimeSlot20);
+
+                        $scope.TimeSlot25 = angular.copy($scope.TimeSlot19);
+                        $scope.TimeSlot26 = angular.copy($scope.TimeSlot20);
+
+                        $scope.TimeSlot31 = angular.copy($scope.TimeSlot19);
+                        $scope.TimeSlot32 = angular.copy($scope.TimeSlot20);
+
+                        $scope.TimeSlot37 = angular.copy($scope.TimeSlot19);
+                        $scope.TimeSlot38 = angular.copy($scope.TimeSlot20);
+                    }
+                    else if ($scope.TimeSlot25 != 0 && $scope.TimeSlot26 != 0) {
+                        $scope.TimeSlot1 = angular.copy($scope.TimeSlot25);
+                        $scope.TimeSlot2 = angular.copy($scope.TimeSlot26);
+
+                        $scope.TimeSlot7 = angular.copy($scope.TimeSlot25);
+                        $scope.TimeSlot8 = angular.copy($scope.TimeSlot26);
+
+                        $scope.TimeSlot13 = angular.copy($scope.TimeSlot25);
+                        $scope.TimeSlot14 = angular.copy($scope.TimeSlot26);
+
+                        $scope.TimeSlot19 = angular.copy($scope.TimeSlot25);
+                        $scope.TimeSlot20 = angular.copy($scope.TimeSlot26);
+
+                        $scope.TimeSlot31 = angular.copy($scope.TimeSlot25);
+                        $scope.TimeSlot32 = angular.copy($scope.TimeSlot26);
+
+                        $scope.TimeSlot37 = angular.copy($scope.TimeSlot25);
+                        $scope.TimeSlot38 = angular.copy($scope.TimeSlot26);
+                    }
+                    else if ($scope.TimeSlot31 != 0 && $scope.TimeSlot32 != 0) {
+                        $scope.TimeSlot1 = angular.copy($scope.TimeSlot31);
+                        $scope.TimeSlot2 = angular.copy($scope.TimeSlot32);
+
+                        $scope.TimeSlot7 = angular.copy($scope.TimeSlot31);
+                        $scope.TimeSlot8 = angular.copy($scope.TimeSlot32);
+
+                        $scope.TimeSlot13 = angular.copy($scope.TimeSlot31);
+                        $scope.TimeSlot14 = angular.copy($scope.TimeSlot32);
+
+                        $scope.TimeSlot19 = angular.copy($scope.TimeSlot31);
+                        $scope.TimeSlot20 = angular.copy($scope.TimeSlot32);
+
+                        $scope.TimeSlot25 = angular.copy($scope.TimeSlot31);
+                        $scope.TimeSlot26 = angular.copy($scope.TimeSlot32);
+
+                        $scope.TimeSlot37 = angular.copy($scope.TimeSlot31);
+                        $scope.TimeSlot38 = angular.copy($scope.TimeSlot32);
+                    }
+                    else if ($scope.TimeSlot37 != 0 && $scope.TimeSlot38 != 0) {
+                        $scope.TimeSlot1 = angular.copy($scope.TimeSlot37);
+                        $scope.TimeSlot2 = angular.copy($scope.TimeSlot38);
+
+                        $scope.TimeSlot7 = angular.copy($scope.TimeSlot37);
+                        $scope.TimeSlot8 = angular.copy($scope.TimeSlot38);
+
+                        $scope.TimeSlot13 = angular.copy($scope.TimeSlot37);
+                        $scope.TimeSlot14 = angular.copy($scope.TimeSlot38);
+
+                        $scope.TimeSlot19 = angular.copy($scope.TimeSlot37);
+                        $scope.TimeSlot20 = angular.copy($scope.TimeSlot38);
+
+                        $scope.TimeSlot25 = angular.copy($scope.TimeSlot37);
+                        $scope.TimeSlot26 = angular.copy($scope.TimeSlot38);
+
+                        $scope.TimeSlot31 = angular.copy($scope.TimeSlot37);
+                        $scope.TimeSlot32 = angular.copy($scope.TimeSlot38);
+                    }
+
+                    else {
+                        alert('Please Enter Proper Shift FromTime And ToTime !');
+                        $('#Shift1Select').prop('checked', false);
+                        return false;
+                    }
+                }
+            } else {
+                $scope.TimeSlot1 = "";
+                $scope.TimeSlot2 = "";
+                $scope.TimeSlot7 = "";
+                $scope.TimeSlot8 = "";
+                $scope.TimeSlot13 = "";
+                $scope.TimeSlot14 = "";
+                $scope.TimeSlot19 = "";
+                $scope.TimeSlot20 = "";
+                $scope.TimeSlot25 = "";
+                $scope.TimeSlot26 = "";
+                $scope.TimeSlot31 = "";
+                $scope.TimeSlot32 = "";
+                $scope.TimeSlot37 = "";
+                $scope.TimeSlot38 = "";
+            }
+        }
+
+        $scope.Shift2_SelectAllClick = function (event) {
+            var checked = $('#Shift2Select').is(":checked")
+            if (checked == true) {
+                if (($scope.TimeSlot3 == 0 && $scope.TimeSlot4 == 0) && ($scope.TimeSlot9 == 0 && $scope.TimeSlot10 == 0) && ($scope.TimeSlot15 == 0 && $scope.TimeSlot16 == 0) && ($scope.TimeSlot21 == 0 && $scope.TimeSlot22 == 0) &&
+                    ($scope.TimeSlot27 == 0 && $scope.TimeSlot28 == 0) && ($scope.TimeSlot33 == 0 && $scope.TimeSlot34 == 0) && ($scope.TimeSlot39 == 0 && $scope.TimeSlot40 == 0)) {
+                    alert('Please Enter Any One Shift !');
+                    $('#Shift2Select').prop('checked', false);
+                }
+                else {
+                    if ($scope.TimeSlot3 != 0 && $scope.TimeSlot4 != 0) {
+                        $scope.TimeSlot9 = angular.copy($scope.TimeSlot3);
+                        $scope.TimeSlot10 = angular.copy($scope.TimeSlot4);
+
+                        $scope.TimeSlot15 = angular.copy($scope.TimeSlot3);
+                        $scope.TimeSlot16 = angular.copy($scope.TimeSlot4);
+
+                        $scope.TimeSlot21 = angular.copy($scope.TimeSlot3);
+                        $scope.TimeSlot22 = angular.copy($scope.TimeSlot4);
+
+                        $scope.TimeSlot27 = angular.copy($scope.TimeSlot3);
+                        $scope.TimeSlot28 = angular.copy($scope.TimeSlot4);
+
+                        $scope.TimeSlot33 = angular.copy($scope.TimeSlot3);
+                        $scope.TimeSlot34 = angular.copy($scope.TimeSlot4);
+
+                        $scope.TimeSlot39 = angular.copy($scope.TimeSlot3);
+                        $scope.TimeSlot40 = angular.copy($scope.TimeSlot4);
+                    }
+                    else if ($scope.TimeSlot9 != 0 && $scope.TimeSlot10 != 0) {
+                        $scope.TimeSlot3 = angular.copy($scope.TimeSlot9);
+                        $scope.TimeSlot4 = angular.copy($scope.TimeSlot10);
+
+                        $scope.TimeSlot15 = angular.copy($scope.TimeSlot9);
+                        $scope.TimeSlot16 = angular.copy($scope.TimeSlot10);
+
+                        $scope.TimeSlot21 = angular.copy($scope.TimeSlot9);
+                        $scope.TimeSlot22 = angular.copy($scope.TimeSlot10);
+
+                        $scope.TimeSlot27 = angular.copy($scope.TimeSlot9);
+                        $scope.TimeSlot28 = angular.copy($scope.TimeSlot10);
+
+                        $scope.TimeSlot33 = angular.copy($scope.TimeSlot9);
+                        $scope.TimeSlot34 = angular.copy($scope.TimeSlot10);
+
+                        $scope.TimeSlot39 = angular.copy($scope.TimeSlot9);
+                        $scope.TimeSlot40 = angular.copy($scope.TimeSlot10);
+                    }
+                    else if ($scope.TimeSlot15 != 0 && $scope.TimeSlot16 != 0) {
+                        $scope.TimeSlot3 = angular.copy($scope.TimeSlot15);
+                        $scope.TimeSlot4 = angular.copy($scope.TimeSlot16);
+
+                        $scope.TimeSlot9 = angular.copy($scope.TimeSlot15);
+                        $scope.TimeSlot10 = angular.copy($scope.TimeSlot16);
+
+                        $scope.TimeSlot21 = angular.copy($scope.TimeSlot15);
+                        $scope.TimeSlot22 = angular.copy($scope.TimeSlot16);
+
+                        $scope.TimeSlot27 = angular.copy($scope.TimeSlot15);
+                        $scope.TimeSlot28 = angular.copy($scope.TimeSlot16);
+
+                        $scope.TimeSlot33 = angular.copy($scope.TimeSlot15);
+                        $scope.TimeSlot34 = angular.copy($scope.TimeSlot16);
+
+                        $scope.TimeSlot39 = angular.copy($scope.TimeSlot15);
+                        $scope.TimeSlot40 = angular.copy($scope.TimeSlot16);
+                    }
+                    else if ($scope.TimeSlot21 != 0 && $scope.TimeSlot22 != 0) {
+                        $scope.TimeSlot3 = angular.copy($scope.TimeSlot21);
+                        $scope.TimeSlot4 = angular.copy($scope.TimeSlot22);
+
+                        $scope.TimeSlot9 = angular.copy($scope.TimeSlot21);
+                        $scope.TimeSlot10 = angular.copy($scope.TimeSlot22);
+
+                        $scope.TimeSlot15 = angular.copy($scope.TimeSlot21);
+                        $scope.TimeSlot16 = angular.copy($scope.TimeSlot22);
+
+                        $scope.TimeSlot27 = angular.copy($scope.TimeSlot21);
+                        $scope.TimeSlot28 = angular.copy($scope.TimeSlot22);
+
+                        $scope.TimeSlot33 = angular.copy($scope.TimeSlot21);
+                        $scope.TimeSlot34 = angular.copy($scope.TimeSlot22);
+
+                        $scope.TimeSlot39 = angular.copy($scope.TimeSlot21);
+                        $scope.TimeSlot40 = angular.copy($scope.TimeSlot22);
+                    }
+                    else if ($scope.TimeSlot27 != 0 && $scope.TimeSlot28 != 0) {
+                        $scope.TimeSlot3 = angular.copy($scope.TimeSlot27);
+                        $scope.TimeSlot4 = angular.copy($scope.TimeSlot28);
+
+                        $scope.TimeSlot9 = angular.copy($scope.TimeSlot27);
+                        $scope.TimeSlot10 = angular.copy($scope.TimeSlot28);
+
+                        $scope.TimeSlot15 = angular.copy($scope.TimeSlot27);
+                        $scope.TimeSlot16 = angular.copy($scope.TimeSlot28);
+
+                        $scope.TimeSlot21 = angular.copy($scope.TimeSlot27);
+                        $scope.TimeSlot22 = angular.copy($scope.TimeSlot28);
+
+                        $scope.TimeSlot33 = angular.copy($scope.TimeSlot27);
+                        $scope.TimeSlot34 = angular.copy($scope.TimeSlot28);
+
+                        $scope.TimeSlot39 = angular.copy($scope.TimeSlot27);
+                        $scope.TimeSlot40 = angular.copy($scope.TimeSlot28);
+                    }
+                    else if ($scope.TimeSlot33 != 0 && $scope.TimeSlot34 != 0) {
+                        $scope.TimeSlot3 = angular.copy($scope.TimeSlot33);
+                        $scope.TimeSlot4 = angular.copy($scope.TimeSlot34);
+
+                        $scope.TimeSlot9 = angular.copy($scope.TimeSlot33);
+                        $scope.TimeSlot10 = angular.copy($scope.TimeSlot34);
+
+                        $scope.TimeSlot15 = angular.copy($scope.TimeSlot33);
+                        $scope.TimeSlot16 = angular.copy($scope.TimeSlot34);
+
+                        $scope.TimeSlot21 = angular.copy($scope.TimeSlot33);
+                        $scope.TimeSlot22 = angular.copy($scope.TimeSlot34);
+
+                        $scope.TimeSlot27 = angular.copy($scope.TimeSlot33);
+                        $scope.TimeSlot28 = angular.copy($scope.TimeSlot34);
+
+                        $scope.TimeSlot39 = angular.copy($scope.TimeSlot33);
+                        $scope.TimeSlot40 = angular.copy($scope.TimeSlot34);
+                    }
+                    else if ($scope.TimeSlot39 != 0 && $scope.TimeSlot40 != 0) {
+                        $scope.TimeSlot3 = angular.copy($scope.TimeSlot39);
+                        $scope.TimeSlot4 = angular.copy($scope.TimeSlot40);
+
+                        $scope.TimeSlot9 = angular.copy($scope.TimeSlot39);
+                        $scope.TimeSlot10 = angular.copy($scope.TimeSlot40);
+
+                        $scope.TimeSlot15 = angular.copy($scope.TimeSlot39);
+                        $scope.TimeSlot16 = angular.copy($scope.TimeSlot40);
+
+                        $scope.TimeSlot21 = angular.copy($scope.TimeSlot39);
+                        $scope.TimeSlot22 = angular.copy($scope.TimeSlot40);
+
+                        $scope.TimeSlot27 = angular.copy($scope.TimeSlot39);
+                        $scope.TimeSlot28 = angular.copy($scope.TimeSlot40);
+
+                        $scope.TimeSlot33 = angular.copy($scope.TimeSlot39);
+                        $scope.TimeSlot34 = angular.copy($scope.TimeSlot40);
+                    }
+                    else {
+                        alert('Please Enter Proper Shift FromTime And ToTime !');
+                        $('#Shift2Select').prop('checked', false);
+                        return false;
+                    }
+                }
+            } else {
+                $scope.TimeSlot3 = "";
+                $scope.TimeSlot4 = "";
+                $scope.TimeSlot9 = "";
+                $scope.TimeSlot10 = "";
+                $scope.TimeSlot15 = "";
+                $scope.TimeSlot16 = "";
+                $scope.TimeSlot21 = "";
+                $scope.TimeSlot22 = "";
+                $scope.TimeSlot27 = "";
+                $scope.TimeSlot28 = "";
+                $scope.TimeSlot33 = "";
+                $scope.TimeSlot34 = "";
+                $scope.TimeSlot39 = "";
+                $scope.TimeSlot40 = "";
+
+            }
+        }
+
+        $scope.Shift3_SelectAllClick = function (event) {
+            var checked = $('#Shift3Select').is(":checked")
+            if (checked == true) {
+                if (($scope.TimeSlot5 == 0 && $scope.TimeSlot6 == 0) && ($scope.TimeSlot11 == 0 && $scope.TimeSlot12 == 0) && ($scope.TimeSlot17 == 0 && $scope.TimeSlot18 == 0) && ($scope.TimeSlot23 == 0 && $scope.TimeSlot24 == 0) &&
+                    ($scope.TimeSlot29 == 0 && $scope.TimeSlot30 == 0) && ($scope.TimeSlot35 == 0 && $scope.TimeSlot36 == 0) && ($scope.TimeSlot41 == 0 && $scope.TimeSlot42 == 0)) {
+                    alert('Please Enter Any One Shift !');
+                    $('#Shift3Select').prop('checked', false);
+                }
+                else {
+                    if ($scope.TimeSlot5 != 0 && $scope.TimeSlot6 != 0) {
+                        $scope.TimeSlot11 = angular.copy($scope.TimeSlot5);
+                        $scope.TimeSlot12 = angular.copy($scope.TimeSlot6);
+
+                        $scope.TimeSlot17 = angular.copy($scope.TimeSlot5);
+                        $scope.TimeSlot18 = angular.copy($scope.TimeSlot6);
+
+                        $scope.TimeSlot23 = angular.copy($scope.TimeSlot5);
+                        $scope.TimeSlot24 = angular.copy($scope.TimeSlot6);
+
+                        $scope.TimeSlot29 = angular.copy($scope.TimeSlot5);
+                        $scope.TimeSlot30 = angular.copy($scope.TimeSlot6);
+
+                        $scope.TimeSlot35 = angular.copy($scope.TimeSlot5);
+                        $scope.TimeSlot36 = angular.copy($scope.TimeSlot6);
+
+                        $scope.TimeSlot41 = angular.copy($scope.TimeSlot5);
+                        $scope.TimeSlot42 = angular.copy($scope.TimeSlot6);
+                    }
+                    else if ($scope.TimeSlot11 != 0 && $scope.TimeSlot12 != 0) {
+                        $scope.TimeSlot5 = angular.copy($scope.TimeSlot11);
+                        $scope.TimeSlot6 = angular.copy($scope.TimeSlot12);
+
+                        $scope.TimeSlot17 = angular.copy($scope.TimeSlot11);
+                        $scope.TimeSlot18 = angular.copy($scope.TimeSlot12);
+
+                        $scope.TimeSlot23 = angular.copy($scope.TimeSlot11);
+                        $scope.TimeSlot24 = angular.copy($scope.TimeSlot12);
+
+                        $scope.TimeSlot29 = angular.copy($scope.TimeSlot11);
+                        $scope.TimeSlot30 = angular.copy($scope.TimeSlot12);
+
+                        $scope.TimeSlot35 = angular.copy($scope.TimeSlot11);
+                        $scope.TimeSlot36 = angular.copy($scope.TimeSlot12);
+
+                        $scope.TimeSlot41 = angular.copy($scope.TimeSlot11);
+                        $scope.TimeSlot42 = angular.copy($scope.TimeSlot12);
+                    }
+                    else if ($scope.TimeSlot17 != 0 && $scope.TimeSlot18 != 0) {
+                        $scope.TimeSlot5 = angular.copy($scope.TimeSlot17);
+                        $scope.TimeSlot6 = angular.copy($scope.TimeSlot18);
+
+                        $scope.TimeSlot11 = angular.copy($scope.TimeSlot17);
+                        $scope.TimeSlot12 = angular.copy($scope.TimeSlot18);
+
+                        $scope.TimeSlot23 = angular.copy($scope.TimeSlot17);
+                        $scope.TimeSlot24 = angular.copy($scope.TimeSlot18);
+
+                        $scope.TimeSlot29 = angular.copy($scope.TimeSlot17);
+                        $scope.TimeSlot30 = angular.copy($scope.TimeSlot18);
+
+                        $scope.TimeSlot35 = angular.copy($scope.TimeSlot17);
+                        $scope.TimeSlot36 = angular.copy($scope.TimeSlot18);
+
+                        $scope.TimeSlot41 = angular.copy($scope.TimeSlot17);
+                        $scope.TimeSlot42 = angular.copy($scope.TimeSlot18);
+                    }
+                    else if ($scope.TimeSlot23 != 0 && $scope.TimeSlot24 != 0) {
+                        $scope.TimeSlot5 = angular.copy($scope.TimeSlot23);
+                        $scope.TimeSlot6 = angular.copy($scope.TimeSlot24);
+
+                        $scope.TimeSlot11 = angular.copy($scope.TimeSlot23);
+                        $scope.TimeSlot12 = angular.copy($scope.TimeSlot24);
+
+                        $scope.TimeSlot17 = angular.copy($scope.TimeSlot23);
+                        $scope.TimeSlot18 = angular.copy($scope.TimeSlot24);
+
+                        $scope.TimeSlot29 = angular.copy($scope.TimeSlot23);
+                        $scope.TimeSlot30 = angular.copy($scope.TimeSlot24);
+
+                        $scope.TimeSlot35 = angular.copy($scope.TimeSlot23);
+                        $scope.TimeSlot36 = angular.copy($scope.TimeSlot24);
+
+                        $scope.TimeSlot41 = angular.copy($scope.TimeSlot23);
+                        $scope.TimeSlot42 = angular.copy($scope.TimeSlot24);
+                    }
+                    else if ($scope.TimeSlot29 != 0 && $scope.TimeSlot30 != 0) {
+                        $scope.TimeSlot5 = angular.copy($scope.TimeSlot29);
+                        $scope.TimeSlot6 = angular.copy($scope.TimeSlot30);
+
+                        $scope.TimeSlot11 = angular.copy($scope.TimeSlot29);
+                        $scope.TimeSlot12 = angular.copy($scope.TimeSlot30);
+
+                        $scope.TimeSlot17 = angular.copy($scope.TimeSlot29);
+                        $scope.TimeSlot18 = angular.copy($scope.TimeSlot30);
+
+                        $scope.TimeSlot23 = angular.copy($scope.TimeSlot29);
+                        $scope.TimeSlot24 = angular.copy($scope.TimeSlot30);
+
+                        $scope.TimeSlot35 = angular.copy($scope.TimeSlot29);
+                        $scope.TimeSlot36 = angular.copy($scope.TimeSlot30);
+
+                        $scope.TimeSlot41 = angular.copy($scope.TimeSlot29);
+                        $scope.TimeSlot42 = angular.copy($scope.TimeSlot30);
+                    }
+                    else if ($scope.TimeSlot35 != 0 && $scope.TimeSlot36 != 0) {
+                        $scope.TimeSlot5 = angular.copy($scope.TimeSlot35);
+                        $scope.TimeSlot6 = angular.copy($scope.TimeSlot36);
+
+                        $scope.TimeSlot11 = angular.copy($scope.TimeSlot35);
+                        $scope.TimeSlot12 = angular.copy($scope.TimeSlot36);
+
+                        $scope.TimeSlot17 = angular.copy($scope.TimeSlot35);
+                        $scope.TimeSlot18 = angular.copy($scope.TimeSlot36);
+
+                        $scope.TimeSlot23 = angular.copy($scope.TimeSlot35);
+                        $scope.TimeSlot24 = angular.copy($scope.TimeSlot36);
+
+                        $scope.TimeSlot29 = angular.copy($scope.TimeSlot35);
+                        $scope.TimeSlot30 = angular.copy($scope.TimeSlot36);
+
+                        $scope.TimeSlot41 = angular.copy($scope.TimeSlot35);
+                        $scope.TimeSlot42 = angular.copy($scope.TimeSlot36);
+                    }
+                    else if ($scope.TimeSlot41 != 0 && $scope.TimeSlot42 != 0) {
+                        $scope.TimeSlot5 = angular.copy($scope.TimeSlot41);
+                        $scope.TimeSlot6 = angular.copy($scope.TimeSlot42);
+
+                        $scope.TimeSlot11 = angular.copy($scope.TimeSlot41);
+                        $scope.TimeSlot12 = angular.copy($scope.TimeSlot42);
+
+                        $scope.TimeSlot17 = angular.copy($scope.TimeSlot41);
+                        $scope.TimeSlot18 = angular.copy($scope.TimeSlot42);
+
+                        $scope.TimeSlot23 = angular.copy($scope.TimeSlot41);
+                        $scope.TimeSlot24 = angular.copy($scope.TimeSlot42);
+
+                        $scope.TimeSlot29 = angular.copy($scope.TimeSlot41);
+                        $scope.TimeSlot30 = angular.copy($scope.TimeSlot42);
+
+                        $scope.TimeSlot35 = angular.copy($scope.TimeSlot41);
+                        $scope.TimeSlot36 = angular.copy($scope.TimeSlot42);
+                    }
+                    else {
+                        alert('Please Enter Proper Shift FromTime And ToTime !');
+                        $('#Shift3Select').prop('checked', false);
+                        return false;
+                    }
+                }
+            } else {
+                $scope.TimeSlot5 = "";
+                $scope.TimeSlot6 = "";
+                $scope.TimeSlot11 = "";
+                $scope.TimeSlot12 = "";
+                $scope.TimeSlot17 = "";
+                $scope.TimeSlot18 = "";
+                $scope.TimeSlot23 = "";
+                $scope.TimeSlot24 = "";
+                $scope.TimeSlot29 = "";
+                $scope.TimeSlot30 = "";
+                $scope.TimeSlot35 = "";
+                $scope.TimeSlot36 = "";
+                $scope.TimeSlot41 = "";
+                $scope.TimeSlot42 = "";
+            }
+        }
+
+        $scope.Shift4_SelectAllClick = function (event) {
+            var checked = $('#Shift4Select').is(":checked")
+            if (checked == true) {
+                if (($scope.TimeSlot43 == 0 && $scope.TimeSlot44 == 0) && ($scope.TimeSlot45 == 0 && $scope.TimeSlot46 == 0) && ($scope.TimeSlot47 == 0 && $scope.TimeSlot48 == 0) && ($scope.TimeSlot49 == 0 && $scope.TimeSlot50 == 0) &&
+                    ($scope.TimeSlot51 == 0 && $scope.TimeSlot52 == 0) && ($scope.TimeSlot53 == 0 && $scope.TimeSlot54 == 0) && ($scope.TimeSlot55 == 0 && $scope.TimeSlot56 == 0)) {
+                    alert('Please Enter Any One Shift !');
+                    $('#Shift4Select').prop('checked', false);
+                }
+                else {
+                    if ($scope.TimeSlot43 != 0 && $scope.TimeSlot44 != 0) {
+                        $scope.TimeSlot45 = angular.copy($scope.TimeSlot43);
+                        $scope.TimeSlot46 = angular.copy($scope.TimeSlot44);
+
+                        $scope.TimeSlot47 = angular.copy($scope.TimeSlot43);
+                        $scope.TimeSlot48 = angular.copy($scope.TimeSlot44);
+
+                        $scope.TimeSlot49 = angular.copy($scope.TimeSlot43);
+                        $scope.TimeSlot50 = angular.copy($scope.TimeSlot44);
+
+                        $scope.TimeSlot51 = angular.copy($scope.TimeSlot43);
+                        $scope.TimeSlot52 = angular.copy($scope.TimeSlot44);
+
+                        $scope.TimeSlot53 = angular.copy($scope.TimeSlot43);
+                        $scope.TimeSlot54 = angular.copy($scope.TimeSlot44);
+
+                        $scope.TimeSlot55 = angular.copy($scope.TimeSlot43);
+                        $scope.TimeSlot56 = angular.copy($scope.TimeSlot44);
+                    }
+                    else if ($scope.TimeSlot45 != 0 && $scope.TimeSlot46 != 0) {
+                        $scope.TimeSlot43 = angular.copy($scope.TimeSlot45);
+                        $scope.TimeSlot44 = angular.copy($scope.TimeSlot46);
+
+                        $scope.TimeSlot47 = angular.copy($scope.TimeSlot45);
+                        $scope.TimeSlot48 = angular.copy($scope.TimeSlot46);
+
+                        $scope.TimeSlot49 = angular.copy($scope.TimeSlot45);
+                        $scope.TimeSlot50 = angular.copy($scope.TimeSlot46);
+
+                        $scope.TimeSlot51 = angular.copy($scope.TimeSlot45);
+                        $scope.TimeSlot52 = angular.copy($scope.TimeSlot46);
+
+                        $scope.TimeSlot53 = angular.copy($scope.TimeSlot45);
+                        $scope.TimeSlot54 = angular.copy($scope.TimeSlot46);
+
+                        $scope.TimeSlot55 = angular.copy($scope.TimeSlot45);
+                        $scope.TimeSlot56 = angular.copy($scope.TimeSlot46);
+                    }
+                    else if ($scope.TimeSlot47 != 0 && $scope.TimeSlot48 != 0) {
+                        $scope.TimeSlot43 = angular.copy($scope.TimeSlot47);
+                        $scope.TimeSlot44 = angular.copy($scope.TimeSlot48);
+
+                        $scope.TimeSlot45 = angular.copy($scope.TimeSlot47);
+                        $scope.TimeSlot46 = angular.copy($scope.TimeSlot48);
+
+                        $scope.TimeSlot49 = angular.copy($scope.TimeSlot47);
+                        $scope.TimeSlot50 = angular.copy($scope.TimeSlot48);
+
+                        $scope.TimeSlot51 = angular.copy($scope.TimeSlot47);
+                        $scope.TimeSlot52 = angular.copy($scope.TimeSlot48);
+
+                        $scope.TimeSlot53 = angular.copy($scope.TimeSlot47);
+                        $scope.TimeSlot54 = angular.copy($scope.TimeSlot48);
+
+                        $scope.TimeSlot55 = angular.copy($scope.TimeSlot47);
+                        $scope.TimeSlot56 = angular.copy($scope.TimeSlot48);
+                    }
+                    else if ($scope.TimeSlot49 != 0 && $scope.TimeSlot50 != 0) {
+                        $scope.TimeSlot43 = angular.copy($scope.TimeSlot49);
+                        $scope.TimeSlot44 = angular.copy($scope.TimeSlot50);
+
+                        $scope.TimeSlot45 = angular.copy($scope.TimeSlot49);
+                        $scope.TimeSlot46 = angular.copy($scope.TimeSlot50);
+
+                        $scope.TimeSlot47 = angular.copy($scope.TimeSlot49);
+                        $scope.TimeSlot48 = angular.copy($scope.TimeSlot50);
+
+                        $scope.TimeSlot51 = angular.copy($scope.TimeSlot49);
+                        $scope.TimeSlot52 = angular.copy($scope.TimeSlot50);
+
+                        $scope.TimeSlot53 = angular.copy($scope.TimeSlot49);
+                        $scope.TimeSlot54 = angular.copy($scope.TimeSlot50);
+
+                        $scope.TimeSlot55 = angular.copy($scope.TimeSlot49);
+                        $scope.TimeSlot56 = angular.copy($scope.TimeSlot50);
+                    }
+                    else if ($scope.TimeSlot51 != 0 && $scope.TimeSlot52 != 0) {
+                        $scope.TimeSlot43 = angular.copy($scope.TimeSlot51);
+                        $scope.TimeSlot44 = angular.copy($scope.TimeSlot52);
+
+                        $scope.TimeSlot45 = angular.copy($scope.TimeSlot51);
+                        $scope.TimeSlot46 = angular.copy($scope.TimeSlot52);
+
+                        $scope.TimeSlot47 = angular.copy($scope.TimeSlot51);
+                        $scope.TimeSlot48 = angular.copy($scope.TimeSlot52);
+
+                        $scope.TimeSlot49 = angular.copy($scope.TimeSlot51);
+                        $scope.TimeSlot50 = angular.copy($scope.TimeSlot52);
+
+                        $scope.TimeSlot53 = angular.copy($scope.TimeSlot51);
+                        $scope.TimeSlot54 = angular.copy($scope.TimeSlot52);
+
+                        $scope.TimeSlot55 = angular.copy($scope.TimeSlot51);
+                        $scope.TimeSlot56 = angular.copy($scope.TimeSlot52);
+                    }
+                    else if ($scope.TimeSlot53 != 0 && $scope.TimeSlot54 != 0) {
+                        $scope.TimeSlot43 = angular.copy($scope.TimeSlot53);
+                        $scope.TimeSlot44 = angular.copy($scope.TimeSlot54);
+
+                        $scope.TimeSlot45 = angular.copy($scope.TimeSlot53);
+                        $scope.TimeSlot46 = angular.copy($scope.TimeSlot54);
+
+                        $scope.TimeSlot47 = angular.copy($scope.TimeSlot53);
+                        $scope.TimeSlot48 = angular.copy($scope.TimeSlot54);
+
+                        $scope.TimeSlot49 = angular.copy($scope.TimeSlot53);
+                        $scope.TimeSlot50 = angular.copy($scope.TimeSlot54);
+
+                        $scope.TimeSlot51 = angular.copy($scope.TimeSlot53);
+                        $scope.TimeSlot52 = angular.copy($scope.TimeSlot54);
+
+                        $scope.TimeSlot55 = angular.copy($scope.TimeSlot53);
+                        $scope.TimeSlot56 = angular.copy($scope.TimeSlot54);
+                    }
+                    else if ($scope.TimeSlot55 != 0 && $scope.TimeSlot56 != 0) {
+                        $scope.TimeSlot43 = angular.copy($scope.TimeSlot55);
+                        $scope.TimeSlot44 = angular.copy($scope.TimeSlot56);
+
+                        $scope.TimeSlot45 = angular.copy($scope.TimeSlot55);
+                        $scope.TimeSlot46 = angular.copy($scope.TimeSlot56);
+
+                        $scope.TimeSlot47 = angular.copy($scope.TimeSlot55);
+                        $scope.TimeSlot48 = angular.copy($scope.TimeSlot56);
+
+                        $scope.TimeSlot49 = angular.copy($scope.TimeSlot55);
+                        $scope.TimeSlot50 = angular.copy($scope.TimeSlot56);
+
+                        $scope.TimeSlot51 = angular.copy($scope.TimeSlot55);
+                        $scope.TimeSlot52 = angular.copy($scope.TimeSlot56);
+
+                        $scope.TimeSlot53 = angular.copy($scope.TimeSlot55);
+                        $scope.TimeSlot54 = angular.copy($scope.TimeSlot56);
+                    }
+                    else {
+                        alert('Please Enter Proper Shift FromTime And ToTime !');
+                        $('#Shift4Select').prop('checked', false);
+                        return false;
+                    }
+
+                }
+            } else {
+                $scope.TimeSlot43 = "";
+                $scope.TimeSlot44 = "";
+                $scope.TimeSlot45 = "";
+                $scope.TimeSlot46 = "";
+                $scope.TimeSlot47 = "";
+                $scope.TimeSlot48 = "";
+                $scope.TimeSlot49 = "";
+                $scope.TimeSlot50 = "";
+                $scope.TimeSlot51 = "";
+                $scope.TimeSlot52 = "";
+                $scope.TimeSlot53 = "";
+                $scope.TimeSlot54 = "";
+                $scope.TimeSlot55 = "";
+                $scope.TimeSlot56 = "";
             }
         }
 

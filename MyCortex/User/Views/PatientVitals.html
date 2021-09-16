@@ -630,11 +630,11 @@
                         <div class="panel panel-default patientProfileInfo">
 
                             <ul ng-if="userTypeId != 5" class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#appt">Up Coming</a></li>
+                                <li class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
                                 <li><a data-toggle="tab" href="#Past">Past</a></li>
                             </ul>
                             <ul ng-if="userTypeId == 5" class="nav nav-tabs">
-                                <li style="width:33.3% !important;" class="active"><a data-toggle="tab" href="#appt">Up Coming</a></li>
+                                <li style="width:33.3% !important;" class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
                                 <li style="width:33.3% !important;"><a data-toggle="tab" href="#Past">Past</a></li>
                                 <li style="width:33.4% !important;"><a data-toggle="tab" href="#Waiting_Appointment">Waiting</a></li>
                             </ul>
@@ -709,7 +709,7 @@
                                             </div>
                                             <div class="flex">
                                                 <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                                                <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="padding-right:30px;" src="images/phones-icon.png"> </button>
+                                                <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
                                                 <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
                                                     <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
                                                 </button>
@@ -5407,6 +5407,11 @@
                                     <input id="datee" ng-model="AppoimDate" type="date" class="form-control date">
                                 </div>
                             </div>
+                            <div class="col-sm-4" style="padding-top: 24px; padding-left: 0px;">
+                                <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
+                                    Search
+                                </button>
+                            </div>
                             <!--<div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
@@ -5416,11 +5421,11 @@
                                 </div>
                             </div>-->
                         </div>
-                        <div class="mt-10">
+                        <!--<div class="mt-10">
                             <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
                                 Search
                             </button>
-                        </div>
+                        </div>-->
                         <div class="flex mt-10 p-4">
                             <div class="doc-found">
                                 <p class="m-bottom-0">{{DoctorListWithTimeZone.length}} Doctors found</p>
