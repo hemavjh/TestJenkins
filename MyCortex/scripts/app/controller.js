@@ -6035,6 +6035,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.DoctorDetailList = data;
                     $scope.AppointmoduleID = data.Appointment_Module_Id;
+                    $scope.TimeZoneID = data.TimeZone_Id.toString();
                     if (data.Appointment_Module_Id == 2) {
                         setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
                     }
@@ -6054,12 +6055,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     alert('Please select Doctor')
                 } else {
                     //alert(Intl.DateTimeFormat().resolvedOptions().timeZone);
-                    var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
-                    for (i = 0; i <= $scope.TimeZoneList.length - 1; i++) {
-                        if ($scope.TimeZoneList[i].TimeZoneName == timezone) {
-                            $scope.TimeZoneID = $scope.TimeZoneList[i].TimeZoneId.toString();
-                        }
-                    }
+                    //var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
+                    //for (i = 0; i <= $scope.TimeZoneList.length - 1; i++) {
+                    //    if ($scope.TimeZoneList[i].TimeZoneName == timezone) {
+                    //        $scope.TimeZoneID = $scope.TimeZoneList[i].TimeZoneId.toString();
+                    //    }
+                    //}
                     $scope.newScheduledDates = [];
                     $scope.DataNotAvailible = 0;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];

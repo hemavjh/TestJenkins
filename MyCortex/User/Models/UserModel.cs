@@ -109,6 +109,7 @@ namespace MyCortex.User.Model
         public long? EMERG_CONT_RELATIONSHIP_ID { get; set; }
         public DateTime? LoginTime { get; set; }
         public int? Appointment_Module_Id { get; set; }
+        public int? TimeZone_Id { get; set; }
         public string MaritalStatus { get; set; }
         public string BLOODGROUP_NAME { get; set; }
         public string RelationShipName { get; set; }
