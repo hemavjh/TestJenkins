@@ -75,8 +75,10 @@
             var ProductNameId = document.getElementById('ProductName');
             if ('textContent' in ProductNameId) {
                 ProductNameId.textContent = ProductName[0];
+                show_login(ProductName[0]);
             } else {
-                    ProductNameId.innerText = ProductName[0];
+                ProductNameId.innerText = ProductName[0];
+                show_login(ProductName[0]);
             }
 
             var productnamespan = document.getElementById('productnamespan');
@@ -86,6 +88,19 @@
                 productnamespan.innerText = ProductName[0];
             }
         });
+        function show_login(val) {
+            if (val == 'MyCortex') {
+                document.getElementById("loginHel").style.display = "none";
+                document.getElementById("loginCor").style.display = "block";
+                document.getElementById("loginhead").style.display = "block";
+                setTimeout(function () { document.getElementById('myco').style.display = 'block'; }, 3000);
+            } else {
+                document.getElementById("loginHel").style.display = "block";
+                document.getElementById("loginCor").style.display = "none";
+                document.getElementById("loginhead").style.display = "none";
+                setTimeout(function () { document.getElementById('myhe').style.display = 'block'; }, 3000);
+            }
+        }
     </script>
     <link href="@Url.Content("~/Css/jquery.datetimepicker.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Css/theme.css?v1.33")" rel="stylesheet" type="text/css" />

@@ -161,21 +161,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
     $scope.Username = ($rememberMeService('dXNlcm5hbWVocm1z'));
     $scope.Password = ($rememberMeService('cGFzc3dvcmRocm1z'));
     $scope.remember = ($rememberMeService('cmVtZW1iZXJocm1z'));
-    // end     
-    $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data1) {
-        $scope.ProductName = data1[0].ProductName;
-        if ($scope.ProductName == 'MyCortex') {
-            $scope.Productlogin = 0;
-            document.getElementById("loginHel").style.display = "none";
-            document.getElementById("loginCor").style.display = "block";
-            document.getElementById("loginhead").style.display = "block";
-        } else {
-            $scope.Productlogin = 1;
-            document.getElementById("loginHel").style.display = "block";
-            document.getElementById("loginCor").style.display = "none";
-            document.getElementById("loginhead").style.display = "none";
-        }
-    });
+    // end
     $scope.forgotPasswordEmail = "";
     $scope.forgotPasswordValidate = function () {
         if (typeof ($scope.forgotPasswordEmail) == "undefined" || $scope.forgotPasswordEmail == "") {
