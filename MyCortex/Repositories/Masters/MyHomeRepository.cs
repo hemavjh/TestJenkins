@@ -635,6 +635,10 @@ namespace MyCortex.Repositories.Masters
                         {
                             paramlist.Parameter5 = list;
                         }
+                        else if (i == 5)
+                        {
+                            paramlist.Parameter6 = list;
+                        }
                     }
                 }
                 

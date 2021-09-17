@@ -17,13 +17,12 @@ using MyCortex.Utilities;
 
 namespace MyCortex.User.Controllers
 {
-    // [Authorize]
-    
     public class MyHomeController : ApiController
     {
         static readonly IMyHomeRepository repository = new MyHomeRepository(); 
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
@@ -40,6 +39,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public TabListModel Tab_ListView(int Id)
@@ -48,6 +48,8 @@ namespace MyCortex.User.Controllers
             model = repository.Tab_ListView(Id);
             return model;
         }
+
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage Tab_List_Delete(int Id)
@@ -64,6 +66,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         [CheckSessionOutFilter]
         public HttpResponseMessage Tab_InsertUpdate([FromBody] TabListModel obj)
@@ -108,6 +111,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         [CheckSessionOutFilter]
         public HttpResponseMessage Tab_User_Pin_Update([FromBody] TabUserPinModel obj)
@@ -146,6 +150,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage Get_Tab_ID(long InstitutionId, string Ref_ID)
@@ -173,6 +178,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
@@ -225,6 +231,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage Parameter_List_GroupID(long ParamGroup_ID, long TabId)
@@ -295,6 +302,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public HttpResponseMessage Tab_Logout_Validation([FromBody] TabAdminDetails TabAdminObj)
         {
@@ -335,6 +343,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage TabDashboardDetails(long InstitutionId,long UserId,long TabId,Guid Login_Session_Id)
@@ -374,6 +383,7 @@ namespace MyCortex.User.Controllers
              
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage Device_List(int? IsActive, long InstitutionId)
@@ -400,6 +410,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         [CheckSessionOutFilter]
         public HttpResponseMessage AddDeviceInsertUpdate([FromBody] TabDevicesModel obj)
@@ -444,6 +455,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public TabDevicesModel ViewDevice_List(long Id)
@@ -453,6 +465,7 @@ namespace MyCortex.User.Controllers
             return model;
         }
 
+        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage Device_Delete(int Id)
@@ -468,8 +481,6 @@ namespace MyCortex.User.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
         }
-
-
     }
 }
     
