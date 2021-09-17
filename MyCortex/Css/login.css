@@ -56,14 +56,14 @@ body {
     min-height: calc(100vh - 105px);
     padding-bottom: 30px;
     /* margin-top: 75px; */
-    background-image: url(../images/loginBg.png);
+    background-image: url(../images/loginBg.jpg);
     background-size: cover;
 }
 .loginBgHel {
     min-height: calc(115vh - 125px);
     padding-bottom: 30px;
     /* margin-top: 75px; */
-    background-image: url(../images/loginBg.jpg);
+    background-image: url(../images/MyHealthLoginBg.jpg);
     background-size: cover;
 }
 .loginContainer {
