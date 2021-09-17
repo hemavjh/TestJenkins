@@ -427,6 +427,7 @@
     <Content Include="Images\trashs-icon.png" />
     <Content Include="Images\txt.jpg" />
     <Content Include="Images\unknownAllergy.png" />
+    <Content Include="Images\UOMIcon.jpg" />
     <Content Include="Images\uploadIcon.png" />
     <Content Include="Images\usericon.png" />
     <Content Include="Images\Video-Icon.png" />
