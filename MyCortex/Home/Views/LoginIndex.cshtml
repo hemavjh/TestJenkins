@@ -19,7 +19,7 @@
     <script src="@Url.Content("~/scripts/angular-ui.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/ui-bootstrap.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/ui-bootstrap-tpls.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/app/controllerLogin.js?v1.30")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/controllerLogin.js?v1.31")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/smart-table.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.marquee.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.mCustomScrollbar.js")" type="text/javascript"></script>
@@ -29,6 +29,18 @@
     <script src="@Url.Content("~/scripts/Login.js?v1.0")" type="text/javascript"></script>
     <script src="@Url.Content("~/scripts/jquery.datetimepicker.js")" type="text/javascript"></script>
     <script src="http://skyblueenglish.co.uk/wp-content/plugins/fancybox-for-wordpress/fancybox/jquery.fancybox.js?ver=1.3.4" type="text/javascript"></script>
+    <script type="text/javascript">
+        var ProductDetails = jQuery.parseJSON('@Html.Action("GetProduct_CopyRight", "Home")');
+        $(document).ready(function () {
+            var Copyrightspan = document.getElementById('Copyrightspan');
+
+            if ('textContent' in Copyrightspan) {
+                Copyrightspan.textContent = ProductDetails[0];
+            } else {
+                Copyrightspan.innerText = ProductDetails[0];
+            }
+        });
+    </script>
 </head>
 <body id="idbody">
     <div id="loginhead"  style="display:none;">
@@ -46,7 +58,7 @@
     </div>
     <footer class="webfooter">
         <div class="wrapper">
-            <p>Copyright © 2020 FlowMed. All Rights Reserved. <span style="float:right;">Build Version <span id="Buildnamespan"></span></span></p>
+            <p>Copyright © <span id="Copyrightspan"></span>. All Rights Reserved. <span style="float:right;">Build Version <span id="Buildnamespan"></span></span></p>
 
         </div>
     </footer>

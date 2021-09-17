@@ -361,6 +361,30 @@ namespace MyCortex.Home.Controllers
         }
 
 
+        [AllowAnonymous]
+        [CheckSessionOutFilter]
+        public ActionResult GetProduct_CopyRight()
+        {
+            //long EmployeeId = Convert.ToInt32(Session["UserId"].ToString());
+            //long UserTypeId = Convert.ToInt32(Session["UserTypeId"].ToString());
+            List<string> t = new List<string>();
+            var jsonSerialiser = new JavaScriptSerializer();
+            try
+            {
+                IList<EmployeeLoginModel> lst = login.GetProduct_Details();
+                t.Add(lst[0].ProductCopyRight);
+                var json = jsonSerialiser.Serialize(t);
+                return Content(json);
+            }
+
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+
 
         /// <summary>
         /// get unread notification count of the logged in user

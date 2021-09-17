@@ -957,6 +957,7 @@ namespace MyCortex.Repositories.Login
                                                  {
                                                     ProductName = p.Field<string>("PRODUCTNAME"),
                                                     ProductImg = p.Field<string>("PRODUCTIMAGE"),
+                                                    ProductCopyRight = p.Field<string>("COPYRIGHT"),
                                                  }).ToList();
                 return lst;
             }

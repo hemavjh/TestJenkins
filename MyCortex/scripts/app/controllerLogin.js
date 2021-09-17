@@ -156,6 +156,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
     $scope.ProductName = "";
     $scope.Productlogin = "";
     $window.localStorage['UserId'] = "0";
+    $scope.ProductName1 = "";
 
     // for Remember Me
     $scope.Username = ($rememberMeService('dXNlcm5hbWVocm1z'));
@@ -237,7 +238,14 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         }
         return true;
     };
-
+    $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
+        $scope.ProductName1 = data[0].ProductName;
+        if ($scope.ProductName1 == 'MyCortex') {
+            $scope.Productlogin = 0;
+        } else {
+            $scope.Productlogin = 1;
+        }
+    });
     $http.get(baseUrl + '/api/Login/getProductName/').success(function (data) {
         var ProductName = data;
         $('#productname').val(ProductName["instanceId"]);
