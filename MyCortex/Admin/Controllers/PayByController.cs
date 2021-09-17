@@ -27,7 +27,7 @@ namespace MyCortex.Admin.Controllers
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         IList<GatewaySettingsModel> gatewayModel;
         [HttpGet]
-        public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "")
+        public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", string Institution_Id = "", string Department_Id = "")
         {
             string token = string.Empty;
             
@@ -50,6 +50,7 @@ namespace MyCortex.Admin.Controllers
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
+            double amount2 = Convert.ToInt64(gatewayrepository.PatientAmount(Convert.ToInt64(Institution_Id), Convert.ToInt64(Department_Id)));
             gatewayModel = gatewayrepository.GatewaySettings_Details(15, 2, "PrivateKey");
             if (gatewayModel.Count > 0)
             {
@@ -78,7 +79,7 @@ namespace MyCortex.Admin.Controllers
                 totalAmount = new TotalAmount
                 {
                     currency = "AED",
-                    amount = amount
+                    amount = amount2
                 },
                 paySceneCode = payCode,
                 paySceneParams = paySceneParams,

@@ -120,5 +120,22 @@ namespace MyCortex.Repositories.Masters
                 return 0;
             }
         }
+
+        public string PatientAmount(long Institution_Id, long Department_Id)
+        {
+            try
+            {
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+                param.Add(new DataParameter("@Department_Id", Department_Id));
+                var retid = ClsDataBase.GetScalar("[MYCORTEX].[GET_PATIENT_AMOUNT_SP]", param).ToString();
+                return retid;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return "0";
+            }
+}
     }
 }
