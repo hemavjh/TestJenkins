@@ -158,7 +158,7 @@ namespace MyCortex.Repositories.Uesr
 
 
         }
-        
+
         public IList<PatientAppointmentsModel> AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, PatientAppointmentsModel obj)
         {
             List<DataParameter> param = new List<DataParameter>();
@@ -185,7 +185,19 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataEncryption DecryptFields = new DataEncryption();
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_UPDATE_RESCHEDULEAPPOINTMENT", param);
-
+            DataRow dr = dt.Rows[0];
+            if (dr.IsNull("Id") == false)
+            {
+                IList<PatientAppointmentsModel> INS1 = (from p in dt.AsEnumerable()
+                                                        select
+                                                        new PatientAppointmentsModel()
+                                                        {
+                                                            id = p.Field<int>("Id"),
+                                                            flag = p.Field<int>("flag"),
+                                                        }).ToList();
+                return INS1;
+            }
+            else { 
             IList<PatientAppointmentsModel> INS = (from p in dt.AsEnumerable()
                                                    select
                                                    new PatientAppointmentsModel()
@@ -204,9 +216,8 @@ namespace MyCortex.Repositories.Uesr
                                                        NewAppointmentId = p.Field<long>("NewAppointmentId")
                                                    }).ToList();
             return INS;
-
-
         }
+    }
         private TimeSpan GetTimeSpan(string timeString)
         {
             //var takeTimePart = timeString.Split(new char[] { ' ' });

@@ -9,6 +9,7 @@ namespace MyCortex.User.Model
     public class PatientAppointmentsModel
     {
         public long Id { get; set; }
+        public int id { get; set; }
         public long Institution_Id { get; set; }
         public long Doctor_Id { get; set; }
         public long Patient_Id { get; set; }
