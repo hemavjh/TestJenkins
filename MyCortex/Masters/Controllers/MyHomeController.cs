@@ -302,7 +302,6 @@ namespace MyCortex.User.Controllers
             }
         }
 
-        [Authorize]
         [HttpPost]
         public HttpResponseMessage Tab_Logout_Validation([FromBody] TabAdminDetails TabAdminObj)
         {
