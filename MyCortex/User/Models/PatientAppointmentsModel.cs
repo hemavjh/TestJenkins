@@ -49,6 +49,7 @@ namespace MyCortex.User.Model
         public long NewAppointmentId { get; set; }
         public string ReasonType { get; set; }
         public int IsActive { get; set; }
+        public string Payment_Status { get; set; }
     }
     public class PatientAppointmentsReturnModel
     {
