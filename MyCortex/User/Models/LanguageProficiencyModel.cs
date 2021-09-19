@@ -7,8 +7,8 @@ namespace MyCortex.User.Model
 {
     public class LanguageProficiencyModel
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string Name { get; set; }
-        public int IsActive { get; set; }
+        public int? IsActive { get; set; }
     }
 }

@@ -1538,6 +1538,18 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.SelectedPlan = [];
         $scope.EditPayorId = [];
         $scope.EditPlanId = [];
+        $scope.DoctorInstitutionList = [];
+        $scope.LanguageList = [];
+        $scope.UserGroupDetails_List = [];
+        $scope.GroupTypeList = [];
+        $scope.UserInstitutionDetails_List = [];
+        $scope.UserLanguageDetails_List = [];
+        $scope.PatientChronicCondition_List = [];
+        $scope.ChronicConditionList = [];
+        $scope.AddMedicines = [];
+        $scope.AddMedicalHistory = [];
+        $scope.AddHealthProblem = [];
+        $scope.DoctorInstitutionList = [];
 
         $scope.loadCount = 3;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -3228,7 +3240,10 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.ISact = 1;
                                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
                                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                                    $scope.page_size = data1[0].ConfigValue;
+                                    if (data1.length != 0) {
+                                        $scope.page_size = data1[0].ConfigValue;
+                                    }
+                                    //$scope.page_size = data1[0].ConfigValue;
                                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                                     $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
@@ -3531,7 +3546,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     calling the api method for read the file path 
                     and saving the image uploaded in the local server. 
                     */
-
+                    $scope.EmptyValueCheckingInsert();
                     if ($scope.DOB == "" || $scope.DOB == undefined || $scope.DOB == null) {
                         var obj = {
                             Id: $scope.Id,
@@ -3623,8 +3638,54 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             PolicyNumber: $scope.Policy_Number,
                             RefernceId: $scope.Reference_ID,
                             ExpiryDate: $scope.ExpiryDate,
-                            PayorId: $scope.SelectedPayor,
-                            PlanId: $scope.SelectedPlan,
+                            PayorId: $scope.SelectPayor,
+                            PlanId: $scope.SelectPlan,
+                            InstitutionName: "",
+                            Department_Name: "",
+                            INSTITUTION_CODE: "",
+                            FullName: "",
+                            //Photo: "",
+                            //FileName: "",
+                            UserName: "",
+                            //FILE_NAME: "",
+                            //UPLOAD_FILENAME: "",
+                            //MOBIL_AREACODE: "",
+                            PayorName: "",
+                            PlanName: "",
+                            MNR_NO: "",
+                            GroupName: "",
+                            GENDER_NAME: "",
+                            Nationality: "",
+                            COUNTRY_NAME: "",
+                            EthnicGroup: "",
+                            StateName: "",
+                            LocationName: "",
+                            Institution: "",
+                            LanguageKnown: "",
+                            Createdby_ShortName: "",
+                            MaritalStatus: "",
+                            BLOODGROUP_NAME: "",
+                            RelationShipName: "",
+                            DietDescribe: "",
+                            AlergySubstance: "",
+                            EXCERCISE_SCHEDULE: "",
+                            SMOKESUBSTANCE: "",
+                            ALCOHALSUBSTANCE: "",
+                            CAFFEINATED_BEVERAGES: "",
+                            ChronicCondition: "",
+                            PASSWORD: "",
+                            Diabetic_Option: "",
+                            HyperTension_Option: "",
+                            Cholesterol_Option: "",
+                            DOB_Encrypt: "",
+                            ProtocolName: "",
+                            PHOTOBLOB_LOW: "",
+                            PHOTOBLOB_THUMB: "",
+                            TAB_PIN: "",
+                            TAB_PHOTO: "",
+                            TAB_FINGERPRINT: "",
+                            //InstitutionList: [{ "InstitutionName": "" }],
+                            //LanguageList: [{ "Name": "" }]
                         }
                     } else {
                         var obj = {
@@ -3717,8 +3778,54 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             PolicyNumber: $scope.Policy_Number,
                             RefernceId: $scope.Reference_ID,
                             ExpiryDate: $scope.ExpiryDate,
-                            PayorId: $scope.SelectedPayor,
-                            PlanId: $scope.SelectedPlan,
+                            PayorId: $scope.SelectPayor,
+                            PlanId: $scope.SelectPlan,
+                            InstitutionName: "",
+                            Department_Name: "",
+                            INSTITUTION_CODE: "",
+                            FullName: "",
+                            //Photo: "",
+                            //FileName: "",
+                            UserName: "",
+                            //FILE_NAME: "",
+                            //UPLOAD_FILENAME: "",
+                            //MOBIL_AREACODE: "",
+                            PayorName: "",
+                            PlanName: "",
+                            MNR_NO: "",
+                            GroupName: "",
+                            GENDER_NAME: "",
+                            Nationality: "",
+                            COUNTRY_NAME: "",
+                            EthnicGroup: "",
+                            StateName: "",
+                            LocationName: "",
+                            Institution: "",
+                            LanguageKnown: "",
+                            Createdby_ShortName: "",
+                            MaritalStatus: "",
+                            BLOODGROUP_NAME: "",
+                            RelationShipName: "",
+                            DietDescribe: "",
+                            AlergySubstance: "",
+                            EXCERCISE_SCHEDULE: "",
+                            SMOKESUBSTANCE: "",
+                            ALCOHALSUBSTANCE: "",
+                            CAFFEINATED_BEVERAGES: "",
+                            ChronicCondition: "",
+                            PASSWORD: "",
+                            Diabetic_Option: "",
+                            HyperTension_Option: "",
+                            Cholesterol_Option: "",
+                            DOB_Encrypt: "",
+                            ProtocolName: "",
+                            PHOTOBLOB_LOW: "",
+                            PHOTOBLOB_THUMB: "",
+                            TAB_PIN: "",
+                            TAB_PHOTO: "",
+                            TAB_FINGERPRINT: "",
+                            //InstitutionList: [{ "InstitutionName": "" }],
+                            //LanguageList: [{ "Name": "" }]
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
@@ -3916,6 +4023,113 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
             });
         }
+
+        $scope.EmptyValueCheckingInsert = function () {
+            if ($scope.AddMedicines == null) {
+                $scope.AddMedicines = [];
+            }
+            if ($scope.AddMedicalHistory == null) {
+                $scope.AddMedicalHistory = [];
+            }
+            if ($scope.AddHealthProblem == null) {
+                $scope.AddHealthProblem = [];
+            }
+            if ($scope.LanguageList == null) {
+                $scope.LanguageList = [];
+            }
+            if ($scope.UserGroupDetails_List == "" || $scope.UserGroupDetails_List.length == 0) {
+                var ch = [];
+                ch = [{
+                    "UserName": "",
+                    "GroupName": "",
+                    "DeptName": "",
+                    "GenderName": ""
+                }]
+                $scope.UserGroupDetails_List = ch;
+            }
+            if ($scope.GroupTypeList == "" || $scope.GroupTypeList.length == 0) {
+                var ch1 = [];
+                ch1 = [{
+                    "Id": "",
+                    "GROUP_NAME": "",
+                    "IsActive": ""
+                }]
+                $scope.GroupTypeList = ch1;
+            }
+            if ($scope.UserInstitutionDetails_List == "" || $scope.UserInstitutionDetails_List.length == 0) {
+                var ch2 = [];
+                ch2 = [{ "Institution": "" }]
+                $scope.UserInstitutionDetails_List = ch2;
+            }
+            if ($scope.UserLanguageDetails_List == "" || $scope.UserLanguageDetails_List.length == 0) {
+                var ch2 = [];
+                ch2 = [{ "Language": "" }]
+                $scope.UserLanguageDetails_List = ch2;
+            }
+            if ($scope.PatientChronicCondition_List == "" || $scope.PatientChronicCondition_List.length == 0) {
+                var ch3 = [];
+                ch3 = [{ "ChronicGroup": "", "ChronicCondition": "" }]
+                $scope.PatientChronicCondition_List = ch3;
+            }
+            if ($scope.ChronicConditionList == "" || $scope.ChronicConditionList.length == 0) {
+                var ch4 = [];
+                ch4 = [{
+                    "Id": "",
+                    "Name": "",
+                    "IsActive": ""
+                }]
+                $scope.ChronicConditionList = ch4;
+            }
+            if ($scope.AddMedicines != null || $scope.AddMedicines == "" || $scope.AddMedicines.length == 0) {
+                var ch5 = [];
+                ch5 = [{
+                    "Id": "",
+                    "Status": "", "MedicineName": "", "Remarks": ""
+                }]
+                $scope.AddMedicines = ch5;
+            }
+            if ($scope.AddMedicalHistory != null || $scope.AddMedicalHistory == "" || $scope.AddMedicalHistory.length == 0) {
+                var ch6 = [];
+                ch6 = [{ "Medical_History": "", "Remarks": "" }]
+                $scope.AddMedicalHistory = ch6;
+            }
+            if ($scope.AddHealthProblem != null || $scope.AddHealthProblem[0].Id == 0) {
+                var ch7 = [];
+                $scope.AddHealthProblem = [];
+                ch7 = [{
+                    "Id": "",
+                    "Status": "",
+                    "Health_Problem": "",
+                    "Remarks": "",
+                    "Relationship_Name": ""
+                }]
+                $scope.AddHealthProblem = ch7;
+            }
+            if ($scope.DoctorInstitutionList == "" || $scope.DoctorInstitutionList == undefined || $scope.DoctorInstitutionList.length == 0) {
+                var ch8 = [];
+                ch8 = [{ "InstitutionName": "" }]
+                $scope.DoctorInstitutionList = ch8;
+            }
+            if ($scope.LanguageList == "" || $scope.LanguageList == undefined || $scope.LanguageList.length == 0) {
+                var ch9 = [];
+                ch9 = [{ "Name": "" }]
+                $scope.LanguageList = ch9;
+            }
+            if ($scope.SelectedPayor.length == 1) {
+                $scope.SelectPayor = "";
+                $scope.SelectPayor = $scope.SelectedPayor[0];
+            } else {
+                $scope.SelectPayor = "";
+            }
+            if ($scope.SelectedPlan.length == 1) {
+                $scope.SelectPlan = "";
+                $scope.SelectPlan = $scope.SelectedPlan[0]
+            } else {
+                {
+                    $scope.SelectPlan = "";
+                }}
+        }
+
         $scope.ResetPatientFilter = function () {
             $scope.Filter_PatientNo = "";
             $scope.filter_InsuranceId = "";

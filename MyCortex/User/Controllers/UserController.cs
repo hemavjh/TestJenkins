@@ -155,6 +155,7 @@ namespace MyCortex.User.Controller
         /// <param name="userObj">User Information</param>
         /// <returns>Status message with inserted/updated user information</returns>
         [AllowAnonymous]
+        [HttpPost]
         public HttpResponseMessage User_InsertUpdate(Guid Login_Session_Id, [FromBody] UserModel userObj)
         {
             if (Login_Session_Id == null)
@@ -162,7 +163,7 @@ namespace MyCortex.User.Controller
                 Login_Session_Id = new Guid();
             }
             // var LoginSession = Login_Session_Id;
-            var request = HttpContext.Current.Request.Url.Authority;
+            //var request = HttpContext.Current.Request.Url.Authority;
             if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
             {
                 if (!string.IsNullOrEmpty(userObj.INSTITUTION_CODE))
@@ -191,32 +192,32 @@ namespace MyCortex.User.Controller
             }
             // string defaultPwd = ConfigurationManager.AppSettings["User.defaultPassword"];
             string generatedPwd = "";
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            if (userObj.Photo != null)
             {
-                if (userObj.Photo != null)
-                {
-                    userObj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.Photo);
-                }
-                if (userObj.UPLOAD_FILENAME != null)
-                {
-                    userObj.FILE_FULLPATH = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.UPLOAD_FILENAME);
-                }  
+                userObj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.Photo);
             }
-            else
+            if (userObj.UPLOAD_FILENAME != null && userObj.UPLOAD_FILENAME != "")
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
+                userObj.FILE_FULLPATH = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.UPLOAD_FILENAME);
+            }  
+            //}
+            //else
+            //{
+            //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            //}
             UserModel ModelData = new UserModel();
             UserReturnModel model = new UserReturnModel();
-            if (!ModelState.IsValid)
-            {
-                model.Status = "False";
-                model.Message = "Invalid data";
-                model.Error_Code = "";
-                model.ReturnFlag = 0;
-                model.UserDetails = ModelData;
-                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    model.Status = "False";
+            //    model.Message = "Invalid data";
+            //    model.Error_Code = "";
+            //    model.ReturnFlag = 0;
+            //    model.UserDetails = ModelData;
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            //}
             //if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
             //{
             //    model.Status = "False";

@@ -79,7 +79,7 @@ namespace MyCortex.User.Model
         public string GroupName { get; set; }
         public string GENDER_NAME { get; set; }
         public string Nationality { get; set; } 
-	    public DateTime CREATED_DT { get; set; }
+	    public DateTime? CREATED_DT { get; set; }
         public string COUNTRY_NAME {get;set; }
         public string EthnicGroup { get; set; }
         public string StateName { get; set; }
@@ -121,8 +121,8 @@ namespace MyCortex.User.Model
         public string CAFFEINATED_BEVERAGES { get; set; }
         public string ChronicCondition { get; set; }
         public int MenuType { get; set; }
-        public int flag { get; set; }
-        public long Group_Id { get; set; }
+        public int? flag { get; set; }
+        public long? Group_Id { get; set; }
         public string PASSWORD { get; set; }
         
         public string Diabetic_Option { get; set; }
@@ -134,9 +134,9 @@ namespace MyCortex.User.Model
         public long? Protocol_Id { get; set; }
         public string ProtocolName { get; set; }
 
-        public int Approval_flag { get; set; }
+        public int? Approval_flag { get; set; }
 
-        public long Modified_By { get; set; }
+        public long? Modified_By { get; set; }
         public IList<GroupTypeModel> GroupTypeList { get; set; }
         public IList<UserGroupDetails_List> SelectedGroupList { get; set; }
 

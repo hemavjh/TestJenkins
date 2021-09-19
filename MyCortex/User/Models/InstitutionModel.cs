@@ -7,7 +7,7 @@ namespace MyCortex.User.Model
 {
     public class InstitutionMasterModel
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string InstitutionName { get; set; }
         public int? IsActive { get; set; }
     }

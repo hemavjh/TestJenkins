@@ -273,19 +273,21 @@ namespace MyCortex.Repositories.Uesr
                             // Institution Child Table save
                             foreach (InstitutionMasterModel item in insobj.InstitutionList)
                             {
+                                if (item.Id != null)
+                                {
+                                    List<DataParameter> param1 = new List<DataParameter>();
+                                    param1.Add(new DataParameter("@User_Id", InsertId));
+                                    param1.Add(new DataParameter("@Institution_Id", item.Id));
+                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                    var objExist = insobj.SelectedInstitutionList.Where(ChildItem => ChildItem.Institution_Id == item.Id);
 
-                                List<DataParameter> param1 = new List<DataParameter>();
-                                param1.Add(new DataParameter("@User_Id", InsertId));
-                                param1.Add(new DataParameter("@Institution_Id", item.Id));
-                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                var objExist = insobj.SelectedInstitutionList.Where(ChildItem => ChildItem.Institution_Id == item.Id);
+                                    if (objExist.ToList().Count > 0)
+                                        param1.Add(new DataParameter("@Institution_Selected", "1"));
+                                    else
+                                        param1.Add(new DataParameter("@Institution_Selected", "0"));
 
-                                if (objExist.ToList().Count > 0)
-                                    param1.Add(new DataParameter("@Institution_Selected", "1"));
-                                else
-                                    param1.Add(new DataParameter("@Institution_Selected", "0"));
-
-                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_INSTITTUTIONDETAILS", param1, true);
+                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_INSTITTUTIONDETAILS", param1, true);
+                                }
                             }
                         }
                         if (insobj.LanguageList != null)
@@ -293,19 +295,21 @@ namespace MyCortex.Repositories.Uesr
                             // Language Child table save
                             foreach (LanguageProficiencyModel item in insobj.LanguageList)
                             {
+                                if (item.Id != null)
+                                {
+                                    List<DataParameter> param1 = new List<DataParameter>();
+                                    param1.Add(new DataParameter("@User_Id", InsertId));
+                                    param1.Add(new DataParameter("@Language_Id", item.Id));
+                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                    var objExist = insobj.SelectedLanguageList.Where(ChildItem => ChildItem.Language_Id == item.Id);
 
-                                List<DataParameter> param1 = new List<DataParameter>();
-                                param1.Add(new DataParameter("@User_Id", InsertId));
-                                param1.Add(new DataParameter("@Language_Id", item.Id));
-                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                var objExist = insobj.SelectedLanguageList.Where(ChildItem => ChildItem.Language_Id == item.Id);
+                                    if (objExist.ToList().Count > 0)
+                                        param1.Add(new DataParameter("@Language_Selected", "1"));
+                                    else
+                                        param1.Add(new DataParameter("@Language_Selected", "0"));
 
-                                if (objExist.ToList().Count > 0)
-                                    param1.Add(new DataParameter("@Language_Selected", "1"));
-                                else
-                                    param1.Add(new DataParameter("@Language_Selected", "0"));
-
-                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_LANGUAGEDETAILS", param1, true);
+                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_LANGUAGEDETAILS", param1, true);
+                                }
                             }
                         }
                     }
@@ -333,43 +337,52 @@ namespace MyCortex.Repositories.Uesr
                             {
                                 foreach (Patient_CurrentMedicalDetails item in insobj.AddMedicines)
                                 {
-                                    List<DataParameter> param1 = new List<DataParameter>();
-                                    param1.Add(new DataParameter("@Id", item.Id));
-                                    param1.Add(new DataParameter("@User_Id", InsertId));
-                                    param1.Add(new DataParameter("@Medicine_Name", item.MedicineName));
-                                    param1.Add(new DataParameter("@Remarks", item.Remarks));
-                                    param1.Add(new DataParameter("@Status", item.Status));
-                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CURRENTMEDICALDETAILS", param1, true);
+                                    if (item.Id)
+                                    {
+                                        List<DataParameter> param1 = new List<DataParameter>();
+                                        param1.Add(new DataParameter("@Id", item.Id));
+                                        param1.Add(new DataParameter("@User_Id", InsertId));
+                                        param1.Add(new DataParameter("@Medicine_Name", item.MedicineName));
+                                        param1.Add(new DataParameter("@Remarks", item.Remarks));
+                                        param1.Add(new DataParameter("@Status", item.Status));
+                                        param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CURRENTMEDICALDETAILS", param1, true);
+                                    }
                                 }
                             }
                             if (insobj.PAST_MEDICALHISTORY == 1)
                             {
                                 foreach (Patient_PastMedicalDetails item in insobj.AddMedicalHistory)
                                 {
-                                    List<DataParameter> param1 = new List<DataParameter>();
-                                    param1.Add(new DataParameter("@Id", item.Id));
-                                    param1.Add(new DataParameter("@User_Id", InsertId));
-                                    param1.Add(new DataParameter("@Medicine_Name", item.Medical_History));
-                                    param1.Add(new DataParameter("@Remarks", item.Remarks));
-                                    param1.Add(new DataParameter("@Status", item.Status));
-                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_PASTMEDICALDETAILS", param1, true);
+                                    if (item.Id != null)
+                                    {
+                                        List<DataParameter> param1 = new List<DataParameter>();
+                                        param1.Add(new DataParameter("@Id", item.Id));
+                                        param1.Add(new DataParameter("@User_Id", InsertId));
+                                        param1.Add(new DataParameter("@Medicine_Name", item.Medical_History));
+                                        param1.Add(new DataParameter("@Remarks", item.Remarks));
+                                        param1.Add(new DataParameter("@Status", item.Status));
+                                        param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_PASTMEDICALDETAILS", param1, true);
+                                    }
                                 }
                             }
                             if (insobj.FAMILYHEALTH_PROBLEMHISTORY == 1)
                             {
                                 foreach (Patient_FamilyHeealthHistoryDetails item in insobj.AddHealthProblem)
                                 {
-                                    List<DataParameter> param1 = new List<DataParameter>();
-                                    param1.Add(new DataParameter("@Id", item.Id));
-                                    param1.Add(new DataParameter("@User_Id", InsertId));
-                                    param1.Add(new DataParameter("@Relationship_Id", item.Relationship_Id));
-                                    param1.Add(new DataParameter("@Health_Problem", item.Health_Problem));
-                                    param1.Add(new DataParameter("@Remarks", item.Remarks));
-                                    param1.Add(new DataParameter("@Status", item.Status));
-                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_FAMILYHEALTHPROBLEM", param1, true);
+                                    if(item.Id != null)
+                                    {
+                                        List<DataParameter> param1 = new List<DataParameter>();
+                                        param1.Add(new DataParameter("@Id", item.Id));
+                                        param1.Add(new DataParameter("@User_Id", InsertId));
+                                        param1.Add(new DataParameter("@Relationship_Id", item.Relationship_Id));
+                                        param1.Add(new DataParameter("@Health_Problem", item.Health_Problem));
+                                        param1.Add(new DataParameter("@Remarks", item.Remarks));
+                                        param1.Add(new DataParameter("@Status", item.Status));
+                                        param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_FAMILYHEALTHPROBLEM", param1, true);
+                                    }
                                 }
                             }
                         }
