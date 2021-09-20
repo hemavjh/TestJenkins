@@ -1051,5 +1051,23 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage getMyAppointmentSettings(long Institution_Id, Guid Login_Session_Id)
+        {
+            MyAppointmentSettingsModel ModelData = new MyAppointmentSettingsModel();
+
+            try
+            {
+                ModelData = repository.getMyAppointmentSettings(Institution_Id);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, ModelData);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ModelData);
+            }
+        }
+
     }
 }

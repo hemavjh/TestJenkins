@@ -795,6 +795,47 @@ namespace MyCortex.Repositories.Masters
                                                }).FirstOrDefault();
             return list;
         }
+
+        public MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[MYAPPOINTMENTSSETTING_SP_GET]", param);
+            MyAppointmentSettingsModel list = (from p in dt.AsEnumerable()
+                                               select new MyAppointmentSettingsModel()
+                                               {
+                                                   Id = p.Field<long>("ID"),
+                                                   InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                   NewAppointmentDuration = p.Field<int>("NEWAPPOINTMENT_DURATION"),
+                                                   FollowupDuration = p.Field<int>("FOLLOWUP_DURATION"),
+                                                   Interval = p.Field<int>("APPOINTMENT_INTERVAL"),
+                                                   MaxScheduleDays = p.Field<int>("MAX_SCHEDULE_DAYS"),
+                                                   IsDirectAppointment = p.Field<bool>("IS_DIRECTAPPOINTMENT"),
+                                                   IsCC = p.Field<bool>("IS_CC"),
+                                                   IsCG = p.Field<bool>("IS_CG"),
+                                                   IsCL = p.Field<bool>("IS_CL"),
+                                                   IsSC = p.Field<bool>("IS_SC"),
+                                                   IsPatient = p.Field<bool>("IS_PATIENT"),
+                                                   MinRescheduleDays = p.Field<int>("MIN_RESCHEDULE_DAYS"),
+                                                   MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
+                                                   IsAutoReschedule = p.Field<bool>("IS_AUTORESCHEDULE"),
+                                                   TimeZoneId = p.Field<int>("TIMEZONE_ID"),
+                                                   Appointment_Module = p.Field<int>("APPOINTMENT_MODULE_ID"),
+                                               }).FirstOrDefault();
+            param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            dt = ClsDataBase.GetDataTable("[MYCORTEX].[MYAPPOINTMENTSGATEWAYSETTING_SP_GET]", param);
+            list.GatewayDetails = (from p in dt.AsEnumerable()
+                                   select new MyAppointmentGatewayModel()
+                                   {
+                                       GatewayId = p.Field<long>("PAYMENT_ID"),
+                                       GatewayName = p.Field<string>("PAYMENTNAME"),
+                                       GatewayType = p.Field<int>("GATEWAYTYPE"),
+                                       GatewayKey = p.Field<string>("GATEWAY_KEY"),
+                                       GatewayValue = p.Field<string>("GATEWAY_VALUE"),
+                                   }).ToList();
+            return list;
+        }
     }
 }
 
