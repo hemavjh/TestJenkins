@@ -227,11 +227,12 @@
                                                                     <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
                                                                         <td style="text-align: right;">{{$index+1}}</td>
                                                                         <td>
-                                                                            <select ng-model="row.UserId" class="form-control" style="width:500px;"
-                                                                                    ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
-                                                                                <option value="">Select</option>
-                                                                            </select>
-
+                                                                            <div style="width:500px;">
+                                                                                <select ng-model="row.UserId" class="form-control" style="width:500px;" multiselect-dropdown
+                                                                                        ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
+                                                                                    <option value="">Select</option>
+                                                                                </select>
+                                                                            </div>
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" class="form-control myhomedropdown"
@@ -258,12 +259,46 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-sm-4">
-                                                        <div class="inputGroups" style="margin-left:10px;width:300px;">
+                                                        <!--<div class="inputGroups" style="margin-left:10px;width:300px;">
                                                             <label style="margin-left:1px;">Devices</label>
                                                             <select id="tabdevice" ng-model="SelectedDevice" multiple="multiple"
                                                                     ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists"
-                                                                    multiselect-dropdown style="width: 220px;"></select>
+                                                                    multiselect-dropdown style="width: 500px;"></select>
 
+                                                        </div>-->
+                                                        <div class="inputGroups">
+                                                            <table class="table themeTable" template-pagination="custom/pager" id="MyHomeDeviceTable">
+                                                                <thead>
+                                                                    <tr style="text-align: center">
+                                                                        <th width="10%">Sl No.</th>
+                                                                        <th width="60%">Device</th>
+                                                                        <th width="8%">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-if="MyDeviceflag==0 && (AddDeviceParameters | filter : {IsActive :  true}).length==0">
+                                                                        <td colspan="5" style="text-align: center">
+                                                                            No Data Available
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="myhomedropdown" ng-repeat="row in AddDeviceParameters | filter : {IsActive :  true}">
+                                                                        <td style="text-align: right;">{{$index+1}}</td>
+                                                                        <td>
+                                                                            <div style="width:500px;">
+                                                                                <select ng-model="row.Id" class="form-control" style="width:500px;" multiselect-dropdown
+                                                                                        ng-options="item1.ID as item1.DeviceName for item1 in DevicesLists" id="tabdevice">
+                                                                                    <option value="">Select</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
+                                                                                   ng-click="MyDeviceDelete(row.Id,$index)" ng-model="row.SelectedDeviceId" style="width: 20px;" id="Image2" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <a href="javascript:" title="Click to Add" ng-show="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyDeviceAdd()">|Add|</a>
                                                         </div>
                                                     </div>
                                                 </div>

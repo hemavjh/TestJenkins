@@ -23713,6 +23713,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.HomeId = "0";
         $scope.UserLists = [];
         $scope.MyHomeflag = "0";
+        $scope.DeviceId = "0";
+        $scope.MyDeviceflag = "0";
 
         $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.DevicesLists = data;
@@ -23744,6 +23746,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 'Id': 0,
                 'UserId': 0,
                 'PIN': "",
+                'IsActive': true
+            }];
+            $scope.AddDeviceParameters = [{
+                'Id': 0,
+                'DeviceId': 0,
                 'IsActive': true
             }];
             $scope.showSave = true;
@@ -23876,6 +23883,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#tabdevice3').prop('disabled', true); 
             $('#MyHomeUserList *').attr('disabled', 'disabled');
             $("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
+            $("#MyHomeDeviceTable *").attr("disabled", "disabled").off('click');
             $('.myhomedropdown *').attr("disabled", "disabled").off('click'); 
             $scope.showSave = false;
             var $sel2 = $('#tabdevice');
@@ -23918,10 +23926,17 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 else {
                     $scope.MyHomeflag = 0;
                 }
-                angular.forEach(data.SelectedTabDeviceList, function (value, index) {
+                $scope.AddDeviceParameters = data.SelectedTabDeviceList;
+                if ($scope.AddDeviceParameters.length > 0) {
+                    $scope.MyDeviceflag = 1;
+                }
+                else {
+                    $scope.MyDeviceflag = 0;
+                }
+                /*angular.forEach(data.SelectedTabDeviceList, function (value, index) {
                     $scope.EditSelectedDevice.push(value.Id);
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
-                });
+                });*/
               
                 //$scope.UserPinValidation($scope.SelectedTabPIN);
             });
@@ -24071,6 +24086,55 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 }
             }
         };
+
+        $scope.MyDeviceRow = "-1";
+        $scope.AddDeviceParameters = [{
+            'Id': $scope.DeviceId,
+            'DeviceId': $scope.Id
+        }];
+        $scope.MyDeviceAdd = function () {
+            if ($scope.MyDeviceRow >= 0) {
+                var obj = {
+                    'Id': $scope.DeviceId,
+                    'DeviceId': $scope.Id,
+                    'IsActive': true
+                }
+                $scope.AddDeviceParameters[$scope.MyDeviceRow] = obj;
+            }
+            else {
+                $scope.AddDeviceParameters.push({
+                    'Id': $scope.DeviceId,
+                    'DeviceId': $scope.Id,
+                    'IsActive': true
+                })
+            }
+        };
+
+        $scope.MyDeviceDelete = function (Delete_Id, rowIndex) {
+            var del = confirm("Do you like to delete this My Home Device Details?");
+            if (del == true) {
+                var Previous_MyDeviceItem = [];
+                if ($scope.Id == 0) {
+                    angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
+                        if (index != rowIndex)
+                            Previous_MyDeviceItem.push(selectedPre);
+                    });
+                    $scope.AddDeviceParameters = Previous_MyDeviceItem;
+                } else if ($scope.Id > 0) {
+                    angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
+                        if (selectedPre.Id == Delete_Id) {
+                            selectedPre.IsActive = false;
+                        }
+                    });
+                    if ($ff($scope.AddDeviceParameters, { IsActive: true }).length > 0) {
+                        $scope.MyDeviceflag = 1;
+                    }
+                    else {
+                        $scope.MyDeviceflag = 0;
+                    }
+                }
+            }
+        };
         
          
         $scope.MYTAB_InsertUpdate_validation = function () {
@@ -24086,6 +24150,20 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             });
             if (TSDuplicate == 1) {
                 alert('User Name already exist, cannot be Duplicated');
+                return false;
+            }
+            var DuplicateDevice = 0;
+            var DuplicateDeviceId = '';
+            angular.forEach($scope.AddDeviceParameters, function (value1, index1) {
+                angular.forEach($scope.AddDeviceParameters, function (value2, index2) {
+                    if (index1 > index2 && value1.Id == value2.Id) {
+                        DuplicateDevice = 1;
+                        DuplicateDeviceId = DuplicateDeviceId + ' ' + value2.DeviceName + ',';
+                    };
+                });
+            });
+            if (DuplicateDevice == 1) {
+                alert('Device already exist, cannot be Duplicated');
                 return false;
             }
 
@@ -24113,10 +24191,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     });
 
                     $scope.UserDeviceDetails_List = [];
-                    angular.forEach($scope.SelectedDevice, function (value, index) {
+                    angular.forEach($ff($scope.AddDeviceParameters, { IsActive: true }),  function (value, index) {
                         var obj = {
                             Id: 0,
-                            DeviceId: value
+                            DeviceId: value.Id
                         }
                         $scope.UserDeviceDetails_List.push(obj);
                     });
