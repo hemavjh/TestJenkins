@@ -337,7 +337,7 @@ namespace MyCortex.Repositories.Uesr
                             {
                                 foreach (Patient_CurrentMedicalDetails item in insobj.AddMedicines)
                                 {
-                                    if (item.Id)
+                                    if (item.Id != null)
                                     {
                                         List<DataParameter> param1 = new List<DataParameter>();
                                         param1.Add(new DataParameter("@Id", item.Id));
