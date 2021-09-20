@@ -35,6 +35,8 @@ namespace MyCortex.Masters.Models
         public bool IsAutoReschedule { get; set; }
         public int TimeZoneId { get; set; }
         public int Appointment_Module { get; set; }
+        public long DefaultPaymentId { get; set; }
+        public long DefaultInsuranceId { get; set; }
         public List<MyAppointmentGatewayModel> GatewayDetails { get; set; }
     }
 
