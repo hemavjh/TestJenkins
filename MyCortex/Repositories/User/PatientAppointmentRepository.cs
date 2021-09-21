@@ -186,7 +186,7 @@ namespace MyCortex.Repositories.Uesr
             DataEncryption DecryptFields = new DataEncryption();
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_UPDATE_RESCHEDULEAPPOINTMENT", param);
             DataRow dr = dt.Rows[0];
-            if (dr.IsNull("Id") == false)
+            if (dr.IsNull("Id") == true)
             {
                 IList<PatientAppointmentsModel> INS1 = (from p in dt.AsEnumerable()
                                                         select
