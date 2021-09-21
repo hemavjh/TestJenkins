@@ -124,6 +124,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Page_Type", obj.Page_Type));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_Id));
+            param.Add(new DataParameter("@APPOINTMENT_MODULE_ID", obj.Appointment_Module_Id));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_INSERTUPDATE", param);
 
