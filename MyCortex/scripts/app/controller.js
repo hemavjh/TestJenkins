@@ -24001,9 +24001,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#MyHomeUserList *').removeAttr("disabled");
             $("#MyHomeUserTable *").removeAttr("disabled"); 
             $('.myhomedropdown').removeAttr("disabled");
+            $('#MyHomeDeviceList *').removeAttr("disabled");
+            $("#MyHomeDeviceTable *").removeAttr("disabled");
+            $('.myhomedevicedropdown').removeAttr("disabled");
+            $('#Image3').prop('disabled', false);
+            $('#Image3').prop('title', 'Click to Delete');
             $scope.showSave = true;
-            var $sel2 = $('#tabdevice');
-            $sel2.multiselect('enable');
             $scope.ViewMyTab();
             angular.element('#TabAddModal').modal('show');
         }
