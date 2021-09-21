@@ -20,13 +20,14 @@ using MyCortex.Repositories.Masters;
 
 namespace MyCortex.Admin.Controllers
 {
-    [Authorize]
-    [CheckSessionOutFilter]
+    
     public class PayByController : ApiController
     {
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         IList<GatewaySettingsModel> gatewayModel;
         [HttpGet]
+        [Authorize]
+        [CheckSessionOutFilter]
         public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0)
         {
             string token = string.Empty;
@@ -161,5 +162,13 @@ namespace MyCortex.Admin.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, new { Token = token });
         }
+
+        //[HttpPost]
+        //public HttpResponseMessage Notify()
+        //{
+        //    Request.Content.ReadAsStringAsync;
+        //    string status = "OK";
+        //    return Request.CreateResponse(HttpStatusCode.OK, status);
+        //}
     }
 }

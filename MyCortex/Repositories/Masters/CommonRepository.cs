@@ -828,15 +828,17 @@ namespace MyCortex.Repositories.Masters
             param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             dt = ClsDataBase.GetDataTable("[MYCORTEX].[MYAPPOINTMENTSGATEWAYSETTING_SP_GET]", param);
-            list.GatewayDetails = (from p in dt.AsEnumerable()
-                                   select new MyAppointmentGatewayModel()
-                                   {
-                                       GatewayId = p.Field<long>("PAYMENT_ID"),
-                                       GatewayName = p.Field<string>("PAYMENTNAME"),
-                                       GatewayType = p.Field<int>("GATEWAYTYPE"),
-                                       GatewayKey = p.Field<string>("GATEWAY_KEY"),
-                                       GatewayValue = p.Field<string>("GATEWAY_VALUE"),
-                                   }).ToList();
+            if (dt.Rows.Count > 0) {
+                list.GatewayDetails = (from p in dt.AsEnumerable()
+                                       select new MyAppointmentGatewayModel()
+                                       {
+                                           GatewayId = p.Field<long>("PAYMENT_ID"),
+                                           GatewayName = p.Field<string>("PAYMENTNAME"),
+                                           GatewayType = p.Field<int>("GATEWAYTYPE"),
+                                           GatewayKey = p.Field<string>("GATEWAY_KEY"),
+                                           GatewayValue = p.Field<string>("GATEWAY_VALUE"),
+                                       }).ToList();
+            }
             return list;
         }
     }
