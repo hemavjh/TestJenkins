@@ -24,7 +24,7 @@ namespace MyCortex.User.Model
 
         public DateTime AppointmentFromTime { get; set; }
         public DateTime AppointmentToTime { get; set; }
-
+        public long? Appointment_Module_Id { get; set; }
         public long Appointment_Type { get; set; }
         public string ReasonForVisit { get; set; }
         public string Remarks { get; set; }

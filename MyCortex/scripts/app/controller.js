@@ -5484,6 +5484,98 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
     }
 ]);
 
+MyCortexControllers.controller("PatientAppointmentListController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval',
+    function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval) {
+        $scope.UpComingAppointmentDetails = [];
+        $scope.PreviousAppointmentDetails = [];
+        $scope.UpComingWaitingAppointmentDetails = [];
+        $scope.UpComingAppointmentCount = 0;
+        $scope.PreviousAppointmentCount = 0;
+        $scope.UpComingWaitingAppointmentCount = 0;
+        $scope.calcNewYear;
+        intial_loading();
+        function intial_loading() {
+            patientAppointmentList();
+            getPreviousAppointmentList();
+            if ($scope.$parent.userTypeId == 5) {
+                CG_PatientAppointment_List();
+            }
+        }
+        function patientAppointmentList() {
+            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.UpComingAppointmentDetails = [];
+                $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+                compareAppointmentDates();
+            });
+        }
+        function compareAppointmentDates() {
+            $scope.calcNewYear = setInterval(checkdates(), 1000);
+        }
+        function checkdates() {
+            var AppoinList = $scope.UpComingAppointmentDetails;
+            for (i = 0; i < AppoinList.length; i++) {
+                var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime));
+                var enddate1 = moment(new Date());
+                var diff1 = Math.abs(enddate1 - startdate1);
+                //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
+                //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
+                //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
+                //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
+                var CallRemain1 = Math.floor(diff1 / (60 * 1000));
+                $scope.CallButton1 = CallRemain1;
+                var date_future = new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime);
+                var date_now = new Date();
+
+                var seconds = Math.floor((date_future - (date_now)) / 1000);
+                var minutes = Math.floor(seconds / 60);
+                var hours = Math.floor(minutes / 60);
+                var days = Math.floor(hours / 24);
+                if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+
+                }
+                hours = hours - (days * 24);
+                minutes = minutes - (days * 24 * 60) - (hours * 60);
+                seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+                var timeDiffString1 = "";
+                if (days != 0) {
+                    timeDiffString1 = timeDiffString1 + days + ' day ';
+                }
+                if (hours != 0) {
+                    timeDiffString1 = timeDiffString1 + hours + ' hr ';
+                }
+                if (minutes != 0) {
+                    timeDiffString1 = timeDiffString1 + minutes + ' min ';
+                }
+                if (seconds != 0) {
+                    timeDiffString1 = timeDiffString1 + seconds + ' sec';
+                }
+                AppoinList[i].TimeDifference = timeDiffString1;
+                AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
+            }
+            if ($scope.UpComingAppointmentDetails != null) {
+                $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
+            }
+            $scope.UpComingAppointmentDetails = AppoinList;
+            $scope.$apply();
+        }
+        function CG_PatientAppointment_List() {
+            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
+                if ($scope.UpComingWaitingAppointmentDetails != null) {
+                    $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
+                }
+            });
+        }
+        function getPreviousAppointmentList() {
+            $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
+                $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
+            });
+        }
+        $scope.$on("appointment_list", intial_loading); 
+    }
+]);
+
 MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval',
     function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval) {
         if (chatService.checkCall($routeParams.Id)) {
@@ -5528,12 +5620,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else { return false; }
         }
         $scope.AppointmoduleID = 1;
-       
+        $scope.AppointmoduleID1 = 1;
         $scope.Tick = false;
-        $scope.UpComingAppointmentDetails = [];
-        $scope.UpComingWaitingAppointmentDetails = [];
+        //$scope.UpComingAppointmentDetails = [];
+        //$scope.UpComingWaitingAppointmentDetails = [];
         $scope.userTypeId = $window.localStorage['UserTypeId'];
-        $scope.PreviousAppointmentDetails = [];
+        //$scope.PreviousAppointmentDetails = [];
         $scope.flag = 0;
         $scope.MNR_No = "";
         $scope.Type_Id = 0;
@@ -6009,8 +6101,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             if ($window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                 $("#chatLoaderPV").show();
                 photoview = true;
-                $scope.UpComingAppointmentCount = 0;
-                $scope.PreviousAppointmentCount = 0;
+                //$scope.UpComingAppointmentCount = 0;
+                //$scope.PreviousAppointmentCount = 0;
                 var methodcnt = 2;
                 $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.SelectedPatientId).success(function (data) {
                     methodcnt = methodcnt - 1;
@@ -6096,80 +6188,80 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data) {
                 $scope.TimeSizeeLeft = data[0].ConfigValue;
             });
-            patientAppointmentList();
-            function patientAppointmentList() {
-                $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.UpComingAppointmentDetails = [];
-                    $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
-                    compareAppointmentDates();
-                });
-            }
-            $scope.calcNewYear;
-            function compareAppointmentDates() {
-                $scope.calcNewYear = setInterval(checkdates(), 1000);
-            }
-            function checkdates() {
-                var AppoinList = $scope.UpComingAppointmentDetails;
-                for (i = 0; i < AppoinList.length; i++) {
-                    var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime));
-                    var enddate1 = moment(new Date());
-                    var diff1 = Math.abs(enddate1 - startdate1);
-                    //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
-                    //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
-                    //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
-                    //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
-                    var CallRemain1 = Math.floor(diff1 / (60 * 1000));
-                    $scope.CallButton1 = CallRemain1;
-                    var date_future = new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime);
-                    var date_now = new Date();
+            //patientAppointmentList();
+            //function patientAppointmentList() {
+            //    $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            //        $scope.UpComingAppointmentDetails = [];
+            //        $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+            //        compareAppointmentDates();
+            //    });
+            //}
+            //$scope.calcNewYear;
+            //function compareAppointmentDates() {
+            //    $scope.calcNewYear = setInterval(checkdates(), 1000);
+            //}
+            //function checkdates() {
+            //    var AppoinList = $scope.UpComingAppointmentDetails;
+            //    for (i = 0; i < AppoinList.length; i++) {
+            //        var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime));
+            //        var enddate1 = moment(new Date());
+            //        var diff1 = Math.abs(enddate1 - startdate1);
+            //        //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
+            //        //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
+            //        //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
+            //        //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
+            //        var CallRemain1 = Math.floor(diff1 / (60 * 1000));
+            //        $scope.CallButton1 = CallRemain1;
+            //        var date_future = new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime);
+            //        var date_now = new Date();
 
-                    var seconds = Math.floor((date_future - (date_now)) / 1000);
-                    var minutes = Math.floor(seconds / 60);
-                    var hours = Math.floor(minutes / 60);
-                    var days = Math.floor(hours / 24);
-                    if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+            //        var seconds = Math.floor((date_future - (date_now)) / 1000);
+            //        var minutes = Math.floor(seconds / 60);
+            //        var hours = Math.floor(minutes / 60);
+            //        var days = Math.floor(hours / 24);
+            //        if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
 
-                    }
-                    hours = hours - (days * 24);
-                    minutes = minutes - (days * 24 * 60) - (hours * 60);
-                    seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
-                    var timeDiffString1 = "";
-                    if (days != 0) {
-                        timeDiffString1 = timeDiffString1 + days + ' day ';
-                    }
-                    if (hours != 0) {
-                        timeDiffString1 = timeDiffString1 + hours + ' hr ';
-                    }
-                    if (minutes != 0) {
-                        timeDiffString1 = timeDiffString1 + minutes + ' min ';
-                    }
-                    if (seconds != 0) {
-                        timeDiffString1 = timeDiffString1 + seconds + ' sec';
-                    }
-                    AppoinList[i].TimeDifference = timeDiffString1;
-                    AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
-                }
-                if ($scope.UpComingAppointmentDetails != null) {
-                    $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
-                }
-                $scope.UpComingAppointmentDetails = AppoinList;
-                $scope.$apply();
-            }
-            if ($scope.userTypeId == 5) {
-                CG_PatientAppointment_List();
-            }
-            function CG_PatientAppointment_List() {
-                $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
-                    if ($scope.UpComingWaitingAppointmentDetails != null) {
-                        $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
-                    }
-                });
-            }
-            $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
-                $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
-            });
+            //        }
+            //        hours = hours - (days * 24);
+            //        minutes = minutes - (days * 24 * 60) - (hours * 60);
+            //        seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+            //        var timeDiffString1 = "";
+            //        if (days != 0) {
+            //            timeDiffString1 = timeDiffString1 + days + ' day ';
+            //        }
+            //        if (hours != 0) {
+            //            timeDiffString1 = timeDiffString1 + hours + ' hr ';
+            //        }
+            //        if (minutes != 0) {
+            //            timeDiffString1 = timeDiffString1 + minutes + ' min ';
+            //        }
+            //        if (seconds != 0) {
+            //            timeDiffString1 = timeDiffString1 + seconds + ' sec';
+            //        }
+            //        AppoinList[i].TimeDifference = timeDiffString1;
+            //        AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
+            //    }
+            //    if ($scope.UpComingAppointmentDetails != null) {
+            //        $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
+            //    }
+            //    $scope.UpComingAppointmentDetails = AppoinList;
+            //    $scope.$apply();
+            //}
+            //if ($scope.userTypeId == 5) {
+            //    CG_PatientAppointment_List();
+            //}
+            //function CG_PatientAppointment_List() {
+            //    $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            //        $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
+            //        if ($scope.UpComingWaitingAppointmentDetails != null) {
+            //            $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
+            //        }
+            //    });
+            //}
+            //$http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            //    $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
+            //    $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
+            //});
             $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
                 $scope.DepartmentList = data;
             });
@@ -6249,6 +6341,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.DoctorDetailList = data;
                     $scope.AppointmoduleID = data.Appointment_Module_Id;
+                    $scope.AppointmoduleID1 = data.Appointment_Module_Id;
                     $scope.TimeZoneID = data.TimeZone_Id.toString();
                     if (data.Appointment_Module_Id == 2) {
                         setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
@@ -6407,7 +6500,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
             }
             $scope.setappoint_type = function(type) {
-                $scope.AppointmoduleID = type;
+                $scope.AppointmoduleID1 = type;
             }
             $scope.SavePatientAppointment = function () {
                 if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
@@ -6419,14 +6512,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
+                    var Appointment_Module = 1;
+                    if ($scope.AppointmoduleID1 === 2) {
+                        Appointment_Module = 2;
+                    }
+                    if ($scope.AppointmoduleID1 === 3) {
+                        Appointment_Module = 3;
+                    }
                     if ($scope.OldAppointmentID == null) {
-                        var Appointment_Type = 1;
-                        if ($scope.AppointmoduleID === 2) {
-                            Appointment_Type = 2;
-                        }
-                        if ($scope.AppointmoduleID === 3) {
-                            Appointment_Type = 3;
-                        }
                         var objectSave = {
                             "Institution_Id": $scope.SelectedInstitutionId,
                             "Doctor_Id": $scope.DoctorID,
@@ -6435,11 +6528,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             "AppointmentFromTime": $scope.AppoiFromTime,
                             "AppointmentToTime": $scope.AppoiToTime,
                             "TimeZone_Id": $scope.TimeZoneID,
-                            "Appointment_Type": Appointment_Type,
+                            "Appointment_Type": "1",
                             "ReasonForVisit": "Test",
                             "Status": 1,
                             "Created_By": $window.localStorage['UserId'],
-                            "Page_Type": 0
+                            "Page_Type": 0,
+                            "Appointment_Module_Id": Appointment_Module
                         }
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
@@ -6466,8 +6560,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.AppoiToTime = [];
                                 $scope.IsNew = 1;
                                 $scope.OldAppointmentID = null;
-                                if ($scope.AppointmoduleID == 2) {
+                                if ($scope.AppointmoduleID1 == 2) {
                                     setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                } else {
+                                    $scope.$broadcast("appointment_list");
                                 }
                             }
 
@@ -6489,7 +6585,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             "Status": "1",
                             "Created_By": $window.localStorage['UserId'],
                             "Page_Type": "0",
-                            "TimeZone_Id": $scope.TimeZoneID
+                            "TimeZone_Id": $scope.TimeZoneID,
+                            "Appointment_Module_Id": Appointment_Module
                         }
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                         $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
@@ -6515,6 +6612,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.AppoiToTime = [];
                                 $scope.IsNew = 1;
                                 $scope.OldAppointmentID = null;
+                                if ($scope.AppointmoduleID1 == 2) {
+                                    setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                } else {
+                                    $scope.$broadcast("appointment_list");
+                                }
                             }
 
                         });

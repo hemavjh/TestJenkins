@@ -625,8 +625,9 @@
                         </button>-->
                     </div>
 
+                    <ng-include src="'../../User/Views/PatientAppointmentsList.html'" ng-controller="PatientAppointmentListController"></ng-include>
 
-                    <div class="mt-15">
+                    <!--<div class="mt-15">
                         <div class="panel panel-default patientProfileInfo">
 
                             <ul ng-if="userTypeId != 5" class="nav nav-tabs">
@@ -663,11 +664,11 @@
                                             </div>
                                             <div class="flex">
                                                 <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
-                                                <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
+                                                <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>-->
                                                 <!--<button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
                                                     <img style="padding-right:30px;" src="images/Video-icon1.png">
                                                 </button>-->
-                                                <a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
+                                                <!--<a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
                                                 <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png"> 
                                                 </a>
                                                 <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
@@ -754,7 +755,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <!--</div>
                 </div>-->

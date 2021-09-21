@@ -1534,7 +1534,7 @@ namespace MyCortex.Repositories.Uesr
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Test_PATIENTAPPOINTMENTS_SP_LIST]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENTS_SP_LIST]", param);
                 DataEncryption DecryptFields = new DataEncryption();
                 DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
