@@ -23718,9 +23718,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
         $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.DevicesLists = data;
+            console.log($scope.DevicesLists);
         });
         $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.UserLists = data;
+            console.log($scope.UserLists);
         });
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
@@ -24139,6 +24141,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
          
         $scope.MYTAB_InsertUpdate_validation = function () {
             var TSDuplicate = 0;
+            var UserEmpty = 0;
             var DuplicateUserId = '';
             angular.forEach($scope.AddUserParameters, function (value1, index1) {
                 angular.forEach($scope.AddUserParameters, function (value2, index2) {
@@ -24148,11 +24151,21 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     };
                 });
             });
+            angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (valuser) {
+                if (valuser.UserId == undefined || valuser.PIN == undefined) {
+                    UserEmpty = 1;
+                }
+            });
             if (TSDuplicate == 1) {
                 alert('User Name already exist, cannot be Duplicated');
                 return false;
             }
+            if (UserEmpty == 1) {
+                alert('Data missing in user info tab');
+                return false;
+            }
             var DuplicateDevice = 0;
+            var DeviceEmpty = 0;
             var DuplicateDeviceId = '';
             angular.forEach($scope.AddDeviceParameters, function (value1, index1) {
                 angular.forEach($scope.AddDeviceParameters, function (value2, index2) {
@@ -24160,10 +24173,20 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         DuplicateDevice = 1;
                         DuplicateDeviceId = DuplicateDeviceId + ' ' + value2.DeviceName + ',';
                     };
+                    /*if (index1)*/
                 });
+            });
+            angular.forEach($ff($scope.AddDeviceParameters, { IsActive: true }), function (valdevice) {
+                if (valdevice.Id == "0") {
+                    DeviceEmpty = 1;
+                }
             });
             if (DuplicateDevice == 1) {
                 alert('Device already exist, cannot be Duplicated');
+                return false;
+            }
+            if (DeviceEmpty == 1) {
+                alert('Data missing in Device tab');
                 return false;
             }
 
