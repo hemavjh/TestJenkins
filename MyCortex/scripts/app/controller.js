@@ -23718,11 +23718,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
         $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.DevicesLists = data;
-            console.log($scope.DevicesLists);
         });
         $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.UserLists = data;
-            console.log($scope.UserLists);
         });
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
