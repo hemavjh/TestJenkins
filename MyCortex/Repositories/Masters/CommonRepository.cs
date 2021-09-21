@@ -820,6 +820,7 @@ namespace MyCortex.Repositories.Masters
                                                    MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
                                                    IsAutoReschedule = p.Field<bool>("IS_AUTORESCHEDULE"),
                                                    TimeZoneId = p.Field<int>("TIMEZONE_ID"),
+                                                   TimeZoneName = p.Field<string>("TIMEZONE_NAME"),
                                                    Appointment_Module = p.Field<int>("APPOINTMENT_MODULE_ID"),
                                                    DefaultPaymentId = p.Field<long>("DEFAULTPAYMENT_ID"),
                                                    DefaultInsuranceId = p.Field<long>("DEFAULTINSURANCE_ID"),

@@ -34,6 +34,7 @@ namespace MyCortex.Masters.Models
         public int MinRescheduleMinutes { get; set; }
         public bool IsAutoReschedule { get; set; }
         public int TimeZoneId { get; set; }
+        public string TimeZoneName { get; set; }
         public int Appointment_Module { get; set; }
         public long DefaultPaymentId { get; set; }
         public long DefaultInsuranceId { get; set; }
