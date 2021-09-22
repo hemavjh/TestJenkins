@@ -753,6 +753,19 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
+        public ActionResult Notify()
+        {
+            int retid = 0;
+            Stream req = Request.InputStream;
+            req.Seek(0, System.IO.SeekOrigin.Begin);
+            string json = new StreamReader(req).ReadToEnd();
+            //dynamic data = JsonConvert.DeserializeObject(json);
+            //string data1 = data.toString();
+            retid = commonrepository.PayBy_Notity_Log(json);
+            return null;
+        }
+
+        [HttpPost]
         public ActionResult CreatePayByCheckoutSession()
         {
             string redirectUrl = string.Empty;
