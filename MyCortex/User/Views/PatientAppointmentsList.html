@@ -93,7 +93,7 @@
                     No Upcoming Appointment...
                 </div>
             </div>
-            <div id="Waiting_Appointment" class="tab-pane fade in active">
+            <div id="Waiting_Appointment"  ng-if="userTypeId == 5" class="tab-pane fade in active">
                 <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
