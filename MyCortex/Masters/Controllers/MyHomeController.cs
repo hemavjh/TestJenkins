@@ -178,7 +178,6 @@ namespace MyCortex.User.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage TabDevice_List(long InstitutionId, long Tab_ID)
