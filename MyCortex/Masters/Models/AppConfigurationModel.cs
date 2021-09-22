@@ -39,6 +39,8 @@ namespace MyCortex.Masters.Models
         public long DefaultPaymentId { get; set; }
         public long DefaultInsuranceId { get; set; }
         public List<MyAppointmentGatewayModel> GatewayDetails { get; set; }
+        public int flag { get; set; }
+        public string Status { get; set; }
     }
 
     public class MyAppointmentGatewayModel

@@ -1053,19 +1053,28 @@ namespace MyCortex.Masters.Controllers
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public HttpResponseMessage getMyAppointmentSettings(long Institution_Id, Guid Login_Session_Id)
+        public MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id, Guid Login_Session_Id)
         {
             MyAppointmentSettingsModel ModelData = new MyAppointmentSettingsModel();
-
+            MyAppointmentSettingsModel model = new MyAppointmentSettingsModel();
             try
             {
-                ModelData = repository.getMyAppointmentSettings(Institution_Id);
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, ModelData);
-                return response;
+                model = repository.getMyAppointmentSettings(Institution_Id);
+                if(model == null)
+                {
+                    ModelData.flag = 2;
+                    ModelData.Status = "False";
+                } else
+                {
+                    ModelData = model;
+                    ModelData.flag = 1;
+                    ModelData.Status = "True";
+                }
+                return ModelData;
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, ModelData);
+                return ModelData;
             }
         }
 
