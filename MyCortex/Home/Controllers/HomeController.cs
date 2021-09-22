@@ -807,7 +807,7 @@ namespace MyCortex.Home.Controllers
                 {
                     redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev.vjhsoftware.in",
+                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
