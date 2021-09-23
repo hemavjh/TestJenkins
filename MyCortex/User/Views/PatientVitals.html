@@ -5801,6 +5801,7 @@
                                 <div class="inputGroups">
                                     <label for="usr">PayBy</label>
                                     <form action="/Home/CreatePayByCheckoutSession" method="POST">
+                                        <input type="hidden" name="paymentAppointmentId" id="paymentAppointmentId" value="{{paymentappointmentId}}" />
                                         <button id="but_payby" type="submit">Checkout</button>
                                     </form>
                                 </div>

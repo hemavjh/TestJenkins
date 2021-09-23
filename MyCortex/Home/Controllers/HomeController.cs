@@ -776,8 +776,9 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreatePayByCheckoutSession(long appointmentId)
+        public ActionResult CreatePayByCheckoutSession(FormCollection form)
         {
+            long appointmentId = Convert.ToInt64(form["paymentAppointmentId"]);
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
             string publicKey = string.Empty;
@@ -819,7 +820,7 @@ namespace MyCortex.Home.Controllers
                 {
                     redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev.vjhsoftware.in/PatientAppointment/Notify/",
+                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail

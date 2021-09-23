@@ -6561,10 +6561,25 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.IsNew = 1;
                                 $scope.OldAppointmentID = null;
                                 if ($scope.AppointmoduleID1 == 2) {
-                                    $http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
+                                    $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
+                                    //var post = $http({
+                                    //    method: "POST",
+                                    //    url: baseUrl + "/Home/CreatePayByCheckoutSession/",
+                                    //    dataType: 'json',
+                                    //    data: { appointmentId: $scope.paymentappointmentId },
+                                    //    headers: { "Content-Type": "application/json" }
+                                    //});
+                                    //post.success(function (data, status) {
+                                    //    alert("Hello: " + data.Name + " .\nCurrent Date and Time: " + data.DateTime);
+                                    //});
 
-                                    });
-                                    //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                    //post.error(function (data, status) {
+                                    //    alert(data.Message);
+                                    //});
+                                    //$http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
+
+                                    //});
+                                    setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
                                 } else {
                                     $scope.$broadcast("appointment_list");
                                 }
