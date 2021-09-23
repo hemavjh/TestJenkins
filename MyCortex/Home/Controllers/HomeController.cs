@@ -42,6 +42,7 @@ namespace MyCortex.Home.Controllers
         private CommonMenuRepository db = new CommonMenuRepository();
         static readonly ICommonRepository commonrepository = new CommonRepository();
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
+        static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
         private LoginRepository login = new LoginRepository();
         private UserRepository repository = new UserRepository();
 
@@ -759,19 +760,23 @@ namespace MyCortex.Home.Controllers
             Stream req = Request.InputStream;
             req.Seek(0, System.IO.SeekOrigin.Begin);
             string json = new StreamReader(req).ReadToEnd();
-            //dynamic data = JsonConvert.DeserializeObject(json);
+            dynamic data = JsonConvert.DeserializeObject(json);
+
+            string Id = data.PatientAppointmentList[0].Id;
             //string data1 = data.toString();
-            retid = commonrepository.PayBy_Notity_Log(json);
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             return null;
         }
 
         [HttpPost]
-        public ActionResult CreatePayByCheckoutSession()
+        public ActionResult CreatePayByCheckoutSession(long appointmentId)
         {
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
+            string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
+            int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated");
             gatewayModel = gatewayrepository.GatewaySettings_Details(15, 2, "PrivateKey");
             if (gatewayModel.Count > 0)
             {
@@ -795,7 +800,7 @@ namespace MyCortex.Home.Controllers
             PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
             BizContent bizContent = new BizContent
             {
-                merchantOrderNo = Guid.NewGuid().ToString().Replace("-","").PadLeft(10),
+                merchantOrderNo = merchantOrderNumber,
                 subject = "TeleConsultation",
                 totalAmount = new TotalAmount
                 {
@@ -807,7 +812,7 @@ namespace MyCortex.Home.Controllers
                 {
                     redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/",
+                notifyUrl = "https://mycortexdev.vjhsoftware.in/PatientAppointment/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail

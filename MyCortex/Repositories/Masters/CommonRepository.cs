@@ -841,15 +841,6 @@ namespace MyCortex.Repositories.Masters
             }
             return list;
         }
-
-        public int PayBy_Notity_Log(string LogText)
-        {
-            int retid = 0;
-            List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@LOG_TEXT", LogText));
-            retid = ClsDataBase.Insert("[MYCORTEX].[PAYBY_NOTIFY_LOG]", param, true);
-            return retid;
-        }
     }
 }
 

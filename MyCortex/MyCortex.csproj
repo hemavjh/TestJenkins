@@ -1265,6 +1265,7 @@
     <Compile Include="Masters\Models\ParamaterSettingsModel.cs" />
     <Compile Include="Masters\Models\MobileSettingsModel.cs" />
     <Compile Include="Masters\Models\PasswordPolicyModel.cs" />
+    <Compile Include="Masters\Models\PaymentStatusModel.cs" />
     <Compile Include="Masters\Models\PayorMasterModel.cs" />
     <Compile Include="Masters\Models\PhotoUploadModal.cs" />
     <Compile Include="Masters\Models\PlanMasterModel.cs" />

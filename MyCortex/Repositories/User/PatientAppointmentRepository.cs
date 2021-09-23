@@ -522,5 +522,23 @@ namespace MyCortex.Repositories.Uesr
                 return INS;
             }
         }
+        public int PaymentProvider_Notity_Log(string LogText)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@LOG_TEXT", LogText));
+            retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_NOTIFY_LOG]", param, true);
+            return retid;
+        }
+
+        public int PaymentStatus_Update(long appointmentId,string status)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@APPOINTMENTID", appointmentId));
+            param.Add(new DataParameter("@STATUS", status));
+            retid = ClsDataBase.Insert("[MYCORTEX].[TBLAPPOINTMENT_PAYMENTSTATUS_UPDATE]", param, true);
+            return retid;
+        }
     }
 }

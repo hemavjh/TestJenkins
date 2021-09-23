@@ -45,7 +45,6 @@ namespace MyCortex.Repositories
         IList<GatewayInsuranceList> InstitutionPayment();
         AppointmentTimeZone getTimeZoneMasterId(string Name);
         MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id);
-        int PayBy_Notity_Log(string LogText);
 
     }
 }

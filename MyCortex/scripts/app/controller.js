@@ -6561,7 +6561,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.IsNew = 1;
                                 $scope.OldAppointmentID = null;
                                 if ($scope.AppointmoduleID1 == 2) {
-                                    setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                    $http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
+
+                                    });
+                                    //setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
                                 } else {
                                     $scope.$broadcast("appointment_list");
                                 }
