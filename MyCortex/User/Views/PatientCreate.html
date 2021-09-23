@@ -362,6 +362,9 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
+                                <div class="inputGroups" style="font-size: 16px;">
+                                    <label style="margin-left: 21px; margin-bottom: 12px;">Patient Profile Image</label>
+                                </div>
                                 <div class="inputGroups">
                                     <div class="imgAdd">
                                         <input type="file" id="UserLogo" fileread="uploadme"
@@ -381,7 +384,7 @@
                                         <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
                                             <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
                                                 <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
-                                                <span>Upload Photo</span>
+                                                <span>Upload Profile Photo</span>
                                             </label>
 
                                         </div>
@@ -412,13 +415,15 @@
                                 </div>
                             </div>
 
-
                             <div class="col-sm-4">
+                                <div class="inputGroups" style="font-size: 16px;">
+                                    <label style=" margin-left: 21px; margin-top: 29px;">National Image</label>
+                                </div>
                                 <div class="inputGroups">
                                     <div class="imgAdd1">
                                         <input type="file" id="NationalLogo" fileread="uploadme1"
-                                               onchange="angular.element(this).scope().NationalLogophotoChange(this)"
-                                               name="FileName" title="Click to Upload Nationality Photo "
+                                               onchange="angular.element(this).scope().NationalphotoChange(this)"
+                                               name="NationalPhotoFilename" title="Click to Upload Nationality Photo "
                                                style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
                                                ng-click="NationalityPhotoUplaodSelected()" />
 
@@ -433,7 +438,7 @@
                                         <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
                                             <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
                                                 <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
-                                                <span>Upload Photo</span>
+                                                <span>Upload National Photo</span>
                                             </label>
 
                                         </div>
@@ -1191,13 +1196,16 @@
                                 </div>
 
                                 <div class="col-sm-4">
+                                    <div class="inputGroups" style="font-size: 16px;">
+                                        <label style=" margin-left: 21px; margin-top: 29px;">Insurance Image</label>
+                                    </div>
                                     <div class="inputGroups">
                                         <div class="imgAdd">
                                             <input type="file" id="InsuranceLogo" fileread="uploadme2"
-                                                   onchange="angular.element(this).scope().photoChange(this)"
-                                                   name="FileName" title="Click to Upload Photo "
+                                                   onchange="angular.element(this).scope().InsurancephotoChange(this)"
+                                                   name="InsurancePhotoFilename" title="Click to Upload Insurance Photo "
                                                    style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
-                                                   ng-click="PhotoUplaodSelected()" />
+                                                   ng-click="InsurancePhotoUplaodSelected()" />
 
                                             <div ng-if="(uploadme2!=null || uploadme2!='')" valign="top" rowspan="6">
                                                 <img id="item-img-output2" class="responsiveProfileImage2" src="{{uploadme2}}" />
@@ -1208,7 +1216,7 @@
                                                 Clear
                                             </a>
                                             <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
-                                                <label for="InsuranceLogo" class="mb-0" title="Click to Upload Logo">
+                                                <label for="InsuranceLogo" class="mb-0" title="Click to Upload Insurance Logo">
                                                     <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                     <span>Upload Insurance Photo</span>
                                                 </label>

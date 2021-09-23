@@ -126,6 +126,10 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Photo_Name", insobj.Photo));
             param.Add(new DataParameter("@Photo_FileName", insobj.FileName));
             param.Add(new DataParameter("@Photo_FullPath", insobj.Photo_Fullpath));
+            param.Add(new DataParameter("@NationalPhotoFilename", insobj.NationalPhotoFilename));
+            param.Add(new DataParameter("@NationalPhotoFullpath", insobj.NationalPhotoFullpath));
+            param.Add(new DataParameter("@InsurancePhotoFilename", insobj.InsurancePhotoFilename));
+            param.Add(new DataParameter("@InsurancePhotoFullpath", insobj.InsurancePhotoFullpath));
             param.Add(new DataParameter("@UserTypeId", insobj.UserType_Id));
 
             param.Add(new DataParameter("@TITLE_ID", insobj.TITLE_ID));
@@ -798,7 +802,11 @@ namespace MyCortex.Repositories.Uesr
                                   PayorName = p.Field<string>("PayorName"),
                                   PlanName = p.Field<string>("PlanName"),
                                   Appointment_Module_Id = p.Field<int>("APPOINTMENT_MODULE_ID"),
-                                  TimeZone_Id = p.Field<int>("TIMEZONE_ID")
+                                  TimeZone_Id = p.Field<int>("TIMEZONE_ID"),
+                                  NationalPhotoFullpath = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
+                                  NationalPhotoFilename = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
+                                  InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
+                                  InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME")
                                 }).FirstOrDefault();
             
 
@@ -1859,6 +1867,61 @@ namespace MyCortex.Repositories.Uesr
             ClsDataBase.Update("[MYCORTEX].TBLUPLOADUSER_SP_INSERTUPDATE", param);
 
         }
+
+        /// <summary>
+        /// to attach photo or National Image of user
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Photo"></param>
+        /// <param name="Certificate"></param>
+        /// <returns></returns>
+		public void UserDetails_NationalPhotoUpload(byte[] imageFile, int Id)
+        {
+            DataEncryption encrypt = new DataEncryption();
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            if (imageFile != null)
+            {
+                param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            }
+            else
+            {
+                param.Add(new DataParameter("@BLOBDATA", null));
+            }
+            ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSERNATIONALIMAGE_SP_INSERTUPDATE]", param);
+
+        }
+
+
+        /// <summary>
+        /// to attach photo or Insurance of user
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Photo"></param>
+        /// <param name="Certificate"></param>
+        /// <returns></returns>
+        public void UserDetails_InsurancePhotoUpload(byte[] imageFile, int Id)
+        {
+            DataEncryption encrypt = new DataEncryption();
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            if (imageFile != null)
+            {
+                param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            }
+            else
+            {
+                param.Add(new DataParameter("@BLOBDATA", null));
+            }
+            ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSERINSURANCEIMAGE_SP_INSERTUPDATE]", param);
+
+        }
+
+
         public IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId)
         {
             List<DataParameter> param = new List<DataParameter>();
@@ -1953,6 +2016,71 @@ namespace MyCortex.Repositories.Uesr
                 };
             }
         }
+
+
+        /// <summary>
+        /// to get National photo of a business user/patient
+        /// </summary>
+        /// <param name="Id">User Id
+        public PhotoUploadModal UserDetails_GetNationalPhoto(int Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLUPLOADUSRE_SP_GETNATIONALPHOTO", param);
+            //  byte[] returnPhoto = (byte[])dt.Rows[0]["Id"];
+            if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
+            {
+                byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
+
+                return new PhotoUploadModal
+                {
+                    Id = Id,
+                    NationalPhotoBlob = decrypt.DecryptFile(returnPhoto)
+                };
+
+                //return decrypt.DecryptFile(returnPhoto);
+            }
+            else
+            {
+                return new PhotoUploadModal
+                {
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// to get Insurance photo of a business user/patient
+        /// </summary>
+        /// <param name="Id">User Id
+        public PhotoUploadModal UserDetails_GetInsurancePhoto(int Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLUPLOADUSRE_SP_GETINSURANCEPHOTO", param);
+            //  byte[] returnPhoto = (byte[])dt.Rows[0]["Id"];
+            if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
+            {
+                byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
+
+                return new PhotoUploadModal
+                {
+                    Id = Id,
+                    InsurancePhotoBlob = decrypt.DecryptFile(returnPhoto)
+                };
+
+                //return decrypt.DecryptFile(returnPhoto);
+            }
+            else
+            {
+                return new PhotoUploadModal
+                {
+                };
+            }
+        }
+
 
         /// <summary>
         /// to get document blob of a business user / patient
