@@ -762,9 +762,16 @@ namespace MyCortex.Home.Controllers
             string json = new StreamReader(req).ReadToEnd();
             dynamic data = JsonConvert.DeserializeObject(json);
 
-            string Id = data.PatientAppointmentList[0].Id;
+            string OrderNumber = data.acquireOrder.orderNo;
+            string merchantOrderNumber = data.acquireOrder.merchantOrderNo;
+            string amount = data.acquireOrder.totalAmount.amount;
+            string status = data.acquireOrder.status;
+            long requestTime = data.acquireOrder.requestTime;
+            string notifyId = data.notify_id;
+            long notifyTimeStamp = data.notify_timestamp;
             //string data1 = data.toString();
             retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
+            retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
             return null;
         }
 

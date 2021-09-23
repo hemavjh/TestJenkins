@@ -540,5 +540,20 @@ namespace MyCortex.Repositories.Uesr
             retid = ClsDataBase.Insert("[MYCORTEX].[TBLAPPOINTMENT_PAYMENTSTATUS_UPDATE]", param, true);
             return retid;
         }
+
+        public int PaymentStatusInfo_Insert(string merchantOrderNo, string amount, string OrderNo, string status,long requestTime,string notifyId,long notifyTimeStamp)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@MERCHANTORDERNO", merchantOrderNo));
+            param.Add(new DataParameter("@AMOUNT", amount));
+            param.Add(new DataParameter("@ORDERNO", OrderNo));
+            param.Add(new DataParameter("@STATUS", status));
+            param.Add(new DataParameter("@REQUESTTIME", requestTime));
+            param.Add(new DataParameter("@NOTIFYID", notifyId));
+            param.Add(new DataParameter("@NOTIFYTIME", notifyTimeStamp));
+            retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_PAYMENTINFO]", param, true);
+            return retid;
+        }
     }
 }
