@@ -157,8 +157,13 @@ namespace MyCortex.User.Model
         public string TAB_PIN { get; set; }
         public string TAB_PHOTO { get; set; }
         public string TAB_FINGERPRINT { get; set; }
-
         public string MrnPrefix { get; set; }
+        public string NationalPhotoFullpath { get; set; }
+        public string NationalPhotoFilename { get; set; }
+        public string InsurancePhotoFullpath { get; set; }
+        public string InsurancePhotoFilename { get; set; }
+        public string NationalPhoto { get; set; }
+        public string InsurancePhoto { get; set; }
 
     }
 

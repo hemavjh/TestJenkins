@@ -575,12 +575,18 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             if ($scope.InstitutionAddEdit_Validations() == true) {
                 $("#chatLoaderPV").show();
                 $scope.PhotoFullpath = $('#item-img-output').attr('src');
+                $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
+                $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src');
                 var FileName = "";
                 var Licensefilename = "";
                 var fd = new FormData();
                 var imgBlob;
+                var NationalimgBlob;
+                var InsuranceimgBlob;
                 var imgBlobfile;
                 var itemIndexLogo = -1;
+                var NationalitemIndexLogo = -1;
+                var InsuranceitemIndexLogo = -1;
                 var itemIndexdoc = -1;
                 var fd = new FormData();
                 //if ($('#InstitutionLogo')[0].files[0] != undefined) {
@@ -710,6 +716,15 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             $scope.PhotoValue = 1;
             
         };
+        $scope.NationalityPhotoUplaodSelected = function () {
+            $scope.PhotoValue1 = 1;
+            $scope.NationalPhotoValue = 1;
+        };
+        $scope.InsurancePhotoUplaodSelected = function () {
+            $scope.PhotoValue2 = 1;
+            $scope.InsurancePhotoValue = 1;
+        };
+
         /* Clear the uploaded image */
         $scope.imageclear = function () {
             $scope.InstitutionLogo = "";
@@ -1515,13 +1530,21 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.InsStateId = "0";
         $scope.InsCityId = "0";
         $scope.PhotoValue = 0;
+        $scope.PhotoValue1 = 0;
+        $scope.PhotoValue2 = 0;
         $scope.UserPhotoValue = 0;
         $scope.Patient_Type = "1";
         $scope.Emergency_MobileNo = "";
         $scope.CertificateValue = 0;
         var photoview = false;
+        var photoview1 = false;
+        var photoview2 = false;
         $scope.uploadview = false;
+        $scope.Nationaluploadview = false;
+        $scope.Insuranceuploadview = false;
         $scope.uploadme = null;
+        $scope.uploadme1 = null;
+        $scope.uploadme2 = null;
         $scope.DropDownListValue = 2;
         $scope.EditParameter = $routeParams.Editpatient;
         //List Page Pagination.
@@ -1633,8 +1656,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.ViewUserPopUP = function (CatId) {
             $("#UserLogo").val('');
             $scope.uploadme = null;
+            $scope.uploadme1 = null;
+            $scope.uploadme2 = null;
             $scope.Id = CatId;
             photoview = true;
+            photoview1 = true;
+            photoview2 = true;
             $scope.uploadview = false;
             $scope.DropDownListValue = 2;
             $scope.Admin_View($scope.MenuTypeId);
@@ -1644,8 +1671,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         $scope.EditUserPopUP = function (CatId) {
             $scope.uploadme = null;
+            $scope.uploadme1 = null;
+            $scope.uploadme2 = null;
             $scope.Id = CatId;
             photoview = true;
+            photoview1 = true;
+            photoview2 = true;
             $scope.uploadview = false;
             $scope.EditParameter = 4;
             $scope.DropDownListValue = 1;
@@ -1705,6 +1736,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         };
 
         photoview = false;
+        photoview1 = false;
+        photoview2 = false;
         var request = "";
         $scope.getBase64Image = function () {
             if ($scope.UserPhotoValue == 0) {
@@ -1762,6 +1795,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -1805,6 +1840,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -1848,6 +1885,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -1990,7 +2029,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Photo = "";
             $scope.FileName = "";
             $scope.uploadme = null;
+            $scope.uploadme1 = null;
+            $scope.uploadme2 = null;
             $('#UserLogo').val('');
+            $('#NationalLogo').val('');
+            $('#InsuranceLogo').val('');
+            $scope.PhotoValue = 0;
+            $scope.PhotoValue1 = 0;
+            $scope.PhotoValue2 = 0;
             $scope.resumedoc = "";
             $('#Userdocument').val('');
             $scope.CertificateFileName = "";
@@ -2569,6 +2615,27 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.PatientgetBase64Image();
         };
 
+        $scope.imageclearPatientNational = function () {
+            $scope.NationalPhoto = "";
+            $scope.NationalPhotoFilename = "";
+            $scope.uploadme1 = "";
+            $('#NationalLogo').val('');
+            photoview1 = false;
+            $scope.Nationaluploadview = false;
+            $scope.NationalPhotoValue = 0;
+            $scope.PatientgetBase64Image();
+        };
+        $scope.imageclearPatientInsurance = function () {
+            $scope.InsurancePhoto = "";
+            $scope.InsurancePhotoFilename = "";
+            $scope.uploadme2 = "";
+            $('#InsuranceLogo').val('');
+            photoview2 = false;
+            $scope.Insuranceuploadview = false;
+            $scope.InsurancePhotoValue = 0;
+            $scope.PatientgetBase64Image();
+        };
+
         /* Read file name for the  Photo and file */
         $scope.EditdocfileChange = function () {
             if ($('#EditDocument')[0].files[0] != undefined) {
@@ -2587,6 +2654,19 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             return new Blob([new Uint8Array(array)], {
                 type: mimeString
             });
+        }
+
+        /* Read file name for the  National Photo and file */
+        $scope.NationalphotoChange = function () {
+            if ($('#NationalLogo')[0].files[0] != undefined) {
+                $scope.NationalPhotoFilename = $('#NationalLogo')[0].files[0]['name'];
+            }
+        }
+        /* Read file name for the  National Photo and file */
+        $scope.InsurancephotoChange = function () {
+            if ($('#InsuranceLogo')[0].files[0] != undefined) {
+                $scope.InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
+            }
         }
 
         /* Read file name for the  Photo and file */
@@ -3040,7 +3120,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.loadCount = 3;
                 $("#chatLoaderPV").show();
                 photoview = true;
+                photoview1 = true;
+                photoview2 = true;
                 var methodcnt = 2;
+                var methodcnt1 = 2;
+                var methodcnt2 = 2;
                 $scope.MenuTypeId = MenuType;
                 if (MenuType == 3) {
                     if ($routeParams.Id != undefined && $routeParams.Id > 0) {
@@ -3059,19 +3143,18 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.EditSelectedChronicondition = [];
                 $scope.SelectedChronicCondition = [];
                 if ($scope.Id > 0) {
-                    $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.Id).success(function (data1) {
                         methodcnt = methodcnt - 1;
                         if (methodcnt == 0)
                             $scope.uploadview = true;
-                        if (data.PhotoBlob != null) {
-                            $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
+                        if (data1.PhotoBlob != null) {
+                            $scope.uploadme = 'data:image/png;base64,' + data1.PhotoBlob;
 
                         }
                         else {
                             $scope.uploadme = null;
                         }
-
-                    })
+                    });
 
                     if ($scope.LoginType == 2) {
                         $http.get(baseUrl + '/api/User/UserDetails_GetCertificate/?Id=' + $scope.Id).success(function (data) {
@@ -3083,7 +3166,32 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
                         })
                     }
-                    
+
+                    $http.get(baseUrl + '/api/User/UserDetails_GetNationalPhoto/?Id=' + $scope.Id).success(function (data) {
+                        methodcnt1 = methodcnt1 - 1;
+                        if (methodcnt1 == 0)
+                            $scope.Nationaluploadview = true;
+                        if (data.NationalPhotoBlob != null) {
+                            $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
+
+                        }
+                        else {
+                            $scope.uploadme1 = null;
+                        }
+                    });
+                    $http.get(baseUrl + '/api/User/UserDetails_GetInsurancePhoto/?Id=' + $scope.Id).success(function (data) {
+                        methodcnt2 = methodcnt2 - 1;
+                        if (methodcnt2 == 0)
+                            $scope.Insuranceuploadview = true;
+                        if (data.InsurancePhotoBlob != null) {
+                            $scope.uploadme2 = 'data:image/png;base64,' + data.InsurancePhotoBlob;
+
+                        }
+                        else {
+                            $scope.uploadme2 = null;
+                        }
+                    });
+
                     $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.Id).success(function (data) {
                         $("#chatLoaderPV").hide();
                         var PatientInstituteId = data[0].Institution_Id;
@@ -3107,6 +3215,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 //$scope.uploadme = data.Photo;
                                 $scope.FileName = data.FileName;
                                 $scope.PhotoFullpath = data.Photo_Fullpath;
+                                $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
+                                $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
                                 $scope.UserTypeId = data.UserType_Id.toString();
                                 $scope.Health_License = data.HEALTH_LICENSE;
                                 $scope.File_Name = data.FILE_NAME;
@@ -3250,9 +3360,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                         '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
                                             $scope.PayorMasterList = data1;
                                             $scope.SelectedPayor = [];
-                                            $scope.EditPayorId = data.PayorId;
-                                            $scope.SelectedPayor.push($scope.EditPayorId);
-                                            $scope.PayorBased_PlanFunction(data.PlanId);
+                                            if (data.PayorId != "") {
+                                                $scope.EditPayorId = data.PayorId;
+                                                $scope.SelectedPayor.push($scope.EditPayorId);
+                                                $scope.PayorBased_PlanFunction(data.PlanId);
+                                            }
                                             setTimeout(function () {
                                                 $('#SelectPayor').val(data.PayorId);
                                             }, 10000);
@@ -3262,6 +3374,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 methodcnt = methodcnt - 1;
                                 if (methodcnt == 0)
                                     $scope.uploadview = true;
+
+                                methodcnt1 = methodcnt1 - 1;
+                                if (methodcnt1 == 0)
+                                    $scope.Nationaluploadview = true;
+
+                                methodcnt2 = methodcnt2 - 1;
+                                if (methodcnt2 == 0)
+                                    $scope.Insuranceuploadview = true;
 
                                 if ($scope.UserTypeId == 2) {
                                     if ($scope.AddMedicines.length > 0) {
@@ -3314,7 +3434,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
                 else {
                     $("#chatLoaderPV").hide();
-                    photoview = false
+                    photoview = false;
+                    photoview1 = false;
+                    photoview2 = false;
                 }
              
         }
@@ -3322,6 +3444,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.PhotoUplaodSelected = function () {
             $scope.PhotoValue = 1;
             $scope.UserPhotoValue = 1;
+        };
+        $scope.NationalityPhotoUplaodSelected = function () {
+            $scope.PhotoValue1 = 1;
+            $scope.NationalPhotoValue = 1;
+        };
+        $scope.InsurancePhotoUplaodSelected = function () {
+            $scope.PhotoValue2 = 1;
+            $scope.InsurancePhotoValue = 1;
         };
 
         $scope.CertificateUplaodSelected = function () {
@@ -3471,13 +3601,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
         };
         $scope.User_InsertUpdate = function () {
-            $scope.ConfigCode = "MRN_PREFIX";
-            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-                console.log(data2);
-                $scope.PrefixMRN = data2[0].ConfigValue;
-            });
-
+            //$scope.ConfigCode = "MRN_PREFIX";
+            //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
+            //    console.log(data2);
+            //    $scope.PrefixMRN = data2[0].ConfigValue;
+            //});
             var myPromise = $scope.AgeRestictLimit();
             $scope.Is_Master = false;
             myPromise.then(function (resolve) {
@@ -3529,7 +3658,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     var Licensefilename = "";
                     var fd = new FormData();
                     var imgBlob;
+                    var NationalimgBlob;
+                    var InsuranceimgBlob;
                     var imgBlobfile;
+                    var NationalitemIndexLogo = -1;
+                    var InsuranceitemIndexLogo = -1;
                     var itemIndexLogo = -1;
                     var itemIndexfile = -1;
                     var fd = new FormData();
@@ -3560,7 +3693,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             MOBILE_NO: $scope.MobileNo,
                             FileName: $scope.FileName,
                             Photo_Fullpath: $scope.PhotoFullpath,
+                            NationalPhotoFullpath: $scope.NationalPhotoFullpath,
+                            NationalPhotoFilename: $scope.NationalPhotoFilename,
+                            InsurancePhotoFullpath: $scope.InsurancePhotoFullpath,
+                            InsurancePhotoFilename: $scope.InsurancePhotoFilename,
                             Photo: $scope.UserLogo,
+                            NationalPhoto: $scope.NationalPhoto,
+                            InsurancePhoto: $scope.InsurancePhoto,
                             UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
                             TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
                             HEALTH_LICENSE: $scope.Health_License,
@@ -3700,7 +3839,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             MOBILE_NO: $scope.MobileNo,
                             FileName: $scope.FileName,
                             Photo_Fullpath: $scope.PhotoFullpath,
+                            NationalPhotoFullpath: $scope.NationalPhotoFullpath,
+                            NationalPhotoFilename: $scope.NationalPhotoFilename,
+                            InsurancePhotoFullpath: $scope.InsurancePhotoFullpath,
+                            InsurancePhotoFilename: $scope.InsurancePhotoFilename,
                             Photo: $scope.UserLogo,
+                            NationalPhoto: $scope.NationalPhoto,
+                            InsurancePhoto: $scope.InsurancePhoto,
                             UserType_Id: $scope.MenuTypeId == 1 ? 3 : $scope.MenuTypeId == 3 ? 2 : $scope.UserTypeId,
                             TITLE_ID: $scope.Title_Id == 0 ? null : $scope.Title_Id,
                             HEALTH_LICENSE: $scope.Health_License,
@@ -3842,159 +3987,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }*/
                         var userid = data.UserDetails.Id;
 
-                        if (photoview == false) {
-                            photoview = true;
-
-                            imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
-                            itemIndexLogo = 0;
-
-                            if (itemIndexLogo != -1) {
-                                fd.append('file', imgBlob);
-                            }
-                            /*
-                            calling the api method for read the file path 
-                            and saving the image uploaded in the local server. 
-                            */
-                            
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                                fd,
-                                {
-                                    transformRequest: angular.identity,
-                                    headers: {
-                                        'Content-Type': undefined
-                                    }
-                                }
-                            )
-                                .success(function (response) {
-                                    if ($scope.FileName == "") {
-                                        $scope.UserLogo = "";
-                                    }
-                                    else if (itemIndexLogo > -1) {
-                                        if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                            $scope.UserLogo = response[itemIndexLogo];
-                                        }
-                                    }
-                                });
-                        }
-                        if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
-                            if ($('#UserLogo')[0].files[0] != undefined) {
-                                FileName = $('#UserLogo')[0].files[0]['name'];
-                                imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
-                                itemIndexLogo = 0;
-                            }
-                            if (itemIndexLogo != -1) {
-                                fd.append('file', imgBlob);
-                            }
-                            /*	
-                            calling the api method for read the file path 	
-                            and saving the image uploaded in the local server. 	
-                            */
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                                fd,
-                                {
-                                    transformRequest: angular.identity,
-                                    headers: {
-                                        'Content-Type': undefined
-                                    }
-                                }
-                            )
-                                .success(function (response) {
-                                    if ($scope.FileName == "") {
-                                        $scope.UserLogo = "";
-                                    }
-                                    else if (itemIndexLogo > -1) {
-                                        if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                            $scope.UserLogo = response[itemIndexLogo];
-                                        }
-                                    }
-                                });
-                        }
-                        else if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
-                            if ($('#UserLogo')[0].files[0] != undefined) {
-                                FileName = $('#UserLogo')[0].files[0]['name'];
-                                imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
-                                itemIndexLogo = 0;
-
-                                if ($scope.MenuTypeId == 1) {
-                                    document.getElementById("profileIcon").src = $scope.PhotoFullpath;
-                                }
-                            }
-
-                            if (itemIndexLogo != -1) {
-                                fd.append('file', imgBlob);
-                            }
-                            /*
-                            calling the api method for read the file path 
-                            and saving the image uploaded in the local server. 
-                            */
-
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                                fd,
-                                {
-                                    transformRequest: angular.identity,
-                                    headers: {
-                                        'Content-Type': undefined
-                                    }
-                                }
-                            )
-                                .success(function (response) {
-                                    if ($scope.FileName == "") {
-                                        $scope.UserLogo = "";
-                                    }
-                                    else if (itemIndexLogo > -1) {
-                                        if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                            $scope.UserLogo = response[itemIndexLogo];
-                                        }
-                                    }
-                                });
-                        }
-                        if ($scope.CertificateValue == 1) {
-                            if ($scope.MenuTypeId == 2) {
-                                if ($('#EditDocument')[0].files[0] != undefined) {
-                                    $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
-                                    imgBlobfile = $scope.dataURItoBlob($scope.Editresumedoc);
-                                    if (itemIndexLogo == -1) {
-                                        itemIndexfile = 0;
-                                    }
-                                    else {
-                                        itemIndexfile = 1;
-                                    }
-                                }
-                                if (itemIndexfile != -1) {
-                                    fd.append('file1', imgBlobfile);
-                                }
-                            }
-                            $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                                fd,
-                                {
-                                    transformRequest: angular.identity,
-                                    headers: {
-                                        'Content-Type': undefined
-                                    }
-                                }
-                            )
-                                .success(function (response) {
-                                    if ($scope.Resume == "") {
-                                        $scope.EditDocument = "";
-                                    }
-                                    //else if (itemIndexLogo > -1) {
-                                    //    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                    //        $scope.UserLogo = response[itemIndexLogo];
-                                    //    }
-                                    //}
-                                    if ($scope.MenuTypeId === 2) {
-                                        if ($scope.EditDocument == "") {
-                                            $scope.Resume = "";
-                                        }
-
-                                        else if (itemIndexfile > -1) {
-                                            if ($scope.CertificateFileName != "" && response[itemIndexfile] != "") {
-                                                $scope.Resume = response[itemIndexfile];
-                                            }
-                                        }
-                                    }
-                                })
-                        }
+                        $scope.UserImageAttach(userid);
                         if (data.ReturnFlag == "1") {
                             $scope.UserTypeId = $window.localStorage['UserTypeId'];
                             if ($scope.MenuTypeId == 1) {
@@ -4022,6 +4015,399 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     });
                 }
             });
+        }
+
+        $scope.UserImageAttach = function (userid) {
+            var userid = userid;
+            var FileName = "";
+            var CertificateFileName = "";
+            var Licensefilename = "";
+            var fd = new FormData();
+            var imgBlob;
+            var NationalimgBlob;
+            var InsuranceimgBlob;
+            var imgBlobfile;
+            var itemIndexLogo = -1;
+            var NationalitemIndexLogo = -1;
+            var InsuranceitemIndexLogo = -1;
+            var itemIndexfile = -1;
+            var fd = new FormData();
+
+            if (photoview == false) {
+                photoview = true;
+
+                imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
+                itemIndexLogo = 0;
+
+                if (itemIndexLogo != -1) {
+                    fd.append('file', imgBlob);
+                }
+                /*
+                calling the api method for read the file path 
+                and saving the image uploaded in the local server. 
+                */
+
+                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.FileName == "") {
+                            $scope.UserLogo = "";
+                        }
+                        else if (itemIndexLogo > -1) {
+                            if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                $scope.UserLogo = response[itemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            if (photoview1 == false) {
+                photoview1 = true;
+
+                NationalimgBlob = $scope.dataURItoBlob($scope.NationalPhotoFullpath);
+                NationalitemIndexLogo = 0;
+
+                if (NationalitemIndexLogo != -1) {
+                    fd.append('file', NationalimgBlob);
+                }
+                /*
+                calling the api method for read the file path 
+                and saving the image uploaded in the local server. 
+                */
+
+                $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.NationalPhotoFilename == "") {
+                            $scope.NationalLogo = "";
+                        }
+                        else if (NationalitemIndexLogo > -1) {
+                            if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                $scope.NationalLogo = response[NationalitemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            if (photoview2 == false) {
+                photoview2 = true;
+
+                InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
+                InsuranceitemIndexLogo = 0;
+
+                if (InsuranceitemIndexLogo != -1) {
+                    fd.append('file', InsuranceimgBlob);
+                }
+                /*
+                calling the api method for read the file path 
+                and saving the image uploaded in the local server. 
+                */
+
+                $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.InsurancePhotoFilename == "") {
+                            $scope.InsuranceLogo = "";
+                        }
+                        else if (InsuranceitemIndexLogo > -1) {
+                            if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
+                                $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
+                if ($('#UserLogo')[0].files[0] != undefined) {
+                    FileName = $('#UserLogo')[0].files[0]['name'];
+                    imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
+                    itemIndexLogo = 0;
+                }
+                if (itemIndexLogo != -1) {
+                    fd.append('file', imgBlob);
+                }
+                /*	
+                calling the api method for read the file path 	
+                and saving the image uploaded in the local server. 	
+                */
+                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.FileName == "") {
+                            $scope.UserLogo = "";
+                        }
+                        else if (itemIndexLogo > -1) {
+                            if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                $scope.UserLogo = response[itemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            if ($scope.PhotoValue1 == 1 && photoview1 == false && $scope.Id == 0) {
+                if ($('#NationalLogo')[0].files[0] != undefined) {
+                    NationalPhotoFilename = $('#NationalLogo')[0].files[0]['name'];
+                    NationalimgBlob = $scope.dataURItoBlob($scope.NationalPhotoFullpath);
+                    NationalitemIndexLogo = 0;
+                }
+                if (NationalitemIndexLogo != -1) {
+                    fd.append('file', NationalimgBlob);
+                }
+                /*	
+                calling the api method for read the file path 	
+                and saving the image uploaded in the local server. 	
+                */
+                $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.NationalPhotoFilename == "") {
+                            $scope.NationalLogo = "";
+                        }
+                        else if (NationalitemIndexLogo > -1) {
+                            if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                $scope.NationalLogo = response[NationalitemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            if ($scope.PhotoValue2 == 1 && photoview2 == false && $scope.Id == 0) {
+                if ($('#InsuranceLogo')[0].files[0] != undefined) {
+                    InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
+                    InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
+                    InsuranceitemIndexLogo = 0;
+                }
+                if (InsuranceitemIndexLogo != -1) {
+                    fd.append('file', InsuranceimgBlob);
+                }
+                /*	
+                calling the api method for read the file path 	
+                and saving the image uploaded in the local server. 	
+                */
+                $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.InsurancePhotoFilename == "") {
+                            $scope.InsuranceLogo = "";
+                        }
+                        else if (InsuranceitemIndexLogo > -1) {
+                            if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
+                                $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+
+            else if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
+                if ($('#UserLogo')[0].files[0] != undefined) {
+                    FileName = $('#UserLogo')[0].files[0]['name'];
+                    imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
+                    itemIndexLogo = 0;
+
+                    if ($scope.MenuTypeId == 1) {
+                        document.getElementById("profileIcon").src = $scope.PhotoFullpath;
+                    }
+                }
+
+                if (itemIndexLogo != -1) {
+                    fd.append('file', imgBlob);
+                }
+                /*
+                calling the api method for read the file path 
+                and saving the image uploaded in the local server. 
+                */
+
+                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.FileName == "") {
+                            $scope.UserLogo = "";
+                        }
+                        else if (itemIndexLogo > -1) {
+                            if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                $scope.UserLogo = response[itemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            else if ($scope.PhotoValue1 == 1 && photoview1 == true && $scope.Id > 0) {
+                if ($('#NationalLogo')[0].files[0] != undefined) {
+                    NationalPhotoFilename = $('#NationalLogo')[0].files[0]['name'];
+                    NationalimgBlob = $scope.dataURItoBlob($scope.NationalPhotoFullpath);
+                    NationalitemIndexLogo = 0;
+
+                    // if ($scope.MenuTypeId == 1) {
+                    // document.getElementById("profileIcon").src = $scope.PhotoFullpath;
+                    // }
+                }
+
+                if (NationalitemIndexLogo != -1) {
+                    fd.append('file', NationalimgBlob);
+                }
+                /*
+                calling the api method for read the file path 
+                and saving the image uploaded in the local server. 
+                */
+
+                $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.NationalPhotoFilename == "") {
+                            $scope.NationalLogo = "";
+                        }
+                        else if (NationalitemIndexLogo > -1) {
+                            if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                $scope.NationalLogo = response[NationalitemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            else if ($scope.PhotoValue2 == 1 && photoview2 == true && $scope.Id > 0) {
+                if ($('#InsuranceLogo')[0].files[0] != undefined) {
+                    InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
+                    InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
+                    InsuranceitemIndexLogo = 0;
+
+                    // if ($scope.MenuTypeId == 1) {
+                    // document.getElementById("profileIcon").src = $scope.PhotoFullpath;
+                    // }
+                }
+
+                if (InsuranceitemIndexLogo != -1) {
+                    fd.append('file', InsuranceimgBlob);
+                }
+                /*
+                calling the api method for read the file path 
+                and saving the image uploaded in the local server. 
+                */
+
+                $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.InsurancePhotoFilename == "") {
+                            $scope.InsuranceLogo = "";
+                        }
+                        else if (InsuranceitemIndexLogo > -1) {
+                            if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
+                                $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                            }
+                        }
+                    });
+            }
+
+            if ($scope.CertificateValue == 1) {
+                if ($scope.MenuTypeId == 2) {
+                    if ($('#EditDocument')[0].files[0] != undefined) {
+                        $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
+                        imgBlobfile = $scope.dataURItoBlob($scope.Editresumedoc);
+                        if (itemIndexLogo == -1) {
+                            itemIndexfile = 0;
+                        }
+                        else {
+                            itemIndexfile = 1;
+                        }
+                    }
+                    if (itemIndexfile != -1) {
+                        fd.append('file1', imgBlobfile);
+                    }
+                }
+                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                    fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                )
+                    .success(function (response) {
+                        if ($scope.Resume == "") {
+                            $scope.EditDocument = "";
+                        }
+                        //else if (itemIndexLogo > -1) {
+                        //    if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                        //        $scope.UserLogo = response[itemIndexLogo];
+                        //    }
+                        //}
+                        if ($scope.MenuTypeId === 2) {
+                            if ($scope.EditDocument == "") {
+                                $scope.Resume = "";
+                            }
+
+                            else if (itemIndexfile > -1) {
+                                if ($scope.CertificateFileName != "" && response[itemIndexfile] != "") {
+                                    $scope.Resume = response[itemIndexfile];
+                                }
+                            }
+                        }
+                    })
+            }
         }
 
         $scope.EmptyValueCheckingInsert = function () {
@@ -4123,11 +4509,10 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             if ($scope.SelectedPlan.length == 1) {
                 $scope.SelectPlan = "";
-                $scope.SelectPlan = $scope.SelectedPlan[0]
+                $scope.SelectPlan = $scope.SelectedPlan[0];
             } else {
-                {
-                    $scope.SelectPlan = "";
-                }}
+                $scope.SelectPlan = "";
+             }
         }
 
         $scope.ResetPatientFilter = function () {
