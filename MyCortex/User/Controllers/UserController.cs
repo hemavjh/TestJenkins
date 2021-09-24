@@ -28,6 +28,7 @@ using MyCortex.User.Models;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using Newtonsoft.Json;
 
 namespace MyCortex.User.Controller
 {
@@ -41,6 +42,7 @@ namespace MyCortex.User.Controller
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IList<AppConfigurationModel> AppConfigmodel;
         private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
+        static IList<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
 
         /// <summary>      
         /// Getting list of Doctor Affiliation Institution list
@@ -613,6 +615,36 @@ namespace MyCortex.User.Controller
             model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID, StartRowNumber, EndRowNumber, SearchQuery, SearchEncryptedQuery);
             return model;
         }
+
+        [HttpGet]
+        //  [CheckSessionOutFilter]
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, String SearchQuery)
+        {
+            if (search_patient_list.Count == 0)
+            {
+                DataEncryption EncryptPassword = new DataEncryption();
+                List<ItemizedUserDetailsModel> model;
+                if (INSTITUTION_ID == null)
+                {
+                    INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+                }
+                else if (INSTITUTION_ID == 0)
+                {
+                    INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+                }
+                search_patient_list = repository.Search_Patient_List(IsActive, INSTITUTION_ID, SearchQuery);
+                var ss = JsonConvert.SerializeObject(search_patient_list);
+                //model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery) || x.MNR_NO.Contains(SearchQuery) || x.MOBILE_NO.Contains(SearchQuery) || x.EMAILID.Contains(SearchQuery) || x.GroupName.Contains(SearchQuery)).ToList();
+                model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery)).ToList();
+                return model;
+            }
+            else
+            {
+                List<ItemizedUserDetailsModel> model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery) || x.MNR_NO.Contains(SearchQuery) || x.MOBILE_NO.Contains(SearchQuery) || x.EMAILID.Contains(SearchQuery) || x.GroupName.Contains(SearchQuery)).ToList();
+                return model;
+            }
+        }
+
         /// <summary>
         /// to deactivate a User
         /// </summary>

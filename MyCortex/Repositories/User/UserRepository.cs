@@ -679,6 +679,37 @@ namespace MyCortex.Repositories.Uesr
             return list;
         }
 
+
+        public IList<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery)
+        {
+            DataEncryption EncryptPassword = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
+            param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
+            param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
+            //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);
+            DataEncryption DecryptFields = new DataEncryption();
+            List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
+                                                   select new ItemizedUserDetailsModel()
+                                                   {
+                                                       //TotalRecord = p.Field<string>("TotalRecords"),
+                                                       Id = p.Field<long>("Id"),
+                                                       FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
+                                                       MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
+                                                       LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                                       FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
+                                                       MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                                       IsActive = p.Field<int?>("IsActive"),
+                                                       GroupName = p.Field<string>("GroupName"),
+                                                       MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                                       GENDER_NAME = p.Field<string>("Gender_Name"),
+                                                       LoginTime = p.Field<DateTime?>("LOGINTIME"),
+                                                       EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+                                                   }).OrderBy(o => o.FullName).ToList();
+            return list;
+        }
+
         /// <summary>
         /// to get User basic details of a User Id 
         /// </summary>
