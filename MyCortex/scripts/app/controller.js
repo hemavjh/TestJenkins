@@ -3621,6 +3621,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 if ($scope.User_Admin_AddEdit_Validations() == true) {
                     $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
+                    $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
+                    $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
                         var Institutionobj = {
@@ -4241,7 +4243,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
 
 
-            else if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
+            if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
                 if ($('#UserLogo')[0].files[0] != undefined) {
                     FileName = $('#UserLogo')[0].files[0]['name'];
                     imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
@@ -4281,7 +4283,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     });
             }
 
-            else if ($scope.PhotoValue1 == 1 && photoview1 == true && $scope.Id > 0) {
+            if ($scope.PhotoValue1 == 1 && photoview1 == true && $scope.Id > 0) {
                 if ($('#NationalLogo')[0].files[0] != undefined) {
                     NationalPhotoFilename = $('#NationalLogo')[0].files[0]['name'];
                     NationalimgBlob = $scope.dataURItoBlob($scope.NationalPhotoFullpath);
@@ -4321,7 +4323,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     });
             }
 
-            else if ($scope.PhotoValue2 == 1 && photoview2 == true && $scope.Id > 0) {
+            if ($scope.PhotoValue2 == 1 && photoview2 == true && $scope.Id > 0) {
                 if ($('#InsuranceLogo')[0].files[0] != undefined) {
                     InsurancePhotoFilename = $('#InsuranceLogo')[0].files[0]['name'];
                     InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
