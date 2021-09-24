@@ -5418,19 +5418,19 @@
                                 </button>
                             </div>
                             <!--<div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
-                                    <select class="form-control" ng-model="TimeZoneID">
-                                        <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
-                                    </select>
-                                </div>
-                            </div>-->
+                            <div class="inputGroups">
+                                <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
+                                <select class="form-control" ng-model="TimeZoneID">
+                                    <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+                                </select>
+                            </div>
+                        </div>-->
                         </div>
                         <!--<div class="mt-10">
-                            <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
-                                Search
-                            </button>
-                        </div>-->
+                        <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
+                            Search
+                        </button>
+                    </div>-->
                         <div class="flex mt-10 p-4">
                             <div class="doc-found">
                                 <p class="m-bottom-0">{{DoctorListWithTimeZone.length}} Doctors found</p>
@@ -5461,12 +5461,12 @@
                                         </div>
                                     </div>
                                     <!--<div class="col-sm-5 flex self-center p-0 justify-end">
-                                        <div class="flex justify-end">
-                                            <button type="button" class="theme-btn-1" title="Save">
-                                                You previously had 2 appointments
-                                            </button>
-                                        </div>
-                                    </div>-->
+                                    <div class="flex justify-end">
+                                        <button type="button" class="theme-btn-1" title="Save">
+                                            You previously had 2 appointments
+                                        </button>
+                                    </div>
+                                </div>-->
                                 </div>
                                 <div class="flex">
                                     <div class="col-sm-6">
@@ -5711,6 +5711,7 @@
 
             </div>
         </div>
+        <div class="lds-ripple" id="appoint_waveLoader" style="z-index: 10000;display: none;"><div></div><div></div></div>
     </div>
     <div id="DoctorBioModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" style="width: 40%">

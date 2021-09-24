@@ -5966,7 +5966,7 @@ MyCortexControllers.controller("PatientAppointmentListController", ['$scope', '$
                 $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
             }
             $scope.UpComingAppointmentDetails = AppoinList;
-            $scope.$apply();
+            //$scope.$apply();
         }
         function CG_PatientAppointment_List() {
             $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
@@ -6713,14 +6713,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 }*/ else {
+                    $("#appoint_waveLoader").show();
                     var DeptID = $scope.DeptIDAsSTR;
                     var AppDate = $scope.AppoimDate;
                     var res = convert(AppDate);
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                     $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
                     $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + DeptID + '&InstitutionId=' + $scope.SelectedInstitutionId + '&Date=' + res + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $("#appoint_waveLoader").hide();
                         $scope.DoctorListWithTimeZone = data;
-                    })
+                    }).error(function (data) { $("#appoint_waveLoader").hide(); });
                 }
                 
             }
@@ -6833,6 +6835,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
                     $scope.IsNew = 1;
                     function TimeSlot() {
+                        $("#appoint_waveLoader").show();
                         //$scope.AppoiDate = [];
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
@@ -6842,13 +6845,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         var res1 = convert(AppoDate);
                         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                         $http.get(baseUrl + '/api/PatientAppointments/GetDoctorAppointmentTimeSlot/?DoctorId=' + DoctorIDs + '&Date=' + res1 + '&IsNew=' + $scope.IsNew + '&Login_Session_Id=' + $scope.LoginSessionId + '&TimeZoneId=' + $scope.TimeZoneID + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                            $("#appoint_waveLoader").hide();
                             $scope.newAppoiTimeSlot = data1.DoctorAppointmentTimeSlotList;
                             if ($scope.newAppoiTimeSlot.length == 0) {
                                 $scope.DataNotAvailible = 1;
                             } else {
                                 $scope.DataNotAvailible = 0;
                             }
-                        })
+                        }).error(function (data) { $("#appoint_waveLoader").hide(); });
                     }
                     $scope.ddltimezonechange = function () { TimeSlot(); }
                     $scope.clickNewBooking = function () {
