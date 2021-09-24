@@ -20301,11 +20301,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.OrgDefaultClick = function (event) {
             var checked = $('#OrgDefaultId').is(":checked")
             if (checked == true) {
+                $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                     $scope.NewAppointment = data.NewAppointmentDuration;
                     $scope.followup = data.FollowUpDuration;
                     $scope.IntervalBt = data.AppointmentInterval;
-
+                    $("#chatLoaderPV").hide();
                 });
             } else {
                 $scope.NewAppointment = "0";
@@ -20317,10 +20318,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.OrgBookInfoDefaultClick = function (event) {
             var checked = $('#OrgBookInfoId').is(":checked")
             if (checked == true) {
+                $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                     $scope.Days = data.MinRescheduleDays;
                     $scope.Minutes = data.MinRescheduleMinutes;
-
+                    $("#chatLoaderPV").hide();
                 });
             } else {
                 $scope.Days = "0";
@@ -21002,6 +21004,16 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $('#SundayCheck').hide();
             }
+            angular.forEach($scope.SelectedDays, function (value, index) {
+                var Day = new Date(value.Day).toString();
+                if (Day.includes("Sun") == true) {
+                    if (checked == true) {
+                        value.exist = 1;
+                    } else {
+                        value.exist = 0;
+                    }
+                }
+            });
         }
 
         $scope.MondayClick = function (event) {
@@ -21011,6 +21023,16 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $('#MondayCheck').hide();
             }
+            angular.forEach($scope.SelectedDays, function (value, index) {
+                var Day = new Date(value.Day).toString();
+                if (Day.includes("Mon") == true) {
+                    if (checked == true) {
+                        value.exist = 1;
+                    } else {
+                        value.exist = 0;
+                    }
+                }
+            });
         }
 
         $scope.TuesdayClick = function (event) {
@@ -21020,6 +21042,16 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $('#TuesdayCheck').hide();
             }
+            angular.forEach($scope.SelectedDays, function (value, index) {
+                var Day = new Date(value.Day).toString();
+                if (Day.includes("Tue") == true) {
+                    if (checked == true) {
+                        value.exist = 1;
+                    } else {
+                        value.exist = 0;
+                    }
+                }
+            });
         }
 
         $scope.WednesdayClick = function (event) {
@@ -21029,6 +21061,16 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $('#WednesdayCheck').hide();
             }
+            angular.forEach($scope.SelectedDays, function (value, index) {
+                var Day = new Date(value.Day).toString();
+                if (Day.includes("Wed") == true) {
+                    if (checked == true) {
+                        value.exist = 1;
+                    } else {
+                        value.exist = 0;
+                    }
+                }
+            });
         }
 
         $scope.ThursdayClick = function (event) {
@@ -21038,6 +21080,16 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $('#ThursdayCheck').hide();
             }
+            angular.forEach($scope.SelectedDays, function (value, index) {
+                var Day = new Date(value.Day).toString();
+                if (Day.includes("Thu") == true) {
+                    if (checked == true) {
+                        value.exist = 1;
+                    } else {
+                        value.exist = 0;
+                    }
+                }
+            });
         }
 
         $scope.FridayClick = function (event) {
@@ -21047,6 +21099,16 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $('#FridayCheck').hide();
             }
+            angular.forEach($scope.SelectedDays, function (value, index) {
+                var Day = new Date(value.Day).toString();
+                if (Day.includes("Fri") == true) {
+                    if (checked == true) {
+                        value.exist = 1;
+                    } else {
+                        value.exist = 0;
+                    }
+                }
+            });
         }
 
         $scope.SaturdayClick = function (event) {
@@ -21056,6 +21118,16 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $('#SaturdayCheck').hide();
             }
+            angular.forEach($scope.SelectedDays, function (value, index) {
+                var Day = new Date(value.Day).toString();
+                if (Day.includes("Sat") == true) {
+                    if (checked == true) {
+                        value.exist = 1;
+                    } else {
+                        value.exist = 0;
+                    }
+                }
+            });
         }
 
 
@@ -21320,6 +21392,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             }
                         }
                     });
+                    var seldays = $scope.SelectedDays.length;
+                    for (i = 0; i < seldays; i++) {
+                        if ($scope.SelectedDays[i].exist == 0) {
+                            $scope.SelectedDays.splice(i, 1);
+                        }
+                    }
                     var obj = {
                         ID: $scope.Id,
                         Institution_Id: $window.localStorage['InstitutionId'],
@@ -21337,6 +21415,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         BookingCancelLock: parseInt($scope.Minutes),
                         SelectedDaysList: $scope.SelectedDays
                     };
+                    $("#chatLoaderPV").show();
                     $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         $("#chatLoaderPV").hide();
                         alert(data.Message);
