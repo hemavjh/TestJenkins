@@ -42,9 +42,9 @@ namespace MyCortex.Admin.Controllers
                 }
                 else 
                 {
-                    if (insobj.Photo != null)
+                    if (insobj.Photo != null && insobj.Photo != "")
                     {
-                        insobj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + insobj.Photo);
+                            insobj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + insobj.Photo);
                     }
                 }
                

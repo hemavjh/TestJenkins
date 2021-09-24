@@ -575,8 +575,6 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             if ($scope.InstitutionAddEdit_Validations() == true) {
                 $("#chatLoaderPV").show();
                 $scope.PhotoFullpath = $('#item-img-output').attr('src');
-                $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
-                $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src');
                 var FileName = "";
                 var Licensefilename = "";
                 var fd = new FormData();
@@ -1440,6 +1438,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.PastMedicineflag = "0";
         $scope.MedicalHistoryflag = "0";
         $scope.MNR_No = "";
+        $scope.FullNameFormula = "";
         $scope.PrefixMRN = "";
         $scope.PatientNo = "";
         $scope.Createdby_ShortName = "";
@@ -1989,6 +1988,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             //$scope.PastMedicineflag = "0";
             //$scope.MedicalHistoryflag = "0";
             $scope.MNR_No = "";
+            $scope.FullNameFormula = "";
             $scope.PrefixMRN = "";
             $scope.PatientNo = "";
             $scope.NationalId = "";
@@ -2171,6 +2171,20 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
                 $scope.GroupTypeList = data;
                 $scope.tab1 = $scope.tab1 + 1;
+            });
+
+            $scope.ConfigCode = "FULLNAME_FORMULA";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
+                console.log(data2);
+                $scope.FullNameFormula = data2[0].ConfigValue;
+            });
+
+            $scope.ConfigCode = "MRN_PREFIX";
+            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
+                console.log(data2);
+                $scope.PrefixMRN = data2[0].ConfigValue;
             });
         }
 
@@ -3848,6 +3862,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             TAB_PIN: "",
                             TAB_PHOTO: "",
                             TAB_FINGERPRINT: "",
+                            FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
@@ -3994,6 +4009,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             TAB_PIN: "",
                             TAB_PHOTO: "",
                             TAB_FINGERPRINT: "",
+                            FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
@@ -4034,6 +4050,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.Cancel_PatientAppproval_Edit();
                             }
                             $("#UserLogo").val('');
+                            $("#NationalLogo").val('');
+                            $("#InsuranceLogo").val('');
                         }
 
                         $("#chatLoaderPV").hide();
@@ -4056,7 +4074,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             var NationalitemIndexLogo = -1;
             var InsuranceitemIndexLogo = -1;
             var itemIndexfile = -1;
-            var fd = new FormData();
+            var fd1 = new FormData();
+            var fd2 = new FormData();
 
             if (photoview == false) {
                 photoview = true;
@@ -4100,7 +4119,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 NationalitemIndexLogo = 0;
 
                 if (NationalitemIndexLogo != -1) {
-                    fd.append('file', NationalimgBlob);
+                    fd1.append('file', NationalimgBlob);
                 }
                 /*
                 calling the api method for read the file path 
@@ -4108,7 +4127,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 */
 
                 $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
+                    fd1,
                     {
                         transformRequest: angular.identity,
                         headers: {
@@ -4135,7 +4154,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 InsuranceitemIndexLogo = 0;
 
                 if (InsuranceitemIndexLogo != -1) {
-                    fd.append('file', InsuranceimgBlob);
+                    fd2.append('file', InsuranceimgBlob);
                 }
                 /*
                 calling the api method for read the file path 
@@ -4143,7 +4162,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 */
 
                 $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
+                    fd2,
                     {
                         transformRequest: angular.identity,
                         headers: {
@@ -4204,14 +4223,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     NationalitemIndexLogo = 0;
                 }
                 if (NationalitemIndexLogo != -1) {
-                    fd.append('file', NationalimgBlob);
+                    fd1.append('file', NationalimgBlob);
                 }
                 /*	
                 calling the api method for read the file path 	
                 and saving the image uploaded in the local server. 	
                 */
                 $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
+                    fd1,
                     {
                         transformRequest: angular.identity,
                         headers: {
@@ -4238,14 +4257,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     InsuranceitemIndexLogo = 0;
                 }
                 if (InsuranceitemIndexLogo != -1) {
-                    fd.append('file', InsuranceimgBlob);
+                    fd2.append('file', InsuranceimgBlob);
                 }
                 /*	
                 calling the api method for read the file path 	
                 and saving the image uploaded in the local server. 	
                 */
                 $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
+                    fd2,
                     {
                         transformRequest: angular.identity,
                         headers: {
@@ -4264,7 +4283,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }
                     });
             }
-
 
             if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
                 if ($('#UserLogo')[0].files[0] != undefined) {
@@ -4318,7 +4336,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
 
                 if (NationalitemIndexLogo != -1) {
-                    fd.append('file', NationalimgBlob);
+                    fd1.append('file', NationalimgBlob);
                 }
                 /*
                 calling the api method for read the file path 
@@ -4326,7 +4344,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 */
 
                 $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
+                    fd1,
                     {
                         transformRequest: angular.identity,
                         headers: {
@@ -4358,7 +4376,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
 
                 if (InsuranceitemIndexLogo != -1) {
-                    fd.append('file', InsuranceimgBlob);
+                    fd2.append('file', InsuranceimgBlob);
                 }
                 /*
                 calling the api method for read the file path 
@@ -4366,7 +4384,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 */
 
                 $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
+                    fd2,
                     {
                         transformRequest: angular.identity,
                         headers: {

@@ -263,19 +263,20 @@ namespace MyCortex.User.Controller
                 FullNameFormula = "FULLNAME_FORMULA";
                 /*get full name formula*/
                 IList<AppConfigurationModel> modelLF_Formula;
-                string MRN_PRFIX = "";
-                MRN_PRFIX = "MRN_PREFIX";
-                AppConfigmodel = commonrepository.AppConfigurationDetails(MRN_PRFIX, userObj.INSTITUTION_ID.Value);
-                if (AppConfigmodel.Count > 0)
-                {
-                    userObj.MrnPrefix = AppConfigmodel[0].ConfigValue;
-                }
-                modelLF_Formula = commonrepository.AppConfigurationDetails(FullNameFormula, userObj.INSTITUTION_ID.Value);
-                if (modelLF_Formula[0].ConfigValue != null)
-                    FormulaforFullName = modelLF_Formula[0].ConfigValue;
-
+                //string MRN_PRFIX = "";
+                //MRN_PRFIX = "MRN_PREFIX";
+                //AppConfigmodel = commonrepository.AppConfigurationDetails(MRN_PRFIX, userObj.INSTITUTION_ID.Value);
+                //if (AppConfigmodel.Count > 0)
+                //{
+                //    userObj.MrnPrefix = AppConfigmodel[0].ConfigValue;
+                //}
+                //modelLF_Formula = commonrepository.AppConfigurationDetails(FullNameFormula, userObj.INSTITUTION_ID.Value);
+                //if (modelLF_Formula[0].ConfigValue != null)
+                //{
+                //    FormulaforFullName = modelLF_Formula[0].ConfigValue;
+                //}
                 string Replaced_FullName = "";
-                Replaced_FullName = FormulaforFullName.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
+                Replaced_FullName = userObj.FullNameFormula.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
                 userObj.FullName = EncryptPassword.Encrypt(Replaced_FullName);
                 userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
                 userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
