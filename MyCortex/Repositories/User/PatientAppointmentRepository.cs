@@ -531,12 +531,13 @@ namespace MyCortex.Repositories.Uesr
             return retid;
         }
 
-        public int PaymentStatus_Update(long appointmentId,string status)
+        public int PaymentStatus_Update(long appointmentId,string status, string merchantOrderNo)
         {
             int retid = 0;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@APPOINTMENTID", appointmentId));
             param.Add(new DataParameter("@STATUS", status));
+            param.Add(new DataParameter("@MERCHANTORDERNO", merchantOrderNo));
             retid = ClsDataBase.Insert("[MYCORTEX].[TBLAPPOINTMENT_PAYMENTSTATUS_UPDATE]", param, true);
             return retid;
         }
@@ -551,7 +552,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@STATUS", status));
             param.Add(new DataParameter("@REQUESTTIME", requestTime));
             param.Add(new DataParameter("@NOTIFYID", notifyId));
-            param.Add(new DataParameter("@NOTIFYTIME", notifyTimeStamp));
+            param.Add(new DataParameter("@NOTIFYTIMESTAMP", notifyTimeStamp));
             retid = ClsDataBase.Insert("[MYCORTEX].[PAYMENTPROVIDER_PAYMENTINFO]", param, true);
             return retid;
         }

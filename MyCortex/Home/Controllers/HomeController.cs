@@ -784,7 +784,7 @@ namespace MyCortex.Home.Controllers
             string publicKey = string.Empty;
             string partnetId = string.Empty;
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
-            int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated");
+            int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated", merchantOrderNumber);
             gatewayModel = gatewayrepository.GatewaySettings_Details(15, 2, "PrivateKey");
             if (gatewayModel.Count > 0)
             {
@@ -813,7 +813,7 @@ namespace MyCortex.Home.Controllers
                 totalAmount = new TotalAmount
                 {
                     currency = "AED",
-                    amount = 25
+                    amount = 25.00
                 },
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
