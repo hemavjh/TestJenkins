@@ -18864,10 +18864,78 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                     }
                 });
             }
+            $scope.PatientAllergyNotificationList = function () {
+                $("#chatLoaderPV").show();
+                $('.chartTabs').addClass('charTabsNone');
+                $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                    $scope.page_size = data1[0].ConfigValue;
+                    $scope.PageStart = (($scope.current_PatientAllergyPages - 1) * ($scope.page_size)) + 1;
+                    $scope.PageEnd = $scope.current_PatientAllergyPages * $scope.page_size;
+                    $scope.ISact = 1;       // default active
+                    if ($scope.allergyActive == true) {
+                        $scope.ISact = 1  //active
+                    }
+                    else if ($scope.allergyActive == false) {
+                        $scope.ISact = -1 //all
+                    }
+                    $http.get(baseUrl + 'api/User/PatientAllergylist/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.SearchMsg = "No Data Available";
+                        $scope.PatientAllergyEmptyData = [];
+                        $scope.PatientAllergyListData = [];
+                        $scope.PatientAssignedAllergyDataList = [];
+                        $scope.PatientAllergyListData = data.PatientAllergyDetails;
+                        if ($scope.PatientAllergyListData.length > 0) {
+                            $scope.PatientAllergyCount = $scope.PatientAllergyListData[0].TotalRecord;
+                        } else {
+                            $scope.PatientAllergyCount = 0;
+                        }
+
+                        $scope.PatientAllergyListFilterData = data.PatientAllergyDetails;
+                        $scope.PatientAllergyCountFilterData = data.PatientAllergyDetails;
+                        for (i = 0; i < $scope.PatientAllergyListFilterData.length; i++) {
+                            if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "No Known Allergies") {
+                                document.getElementById("IconAllergy").style.color = '#32CD32';
+                            }
+                            else if ($scope.PatientAllergyListFilterData[0].AllergyTypeName === "Unknown") {
+                                document.getElementById("IconAllergy").style.color = '#FFD700';
+                            }
+                            else if ($scope.PatientAllergyListFilterData[0].AllergenName === "No Known Allergies") {
+                                document.getElementById("IconAllergy").style.color = '#32CD32';
+                            }
+                            else if ($scope.PatientAllergyListFilterData[0].AllergenName === "Unknown") {
+                                document.getElementById("IconAllergy").style.color = '#FFD700';
+                            }
+                            else {
+                                //document.getElementById("IconAllergy").style.color = '#FF0000';
+                            }
+                        }
+                        $scope.PatientAssignedAllergyDataList = angular.copy($scope.PatientAllergyListData);
+
+                        // $scope.PatientAssignedknownAllergyDataList =angular.copy($scope.PatientAssignedAllergyDataList);
+                        $scope.PatientAssignedknownAllergyActiveDataList = $ff($scope.PatientAllergyListFilterData, { IsActive: 1 }, true);
+
+                        if ($scope.PatientAssignedAllergyDataList.length > 0) {
+                            $scope.Allergy_flag = 1;
+                        }
+                        else {
+                            $scope.Allergy_flag = 0;
+                        }
+                        $scope.PatientAllergyPages = Math.ceil(($scope.PatientAllergyCount) / ($scope.page_size));
+
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while Listing the records!" + data;
+                    })
+                });
+            };
             $scope.PatientNotification = function () {
                 $scope.SelectedPatientId = $window.localStorage['UserId'];
                 if ($window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
                     $("#chatLoaderPV").show();
+                    $scope.ProtocolDetails_View();
+                    $scope.PatientGroupNameList();
                     photoview = true;
                     //$scope.UpComingAppointmentCount = 0;
                     //$scope.PreviousAppointmentCount = 0;
@@ -18953,6 +19021,48 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                         }
                     });
                 }
+            }
+            $scope.PatientGroupflag = 0;
+            $scope.GroupName_List = [];
+            /*This function is for List the Group Name based on UserId*/
+            $scope.PatientGroupNameList = function () {
+                $http.get(baseUrl + '/api/User/PatientGroupNameList/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
+                    $scope.GroupName_List = data;
+                    $scope.SearchMsg = "No Data Available";
+
+                })
+            };
+            $scope.ProtocolDetails_View = function () {
+
+                if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                    $scope.Id = $routeParams.Id;
+                    $scope.DuplicatesId = $routeParams.Id;
+                }
+                $("#chatLoaderPV").show();
+                $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_View/?Id=' + $scope.Id).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    $scope.DuplicatesId = data.Id;
+                    $scope.Institution_Name = data.Institution_Id;
+                    $scope.ViewInstitution_Name = data.Institution_Name;
+                    $scope.ProtocolName = data.Protocol_Name;
+                    $scope.ParameterSettingslist = data.ChildModuleList;
+
+                    angular.forEach($scope.ParameterSettingslist, function (value, index) {
+                        if (value.NormalRange_High == null || value.NormalRange_Low == null) {
+                            $scope.ParameterSettings_ViewEdit();
+                        }
+                    })
+                });
+            }
+            $scope.CancelPatientGroupNamePopup = function () {
+                angular.element('#PatientGroupListModal').modal('hide');
+
+            };
+            $scope.CancelPatientMonitoringProtocolModal = function () {
+                angular.element('#PatientMonitoringProtocolModal').modal('hide');
+            }
+            $scope.CancelPatientAllergyNamePopup = function () {
+                angular.element('#PatientAllergyListModal').modal('hide');
             }
             $scope.ListFilter = function () {
                 $scope.ResultListFiltered = [];
