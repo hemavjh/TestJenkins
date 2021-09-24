@@ -784,20 +784,21 @@ namespace MyCortex.Home.Controllers
             string partnetId = string.Empty;
             long appointmentId = Convert.ToInt64(form["paymentAppointmentId"]);
             long departmentId = Convert.ToInt64(form["paymentdepartmentId"]);
-            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(InstitutionId, departmentId));
+            long PInstitutionId = Convert.ToInt64(form["paymentInstitutionId"]);
+            double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId));
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
             int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated", merchantOrderNumber);
-            gatewayModel = gatewayrepository.GatewaySettings_Details(InstitutionId, 2, "PrivateKey");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "PrivateKey");
             if (gatewayModel.Count > 0)
             {
                 privateKey = gatewayModel[0].GatewayValue;
             }
-            gatewayModel = gatewayrepository.GatewaySettings_Details(InstitutionId, 2, "PublicKey");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "PublicKey");
             if (gatewayModel.Count > 0)
             {
                 publicKey = gatewayModel[0].GatewayValue;
             }
-            gatewayModel = gatewayrepository.GatewaySettings_Details(InstitutionId, 2, "PartnerId");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "PartnerId");
             if (gatewayModel.Count > 0)
             {
                 partnetId = gatewayModel[0].GatewayValue;

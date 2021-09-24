@@ -6730,6 +6730,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AppointmoduleID = data.Appointment_Module_Id;
                     $scope.AppointmoduleID1 = data.Appointment_Module_Id;
                     $scope.paymentdepartmentId = data.DEPARTMENT_ID;
+                    $scope.paymentInstitutionId = data.INSTITUTION_ID;
                     $scope.TimeZoneID = data.TimeZone_Id.toString();
                     if (data.Appointment_Module_Id == 2) {
                         setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
