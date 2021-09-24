@@ -2573,24 +2573,33 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
         }
 
+
         $scope.PatientSearch = function () {
-            //console.log($scope.IsActive);
-            $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
             if ($scope.Patientsearchquery == "") {
-                all_patient_list();
+                allpatientlist();
             } else {
-                $http.get(baseUrl + '/api/User/Patient_List/IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery).success(function (data) {
-                    console.log(data);
-                    if (data.length == 0) {
-                        $scope.SearchMsg = "No Data Available";
-                    }
-                    $scope.Patientemptydata = [];
-                    $scope.PatientList = [];
-                    $scope.PatientList = data;
-                    $scope.Patientemptydata = data;
-                });
+                getallpatientlist();
             }
         }
+
+        getallpatientlist = function () {
+            $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+            $http.get(baseUrl + '/api/User/Search_Patient_List?IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery).success(function (data) {
+                console.log(data);
+                if (data.length == 0) {
+                    $scope.SearchMsg = "No Data Available";
+                }
+                $scope.Patientemptydata = [];
+                $scope.PatientList = [];
+                $scope.PatientList = data;
+                $scope.Patientemptydata = data;
+                $scope.PatientCount = data.length;
+                $scope.total_pages = 1;
+            });
+        }
+
+        getallpatientlist();
+
 
         /* Filter the master list function.*/
         $scope.PatientFilterChange = function () {

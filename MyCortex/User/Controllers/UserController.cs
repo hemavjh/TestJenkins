@@ -619,8 +619,9 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, String SearchQuery)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, String SearchQuery = null)
         {
+            string SearchQuery2 = string.IsNullOrEmpty(SearchQuery) ? "" : SearchQuery.ToLower();
             if (search_patient_list.Count == 0)
             {
                 DataEncryption EncryptPassword = new DataEncryption();
@@ -635,13 +636,13 @@ namespace MyCortex.User.Controller
                 }
                 search_patient_list = repository.Search_Patient_List(IsActive, INSTITUTION_ID, SearchQuery);
                 var ss = JsonConvert.SerializeObject(search_patient_list);
-                //model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery) || x.MNR_NO.Contains(SearchQuery) || x.MOBILE_NO.Contains(SearchQuery) || x.EMAILID.Contains(SearchQuery) || x.GroupName.Contains(SearchQuery)).ToList();
-                model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery)).ToList();
+                model = search_patient_list.Where(x => x.FullName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2)).ToList();
+                // model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery)).ToList();
                 return model;
             }
             else
             {
-                List<ItemizedUserDetailsModel> model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery) || x.MNR_NO.Contains(SearchQuery) || x.MOBILE_NO.Contains(SearchQuery) || x.EMAILID.Contains(SearchQuery) || x.GroupName.Contains(SearchQuery)).ToList();
+                List<ItemizedUserDetailsModel> model = search_patient_list.Where(x => x.FullName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2)).ToList();
                 return model;
             }
         }
