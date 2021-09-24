@@ -17,6 +17,7 @@ using MyCortex.User.Model;
 using System.Text;
 using System.Runtime.Serialization.Json;
 using MyCortex.Repositories.Masters;
+using MyCortex.Repositories.Uesr;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -24,16 +25,20 @@ namespace MyCortex.Admin.Controllers
     public class PayByController : ApiController
     {
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
+        static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
         IList<GatewaySettingsModel> gatewayModel;
         [HttpGet]
         [Authorize]
         [CheckSessionOutFilter]
-        public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0)
+        public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0, long Appointment_Id = 0)
         {
             string token = string.Empty;
             
             string payCode = "PAYPAGE";
-            
+
+            string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
+            int retid = patientAppointmentsRepository.PaymentStatus_Update(Appointment_Id, "Payment Initiated", merchantOrderNumber);
+
             PaySceneParams paySceneParams = new PaySceneParams
             {
                 redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
@@ -52,17 +57,17 @@ namespace MyCortex.Admin.Controllers
             string publicKey = string.Empty;
             string partnetId = string.Empty;
             double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id,Department_Id));
-            gatewayModel = gatewayrepository.GatewaySettings_Details(15, 2, "PrivateKey");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "PrivateKey");
             if (gatewayModel.Count > 0)
             {
                 privateKey = gatewayModel[0].GatewayValue;
             }
-            gatewayModel = gatewayrepository.GatewaySettings_Details(15, 2, "PublicKey");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "PublicKey");
             if (gatewayModel.Count > 0)
             {
                 publicKey = gatewayModel[0].GatewayValue;
             }
-            gatewayModel = gatewayrepository.GatewaySettings_Details(15, 2, "PartnerId");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "PartnerId");
             if (gatewayModel.Count > 0)
             {
                 partnetId = gatewayModel[0].GatewayValue;
@@ -75,7 +80,7 @@ namespace MyCortex.Admin.Controllers
             PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
             BizContent bizContent = new BizContent
             {
-                merchantOrderNo = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10),
+                merchantOrderNo = merchantOrderNumber,
                 subject = "TeleConsultation",
                 totalAmount = new TotalAmount
                 {
@@ -84,7 +89,7 @@ namespace MyCortex.Admin.Controllers
                 },
                 paySceneCode = payCode,
                 paySceneParams = paySceneParams,
-                notifyUrl = "https://mycortexdev.vjhsoftware.in"
+                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/"
             };
             DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
 
