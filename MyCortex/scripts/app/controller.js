@@ -18707,6 +18707,253 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 });
                 
             }
+            $scope.SelectedPatientId = $window.localStorage['UserId'];
+            $scope.MyAppointmentsNotification = function () {
+                $("#chatLoaderPV").show();
+                $scope.ChronicDetails();
+                $http.get(baseUrl + '/api/User/DoctorAppoinmentsList/?PatientId=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    //var Patient = parseInt(window.localStorage['SelectedPatientId']);
+                    $scope.MyAppoinmentdata = data;
+                    //angular.forEach($scope.MyAppoinmentdata, function (value, index) {
+                    //    if (Patient === value.Patient_Id) {
+                    //        $scope.MyAppointment.push(value);
+                    //    }
+                    //});
+                });
+            }
+
+            $scope.DefaultChronic = function () {
+                var Brain = document.getElementById('Brain');
+                Brain.innerHTML = '<img src="images/image004.png">';
+
+                var detail = document.getElementById('Alzheimer');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Arthritis');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Epilepsy');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Parkinson_Disease');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Sclerosis');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Stroke');
+                detail.innerHTML = "";
+
+                var Lungs = document.getElementById('Lungs');
+                Lungs.innerHTML = '<img src="images/image006.png">';
+
+                var detail = document.getElementById('Pulmonary_Disease');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Lung_Disease');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Asthma');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Cancer');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Diabetes');
+                detail.innerHTML = "";
+
+                var Heart = document.getElementById('Heart');
+                Heart.innerHTML = '<img src="images/image009.png">';
+                var detail = document.getElementById('Heart_Disease');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Hypertension');
+                detail.innerHTML = "";
+                var detail = document.getElementById('Kidney_Disease');
+                detail.innerHTML = "";
+            }
+
+            $scope.ChronicDetails = function () {
+                $http.get(baseUrl + '/api/User/Chronic_Conditions/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
+                    if (data.length !== 0 && data != null && data != undefined) {
+                        $scope.DefaultChronic();
+                        for (let i = 0; i < data.length; i++) {
+                            if (data[i].ChronicGroup == 1) {
+                                var Brain = document.getElementById('Brain');
+                                Brain.innerHTML = '<img src="images/image004Active.png">';
+
+                                if (data[i].ChronicCondition === "Alzheimer") {
+                                    var detail = document.getElementById('Alzheimer');
+                                    detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Alzheimer</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Arthritis") {
+                                    var Arthritis = document.getElementById('Bone');
+                                    Arthritis.innerHTML = '<img src="images/image005Active.png">';
+
+                                    var detail = document.getElementById('Arthritis');
+                                    detail.innerHTML = "<img src='images/image005Active.png' /> <label class='LetFont1'>Arthritis</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Epilepsy") {
+                                    var detail = document.getElementById('Epilepsy');
+                                    detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Epilepsy</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Parkinson Disease") {
+                                    var detail = document.getElementById('Parkinson_Disease');
+                                    detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Parkinson Disease</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Sclerosis") {
+                                    var detail = document.getElementById('Sclerosis');
+                                    detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Sclerosis</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Stroke") {
+                                    var detail = document.getElementById('Stroke');
+                                    detail.innerHTML = "<img src='images/image004Active.png' /> <label class='LetFont1'>Stroke</label>";
+                                }
+                            }
+
+                            if (data[i].ChronicGroup == 2) {
+                                if (data[i].ChronicCondition === "Pulmonary Disease") {
+                                    var Lungs = document.getElementById('Lungs');
+                                    Lungs.innerHTML = '<img src="images/image006Active.png">';
+
+                                    var detail = document.getElementById('Pulmonary_Disease');
+                                    detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Pulmonary Disease</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Lung Disease") {
+                                    var Lungs = document.getElementById('Lungs');
+                                    Lungs.innerHTML = '<img src="images/image006Active.png">';
+
+                                    var detail = document.getElementById('Lung_Disease');
+                                    detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Lung Disease</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Asthma") {
+                                    var Lungs = document.getElementById('Lungs');
+                                    Lungs.innerHTML = '<img src="images/image006Active.png">';
+
+                                    var detail = document.getElementById('Asthma');
+                                    detail.innerHTML = "<img src='images/image006Active.png' /> <label class='LetFont1'>Asthma</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Cancer") {
+                                    var Cancer = document.getElementById('Ribbon');
+                                    Cancer.innerHTML = '<img src="images/image007Active.png">';
+
+                                    var detail = document.getElementById('Cancer');
+                                    detail.innerHTML = "<img src='images/image007Active.png' /> <label class='LetFont1'>Cancer</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Diabetes") {
+                                    var Diabetes = document.getElementById('Diabetes');
+                                    Diabetes.innerHTML = '<img src="images/image008Active.png">';
+
+                                    var detail = document.getElementById('sugarblood');
+                                    detail.innerHTML = "<img src='images/image008Active.png' /> <label class='LetFont1'>Diabetes</label>";
+                                }
+                            }
+
+                            if (data[i].ChronicGroup == 3) {
+                                var Heart = document.getElementById('Heart');
+                                Heart.innerHTML = '<img src="images/image009Active.png">';
+
+                                if (data[i].ChronicCondition === "Heart Disease") {
+                                    var detail = document.getElementById('Heart_Disease');
+                                    detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Heart Disease</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Hypertension") {
+                                    var detail = document.getElementById('Hypertension');
+                                    detail.innerHTML = "<img src='images/image009Active.png' /> <label class='LetFont1'>Hypertension</label>";
+                                }
+                                else if (data[i].ChronicCondition === "Kidney Disease") {
+                                    var Diabetes = document.getElementById('Kidney');
+                                    Diabetes.innerHTML = '<img src="images/image0010Active.png">';
+
+                                    var detail = document.getElementById('Kidney_Disease');
+                                    detail.innerHTML = "<img src='images/image0010Active.png' /> <label class='LetFont1'>Kidney Disease</label>";
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            $scope.PatientNotification = function () {
+                $scope.SelectedPatientId = $window.localStorage['UserId'];
+                if ($window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6 || $window.localStorage['UserTypeId'] == 7) {
+                    $("#chatLoaderPV").show();
+                    photoview = true;
+                    //$scope.UpComingAppointmentCount = 0;
+                    //$scope.PreviousAppointmentCount = 0;
+                    var methodcnt = 2;
+                    $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.SelectedPatientId).success(function (data) {
+                        methodcnt = methodcnt - 1;
+                        if (methodcnt == 0)
+                            $scope.uploadview = true;
+                        if (data.PhotoBlob != null) {
+                            $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
+                        }
+                        else {
+                            $scope.uploadme = null;
+                        }
+                    })
+                    $http.get(baseUrl + '/api/User/PatientBasicDetailsList/?PatientId=' + $scope.SelectedPatientId).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.Id = data.PatientId;
+                        $scope.FullName = data.FullName;
+                        $scope.MobileNo = data.MOBILE_NO;
+                        $scope.Photo = data.Photo;
+                        $scope.FileName = data.FileName;
+                        $scope.DOB = $filter('date')(data.DOB, "dd-MMM-yyyy");
+                        $scope.MNR_No = data.MNR_NO;
+                        $scope.NationalId = data.NATIONALID;
+                        $scope.GenderId = data.GenderId;
+                        $scope.ViewGenderName = data.GENDER_NAME;
+                        $scope.PatientType = data.Patient_Type;
+                        $scope.showUserType = data.UserType;
+                        $scope.PhotoBlobs = data.PhotoBlobs;
+                        methodcnt = methodcnt - 1;
+                        $('#User_id').show();
+                        $('#patient_profile').show();
+                        $('#BrainGroup').show();
+                        $('#KnownGroup').show();
+                        var imgSrc = document.getElementById('imgSrc');
+                        imgSrc.src = $scope.PhotoBlobs;
+                        var NATIONALITY_ID = document.getElementById('NATIONALITY_ID');
+                        NATIONALITY_ID.textContent = $scope.NationalId;
+
+                        var USERTYPE_ID = document.getElementById('USERTYPE_ID');
+                        USERTYPE_ID.textContent = $scope.showUserType;
+                        var MOBILE_NO = document.getElementById('MOBILE_NO');
+                        MOBILE_NO.textContent = $scope.MobileNo;
+
+                        var DOB = document.getElementById('DOB');
+                        $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY')
+                        DOB.textContent = $scope.DOB;
+
+                        var fullname = document.getElementById('fullname');
+                        fullname.textContent = $scope.FullName;
+
+                        var Gender = document.getElementById('Gender');
+                        Gender.textContent = $scope.ViewGenderName;
+
+                        var dob = $scope.DOB;
+                        var gt = DateFormat(dob);
+                        dob = gt.replace(/-/gi, '');
+                        var year = dob.substr(4, 9);
+                        var month = dob.substr(2, 2);
+                        var day = dob.substr(0, 2);
+                        var today = new Date();
+                        var age = today.getFullYear() - year;
+
+                        Age = document.getElementById('Age');
+                        Age.textContent = age.toString();
+                        if (methodcnt == 0)
+                            $scope.uploadview = true;
+                        if ($scope.PatientType == 2) {
+                            $('#divPatientType').attr('style', 'display : none');
+                        }
+                        else
+                            $('#divPatientType').attr('style', 'display : none');
+                        if (data.Protocol_Id != null) {
+                            $scope.MonitoringProtocolId = data.Protocol_Id.toString();
+                            $scope.ViewProtocolName = data.ProtocolName;
+                            $scope.MonitoringProtocolName = data.ProtocolName;
+                            $scope.assignedProtocolId = $scope.MonitoringProtocolId;
+                            $scope.Monitoring_ProtocolId = $scope.MonitoringProtocolId;
+                        }
+                        if ($scope.UserTypeId != 2) {
+                            $scope.chattingWith = data.FullName;
+                        }
+                    });
+                }
+            }
             $scope.ListFilter = function () {
                 $scope.ResultListFiltered = [];
                 var searchstring = angular.lowercase($scope.searchquery);
