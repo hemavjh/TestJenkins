@@ -7122,6 +7122,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 if (confirm("Confirm to cancel appointment")) {
                     $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
                         alert(data.Message);
+                        if (data.AppointmentDetails.PaymentStatusId == 3) {
+                            $scope.refundAppointmentId = data.AppointmentDetails.Id;
+                            $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
+                            $scope.refundAmount = data.AppointmentDetails.Amount;
+                            $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
+                            $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
+
+                            setTimeout(function () { document.getElementById('but_paybyrefund').click(); }, 100);
+                        }
                         if (data.ReturnFlag == 1) {
                             $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                                 $scope.UpComingAppointmentDetails = data.PatientAppointmentList;

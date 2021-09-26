@@ -93,7 +93,11 @@ namespace MyCortex.Repositories.Uesr
                                                    Cancelled_By = DecryptFields.Decrypt(p.Field<string>("Cancelled_Name")),
                                                    Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
                                                    Cancelled_Date = p.Field<DateTime>("CANCELED_DATE"),
-                                                   Institution_Id= p.Field<long>("INSTITUTION_ID"),                                                   
+                                                   Institution_Id= p.Field<long>("INSTITUTION_ID"),
+                                                   PaymentStatusId = p.Field<long>("PAYMENT_STATUS_ID"),
+                                                   MerchantOrderNo = p.Field<string>("MERCHANTORDERNO"),
+                                                   Amount = p.Field<string>("AMOUNT"),
+                                                   OrderNo = p.Field<string>("ORDERNO"),
                                                }).FirstOrDefault();
             return insert;
         }

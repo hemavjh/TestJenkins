@@ -776,6 +776,28 @@ namespace MyCortex.Home.Controllers
         }
 
         [HttpPost]
+        public ActionResult RefundNotify()
+        {
+            int retid = 0;
+            Stream req = Request.InputStream;
+            req.Seek(0, System.IO.SeekOrigin.Begin);
+            string json = new StreamReader(req).ReadToEnd();
+            dynamic data = JsonConvert.DeserializeObject(json);
+
+            //string OrderNumber = data.acquireOrder.orderNo;
+            //string merchantOrderNumber = data.acquireOrder.merchantOrderNo;
+            //string amount = data.acquireOrder.totalAmount.amount;
+            //string status = data.acquireOrder.status;
+            //long requestTime = data.acquireOrder.requestTime;
+            //string notifyId = data.notify_id;
+            //long notifyTimeStamp = data.notify_timestamp;
+            //string data1 = data.toString();
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
+            //retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
+            return null;
+        }
+
+        [HttpPost]
         public ActionResult CreatePayByCheckoutSession(FormCollection form)
         {
             string redirectUrl = string.Empty;
@@ -917,6 +939,125 @@ namespace MyCortex.Home.Controllers
                                 if (!string.IsNullOrEmpty(text))
                                 {
 
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return new RedirectResult(redirectUrl);
+        }
+
+        [HttpPost]
+        public ActionResult RefundPayByCheckoutSession(FormCollection form)
+        {
+            string redirectUrl = string.Empty;
+            string privateKey = string.Empty;
+            string publicKey = string.Empty;
+            string partnetId = string.Empty;
+            try
+            {
+                redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
+                long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
+                string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
+                double refundAmount = Convert.ToInt64(form["refundAmount"]);
+                string refundOrderNo = Convert.ToString(form["refundOrderNo"]);
+                long refundInstitutionId = Convert.ToInt64(form["refundInstitutionId"]);
+                //double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId));
+                string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
+                int retid = patientAppointmentsRepository.PaymentStatus_Update(refundAppointmentId, "Refund Initiated", refundMerchantOrderNo);
+
+                gatewayModel = gatewayrepository.GatewaySettings_Details(refundInstitutionId, 2, "PrivateKey");
+                if (gatewayModel.Count > 0)
+                {
+                    privateKey = gatewayModel[0].GatewayValue;
+                }
+                gatewayModel = gatewayrepository.GatewaySettings_Details(refundInstitutionId, 2, "PublicKey");
+                if (gatewayModel.Count > 0)
+                {
+                    publicKey = gatewayModel[0].GatewayValue;
+                }
+                gatewayModel = gatewayrepository.GatewaySettings_Details(refundInstitutionId, 2, "PartnerId");
+                if (gatewayModel.Count > 0)
+                {
+                    partnetId = gatewayModel[0].GatewayValue;
+                }
+                privateKey = privateKey.Replace("-----BEGIN RSA PRIVATE KEY-----", "")
+                    .Replace("-----END RSA PRIVATE KEY-----", "");
+
+                RsaHelper rsaHelper = new RsaHelper();
+                PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
+                BizContent bizContent = new BizContent
+                {
+                    refundMerchantOrderNo = refundMerchantOrderNo,
+                    originMerchantOrderNo = merchantOrderNumber,
+                    amount = new TotalAmount
+                    {
+                        currency = "AED",
+                        amount = refundAmount
+                    },
+                    operatorName = "zxy",
+                    reason = "refund",
+                    notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/RefundNotify/",
+                };
+                DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
+                payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
+                payByCreateReq.bizContent = bizContent;
+                try
+                {
+                    string url = "https://uat.test2pay.com/sgs/api/acquire2/refund/placeOrder";
+                    HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                    req.Method = "POST";
+                    req.ContentType = "application/json";
+                    req.Headers["Content-Language"] = "en";
+
+                    string strJPostData = JsonConvert.SerializeObject(payByCreateReq, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                    string signParams = strJPostData.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("\\", "");
+                    privateKey = privateKey.Replace("\r\n", "");
+                    string sign = rsaHelper.Sign(signParams, privateKey);
+                    req.Headers["sign"] = sign;
+                    req.Headers["Partner-Id"] = partnetId;
+
+                    UTF8Encoding encoding = new UTF8Encoding();
+                    byte[] post = encoding.GetBytes(strJPostData);
+                    req.ContentLength = post.Length;
+
+                    using (Stream writer = req.GetRequestStream())
+                    {
+                        writer.Write(post, 0, post.Length);
+                    }
+
+                    using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+                    {
+                        DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(PayByCreateOrderResponse));
+                        object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
+                        PayByCreateOrderResponse tokenRes = objResponse as PayByCreateOrderResponse;
+                        if (tokenRes != null && tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
+                        {
+                            redirectUrl = tokenRes.body.interActionParams.tokenUrl;
+                        }
+                    }
+                }
+                catch (WebException wx)
+                {
+                    if (wx.Message != null)
+                    {
+                        using (WebResponse response = wx.Response)
+                        {
+                            if (wx.Response != null)
+                            {
+                                HttpWebResponse httpResponse = (HttpWebResponse)response;
+                                using (Stream data = response.GetResponseStream())
+                                {
+                                    string text = new StreamReader(data).ReadToEnd();
+                                    if (!string.IsNullOrEmpty(text))
+                                    {
+
+                                    }
                                 }
                             }
                         }

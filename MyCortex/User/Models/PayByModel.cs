@@ -77,6 +77,11 @@ namespace MyCortex.User.Model
         public string paySceneCode { get; set; }
         public PaySceneParams paySceneParams { get; set; }
         public string notifyUrl { get; set; }
+        public string refundMerchantOrderNo { get; set; }
+        public string originMerchantOrderNo { get; set; }
+        public TotalAmount amount { get; set; }
+        public string operatorName { get; set; }
+        public string reason { get; set; }
         public AccessoryContent accessoryContent { get; set; }
     }
 

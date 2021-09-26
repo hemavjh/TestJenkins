@@ -50,6 +50,10 @@ namespace MyCortex.User.Model
         public string ReasonType { get; set; }
         public int IsActive { get; set; }
         public string Payment_Status { get; set; }
+        public long PaymentStatusId { get; set; }
+        public string MerchantOrderNo { get; set; }
+        public string Amount { get; set; }
+        public string OrderNo { get; set; }
     }
     public class PatientAppointmentsReturnModel
     {
