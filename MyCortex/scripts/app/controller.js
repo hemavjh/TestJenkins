@@ -6812,6 +6812,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.newScheduledDates = [];
                     $scope.DataNotAvailible = 0;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                    document.getElementById("main-box").style = "display:none";
+                    document.getElementById("box").style = "";
                     TimeSlot();
                     $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                         $scope.newScheduledDates = data;
@@ -8549,6 +8551,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.ShowAppointmentBookingPopUp = function () {
+            document.getElementById("main-box").style = "";
+            document.getElementById("box").style = "display:none";
             angular.element('#BookAppointmentModal').modal('show');
         }
         $scope.ShowStripePopup = function () {
