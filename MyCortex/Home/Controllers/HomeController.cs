@@ -772,7 +772,7 @@ namespace MyCortex.Home.Controllers
             //string data1 = data.toString();
             retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
-            return null;
+            return Content("SUCCESS");
         }
 
         [HttpPost]
@@ -784,17 +784,18 @@ namespace MyCortex.Home.Controllers
             string json = new StreamReader(req).ReadToEnd();
             dynamic data = JsonConvert.DeserializeObject(json);
 
-            //string OrderNumber = data.acquireOrder.orderNo;
-            //string merchantOrderNumber = data.acquireOrder.merchantOrderNo;
-            //string amount = data.acquireOrder.totalAmount.amount;
-            //string status = data.acquireOrder.status;
+            string OrderNumber = data.refundOrder.orderNo;
+            string merchantOrderNumber = data.refundOrder.refundMerchantOrderNo;
+            string originMerchantOrderNo = data.refundOrder.originMerchantOrderNo;
+            string amount = data.refundOrder.amount.amount;
+            string status = data.refundOrder.status;
             //long requestTime = data.acquireOrder.requestTime;
-            //string notifyId = data.notify_id;
-            //long notifyTimeStamp = data.notify_timestamp;
+            string notifyId = data.notify_id;
+            long notifyTimeStamp = data.notify_timestamp;
             //string data1 = data.toString();
             retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
-            //retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
-            return null;
+            retid = patientAppointmentsRepository.PaymentRefundStatusInfo_Insert(merchantOrderNumber, originMerchantOrderNo, amount, OrderNumber, status, notifyId, notifyTimeStamp);
+            return Content("SUCCESS");
         }
 
         [HttpPost]
@@ -993,8 +994,8 @@ namespace MyCortex.Home.Controllers
                 PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
                 BizContent bizContent = new BizContent
                 {
-                    refundMerchantOrderNo = refundMerchantOrderNo,
-                    originMerchantOrderNo = merchantOrderNumber,
+                    refundMerchantOrderNo = merchantOrderNumber,
+                    originMerchantOrderNo = refundMerchantOrderNo,
                     amount = new TotalAmount
                     {
                         currency = "AED",
