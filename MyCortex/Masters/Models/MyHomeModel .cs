@@ -366,6 +366,7 @@ namespace MyCortex.Masters.Models
         public string MRN_No { get; set; }
         public string Photo { get; set; }
         public string TimeDifference { get; set; }
+        public string Payment_Status { get; set; }
         public string Smoker { get; set; }
         public byte[] PhotoBlob { get; set; }
         public string ViewGenderName { get; set; }

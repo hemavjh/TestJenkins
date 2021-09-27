@@ -680,6 +680,7 @@ namespace MyCortex.Repositories.Masters
                                                           DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
                                                           TimeDifference = p.Field<string>("TimeDifference"),
+                                                          Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                       }).ToList();
                 return lst;
             }
