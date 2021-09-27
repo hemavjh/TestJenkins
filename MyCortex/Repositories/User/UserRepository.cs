@@ -1595,6 +1595,7 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
                                                           DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                           Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                       }).ToList();
                 return lst;

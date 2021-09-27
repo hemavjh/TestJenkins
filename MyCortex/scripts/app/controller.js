@@ -7157,6 +7157,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     });
                 }
             }
+                    $scope.AppointmentPayment = function (Row) {
+                        $scope.paymentappointmentId = Row.Id;
+                        $scope.paymentdepartmentId = Row.DoctorDepartmentId;
+                        $scope.paymentInstitutionId = Row.Institution_Id;
+                        setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                    }
         });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
