@@ -832,8 +832,8 @@ namespace MyCortex.Repositories.Uesr
                                   PlanId = p.Field<string>("PLANID"),
                                   PayorName = p.Field<string>("PayorName"),
                                   PlanName = p.Field<string>("PlanName"),
-                                  Appointment_Module_Id = p.Field<int>("APPOINTMENT_MODULE_ID"),
-                                  TimeZone_Id = p.Field<int>("TIMEZONE_ID"),
+                                  Appointment_Module_Id = p.Field<int?>("APPOINTMENT_MODULE_ID"),
+                                  TimeZone_Id = p.Field<int?>("TIMEZONE_ID"),
                                   NationalPhotoFullpath = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
                                   NationalPhotoFilename = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
                                   InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
@@ -2062,17 +2062,26 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLUPLOADUSRE_SP_GETNATIONALPHOTO", param);
             //  byte[] returnPhoto = (byte[])dt.Rows[0]["Id"];
-            if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
+            if (dt.Rows.Count > 0)
             {
-                byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
-
-                return new PhotoUploadModal
+                if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
                 {
-                    Id = Id,
-                    NationalPhotoBlob = decrypt.DecryptFile(returnPhoto)
-                };
+                    byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
 
-                //return decrypt.DecryptFile(returnPhoto);
+                    return new PhotoUploadModal
+                    {
+                        Id = Id,
+                        NationalPhotoBlob = decrypt.DecryptFile(returnPhoto)
+                    };
+
+                    //return decrypt.DecryptFile(returnPhoto);
+                }
+                else
+                {
+                    return new PhotoUploadModal
+                    {
+                    };
+                }
             }
             else
             {
@@ -2094,17 +2103,26 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLUPLOADUSRE_SP_GETINSURANCEPHOTO", param);
             //  byte[] returnPhoto = (byte[])dt.Rows[0]["Id"];
-            if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
+            if (dt.Rows.Count > 0)
             {
-                byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
-
-                return new PhotoUploadModal
+                if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
                 {
-                    Id = Id,
-                    InsurancePhotoBlob = decrypt.DecryptFile(returnPhoto)
-                };
+                    byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
 
-                //return decrypt.DecryptFile(returnPhoto);
+                    return new PhotoUploadModal
+                    {
+                        Id = Id,
+                        InsurancePhotoBlob = decrypt.DecryptFile(returnPhoto)
+                    };
+
+                    //return decrypt.DecryptFile(returnPhoto);
+                }
+                else
+                {
+                    return new PhotoUploadModal
+                    {
+                    };
+                }
             }
             else
             {

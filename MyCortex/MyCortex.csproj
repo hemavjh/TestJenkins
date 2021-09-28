@@ -1518,6 +1518,7 @@
     <Content Include="Shared\Views\_LayoutLogin.cshtml" />
     <Content Include="scripts\bootstrap-toggle.min.js" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\IISPublish.pubxml" />
     <None Include="Properties\PublishProfiles\Mycortex.pubxml" />
     <None Include="Properties\PublishProfiles\test.pubxml" />

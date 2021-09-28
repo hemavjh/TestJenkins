@@ -637,7 +637,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 };
                 $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
                     var insId = data.Institute[0].Id;
-                    alert(data.Message);
+                     alert(data.Message);
 
                     if ($scope.PhotoValue == 1) {
                         if ($('#InstitutionLogo')[0].files[0] != undefined) {
@@ -687,6 +687,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 })
                     .error(function (response) {
                         $scope.Photo = "";
+                        $scope.CancelInstitution();
+                        $scope.InstitutionDetailsListGo();
                     });
 
                 //})
@@ -6810,6 +6812,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.newScheduledDates = [];
                     $scope.DataNotAvailible = 0;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                    document.getElementById("main-box").style = "display:none";
+                    document.getElementById("box").style = "";
                     TimeSlot();
                     $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                         $scope.newScheduledDates = data;
@@ -8547,6 +8551,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.ShowAppointmentBookingPopUp = function () {
+            document.getElementById("main-box").style = "";
+            document.getElementById("box").style = "display:none";
             angular.element('#BookAppointmentModal').modal('show');
         }
         $scope.ShowStripePopup = function () {
@@ -23369,7 +23375,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         }
 
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete this My Home Id Details?");
+            var del = confirm("Do you like to delete User Remainder Details?");
             if (del == true) {
                 var Previous_MyReminderItem = [];
                 if ($scope.Id == 0) {
