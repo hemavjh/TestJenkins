@@ -2177,18 +2177,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.tab1 = $scope.tab1 + 1;
             });
 
-            $scope.ConfigCode = "FULLNAME_FORMULA";
-            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-                console.log(data2);
-                $scope.FullNameFormula = data2[0].ConfigValue;
-            });
+            
 
             $scope.ConfigCode = "MRN_PREFIX";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-                console.log(data2);
-                $scope.PrefixMRN = data2[0].ConfigValue;
+                if (data2.length !== 0) {
+                    $scope.PrefixMRN = data2[0].ConfigValue;
+                }
             });
         }
 
@@ -3418,7 +3414,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                         '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
                                             $scope.PayorMasterList = data1;
                                             $scope.SelectedPayor = [];
-                                            if (data.PayorId != "") {
+                                            if (data.PayorId != null && data.PayorId != "") {
                                                 $scope.EditPayorId = data.PayorId;
                                                 $scope.SelectedPayor.push($scope.EditPayorId);
                                                 $scope.PayorBased_PlanFunction(data.PlanId);
@@ -3883,7 +3879,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             TAB_PIN: "",
                             TAB_PHOTO: "",
                             TAB_FINGERPRINT: "",
-                            FullNameFormula: $scope.FullNameFormula,
+                            //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
@@ -4030,7 +4026,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             TAB_PIN: "",
                             TAB_PHOTO: "",
                             TAB_FINGERPRINT: "",
-                            FullNameFormula: $scope.FullNameFormula,
+                            //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
@@ -13990,7 +13986,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             $scope.ValidFromDate = moment($scope.ValidFromDate).format('DD-MMM-YYYY');
             $scope.ValidToDate = moment($scope.ValidToDate).format('DD-MMM-YYYY');
 
-            if (typeof ($scope.SelectedPayor) == "undefined" || $scope.SelectedPayor == "") {
+            if (typeof ($scope.SelectedPayor) == "undefined" || $scope.SelectedPayor == "" || $scope.SelectedPayor == null) {
                 alert("Please Select Any Payor");
                 return false;
             }
