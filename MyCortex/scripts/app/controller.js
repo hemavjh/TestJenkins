@@ -6122,7 +6122,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.current_others = p;
         }
          
-
+        $scope.showMainBox = true;
         // $scope.ParamGroup_Id=2;    
         $scope.GroupParameterNameList = [];
         $scope.VitalsParameterList_Data = [];
@@ -6839,8 +6839,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.newScheduledDates = [];
                     $scope.DataNotAvailible = 0;
                     $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                    document.getElementById("main-box").style = "display:none";
-                    document.getElementById("box").style = "";
+                    //document.getElementById("main-box").style = "display:none";
+                    //document.getElementById("box").style = "";
+                    $scope.showMainBox = false;
                     TimeSlot();
                     $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                         $scope.newScheduledDates = data;
@@ -6991,6 +6992,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     if ($scope.AppointmoduleID1 === 3) {
                         Appointment_Module = 3;
                     }
+                    $("#appoint_waveLoader").show();
                     if ($scope.OldAppointmentID == null) {
                         var objectSave = {
                             "Institution_Id": $scope.SelectedInstitutionId,
@@ -7012,9 +7014,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
                             alert(data.Message);
                             if (data.ReturnFlag == 1) {
+                                $("#appoint_waveLoader").hide();
                                 angular.element('#BookAppointmentModal').modal('hide');
-                                document.getElementById("main-box").style = "";
-                                document.getElementById("box").style = "display:none";
+                                //document.getElementById("main-box").style = "";
+                                //document.getElementById("box").style = "display:none";
+                                $scope.showMainBox = true;
                                 document.getElementById("show").disabled = true;
                                 document.getElementById("DocDetails").hidden = true;
                                 $scope.SelectedSpeciality = "";
@@ -7057,7 +7061,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 }
                             }
 
-                        });
+                        }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                     } else {
                         var objectReshedule = {
                             "Id": $scope.OldAppointmentID,
@@ -7082,9 +7086,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
                             alert(data.Message);
                             if (data.ReturnFlag == 1) {
+                                $("#appoint_waveLoader").hide();
                                 angular.element('#BookAppointmentModal').modal('hide');
-                                document.getElementById("main-box").style = "";
-                                document.getElementById("box").style = "display:none";
+                                //document.getElementById("main-box").style = "";
+                                //document.getElementById("box").style = "display:none";
+                                $scope.showMainBox = true;
                                 document.getElementById("show").disabled = true;
                                 document.getElementById("DocDetails").hidden = true;
                                 $scope.SelectedSpeciality = "";
@@ -7109,15 +7115,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 }
                             }
 
-                        });
+                        }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                     }
 
                 }
             }
             $scope.CancelMyAppointment = function () {
                 angular.element('#BookAppointmentModal').modal('hide');
-                document.getElementById("main-box").style = "";
-                document.getElementById("box").style = "display:none";
+                //document.getElementById("main-box").style = "";
+                //document.getElementById("box").style = "display:none";
+                $scope.showMainBox = true;
                 document.getElementById("show").disabled = true;
                 document.getElementById("DocDetails").hidden = true;
                 $scope.SelectedSpeciality = "";
@@ -8578,8 +8585,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.ShowAppointmentBookingPopUp = function () {
-            document.getElementById("main-box").style = "";
-            document.getElementById("box").style = "display:none";
+            //document.getElementById("main-box").style = "";
+            //document.getElementById("box").style = "display:none";
+            $scope.showMainBox = true;
             angular.element('#BookAppointmentModal').modal('show');
         }
         $scope.ShowStripePopup = function () {

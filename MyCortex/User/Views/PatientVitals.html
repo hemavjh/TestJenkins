@@ -5395,7 +5395,7 @@
                     </button>
                     <h4 class="modal-title">Book Doctor Appointment</h4>
                 </div>
-                <div id="main-box">
+                <div id="main-box" ng-show="showMainBox">
                     <div class="modal-body">
                         <div class="flex">
                             <div class="col-sm-4">
@@ -5531,7 +5531,7 @@
                     </div>
                 </div>
 
-                <div id="box" style="display:none">
+                <div id="box" ng-show="!showMainBox">
                     <div class="modal-body">
                         <div class="flex">
                             <div class="col-sm-7">
