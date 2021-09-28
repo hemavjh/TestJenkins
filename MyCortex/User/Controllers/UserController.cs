@@ -270,13 +270,13 @@ namespace MyCortex.User.Controller
                 //{
                 //    userObj.MrnPrefix = AppConfigmodel[0].ConfigValue;
                 //}
-                //modelLF_Formula = commonrepository.AppConfigurationDetails(FullNameFormula, userObj.INSTITUTION_ID.Value);
-                //if (modelLF_Formula[0].ConfigValue != null)
-                //{
-                //    FormulaforFullName = modelLF_Formula[0].ConfigValue;
-                //}
+                modelLF_Formula = commonrepository.AppConfigurationDetails(FullNameFormula, userObj.INSTITUTION_ID.Value);
+                if (modelLF_Formula[0].ConfigValue != null)
+                {
+                    FormulaforFullName = modelLF_Formula[0].ConfigValue;
+                }
                 string Replaced_FullName = "";
-                Replaced_FullName = userObj.FullNameFormula.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
+                Replaced_FullName = FormulaforFullName.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
                 userObj.FullName = EncryptPassword.Encrypt(Replaced_FullName);
                 userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
                 userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);

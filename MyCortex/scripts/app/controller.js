@@ -1593,6 +1593,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.AddUserPopUP = function () {
             $("#UserLogo").val('');
             photoview = false;
+            photoview1 = false;
+            photoview2 = false;
             $scope.uploadview = false;
             $scope.loadCount = 3;
             $scope.currentTab = "1";
@@ -1661,8 +1663,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.uploadme2 = null;
             $scope.Id = CatId;
             photoview = true;
-            photoview1 = true;
-            photoview2 = true;
+            photoview1 = false;
+            photoview2 = false;
             $scope.uploadview = false;
             $scope.DropDownListValue = 2;
             $scope.Admin_View($scope.MenuTypeId);
@@ -1676,8 +1678,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.uploadme2 = null;
             $scope.Id = CatId;
             photoview = true;
-            photoview1 = true;
-            photoview2 = true;
+            photoview1 = false;
+            photoview2 = false;
             $scope.uploadview = false;
             $scope.EditParameter = 4;
             $scope.DropDownListValue = 1;
@@ -2633,6 +2635,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.uploadme = "";
             $('#UserLogo').val('');
             photoview = false;
+            photoview1 = false;
+            photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
             $scope.AdmingetBase64Image();
@@ -2645,6 +2649,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.uploadme = "";
             $('#UserLogo').val('');
             photoview = false;
+            photoview1 = false;
+            photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
             $scope.getBase64Image();
@@ -2656,6 +2662,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.uploadme = "";
             $('#UserLogo').val('');
             photoview = false;
+            photoview1 = false;
+            photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
             $scope.PatientgetBase64Image();
@@ -2666,7 +2674,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.NationalPhotoFilename = "";
             $scope.uploadme1 = "";
             $('#NationalLogo').val('');
+            photoview = false;
             photoview1 = false;
+            photoview2 = false;
             $scope.Nationaluploadview = false;
             $scope.NationalPhotoValue = 0;
             $scope.PatientgetBase64Image();
@@ -2676,6 +2686,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.InsurancePhotoFilename = "";
             $scope.uploadme2 = "";
             $('#InsuranceLogo').val('');
+            photoview = false;
+            photoview1 = false;
             photoview2 = false;
             $scope.Insuranceuploadview = false;
             $scope.InsurancePhotoValue = 0;
@@ -4089,106 +4101,112 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             if (photoview == false) {
                 photoview = true;
 
-                imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
-                itemIndexLogo = 0;
+                if ($scope.PhotoFullpath != undefined) {
+                    imgBlob = $scope.dataURItoBlob($scope.PhotoFullpath);
+                    itemIndexLogo = 0;
 
-                if (itemIndexLogo != -1) {
-                    fd.append('file', imgBlob);
-                }
-                /*
-                calling the api method for read the file path 
-                and saving the image uploaded in the local server. 
-                */
-
-                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
+                    if (itemIndexLogo != -1) {
+                        fd.append('file', imgBlob);
                     }
-                )
-                    .success(function (response) {
-                        if ($scope.FileName == "") {
-                            $scope.UserLogo = "";
-                        }
-                        else if (itemIndexLogo > -1) {
-                            if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                $scope.UserLogo = response[itemIndexLogo];
+                    /*
+                    calling the api method for read the file path 
+                    and saving the image uploaded in the local server. 
+                    */
+
+                    $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=1' + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
                             }
                         }
-                    });
+                    )
+                        .success(function (response) {
+                            if ($scope.FileName == "") {
+                                $scope.UserLogo = "";
+                            }
+                            else if (itemIndexLogo > -1) {
+                                if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                    $scope.UserLogo = response[itemIndexLogo];
+                                }
+                            }
+                        });
+                }
             }
 
             if (photoview1 == false) {
                 photoview1 = true;
 
-                NationalimgBlob = $scope.dataURItoBlob($scope.NationalPhotoFullpath);
-                NationalitemIndexLogo = 0;
+                if ($scope.NationalPhotoFullpath != undefined) {
+                    NationalimgBlob = $scope.dataURItoBlob($scope.NationalPhotoFullpath);
+                    NationalitemIndexLogo = 0;
 
-                if (NationalitemIndexLogo != -1) {
-                    fd1.append('file', NationalimgBlob);
-                }
-                /*
-                calling the api method for read the file path 
-                and saving the image uploaded in the local server. 
-                */
-
-                $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd1,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
+                    if (NationalitemIndexLogo != -1) {
+                        fd1.append('file', NationalimgBlob);
                     }
-                )
-                    .success(function (response) {
-                        if ($scope.NationalPhotoFilename == "") {
-                            $scope.NationalLogo = "";
-                        }
-                        else if (NationalitemIndexLogo > -1) {
-                            if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
-                                $scope.NationalLogo = response[NationalitemIndexLogo];
+                    /*
+                    calling the api method for read the file path 
+                    and saving the image uploaded in the local server. 
+                    */
+
+                    $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd1,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
                             }
                         }
-                    });
+                    )
+                        .success(function (response) {
+                            if ($scope.NationalPhotoFilename == "") {
+                                $scope.NationalLogo = "";
+                            }
+                            else if (NationalitemIndexLogo > -1) {
+                                if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                    $scope.NationalLogo = response[NationalitemIndexLogo];
+                                }
+                            }
+                        });
+                }
             }
 
             if (photoview2 == false) {
                 photoview2 = true;
 
-                InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
-                InsuranceitemIndexLogo = 0;
+                if ($scope.InsurancePhotoFullpath != undefined) {
+                    InsuranceimgBlob = $scope.dataURItoBlob($scope.InsurancePhotoFullpath);
+                    InsuranceitemIndexLogo = 0;
 
-                if (InsuranceitemIndexLogo != -1) {
-                    fd2.append('file', InsuranceimgBlob);
-                }
-                /*
-                calling the api method for read the file path 
-                and saving the image uploaded in the local server. 
-                */
-
-                $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd2,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
+                    if (InsuranceitemIndexLogo != -1) {
+                        fd2.append('file', InsuranceimgBlob);
                     }
-                )
-                    .success(function (response) {
-                        if ($scope.InsurancePhotoFilename == "") {
-                            $scope.InsuranceLogo = "";
-                        }
-                        else if (InsuranceitemIndexLogo > -1) {
-                            if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
-                                $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                    /*
+                    calling the api method for read the file path 
+                    and saving the image uploaded in the local server. 
+                    */
+
+                    $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd2,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
                             }
                         }
-                    });
+                    )
+                        .success(function (response) {
+                            if ($scope.InsurancePhotoFilename == "") {
+                                $scope.InsuranceLogo = "";
+                            }
+                            else if (InsuranceitemIndexLogo > -1) {
+                                if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
+                                    $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                                }
+                            }
+                        });
+                }
             }
 
             if ($scope.PhotoValue == 1 && photoview == false && $scope.Id == 0) {
@@ -4199,7 +4217,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
                 if (itemIndexLogo != -1) {
                     fd.append('file', imgBlob);
-                }
                 /*	
                 calling the api method for read the file path 	
                 and saving the image uploaded in the local server. 	
@@ -4223,6 +4240,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
                         }
                     });
+                }
             }
 
             if ($scope.PhotoValue1 == 1 && photoview1 == false && $scope.Id == 0) {
@@ -4233,7 +4251,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
                 if (NationalitemIndexLogo != -1) {
                     fd1.append('file', NationalimgBlob);
-                }
+                
                 /*	
                 calling the api method for read the file path 	
                 and saving the image uploaded in the local server. 	
@@ -4257,6 +4275,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
                         }
                     });
+                }
             }
 
             if ($scope.PhotoValue2 == 1 && photoview2 == false && $scope.Id == 0) {
@@ -4267,30 +4286,31 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
                 if (InsuranceitemIndexLogo != -1) {
                     fd2.append('file', InsuranceimgBlob);
-                }
-                /*	
-                calling the api method for read the file path 	
-                and saving the image uploaded in the local server. 	
-                */
-                $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd2,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
-                    }
-                )
-                    .success(function (response) {
-                        if ($scope.InsurancePhotoFilename == "") {
-                            $scope.InsuranceLogo = "";
-                        }
-                        else if (InsuranceitemIndexLogo > -1) {
-                            if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
-                                $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+
+                    /*	
+                    calling the api method for read the file path 	
+                    and saving the image uploaded in the local server. 	
+                    */
+                    $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd2,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
                             }
                         }
-                    });
+                    )
+                        .success(function (response) {
+                            if ($scope.InsurancePhotoFilename == "") {
+                                $scope.InsuranceLogo = "";
+                            }
+                            else if (InsuranceitemIndexLogo > -1) {
+                                if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
+                                    $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                                }
+                            }
+                        });
+                }
             }
 
             if ($scope.PhotoValue == 1 && photoview == true && $scope.Id > 0) {
@@ -4306,31 +4326,32 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
                 if (itemIndexLogo != -1) {
                     fd.append('file', imgBlob);
-                }
-                /*
-                calling the api method for read the file path 
-                and saving the image uploaded in the local server. 
-                */
 
-                $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
-                    }
-                )
-                    .success(function (response) {
-                        if ($scope.FileName == "") {
-                            $scope.UserLogo = "";
-                        }
-                        else if (itemIndexLogo > -1) {
-                            if ($scope.FileName != "" && response[itemIndexLogo] != "") {
-                                $scope.UserLogo = response[itemIndexLogo];
+                    /*
+                    calling the api method for read the file path 
+                    and saving the image uploaded in the local server. 
+                    */
+
+                    $http.post(baseUrl + '/api/User/AttachPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue + '&Certificate=' + $scope.CertificateValue + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
                             }
                         }
-                    });
+                    )
+                        .success(function (response) {
+                            if ($scope.FileName == "") {
+                                $scope.UserLogo = "";
+                            }
+                            else if (itemIndexLogo > -1) {
+                                if ($scope.FileName != "" && response[itemIndexLogo] != "") {
+                                    $scope.UserLogo = response[itemIndexLogo];
+                                }
+                            }
+                        });
+                }
             }
 
             if ($scope.PhotoValue1 == 1 && photoview1 == true && $scope.Id > 0) {
@@ -4346,31 +4367,32 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
                 if (NationalitemIndexLogo != -1) {
                     fd1.append('file', NationalimgBlob);
-                }
-                /*
-                calling the api method for read the file path 
-                and saving the image uploaded in the local server. 
-                */
 
-                $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd1,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
-                    }
-                )
-                    .success(function (response) {
-                        if ($scope.NationalPhotoFilename == "") {
-                            $scope.NationalLogo = "";
-                        }
-                        else if (NationalitemIndexLogo > -1) {
-                            if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
-                                $scope.NationalLogo = response[NationalitemIndexLogo];
+                    /*
+                    calling the api method for read the file path 
+                    and saving the image uploaded in the local server. 
+                    */
+
+                    $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd1,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
                             }
                         }
-                    });
+                    )
+                        .success(function (response) {
+                            if ($scope.NationalPhotoFilename == "") {
+                                $scope.NationalLogo = "";
+                            }
+                            else if (NationalitemIndexLogo > -1) {
+                                if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                    $scope.NationalLogo = response[NationalitemIndexLogo];
+                                }
+                            }
+                        });
+                }
             }
 
             if ($scope.PhotoValue2 == 1 && photoview2 == true && $scope.Id > 0) {
@@ -4386,31 +4408,31 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
                 if (InsuranceitemIndexLogo != -1) {
                     fd2.append('file', InsuranceimgBlob);
-                }
-                /*
-                calling the api method for read the file path 
-                and saving the image uploaded in the local server. 
-                */
+                    /*
+                    calling the api method for read the file path 
+                    and saving the image uploaded in the local server. 
+                    */
 
-                $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                    fd2,
-                    {
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
-                        }
-                    }
-                )
-                    .success(function (response) {
-                        if ($scope.InsurancePhotoFilename == "") {
-                            $scope.InsuranceLogo = "";
-                        }
-                        else if (InsuranceitemIndexLogo > -1) {
-                            if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
-                                $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                    $http.post(baseUrl + '/api/User/AttachInsurancePhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue2 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                        fd2,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
                             }
                         }
-                    });
+                    )
+                        .success(function (response) {
+                            if ($scope.InsurancePhotoFilename == "") {
+                                $scope.InsuranceLogo = "";
+                            }
+                            else if (InsuranceitemIndexLogo > -1) {
+                                if ($scope.InsurancePhotoFilename != "" && response[InsuranceitemIndexLogo] != "") {
+                                    $scope.InsuranceLogo = response[InsuranceitemIndexLogo];
+                                }
+                            }
+                        });
+                }
             }
 
             if ($scope.CertificateValue == 1) {
@@ -6356,6 +6378,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.MonitoringProtocolName = [];
 
         var photoview = false;
+        var photoview1 = false;
+        var photoview2 = false;
         $scope.uploadview = false;
         $scope.unitgrouptype = 1;
         $scope.UnitGroupTypeList = [];
