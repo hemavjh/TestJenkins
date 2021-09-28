@@ -21799,7 +21799,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         }
                     });
                     var seldays = $scope.SelectedDays.length;
-                    for (i = seldays; i >= 0; i--) {
+                    for (i = seldays - 1; i >= 0; i--) {
                         if ($scope.SelectedDays[i].exist == 0) {
                             $scope.SelectedDays.splice(i, 1);
                         }
