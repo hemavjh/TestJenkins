@@ -805,6 +805,7 @@ namespace MyCortex.Home.Controllers
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
+            string baseUrl = HttpContext.Request.Url.Authority;
             long appointmentId = Convert.ToInt64(form["paymentAppointmentId"]);
             long departmentId = Convert.ToInt64(form["paymentdepartmentId"]);
             long PInstitutionId = Convert.ToInt64(form["paymentInstitutionId"]);
@@ -844,9 +845,9 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl = baseUrl + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/",
+                notifyUrl = baseUrl + "/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
