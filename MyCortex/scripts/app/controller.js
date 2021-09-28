@@ -2598,7 +2598,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             });
         }
 
-        getallpatientlist();
+        //getallpatientlist();
 
 
         /* Filter the master list function.*/
