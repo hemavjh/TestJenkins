@@ -961,9 +961,10 @@ namespace MyCortex.Home.Controllers
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
+            string baseUrl = HttpContext.Request.Url.Authority;
             try
             {
-                redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
+                redirectUrl = baseUrl + "/Home/Index#/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
@@ -1004,7 +1005,7 @@ namespace MyCortex.Home.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/RefundNotify/",
+                    notifyUrl = baseUrl + "/Home/RefundNotify/",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
