@@ -111,7 +111,7 @@ namespace MyCortex.User.Controllers
             }
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
         [CheckSessionOutFilter]
         public HttpResponseMessage Tab_User_Pin_Update([FromBody] TabUserPinModel obj)
