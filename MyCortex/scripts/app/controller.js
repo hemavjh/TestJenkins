@@ -5749,7 +5749,7 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                     $http.get(baseUrl + '/api/User/AllergtMaster_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.Institution_Id + '&StartRowNumber=' + $scope.PageStart +
                         '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                             $("#chatLoaderPV").hide();
-                            if (data != null && data !== undefined) {
+                            if (data.length != 0 && data != null && data !== undefined) {
                                 $scope.AllergyMasteremptydata = [];
                                 $scope.AllergyMasterListData = [];
                                 $scope.AllergyMasterListData = data;
@@ -5762,31 +5762,34 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                                 else {
                                     $scope.flag = 0;
                                 }
+                            } else {
+                                $scope.AllergyMasterList = [];
+                                $scope.AllergyCount = 0;
                             }
                             
                             $scope.AllergyTypeList = [];
-                            $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
-                                $("#chatLoaderPV").hide();
-                                $scope.AllergyTypeListTemp = [];
-                                $scope.AllergyTypeListTemp = data;
-                                var obj = { "Id": 0, "AllergyTypeName": "Select", "IsActive": 1 };
-                                $scope.AllergyTypeListTemp.splice(0, 0, obj);
-                                $scope.AllergyTypeList = angular.copy($scope.AllergyTypeListTemp);
-                            })
-                            $scope.AllergenListfilter = [];
-                            $scope.AllegenBasedType = function (AllergyTypeId) {
-                                var id = "0"
-                                id = $scope.AllergenId;
-                                $http.get(baseUrl + 'api/MasterAllergy/MasterAllergenList/?ALLERGYTYPE_ID=' + AllergyTypeId + '&Institution_Id=' + $scope.Institution_Id).success(function (data) {
-                                    $scope.AllergenListTemp = [];
-                                    $scope.AllergenListTemp = data;
-                                    var obj = { "Id": 0, "AllergenName": "Select", "IsActive": 1 };
-                                    $scope.AllergenListTemp.splice(0, 0, obj);
-                                    $scope.AllergenListfilter = angular.copy($scope.AllergenListTemp);
-                                    $scope.AllergenId = id;
+                            //$http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
+                            //    $("#chatLoaderPV").hide();
+                            //    $scope.AllergyTypeListTemp = [];
+                            //    $scope.AllergyTypeListTemp = data;
+                            //    var obj = { "Id": 0, "AllergyTypeName": "Select", "IsActive": 1 };
+                            //    $scope.AllergyTypeListTemp.splice(0, 0, obj);
+                            //    $scope.AllergyTypeList = angular.copy($scope.AllergyTypeListTemp);
+                            //})
+                            //$scope.AllergenListfilter = [];
+                            //$scope.AllegenBasedType = function (AllergyTypeId) {
+                            //    var id = "0"
+                            //    id = $scope.AllergenId;
+                            //    $http.get(baseUrl + 'api/MasterAllergy/MasterAllergenList/?ALLERGYTYPE_ID=' + AllergyTypeId + '&Institution_Id=' + $scope.Institution_Id).success(function (data) {
+                            //        $scope.AllergenListTemp = [];
+                            //        $scope.AllergenListTemp = data;
+                            //        var obj = { "Id": 0, "AllergenName": "Select", "IsActive": 1 };
+                            //        $scope.AllergenListTemp.splice(0, 0, obj);
+                            //        $scope.AllergenListfilter = angular.copy($scope.AllergenListTemp);
+                            //        $scope.AllergenId = id;
 
-                                })
-                            }
+                            //    })
+                            //}
 
                             $scope.Allergt_pages = Math.ceil(($scope.AllergyCount) / ($scope.page_size));
 
