@@ -102,6 +102,7 @@ namespace MyCortex.Home.Controllers
                 }
                 else
                 {
+                    _logger.Warn("page go to login");
                     return RedirectToAction("LoginIndex");
                 }
 
@@ -115,7 +116,10 @@ namespace MyCortex.Home.Controllers
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserId"] == null)
+            {
+                _logger.Warn("session is null so page go to login");
                 Response.Redirect("LoginIndex");
+            }
         }
 
         // GET: Login Index
@@ -167,6 +171,7 @@ namespace MyCortex.Home.Controllers
                 //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
 
                 returnError = "";
+                _logger.Warn("LoginOut button clicked");
                 return RedirectToAction("LoginIndex");
             }
             catch (Exception ex)
@@ -206,6 +211,7 @@ namespace MyCortex.Home.Controllers
                 //HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
 
                 returnError = "";
+                _logger.Warn("LoginOutAllDevice button clicked");
                 return RedirectToAction("LoginIndex");
             }
             catch (Exception ex)
