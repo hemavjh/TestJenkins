@@ -728,7 +728,7 @@ namespace MyCortex.Repositories.Masters
 
         }
 
-        public OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId)
+        public OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId, Guid Login_Session_Id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();

@@ -6735,7 +6735,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.bookpa = 0;
             var current_date = new Date().getFullYear() + '-' + (((new Date().getMonth() + 1).toString().length > 1) ? ((new Date().getMonth() + 1).toString()) : '0' + (new Date().getMonth() + 1).toString()) + '-' + (((new Date().getDate()).toString().length > 1) ? ((new Date().getDate()).toString()) : '0' + (new Date().getDate()).toString());
             angular.element(document.getElementById('datee')).attr('min', current_date);
-            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                 if (data.IsCc) { $scope.bookcc = 6; }
                 if (data.IsCg) { $scope.bookCg = 5; }
                 if (data.IsCl) { $scope.bookCl = 4; }
@@ -20736,7 +20736,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             var checked = $('#OrgDefaultId').is(":checked")
             if (checked == true) {
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                     $scope.NewAppointment = data.NewAppointmentDuration;
                     $scope.followup = data.FollowUpDuration;
                     $scope.IntervalBt = data.AppointmentInterval;
@@ -20753,7 +20753,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             var checked = $('#OrgBookInfoId').is(":checked")
             if (checked == true) {
                 $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                     $scope.Days = data.MinRescheduleDays;
                     $scope.Minutes = data.MinRescheduleMinutes;
                     $("#chatLoaderPV").hide();
@@ -21999,7 +21999,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             return true;
         };
         $scope.OrganisationSettingsSelectedDays = function () {
-            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                 const OrgDay = ""; 
                 const OrgSelectedDate = data.DefaultWorkingDays.split(',');
                 angular.forEach($scope.SelectedDays, function (value, index) {
@@ -23452,7 +23452,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 }
             });
 
-            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.sunday = false;
                 $scope.monday = false;

@@ -19,7 +19,7 @@ namespace MyCortex.Repositories
         DoctorShiftModel ActivateDoctorShift_List(long Id, long Institution_Id, long Doctor_Id);
         IList<AppointmentTimeZone> GetTimeZoneList();
         IList<OrgAppointmentSettings> GetOrgAppointmentSettings(Guid Login_Session_Id, OrgAppointmentSettings insobj);
-        OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId);
+        OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId, Guid Login_Session_Id);
         OrgAppointmentModuleSettings ORG_APPOINTMENT_MODULE_SETTINGS(long InstitutionId);
         void APPOINTMENTRESETDETAILS(long InstitutionId);
         IList<AppointmentModule> GetAppointmentModuleList();
