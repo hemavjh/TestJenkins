@@ -325,7 +325,7 @@ namespace MyCortex.Masters.Controllers
 
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public IList<AppointmentTimeZone> TimeZoneList()
         {
@@ -344,7 +344,7 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public IList<AppointmentModule> AppointmentModuleList()
         {
