@@ -359,7 +359,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups" style="font-size: 16px;">
-                                    <label style="margin-left: 21px; margin-bottom: 12px;">Patient Profile Image</label>
+                                    <label style="margin-left: 0px; margin-bottom: 12px;">Patient Profile Image</label>
                                 </div>
                                 <div class="inputGroups">
                                     <div class="imgAdd">
@@ -372,17 +372,18 @@
                                         <div ng-if="(uploadme!=null || uploadme!='')" valign="top" rowspan="6">
                                             <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}" />
                                         </div>
+                                        <div style="margin-top: 15px;">
+                                            <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatient();"
+                                               title="Clear" ng-hide="Pat_UserTypeId==2">
+                                                Clear
+                                            </a>
+                                            <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                                <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
+                                                    <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
+                                                    <span>Upload Profile Photo</span>
+                                                </label>
 
-                                        <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatient();"
-                                           title="Clear" ng-hide="Pat_UserTypeId==2">
-                                            Clear
-                                        </a>
-                                        <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
-                                            <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
-                                                <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
-                                                <span>Upload Profile Photo</span>
-                                            </label>
-
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
@@ -413,7 +414,7 @@
 
                             <div class="col-sm-4">
                                 <div class="inputGroups" style="font-size: 16px;">
-                                    <label style=" margin-left: 21px; margin-top: 29px;">National Image</label>
+                                    <label style=" margin-left: 0px; margin-top: 29px;">National Image</label>
                                 </div>
                                 <div class="inputGroups">
                                     <div class="imgAdd1">
@@ -423,46 +424,47 @@
                                                style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
                                                ng-click="NationalityPhotoUplaodSelected()" />
 
-                                        <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
-                                            <img id="item-img-output1" class="responsiveProfileImage1" src="{{uploadme1}}" />
-                                        </div>
+                                            <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
+                                                <img id="item-img-output1" class="responsiveProfileImage1" src="{{uploadme1}}" />
+                                            </div>
+                                            <div style="margin-top: 15px;">
+                                                <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
+                                                   title="Clear" ng-hide="Pat_UserTypeId==2">
+                                                    Clear
+                                                </a>
+                                                <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                                    <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
+                                                        <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
+                                                        <span>Upload National Photo</span>
+                                                    </label>
 
-                                        <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
-                                           title="Clear" ng-hide="Pat_UserTypeId==2">
-                                            Clear
-                                        </a>
-                                        <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
-                                            <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
-                                                <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
-                                                <span>Upload National Photo</span>
-                                            </label>
-
-                                        </div>
-                                    </div>
-                                    <div class="modal" tabindex="-1" role="dialog" id="insertimageModal1">
-                                        <div class="modal-dialog" role="document" style="min-width: 700px">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Crop Image</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-md-12 text-center">
-                                                            <div id="image_demo1"></div>
+                                            </div>
+                                        </div>
+                                        <div class="modal" tabindex="-1" role="dialog" id="insertimageModal1">
+                                            <div class="modal-dialog" role="document" style="min-width: 700px">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Crop Image</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center">
+                                                                <div id="image_demo1"></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-primary crop_images">Crop and Save</button>
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary crop_images">Crop and Save</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
 
                         </div>
@@ -1193,7 +1195,7 @@
 
                                 <div class="col-sm-4">
                                     <div class="inputGroups" style="font-size: 16px;">
-                                        <label style=" margin-left: 21px; margin-top: 29px;">Insurance Image</label>
+                                        <label style=" margin-left: 0px; margin-top: 29px;">Insurance Image</label>
                                     </div>
                                     <div class="inputGroups">
                                         <div class="imgAdd">

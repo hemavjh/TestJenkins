@@ -248,55 +248,69 @@
                                         <tr>
 
                                             <td style="width:10%" valign="top" rowspan="11">
+                                                <div class="inputGroups">
+                                                    <div class="imgAdd">
+                                                        <input type="file" id="UserLogo" fileread="uploadme"
+                                                               onchange="angular.element(this).scope().photoChange(this)"
+                                                               name="FileName" title="Click to Upload Image "
+                                                               style="height:0px !important"
+                                                               accept="image/x-png,image/gif,image/jpeg" ng-click="PhotoUplaodSelected()" />
 
-                                                <input type="file" id="UserLogo" fileread="uploadme"
-                                                       onchange="angular.element(this).scope().photoChange(this)"
-                                                       name="FileName" title="Click to Upload Image "
-                                                       style="height:0px !important"
-                                                       accept="image/x-png,image/gif,image/jpeg" ng-click="PhotoUplaodSelected()" />
 
-
-                                                <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
-                                                    <div class="modal-dialog" role="document" style="min-width: 700px">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Crop Image</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-12 text-center">
-                                                                        <div id="image_demo"></div>
+                                                        <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
+                                                            <div class="modal-dialog" role="document" style="min-width: 700px">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Crop Image</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 text-center">
+                                                                                <div id="image_demo"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-primary crop_image">Crop and Save</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary crop_image">Crop and Save</button>
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+
+                                                        <div valign="top" rowspan="6">
+                                                            <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}" style="width:200px;height:200px;" />
+                                                        </div>
+
+                                                        <!--<div class="uploadIconContainer">
+                                                            <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
+                                                                <u>Clear</u>
+                                                            </a>
+                                                        </div>-->
+                                                            <div style="margin-top: 15px;">
+                                                                <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="Adminimageclear();"
+                                                                   title="Clear">
+                                                                    Clear
+                                                                </a>
+                                                                <div style="max-width: 250px;" class="theme-btn-1">
+                                                                    <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
+                                                                        <i class="fa fa-upload"></i>
+                                                                        <span>Upload Profile Photo</span>
+                                                                    </label>
+
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-
-                                                <div valign="top" rowspan="6">
-                                                    <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}" style="width:200px;height:200px;" />
-                                                </div>
-
-                                                <div class="uploadIconContainer">
-                                                    <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
-                                                        <u>Clear</u>
-                                                    </a>
-                                                </div>
-                                                <div class="uploadIconContainer">
-                                                    <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
-                                                        <i class="fa fa-upload"></i>
-                                                    </label>
-                                                    <span>Upload Photo</span>
-                                                </div>
-
-
+                                                        <!--<div class="uploadIconContainer">
+                                                            <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
+                                                                <i class="fa fa-upload"></i>
+                                                            </label>
+                                                            <span>Upload Photo</span>
+                                                        </div>-->
                                             </td>
                                             <td width="17%">
                                                 <label valign="top" ng-show="LoginType == 1">
