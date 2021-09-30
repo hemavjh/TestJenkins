@@ -21609,7 +21609,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.DoctorShift_InsertUpdate = function () {
             if ($scope.ValidationcontrolsDoctorShift() == true) {
-                $("#chatLoaderPV").show();
+                //$("#chatLoaderPV").show();
                 $scope.SelectedDepartment_List = [];
                 angular.forEach($scope.SelectedDepartment, function (value, index) {
                     var obj = {
@@ -21843,6 +21843,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         break;
                     }
                 }
+                var selectedCheckedDays = $scope.SelectedDays.filter(x => x.exist == 1);
+                if (selectedCheckedDays.length <= 0) {
+                    chk = 3;
+                }
                 if (chk === 1 || chk == 2) {
                     angular.forEach($scope.SelectedDays, function (value, index) {
                         for (let i = 3; i >= 0; i--) {
@@ -21853,12 +21857,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             }
                         }
                     });
-                    var seldays = $scope.SelectedDays.length;
-                    for (i = seldays - 1; i >= 0; i--) {
-                        if ($scope.SelectedDays[i].exist == 0) {
-                            $scope.SelectedDays.splice(i, 1);
-                        }
-                    }
+                    //var seldays = $scope.SelectedDays.length;
+                    //for (i = seldays - 1; i >= 0; i--) {
+                    //    if ($scope.SelectedDays[i].exist == 0) {
+                    //        $scope.SelectedDays.splice(i, 1);
+                    //    }
+                    //}
                     var obj = {
                         ID: $scope.Id,
                         Institution_Id: $window.localStorage['InstitutionId'],
@@ -21874,7 +21878,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         CustomSlot: parseInt($scope.CustomSlot),
                         BookingOpen: $scope.Days,
                         BookingCancelLock: parseInt($scope.Minutes),
-                        SelectedDaysList: $scope.SelectedDays
+                        SelectedDaysList: selectedCheckedDays
                     };
                     $("#chatLoaderPV").show();
                     $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
@@ -21892,8 +21896,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     }).error(function (data) {
                         $scope.error = "An error has occurred while Adding Docor Shift" + data;
                     });
-                } else {
+                } else if (chk == 0) {
                     alert('Please Enter Valid Timeslot!');
+                } else if (chk == 3) {
+                    alert('Please Select Any One Day');
                 }
             }
         }
