@@ -6794,6 +6794,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.DoctorDetailList = [];
             $scope.idSelectedVote = null;
             $scope.GetDoctorDetails = function (list) {
+                $("#chatLoaderPV").show();
                 $scope.DoctorID = [];
                 document.getElementById("DocDetails").hidden = false;
                 document.getElementById("show").disabled = false;
@@ -6802,6 +6803,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                 $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.DoctorDetailList = data;
+                    $("#chatLoaderPV").hide();
                     $scope.AppointmoduleID = data.Appointment_Module_Id;
                     $scope.AppointmoduleID1 = data.Appointment_Module_Id;
                     $scope.paymentdepartmentId = data.DEPARTMENT_ID;
@@ -7145,7 +7147,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             $scope.CancelDocAppointment = function (Row) {
                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                console.log(Row);
+                $("#chatLoaderPV").show();
+                //console.log(Row);
                 var objectCancel = {
                     "Id": Row.Id,
                     "CancelledBy_Id": $window.localStorage['UserId'],
@@ -7172,9 +7175,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         }
                     });
                 }
+                $("#chatLoaderPV").hide();
             }
             $scope.ConfirmAppointment = function (Row) {
                 if (confirm("Confirm to appointment")) {
+                    $("#chatLoaderPV").show();
                     var obj = {
                         "Id": Row.Id,
                         "SESSION_ID": $window.localStorage['Login_Session_Id'],
@@ -7182,6 +7187,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         "user_id": $window.localStorage['UserId']
                     }
                     $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
+                        $("#chatLoaderPV").hide();
                         if (data.ReturnFlag == 1) {
                             CG_PatientAppointment_List();
                             alert(data.Message);
@@ -13832,10 +13838,13 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
 
             var del = confirm("Do you like to deactivate the selected Payor Master details?");
             if (del == true) {
+                $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Delete/?Id=' + $scope.Id).success(function (data) {
                     alert("Payor details has been deactivated Successfully");
+                    $("#chatLoaderPV").hide();
                     $scope.Payorlist();
                 }).error(function (data) {
+                    $("#chatLoaderPV").hide();
                     $scope.error = "An error has occurred while deleting  Payor Master details" + data;
                 });
             }
@@ -13850,10 +13859,13 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
 
             var Ins = confirm("Do you like to activate the selected Payor Master details?");
             if (Ins == true) {
+                $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Active/?Id=' + $scope.Id).success(function (data) {
                     alert("Selected Payor details has been activated successfully");
+                    $("#chatLoaderPV").hide();
                     $scope.Payorlist();
                 }).error(function (data) {
+                    $("#chatLoaderPV").hide();
                     $scope.error = "An error has occured while deleting Payor records" + data;
                 });
             }
@@ -13977,7 +13989,6 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                 $scope.PayorMasterList = data;
             });
         }).error(function (data) {
-            $("#chatLoaderPV").hide();
             $scope.error = "AN error has occured while Listing the records!" + data;
         })
 
@@ -14177,6 +14188,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                 $scope.ValidToDate = DateFormatEdit($filter('date')(data.ValidToDate, "dd-MMM-yyyy"));
                 
             });
+            $("#chatLoaderPV").hide();
         }
 
         $scope.DeletePlan = function (DId) {
@@ -14188,10 +14200,13 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 
             var del = confirm("Do you like to deactivate the selected Plan Master details?");
             if (del == true) {
+                $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Delete/?Id=' + $scope.Id).success(function (data) {
                     alert("Plan details has been deactivated Successfully");
+                    $("#chatLoaderPV").hide();
                     $scope.Planlist();
                 }).error(function (data) {
+                    $("#chatLoaderPV").hide();
                     $scope.error = "An error has occurred while deleting  Plan Master details" + data;
                 });
             }
@@ -14206,10 +14221,13 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 
             var Ins = confirm("Do you like to activate the selected Plan Master details?");
             if (Ins == true) {
+                $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Active/?Id=' + $scope.Id).success(function (data) {
                     alert("Selected Plan details has been activated successfully");
+                    $("#chatLoaderPV").hide();
                     $scope.Planlist();
                 }).error(function (data) {
+                    $("#chatLoaderPV").hide();
                     $scope.error = "An error has occured while deleting Payor records" + data;
                 });
             }
@@ -20694,6 +20712,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         });
 
         $scope.AddSlot = function () {
+            $("#chatLoaderPV").show();
             $scope.Id = 0;
             $scope.DoctorSave = true;
             var $sel1 = $('#department');
@@ -20705,8 +20724,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
             angular.element('#DoctorShiftModal').modal('show');
+            $("#chatLoaderPV").hide();
         }
         $scope.onChangeDepartment = function () {
+            $("#chatLoaderPV").show();
             var today = moment(new Date()).format('DD-MMM-YYYY');
             var SelectedDepartmentId = "";
             angular.forEach($scope.SelectedDepartment, function (Department_Id, index) {
@@ -20729,7 +20750,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             } else {
                 $scope.SelectedDoctorList = [];
             }
-            
+            $("#chatLoaderPV").hide();
         }
 
         $scope.OrgDefaultClick = function (event) {
@@ -20773,6 +20794,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $('#Shift1Select').prop('checked', false);
                 }
                 else {
+                    $("#chatLoaderPV").show();
                     if ($scope.TimeSlot1 != 0 && $scope.TimeSlot2 != 0) {
                         $scope.TimeSlot7 = angular.copy($scope.TimeSlot1);
                         $scope.TimeSlot8 = angular.copy($scope.TimeSlot2);
@@ -20906,12 +20928,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $scope.TimeSlot31 = angular.copy($scope.TimeSlot37);
                         $scope.TimeSlot32 = angular.copy($scope.TimeSlot38);
                     }
-
                     else {
                         alert('Please Enter Proper Shift FromTime And ToTime !');
                         $('#Shift1Select').prop('checked', false);
                         return false;
                     }
+                    $("#chatLoaderPV").hide();
                 }
             } else {
                 $scope.TimeSlot1 = "";
@@ -20940,6 +20962,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $('#Shift2Select').prop('checked', false);
                 }
                 else {
+                    $("#chatLoaderPV").show();
                     if ($scope.TimeSlot3 != 0 && $scope.TimeSlot4 != 0) {
                         $scope.TimeSlot9 = angular.copy($scope.TimeSlot3);
                         $scope.TimeSlot10 = angular.copy($scope.TimeSlot4);
@@ -21078,6 +21101,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $('#Shift2Select').prop('checked', false);
                         return false;
                     }
+                    $("#chatLoaderPV").hide();
                 }
             } else {
                 $scope.TimeSlot3 = "";
@@ -21107,6 +21131,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $('#Shift3Select').prop('checked', false);
                 }
                 else {
+                    $("#chatLoaderPV").show();
                     if ($scope.TimeSlot5 != 0 && $scope.TimeSlot6 != 0) {
                         $scope.TimeSlot11 = angular.copy($scope.TimeSlot5);
                         $scope.TimeSlot12 = angular.copy($scope.TimeSlot6);
@@ -21245,6 +21270,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $('#Shift3Select').prop('checked', false);
                         return false;
                     }
+                    $("#chatLoaderPV").hide();
                 }
             } else {
                 $scope.TimeSlot5 = "";
@@ -21273,6 +21299,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $('#Shift4Select').prop('checked', false);
                 }
                 else {
+                    $("#chatLoaderPV").show();
                     if ($scope.TimeSlot43 != 0 && $scope.TimeSlot44 != 0) {
                         $scope.TimeSlot45 = angular.copy($scope.TimeSlot43);
                         $scope.TimeSlot46 = angular.copy($scope.TimeSlot44);
@@ -21411,7 +21438,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $('#Shift4Select').prop('checked', false);
                         return false;
                     }
-
+                    $("#chatLoaderPV").hide();
                 }
             } else {
                 $scope.TimeSlot43 = "";
@@ -21582,7 +21609,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.DoctorShift_InsertUpdate = function () {
             if ($scope.ValidationcontrolsDoctorShift() == true) {
-                //$("#chatLoaderPV").show();
+                $("#chatLoaderPV").show();
                 $scope.SelectedDepartment_List = [];
                 angular.forEach($scope.SelectedDepartment, function (value, index) {
                     var obj = {
@@ -21851,8 +21878,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     };
                     $("#chatLoaderPV").show();
                     $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                        $("#chatLoaderPV").hide();
                         alert(data.Message);
+                        $("#chatLoaderPV").hide();
                         if (data.ReturnFlag == 1) {
                             $scope.DoctorShiftClear();
                             $scope.CancelDoctorShift();
@@ -22166,6 +22193,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         }
         $scope.onDateRange = function () {
             if ((typeof $scope.FromDate) != undefined && $scope.FromDate != "" && (typeof ($scope.ToDate) != undefined && $scope.ToDate != 0)) {
+                $("#chatLoaderPV").show();
                 $scope.SelectedDays = dateRange($scope.FromDate, $scope.ToDate);
                 $('#SundayCheck').hide();
                 $('#MondayCheck').hide();
@@ -22183,44 +22211,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $("#SaturdayId").attr("disabled", true);
                 $scope.TimeslotClear();
                 $scope.OrganisationSettingsSelectedDays();
-                //angular.forEach($scope.SelectedDays, function (value, index) {
-                //    var Day = value.Day.toString();
-                //    if (Day.includes("Sun") == true) {
-                //        $("#SundayId").removeAttr("disabled");
-                //        $('#SundayId').prop('checked', true);
-                //        $('#SundayCheck').show();
-                //    }
-                //    if (Day.includes("Mon") == true) {
-                //        $("#MondayId").removeAttr("disabled");
-                //        $('#MondayId').prop('checked', true);
-                //        $('#MondayCheck').show();
-                //    }
-                //    if (Day.includes("Tue") == true) {
-                //        $("#TuesdayId").removeAttr("disabled");
-                //        $('#TuesdayId').prop('checked', true);
-                //        $('#TuesdayCheck').show();
-                //    }
-                //    if (Day.includes("Wed") == true) {
-                //        $("#WednesdayId").removeAttr("disabled");
-                //        $('#WednesdayId').prop('checked', true);
-                //        $('#WednesdayCheck').show();
-                //    }
-                //    if (Day.includes("Thu") == true) {
-                //        $("#ThursdayId").removeAttr("disabled");
-                //        $('#ThursdayId').prop('checked', true);
-                //        $('#ThursdayCheck').show();
-                //    }
-                //    if (Day.includes("Fri") == true) {
-                //        $("#FridayId").removeAttr("disabled");
-                //        $('#FridayId').prop('checked', true);
-                //        $('#FridayCheck').show();
-                //    }
-                //    if (Day.includes("Sat") == true) {
-                //        $("#SaturdayId").removeAttr("disabled");
-                //        $('#SaturdayId').prop('checked', true);
-                //        $('#SaturdayCheck').show();
-                //    }
-                //});
+                $("#chatLoaderPV").hide();
             }
         }
 
@@ -22583,6 +22574,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         }
 
         $scope.DoctorShiftClear = function () {
+            $("#chatLoaderPV").show();
             $scope.currentTab = "1";
             $scope.SelectedDepartment = [];
             $scope.SelectedSpecialist = [];
@@ -22619,9 +22611,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $('#OrgDefaultId').prop('checked', false);
             $('#OrgBookInfoId').prop("checked", false);
             $scope.TimeslotClear();
+            $("#chatLoaderPV").hide();
         }
 
         $scope.ViewShiftDoctor = function () {
+            $("#chatLoaderPV").show();
             $scope.currentTab = "1";
             $scope.DoctorSave = false;
             var $sel1 = $('#department');
@@ -22703,9 +22697,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $('#timepicker54').prop('disabled', true);
             $('#timepicker55').prop('disabled', true);
             $('#timepicker56').prop('disabled', true);
+            $("#chatLoaderPV").hide();
         }
 
         $scope.EditShiftDoctor = function () {
+            $("#chatLoaderPV").show();
             $scope.currentTab = "1";
             $scope.DoctorSave = true;
 
@@ -22789,6 +22785,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $('#timepicker54').prop('disabled', false);
             $('#timepicker55').prop('disabled', false);
             $('#timepicker56').prop('disabled', false);
+            $("#chatLoaderPV").hide();
         }
 
 
@@ -23231,7 +23228,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
                     });
                 }
-                $("#chatLoaderPV").hide();
+                //$("#chatLoaderPV").hide();
                 if ($scope.DoctorSave == true) {
                     var sel1 = $('#department');
                     sel1.multiselect('disable');
@@ -23250,6 +23247,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     sel3.multiselect('disable');
                 }
             })
+            $("#chatLoaderPV").hide();
         };
 
         /* 
@@ -23264,6 +23262,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.DoctorShift_Delete = function () {
             var del = confirm("Do you like to deactivate the selected Doctor Shift?");
             if (del == true) {
+                $("#chatLoaderPV").show();
                 var obj =
                 {
                     Id: $scope.Id,
@@ -23275,6 +23274,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
                 });
+                $("#chatLoaderPV").hide();
             };
         };
 
@@ -23290,6 +23290,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         and redirected to the list page.
         */
         $scope.ReInsertDoctorShiftList = function (DoctorId) {
+            $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/DoctorShift/ActivateDoctorShift_List/?Id=' + $scope.Id
                 + '&Institution_Id=' + $window.localStorage['InstitutionId']
                 + '&Doctor_Id=' + DoctorId
@@ -23314,6 +23315,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     };
                 }
             })
+            $("#chatLoaderPV").hide();
         } 
 
         //Appointment Settings 
@@ -23444,7 +23446,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
 
         $scope.AppointmentSettings = function () {
-            $("#chatLoaderPV").hide();  
+            $("#chatLoaderPV").show();  
             
             angular.forEach($scope.TimeZoneList, function (value, index) {
                 if (value.SelectedTimeZone == $scope.SelectedTimeZone) {
@@ -23530,7 +23532,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         }
 
         $scope.AppointmentSettings1 = function () {
-            $("#chatLoaderPV").hide(); 
+            $("#chatLoaderPV").show(); 
               
                 $scope.MyAppConfigId = "";
                 $scope.NewAppointment = "";
@@ -23558,7 +23560,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.AddReminderParameters = [];
                 $scope.AutoEnable = "1";
             $scope.ReduceNumberofavailableAppointmentes = "";
-
+            $("#chatLoaderPV").hide();
 
              
         }
