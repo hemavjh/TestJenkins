@@ -24886,7 +24886,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         $scope.emptydataTab = [];
                         $scope.rowCollectionTab = [];
                         $scope.rowCollectionTab = data;
-                        $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
+                        if ($scope.rowCollectionTab.length > 0) {
+                            $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
+                        } else {
+                            $scope.TabDataCount = 0;
+                        }
                         $scope.TabData_ListFilterdata = data;
                         $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
                         if ($scope.rowCollectionTabFilter.length > 0) {
