@@ -25473,9 +25473,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 //$scope.DeviceType = data.DeviceTypeId;
                 $scope.DeviceMake = data.Make;
                 $scope.DeviceModel = data.ModelNumber;
-                var det = data.ParameterList[0].ParameterName.split(',');
-                for (i = 0; i < det.length; i++) {
-                    $scope.Editselectedparam.push(parseInt(det[i]));
+                var pname = data.ParameterList[0].ParameterName.toString();
+                if (pname.indexOf(',') >= 0) {
+                    var det = data.ParameterList[0].ParameterName.split(',');
+                    for (i = 0; i < det.length; i++) {
+                        $scope.Editselectedparam.push(parseInt(det[i]));
+                    }
                 }
                 $scope.SelectedParamter = $scope.Editselectedparam;
             });
