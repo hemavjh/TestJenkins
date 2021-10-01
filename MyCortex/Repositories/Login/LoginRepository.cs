@@ -925,12 +925,12 @@ namespace MyCortex.Repositories.Login
             DataEncryption DecryptFields = new DataEncryption();
             try
             {
-                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_SP_EXPIRYDATE]").ToString();
+                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_EXPIRYDATE]").ToString();
 
                 if(!String.IsNullOrEmpty(ExpiryDate))
                     ExpiryDate = DecryptFields.Decrypt(ExpiryDate);
 
-                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow)
+                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow.Date)
                     isExpired = false;
 
                 if(Convert.ToDateTime(ExpiryDate) == DateTime.UtcNow.Date)

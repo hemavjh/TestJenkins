@@ -1,4 +1,38 @@
-﻿    <style>
+﻿    
+<script>
+
+    $(function () {
+
+        $('body:not(".viewPassword")').click(function () {
+
+            $('#viewPassword').addClass('fa-eye');
+            $('#viewPassword').removeClass('fa-eye-slash');
+            $('#psw').attr('type', 'password');
+        })
+        $('#viewPassword').on('mousedown', function () {
+
+            $(this).addClass('fa-eye-slash');
+            $(this).removeClass('fa-eye');
+            $('#psw').attr('type', 'text');
+        }).on('mouseup', function () {
+            $(this).addClass('fa-eye');
+            $(this).removeClass('fa-eye-slash');
+            $('#psw').attr('type', 'password');
+        });
+    })
+
+    $("#DOB").datepicker({
+        format: "dd-M-yyyy",
+        forceParse: true,
+        endDate: '+0d',
+        autoclose: true,
+        todayHighlight: true,
+        toggleActive: true,
+        todayBtn: true
+    });
+</script>
+
+<style>
         .viewPassword {
             position: relative;
         }
@@ -31,8 +65,8 @@
                    class="form-control" onkeypress="EmailFormate(event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
             <label>Password</label>
             <div class="viewPassword">
-                <i class="fa fa-eye" style="cursor:pointer"></i>
-                <input type="password" placeholder="Enter Your Password" required="required" ng-model="Password"
+                <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
+                <input type="password" placeholder="Enter Your Password" id="psw" required="required" ng-model="Password"
                        ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" name="psw" class="form-control">
             </div>
             <div class="alert alert-danger def" ng-if="errorlist!=null">
@@ -225,7 +259,7 @@
     <input type="hidden" id="productname" value=""/>
 </div>
 
-<script>
+<!--<script>
      
         $(function () {
             
@@ -256,4 +290,4 @@
             toggleActive: true,
             todayBtn: true
         });
-</script>
+</script>-->
