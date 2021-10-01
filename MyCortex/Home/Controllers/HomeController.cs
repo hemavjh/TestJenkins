@@ -146,8 +146,12 @@ namespace MyCortex.Home.Controllers
             try
             {
                 long UserID = Convert.ToInt32(Session["UserId"].ToString());
-                string SessionId = Convert.ToString(Session["Login_Session_Id"].ToString());
-                login.User_LogOut(UserID, SessionId);
+                string login_session_id = Session["Login_Session_Id"] as string;
+                if (!string.IsNullOrEmpty(login_session_id))
+                {
+                    string SessionId = Convert.ToString(Session["Login_Session_Id"].ToString());
+                    login.User_LogOut(UserID, SessionId);
+                }
                 Session["UserId"] = "0";
                 Session["key"] = "";
                 Response.Cache.SetCacheability(HttpCacheability.NoCache);
