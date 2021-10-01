@@ -818,7 +818,7 @@ namespace MyCortex.Home.Controllers
             double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId));
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
             int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated", merchantOrderNumber);
-            gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "PrivateKey");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "RSAPrivateKey");
             if (gatewayModel.Count > 0)
             {
                 privateKey = gatewayModel[0].GatewayValue;
@@ -851,9 +851,9 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl = baseUrl + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = baseUrl + "/Home/Notify/",
+                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
@@ -970,7 +970,7 @@ namespace MyCortex.Home.Controllers
             string baseUrl = HttpContext.Request.Url.Authority;
             try
             {
-                redirectUrl = baseUrl + "/Home/Index#/PatientVitals/0/1";
+                redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
@@ -980,7 +980,7 @@ namespace MyCortex.Home.Controllers
                 string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
                 int retid = patientAppointmentsRepository.PaymentStatus_Update(refundAppointmentId, "Refund Initiated", refundMerchantOrderNo);
 
-                gatewayModel = gatewayrepository.GatewaySettings_Details(refundInstitutionId, 2, "PrivateKey");
+                gatewayModel = gatewayrepository.GatewaySettings_Details(refundInstitutionId, 2, "RSAPrivateKey");
                 if (gatewayModel.Count > 0)
                 {
                     privateKey = gatewayModel[0].GatewayValue;
@@ -1011,7 +1011,7 @@ namespace MyCortex.Home.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = baseUrl + "/Home/RefundNotify/",
+                    notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/RefundNotify/",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;

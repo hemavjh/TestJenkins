@@ -41,7 +41,7 @@ namespace MyCortex.Admin.Controllers
             string baseUrl = HttpContext.Current.Request.Url.Authority;
             PaySceneParams paySceneParams = new PaySceneParams
             {
-                redirectUrl = baseUrl + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
             };
 
             if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
@@ -57,7 +57,7 @@ namespace MyCortex.Admin.Controllers
             string publicKey = string.Empty;
             string partnetId = string.Empty;
             double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id,Department_Id));
-            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "PrivateKey");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "RSAPrivateKey");
             if (gatewayModel.Count > 0)
             {
                 privateKey = gatewayModel[0].GatewayValue;
@@ -89,7 +89,7 @@ namespace MyCortex.Admin.Controllers
                 },
                 paySceneCode = payCode,
                 paySceneParams = paySceneParams,
-                notifyUrl = baseUrl + "/Home/Notify/"
+                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/"
             };
             DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
 
