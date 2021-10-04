@@ -177,7 +177,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).success(function (data) {
             if (data != null) {
                 alert(data.Message)
-                if (ReturnFlag == "1") {
+                if (data.ReturnFlag == "1") {
                     angular.element('#forgotPasswordModal').modal('hide');
                     $scope.forgotPasswordEmail = "";
                 }
