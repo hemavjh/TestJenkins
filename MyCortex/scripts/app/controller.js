@@ -4033,6 +4033,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
+                        $scope.InstitutionCreatedID = data.UserDetails.INSTITUTION_ID;
                         /*if (data.Message == "Email already exists cannot be Duplicated") {
                             alert("Email already exists, cannot be Duplicate");
                             return false;
@@ -4047,6 +4048,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
                         $scope.UserImageAttach(userid);
                         if (data.ReturnFlag == "1") {
+                            $scope.InstitueDefaultConfiguration();
                             $scope.UserTypeId = $window.localStorage['UserTypeId'];
                             if ($scope.MenuTypeId == 1) {
                                 $scope.User_Admin_List($scope.MenuTypeId);
@@ -4076,6 +4078,149 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
             });
         }
+
+        $scope.InstitueDefaultConfiguration = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration2();
+            }).error(function (data) {
+                alert("Error In Step 1");
+                $scope.InstitueDefaultConfiguration2();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration2 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration3();
+            }).error(function (data) {
+                alert("Error In Step 2");
+                $scope.InstitueDefaultConfiguration3();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration3 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration4();
+            }).error(function (data) {
+                alert("Error In Step 3");
+                $scope.InstitueDefaultConfiguration4();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration4 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration5();
+            }).error(function (data) {
+                alert("Error In Step 4");
+                $scope.InstitueDefaultConfiguration5();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration5 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration6();
+            }).error(function (data) {
+                alert("Error In Step 5");
+                $scope.InstitueDefaultConfiguration6();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration6 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration7();
+            }).error(function (data) {
+                alert("Error In Step 6");
+                $scope.InstitueDefaultConfiguration7();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration7 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration8();
+            }).error(function (data) {
+                alert("Error In Step 7");
+                $scope.InstitueDefaultConfiguration8();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration8 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration9();
+            }).error(function (data) {
+                alert("Error In Step 8");
+                $scope.InstitueDefaultConfiguration9();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration9 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration10();
+            }).error(function (data) {
+                alert("Error In Step 9");
+                $scope.InstitueDefaultConfiguration10();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration10 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration11();
+            }).error(function (data) {
+                alert("Error In Step 10");
+                $scope.InstitueDefaultConfiguration11();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration11 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration12();
+            }).error(function (data) {
+                alert("Error In Step 11");
+                $scope.InstitueDefaultConfiguration12();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration12 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration13();
+            }).error(function (data) {
+                alert("Error In Step 12");
+                $scope.InstitueDefaultConfiguration13();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration13 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration14();
+            }).error(function (data) {
+                alert("Error In Step 13");
+                $scope.InstitueDefaultConfiguration14();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration14 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration15();
+            }).error(function (data) {
+                alert("Error In Step 14");
+                $scope.InstitueDefaultConfiguration15();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration15 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration16();
+            }).error(function (data) {
+                alert("Error In Step 15");
+                $scope.InstitueDefaultConfiguration16();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration16 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).success(function (data) {
+            }).error(function (data) {
+                alert("Error In Step 16");
+            });
+        };
+
 
         $scope.UserImageAttach = function (userid) {
             var userid = userid;
@@ -5568,7 +5713,7 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
         $scope.InstitutionAddPaymentList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
-            $scope.TimeZoneIDName = [];
+            $scope.TimeZoneIDName = "";
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
@@ -5605,10 +5750,16 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.InsSub_Id = data.SubscriptionId;
                     $scope.TimeZoneId = data.TimeZone_ID;
                     $scope.AppointmentModuleId = data.Appointment_Module_Id;
-                    $scope.TimeZoneIDName = null;
+                    $scope.TimeZoneIDName = "";
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
-                        $scope.TimeZoneIDName = data2[$scope.TimeZoneId];
+                        for (i in data2) {
+                            if ($scope.TimeZoneList[i].TimeZoneId == $scope.TimeZoneId) {
+                                var TimeZoneRevealID = i;
+                                $scope.TimeZoneIDName = data2[TimeZoneRevealID].TimeZoneDisplayName;
+                                break;
+                            }
+                        }
                     });
                     $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
                         // only active Language    
@@ -22017,10 +22168,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please Enter Interval Time Slot");
                 return false;
             }
-            else if (typeof ($scope.CustomSlot) == "undefined" || $scope.CustomSlot == "0" || $scope.CustomSlot == '') {
+            /*else if (typeof ($scope.CustomSlot) == "undefined" || $scope.CustomSlot == "0" || $scope.CustomSlot == '') {
                 alert("Please Enter CustomSlot Time");
                 return false;
-            }
+            }*/
             else if (typeof ($scope.Days) == "undefined" || $scope.Days == "0" || $scope.Days == '') {
                 alert("Please Enter Days");
                 return false;
