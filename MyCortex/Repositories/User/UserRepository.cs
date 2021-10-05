@@ -706,6 +706,9 @@ namespace MyCortex.Repositories.Uesr
                                                        GENDER_NAME = p.Field<string>("Gender_Name"),
                                                        LoginTime = p.Field<DateTime?>("LOGINTIME"),
                                                        EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+                                                       PATIENT_ID = (p.Field<string>("PATIENT_ID")) ?? "",
+                                                       INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
+                                                       NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
                                                    }).OrderBy(o => o.FullName).ToList();
             return list;
         }
