@@ -20776,7 +20776,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                    $scope.Days = data.MinRescheduleDays;
+                    $scope.Days = data.MaxScheduleDays;
                     $scope.Minutes = data.MinRescheduleMinutes;
                     $("#chatLoaderPV").hide();
                 });
