@@ -33,7 +33,8 @@ namespace MyCortex.Admin.Controllers
         public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0, long Appointment_Id = 0)
         {
             string token = string.Empty;
-            
+            string payBySign = string.Empty;
+
             string payCode = "PAYPAGE";
 
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
@@ -131,6 +132,11 @@ namespace MyCortex.Admin.Controllers
                             if (tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
                             {
                                 token = tokenRes.body.interActionParams.tokenUrl;
+                                if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
+                                {
+                                    string signString = string.Format("iapAppId={0}&iapDeviceId={1}&iapPartnerId={2}&token={3}", appId, iapDeviceId, partnetId, token);
+                                    payBySign = rsaHelper.Sign(signString, privateKey);
+                                }
                             }
                         }
                         else
@@ -165,7 +171,7 @@ namespace MyCortex.Admin.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, new { Token = token });
+            return Request.CreateResponse(HttpStatusCode.OK, new { Token = token, Sign = payBySign });
         }
 
         //[HttpPost]
