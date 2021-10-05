@@ -2822,7 +2822,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     return false;
                 }
 
-                if ($scope.uploadme != "") {
+                if ($scope.uploadme != "" && $scope.uploadme != null) {
                     $scope.Image = filetype = $scope.uploadme.split(',')[0].split(':')[1].split(';')[0];
                     $scope.filetype = $scope.Image.split("/");
                     var fileval = 0;
@@ -5326,7 +5326,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Please select City");
                 return false;
             }
-            if ($scope.uploadme != "") {
+            if ($scope.uploadme != "" && $scope.uploadme != null) {
                 $scope.Image = filetype = $scope.uploadme.split(',')[0].split(':')[1].split(';')[0];
                 $scope.filetype = $scope.Image.split("/");
                 var fileval = 0;
