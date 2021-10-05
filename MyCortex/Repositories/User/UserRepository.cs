@@ -680,7 +680,7 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public IList<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery)
         {
             DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();

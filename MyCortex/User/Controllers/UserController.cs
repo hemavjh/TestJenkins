@@ -633,11 +633,12 @@ namespace MyCortex.User.Controller
             string SearchQuery2 = string.IsNullOrEmpty(SearchQuery) ? "" : SearchQuery.ToLower();
             int lastno = (EndRowNumber - StartRowNumber) + 1;
             int StartRowNumber2 = StartRowNumber - 1;
-            IList<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
+            List<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
+            List<ItemizedUserDetailsModel> search_model = new List<ItemizedUserDetailsModel>();
+            List<ItemizedUserDetailsModel> model;
             if (!memCache.Contains("patient_list"))
             {
                 DataEncryption EncryptPassword = new DataEncryption();
-                List<ItemizedUserDetailsModel> model;
                 if (INSTITUTION_ID == null)
                 {
                     INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
@@ -658,70 +659,57 @@ namespace MyCortex.User.Controller
                 }
                 else
                 {
+                    Int64 count = 0;
                     if (FIRSTNAME2 != "")
                     {
                         model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (LASTNAME2 != "")
+                    if (LASTNAME2 != "")
                     {
                         model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (INSURANCEID2 != "")
+                    if (INSURANCEID2 != "")
                     {
                         model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
                     else if (MOBILE_NO2 != "")
                     {
                         model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (EMAILID2 != "")
+                    if (EMAILID2 != "")
                     {
                         model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (NATIONALITY_ID2 != "")
+                    if (NATIONALITY_ID2 != "0")
                     {
                         model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (PATIENTNO2 != "")
+                    if (PATIENTNO2 != "")
                     {
                         model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else
+                    if (MRNNO2 != "")
                     {
                         model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
+                    model = search_model.Distinct().ToList();
+                    count = model.Count;
+                    model.ForEach(x => x.TotalRecord = count.ToString());
+                    model = model.Skip(StartRowNumber2).Take(lastno).ToList();
                 }
-                // model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery)).ToList();
                 return model;
             }
             else
             {
                 search_patient_list = (List<ItemizedUserDetailsModel>)memCache.Get("patient_list");
-                List<ItemizedUserDetailsModel> model;
                 if (SearchQuery2 != "")
                 {
                     model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).ToList();
@@ -731,62 +719,51 @@ namespace MyCortex.User.Controller
                 }
                 else
                 {
+                    Int64 count = 0;
                     if (FIRSTNAME2 != "")
                     {
                         model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (LASTNAME2 != "")
+                    if (LASTNAME2 != "")
                     {
                         model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (INSURANCEID2 != "")
+                    if (INSURANCEID2 != "")
                     {
                         model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
                     else if (MOBILE_NO2 != "")
                     {
                         model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (EMAILID2 != "")
+                    if (EMAILID2 != "")
                     {
                         model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (NATIONALITY_ID2 != "")
+                    if (NATIONALITY_ID2 != "0")
                     {
                         model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else if (PATIENTNO2 != "")
+                    if (PATIENTNO2 != "")
                     {
                         model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
-                    else
+                    if (MRNNO2 != "")
                     {
                         model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        Int64 count = model.Count;
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                        model.ForEach(x => x.TotalRecord = count.ToString());
+                        search_model.AddRange(model);
                     }
+                    model = search_model.Distinct().ToList();
+                    count = model.Count;
+                    model.ForEach(x => x.TotalRecord = count.ToString());
+                    model = model.Skip(StartRowNumber2).Take(lastno).ToList();
                 }
                 return model;
             }
