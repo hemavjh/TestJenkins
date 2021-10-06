@@ -1059,6 +1059,10 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 alert("Please select Institution");
                 return false;
             }
+            else if (typeof ($scope.TimeZone_Id) == "undefined" || $scope.TimeZone_Id == "0") {
+                alert("Please select TimeZone");
+                return false;
+            }
             else if (typeof ($scope.Health_Care_Professionals) == "undefined" || $scope.Health_Care_Professionals == "") {
                 alert("Please enter No. of Health Care Professionals");
                 return false;
@@ -1075,8 +1079,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 alert("Please select Contract Period To");
                 return false;
             }
-            else if (typeof ($scope.TimeZone_Id) == "undefined" || $scope.TimeZone_Id == "") {
-                alert("Please select TimeZone");
+            else if (typeof ($scope.AppointmentModule_Id) == "undefined" || $scope.AppointmentModule_Id == "0") {
+                alert("Please select AppointmentModule");
                 return false;
             }
             if (($scope.Contract_Period_From != "0") && ($scope.Contract_Period_To != "0")) {
