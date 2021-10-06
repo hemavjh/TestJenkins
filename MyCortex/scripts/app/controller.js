@@ -5963,14 +5963,14 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                             }
                             
                             $scope.AllergyTypeList = [];
-                            //$http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
-                            //    $("#chatLoaderPV").hide();
-                            //    $scope.AllergyTypeListTemp = [];
-                            //    $scope.AllergyTypeListTemp = data;
-                            //    var obj = { "Id": 0, "AllergyTypeName": "Select", "IsActive": 1 };
-                            //    $scope.AllergyTypeListTemp.splice(0, 0, obj);
-                            //    $scope.AllergyTypeList = angular.copy($scope.AllergyTypeListTemp);
-                            //})
+                            $http.get(baseurl + 'api/masterallergy/masterallergytypelist/?institution_id=' + $scope.institution_id).success(function (data) {
+                                $("#chatloaderpv").hide();
+                                $scope.allergytypelisttemp = [];
+                                $scope.allergytypelisttemp = data;
+                                var obj = { "id": 0, "allergytypename": "select", "isactive": 1 };
+                                $scope.allergytypelisttemp.splice(0, 0, obj);
+                                $scope.allergytypelist = angular.copy($scope.allergytypelisttemp);
+                            })
                             //$scope.AllergenListfilter = [];
                             //$scope.AllegenBasedType = function (AllergyTypeId) {
                             //    var id = "0"
