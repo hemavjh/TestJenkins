@@ -254,20 +254,22 @@ namespace MyCortex.Repositories.Uesr
                     {
                         foreach (GroupTypeModel item in insobj.GroupTypeList)
                         {
+                            if (item.Id != null)
+                            {
+                                List<DataParameter> param1 = new List<DataParameter>();
+                                param1.Add(new DataParameter("@User_Id", InsertId));
+                                param1.Add(new DataParameter("@Group_Id", item.Id));
+                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                var objExist = insobj.SelectedGroupList.Where(ChildItem => ChildItem.Group_Id == item.Id);
 
-                            List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@User_Id", InsertId));
-                            param1.Add(new DataParameter("@Group_Id", item.Id));
-                            param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                            var objExist = insobj.SelectedGroupList.Where(ChildItem => ChildItem.Group_Id == item.Id);
+                                if (objExist.ToList().Count > 0)
+                                    //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
+                                    param1.Add(new DataParameter("@Group_Selected", "1"));
+                                else
+                                    param1.Add(new DataParameter("@Group_Selected", "0"));
 
-                            if (objExist.ToList().Count > 0)
-                                //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
-                                param1.Add(new DataParameter("@Group_Selected", "1"));
-                            else
-                                param1.Add(new DataParameter("@Group_Selected", "0"));
-
-                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DOCTORADDITIONALDETAILS", param1, true);
+                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DOCTORADDITIONALDETAILS", param1, true);
+                            }
                         }
                     }
                     if (insobj.MenuType == 2)
@@ -323,19 +325,21 @@ namespace MyCortex.Repositories.Uesr
                         {
                             foreach (ChronicConditionModel item in insobj.ChronicConditionList)
                             {
+                                if (item.Id != null)
+                                {
+                                    List<DataParameter> param1 = new List<DataParameter>();
+                                    param1.Add(new DataParameter("@User_Id", InsertId));
+                                    param1.Add(new DataParameter("@Chronic_Id", item.Id));
+                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                    var objExist = insobj.SelectedChronicConnditionList.Where(ChildItem => ChildItem.Chronic_Id == item.Id);
 
-                                List<DataParameter> param1 = new List<DataParameter>();
-                                param1.Add(new DataParameter("@User_Id", InsertId));
-                                param1.Add(new DataParameter("@Chronic_Id", item.Id));
-                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                var objExist = insobj.SelectedChronicConnditionList.Where(ChildItem => ChildItem.Chronic_Id == item.Id);
+                                    if (objExist.ToList().Count > 0)
+                                        param1.Add(new DataParameter("@Condition_Selected", "1"));
+                                    else
+                                        param1.Add(new DataParameter("@Condition_Selected", "0"));
 
-                                if (objExist.ToList().Count > 0)
-                                    param1.Add(new DataParameter("@Condition_Selected", "1"));
-                                else
-                                    param1.Add(new DataParameter("@Condition_Selected", "0"));
-
-                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CHRONICCONDITION", param1, true);
+                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CHRONICCONDITION", param1, true);
+                                }
                             }
                             if (insobj.CURRENTLY_TAKEMEDICINE == 1)
                             {
