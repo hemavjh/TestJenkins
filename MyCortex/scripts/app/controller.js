@@ -1299,6 +1299,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.TimeZoneId = data.TimeZone_ID;
                     $scope.TimeZone_Id = data.TimeZone_ID;
                     $scope.AppointmentModuleId = data.Appointment_Module_Id;
+                    $scope.AppointmentModule_Id = data.Appointment_Module_Id;
                     //$scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
                     $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
                     $scope.Health_Care_Professionals = data.Health_Care_Professionals;
