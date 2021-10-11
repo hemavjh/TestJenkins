@@ -350,7 +350,7 @@ MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$rou
 ]);
 /* THIS IS FOR INSTITUTION CONTROLLER FUNCTION */
 MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, myService) {
         $scope.CreatedBy = $window.localStorage['UserId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.CountryFlag = false;
@@ -360,6 +360,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         $scope.StateDuplicateId = "0";
         $scope.LocationDuplicateId = "0";
         $scope.Mode = $routeParams.Mode;
+        $scope.myService = myService;
         if ($routeParams.ModeType == undefined) {
             $scope.ModeType = "1";
         }
@@ -566,6 +567,12 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 FileName = $('#InstitutionLogo')[0].files[0]['name'];
             }
         }
+        $scope.InstitutionAndSubscription = 0;
+        $scope.Institution_AddEdit_AndSubscription = function () {
+            $scope.InstitutionAndSubscription = 1;
+            $scope.Institution_AddEdit();
+
+        }
 
         /*on click Save calling the insert update function for Institution
              and check the Institution Name already exist,if exist it display alert message or its 
@@ -671,7 +678,14 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                                 $("#InstitutionLogo").val('');
                                 if (data.ReturnFlag == 1) {
                                     $scope.CancelInstitution();
-                                    $scope.InstitutionDetailsListGo();
+                                    if ($scope.InstitutionAndSubscription == 0) {
+                                        $scope.InstitutionDetailsListGo();
+                                    }
+                                    if ($scope.InstitutionAndSubscription == 1) {
+                                        $scope.myService.setValue(insId);
+                                        window.location.href = baseUrl + "/Admin/Views/InstitutionSubscriptionlist.html";
+
+                                    }
                                 }
                             })
                     }
@@ -679,7 +693,13 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                         $("#InstitutionLogo").val('');
                         if (data.ReturnFlag == 1) {
                             $scope.CancelInstitution();
-                            $scope.InstitutionDetailsListGo();
+                            if ($scope.InstitutionAndSubscription == 0) {
+                                $scope.InstitutionDetailsListGo();
+                            }
+                            if ($scope.InstitutionAndSubscription == 1) {
+                                $scope.myService.setValue(insId);
+                                window.location.href = baseUrl + "/Admin/Views/InstitutionSubscriptionlist.html";
+                            }
                         }
                     }
                     $("#chatLoaderPV").hide();
@@ -922,7 +942,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
 MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, myService ) {
 
         //Declaration and initialization of Scope Variables.
         $scope.ChildId = 0;
@@ -948,6 +968,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
         }
+        /*$scope.myService = myService;
+        $scope.update();
+        $scope.update = function (str) {
+            $scope.myService.setValue(str);
+        }*/
 
         $scope.AddIntstitutionSubPopup = function () {
             $scope.Id = 0;
