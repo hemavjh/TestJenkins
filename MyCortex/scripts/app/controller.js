@@ -1115,7 +1115,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.InstitutionInsurance_List = [];
             $scope.InstitutionPayment_List = [];
             if ($scope.Institution_SubscriptionAddEditValidations() == true) {
-                //$("#chatLoaderPV").show();
+                $("#chatLoaderPV").show();
                 angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
@@ -20929,6 +20929,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.SelectedDoctorList = [];
             }
             $("#chatLoaderPV").hide();
+            console.log('TATA');
         }
 
         $scope.OrgDefaultClick = function (event) {
