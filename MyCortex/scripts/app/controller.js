@@ -231,6 +231,18 @@ MyCortexControllers.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
+MyCortexControllers.service('data', ['$log', function ($log) {
+    this.myService = 0;
+    return {
+        getValue: function () {
+            return this.myService;
+        },
+        setValue: function (data) {
+            this.myService = data;
+        }
+    };
+}]);
+
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
 MyCortexControllers.controller("UnderConstructionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe',
@@ -349,8 +361,11 @@ MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$rou
     }
 ]);
 /* THIS IS FOR INSTITUTION CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, myService) {
+MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'data',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, data) {
+        $scope.serviceData = data.getValue();
+        data.setValue(5);
+        $scope.serviceData = data.getValue();
         $scope.CreatedBy = $window.localStorage['UserId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.CountryFlag = false;
@@ -360,7 +375,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         $scope.StateDuplicateId = "0";
         $scope.LocationDuplicateId = "0";
         $scope.Mode = $routeParams.Mode;
-        $scope.myService = myService;
+        //$scope.myService = myService;
         if ($routeParams.ModeType == undefined) {
             $scope.ModeType = "1";
         }
