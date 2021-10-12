@@ -24995,9 +24995,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.MyHomeflag = "0";
         $scope.DeviceId = "0";
         $scope.MyDeviceflag = "0";
+        $scope.ISact = 1;
 
-        $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
-            $scope.DevicesLists = data;
+        //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
+        //    $scope.DevicesLists = data;
+        //});
+        $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $scope.DevicesLists = data.TabDeviceList;
         });
         $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.UserLists = data;
