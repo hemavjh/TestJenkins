@@ -16,6 +16,7 @@ namespace MyCortex.Repositories
         IList<DepartmentModel> DepartmentList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);
+        UserModel Add_Dummy_Users(UserModel insobj);
         UserModel UserDetails_View(long Id, Guid Login_Session_Id);
         UserReturnModel UserDetails_InActive(long Id);
         UserReturnModel UserDetails_Active(long Id);
@@ -37,7 +38,7 @@ namespace MyCortex.Repositories
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id);
-        IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id);
+        IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId);
         IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments(CG_PatientAppointmentConfirm obj);
         IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id);
         IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId);

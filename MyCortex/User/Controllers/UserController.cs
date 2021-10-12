@@ -1368,14 +1368,14 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id)
+        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
             {
 
-                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id);
+                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id, UserId);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";
@@ -4050,6 +4050,78 @@ namespace MyCortex.User.Controller
             {
                 _logger.Error(ex.Message, ex);
                 return null;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public HttpResponseMessage Add_Dummy_Users()
+        {
+            UserModel ModelData = new UserModel();
+            UserReturnModel model = new UserReturnModel();
+            try 
+            {
+                for (int i = 0; i < 5; i++) {
+                    UserModel userObj = new UserModel();
+                    userObj.FullName = 'A' + i.ToString();
+                    userObj.PASSWORD = "P@sswOrd";
+                    userObj.FirstName = "A" + i.ToString();
+                    userObj.MiddleName = "";
+                    userObj.LastName = "B" + i.ToString();
+                    userObj.INSURANCEID = "";
+                    userObj.NATIONALID = "5";
+                    userObj.MOBILE_NO = "";
+                    userObj.EMERG_CONT_FIRSTNAME = "";
+                    userObj.EMERG_CONT_LASTNAME = "";
+                    userObj.DOB_Encrypt = "";
+                    userObj.EMERG_CONT_MIDDLENAME = "";
+                    userObj.Emergency_MobileNo = "";
+                    userObj.EMAILID = "";
+                    userObj.GOOGLE_EMAILID = "";
+                    userObj.FB_EMAILID = "";
+                    userObj.Memberid = "";
+                    userObj.PolicyNumber = "";
+                    userObj.RefernceId = "";
+                    userObj.ExpiryDate = "";
+                    DataEncryption EncryptPassword = new DataEncryption();
+                    userObj.INSTITUTION_ID = -1;
+                    userObj.PASSWORD = EncryptPassword.Encrypt(userObj.PASSWORD);
+                    userObj.FullName = EncryptPassword.Encrypt(userObj.FullName);
+                    userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
+                    userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
+                    userObj.LastName = EncryptPassword.Encrypt(userObj.LastName);
+                    //userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
+                    userObj.INSURANCEID = EncryptPassword.Encrypt(userObj.INSURANCEID);
+                    userObj.NATIONALID = EncryptPassword.Encrypt(userObj.NATIONALID);
+                    userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
+                    userObj.EMERG_CONT_FIRSTNAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_FIRSTNAME);
+                    userObj.EMERG_CONT_LASTNAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_LASTNAME);
+                    userObj.DOB_Encrypt = EncryptPassword.Encrypt(userObj.DOB.ToString());
+                    userObj.EMERG_CONT_MIDDLENAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_MIDDLENAME);
+                    userObj.Emergency_MobileNo = EncryptPassword.Encrypt(userObj.Emergency_MobileNo);
+                    userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
+                    userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
+                    userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
+                    userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
+                    userObj.Memberid = EncryptPassword.Encrypt(userObj.Memberid);
+                    userObj.PolicyNumber = EncryptPassword.Encrypt(userObj.PolicyNumber);
+                    userObj.RefernceId = EncryptPassword.Encrypt(userObj.RefernceId);
+                    userObj.ExpiryDate = EncryptPassword.Encrypt(userObj.ExpiryDate);
+                    userObj.Patient_Type = 1;
+                    ModelData = repository.Add_Dummy_Users(userObj);
+                }
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating User";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.UserDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
 

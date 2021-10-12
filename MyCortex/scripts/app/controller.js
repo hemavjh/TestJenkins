@@ -6262,7 +6262,7 @@ MyCortexControllers.controller("PatientAppointmentListController", ['$scope', '$
             //$scope.$apply();
         }
         function CG_PatientAppointment_List() {
-            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserId=' + $window.localStorage['UserId']).success(function (data) {
                 $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
                 if ($scope.UpComingWaitingAppointmentDetails != null) {
                     $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;

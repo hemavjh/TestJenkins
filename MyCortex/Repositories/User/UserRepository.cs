@@ -1614,7 +1614,7 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id)
+        public IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
@@ -3891,6 +3891,276 @@ namespace MyCortex.Repositories.Uesr
                 }
             }
             return SessionStatus;
+        }
+
+        public UserModel Add_Dummy_Users(UserModel insobj)
+        {
+            long InsertId = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
+            param.Add(new DataParameter("@FirstName", insobj.FirstName));
+            param.Add(new DataParameter("@MiddleName", insobj.MiddleName));
+            param.Add(new DataParameter("@LastName", insobj.LastName));
+            param.Add(new DataParameter("@Employment_No", insobj.EMPLOYEMENTNO));
+            param.Add(new DataParameter("@EmailId", insobj.EMAILID));
+            param.Add(new DataParameter("@DepartmentId", 1));
+            param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
+            param.Add(new DataParameter("@Photo_Name", insobj.Photo));
+            param.Add(new DataParameter("@Photo_FileName", insobj.FileName));
+            param.Add(new DataParameter("@Photo_FullPath", insobj.Photo_Fullpath));
+            param.Add(new DataParameter("@NationalPhotoFilename", insobj.NationalPhotoFilename));
+            param.Add(new DataParameter("@NationalPhotoFullpath", insobj.NationalPhotoFullpath));
+            param.Add(new DataParameter("@InsurancePhotoFilename", insobj.InsurancePhotoFilename));
+            param.Add(new DataParameter("@InsurancePhotoFullpath", insobj.InsurancePhotoFullpath));
+            param.Add(new DataParameter("@UserTypeId", 2));
+
+            param.Add(new DataParameter("@TITLE_ID", 1));
+            param.Add(new DataParameter("@HEALTH_LICENSE", insobj.HEALTH_LICENSE));
+            param.Add(new DataParameter("@FILE_NAME", insobj.FILE_NAME));
+            param.Add(new DataParameter("@FILE_FULLPATH", insobj.FILE_FULLPATH));
+            param.Add(new DataParameter("@UPLOAD_FILENAME", insobj.UPLOAD_FILENAME));
+            param.Add(new DataParameter("@GENDER_ID", 1));
+            param.Add(new DataParameter("@NATIONALITY_ID", 10));
+            param.Add(new DataParameter("@ETHINICGROUP_ID", 1));
+            param.Add(new DataParameter("@DOB", insobj.DOB));
+            param.Add(new DataParameter("@HOME_AREACODE", insobj.HOME_AREACODE));
+            param.Add(new DataParameter("@HOME_PHONENO", insobj.HOME_PHONENO));
+            param.Add(new DataParameter("@MOBIL_AREACODE", insobj.MOBIL_AREACODE));
+            param.Add(new DataParameter("@POSTEL_ZIPCODE", insobj.POSTEL_ZIPCODE));
+            param.Add(new DataParameter("@EMR_AVAILABILITY", insobj.EMR_AVAILABILITY));
+            param.Add(new DataParameter("@ADDRESS1", insobj.ADDRESS1));
+            param.Add(new DataParameter("@ADDRESS2", insobj.ADDRESS2));
+            param.Add(new DataParameter("@ADDRESS3", insobj.ADDRESS3));
+            param.Add(new DataParameter("@COUNTRY_ID", 228));
+            param.Add(new DataParameter("@STATE_ID", 3732));
+            param.Add(new DataParameter("@CITY_ID", 10553));
+            param.Add(new DataParameter("@MARITALSTATUS_ID", 1));
+            param.Add(new DataParameter("@BLOODGROUP_ID", 1));
+            //param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
+            param.Add(new DataParameter("@INSURANCEID", insobj.INSURANCEID));
+            //param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
+            //param.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+            param.Add(new DataParameter("@NATIONALID", insobj.NATIONALID));
+            param.Add(new DataParameter("@SMOKER", 10));
+            param.Add(new DataParameter("@DIABETIC", 5));
+            param.Add(new DataParameter("@HYPERTENSION", 3));
+            param.Add(new DataParameter("@CHOLESTEROL", 2));
+            param.Add(new DataParameter("@CURRENTLY_TAKEMEDICINE", insobj.CURRENTLY_TAKEMEDICINE));
+            param.Add(new DataParameter("@PAST_MEDICALHISTORY", insobj.PAST_MEDICALHISTORY));
+            param.Add(new DataParameter("@FAMILYHEALTH_PROBLEMHISTORY", insobj.FAMILYHEALTH_PROBLEMHISTORY));
+            param.Add(new DataParameter("@VACCINATIONS", insobj.VACCINATIONS));
+            param.Add(new DataParameter("@DIETDESCRIBE_ID", 3));
+            param.Add(new DataParameter("@EXCERCISE_SCHEDULEID", insobj.EXCERCISE_SCHEDULEID));
+            param.Add(new DataParameter("@EXCERCISE_TEXT", insobj.EXCERCISE_TEXT));
+            param.Add(new DataParameter("@ALERGYSUBSTANCE_ID", 2));
+            param.Add(new DataParameter("@ALERGYSUBSTANCE_TEXT", insobj.ALERGYSUBSTANCE_TEXT));
+            param.Add(new DataParameter("@SMOKESUBSTANCE_ID", 3));
+            param.Add(new DataParameter("@SMOKESUBSTANCE_TEXT", insobj.SMOKESUBSTANCE_TEXT));
+            param.Add(new DataParameter("@ALCOHALSUBSTANCE_ID", 8));
+            param.Add(new DataParameter("@ALCOHALSUBSTANCE_TEXT", insobj.ALCOHALSUBSTANCE_TEXT));
+            param.Add(new DataParameter("@CAFFEINATED_BEVERAGESID", 5));
+            param.Add(new DataParameter("@CAFFEINATEDBEVERAGES_TEXT", insobj.CAFFEINATEDBEVERAGES_TEXT));
+            param.Add(new DataParameter("@EMERG_CONT_FIRSTNAME", insobj.EMERG_CONT_FIRSTNAME));
+            param.Add(new DataParameter("@EMERG_CONT_MIDDLENAME", insobj.EMERG_CONT_MIDDLENAME));
+            param.Add(new DataParameter("@EMERG_CONT_LASTNAME", insobj.EMERG_CONT_LASTNAME));
+            param.Add(new DataParameter("@EMERG_CONT_RELATIONSHIP_ID", 4));
+            param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
+            param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
+            param.Add(new DataParameter("@APPROVAL_FLAG", insobj.ApprovalFlag));
+            param.Add(new DataParameter("@PASSWORD", insobj.PASSWORD));
+            param.Add(new DataParameter("@Patient_Type", insobj.Patient_Type));
+            param.Add(new DataParameter("@Emergency_MobileNo", insobj.Emergency_MobileNo));
+            param.Add(new DataParameter("@DOB_Encrypt", insobj.DOB_Encrypt));
+            param.Add(new DataParameter("@FullName", insobj.FullName));
+            //param.Add(new DataParameter("@ISACTIVE", insobj.ISACTIVE));
+            param.Add(new DataParameter("@CREATED_BY", 754));
+            //param.Add(new DataParameter("@CREATED_DT", insobj.CREATED_DT));
+            param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
+            param.Add(new DataParameter("@PATIENT_ID", insobj.PatientId));
+            param.Add(new DataParameter("@Memberid", insobj.Memberid));
+            param.Add(new DataParameter("@PolicyNumber", insobj.PolicyNumber));
+            param.Add(new DataParameter("@RefernceId", insobj.RefernceId));
+            param.Add(new DataParameter("@ExpiryDate", insobj.ExpiryDate));
+            param.Add(new DataParameter("@PayorId", insobj.PayorId));
+            param.Add(new DataParameter("@PlanId", insobj.PlanId));
+            param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
+            param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Dummy_UserDetails_Insert]", param);
+            DataRow dr = dt.Rows[0];
+
+            DataEncryption DecryptFields = new DataEncryption();
+            UserModel insert = (from p in dt.AsEnumerable()
+                                select
+                                new UserModel()
+                                {
+                                    Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
+                                    flag = p.Field<int>("flag"),
+                                    INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
+                                    FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
+                                    MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
+                                    LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                    EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
+                                    EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                    DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
+                                    MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                    DOB = p.Field<DateTime?>("DOB"),
+                                    DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
+                                    Department_Name = p.Field<string>("Department_Name"),
+                                    InstitutionName = p.Field<string>("InstitutionName"),
+                                    IsActive = p.Field<int?>("IsActive"),
+                                    Photo = p.Field<string>("PHOTO_NAME"),
+                                    Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH"),
+                                    FileName = p.Field<string>("PHOTO_FILENAME"),
+                                    FILE_NAME = p.Field<string>("FILE_NAME"),
+                                    FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
+                                    UPLOAD_FILENAME = p.Field<string>("UPLOAD_FILENAME"),
+                                    UserType_Id = p.Field<long?>("UserType_Id"),
+                                    HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
+                                    GENDER_ID = p.IsNull("GENDER_ID") ? 0 : p.Field<long>("GENDER_ID"),
+                                    NATIONALITY_ID = p.IsNull("NATIONALITY_ID") ? 0 : p.Field<long>("NATIONALITY_ID"),
+                                    ETHINICGROUP_ID = p.IsNull("ETHINICGROUP_ID") ? 0 : p.Field<long>("ETHINICGROUP_ID"),
+                                    EMR_AVAILABILITY = p.Field<bool?>("EMR_AVAILABILITY"),
+                                    ADDRESS1 = p.Field<string>("ADDRESS1"),
+                                    ADDRESS2 = p.Field<string>("ADDRESS2"),
+                                    ADDRESS3 = p.Field<string>("ADDRESS3"),
+                                    HOME_AREACODE = p.Field<string>("HOME_AREACODE"),
+                                    HOME_PHONENO = p.Field<string>("HOME_PHONENO"),
+                                    MOBIL_AREACODE = p.Field<string>("MOBIL_AREACODE"),
+                                    POSTEL_ZIPCODE = p.Field<string>("POSTEL_ZIPCODE"),
+                                    COUNTRY_ID = p.IsNull("COUNTRY_ID") ? 0 : p.Field<long>("COUNTRY_ID"),
+                                    STATE_ID = p.IsNull("STATE_ID") ? 0 : p.Field<long>("STATE_ID"),
+                                    CITY_ID = p.IsNull("CITY_ID") ? 0 : p.Field<long>("CITY_ID"),
+                                    BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
+                                    MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
+                                    PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
+                                    //MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                    MNR_NO = p.Field<string>("MNR_NO"),
+                                    INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")),
+                                    NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
+                                    EthnicGroup = p.Field<string>("EthnicGroup"),
+                                    UserName = p.Field<string>("UserName"),
+                                    GENDER_NAME = p.Field<string>("GENDER_NAME"),
+                                    Nationality = p.Field<string>("Nationality"),
+                                    COUNTRY_NAME = p.Field<string>("COUNTRY_NAME"),
+                                    StateName = p.Field<string>("StateName"),
+                                    LocationName = p.Field<string>("LocationName"),
+                                    MaritalStatus = p.Field<string>("MaritalStatus"),
+                                    BLOODGROUP_NAME = p.Field<string>("BLOODGROUP_NAME"),
+                                    RelationShipName = p.Field<string>("RelationShipName"),
+                                    DietDescribe = p.Field<string>("DietDescribe"),
+                                    AlergySubstance = p.Field<string>("AlergySubstance"),
+                                    EXCERCISE_SCHEDULE = p.Field<string>("EXCERCISE_SCHEDULE"),
+                                    SMOKESUBSTANCE = p.Field<string>("SMOKESUBSTANCE"),
+                                    ALCOHALSUBSTANCE = p.Field<string>("ALCOHALSUBSTANCE"),
+                                    CAFFEINATED_BEVERAGES = p.Field<string>("CAFFEINATED_BEVERAGES"),
+                                    CURRENTLY_TAKEMEDICINE = p.Field<int?>("CURRENTLY_TAKEMEDICINE"),
+                                    PAST_MEDICALHISTORY = p.Field<int?>("PAST_MEDICALHISTORY"),
+                                    FAMILYHEALTH_PROBLEMHISTORY = p.Field<int?>("FAMILYHEALTH_PROBLEMHISTORY"),
+                                    VACCINATIONS = p.Field<int?>("VACCINATIONS"),
+                                    DIETDESCRIBE_ID = p.IsNull("DIETTYPE_ID") ? 0 : p.Field<long?>("DIETTYPE_ID"),
+                                    EXCERCISE_SCHEDULEID = p.IsNull("EXCERCISE_SCHEDULEID") ? 0 : p.Field<long?>("EXCERCISE_SCHEDULEID"),
+                                    EXCERCISE_TEXT = p.Field<string>("EXCERCISE_TEXT"),
+                                    ALERGYSUBSTANCE_ID = p.IsNull("ALERGYSUBSTANCE_ID") ? 0 : p.Field<long>("ALERGYSUBSTANCE_ID"),
+                                    ALERGYSUBSTANCE_TEXT = p.Field<string>("ALERGYSUBSTANCE_TEXT"),
+                                    SMOKESUBSTANCE_ID = p.IsNull("SMOKESUBSTANCE_ID") ? 0 : p.Field<long>("SMOKESUBSTANCE_ID"),
+                                    SMOKESUBSTANCE_TEXT = p.Field<string>("SMOKESUBSTANCE_TEXT"),
+                                    ALCOHALSUBSTANCE_ID = p.IsNull("ALCOHALSUBSTANCE_ID") ? 0 : p.Field<long>("ALCOHALSUBSTANCE_ID"),
+                                    ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT"),
+                                    CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
+                                    CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT"),
+                                    EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")),
+                                    EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
+                                    EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
+                                    EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
+                                    GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
+                                    FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
+                                    DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
+                                    HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
+                                    CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
+                                    Diabetic_Option = p.Field<string>("Diabetic_Option"),
+                                    HyperTension_Option = p.Field<string>("HyperTension_Option"),
+                                    Cholesterol_Option = p.Field<string>("Cholestrol_Option"),
+                                    Patient_Type = p.Field<int?>("Patient_Type"),
+                                    Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
+                                    FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                    appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
+                                    PatientId = p.Field<string>("PATIENT_ID"),
+                                    Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
+                                    PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
+                                    RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
+                                    ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                    PayorId = p.Field<string>("PAYORID"),
+                                    PlanId = p.Field<string>("PLANID"),
+                                }).FirstOrDefault();
+
+            if (insert.DOB_Encrypt != "")
+            {
+                var time = insert.DOB_Encrypt.Split(' ');
+
+                var time4 = time[0].Split('/');
+                try
+                {
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
+                }
+                catch (Exception ex1)
+                {
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
+                }
+
+                //insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
+                /*string[] tokens = insert.DOB_Encrypt.Split('/');
+                insert.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+            }
+
+            if (InsertId > 0)
+            {
+                String FirstCharacter = insert.FirstName.ToString();
+                String LastCharacter = insert.LastName.ToString();
+                String Month = "00";
+                if (insert.DOB != null)
+                    Month = insert.DOB.Value.Month.ToString("00");
+
+                List<DataParameter> param2 = new List<DataParameter>();
+                param2.Add(new DataParameter("@FirstNameChar", FirstCharacter.Substring(0, 1)));
+                param2.Add(new DataParameter("@LastNameChar", LastCharacter.Substring(0, 1)));
+                param2.Add(new DataParameter("@ID", InsertId));
+                param2.Add(new DataParameter("@Month", Month));
+                DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SHORTCODE_SP_INSERTUPDATE]", param2);
+            }
+
+            return insert;
         }
 
     }
