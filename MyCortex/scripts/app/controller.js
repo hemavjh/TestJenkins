@@ -233,12 +233,19 @@ MyCortexControllers.service('fileUpload', ['$http', function ($http) {
 
 MyCortexControllers.service('InstSub', ['$log', function ($log) {
     this.myService = 0;
+    this.SubscriptionInstiID = 0;
     return {
-        getValue: function () {
+        getInstiID: function () {
             return this.myService;
         },
-        setValue: function (data) {
+        setInstiID: function (data) {
             this.myService = data;
+        },
+        getSubID: function () {
+            return this.SubscriptionInstiID;
+        },
+        setSubID: function (data) {
+            this.SubscriptionInstiID = data;
         }
     };
 }]);
@@ -691,11 +698,11 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                                 if (data.ReturnFlag == 1) {
                                     $scope.CancelInstitution();
                                     if ($scope.InstitutionAndSubscription == 0) {
-                                        InstSub.setValue(0);
+                                        InstSub.setInstiID(0);
                                         $scope.InstitutionDetailsListGo();
                                     }
                                     if ($scope.InstitutionAndSubscription == 1) {
-                                        InstSub.setValue(insId);
+                                        InstSub.setInstiID(insId);
                                         window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
                                     }
                                 }
@@ -706,11 +713,11 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                         if (data.ReturnFlag == 1) {
                             $scope.CancelInstitution();
                             if ($scope.InstitutionAndSubscription == 0) {
-                                InstSub.setValue(0);
+                                InstSub.setInstiID(0);
                                 $scope.InstitutionDetailsListGo();
                             }
                             if ($scope.InstitutionAndSubscription == 1) {
-                                InstSub.setValue(insId);
+                                InstSub.setInstiID(insId);
                                 window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
                             }
                         }
@@ -958,7 +965,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub ) {
 
         //Declaration and initialization of Scope Variables.
-        $scope.serviceData = InstSub.getValue();
+        $scope.serviceData = InstSub.getInstiID();
         $scope.ChildId = 0;
         $scope.Institution_Id = "0";
         $scope.TimeZone_Id = "0";
@@ -1089,6 +1096,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             });
             $scope.loading = false;
         }
+        $scope.SubscriptionAndAdmin = 0;
+        $scope.AndSubscription_AndAdmin = function () {
+            $scope.SubscriptionAndAdmin = 1;
+            $scope.Institution_SubscriptionAddEdit();
+        }
         /* Validating the create page mandatory fields
         checking mandatory for the follwing fields
         Health Care Professionals,Patients,Contract Period From,Contract Period To
@@ -1206,7 +1218,6 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 var objInstituteName = $scope.InstitutionInsuranceName;
                 var obj2InstitutePay = $scope.InstitutionPaymentMethod;
                 var InstitutionSelectedPaymentList = obj2InstitutePay.concat(objInstituteName);
-                console.log(InstitutionSelectedPaymentList);
                 /*Array.prototype.push.apply(obj2InstitutePay, objInstituteName);
                 console.log(obj2InstitutePay);*/
                 var obj = {
@@ -1231,9 +1242,16 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     alert(data.Message);
                     if (data.ReturnFlag == "1") {
                         $scope.CancelIntstitutionSubPopup();
-                        $scope.InstitutionSubscriptionDetailsListTemplate();
                         $scope.TimeZone_Id = "";
                         $scope.AppointmentModule_Id = "";
+                        if ($scope.SubscriptionAndAdmin == 0) {
+                            InstSub.setSubID(0);
+                            $scope.InstitutionSubscriptionDetailsListTemplate();
+                        }
+                        if ($scope.SubscriptionAndAdmin == 1) {
+                            InstSub.setSubID(data.Institute[0].Institution_Id);
+                            window.location.href = baseUrl + "/Home/Index#/SuperAdmin_UserList/1";
+                        }
                     }
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {
@@ -1444,9 +1462,10 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
     ]);
 
 // This is for User controller functions/ /
-MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub',
+    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub) {
         $scope.SearchMsg = "No Data Available";
+        $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
         $scope.CountryFlag = false;
         $scope.StateFlag = false;
@@ -2153,6 +2172,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
                     //$scope.InstitutiondetailsListTemp.push(obj);
                     $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
+                    $scope.InstitutionId = $scope.AdminFlowdata;
                 });
                 $http.get(baseUrl + '/api/Common/GenderList/').success(
                     function (data) {
@@ -5187,6 +5207,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
             }
         };
+        $scope.SubscriptionAdm_Id = 0;
+        if ($scope.AdminFlowdata > 0) {
+            $scope.AddUserPopUP();
+            $scope.SubscriptionAdm_Id = $scope.AdminFlowdata;
+        }
     }
 ]);
 
