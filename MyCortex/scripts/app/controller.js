@@ -231,7 +231,7 @@ MyCortexControllers.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
-MyCortexControllers.service('data', ['$log', function ($log) {
+MyCortexControllers.service('InstSub', ['$log', function ($log) {
     this.myService = 0;
     return {
         getValue: function () {
@@ -361,11 +361,8 @@ MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$rou
     }
 ]);
 /* THIS IS FOR INSTITUTION CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'data',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, data) {
-        $scope.serviceData = data.getValue();
-        data.setValue(5);
-        $scope.serviceData = data.getValue();
+MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub) {
         $scope.CreatedBy = $window.localStorage['UserId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.CountryFlag = false;
@@ -694,12 +691,12 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                                 if (data.ReturnFlag == 1) {
                                     $scope.CancelInstitution();
                                     if ($scope.InstitutionAndSubscription == 0) {
+                                        InstSub.setValue(0);
                                         $scope.InstitutionDetailsListGo();
                                     }
                                     if ($scope.InstitutionAndSubscription == 1) {
-                                        $scope.myService.setValue(insId);
-                                        window.location.href = baseUrl + "/Admin/Views/InstitutionSubscriptionlist.html";
-
+                                        InstSub.setValue(insId);
+                                        window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
                                     }
                                 }
                             })
@@ -709,11 +706,12 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                         if (data.ReturnFlag == 1) {
                             $scope.CancelInstitution();
                             if ($scope.InstitutionAndSubscription == 0) {
+                                InstSub.setValue(0);
                                 $scope.InstitutionDetailsListGo();
                             }
                             if ($scope.InstitutionAndSubscription == 1) {
-                                $scope.myService.setValue(insId);
-                                window.location.href = baseUrl + "/Admin/Views/InstitutionSubscriptionlist.html";
+                                InstSub.setValue(insId);
+                                window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
                             }
                         }
                     }
@@ -956,10 +954,11 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
 ]);
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, myService ) {
+MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub ) {
 
         //Declaration and initialization of Scope Variables.
+        $scope.serviceData = InstSub.getValue();
         $scope.ChildId = 0;
         $scope.Institution_Id = "0";
         $scope.TimeZone_Id = "0";
@@ -1034,6 +1033,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
             //$scope.InstitutiondetailsListTemp.push(obj);
             $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+            $scope.Institution_Id = $scope.serviceData;
 
         })
         // This is for to get Institution Modiule List 
@@ -1434,6 +1434,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
     $scope.InstitutionSubscription_Delete = function () {
         alert("Subscription cannot be activated / deactivated")
     };
+    $scope.InstitutionSub_Id = 0;
+    if ($scope.serviceData > 0) {
+        $scope.AddIntstitutionSubPopup();
+        $scope.InstitutionSub_Id = $scope.serviceData;
+    }
 
         }
     ]);

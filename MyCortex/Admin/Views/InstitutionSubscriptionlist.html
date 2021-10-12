@@ -112,7 +112,7 @@
                                         <td width="25%">
                                             <select class="form-control" data-style="form-control" id="stateselectpicker" data-live-search="true" data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id" ng-change="InstituteGetDetails();">
                                                 <!--<option value="0">Select</option>-->
-                                                <option ng-repeat="sel in InstitutiondetailsList" ng-required="true" value="{{sel.Id}}">{{sel.Name}}</option>
+                                                <option ng-repeat="sel in InstitutiondetailsList" ng-selected="InstitutionSub_Id == sel.Id" ng-required="true" value="{{sel.Id}}">{{sel.Name}}</option>
                                             </select>
                                         </td>
 
