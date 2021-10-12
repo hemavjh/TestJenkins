@@ -1040,7 +1040,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
             //$scope.InstitutiondetailsListTemp.push(obj);
             $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
-            $scope.Institution_Id = $scope.serviceData;
+            $scope.Institution_Id = $scope.serviceData.toString();
+            $scope.InstituteGetDetails();
 
         })
         // This is for to get Institution Modiule List 
@@ -1452,10 +1453,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
     $scope.InstitutionSubscription_Delete = function () {
         alert("Subscription cannot be activated / deactivated")
     };
-    $scope.InstitutionSub_Id = 0;
     if ($scope.serviceData > 0) {
         $scope.AddIntstitutionSubPopup();
-        $scope.InstitutionSub_Id = $scope.serviceData;
     }
 
         }
@@ -2172,7 +2171,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
                     //$scope.InstitutiondetailsListTemp.push(obj);
                     $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
-                    $scope.InstitutionId = $scope.AdminFlowdata;
+                    $scope.InstitutionId = $scope.AdminFlowdata.toString();
                 });
                 $http.get(baseUrl + '/api/Common/GenderList/').success(
                     function (data) {
@@ -5207,10 +5206,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
             }
         };
-        $scope.SubscriptionAdm_Id = 0;
         if ($scope.AdminFlowdata > 0) {
             $scope.AddUserPopUP();
-            $scope.SubscriptionAdm_Id = $scope.AdminFlowdata;
         }
     }
 ]);

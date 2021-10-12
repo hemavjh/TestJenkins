@@ -322,7 +322,7 @@
                                             <td width="35%">
                                                 <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker data-collection-name="InstitutionList"
                                                         ng-model="InstitutionId" ng-change="SubscriptionValidation()" ng-show="LoginType == 1">
-                                                    <option ng-repeat="sel in InstitutionList" ng-required="true"  ng-selected="SubscriptionAdm_Id == sel.Id" value="{{sel.Id}}">{{sel.Name}}</option>
+                                                    <option ng-repeat="sel in InstitutionList" ng-required="true" value="{{sel.Id}}">{{sel.Name}}</option>
                                                 </select>
                                             </td>
 
