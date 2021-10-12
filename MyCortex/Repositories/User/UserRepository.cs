@@ -1619,6 +1619,7 @@ namespace MyCortex.Repositories.Uesr
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Institution_Id", Institution_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@UserId", UserId));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
