@@ -416,6 +416,17 @@ namespace MyCortex.Repositories.Uesr
                 {
                     Dt3 = ClsDataBase.GetDataTable("[MYCORTEX].[TBLNEWDOCTORSHIFT_SP_INSERTUPDATE]", param);
                     DataRow dr = Dt3.Rows[0];
+                    Flag = int.Parse((dr["flag"].ToString()));
+                    if (Flag == 7)
+                    {
+                        IList<DoctorShiftModel> INS = (from p in Dt3.AsEnumerable()
+                                                       select
+                                                       new DoctorShiftModel()
+                                                       {
+                                                           Flag = p.Field<int>("flag"),
+                                                       }).ToList();
+                        return INS;
+                    }
                     if (dr.IsNull("Id") == true)
                     {
                         InsertId = 0;

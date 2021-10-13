@@ -114,6 +114,11 @@ namespace MyCortex.Masters.Controllers
                     messagestr = "Holiday Can't Be Added AppointmentSlot Exist!";
                     model.ReturnFlag = 2;
                 }
+                else if ((retflag == 6) == true)
+                {
+                    messagestr = "Doctor Holiday Can't Added, TimeZone Missing In Subscription!";
+                    model.ReturnFlag = 0;
+                }
                 model.Attendance = ModelData;
                 model.Message = messagestr;// "User created successfully";
                 model.Status = "True";

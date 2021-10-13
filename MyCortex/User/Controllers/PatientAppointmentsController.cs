@@ -409,6 +409,11 @@ namespace MyCortex.User.Controller
                     messagestr = "Please select another one CG";
                     model.ReturnFlag = 0;
                 }
+                else if (ModelData.Any(item => item.Flag == 7) == true)
+                {
+                    messagestr = "Doctor Shift Can't Added, TimeZone Missing In Subscription!";
+                    model.ReturnFlag = 0;
+                }
                 model.DoctorShiftAddList = ModelData;
                 model.Message = messagestr;// "Doctor Shift created successfully";
                 model.Status = "True";
