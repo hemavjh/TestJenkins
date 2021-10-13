@@ -2848,7 +2848,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     }
                     return false;
                 }
-                else if (typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") {
+                /*else if (typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") {
                     alert("Please enter Employment No.");
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
@@ -2868,7 +2868,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         $scope.currentTab = 1;
                     }
                     return false;
-                }
+                }*/
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
                     alert("Please enter Email");
                     if ($scope.MenuTypeId == 2) {
