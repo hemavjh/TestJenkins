@@ -177,7 +177,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).success(function (data) {
             if (data != null) {
                 alert(data.Message)
-                if (ReturnFlag == "1") {
+                if (data.ReturnFlag == "1") {
                     angular.element('#forgotPasswordModal').modal('hide');
                     $scope.forgotPasswordEmail = "";
                 }
@@ -491,16 +491,16 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                         if (data1[0] != undefined) {
                             IdleDays = parseInt(data1[0].ConfigValue);
                             $window.localStorage['IdleDays'] = IdleDays;
-                            $scope.UserLogin(data);
+                            $scope.UserLogin(data, Message);
                         } else {
                             IdleDays = 600;
                             $window.localStorage['IdleDays'] = IdleDays;
-                            $scope.UserLogin(data);
+                            $scope.UserLogin(data, Message);
                         }
                     }).error(function (err) {
                         IdleDays = 600;
                         $window.localStorage['IdleDays'] = 600;
-                        $scope.UserLogin(data);
+                        $scope.UserLogin(data, Message);
                     }); 
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
@@ -519,7 +519,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
         //});      
     };
 
-    $scope.UserLogin = function (data) {
+    $scope.UserLogin = function (data, Message) {
         $("#chatLoaderPV").hide();
         if (data == "1") {
             $scope.errorlist = "Username and/or Password are not matching, please verify";
@@ -652,16 +652,16 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                                     if (data1[0] != undefined) {
                                         IdleDays = parseInt(data1[0].ConfigValue);
                                         $window.localStorage['IdleDays'] = IdleDays;
-                                        $scope.UserLogin(data);
+                                        $scope.UserLogin(data, Message);
                                     } else {
                                         IdleDays = 600;
                                         $window.localStorage['IdleDays'] = IdleDays;
-                                        $scope.UserLogin(data);
+                                        $scope.UserLogin(data, Message);
                                     }
                                 }).error(function (err) {
                                     IdleDays = 600;
                                     $window.localStorage['IdleDays'] = 600;
-                                    $scope.UserLogin(data);
+                                    $scope.UserLogin(data,);
                                 });  
                         });
 

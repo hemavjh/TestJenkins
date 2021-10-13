@@ -195,6 +195,12 @@ namespace MyCortex.Login.Controller
                         messagestr = "Given Reference Id is not Available.";
                         model.Status = "False";
                     }
+                    else if ((model.data == 12) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "Selected Language not in your subscription.";
+                        model.Status = "False";
+                    }
                     //model.UserDetails = ModelData;
                     model.Message = messagestr;// "User created successfully";
 

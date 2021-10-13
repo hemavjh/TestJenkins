@@ -41,7 +41,7 @@
                             Search
                         </label>
                         <div class="modernSearch">
-                            <input type="text" ng-model="Patientsearchquery" ng-change="PatientFilterChange();" placeholder="" />
+                            <input type="text" ng-model="Patientsearchquery" ng-change="PatientSearch();" placeholder="" />
                             <i class="fa fa-search"></i>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                         </option>
                     </select>
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>Home Phone Number</label>
                     <input type="text" class="form-control" id="Text13" ng-model="filter_HomePhoneNo" maxlength="50"
                            ng-maxlength="50" placeholder="">
@@ -123,16 +123,27 @@
                             {{sel.BloodGroup_Name}}
                         </option>
                     </select>
+                </div>-->
+                <div class="inputGroups">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" ng-model="Filter_FirstName" maxlength="50"
+                           ng-maxlength="100">
                 </div>
             </div>
             <div class="col-sm-4">
+                <div class="inputGroups">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" ng-model="Filter_LastName" maxlength="50"
+                           ng-maxlength="100">
+                </div>
                 <div class="inputGroups">
                     <label>Insurance ID</label>
                     <td width="20%">
                         <input type="text" class="form-control" ng-model="filter_InsuranceId" maxlength="50"
                                ng-maxlength="100">
+                        </td>
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>Ethnic Group</label>
                     <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
                         <option value="0">Select</option>
@@ -141,13 +152,13 @@
                             {{sel.Name}}
                         </option>
                     </select>
-                </div>
+                </div>-->
                 <div class="inputGroups">
                     Email
                     <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
                            ng-maxlength="100" />
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>State</label>
                     <select class="form-control" data-style="form-control" id="stateselectpicker"
                             data-live-search="true" data-selectpicker data-collection-name="StateNameList"
@@ -163,10 +174,10 @@
                     <select ng-model="filter_GroupId" multiple="multiple"
                             ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
                             style="width: 230px;"></select>
-                </div>
+                </div>-->
             </div>
             <div class="col-sm-4">
-                <div class="inputGroups">
+                <<!--div class="inputGroups">
                     <label>Gender</label>
                     <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
                         <option value="0">Select</option>
@@ -174,13 +185,13 @@
                             {{sel.Gender_Name}}
                         </option>
                     </select>
-                </div>
+                </div>-->
                 <div class="inputGroups">
                     <label>Mobile No.</label>
                     <input type="text" class="form-control" id="Text11" ng-model="filter_MOBILE_NO"
                            ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>Marital Status</label>
                     <select class="form-control" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
                         <option value="0">Select</option>
@@ -200,9 +211,14 @@
                             {{sel.LocationName}}
                         </option>
                     </select>
+                </div>-->
+                <div class="inputGroups">
+                    <label>MRN</label>
+                    <input type="text" class="form-control" ng-model="Filter_MRN" maxlength="50"
+                           ng-maxlength="100">
                 </div>
                 <div class="inputGroups">
-                    <a href="javascript:" ng-click="Patient_List(3)" class="theme-btn-1 btn-autosize mt-20 mr-10">Search</a>
+                    <a href="javascript:" ng-click="PatientAdvanceSearch()" class="theme-btn-1 btn-autosize mt-20 mr-10">Search</a>
                     <a href="javascript:" ng-click="ResetPatientFilter()" class="theme-btn-2 btn-autosize mt-20">Reset</a>
                 </div>
             </div>

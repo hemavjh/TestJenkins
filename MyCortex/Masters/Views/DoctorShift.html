@@ -131,7 +131,7 @@
             <div class="col-sm-4">
                 <div class="inputGroups">
                     <a href="javascript:" ng-click="DoctorShiftClear();AddSlot();" class="theme-btn-1 pull-right mt-15"
-                       title="Click to Add New Drug DB">Add New</a>
+                       title="Click to Add New Doctor Shift">Add New</a>
                 </div>
             </div>
 
@@ -331,7 +331,7 @@
                                             </div>
                                         </div>
                                         <div style="text-align: center;">
-                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" style="cursor: pointer" [ngClass]="isDisabled()" ng-show="DoctorSave == true" ng-disabled="true" id="saveDoctorShift" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                 Save
                                             </button>
                                             <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
@@ -423,7 +423,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row m-top-2">
+                                                                <!--<div class="row m-top-2">
                                                                     <div class="col-sm-3">
                                                                         <p>Custom Slot<sup>
                                                                 <font class='mandatory-field'>*</font>
@@ -433,7 +433,7 @@
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div>-->
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">

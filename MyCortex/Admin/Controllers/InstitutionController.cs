@@ -79,7 +79,7 @@ namespace MyCortex.Admin.Controllers
                         MailMessage.Institution_Id = -1;
                         MailMessage.MessageToId = insobj.Email;
                         MailMessage.MessageSubject = "Welcome - Mycortex Registration";
-                        MailMessage.MessageBody = "";
+                        MailMessage.MessageBody = messagestr;
                         MailMessage.Created_By = 0;
                         MailMessage.UserId = 0;
                         var insData = Generator.SendEmail(MailMessage);

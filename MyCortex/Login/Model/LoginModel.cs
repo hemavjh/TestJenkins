@@ -16,6 +16,7 @@ namespace MyCortex.Login.Model
         public long UserId { get; set; }
         public long UserTypeId { get; set; }
         public long InstitutionId { get; set; }
+        public int LanguageId { get; set; }
 
         public int ReturnFlag { get; set; }
         public string Status { get; set; }

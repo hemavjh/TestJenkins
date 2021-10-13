@@ -33,7 +33,8 @@ namespace MyCortex.Admin.Controllers
         public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0, long Appointment_Id = 0)
         {
             string token = string.Empty;
-            
+            string payBySign = string.Empty;
+
             string payCode = "PAYPAGE";
 
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
@@ -41,7 +42,7 @@ namespace MyCortex.Admin.Controllers
             string baseUrl = HttpContext.Current.Request.Url.Authority;
             PaySceneParams paySceneParams = new PaySceneParams
             {
-                redirectUrl = baseUrl + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
             };
 
             if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
@@ -57,7 +58,7 @@ namespace MyCortex.Admin.Controllers
             string publicKey = string.Empty;
             string partnetId = string.Empty;
             double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(Institution_Id,Department_Id));
-            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "PrivateKey");
+            gatewayModel = gatewayrepository.GatewaySettings_Details(Institution_Id, 2, "RSAPrivateKey");
             if (gatewayModel.Count > 0)
             {
                 privateKey = gatewayModel[0].GatewayValue;
@@ -89,7 +90,7 @@ namespace MyCortex.Admin.Controllers
                 },
                 paySceneCode = payCode,
                 paySceneParams = paySceneParams,
-                notifyUrl = baseUrl + "/Home/Notify/"
+                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/"
             };
             DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
 
@@ -131,6 +132,11 @@ namespace MyCortex.Admin.Controllers
                             if (tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
                             {
                                 token = tokenRes.body.interActionParams.tokenUrl;
+                                if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
+                                {
+                                    string signString = string.Format("iapAppId={0}&iapDeviceId={1}&iapPartnerId={2}&token={3}", appId, iapDeviceId, partnetId, token);
+                                    payBySign = rsaHelper.Sign(signString, privateKey);
+                                }
                             }
                         }
                         else
@@ -165,7 +171,7 @@ namespace MyCortex.Admin.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, new { Token = token });
+            return Request.CreateResponse(HttpStatusCode.OK, new { Token = token, Sign = payBySign });
         }
 
         //[HttpPost]

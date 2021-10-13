@@ -231,6 +231,25 @@ MyCortexControllers.service('fileUpload', ['$http', function ($http) {
     }
 }]);
 
+MyCortexControllers.service('InstSub', ['$log', function ($log) {
+    this.myService = 0;
+    this.SubscriptionInstiID = 0;
+    return {
+        getInstiID: function () {
+            return this.myService;
+        },
+        setInstiID: function (data) {
+            this.myService = data;
+        },
+        getSubID: function () {
+            return this.SubscriptionInstiID;
+        },
+        setSubID: function (data) {
+            this.SubscriptionInstiID = data;
+        }
+    };
+}]);
+
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
 MyCortexControllers.controller("UnderConstructionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe',
@@ -349,8 +368,8 @@ MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$rou
     }
 ]);
 /* THIS IS FOR INSTITUTION CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub) {
         $scope.CreatedBy = $window.localStorage['UserId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.CountryFlag = false;
@@ -360,6 +379,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         $scope.StateDuplicateId = "0";
         $scope.LocationDuplicateId = "0";
         $scope.Mode = $routeParams.Mode;
+        //$scope.myService = myService;
         if ($routeParams.ModeType == undefined) {
             $scope.ModeType = "1";
         }
@@ -566,6 +586,12 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 FileName = $('#InstitutionLogo')[0].files[0]['name'];
             }
         }
+        $scope.InstitutionAndSubscription = 0;
+        $scope.Institution_AddEdit_AndSubscription = function () {
+            $scope.InstitutionAndSubscription = 1;
+            $scope.Institution_AddEdit();
+
+        }
 
         /*on click Save calling the insert update function for Institution
              and check the Institution Name already exist,if exist it display alert message or its 
@@ -671,7 +697,14 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                                 $("#InstitutionLogo").val('');
                                 if (data.ReturnFlag == 1) {
                                     $scope.CancelInstitution();
-                                    $scope.InstitutionDetailsListGo();
+                                    if ($scope.InstitutionAndSubscription == 0) {
+                                        InstSub.setInstiID(0);
+                                        $scope.InstitutionDetailsListGo();
+                                    }
+                                    if ($scope.InstitutionAndSubscription == 1) {
+                                        InstSub.setInstiID(insId);
+                                        window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
+                                    }
                                 }
                             })
                     }
@@ -679,7 +712,14 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                         $("#InstitutionLogo").val('');
                         if (data.ReturnFlag == 1) {
                             $scope.CancelInstitution();
-                            $scope.InstitutionDetailsListGo();
+                            if ($scope.InstitutionAndSubscription == 0) {
+                                InstSub.setInstiID(0);
+                                $scope.InstitutionDetailsListGo();
+                            }
+                            if ($scope.InstitutionAndSubscription == 1) {
+                                InstSub.setInstiID(insId);
+                                window.location.href = baseUrl + "/Home/Index#/Institution_Subscription";
+                            }
                         }
                     }
                     $("#chatLoaderPV").hide();
@@ -921,10 +961,11 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
 ]);
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub ) {
 
         //Declaration and initialization of Scope Variables.
+        $scope.serviceData = InstSub.getInstiID();
         $scope.ChildId = 0;
         $scope.Institution_Id = "0";
         $scope.TimeZone_Id = "0";
@@ -948,6 +989,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
         }
+        /*$scope.myService = myService;
+        $scope.update();
+        $scope.update = function (str) {
+            $scope.myService.setValue(str);
+        }*/
 
         $scope.AddIntstitutionSubPopup = function () {
             $scope.Id = 0;
@@ -994,6 +1040,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
             //$scope.InstitutiondetailsListTemp.push(obj);
             $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
+            $scope.Institution_Id = $scope.serviceData.toString();
+            $scope.InstituteGetDetails();
 
         })
         // This is for to get Institution Modiule List 
@@ -1049,6 +1097,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             });
             $scope.loading = false;
         }
+        $scope.SubscriptionAndAdmin = 0;
+        $scope.AndSubscription_AndAdmin = function () {
+            $scope.SubscriptionAndAdmin = 1;
+            $scope.Institution_SubscriptionAddEdit();
+        }
         /* Validating the create page mandatory fields
         checking mandatory for the follwing fields
         Health Care Professionals,Patients,Contract Period From,Contract Period To
@@ -1057,6 +1110,10 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Institution_SubscriptionAddEditValidations = function () {
             if (typeof ($scope.Institution_Id) == "undefined" || $scope.Institution_Id == "0") {
                 alert("Please select Institution");
+                return false;
+            }
+            else if (typeof ($scope.TimeZone_Id) == "undefined" || $scope.TimeZone_Id == "0") {
+                alert("Please select TimeZone");
                 return false;
             }
             else if (typeof ($scope.Health_Care_Professionals) == "undefined" || $scope.Health_Care_Professionals == "") {
@@ -1075,8 +1132,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 alert("Please select Contract Period To");
                 return false;
             }
-            else if (typeof ($scope.TimeZone_Id) == "undefined" || $scope.TimeZone_Id == "") {
-                alert("Please select TimeZone");
+            else if (typeof ($scope.AppointmentModule_Id) == "undefined" || $scope.AppointmentModule_Id == "0") {
+                alert("Please select AppointmentModule");
                 return false;
             }
             if (($scope.Contract_Period_From != "0") && ($scope.Contract_Period_To != "0")) {
@@ -1111,7 +1168,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.InstitutionInsurance_List = [];
             $scope.InstitutionPayment_List = [];
             if ($scope.Institution_SubscriptionAddEditValidations() == true) {
-                //$("#chatLoaderPV").show();
+                $("#chatLoaderPV").show();
                 angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
@@ -1162,7 +1219,6 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 var objInstituteName = $scope.InstitutionInsuranceName;
                 var obj2InstitutePay = $scope.InstitutionPaymentMethod;
                 var InstitutionSelectedPaymentList = obj2InstitutePay.concat(objInstituteName);
-                console.log(InstitutionSelectedPaymentList);
                 /*Array.prototype.push.apply(obj2InstitutePay, objInstituteName);
                 console.log(obj2InstitutePay);*/
                 var obj = {
@@ -1187,9 +1243,16 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     alert(data.Message);
                     if (data.ReturnFlag == "1") {
                         $scope.CancelIntstitutionSubPopup();
-                        $scope.InstitutionSubscriptionDetailsListTemplate();
                         $scope.TimeZone_Id = "";
                         $scope.AppointmentModule_Id = "";
+                        if ($scope.SubscriptionAndAdmin == 0) {
+                            InstSub.setSubID(0);
+                            $scope.InstitutionSubscriptionDetailsListTemplate();
+                        }
+                        if ($scope.SubscriptionAndAdmin == 1) {
+                            InstSub.setSubID(data.Institute[0].Institution_Id);
+                            window.location.href = baseUrl + "/Home/Index#/SuperAdmin_UserList/1";
+                        }
                     }
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {
@@ -1295,6 +1358,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.TimeZoneId = data.TimeZone_ID;
                     $scope.TimeZone_Id = data.TimeZone_ID;
                     $scope.AppointmentModuleId = data.Appointment_Module_Id;
+                    $scope.AppointmentModule_Id = data.Appointment_Module_Id;
                     //$scope.Contract_Period_From = $filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy");
                     $scope.Contract_Period_From = DateFormatEdit($filter('date')(data.Contract_PeriodFrom, "dd-MMM-yyyy"));
                     $scope.Health_Care_Professionals = data.Health_Care_Professionals;
@@ -1389,14 +1453,18 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
     $scope.InstitutionSubscription_Delete = function () {
         alert("Subscription cannot be activated / deactivated")
     };
+    if ($scope.serviceData > 0) {
+        $scope.AddIntstitutionSubPopup();
+    }
 
         }
     ]);
 
 // This is for User controller functions/ /
-MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub',
+    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub) {
         $scope.SearchMsg = "No Data Available";
+        $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
         $scope.CountryFlag = false;
         $scope.StateFlag = false;
@@ -1492,6 +1560,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.BusinessUserFilter = [];
         $scope.BusinessUserflag = 0;
         $scope.Filter_PatientNo = "";
+        $scope.Filter_FirstName = "";
+        $scope.Filter_LastName = "";
+        $scope.Filter_MRN = "";
         $scope.filter_InsuranceId = "";
         $scope.filter_MOBILE_NO = "";
         $scope.filter_HomePhoneNo = "";
@@ -2100,6 +2171,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.InstitutiondetailsListTemp.splice(0, 0, obj);
                     //$scope.InstitutiondetailsListTemp.push(obj);
                     $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
+                    $scope.InstitutionId = $scope.AdminFlowdata.toString();
                 });
                 $http.get(baseUrl + '/api/Common/GenderList/').success(
                     function (data) {
@@ -2267,30 +2339,30 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.patientDropdownList = function () {
             if ($scope.LoginType == 3 && $scope.TabClick == false) {
                 $scope.TabClick = true;
-                $http.get(baseUrl + '/api/Common/GenderList/').success(
-                    function (data) {
-                        $scope.GenderList = data;
-                    });
+                //$http.get(baseUrl + '/api/Common/GenderList/').success(
+                //    function (data) {
+                //        $scope.GenderList = data;
+                //    });
                 $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
                     $scope.NationalityList = data;
                 });
-                $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                    $scope.EthnicGroupList = data;
-                });
-                $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                    $scope.MaritalStatusList = data;
-                });
-                $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                    $scope.BloodGroupList = data;
-                });
-                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    $scope.GroupTypeList = data;
-                });
+                //$http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+                //    $scope.EthnicGroupList = data;
+                //});
+                //$http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
+                //    $scope.MaritalStatusList = data;
+                //});
+                //$http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+                //    $scope.BloodGroupList = data;
+                //});
+                //$http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                //    $scope.GroupTypeList = data;
+                //});
 
-                $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                    //$http.get(baseUrl + '/api/Common/Get_CountryStateLocation_List').success(function (data) {
-                    $scope.CountryNameList = data;
-                });
+                //$http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
+                //    //$http.get(baseUrl + '/api/Common/Get_CountryStateLocation_List').success(function (data) {
+                //    $scope.CountryNameList = data;
+                //});
             }
         };
         /*$http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
@@ -2457,7 +2529,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            $scope.Patient_List(3);
+            if ($scope.Patientsearchquery == "" && $scope.Filter_PatientNo == "" && $scope.filter_InsuranceId == "" && $scope.filter_NationalityId == "0" && $scope.filter_MOBILE_NO == "" && $scope.filter_Email == "" && $scope.Filter_FirstName == "" && $scope.Filter_LastName == "" && $scope.Filter_MRN == "") {
+                $scope.Patient_List(3);
+            }
+            else {
+                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                getallpatientlist();
+            }
         }
 
         $scope.Patient_List = function (MenuType) {
@@ -2581,9 +2660,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
         }
 
+        $scope.PatientAdvanceSearch = function () {
+            getallpatientlist();
+        }
+
         getallpatientlist = function () {
             $scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
-            $http.get(baseUrl + '/api/User/Search_Patient_List?IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery).success(function (data) {
+            $http.get(baseUrl + '/api/User/Search_Patient_List?IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&SearchQuery=' + $scope.Patientsearchquery + '&PATIENTNO=' + $scope.Filter_PatientNo
+                + '&INSURANCEID=' + $scope.filter_InsuranceId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&MOBILE_NO=' +
+                $scope.filter_MOBILE_NO + '&EMAILID=' + $scope.filter_Email + '&FIRSTNAME=' + $scope.Filter_FirstName + '&LASTNAME=' + $scope.Filter_LastName + '&MRNNO=' + $scope.Filter_MRN + '&StartRowNumber=' + $scope.PageStart +
+                '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                 if (data.length == 0) {
                     $scope.SearchMsg = "No Data Available";
                 }
@@ -2591,8 +2677,10 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.PatientList = [];
                 $scope.PatientList = data;
                 $scope.Patientemptydata = data;
-                $scope.PatientCount = data.length;
-                $scope.total_pages = 1;
+                if ($scope.PatientList.length > 0) {
+                    $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                    $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                }
             });
         }
 
@@ -2760,7 +2848,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     }
                     return false;
                 }
-                else if (typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") {
+                /*else if (typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") {
                     alert("Please enter Employment No.");
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
@@ -2780,7 +2868,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         $scope.currentTab = 1;
                     }
                     return false;
-                }
+                }*/
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
                     alert("Please enter Email");
                     if ($scope.MenuTypeId == 2) {
@@ -2803,7 +2891,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     return false;
                 }
 
-                if ($scope.uploadme != "") {
+                if ($scope.uploadme != "" && $scope.uploadme != null) {
                     $scope.Image = filetype = $scope.uploadme.split(',')[0].split(':')[1].split(';')[0];
                     $scope.filetype = $scope.Image.split("/");
                     var fileval = 0;
@@ -4033,6 +4121,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
+                        $scope.InstitutionCreatedID = data.UserDetails.INSTITUTION_ID;
                         /*if (data.Message == "Email already exists cannot be Duplicated") {
                             alert("Email already exists, cannot be Duplicate");
                             return false;
@@ -4047,6 +4136,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
                         $scope.UserImageAttach(userid);
                         if (data.ReturnFlag == "1") {
+                            $scope.InstitueDefaultConfiguration();
                             $scope.UserTypeId = $window.localStorage['UserTypeId'];
                             if ($scope.MenuTypeId == 1) {
                                 $scope.User_Admin_List($scope.MenuTypeId);
@@ -4076,6 +4166,149 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
             });
         }
+
+        $scope.InstitueDefaultConfiguration = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration2();
+            }).error(function (data) {
+                alert("Error In Step 1");
+                $scope.InstitueDefaultConfiguration2();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration2 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration3();
+            }).error(function (data) {
+                alert("Error In Step 2");
+                $scope.InstitueDefaultConfiguration3();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration3 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration4();
+            }).error(function (data) {
+                alert("Error In Step 3");
+                $scope.InstitueDefaultConfiguration4();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration4 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration5();
+            }).error(function (data) {
+                alert("Error In Step 4");
+                $scope.InstitueDefaultConfiguration5();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration5 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration6();
+            }).error(function (data) {
+                alert("Error In Step 5");
+                $scope.InstitueDefaultConfiguration6();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration6 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration7();
+            }).error(function (data) {
+                alert("Error In Step 6");
+                $scope.InstitueDefaultConfiguration7();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration7 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration8();
+            }).error(function (data) {
+                alert("Error In Step 7");
+                $scope.InstitueDefaultConfiguration8();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration8 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration9();
+            }).error(function (data) {
+                alert("Error In Step 8");
+                $scope.InstitueDefaultConfiguration9();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration9 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration10();
+            }).error(function (data) {
+                alert("Error In Step 9");
+                $scope.InstitueDefaultConfiguration10();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration10 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration11();
+            }).error(function (data) {
+                alert("Error In Step 10");
+                $scope.InstitueDefaultConfiguration11();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration11 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration12();
+            }).error(function (data) {
+                alert("Error In Step 11");
+                $scope.InstitueDefaultConfiguration12();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration12 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration13();
+            }).error(function (data) {
+                alert("Error In Step 12");
+                $scope.InstitueDefaultConfiguration13();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration13 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration14();
+            }).error(function (data) {
+                alert("Error In Step 13");
+                $scope.InstitueDefaultConfiguration14();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration14 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration15();
+            }).error(function (data) {
+                alert("Error In Step 14");
+                $scope.InstitueDefaultConfiguration15();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration15 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstitutionCreatedID).success(function (data) {
+                $scope.InstitueDefaultConfiguration16();
+            }).error(function (data) {
+                alert("Error In Step 15");
+                $scope.InstitueDefaultConfiguration16();
+            });
+        };
+
+        $scope.InstitueDefaultConfiguration16 = function () {
+            $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).success(function (data) {
+            }).error(function (data) {
+                alert("Error In Step 16");
+            });
+        };
+
 
         $scope.UserImageAttach = function (userid) {
             var userid = userid;
@@ -4586,6 +4819,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         }
 
         $scope.ResetPatientFilter = function () {
+            $scope.Filter_FirstName = "";
+            $scope.Filter_LastName = "";
+            $scope.Filter_MRN = "";
             $scope.Filter_PatientNo = "";
             $scope.filter_InsuranceId = "";
             $scope.Filter_GenderId = "0";
@@ -4970,6 +5206,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
             }
         };
+        if ($scope.AdminFlowdata > 0) {
+            $scope.AddUserPopUP();
+        }
     }
 ]);
 
@@ -5159,7 +5398,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 alert("Please select City");
                 return false;
             }
-            if ($scope.uploadme != "") {
+            if ($scope.uploadme != "" && $scope.uploadme != null) {
                 $scope.Image = filetype = $scope.uploadme.split(',')[0].split(':')[1].split(';')[0];
                 $scope.filetype = $scope.Image.split("/");
                 var fileval = 0;
@@ -5568,7 +5807,7 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
         $scope.InstitutionAddPaymentList = [];
         /*THIS IS FOR View FUNCTION*/
         $scope.InstitutionSubscriptionDetails_View = function () {
-            $scope.TimeZoneIDName = [];
+            $scope.TimeZoneIDName = "";
             if ($routeParams.Id != undefined && $routeParams.Id > 0) {
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
@@ -5605,10 +5844,16 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.InsSub_Id = data.SubscriptionId;
                     $scope.TimeZoneId = data.TimeZone_ID;
                     $scope.AppointmentModuleId = data.Appointment_Module_Id;
-                    $scope.TimeZoneIDName = null;
+                    $scope.TimeZoneIDName = "";
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
-                        $scope.TimeZoneIDName = data2[$scope.TimeZoneId];
+                        for (i in data2) {
+                            if ($scope.TimeZoneList[i].TimeZoneId == $scope.TimeZoneId) {
+                                var TimeZoneRevealID = i;
+                                $scope.TimeZoneIDName = data2[TimeZoneRevealID].TimeZoneDisplayName;
+                                break;
+                            }
+                        }
                     });
                     $http.get(baseUrl + '/api/DoctorShift/AppointmentModuleList/').success(function (data) {
                         // only active Language    
@@ -5786,14 +6031,14 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                             }
                             
                             $scope.AllergyTypeList = [];
-                            //$http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
-                            //    $("#chatLoaderPV").hide();
-                            //    $scope.AllergyTypeListTemp = [];
-                            //    $scope.AllergyTypeListTemp = data;
-                            //    var obj = { "Id": 0, "AllergyTypeName": "Select", "IsActive": 1 };
-                            //    $scope.AllergyTypeListTemp.splice(0, 0, obj);
-                            //    $scope.AllergyTypeList = angular.copy($scope.AllergyTypeListTemp);
-                            //})
+                            $http.get(baseurl + 'api/masterallergy/masterallergytypelist/?institution_id=' + $scope.institution_id).success(function (data) {
+                                $("#chatloaderpv").hide();
+                                $scope.allergytypelisttemp = [];
+                                $scope.allergytypelisttemp = data;
+                                var obj = { "id": 0, "allergytypename": "select", "isactive": 1 };
+                                $scope.allergytypelisttemp.splice(0, 0, obj);
+                                $scope.allergytypelist = angular.copy($scope.allergytypelisttemp);
+                            })
                             //$scope.AllergenListfilter = [];
                             //$scope.AllegenBasedType = function (AllergyTypeId) {
                             //    var id = "0"
@@ -6017,7 +6262,7 @@ MyCortexControllers.controller("PatientAppointmentListController", ['$scope', '$
             //$scope.$apply();
         }
         function CG_PatientAppointment_List() {
-            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&UserId=' + $window.localStorage['UserId']).success(function (data) {
                 $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
                 if ($scope.UpComingWaitingAppointmentDetails != null) {
                     $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
@@ -20811,6 +21056,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $sel3.multiselect('enable');
             $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
+            document.getElementById("saveDoctorShift").disabled = false;
             angular.element('#DoctorShiftModal').modal('show');
             $("#chatLoaderPV").hide();
         }
@@ -20839,6 +21085,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.SelectedDoctorList = [];
             }
             $("#chatLoaderPV").hide();
+            console.log('TATA');
         }
 
         $scope.OrgDefaultClick = function (event) {
@@ -20863,7 +21110,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                    $scope.Days = data.MinRescheduleDays;
+                    $scope.Days = data.MaxScheduleDays;
                     $scope.Minutes = data.MinRescheduleMinutes;
                     $("#chatLoaderPV").hide();
                 });
@@ -21697,7 +21944,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.DoctorShift_InsertUpdate = function () {
             if ($scope.ValidationcontrolsDoctorShift() == true) {
-                $("#chatLoaderPV").show();
+                //$("#chatLoaderPV").show();
+                document.getElementById("saveDoctorShift").disabled = true;
                 $scope.SelectedDepartment_List = [];
                 angular.forEach($scope.SelectedDepartment, function (value, index) {
                     var obj = {
@@ -21931,6 +22179,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         break;
                     }
                 }
+                var selectedCheckedDays = $scope.SelectedDays.filter(x => x.exist == 1);
+                if (selectedCheckedDays.length <= 0) {
+                    chk = 3;
+                }
                 if (chk === 1 || chk == 2) {
                     angular.forEach($scope.SelectedDays, function (value, index) {
                         for (let i = 3; i >= 0; i--) {
@@ -21941,12 +22193,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             }
                         }
                     });
-                    var seldays = $scope.SelectedDays.length;
-                    for (i = seldays - 1; i >= 0; i--) {
-                        if ($scope.SelectedDays[i].exist == 0) {
-                            $scope.SelectedDays.splice(i, 1);
-                        }
-                    }
+                    //var seldays = $scope.SelectedDays.length;
+                    //for (i = seldays - 1; i >= 0; i--) {
+                    //    if ($scope.SelectedDays[i].exist == 0) {
+                    //        $scope.SelectedDays.splice(i, 1);
+                    //    }
+                    //}
                     var obj = {
                         ID: $scope.Id,
                         Institution_Id: $window.localStorage['InstitutionId'],
@@ -21962,11 +22214,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         CustomSlot: parseInt($scope.CustomSlot),
                         BookingOpen: $scope.Days,
                         BookingCancelLock: parseInt($scope.Minutes),
-                        SelectedDaysList: $scope.SelectedDays
+                        SelectedDaysList: selectedCheckedDays
                     };
                     $("#chatLoaderPV").show();
                     $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
+                        document.getElementById("saveDoctorShift").disabled = false;
                         $("#chatLoaderPV").hide();
                         if (data.ReturnFlag == 1) {
                             $scope.DoctorShiftClear();
@@ -21980,8 +22233,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     }).error(function (data) {
                         $scope.error = "An error has occurred while Adding Docor Shift" + data;
                     });
-                } else {
+                } else if (chk == 0) {
                     alert('Please Enter Valid Timeslot!');
+                } else if (chk == 3) {
+                    alert('Please Select Any One Day');
                 }
             }
         }
@@ -22096,10 +22351,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 alert("Please Enter Interval Time Slot");
                 return false;
             }
-            else if (typeof ($scope.CustomSlot) == "undefined" || $scope.CustomSlot == "0" || $scope.CustomSlot == '') {
+            /*else if (typeof ($scope.CustomSlot) == "undefined" || $scope.CustomSlot == "0" || $scope.CustomSlot == '') {
                 alert("Please Enter CustomSlot Time");
                 return false;
-            }
+            }*/
             else if (typeof ($scope.Days) == "undefined" || $scope.Days == "0" || $scope.Days == '') {
                 alert("Please Enter Days");
                 return false;
@@ -22952,6 +23207,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         /*THIS IS FOR View FUNCTION*/
         $scope.DoctorShift_View = function (DId, DoctorId, Institution_Id) {
             $("#chatLoaderPV").show();
+            document.getElementById("saveDoctorShift").disabled = false;
             $scope.EditSelectedDoctor = [];
             $scope.EditSelectedDepartment = [];
             $scope.EditSelectedCCCG = [];
@@ -24854,9 +25110,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.MyHomeflag = "0";
         $scope.DeviceId = "0";
         $scope.MyDeviceflag = "0";
+        $scope.ISact = 1;
 
-        $http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
-            $scope.DevicesLists = data;
+        //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
+        //    $scope.DevicesLists = data;
+        //});
+        $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+            $scope.DevicesLists = data.TabDeviceList;
         });
         $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.UserLists = data;
@@ -24968,7 +25228,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         $scope.emptydataTab = [];
                         $scope.rowCollectionTab = [];
                         $scope.rowCollectionTab = data;
-                        $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
+                        if ($scope.rowCollectionTab.length > 0) {
+                            $scope.TabDataCount = $scope.rowCollectionTab[0].TotalRecord;
+                        } else {
+                            $scope.TabDataCount = 0;
+                        }
                         $scope.TabData_ListFilterdata = data;
                         $scope.rowCollectionTabFilter = angular.copy($scope.rowCollectionTab);
                         if ($scope.rowCollectionTabFilter.length > 0) {
@@ -25551,9 +25815,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 //$scope.DeviceType = data.DeviceTypeId;
                 $scope.DeviceMake = data.Make;
                 $scope.DeviceModel = data.ModelNumber;
-                var det = data.ParameterList[0].ParameterName.split(',');
-                for (i = 0; i < det.length; i++) {
-                    $scope.Editselectedparam.push(parseInt(det[i]));
+                var pname = data.ParameterList[0].ParameterName.toString();
+                if (pname.indexOf(',') >= 0) {
+                    var det = data.ParameterList[0].ParameterName.split(',');
+                    for (i = 0; i < det.length; i++) {
+                        $scope.Editselectedparam.push(parseInt(det[i]));
+                    }
                 }
                 $scope.SelectedParamter = $scope.Editselectedparam;
             });

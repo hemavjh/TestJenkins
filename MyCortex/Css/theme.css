@@ -56,6 +56,10 @@ body {
 .secondary-text {
     color: #ff6f1a;
 }
+.secondary-text1 {
+    color: black;
+    font-weight: 600;
+}
 .bg-darkblue {
     background-color:#002269;
 }
@@ -2366,7 +2370,7 @@ a.disabled {
     width: 33px !important;
     height: 33px !important;
     float: left;
-    background: #FF6C00;
+    background: #ff042e;
     border-radius: 33px;
     margin: 0 0 0 3px;
 }

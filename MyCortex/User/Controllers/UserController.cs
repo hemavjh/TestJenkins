@@ -29,6 +29,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using Newtonsoft.Json;
+using System.Runtime.Caching;
 
 namespace MyCortex.User.Controller
 {
@@ -42,7 +43,7 @@ namespace MyCortex.User.Controller
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IList<AppConfigurationModel> AppConfigmodel;
         private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
-        static IList<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
+        MemoryCache memCache = MemoryCache.Default;
 
         /// <summary>      
         /// Getting list of Doctor Affiliation Institution list
@@ -619,13 +620,25 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, String SearchQuery = null)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
         {
+            string NATIONALITY_ID2 = string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower();
+            string PATIENTNO2 = string.IsNullOrEmpty(PATIENTNO) ? "" : PATIENTNO.ToLower();
+            string INSURANCEID2 = string.IsNullOrEmpty(INSURANCEID) ? "" : INSURANCEID.ToLower();
+            string MOBILE_NO2 = string.IsNullOrEmpty(MOBILE_NO) ? "" : MOBILE_NO.ToLower();
+            string EMAILID2 = string.IsNullOrEmpty(EMAILID) ? "" : EMAILID.ToLower();
+            string FIRSTNAME2 = string.IsNullOrEmpty(FIRSTNAME) ? "" : FIRSTNAME.ToLower();
+            string LASTNAME2 = string.IsNullOrEmpty(LASTNAME) ? "" : LASTNAME.ToLower();
+            string MRNNO2 = string.IsNullOrEmpty(MRNNO) ? "" : MRNNO.ToLower();
             string SearchQuery2 = string.IsNullOrEmpty(SearchQuery) ? "" : SearchQuery.ToLower();
-            if (search_patient_list.Count == 0)
+            int lastno = (EndRowNumber - StartRowNumber) + 1;
+            int StartRowNumber2 = StartRowNumber - 1;
+            List<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
+            List<ItemizedUserDetailsModel> search_model = new List<ItemizedUserDetailsModel>();
+            List<ItemizedUserDetailsModel> model;
+            if (!memCache.Contains("patient_list"))
             {
                 DataEncryption EncryptPassword = new DataEncryption();
-                List<ItemizedUserDetailsModel> model;
                 if (INSTITUTION_ID == null)
                 {
                     INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
@@ -636,13 +649,122 @@ namespace MyCortex.User.Controller
                 }
                 search_patient_list = repository.Search_Patient_List(IsActive, INSTITUTION_ID, SearchQuery);
                 var ss = JsonConvert.SerializeObject(search_patient_list);
-                model = search_patient_list.Where(x => x.FullName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2)).ToList();
-                // model = search_patient_list.Where(x => x.FullName.Contains(SearchQuery)).ToList();
+                memCache.Add("patient_list", search_patient_list, DateTimeOffset.UtcNow.AddHours(1));
+                if (SearchQuery2 != "")
+                {
+                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).ToList();
+                    Int64 count = model.Count;
+                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).Skip(StartRowNumber2).Take(lastno).ToList();
+                    model.ForEach(x => x.TotalRecord = count.ToString());
+                }
+                else
+                {
+                    Int64 count = 0;
+                    if (FIRSTNAME2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (LASTNAME2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (INSURANCEID2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    else if (MOBILE_NO2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (EMAILID2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (NATIONALITY_ID2 != "0")
+                    {
+                        model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (PATIENTNO2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (MRNNO2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    model = search_model.Distinct().ToList();
+                    count = model.Count;
+                    model.ForEach(x => x.TotalRecord = count.ToString());
+                    model = model.Skip(StartRowNumber2).Take(lastno).ToList();
+                }
                 return model;
             }
             else
             {
-                List<ItemizedUserDetailsModel> model = search_patient_list.Where(x => x.FullName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2)).ToList();
+                search_patient_list = (List<ItemizedUserDetailsModel>)memCache.Get("patient_list");
+                if (SearchQuery2 != "")
+                {
+                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).ToList();
+                    Int64 count = model.Count;
+                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).Skip(StartRowNumber2).Take(lastno).ToList();
+                    model.ForEach(x => x.TotalRecord = count.ToString());
+                }
+                else
+                {
+                    Int64 count = 0;
+                    if (FIRSTNAME2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (LASTNAME2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (INSURANCEID2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    else if (MOBILE_NO2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (EMAILID2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (NATIONALITY_ID2 != "0")
+                    {
+                        model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (PATIENTNO2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    if (MRNNO2 != "")
+                    {
+                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
+                        search_model.AddRange(model);
+                    }
+                    model = search_model.Distinct().ToList();
+                    count = model.Count;
+                    model.ForEach(x => x.TotalRecord = count.ToString());
+                    model = model.Skip(StartRowNumber2).Take(lastno).ToList();
+                }
                 return model;
             }
         }
@@ -1246,14 +1368,14 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id)
+        public HttpResponseMessage CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
             {
 
-                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id);
+                ModelData = repository.CG_PatientAppointmentList(Institution_Id, Login_Session_Id, UserId);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";
@@ -3928,6 +4050,78 @@ namespace MyCortex.User.Controller
             {
                 _logger.Error(ex.Message, ex);
                 return null;
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public HttpResponseMessage Add_Dummy_Users()
+        {
+            UserModel ModelData = new UserModel();
+            UserReturnModel model = new UserReturnModel();
+            try 
+            {
+                for (int i = 0; i < 5; i++) {
+                    UserModel userObj = new UserModel();
+                    userObj.FullName = 'A' + i.ToString();
+                    userObj.PASSWORD = "P@sswOrd";
+                    userObj.FirstName = "A" + i.ToString();
+                    userObj.MiddleName = "";
+                    userObj.LastName = "B" + i.ToString();
+                    userObj.INSURANCEID = "";
+                    userObj.NATIONALID = "5";
+                    userObj.MOBILE_NO = "";
+                    userObj.EMERG_CONT_FIRSTNAME = "";
+                    userObj.EMERG_CONT_LASTNAME = "";
+                    userObj.DOB_Encrypt = "";
+                    userObj.EMERG_CONT_MIDDLENAME = "";
+                    userObj.Emergency_MobileNo = "";
+                    userObj.EMAILID = "";
+                    userObj.GOOGLE_EMAILID = "";
+                    userObj.FB_EMAILID = "";
+                    userObj.Memberid = "";
+                    userObj.PolicyNumber = "";
+                    userObj.RefernceId = "";
+                    userObj.ExpiryDate = "";
+                    DataEncryption EncryptPassword = new DataEncryption();
+                    userObj.INSTITUTION_ID = -1;
+                    userObj.PASSWORD = EncryptPassword.Encrypt(userObj.PASSWORD);
+                    userObj.FullName = EncryptPassword.Encrypt(userObj.FullName);
+                    userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
+                    userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
+                    userObj.LastName = EncryptPassword.Encrypt(userObj.LastName);
+                    //userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
+                    userObj.INSURANCEID = EncryptPassword.Encrypt(userObj.INSURANCEID);
+                    userObj.NATIONALID = EncryptPassword.Encrypt(userObj.NATIONALID);
+                    userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
+                    userObj.EMERG_CONT_FIRSTNAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_FIRSTNAME);
+                    userObj.EMERG_CONT_LASTNAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_LASTNAME);
+                    userObj.DOB_Encrypt = EncryptPassword.Encrypt(userObj.DOB.ToString());
+                    userObj.EMERG_CONT_MIDDLENAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_MIDDLENAME);
+                    userObj.Emergency_MobileNo = EncryptPassword.Encrypt(userObj.Emergency_MobileNo);
+                    userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
+                    userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
+                    userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
+                    userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
+                    userObj.Memberid = EncryptPassword.Encrypt(userObj.Memberid);
+                    userObj.PolicyNumber = EncryptPassword.Encrypt(userObj.PolicyNumber);
+                    userObj.RefernceId = EncryptPassword.Encrypt(userObj.RefernceId);
+                    userObj.ExpiryDate = EncryptPassword.Encrypt(userObj.ExpiryDate);
+                    userObj.Patient_Type = 1;
+                    ModelData = repository.Add_Dummy_Users(userObj);
+                }
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating User";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.UserDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
 

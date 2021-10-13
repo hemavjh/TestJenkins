@@ -49,6 +49,7 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@Login_IpAddress", obj.Login_IpAddress));
             param.Add(new DataParameter("@Is_Tab", obj.isTab));
             param.Add(new DataParameter("@Ref_Id", obj.Tab_Ref_ID));
+            param.Add(new DataParameter("@Language_Id", obj.LanguageId));
             //   param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
 
 
@@ -925,12 +926,12 @@ namespace MyCortex.Repositories.Login
             DataEncryption DecryptFields = new DataEncryption();
             try
             {
-                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_SP_EXPIRYDATE]").ToString();
+                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_EXPIRYDATE]").ToString();
 
                 if(!String.IsNullOrEmpty(ExpiryDate))
                     ExpiryDate = DecryptFields.Decrypt(ExpiryDate);
 
-                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow)
+                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow.Date)
                     isExpired = false;
 
                 if(Convert.ToDateTime(ExpiryDate) == DateTime.UtcNow.Date)

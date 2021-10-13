@@ -16,12 +16,13 @@ namespace MyCortex.Repositories
         IList<DepartmentModel> DepartmentList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);
+        UserModel Add_Dummy_Users(UserModel insobj);
         UserModel UserDetails_View(long Id, Guid Login_Session_Id);
         UserReturnModel UserDetails_InActive(long Id);
         UserReturnModel UserDetails_Active(long Id);
         IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id);
         IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery);
-        IList<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery);
+        List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery);
         GroupCreateModel GroupMaster_Insert(GroupCreateModel insobj);
         long AssignedGroup_Insert(List<AssignedGroupModel> obj);
         ItemizedUserDetailsModel PatientBasicDetailsList(long PatientId);
@@ -37,7 +38,7 @@ namespace MyCortex.Repositories
         IList<MasterListModel> GetParameterNameList();
         PatientHealthDataModel PatientHealthData_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj);
         IList<PatientAppointmentsModel> PatientAppointmentList(long PatientId, Guid Login_Session_Id);
-        IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id);
+        IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId);
         IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments(CG_PatientAppointmentConfirm obj);
         IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id);
         IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId);
