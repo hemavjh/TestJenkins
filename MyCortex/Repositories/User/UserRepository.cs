@@ -3423,10 +3423,10 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Remarks"></param>
         /// <param name="Created_By"></param>
         /// <returns>inserted/updated Patient other data document</returns>
-        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By)
+        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By,int Is_Appointment=0, string Filetype="")
         {
             List<DataParameter> param = new List<DataParameter>();
-            DataEncryption encrypt = new DataEncryption();
+            //DataEncryption encrypt = new DataEncryption();
 
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@Patient_Id", Patient_Id));
@@ -3435,6 +3435,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@DocumentBlobData", (fileData)));
             param.Add(new DataParameter("@Remarks", Remarks));
             param.Add(new DataParameter("@Created_By", Created_By));
+            param.Add(new DataParameter("@Is_Appoinment", Is_Appointment));
+            param.Add(new DataParameter("@FileType", Filetype));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_OTHERDATA_INSERTUPDATE]", param);
             DataEncryption DecryptFields = new DataEncryption();
@@ -3448,9 +3450,11 @@ namespace MyCortex.Repositories.Uesr
                                                  FileName = p.Field<string>("FILE_NAME"),
                                                  IsActive = p.Field<int>("ISACTIVE"),
                                                  Created_By = p.Field<long>("CREATED_BY"),
-                                                 Created_Name = p.Field<string>("Created_Name"),
-                                                 PatientName = p.Field<string>("PatientName"),
+                                                 Is_Appointment = p.Field<int>("IS_APPOINTMENT"),
+                                                 Created_Name = DecryptFields.Decrypt(p.Field<string>("Created_Name")),
+                                                 PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
                                                  Remarks = p.Field<string>("Remarks"),
+                                                 Filetype = p.Field<string>("FILETYPE"),
                                                  flag = p.Field<int>("flag"),
                                                  Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                              }).FirstOrDefault();
@@ -3582,11 +3586,14 @@ namespace MyCortex.Repositories.Uesr
             {
                 byte[] returnDocument = (byte[])dt.Rows[0]["BLOBDATA"];
                 string FileName = (string)dt.Rows[0]["FILE_NAME"];
+                string FileType = (string)dt.Rows[0]["FILETYPE"];
                 return new Patient_OtherDataModel
                 {
                     Id = Id,
                     DocumentBlobData = (returnDocument),
-                    FileName = FileName
+                    FileName = FileName,
+                    Filetype= FileType
+
                 };
 
                 //return decrypt.DecryptFile(returnPhoto);

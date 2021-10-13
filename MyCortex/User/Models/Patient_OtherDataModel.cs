@@ -14,7 +14,9 @@ namespace MyCortex.User.Model
         public string FileName { get; set; }
         public string DocumentName { get; set; }
         public string Remarks { get; set; }
+        public string Filetype { get; set; }
         public long Created_By { get; set; }
+        public int Is_Appointment { get; set; }
         public List<string> DocumentData { get; set; }
         public byte[] DocumentBlobData { get; set; }
         public int flag { get; set; }

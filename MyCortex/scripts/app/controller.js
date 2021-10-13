@@ -6388,6 +6388,23 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             });
 
         }
+        $scope.appdocfile = ''
+        $scope.appdocfilename = ''
+        $scope.fileexceed=""
+        $scope.filetype = ''
+        $scope.appdocfileChange = function (e, index) {
+            let maxSize = (5 * 1024) * 1024;
+            let fileSize = e.files[0].size;
+            if (fileSize >= maxSize) {
+                $scope.fileexceed = "File size exceeds 5 MB";
+            }
+            else {
+                $scope.appdocfilename = e.files[0]['name'];
+                $scope.filetype = e.files[0].type;
+            }
+            
+        }
+
         $scope.UnitGroupPreference = function () {
             //$http.get(baseUrl + '/api/ParameterSettings/UnitGroupPreferenceGet/?institutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
             //    $scope.unitgrouptype = data.PreferenceType;
@@ -6991,130 +7008,160 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         Appointment_Module = 3;
                     }
                     $("#appoint_waveLoader").show();
-                    if ($scope.OldAppointmentID == null) {
-                        var objectSave = {
-                            "Institution_Id": $scope.SelectedInstitutionId,
-                            "Doctor_Id": $scope.DoctorID,
-                            "Patient_Id": $scope.SelectedPatientId,
-                            "Appointment_Date": $scope.AppoiDate,
-                            "AppointmentFromTime": $scope.AppoiFromTime,
-                            "AppointmentToTime": $scope.AppoiToTime,
-                            "TimeZone_Id": $scope.TimeZoneID,
-                            "Appointment_Type": "1",
-                            "ReasonForVisit": "Test",
-                            "Status": 1,
-                            "Created_By": $window.localStorage['UserId'],
-                            "Page_Type": 0,
-                            "Appointment_Module_Id": Appointment_Module
+
+                    $scope.Id = "0";
+                    var fd = new FormData();
+                    var imgBlob;
+                    var imgBlobfile;
+                    var itemIndexLogo = -1;
+                    var itemIndexdoc = -1;
+                    console.log($scope.appdocfile)
+                    imgBlob = $scope.dataURItoBlob($scope.appdocfile);
+                    fd.append('file', imgBlob);
+                    //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
+
+                    $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                        fd,
+                        {
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
+                            }
                         }
-                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-
-                        $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
-                            alert(data.Message);
-                            if (data.ReturnFlag == 1) {
-                                $("#appoint_waveLoader").hide();
-                                angular.element('#BookAppointmentModal').modal('hide');
-                                //document.getElementById("main-box").style = "";
-                                //document.getElementById("box").style = "display:none";
-                                $scope.showMainBox = true;
-                                document.getElementById("show").disabled = true;
-                                document.getElementById("DocDetails").hidden = true;
-                                $scope.SelectedSpeciality = "";
-                                $scope.AppoimDate = "";
-                                $scope.TimeZoneID = "";
-                                $scope.DoctorID = [];
-                                $scope.DoctorListWithTimeZone = [];
-                                $scope.DeptIDAsSTR = [];
-                                $scope.DoctorDetailList = [];
-                                $scope.newScheduledDates = [];
-                                $scope.newAppoiTimeSlot = [];
-                                $scope.newScheduledDatesSplit = [];
-                                //$scope.AppoiDate = [];
-                                $scope.AppoiFromTime = [];
-                                $scope.AppoiToTime = [];
-                                $scope.IsNew = 1;
-                                $scope.OldAppointmentID = null;
-                                if ($scope.AppointmoduleID1 == 2) {
-                                    $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
-                                    //var post = $http({
-                                    //    method: "POST",
-                                    //    url: baseUrl + "/Home/CreatePayByCheckoutSession/",
-                                    //    dataType: 'json',
-                                    //    data: { appointmentId: $scope.paymentappointmentId },
-                                    //    headers: { "Content-Type": "application/json" }
-                                    //});
-                                    //post.success(function (data, status) {
-                                    //    alert("Hello: " + data.Name + " .\nCurrent Date and Time: " + data.DateTime);
-                                    //});
-
-                                    //post.error(function (data, status) {
-                                    //    alert(data.Message);
-                                    //});
-                                    //$http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
-
-                                    //});
-                                    setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
-                                } else {
-                                    $scope.$broadcast("appointment_list");
+                    )
+                        .success(function (response) {
+                            $scope.appdocfilename = "File Name";
+                            if ($scope.OldAppointmentID == null) {
+                                var objectSave = {
+                                    "Institution_Id": $scope.SelectedInstitutionId,
+                                    "Doctor_Id": $scope.DoctorID,
+                                    "Patient_Id": $scope.SelectedPatientId,
+                                    "Appointment_Date": $scope.AppoiDate,
+                                    "AppointmentFromTime": $scope.AppoiFromTime,
+                                    "AppointmentToTime": $scope.AppoiToTime,
+                                    "TimeZone_Id": $scope.TimeZoneID,
+                                    "Appointment_Type": "1",
+                                    "ReasonForVisit": "Test",
+                                    "Status": 1,
+                                    "Created_By": $window.localStorage['UserId'],
+                                    "Page_Type": 0,
+                                    "Appointment_Module_Id": Appointment_Module
                                 }
+                                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+
+                                $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
+                                    alert(data.Message);
+                                    if (data.ReturnFlag == 1) {
+                                        $("#appoint_waveLoader").hide();
+                                        angular.element('#BookAppointmentModal').modal('hide');
+                                        //document.getElementById("main-box").style = "";
+                                        //document.getElementById("box").style = "display:none";
+                                        $scope.showMainBox = true;
+                                        document.getElementById("show").disabled = true;
+                                        document.getElementById("DocDetails").hidden = true;
+                                        $scope.SelectedSpeciality = "";
+                                        $scope.AppoimDate = "";
+                                        $scope.TimeZoneID = "";
+                                        $scope.DoctorID = [];
+                                        $scope.DoctorListWithTimeZone = [];
+                                        $scope.DeptIDAsSTR = [];
+                                        $scope.DoctorDetailList = [];
+                                        $scope.newScheduledDates = [];
+                                        $scope.newAppoiTimeSlot = [];
+                                        $scope.newScheduledDatesSplit = [];
+                                        //$scope.AppoiDate = [];
+                                        $scope.AppoiFromTime = [];
+                                        $scope.AppoiToTime = [];
+                                        $scope.IsNew = 1;
+                                        $scope.OldAppointmentID = null;
+                                        if ($scope.AppointmoduleID1 == 2) {
+                                            $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
+                                            //var post = $http({
+                                            //    method: "POST",
+                                            //    url: baseUrl + "/Home/CreatePayByCheckoutSession/",
+                                            //    dataType: 'json',
+                                            //    data: { appointmentId: $scope.paymentappointmentId },
+                                            //    headers: { "Content-Type": "application/json" }
+                                            //});
+                                            //post.success(function (data, status) {
+                                            //    alert("Hello: " + data.Name + " .\nCurrent Date and Time: " + data.DateTime);
+                                            //});
+
+                                            //post.error(function (data, status) {
+                                            //    alert(data.Message);
+                                            //});
+                                            //$http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
+
+                                            //});
+                                            setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                        } else {
+                                            $scope.$broadcast("appointment_list");
+                                        }
+                                    }
+
+                                }).error(function (data) { $("#appoint_waveLoader").hide(); });;
+                            } else {
+                                var objectReshedule = {
+                                    "Id": $scope.OldAppointmentID,
+                                    "CancelledBy_Id": $window.localStorage['UserId'],
+                                    "Cancelled_Remarks": "Reschedule",
+                                    "ReasonTypeId": 76,
+                                    "Institution_Id": $scope.SelectedInstitutionId,
+                                    "Doctor_Id": $scope.DoctorID,
+                                    "Patient_Id": $scope.SelectedPatientId,
+                                    "Appointment_Date": $scope.AppoiDate,
+                                    "AppointmentFromTime": $scope.AppoiFromTime,
+                                    "AppointmentToTime": $scope.AppoiToTime,
+                                    "Appointment_Type": "1",
+                                    "ReasonForVisit": "Test",
+                                    "Status": "1",
+                                    "Created_By": $window.localStorage['UserId'],
+                                    "Page_Type": "0",
+                                    "TimeZone_Id": $scope.TimeZoneID,
+                                    "Appointment_Module_Id": Appointment_Module
+                                }
+                                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                                $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
+                                    alert(data.Message);
+                                    if (data.ReturnFlag == 1) {
+                                        $("#appoint_waveLoader").hide();
+                                        angular.element('#BookAppointmentModal').modal('hide');
+                                        //document.getElementById("main-box").style = "";
+                                        //document.getElementById("box").style = "display:none";
+                                        $scope.showMainBox = true;
+                                        document.getElementById("show").disabled = true;
+                                        document.getElementById("DocDetails").hidden = true;
+                                        $scope.SelectedSpeciality = "";
+                                        $scope.AppoimDate = "";
+                                        $scope.TimeZoneID = "";
+                                        $scope.DoctorID = [];
+                                        $scope.DoctorListWithTimeZone = [];
+                                        $scope.DeptIDAsSTR = [];
+                                        $scope.DoctorDetailList = [];
+                                        $scope.newScheduledDates = [];
+                                        $scope.newAppoiTimeSlot = [];
+                                        $scope.newScheduledDatesSplit = [];
+                                        //$scope.AppoiDate = [];
+                                        $scope.AppoiFromTime = [];
+                                        $scope.AppoiToTime = [];
+                                        $scope.IsNew = 1;
+                                        $scope.OldAppointmentID = null;
+                                        if ($scope.AppointmoduleID1 == 2) {
+                                            setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                        } else {
+                                            $scope.$broadcast("appointment_list");
+                                        }
+                                    }
+
+                                }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             }
 
-                        }).error(function (data) { $("#appoint_waveLoader").hide(); });;
-                    } else {
-                        var objectReshedule = {
-                            "Id": $scope.OldAppointmentID,
-                            "CancelledBy_Id": $window.localStorage['UserId'],
-                            "Cancelled_Remarks": "Reschedule",
-                            "ReasonTypeId": 76,
-                            "Institution_Id": $scope.SelectedInstitutionId,
-                            "Doctor_Id": $scope.DoctorID,
-                            "Patient_Id": $scope.SelectedPatientId,
-                            "Appointment_Date": $scope.AppoiDate,
-                            "AppointmentFromTime": $scope.AppoiFromTime,
-                            "AppointmentToTime": $scope.AppoiToTime,
-                            "Appointment_Type": "1",
-                            "ReasonForVisit": "Test",
-                            "Status": "1",
-                            "Created_By": $window.localStorage['UserId'],
-                            "Page_Type": "0",
-                            "TimeZone_Id": $scope.TimeZoneID,
-                            "Appointment_Module_Id": Appointment_Module
-                        }
-                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                        $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
-                            alert(data.Message);
-                            if (data.ReturnFlag == 1) {
-                                $("#appoint_waveLoader").hide();
-                                angular.element('#BookAppointmentModal').modal('hide');
-                                //document.getElementById("main-box").style = "";
-                                //document.getElementById("box").style = "display:none";
-                                $scope.showMainBox = true;
-                                document.getElementById("show").disabled = true;
-                                document.getElementById("DocDetails").hidden = true;
-                                $scope.SelectedSpeciality = "";
-                                $scope.AppoimDate = "";
-                                $scope.TimeZoneID = "";
-                                $scope.DoctorID = [];
-                                $scope.DoctorListWithTimeZone = [];
-                                $scope.DeptIDAsSTR = [];
-                                $scope.DoctorDetailList = [];
-                                $scope.newScheduledDates = [];
-                                $scope.newAppoiTimeSlot = [];
-                                $scope.newScheduledDatesSplit = [];
-                                //$scope.AppoiDate = [];
-                                $scope.AppoiFromTime = [];
-                                $scope.AppoiToTime = [];
-                                $scope.IsNew = 1;
-                                $scope.OldAppointmentID = null;
-                                if ($scope.AppointmoduleID1 == 2) {
-                                    setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
-                                } else {
-                                    $scope.$broadcast("appointment_list");
-                                }
-                            }
+                        }).error(function (response) {
+                            $scope.appdocfilename = "";
 
-                        }).error(function (data) { $("#appoint_waveLoader").hide(); });;
-                    }
+
+                        });
+                   
 
                 }
             }
@@ -11585,10 +11632,51 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.Patient_OtherData_AddModal = function () {
             angular.element('#Patient_OtherData_AddModal').modal('show');
         }
+        $scope.b64toBlob = function (b64Data, contentType, sliceSize) {
+            contentType = contentType || '';
+            sliceSize = sliceSize || 512;
+
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+
+                var byteArray = new Uint8Array(byteNumbers);
+
+                byteArrays.push(byteArray);
+            }
+
+            var blob = new Blob(byteArrays, { type: contentType });
+            return blob;
+        }
         $scope.Patient_OtherData_ViewModal = function (Id) {
+            var contentType = 'image/png';
             $scope.Patient_OtherData_View(Id);
+            //var blob = b64toBlob(b64Data, contentType);
+            //var blobUrl = URL.createObjectURL(blob);
             angular.element('#Patient_OtherData_ViewModal').modal('show');
         }
+
+        
+        $scope.Patient_OtherData_Image_View = function (Id,filetype) {
+            $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                //var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
+                /*window.open(url);*/
+                let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
+                pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
+                pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.Filetype.toString()+";base64, " + data.DocumentBlobData.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
+                /*pdfWindow.target = '_top';*/
+                
+            });
+        }
+
         $scope.Patient_OtherData_EditModal = function (Id, createdDt) {
             if ($scope.IsEditableCheck(createdDt) == false) {
                 alert("Other Data Cannot be edited");
