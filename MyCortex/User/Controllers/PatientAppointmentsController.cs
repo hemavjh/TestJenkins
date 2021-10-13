@@ -160,6 +160,12 @@ namespace MyCortex.User.Controller
                     model.ReturnFlag = 0;
                     messagestr = "Patient Appointment already created by CareGiver, cannot be created";
                 }
+                else if (ModelData.Any(item => item.flag == 4) == true)
+                {
+                    model.Status = "False";
+                    model.ReturnFlag = 1;
+                    messagestr = "Patient Appointment Can't Added, Subscription Timezone Missing!";
+                }
                 model.PatientAppointmentList = ModelData;
                 model.Message = messagestr;// "User created successfully";
 

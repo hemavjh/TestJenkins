@@ -8882,7 +8882,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             //document.getElementById("main-box").style = "";
             //document.getElementById("box").style = "display:none";
             $scope.showMainBox = true;
-            angular.element('#BookAppointmentModal').modal('show');
+            $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                //$scope.NewAppointment = data.NewAppointmentDuration;
+                if (data == null || data.length == 0 || data.DefautTimeZone == "" || data.DefautTimeZone == 0) {
+                    alert('Please Check Organisation Settings!');
+                    angular.element('#BookAppointmentModal').modal('hide');
+                    document.getElementById("BookNew").disabled = true;
+                    document.getElementById("BookNew").title = 'Set Organisation Settings TimeZone Value!';
+                }
+                else {
+                    angular.element('#BookAppointmentModal').modal('show');
+                }
+            });
         }
         $scope.ShowStripePopup = function () {
             angular.element('#StripePayOptions').modal('show');
@@ -21093,10 +21104,15 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                    $scope.NewAppointment = data.NewAppointmentDuration;
-                    $scope.followup = data.FollowUpDuration;
-                    $scope.IntervalBt = data.AppointmentInterval;
                     $("#chatLoaderPV").hide();
+                    if (data != null && data.length != 0) {
+                        $scope.NewAppointment = data.NewAppointmentDuration;
+                        $scope.followup = data.FollowUpDuration;
+                        $scope.IntervalBt = data.AppointmentInterval;
+                    } else {
+                        $('#OrgDefaultId').prop('checked', false);
+                    }
+
                 });
             } else {
                 $scope.NewAppointment = "0";
@@ -21110,9 +21126,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                    $scope.Days = data.MaxScheduleDays;
-                    $scope.Minutes = data.MinRescheduleMinutes;
                     $("#chatLoaderPV").hide();
+                    if (data != null && data.length != 0) {
+                        $scope.Days = data.MaxScheduleDays;
+                        $scope.Minutes = data.MinRescheduleMinutes;
+                    } else {
+                        $('#OrgBookInfoId').prop('checked', false);
+                    }
                 });
             } else {
                 $scope.Days = "0";
@@ -24312,6 +24332,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                     } else {
                         $("#chatLoaderPV").hide();
                         alert(data.Message);
+                        $scope.ClearAttendancePopUp();
                         return false;
                     }
                 }).error(function (data) {
