@@ -3343,7 +3343,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By)
+        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By,int Is_Appointment=0, string Filetype="")
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
@@ -3388,7 +3388,7 @@ namespace MyCortex.User.Controller
                     _logger.Error(ex.Message, ex);
                 }
                 // return docfiles;
-                ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By);
+                ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By,Is_Appointment,Filetype);
 
                 if ((ModelData.flag == 1) == true)
                 {

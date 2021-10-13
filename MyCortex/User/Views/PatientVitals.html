@@ -665,11 +665,11 @@
                                             <div class="flex">
                                                 <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
                                                 <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>-->
-                                                <!--<button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
-                                                    <img style="padding-right:30px;" src="images/Video-icon1.png">
-                                                </button>-->
-                                                <!--<a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
-                                                <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png"> 
+                    <!--<button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                        <img style="padding-right:30px;" src="images/Video-icon1.png">
+                    </button>-->
+                    <!--<a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
+                                                <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png">
                                                 </a>
                                                 <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
                                             </div>
@@ -2086,10 +2086,8 @@
                                                                 <td style="text-align: left">
 
                                                                     <!--{{row.FileName}}-->
-                                                                    <a href="home/GetPatient_OtherDataDocument?Id={{row.Id}}" target="_blank">
+                                                                    <a href="javascript:;" ng-click="Patient_OtherData_Image_View(row.Id,row.FileName)">
                                                                         <div class="textwrap">{{row.FileName}}</div>
-
-
                                                                     </a>
 
 
@@ -4537,6 +4535,26 @@
         </div>
     </div>
 
+    <div id="Patient_OtherData_AddModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 60%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Doument</h4>
+                </div>
+                <div class="modal-body">
+                   
+
+                    <div class="modal-footer" style="text-align: center;">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div id="Patient_OtherData_ViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" style="width: 40%">
             <div class="modal-content">
@@ -5418,19 +5436,19 @@
                                 </button>
                             </div>
                             <!--<div class="col-sm-4">
-                            <div class="inputGroups">
-                                <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
-                                <select class="form-control" ng-model="TimeZoneID">
-                                    <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
-                                </select>
-                            </div>
-                        </div>-->
+                                <div class="inputGroups">
+                                    <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
+                                    <select class="form-control" ng-model="TimeZoneID">
+                                        <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+                                    </select>
+                                </div>
+                            </div>-->
                         </div>
                         <!--<div class="mt-10">
-                        <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
-                            Search
-                        </button>
-                    </div>-->
+                            <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
+                                Search
+                            </button>
+                        </div>-->
                         <div class="flex mt-10 p-4">
                             <div class="doc-found">
                                 <p class="m-bottom-0">{{DoctorListWithTimeZone.length}} Doctors found</p>
@@ -5461,12 +5479,12 @@
                                         </div>
                                     </div>
                                     <!--<div class="col-sm-5 flex self-center p-0 justify-end">
-                                    <div class="flex justify-end">
-                                        <button type="button" class="theme-btn-1" title="Save">
-                                            You previously had 2 appointments
-                                        </button>
-                                    </div>
-                                </div>-->
+                                        <div class="flex justify-end">
+                                            <button type="button" class="theme-btn-1" title="Save">
+                                                You previously had 2 appointments
+                                            </button>
+                                        </div>
+                                    </div>-->
                                 </div>
                                 <div class="flex">
                                     <div class="col-sm-6">
@@ -5592,14 +5610,15 @@
                                 <p class="font-semibold m-bottom-0">Upload Reports and Documents</p>
                                 <div class="col-sm-12 custom-file mt-10">
                                     <label class="custom-file-upload text-center">
-                                        <input type="file" />
+                                        <input type="file" id="appdocfile" fileread="appdocfile"
+                                               onchange="angular.element(this).scope().appdocfileChange(this, angular.element(this).scope().$index)" />
                                         Drag and Drop File
                                         <p class="m-bottom-0 mt-10 text-center">Brower File</p>
                                     </label>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="col-sm-12 file">
-                                        <p class="m-bottom-0">File name</p>
+                                        <p class="m-bottom-0">{{appdocfilename!=""?appdocfilename:fileexceed}}</p>
                                     </div>
                                 </div>
                             </div>
