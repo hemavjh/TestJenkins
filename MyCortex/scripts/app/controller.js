@@ -20242,6 +20242,22 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
         window.location.href = baseUrl + "/Home/LoginIndex";    
     }
 
+    $scope.propertyName = 'ActionDateTime';
+    $scope.reverse = true;
+    $scope.sortBy = function (property) {
+        if ($scope.propertyName == property) {
+            $scope.propertyName = property;
+            if ($scope.reverse == false) {
+                $scope.reverse = true;
+            } else if ($scope.reverse == true) {
+                $scope.reverse = false;
+            }
+        } else {
+            $scope.propertyName = property;
+            $scope.reverse = true;
+        }
+    };
+
     }
 ]);
 
