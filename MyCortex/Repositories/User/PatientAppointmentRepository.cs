@@ -166,6 +166,7 @@ namespace MyCortex.Repositories.Uesr
 
         public IList<PatientAppointmentsModel> AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, PatientAppointmentsModel obj)
         {
+            string flag = "";
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", obj.Id));
             param.Add(new DataParameter("@UserId", obj.CancelledBy_Id));
@@ -191,7 +192,8 @@ namespace MyCortex.Repositories.Uesr
             DataEncryption DecryptFields = new DataEncryption();
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_UPDATE_RESCHEDULEAPPOINTMENT", param);
             DataRow dr = dt.Rows[0];
-            if (dr.IsNull("Id") == true)
+            flag = (dr["flag"].ToString());
+            if (flag == "2")
             {
                 IList<PatientAppointmentsModel> INS1 = (from p in dt.AsEnumerable()
                                                         select
