@@ -322,7 +322,7 @@
 <table st-table="ReportDetailsemptydata" style="width: 100%" st-safe-src="PatientDetailsFilteredDataList"
        class="table themeTable">
     <thead>
-        <!--<tr>
+        <tr>
             <th st-ratio="4" st-sort="Id">#</th>
             <th st-ratio="8" st-sort="ShortName">Table Short Name</th>
             <th st-ratio="8" st-sort="TableDisplayName">Table Display Name</th>
@@ -332,17 +332,6 @@
             <th st-ratio="8" st-sort="ActionDateTime">Action Date Time</th>
             <th st-ratio="16" st-sort="OldValue">Old Value</th>
             <th st-ratio="16" st-sort="NewValue">New Value</th>
-        </tr>-->
-        <tr>
-            <th st-ratio="4" ng-click="sortBy('Id')">#</th>
-            <th st-ratio="8" ng-click="sortBy('ShortName')">Table Short Name</th>
-            <th st-ratio="8" ng-click="sortBy('TableDisplayName')">Table Display Name</th>
-            <th st-ratio="8" ng-click="sortBy('Details')">Details</th>
-            <th st-ratio="12" ng-click="sortBy('ColumnOrder')">Column Order</th>
-            <th st-ratio="8" ng-click="sortBy('Action')">Action</th>
-            <th st-ratio="8" ng-click="sortBy('ActionDateTime')">Action Date Time</th>
-            <th st-ratio="16" ng-click="sortBy('OldValue')">Old Value</th>
-            <th st-ratio="16" ng-click="sortBy('NewValue')">New Value</th>
         </tr>
     </thead>
     <tbody>
@@ -351,7 +340,7 @@
                 No Data Available
             </td>
         </tr>
-        <tr ng-repeat="row in ReportDetailsemptydata | orderBy:propertyName:reverse">
+        <tr ng-repeat="row in ReportDetailsemptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <td style="text-align: left">
                 {{row.ShortName}}

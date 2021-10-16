@@ -10275,11 +10275,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     validateflag = false;
                     return false;
                 }
-                if ((value.Active_To) == "") {
+                /*if ((value.Active_To) == "") {
                     validationMsg = validationMsg + "Please select Active To Date";
                     validateflag = false;
                     return false;
-                }
+                }*/
                 if ((value.Active_From !== null) && (value.Active_To !== null)) {
                     if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
                         validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
@@ -20241,22 +20241,6 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
     }else {
         window.location.href = baseUrl + "/Home/LoginIndex";    
     }
-
-    $scope.propertyName = 'ActionDateTime';
-    $scope.reverse = true;
-    $scope.sortBy = function (property) {
-        if ($scope.propertyName == property) {
-            $scope.propertyName = property;
-            if ($scope.reverse == false) {
-                $scope.reverse = true;
-            } else if ($scope.reverse == true) {
-                $scope.reverse = false;
-            }
-        } else {
-            $scope.propertyName = property;
-            $scope.reverse = true;
-        }
-    };
 
     }
 ]);
