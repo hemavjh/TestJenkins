@@ -6998,22 +6998,28 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var current_date = new Date().getFullYear() + '-' + (((new Date().getMonth() + 1).toString().length > 1) ? ((new Date().getMonth() + 1).toString()) : '0' + (new Date().getMonth() + 1).toString()) + '-' + (((new Date().getDate()).toString().length > 1) ? ((new Date().getDate()).toString()) : '0' + (new Date().getDate()).toString());
             angular.element(document.getElementById('datee')).attr('min', current_date);
                     $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                if (data.IsCc) { $scope.bookcc = 6; }
-                if (data.IsCg) { $scope.bookCg = 5; }
-                if (data.IsCl) { $scope.bookCl = 4; }
-                if (data.IsSc) { $scope.bookSc = 7; }
-                if (data.IsPatient) { $scope.bookpa = 2; }
-                if (data.MaxScheduleDays) {
-                    var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
-                    var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());
-                    angular.element(document.getElementById('datee')).attr('max', futureDate);
-                }
-                $scope.UserTypeId = $window.localStorage['UserTypeId'];
-                if ($scope.bookcc == $scope.UserTypeId || $scope.bookCg == $scope.UserTypeId || $scope.bookCl == $scope.UserTypeId || $scope.bookSc == $scope.UserTypeId || $scope.bookpa == $scope.UserTypeId) {
-                    document.getElementById("BookNew").disabled = false;
-                } else {
-                    document.getElementById("BookNew").disabled = true;
-                }
+                        if (data != null) {
+                            if (data.IsCc) { $scope.bookcc = 6; }
+                            if (data.IsCg) { $scope.bookCg = 5; }
+                            if (data.IsCl) { $scope.bookCl = 4; }
+                            if (data.IsSc) { $scope.bookSc = 7; }
+                            if (data.IsPatient) { $scope.bookpa = 2; }
+                            if (data.MaxScheduleDays) {
+                                var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
+                                var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());
+                                angular.element(document.getElementById('datee')).attr('max', futureDate);
+                            }
+                            $scope.UserTypeId = $window.localStorage['UserTypeId'];
+                            if ($scope.bookcc == $scope.UserTypeId || $scope.bookCg == $scope.UserTypeId || $scope.bookCl == $scope.UserTypeId || $scope.bookSc == $scope.UserTypeId || $scope.bookpa == $scope.UserTypeId) {
+                                document.getElementById("BookNew").disabled = false;
+                            } else {
+                                document.getElementById("BookNew").disabled = true;
+                            }
+                        }
+                        if (data == null) {
+                            alert('Please Check OrgSettings, Appointment User Is Empty!');
+                            return false;
+                        }
             });
             $scope.SearchAvailibleDoctorsList = function () {
                 $scope.DoctorListWithTimeZone = [];
@@ -22390,109 +22396,115 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         };
         $scope.OrganisationSettingsSelectedDays = function () {
             $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                const OrgDay = ""; 
-                const OrgSelectedDate = data.DefaultWorkingDays.split(',');
-                angular.forEach($scope.SelectedDays, function (value, index) {
-                    angular.forEach(OrgSelectedDate, function (value1, index1) {
-                        if (value1 == "monday") {
-                            value1 = "mon";
-                            var DateDay = $scope.SelectedDays[index].Day;
-                            DateDay = DateDay.toString();
-                            if (DateDay.includes("Mon") == true) {
-                                $scope.SelectedDays[index].exist = 1;
+                if (data != null) {
+                    const OrgDay = "";
+                    const OrgSelectedDate = data.DefaultWorkingDays.split(',');
+                    angular.forEach($scope.SelectedDays, function (value, index) {
+                        angular.forEach(OrgSelectedDate, function (value1, index1) {
+                            if (value1 == "monday") {
+                                value1 = "mon";
+                                var DateDay = $scope.SelectedDays[index].Day;
+                                DateDay = DateDay.toString();
+                                if (DateDay.includes("Mon") == true) {
+                                    $scope.SelectedDays[index].exist = 1;
+                                }
                             }
+                            else if (value1 == "tuesday") {
+                                value1 = "tue";
+                                var DateDay = $scope.SelectedDays[index].Day;
+                                DateDay = DateDay.toString();
+                                if (DateDay.includes("Tue") == true) {
+                                    $scope.SelectedDays[index].exist = 1;
+                                }
+                            }
+                            else if (value1 == "wednesday") {
+                                value1 = "wed";
+                                var DateDay = $scope.SelectedDays[index].Day;
+                                DateDay = DateDay.toString();
+                                if (DateDay.includes("Wed") == true) {
+                                    $scope.SelectedDays[index].exist = 1;
+                                }
+                            }
+                            else if (value1 == "thursday") {
+                                value1 = "thu";
+                                var DateDay = $scope.SelectedDays[index].Day;
+                                DateDay = DateDay.toString();
+                                if (DateDay.includes("Thu") == true) {
+                                    $scope.SelectedDays[index].exist = 1;
+                                }
+                            }
+                            else if (value1 == "friday") {
+                                value1 = "fri";
+                                var DateDay = $scope.SelectedDays[index].Day;
+                                DateDay = DateDay.toString();
+                                if (DateDay.includes("Fri") == true) {
+                                    $scope.SelectedDays[index].exist = 1;
+                                }
+                            }
+                            else if (value1 == "saturday") {
+                                value1 = "sat";
+                                var DateDay = $scope.SelectedDays[index].Day;
+                                DateDay = DateDay.toString();
+                                if (DateDay.includes("Sat") == true) {
+                                    $scope.SelectedDays[index].exist = 1;
+                                }
+                            }
+                            else if (value1 == "sunday") {
+                                value1 = "sun";
+                                var DateDay = $scope.SelectedDays[index].Day;
+                                DateDay = DateDay.toString();
+                                if (DateDay.includes("Sun") == true) {
+                                    $scope.SelectedDays[index].exist = 1;
+                                }
+                            }
+                        });
+                    });
+                    const xy = $scope.SelectedDays.filter(x => x.exist == 1);
+                    $scope.SelectedDays = xy;
+
+                    angular.forEach($scope.SelectedDays, function (value2, index) {
+                        var Day = value2.Day.toString();
+                        if (Day.includes("Sun") == true) {
+                            $("#SundayId").removeAttr("disabled");
+                            $('#SundayId').prop('checked', true);
+                            $('#SundayCheck').show();
                         }
-                        else if (value1 == "tuesday") {
-                            value1 = "tue";
-                            var DateDay = $scope.SelectedDays[index].Day;
-                            DateDay = DateDay.toString();
-                            if (DateDay.includes("Tue") == true) {
-                                $scope.SelectedDays[index].exist = 1;
-                            } 
+                        if (Day.includes("Mon") == true) {
+                            $("#MondayId").removeAttr("disabled");
+                            $('#MondayId').prop('checked', true);
+                            $('#MondayCheck').show();
                         }
-                        else if (value1 == "wednesday") {
-                            value1 = "wed";
-                            var DateDay = $scope.SelectedDays[index].Day;
-                            DateDay = DateDay.toString();
-                            if (DateDay.includes("Wed") == true) {
-                                $scope.SelectedDays[index].exist = 1;
-                            } 
+                        if (Day.includes("Tue") == true) {
+                            $("#TuesdayId").removeAttr("disabled");
+                            $('#TuesdayId').prop('checked', true);
+                            $('#TuesdayCheck').show();
                         }
-                        else if (value1 == "thursday") {
-                            value1 = "thu";
-                            var DateDay = $scope.SelectedDays[index].Day;
-                            DateDay = DateDay.toString();
-                            if (DateDay.includes("Thu") == true) {
-                                $scope.SelectedDays[index].exist = 1;
-                            } 
+                        if (Day.includes("Wed") == true) {
+                            $("#WednesdayId").removeAttr("disabled");
+                            $('#WednesdayId').prop('checked', true);
+                            $('#WednesdayCheck').show();
                         }
-                        else if (value1 == "friday") {
-                            value1 = "fri";
-                            var DateDay = $scope.SelectedDays[index].Day;
-                            DateDay = DateDay.toString();
-                            if (DateDay.includes("Fri") == true) {
-                                $scope.SelectedDays[index].exist = 1;
-                            } 
+                        if (Day.includes("Thu") == true) {
+                            $("#ThursdayId").removeAttr("disabled");
+                            $('#ThursdayId').prop('checked', true);
+                            $('#ThursdayCheck').show();
                         }
-                        else if (value1 == "saturday") {
-                            value1 = "sat";
-                            var DateDay = $scope.SelectedDays[index].Day;
-                            DateDay = DateDay.toString();
-                            if (DateDay.includes("Sat") == true) {
-                                $scope.SelectedDays[index].exist = 1;
-                            } 
+                        if (Day.includes("Fri") == true) {
+                            $("#FridayId").removeAttr("disabled");
+                            $('#FridayId').prop('checked', true);
+                            $('#FridayCheck').show();
                         }
-                        else if (value1 == "sunday") {
-                            value1 = "sun";
-                            var DateDay = $scope.SelectedDays[index].Day;
-                            DateDay = DateDay.toString();
-                            if (DateDay.includes("Sun") == true) {
-                                $scope.SelectedDays[index].exist = 1;
-                            } 
+                        if (Day.includes("Sat") == true) {
+                            $("#SaturdayId").removeAttr("disabled");
+                            $('#SaturdayId').prop('checked', true);
+                            $('#SaturdayCheck').show();
                         }
                     });
-                });
-                const xy = $scope.SelectedDays.filter(x => x.exist == 1);
-                $scope.SelectedDays = xy;
-
-                angular.forEach($scope.SelectedDays, function (value2, index) {
-                    var Day = value2.Day.toString();
-                    if (Day.includes("Sun") == true) {
-                        $("#SundayId").removeAttr("disabled");
-                        $('#SundayId').prop('checked', true);
-                        $('#SundayCheck').show();
-                    }
-                    if (Day.includes("Mon") == true) {
-                        $("#MondayId").removeAttr("disabled");
-                        $('#MondayId').prop('checked', true);
-                        $('#MondayCheck').show();
-                    }
-                    if (Day.includes("Tue") == true) {
-                        $("#TuesdayId").removeAttr("disabled");
-                        $('#TuesdayId').prop('checked', true);
-                        $('#TuesdayCheck').show();
-                    }
-                    if (Day.includes("Wed") == true) {
-                        $("#WednesdayId").removeAttr("disabled");
-                        $('#WednesdayId').prop('checked', true);
-                        $('#WednesdayCheck').show();
-                    }
-                    if (Day.includes("Thu") == true) {
-                        $("#ThursdayId").removeAttr("disabled");
-                        $('#ThursdayId').prop('checked', true);
-                        $('#ThursdayCheck').show();
-                    }
-                    if (Day.includes("Fri") == true) {
-                        $("#FridayId").removeAttr("disabled");
-                        $('#FridayId').prop('checked', true);
-                        $('#FridayCheck').show();
-                    }
-                    if (Day.includes("Sat") == true) {
-                        $("#SaturdayId").removeAttr("disabled");
-                        $('#SaturdayId').prop('checked', true);
-                        $('#SaturdayCheck').show();
-                    }
-                });
+                }
+                if (data == null) {
+                    alert('Please Check OrgSettings, Default Working Days Is Empty!');
+                    return false;
+                }
             });
             
         }
