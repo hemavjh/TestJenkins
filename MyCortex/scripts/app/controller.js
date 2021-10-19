@@ -23079,14 +23079,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $("#chatLoaderPV").show();
             $scope.currentTab = "1";
             $scope.DoctorSave = true;
-
             //var $sel1 = $('#department');
             //$sel1.multiselect('enable');
             //var $sel2 = $('#Specialist');
             //$sel2.multiselect('enable');
             //var $sel3 = $('#CCCG');
             //$sel3.multiselect('enable');
-
             document.getElementById("FromDate").disabled = false;
             document.getElementById("ToDate").disabled = false;
             $("#OrgDefaultId").attr("disabled", false);
@@ -23249,7 +23247,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $http.get(baseUrl + '/api/DoctorShift/DoctorShift_View/?DoctorId=' + DoctorId + '&Id=' + DId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + Institution_Id).success(function (data) {
                 if (data != null) {
                     $scope.EditSelectedDepartment.push(data.DepartmentId);
-                    $scope.SelectedDepartment = $scope.EditSelectedDepartment;	
+                    $scope.SelectedDepartment = $scope.EditSelectedDepartment;
                     $scope.onChangeDepartment();
                     $scope.EditSelectedDoctor.push(data.DoctorId);
                     $scope.SelectedSpecialist = $scope.EditSelectedDoctor;
@@ -23601,7 +23599,6 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                                 $scope.TimeSlot56 = Convert24to12Timeformat(Set_Time1);
                             }
                         }
-
                     });
                 }
                 //$("#chatLoaderPV").hide();
