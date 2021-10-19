@@ -22628,11 +22628,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         /* on click Edit, edit popup opened*/
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             //if (activeFlag == 1) {
+            angular.element('#DoctorShiftModal').modal('show');
+            document.getElementById("saveDoctorShift").disabled = true;
             $scope.DoctorShiftClear();
             $scope.Id = DId;
             $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
             $scope.EditShiftDoctor();
-            angular.element('#DoctorShiftModal').modal('show');
             //}
             //else {
             //    alert("Inactive record cannot be edited");
@@ -23600,6 +23601,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             }
                         }
                     });
+                    document.getElementById("saveDoctorShift").disabled = false;
                 }
                 //$("#chatLoaderPV").hide();
                 if ($scope.DoctorSave == true) {
