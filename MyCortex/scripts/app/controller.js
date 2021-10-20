@@ -11722,11 +11722,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
 
         //Edit Function for doctor notes open in modal window with data
-        $scope.EditPatientNotes = function (PatNoteId, createdDt) {
-            if ($scope.IsEditableCheck(createdDt) == false) {
-                alert("Notes Cannot be edited");
-            }
-            else {
+        $scope.EditPatientNotes = function (PatNoteId, createdDt, createdBy) {
+            if ($window.localStorage['UserId'] == createdBy) {
+                alert('Notes only edited by author');
+            } else {
                 $scope.Id = PatNoteId;
                 $scope.PatientDetails_View();
                 angular.element('#PatientNotesAddEditModal').modal('show');
@@ -12408,8 +12407,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.DoctorNotesDetails_InActive = function (comId) {
-            $scope.Id = comId;
-            $scope.DoctorNotes_Delete();
+            if ($window.localStorage['UserTypeId'] == 2) {
+                alert('Not allowed');
+            } else {
+                $scope.Id = comId;
+                $scope.DoctorNotes_Delete();
+            }
         };
         $scope.DoctorNotes_Delete = function () {
             var del = confirm("Do you like to deactivate the selected Notes?");
@@ -12429,8 +12432,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         /*'Active' the Institution*/
         $scope.DoctorNotesDetails_Active = function (comId) {
-            $scope.Id = comId;
-            $scope.ReInsertDoctorNotesDetails();
+            if ($window.localStorage['UserTypeId'] == 2) {
+                alert('Not Allowed');
+            } else {
+                $scope.Id = comId;
+                $scope.ReInsertDoctorNotesDetails();
+            }
 
         };
 
