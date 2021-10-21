@@ -7241,6 +7241,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.setappoint_type = function(type) {
                 $scope.AppointmoduleID1 = type;
             }
+            $scope.BackToDoc = function () {
+                $scope.showMainBox = true;
+            }
             $scope.SavePatientAppointment = function () {
                 if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
                     alert('Please select Appointment Date')
@@ -21109,7 +21112,6 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.SelectedDoctorList = [];
             }
             $("#chatLoaderPV").hide();
-            console.log('TATA');
         }
 
         $scope.OrgDefaultClick = function (event) {

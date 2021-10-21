@@ -33,11 +33,11 @@
 </script>
 
 <style>
-        .viewPassword {
-            position: relative;
-        }
+    .viewPasswordClass {
+        position: relative;
+    }
 
-        .viewPassword i {
+        .viewPasswordClass i {
             position: absolute;
             right: 0px;
             top: 0px;
@@ -64,9 +64,9 @@
             <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
                    class="form-control" onkeypress="EmailFormate(event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
             <label>Password</label>
-            <div class="viewPassword">
+            <div class="viewPasswordClass">
                 <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
-                <input type="password" placeholder="Enter Your Password" required="required" ng-model="Password"
+                <input type="password" id="psw" placeholder="Enter Your Password" required="required" ng-model="Password"
                        ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" name="psw" class="form-control">
             </div>
             <div class="alert alert-danger def" ng-if="errorlist!=null">
