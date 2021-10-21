@@ -308,7 +308,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             templateUrl: baseUrl + 'User/Views/DirectVideoCall.html',
             controller: 'DirectVideoCallController'
         }).
-        when('/Myhome', {
+        when('/Hive', {
             templateUrl: baseUrl + 'Masters/Views/Myhome.html',
             controller: 'MyHomeController'
         }). 
