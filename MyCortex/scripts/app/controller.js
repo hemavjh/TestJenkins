@@ -25221,7 +25221,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         }
         $scope.Cancel_MYTAB = function () {
             $scope.currentTab = "1";
-            $location.path("/Myhome"); 
+            $location.path("/Hive"); 
             $scope.ClearPopUp();
         }
 
