@@ -543,7 +543,7 @@ namespace MyCortex.Repositories.Uesr
                     break;
                 }
             }
-            if (CG_HAVE_NOHOLIDAY == 1)
+            if (CG_HAVE_NOHOLIDAY == 1 || InsertId == 0)
             {
                 int y = arr.Count(x => x == 0);
                 if (y != arr.Length)
