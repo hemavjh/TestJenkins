@@ -751,6 +751,36 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<TabDevicesModel> Get_DeviceNameList(int? IsActive)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            //param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEVICENAME_SP_LIST]", param);
+                List<TabDevicesModel> lst = (from p in dt.AsEnumerable()
+                                             select new TabDevicesModel()
+                                             {
+                                                 ID = p.Field<long>("ID"),
+                                                 DeviceId = p.Field<string>("DEVICEID"),
+                                                 DeviceName = p.Field<string>("NAME"),
+                                                 //Make = p.Field<string>("MAKE"),
+                                                 //ModelNumber = p.Field<string>("MODEL"),
+                                                 //DeviceType = p.Field<string>("DEVICE_TYPE"),
+                                                 //IsActive = p.Field<bool>("ISACTIVE"),
+
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         public IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel insobj)
         {
             long InsertId = 0;

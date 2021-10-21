@@ -25761,18 +25761,22 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
         $scope.DeviceDropDown = function () {
             $("#chatLoaderPV").show();
+            $scope.AllDeviceNameList = [];
             //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.AllDevice = [
             {
                 ID: 1,
-                DeviceName: "Wearable"
+                DeviceTypeName: "Wearable"
             },
             {
                 ID: 2,
-                DeviceName: "Medical Device"
+                DeviceTypeName: "Medical Device"
             }
             ];
             //});
+            $http.get(baseUrl + '/api/MyHome/DeviceName_List/?IsActive=' + 1).success(function (data1) {
+                $scope.AllDeviceNameList = data1.TabDeviceList;
+            });
 
             $http.get(baseUrl + '/api/Protocol/ParameterNameList/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                 $("#chatLoaderPV").hide();
@@ -25853,6 +25857,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 if (data.DeviceType == "Wearable") {
                     $scope.DeviceType = 1;
                 }
+                if (data.DeviceName == "FORA P20") {
+                    $scope.DeviceName = 1;
+                }
                 //$scope.DeviceType = data.DeviceTypeId;
                 $scope.DeviceMake = data.Make;
                 $scope.DeviceModel = data.ModelNumber;
@@ -25932,7 +25939,12 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             //var devicetypechange = $scope.DeviceType.toString();
             angular.forEach($scope.AllDevice, function (value, index) {
                 if (value.ID == $scope.DeviceType) {
-                    $scope.DeviceType = value.DeviceName
+                    $scope.DeviceType = value.DeviceTypeName
+                }
+            });
+            angular.forEach($scope.AllDeviceNameList, function (value, index) {
+                if (value.ID == $scope.DeviceName) {
+                    $scope.DeviceName = value.DeviceName
                 }
             });
 
@@ -25979,8 +25991,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 alert("Please enter Device Id");
                 return false;
             }
-            else if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "") {
-                alert("Please enter Device Name");
+            else if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null ) {
+                alert("Please Select Device Name");
                 return false;
             }
             else if (typeof ($scope.DeviceMake) == "undefined" || $scope.DeviceMake == "") {
@@ -25991,7 +26003,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 alert("Please enter DeviceModel");
                 return false;
             }
-            else if (typeof ($scope.DeviceType) == "undefined" || $scope.DeviceType == "" || $scope.DeviceType == "0") {
+            else if (typeof ($scope.DeviceType) == "undefined" || $scope.DeviceType == "" || $scope.DeviceType == "0" || $scope.DeviceType == null) {
                 alert("Please Select DeviceType");
                 return false;
             }
