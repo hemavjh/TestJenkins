@@ -409,6 +409,34 @@ namespace MyCortex.User.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage DeviceName_List(int? IsActive)
+        {
+            IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
+            TabDeviceListReturnModels model = new TabDeviceListReturnModels();
+            try
+            {
+                ModelData = repository.Get_DeviceNameList(IsActive);
+
+                model.TabDeviceList = ModelData;
+                model.Message = "";// "User created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in Listing DeviceName";
+                model.TabDeviceList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+
+        [Authorize]
         [HttpPost]
         [CheckSessionOutFilter]
         public HttpResponseMessage AddDeviceInsertUpdate([FromBody] TabDevicesModel obj)
