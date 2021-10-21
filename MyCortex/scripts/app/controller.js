@@ -7241,6 +7241,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.setappoint_type = function(type) {
                 $scope.AppointmoduleID1 = type;
             }
+            $scope.BackToDoc = function () {
+                $scope.showMainBox = true;
+            }
             $scope.SavePatientAppointment = function () {
                 if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
                     alert('Please select Appointment Date')
@@ -11722,11 +11725,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
 
         //Edit Function for doctor notes open in modal window with data
-        $scope.EditPatientNotes = function (PatNoteId, createdDt) {
-            if ($scope.IsEditableCheck(createdDt) == false) {
-                alert("Notes Cannot be edited");
-            }
-            else {
+        $scope.EditPatientNotes = function (PatNoteId, createdDt, createdBy) {
+            if ($window.localStorage['UserId'] == createdBy) {
+                alert('Notes only edited by author');
+            } else {
                 $scope.Id = PatNoteId;
                 $scope.PatientDetails_View();
                 angular.element('#PatientNotesAddEditModal').modal('show');
@@ -12408,8 +12410,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.DoctorNotesDetails_InActive = function (comId) {
-            $scope.Id = comId;
-            $scope.DoctorNotes_Delete();
+            if ($window.localStorage['UserTypeId'] == 2) {
+                alert('Not allowed');
+            } else {
+                $scope.Id = comId;
+                $scope.DoctorNotes_Delete();
+            }
         };
         $scope.DoctorNotes_Delete = function () {
             var del = confirm("Do you like to deactivate the selected Notes?");
@@ -12429,8 +12435,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         /*'Active' the Institution*/
         $scope.DoctorNotesDetails_Active = function (comId) {
-            $scope.Id = comId;
-            $scope.ReInsertDoctorNotesDetails();
+            if ($window.localStorage['UserTypeId'] == 2) {
+                alert('Not Allowed');
+            } else {
+                $scope.Id = comId;
+                $scope.ReInsertDoctorNotesDetails();
+            }
 
         };
 
@@ -21102,7 +21112,6 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.SelectedDoctorList = [];
             }
             $("#chatLoaderPV").hide();
-            console.log('TATA');
         }
 
         $scope.OrgDefaultClick = function (event) {
@@ -22628,11 +22637,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         /* on click Edit, edit popup opened*/
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             //if (activeFlag == 1) {
+            angular.element('#DoctorShiftModal').modal('show');
+            document.getElementById("saveDoctorShift").disabled = true;
             $scope.DoctorShiftClear();
             $scope.Id = DId;
             $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
             $scope.EditShiftDoctor();
-            angular.element('#DoctorShiftModal').modal('show');
             //}
             //else {
             //    alert("Inactive record cannot be edited");
@@ -23600,6 +23610,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             }
                         }
                     });
+                    document.getElementById("saveDoctorShift").disabled = false;
                 }
                 //$("#chatLoaderPV").hide();
                     if ($scope.DoctorSave == true) {
