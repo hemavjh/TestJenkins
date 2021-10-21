@@ -22993,7 +22993,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $("#chatLoaderPV").show();
             $scope.currentTab = "1";
             $scope.DoctorSave = false;
-            var $sel1 = $('#department');
+           var $sel1 = $('#department');
             $sel1.multiselect('disable');
             var $sel2 = $('#Specialist');
             $sel2.multiselect('disable');
@@ -23602,23 +23602,23 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     });
                 }
                 //$("#chatLoaderPV").hide();
-                if ($scope.DoctorSave == true) {
-                    var sel1 = $('#department');
-                    sel1.multiselect('disable');
-                    var sel2 = $('#Specialist');
-                    sel2.multiselect('disable');
-                    var sel3 = $('#CCCG');
-                    sel3.multiselect('enable');
-                }
-                if ($scope.DoctorSave == false) {
-                    $scope.ViewShiftDoctor();
-                    var sel1 = $('#department');
-                    sel1.multiselect('disable');
-                    var sel2 = $('#Specialist');
-                    sel2.multiselect('disable');
-                    var sel3 = $('#CCCG');
-                    sel3.multiselect('disable');
-                }
+                    if ($scope.DoctorSave == true) {
+                        var sel1 = $('#department');
+                        sel1.multiselect('disable');
+                        var sel2 = $('#Specialist');
+                        sel2.multiselect('disable');
+                        var sel3 = $('#CCCG');
+                        sel3.multiselect('enable');
+                    }
+                    if ($scope.DoctorSave == false) {
+                        $scope.ViewShiftDoctor();
+                        var sel1 = $('#department');
+                        sel1.multiselect('disable');
+                        var sel2 = $('#Specialist');
+                        sel2.multiselect('disable');
+                        var sel3 = $('#CCCG');
+                        sel3.multiselect('disable');
+                    }
             })
             $("#chatLoaderPV").hide();
         };
