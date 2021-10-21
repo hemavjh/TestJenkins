@@ -11727,11 +11727,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         //Edit Function for doctor notes open in modal window with data
         $scope.EditPatientNotes = function (PatNoteId, createdDt, createdBy) {
             if ($window.localStorage['UserId'] == createdBy) {
-                alert('Notes only edited by author');
-            } else {
                 $scope.Id = PatNoteId;
                 $scope.PatientDetails_View();
                 angular.element('#PatientNotesAddEditModal').modal('show');
+            } else {
+                alert('Notes only edited by author');
             }
 
         }
