@@ -126,10 +126,10 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Photo_Name", insobj.Photo));
             param.Add(new DataParameter("@Photo_FileName", insobj.FileName));
             param.Add(new DataParameter("@Photo_FullPath", insobj.Photo_Fullpath));
-            param.Add(new DataParameter("@NationalPhotoFilename", insobj.NationalPhotoFilename));
-            param.Add(new DataParameter("@NationalPhotoFullpath", insobj.NationalPhotoFullpath));
-            param.Add(new DataParameter("@InsurancePhotoFilename", insobj.InsurancePhotoFilename));
-            param.Add(new DataParameter("@InsurancePhotoFullpath", insobj.InsurancePhotoFullpath));
+            //param.Add(new DataParameter("@NationalPhotoFilename", insobj.NationalPhotoFilename));
+            //param.Add(new DataParameter("@NationalPhotoFullpath", insobj.NationalPhotoFullpath));
+            //param.Add(new DataParameter("@InsurancePhotoFilename", insobj.InsurancePhotoFilename));
+            //param.Add(new DataParameter("@InsurancePhotoFullpath", insobj.InsurancePhotoFullpath));
             param.Add(new DataParameter("@UserTypeId", insobj.UserType_Id));
 
             param.Add(new DataParameter("@TITLE_ID", insobj.TITLE_ID));
