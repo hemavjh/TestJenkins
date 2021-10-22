@@ -665,6 +665,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     var insId = data.Institute[0].Id;
                      alert(data.Message);
 
+
                     if ($scope.PhotoValue == 1) {
                         if ($('#InstitutionLogo')[0].files[0] != undefined) {
                             FileName = $('#InstitutionLogo')[0].files[0]['name'];
@@ -5195,9 +5196,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 var ApprovePatientobj = {
                     Patient_Id: $routeParams.Id
                 };
+                $("#btnsave").attr("disabled", true);
                 $scope.ApprovedPatientList.push(ApprovePatientobj);
                 $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
                     alert(data.Message);
+                    $("#btnsave").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $location.path("/PatientApproval");
                     }
@@ -5473,6 +5476,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     Photo_Fullpath: $scope.PhotoFullpath,
                     Photo: $scope.InstitutionLogo,
                 };
+                $("#btnsave").attr("disabled", true);
                 $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
                     var insId = data.Institute[0].Id;
 
@@ -5519,6 +5523,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                                 $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
                                     document.getElementById("InstLogo").src = resImage[0];
                                     alert(data.Message);
+                                    $("#btnsave").attr("disabled", false);
                                     $scope.CancelInstitutionHospitalAdmin();
                                 }).error(function (response) {
                                     $scope.Photo = "";
@@ -5530,9 +5535,11 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     }
                     else {
                         alert(data.Message);
+                        $("#btnsave").attr("disabled", false);
                         $scope.CancelInstitutionHospitalAdmin();
                     }
                     $("#InstitutionLogo").val('');
+                    $("#btnsave").attr("disabled", false);
                 })
             }
         }
@@ -5958,9 +5965,11 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                     InstitutionId: $scope.Institution_Id,
                     Created_By: $scope.Patient_Id
                 }
+                $("#btnsave").attr("disabled", true);
                 $http.post(baseUrl + '/api/MasterAllergy/MasterAllergy_AddEdit/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $("#btnsave").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.AllergyMasterList_Details();
@@ -13777,11 +13786,12 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
                     Description: $scope.Description,
                     InstitutionId: $scope.InstituteId,
                     Created_By: $scope.Patient_Id
-
                 }
+                $("#btnsave").attr("disabled", true);
                 $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $("#btnsave").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.ICD10list();
@@ -14123,9 +14133,10 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
                     InstitutionId: $scope.InstituteId,
                     Created_By: $scope.User_Id
                 }
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/PayorMaster/PayorMaster_AddEdit/', obj).success(function (data) {
-                    $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.Payorlist();
@@ -14133,7 +14144,7 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
                     }
                     //$scope.AddId = data;
                     //angular.element('#ICD10Modal').modal('hide');
-                })
+                });
             }
         }
 
@@ -14474,9 +14485,12 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                     CreatedBy: $scope.User_Id,
                     InstitutionId: $scope.InstituteId
                 }
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/PlanMaster/PlanMasterAddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
+
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.Planlist();
@@ -14773,9 +14787,11 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
                     InstitutionId: $scope.InstituteId,
                     Created_By: $scope.Patient_Id
                 };
+                $("#btnsave").attr("disabled", true);
 
                 $http.post(baseUrl + '/api/DrugDBMaster/DrugDBMaster_AddEdit/', obj).success(function (data) {
                     alert(data.Message);
+                    $("#btnsave").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.CancelPopup();
                         $scope.DrugDB_List();
@@ -14833,14 +14849,17 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
                             $scope.rowCollection = data;
-                            $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
-                            $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                            if ($scope.rowCollectionFilter.length > 0) {
-                                $scope.flag = 1;
+                            if ($scope.rowCollection.length > 0) {
+                                $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
                             }
-                            else {
-                                $scope.flag = 0;
-                            }
+                                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                                if ($scope.rowCollectionFilter.length > 0) {
+                                    $scope.flag = 1;
+                                }
+                                else {
+                                    $scope.flag = 0;
+                                }
+                            
                             $("#chatLoaderPV").hide();
 
                             $http.get(baseUrl + '/api/DrugDBMaster/DrugStrengthList/?Institution_Id=' + $scope.InstituteId).success(function (data) {

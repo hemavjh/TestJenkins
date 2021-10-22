@@ -91,7 +91,7 @@
 
                                 </a>
                             </a>
-                            <a href="javascript:" ng-click="DeleteICD10(row.Id)" title="Active">
+                            <a href="javascript:" id="btndelete" ng-disabled="false" ng-click="DeleteICD10(row.Id)" title="Active">
                                 <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                                 <a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
 
@@ -155,7 +155,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-click="ICD10AddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-disabled="false" id="btnsave" ng-click="ICD10AddEdit()" title="Click to Save">Save</button>
                 <button type="button" class="theme-btn-2  btn-save"  ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
             </div>
         </div>
