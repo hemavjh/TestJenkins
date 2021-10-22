@@ -7263,28 +7263,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
                     $("#appoint_waveLoader").show();
 
-                    $scope.Id = "0";
-                    var fd = new FormData();
-                    var imgBlob;
-                    var imgBlobfile;
-                    var itemIndexLogo = -1;
-                    var itemIndexdoc = -1;
-                    console.log($scope.appdocfile)
-                    imgBlob = $scope.dataURItoBlob($scope.appdocfile);
-                    fd.append('file', imgBlob);
-                    //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
-
-                    $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
-                        fd,
-                        {
-                            transformRequest: angular.identity,
-                            headers: {
-                                'Content-Type': undefined
-                            }
-                        }
-                    )
-                        .success(function (response) {
-                            $scope.appdocfilename = "File Name";
+                    
                             if ($scope.OldAppointmentID == null) {
                                 var objectSave = {
                                     "Institution_Id": $scope.SelectedInstitutionId,
@@ -7306,6 +7285,37 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
                                     alert(data.Message);
                                     if (data.ReturnFlag == 1) {
+                                        $scope.Id = "0";
+                                        var fd = new FormData();
+                                        var imgBlob;
+                                        var imgBlobfile;
+                                        var itemIndexLogo = -1;
+                                        var itemIndexdoc = -1;
+                                        if ($scope.appdocfilename !== "") {
+                                            console.log($scope.appdocfile)
+                                            imgBlob = $scope.dataURItoBlob($scope.appdocfile);
+                                            fd.append('file', imgBlob);
+
+
+                                            //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
+
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                                fd,
+                                                {
+                                                    transformRequest: angular.identity,
+                                                    headers: {
+                                                        'Content-Type': undefined
+                                                    }
+                                                }
+                                            )
+                                                .success(function (response) {
+                                                    $scope.appdocfilename = "File Name";
+                                                }).error(function (response) {
+                                                    $scope.appdocfilename = "";
+
+
+                                                });
+                                        }
                                         $("#appoint_waveLoader").hide();
                                         angular.element('#BookAppointmentModal').modal('hide');
                                         //document.getElementById("main-box").style = "";
@@ -7378,6 +7388,38 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
                                     alert(data.Message);
                                     if (data.ReturnFlag == 1) {
+                                        $scope.Id = "0";
+                                        var fd = new FormData();
+                                        var imgBlob;
+                                        var imgBlobfile;
+                                        var itemIndexLogo = -1;
+                                        var itemIndexdoc = -1;
+                                        
+                                        if ($scope.appdocfilename !== "") {
+                                            console.log($scope.appdocfile)
+                                            imgBlob = $scope.dataURItoBlob($scope.appdocfile);
+                                            fd.append('file', imgBlob);
+
+
+                                            //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
+
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                                fd,
+                                                {
+                                                    transformRequest: angular.identity,
+                                                    headers: {
+                                                        'Content-Type': undefined
+                                                    }
+                                                }
+                                            )
+                                                .success(function (response) {
+                                                    $scope.appdocfilename = "File Name";
+                                                }).error(function (response) {
+                                                    $scope.appdocfilename = "";
+
+
+                                                });
+                                        }
                                         $("#appoint_waveLoader").hide();
                                         angular.element('#BookAppointmentModal').modal('hide');
                                         //document.getElementById("main-box").style = "";
@@ -7410,11 +7452,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             }
 
-                        }).error(function (response) {
-                            $scope.appdocfilename = "";
-
-
-                        });
+                        
                    
 
                 }
