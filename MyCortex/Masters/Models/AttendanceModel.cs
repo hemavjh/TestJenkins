@@ -29,6 +29,7 @@ namespace MyCortex.Masters.Models
         public DateTime Created_Dt { get; set; }
         public TimeSpan AttendanceFromTime { get; set; }
         public TimeSpan AttendanceToTime { get; set; }
+        public string UserTypeName { get; set; }
         //  public IList<AttendanceUserTypeDetails_List> SelectedAttendanceList { get; set; }
     }
 
@@ -44,5 +45,18 @@ namespace MyCortex.Masters.Models
     {
         public long? Id { get; set; }
         public long? User_Id { get; set; }
+    }
+    
+
+    public class ClinicalUser_List
+    {
+        public long Id { get; set; }
+        public string FullName { get; set; }
+        public string Department_Name { get; set; }
+        public string NameSpecialization { get; set; }
+        public string ViewGenderName { get; set; }
+        public string EmailId { get; set; }
+        public string TypeName { get; set; }
+        public int IsActive { get; set; }
     }
 }

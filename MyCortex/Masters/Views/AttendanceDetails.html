@@ -257,10 +257,11 @@
         <thead>
             <tr style="text-align: center">
                 <th st-ratio="5">#</th>
-                <th st-ratio="33" st-sort="DoctorName">Doctor Name</th>
+                <th st-ratio="27" st-sort="DoctorName">Name</th>
+                <th st-ratio="8">User Type</th>
                 <th st-ratio="14" st-sort="AttendanceFromDate">From Date</th>
                 <th st-ratio="14" st-sort="ShiftEndTime">To Date</th>
-                <th st-ratio="14" st-sort="ShiftEndTime">Remarks</th>
+                <th st-ratio="12" st-sort="ShiftEndTime">Remarks</th>
                 <th st-ratio="12" st-sort="AttendanceFromDate">Created By/Created On </th>
                 <th st-ratio="8">Action</th>
             </tr>
@@ -277,6 +278,9 @@
 
                 <td style="text-align: left; overflow-wrap: anywhere;">
                     <div class="textwrap">{{row.DoctorName}}</div>
+                </td>
+                <td style="text-align: left">
+                    {{row.UserTypeName}}
                 </td>
                 <td style="text-align: left">
                     {{row.AttendanceFromDate| date:'dd-MMM-yyyy hh:mm:ss'}}
@@ -334,7 +338,7 @@
                 <form role="form">
                     <div class="inputGroups" ng-show="Id==0">
                         <label>
-                            Doctor<sup>
+                            User Name<sup>
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
@@ -345,7 +349,7 @@
                     </div>
                     <div class="inputGroups" ng-show="Id>0">
                         <label>
-                            Doctor<sup>
+                            User Name<sup>
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
@@ -367,8 +371,8 @@
 
                         <div>
                             <!--<input type="date" id="AttendanceFromDate" max="2099-12-31" class="form-control" ng-model="AttendanceFromDate"
-                                   ng-init="AttendanceFromDate=''">-->
-                            <input type="text" ej-datetimepicker ng-init="AttendanceFromDate=''" ng-model="AttendanceFromDate" class="form-control date" id="datetimepickerholiday_From" ng-required="true"> 
+            ng-init="AttendanceFromDate=''">-->
+                            <input type="text" ej-datetimepicker ng-init="AttendanceFromDate=''" ng-model="AttendanceFromDate" class="form-control date" id="datetimepickerholiday_From" ng-required="true">
 
                         </div>
                     </div>
@@ -381,11 +385,11 @@
 
                         <div>
                             <!--<input type="date" class="form-control" max="2099-12-31" id="AttendanceToDate" ng-model="AttendanceToDate"
-                                   ng-init="AttendanceToDate=''">-->
+            ng-init="AttendanceToDate=''">-->
                             <input type="text" ej-datetimepicker ng-init="AttendanceToDate=''" ng-model="AttendanceToDate" class="form-control date" id="datetimepickerholiday_To" ng-required="true">
                             <!--<span class="input-group-addon">
-                        <i class="glyphicon glyphicon-th"></i>
-                    </span>-->
+                <i class="glyphicon glyphicon-th"></i>
+            </span>-->
                         </div>
                     </div>
                     <div class="inputGroups">
@@ -422,7 +426,7 @@
             <div class="modal-body">
                 <form role="form">
                     <div class="inputGroups">
-                        <label>Doctor</label>
+                        <label>User</label>
 
                         <span class="textwrap"> {{DoctorName}}</span>
                     </div>

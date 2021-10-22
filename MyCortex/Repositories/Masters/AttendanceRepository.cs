@@ -124,48 +124,75 @@ namespace MyCortex.Repositories.Masters
             }
             return 0;
         }
-
-     /*   public IList<AttendanceModel> AttendanceDetails_InsertUpdate(AttendanceModel obj)
+        public IList<ClinicalUser_List> Clinician_UserList(long? Institution_Id)
         {
-
-            int retid;
+            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@ID", obj.Id));
-            param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
-            param.Add(new DataParameter("@ATTENDANCE_FROMDATE", obj.AttendanceFromDate));
-            param.Add(new DataParameter("@ATTENDANCE_TODATE", obj.AttendanceToDate));
-            param.Add(new DataParameter("@DOCTOR_ID", obj.Doctor_Id));
-            param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
-
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ATTENDANCEDETAILS_SP_INSERTUPDATE", param);
-                IList<AttendanceModel> INS = (from p in dt.AsEnumerable()
-                                              select new AttendanceModel()
-                                              {
-                                                  Id = p.Field<long>("ID"),
-                                                  /* Institution_Id = p.Field<long>("INSTITUTION_ID");
-                                                   ShiftName = p.Field<string>("SHIFTNAME"),
-                                                   ShiftFromTime = p.Field<DateTime>("SHIFT_STARTTIME"),
-                                                   ShiftEndTime = p.Field<DateTime>("SHIFT_ENDTIME"),
-                                                   ShiftFromDate = p.Field<DateTime>("SHIFT_FROMDATE"),
-                                                   ShiftToDate = p.Field<DateTime>("SHIFT_TODATE"),
-                                                   IsActive = p.Field<int>("ISACTIVE"),
-                                                   Created_by = p.Field<long>("CREATED_BY"),
-                                                   Created_dt = p.Field<DateTime>("CREATED_DT"),
-                                                   Flag = p.Field<int>("flag"),*/
-                                            /*  }).ToList();
-                return INS;
-
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CLINICALUSERS_SP_LIST", param);
+                List<ClinicalUser_List> list = (from p in dt.AsEnumerable()
+                                                        select new ClinicalUser_List()
+                                                        {
+                                                            Id = p.Field<long>("ID"),
+                                                            FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                            Department_Name = p.Field<string>("DEPARTMENT_NAME"),
+                                                            NameSpecialization = p.Field<string>("NAMESPECIALIZATION"),
+                                                            ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
+                                                            EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                            TypeName = p.Field<string>("TYPENAME"),
+                                                            IsActive = p.Field<int>("ISACTIVE")
+                                                        }).ToList();
+                return list;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.Error(ex.Message, ex);
                 return null;
             }
         }
-        */
+
+        /*   public IList<AttendanceModel> AttendanceDetails_InsertUpdate(AttendanceModel obj)
+           {
+
+               int retid;
+               List<DataParameter> param = new List<DataParameter>();
+               param.Add(new DataParameter("@ID", obj.Id));
+               param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
+               param.Add(new DataParameter("@ATTENDANCE_FROMDATE", obj.AttendanceFromDate));
+               param.Add(new DataParameter("@ATTENDANCE_TODATE", obj.AttendanceToDate));
+               param.Add(new DataParameter("@DOCTOR_ID", obj.Doctor_Id));
+               param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
+
+               _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+               try
+               {
+                   DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ATTENDANCEDETAILS_SP_INSERTUPDATE", param);
+                   IList<AttendanceModel> INS = (from p in dt.AsEnumerable()
+                                                 select new AttendanceModel()
+                                                 {
+                                                     Id = p.Field<long>("ID"),
+                                                     /* Institution_Id = p.Field<long>("INSTITUTION_ID");
+                                                      ShiftName = p.Field<string>("SHIFTNAME"),
+                                                      ShiftFromTime = p.Field<DateTime>("SHIFT_STARTTIME"),
+                                                      ShiftEndTime = p.Field<DateTime>("SHIFT_ENDTIME"),
+                                                      ShiftFromDate = p.Field<DateTime>("SHIFT_FROMDATE"),
+                                                      ShiftToDate = p.Field<DateTime>("SHIFT_TODATE"),
+                                                      IsActive = p.Field<int>("ISACTIVE"),
+                                                      Created_by = p.Field<long>("CREATED_BY"),
+                                                      Created_dt = p.Field<DateTime>("CREATED_DT"),
+                                                      Flag = p.Field<int>("flag"),*/
+        /*  }).ToList();
+return INS;
+
+}
+catch (Exception ex)
+{
+_logger.Error(ex.Message, ex);
+return null;
+}
+}
+*/
         /// <summary>      
         /// Settings  --> AppoinmentSlot details (menu) -- > List Page (result)
         /// to get the list of AppoinmentSlot for the specified filters
@@ -189,6 +216,7 @@ namespace MyCortex.Repositories.Masters
                                        {
                                            Id = p.Field<long>("ID"),
                                            Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                           UserTypeName = p.Field<string>("TYPENAME"),
                                            DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
                                            AttendanceFromDate = p.Field<DateTime>("ATTENDANCE_FROMDATE"),
                                            AttendanceToDate = p.Field<DateTime>("ATTENDANCE_TODATE"),
