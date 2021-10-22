@@ -3974,7 +3974,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@EMERG_CONT_RELATIONSHIP_ID", 4));
             param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
             param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
-            param.Add(new DataParameter("@APPROVAL_FLAG", insobj.ApprovalFlag));
+            param.Add(new DataParameter("@APPROVAL_FLAG", 0));
             param.Add(new DataParameter("@PASSWORD", insobj.PASSWORD));
             param.Add(new DataParameter("@Patient_Type", insobj.Patient_Type));
             param.Add(new DataParameter("@Emergency_MobileNo", insobj.Emergency_MobileNo));
@@ -3984,13 +3984,13 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@CREATED_BY", 754));
             //param.Add(new DataParameter("@CREATED_DT", insobj.CREATED_DT));
             param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
-            param.Add(new DataParameter("@PATIENT_ID", insobj.PatientId));
+            param.Add(new DataParameter("@PATIENT_ID", 754));
             param.Add(new DataParameter("@Memberid", insobj.Memberid));
             param.Add(new DataParameter("@PolicyNumber", insobj.PolicyNumber));
             param.Add(new DataParameter("@RefernceId", insobj.RefernceId));
             param.Add(new DataParameter("@ExpiryDate", insobj.ExpiryDate));
-            param.Add(new DataParameter("@PayorId", insobj.PayorId));
-            param.Add(new DataParameter("@PlanId", insobj.PlanId));
+            param.Add(new DataParameter("@PayorId", 1));
+            param.Add(new DataParameter("@PlanId", 1));
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Dummy_UserDetails_Insert]", param);

@@ -4076,11 +4076,11 @@ namespace MyCortex.User.Controller
                     userObj.DOB_Encrypt = "";
                     userObj.EMERG_CONT_MIDDLENAME = "";
                     userObj.Emergency_MobileNo = "";
-                    userObj.EMAILID = "";
+                    userObj.EMAILID = 'A' + i.ToString() + "@gmail.com";
                     userObj.GOOGLE_EMAILID = "";
                     userObj.FB_EMAILID = "";
                     userObj.Memberid = "";
-                    userObj.PolicyNumber = "";
+                    userObj.PolicyNumber = 'A' + i.ToString();
                     userObj.RefernceId = "";
                     userObj.ExpiryDate = "";
                     DataEncryption EncryptPassword = new DataEncryption();
