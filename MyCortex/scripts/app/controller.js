@@ -24298,7 +24298,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
             $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY');
 
             if ($scope.SelectedAttendance == "" || $scope.SelectedAttendance == undefined) {
-                alert("Please select Doctor");
+                alert("Please select User");
                 return false;
             }
 
