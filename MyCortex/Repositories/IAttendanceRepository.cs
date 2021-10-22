@@ -15,7 +15,8 @@ namespace MyCortex.Repositories
         AttendanceModel Attendance_View(long Id, Guid Login_Session_Id, long institution_id);
         IList<AttendanceModel> Attendance_InActive(AttendanceModel noteobj);
         IList<AttendanceModel> Attendance_Active(AttendanceModel noteobj);
+        IList<ClinicalUser_List> Clinician_UserList(long? Institution_Id);
 
-        
+
     }
 }

@@ -47,6 +47,21 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        public IList<ClinicalUser_List> Clinician_UserList(long? Institution_Id)
+        {
+            IList<ClinicalUser_List> model;
+            try
+            {
+                model = repository.Clinician_UserList(Institution_Id);
+                return model;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Settings  --> Doctor List details (menu) -- > List Page (result)
         /// to get the list of Doctor List for the specified filters
@@ -54,20 +69,20 @@ namespace MyCortex.Masters.Controllers
         /// </summary>      
         /// <param name="Id">Id of a IsActive</param>        
         /// <returns>Populated List of Doctor list Details DataTable</returns>
- /*       [HttpGet]
-        public IList<AttendanceModel> Attendance_List(long Institution_Id)
-        {
-            IList<AttendanceModel> model;
-            try
-            {
-                model = repository.Attendance_List(Institution_Id);
-                return model;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }*/
+        /*       [HttpGet]
+               public IList<AttendanceModel> Attendance_List(long Institution_Id)
+               {
+                   IList<AttendanceModel> model;
+                   try
+                   {
+                       model = repository.Attendance_List(Institution_Id);
+                       return model;
+                   }
+                   catch (Exception ex)
+                   {
+                       return null;
+                   }
+               }*/
         /// <summary>
         /// Admin  --> AV/Chat Settings --> Add/Edit Page
         /// to Insert/Update the entered AV/Chat Settings Information into database.
@@ -76,7 +91,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="obj">Fields of AV/Chat Settings Page</param>      
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         ///    [HttpPost]
-       
+
 
         [HttpPost]
         public HttpResponseMessage AttendanceDetails_InsertUpdate(Guid Login_Session_Id,[FromBody] List<AttendanceModel> insobj)
@@ -144,6 +159,7 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a IsActive</param>        
         /// <returns>Populated List of AppoinmentSlot list Details DataTable</returns>
         [HttpGet]
+        [Authorize]
         public IList<AttendanceModel> Attendance_List(int? IsActive, long Institution_Id, Guid Login_Session_Id)
         {
             IList<AttendanceModel> model;
@@ -154,6 +170,7 @@ namespace MyCortex.Masters.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
         }

@@ -24243,9 +24243,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                       $scope.UserTypeList =data;   
            
           });*/
-        $scope.DoctorList = [];
-        $scope.DoctorListActive = [];
-        $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        $scope.UserListType = [];
+        $http.get(baseUrl + '/api/Attendance/Clinician_UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.UserTypeList = $ff(data, { IsActive: 1 });;
             $scope.UserTypeList = data;
         });
