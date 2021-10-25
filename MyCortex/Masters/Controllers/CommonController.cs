@@ -690,7 +690,7 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <returns>App configuration value</returns>
         [HttpGet]
-        public IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id)
+        public IList<AppConfigurationModel> AppConfigurationDetails(long Institution_Id, string ConfigCode="")
         {
             IList<AppConfigurationModel> model;
             model = repository.AppConfigurationDetails(ConfigCode, Institution_Id);
