@@ -25215,7 +25215,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $http.get(baseUrl + '/api/MyHome/Device_List/?IsActive=' + $scope.ISact + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.DevicesLists = data.TabDeviceList;
         });
-        $http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        //$http.get(baseUrl + '/api/Common/UserList/?Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        //    $scope.UserLists = data;
+        //});
+        $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.UserLists = data;
         });
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
