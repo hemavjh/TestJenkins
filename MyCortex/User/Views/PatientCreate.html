@@ -54,97 +54,97 @@
             });
         });
 
-        //var image1 = $('#NationalLogo').val();
-        //$image_crop1 = $('#image_demo1').croppie({
-        //    enableExif: true,
-        //    url: image1,
-        //    viewport: {
-        //        width: 200,
-        //        height: 200,
-        //        type: 'rectangle' //rectangle
-        //    },
-        //    boundary: {
-        //        width: 300,
-        //        height: 300
-        //    },
-        //    points: {
-        //        topLeftX: 0,
-        //        topLeftY: 0,
-        //        bottomRightX: 0,
-        //        bottomRightY: 0
-        //    }
-        //});
+        var image1 = $('#NationalLogo').val();
+        $image_crop1 = $('#image_demo1').croppie({
+            enableExif: true,
+            url: image1,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'rectangle' //rectangle
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            },
+            points: {
+                topLeftX: 0,
+                topLeftY: 0,
+                bottomRightX: 0,
+                bottomRightY: 0
+            }
+        });
 
-        //$('#NationalLogo').on('change', function () {
-        //    var reader = new FileReader();
-        //    reader.onload = function (event) {
-        //        $image_crop1.croppie('bind', {
-        //            url: event.target.result
-        //        }).then(function () {
-        //        });
-        //    }
-        //    reader.readAsDataURL(this.files[0]);
-        //    $('#insertimageModal1').modal('show');
-        //});
+        $('#NationalLogo').on('change', function () {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                $image_crop1.croppie('bind', {
+                    url: event.target.result
+                }).then(function () {
+                });
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#insertimageModal1').modal('show');
+        });
 
-        //$('.crop_images').click(function (event) {
-        //    $image_crop1.croppie('result', {
-        //        type: 'base64',
-        //        format: 'jpeg',
-        //        //type: 'canvas',
-        //        size: 'viewport'
-        //        //size: {width: 150, height: 200}
-        //    }).then(function (response) {
-        //        $('#item-img-output1').attr('src', response);
-        //        $('#insertimageModal1').modal('hide');
-        //    });
-        //});
+        $('.crop_images').click(function (event) {
+            $image_crop1.croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                //type: 'canvas',
+                size: 'viewport'
+                //size: {width: 150, height: 200}
+            }).then(function (response) {
+                $('#item-img-output1').attr('src', response);
+                $('#insertimageModal1').modal('hide');
+            });
+        });
 
-        //var image1 = $('#InsuranceLogo').val();
-        //$image_crop2 = $('#image_demo2').croppie({
-        //    enableExif: true,
-        //    url: image1,
-        //    viewport: {
-        //        width: 200,
-        //        height: 200,
-        //        type: 'rectangle' //rectangle
-        //    },
-        //    boundary: {
-        //        width: 300,
-        //        height: 300
-        //    },
-        //    points: {
-        //        topLeftX: 0,
-        //        topLeftY: 0,
-        //        bottomRightX: 0,
-        //        bottomRightY: 0
-        //    }
-        //});
+        var image1 = $('#InsuranceLogo').val();
+        $image_crop2 = $('#image_demo2').croppie({
+            enableExif: true,
+            url: image1,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'rectangle' //rectangle
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            },
+            points: {
+                topLeftX: 0,
+                topLeftY: 0,
+                bottomRightX: 0,
+                bottomRightY: 0
+            }
+        });
 
-        //$('#InsuranceLogo').on('change', function () {
-        //    var reader = new FileReader();
-        //    reader.onload = function (event) {
-        //        $image_crop2.croppie('bind', {
-        //            url: event.target.result
-        //        }).then(function () {
-        //        });
-        //    }
-        //    reader.readAsDataURL(this.files[0]);
-        //    $('#insertimageModal2').modal('show');
-        //});
+        $('#InsuranceLogo').on('change', function () {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                $image_crop2.croppie('bind', {
+                    url: event.target.result
+                }).then(function () {
+                });
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#insertimageModal2').modal('show');
+        });
 
-        //$('.insurancecrop_image').click(function (event) {
-        //    $image_crop2.croppie('result', {
-        //        type: 'base64',
-        //        format: 'jpeg',
-        //        //type: 'canvas',
-        //        size: 'viewport'
-        //        //size: {width: 150, height: 200}
-        //    }).then(function (response) {
-        //        $('#item-img-output2').attr('src', response);
-        //        $('#insertimageModal2').modal('hide');
-        //    });
-        //});
+        $('.insurancecrop_image').click(function (event) {
+            $image_crop2.croppie('result', {
+                type: 'base64',
+                format: 'jpeg',
+                //type: 'canvas',
+                size: 'viewport'
+                //size: {width: 150, height: 200}
+            }).then(function (response) {
+                $('#item-img-output2').attr('src', response);
+                $('#insertimageModal2').modal('hide');
+            });
+        });
     });
 
     $(function () {
@@ -412,7 +412,7 @@
                                 </div>
                             </div>
 
-                            <!--<div class="col-sm-4">
+                            <div class="col-sm-4">
                                 <div class="inputGroups" style="font-size: 16px;">
                                     <label style=" margin-left: 0px; margin-top: 29px;">National Image</label>
                                 </div>
@@ -465,7 +465,7 @@
                                             </div>
                                         </div>
                                     </div>
-                            </div>-->
+                            </div>
 
                         </div>
                     </div>
@@ -1193,7 +1193,7 @@
                                     </div>
                                 </div>
 
-                                <!--<div class="col-sm-4">
+                                <div class="col-sm-4">
                                     <div class="inputGroups" style="font-size: 16px;">
                                         <label style=" margin-left: 0px; margin-top: 29px;">Insurance Image</label>
                                     </div>
@@ -1246,7 +1246,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>-->
+                                </div>
 
                             </div>
                         </div>
