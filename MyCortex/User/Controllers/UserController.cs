@@ -161,6 +161,36 @@ namespace MyCortex.User.Controller
         [HttpPost]
         public HttpResponseMessage User_InsertUpdate(Guid Login_Session_Id, [FromBody] UserModel userObj)
         {
+            UserModel ModelData = new UserModel();
+            UserReturnModel model = new UserReturnModel();
+            try 
+            {
+            var dir = HttpContext.Current.Server.MapPath("~\\bin");
+            var file = Path.Combine(dir, "filecheck.txt");
+            if (!File.Exists(file))
+            {
+                File.Create(file);
+            }
+            //else
+            //{
+            //    File.Delete(file);
+            //    File.Create(file);
+            //}
+            if (!File.Exists(file))
+            {
+                using (StreamWriter sw = File.CreateText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "User_InsertUpdate in User Controller");
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "User_InsertUpdate in User Controller");
+                }
+            }
+            //File.WriteAllText(file, "101");
             if (Login_Session_Id == null)
             {
                 Login_Session_Id = new Guid();
@@ -182,10 +212,18 @@ namespace MyCortex.User.Controller
                 //Ins_model = repository.GetInstitutionForWebURL(request);
                 //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
             }
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 208 executed in User Controller");
+            }
             if (userObj.INSTITUTION_ID == 0)
             {
                 // userObj.INSTITUTION_ID = InstitutionId;
                 return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Invalid Institution!");
+            }
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 213 executed in User Controller");
             }
             string defaultPwd = "P@ssw0rd";
             //AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", userObj.INSTITUTION_ID.Value);
@@ -220,8 +258,11 @@ namespace MyCortex.User.Controller
             //{
             //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             //}
-            UserModel ModelData = new UserModel();
-            UserReturnModel model = new UserReturnModel();
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 254 executed in User Controller");
+            }
+            
             //if (!ModelState.IsValid)
             //{
             //    model.Status = "False";
@@ -241,8 +282,8 @@ namespace MyCortex.User.Controller
             //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             //}
             string messagestr = "";
-            try
-            {
+            //try
+            //{
                 if (userObj.UserType_Id <= 0 || userObj.UserType_Id == null)
                     throw new System.ArgumentException("User Type is missing", "UserData");
                 else if (userObj.EMAILID == "" || userObj.EMAILID == null)
@@ -256,10 +297,18 @@ namespace MyCortex.User.Controller
                 if(userObj.Id==0)
                     generatedPwd = egmodel.GeneratePassword_ByPasswordPolicy(userObj.INSTITUTION_ID.Value);
 
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 294 executed in User Controller");
+                }
                 userObj.PASSWORD = generatedPwd;
                 if (userObj.PASSWORD == "") userObj.PASSWORD = defaultPwd;   // this is for demo // default pwd when password policy not exist for the institution
                 DataEncryption EncryptPassword = new DataEncryption();
                 userObj.PASSWORD = EncryptPassword.Encrypt(userObj.PASSWORD);
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 302 executed in User Controller");
+                }
                 string FormulaforFullName = "";
                 FormulaforFullName = "[L],[F]";
                 string FullNameFormula = "";
@@ -274,6 +323,10 @@ namespace MyCortex.User.Controller
                 //    userObj.MrnPrefix = AppConfigmodel[0].ConfigValue;
                 //}
                 modelLF_Formula = commonrepository.AppConfigurationDetails(FullNameFormula, userObj.INSTITUTION_ID.Value);
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 320 executed in User Controller");
+                }
                 if (modelLF_Formula[0].ConfigValue != null)
                 {
                     FormulaforFullName = modelLF_Formula[0].ConfigValue;
@@ -308,8 +361,15 @@ namespace MyCortex.User.Controller
                 {
                     userObj.Patient_Type = 1;
                 }
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 358 executed in User Controller");
+                }
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
-
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 363 executed in User Controller");
+                }
                 if ((ModelData.flag == 1) == true)
                 {
                     messagestr = "Email already exists, cannot be Duplicated";
@@ -383,11 +443,17 @@ namespace MyCortex.User.Controller
                     model.ReturnFlag = 0;
                     model.Status = "False";
                 }
-
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 440 executed in User Controller");
+                }
                 model.Error_Code = "";
                 model.UserDetails = ModelData;
                 model.Message = messagestr;// "User created successfully";
-
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 447 executed in User Controller");
+                }
                 // create cometchat user only in insert
                 if (ModelData.flag == 2)
                 {
@@ -397,7 +463,10 @@ namespace MyCortex.User.Controller
                 {
                     createCometChatUser(ModelData, (long)userObj.INSTITUTION_ID, 1);
                 }
-
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 460 executed in User Controller");
+                }
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                 // mailing the generated pwd to User
                 if ((ModelData.flag == 2) == true)
@@ -423,7 +492,10 @@ namespace MyCortex.User.Controller
                         SendGridApiManager mail = new SendGridApiManager();
                         var res = mail.SendEmailAsync(msg, 0);
                     }*/
-
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 489 executed in User Controller");
+                    }
                     string Event_Code = "";
                     if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
                     {
@@ -441,10 +513,17 @@ namespace MyCortex.User.Controller
                     {
                         Event_Code = "PAT_SIGNUP_APPROVE";
                     }
-
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 510 executed in User Controller");
+                    }
                     AlertEvents AlertEventReturn = new AlertEvents();
                     IList<EmailListModel> EmailList;
-                    if(Event_Code == "INS_CREATION")
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 516 executed in User Controller");
+                    }
+                    if (Event_Code == "INS_CREATION")
                     {
                         EmailList = AlertEventReturn.InstitutionCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, -1, EmailList);
@@ -454,7 +533,10 @@ namespace MyCortex.User.Controller
                         EmailList = AlertEventReturn.UserCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
                     }
-
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 530 executed in User Controller");
+                    }
 
                     if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
                     {
@@ -465,9 +547,16 @@ namespace MyCortex.User.Controller
 
                         AlertEventReturn_HA.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList_HA);
                     }
-
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 544 executed in User Controller");
+                    }
                     IList<UserLimit_AlertEventModel> ReturnModel;
                     ReturnModel = AlertEventReturn.AlertEvent_Get_UserLimit_List((long)userObj.INSTITUTION_ID, ModelData.Id);
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 550 executed in User Controller");
+                    }
                     if (ReturnModel.Count >= 1)
                     {
                         if (userObj.UserType_Id == 2)
@@ -479,7 +568,10 @@ namespace MyCortex.User.Controller
 
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
                     }
-
+                    using (StreamWriter sw = File.AppendText(file))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 565 executed in User Controller");
+                    }
                 }
 
                 return response;

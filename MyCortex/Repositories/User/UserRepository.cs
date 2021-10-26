@@ -11,6 +11,7 @@ using MyCortex.Masters.Models;
 using MyCortex.User.Models;
 using MyCortex.Utilities;
 using MyCortex.Admin.Models;
+using System.IO;
 
 namespace MyCortex.Repositories.Uesr
 {
@@ -110,6 +111,16 @@ namespace MyCortex.Repositories.Uesr
         /// <returns>Status message with inserted/updated user information</returns>
         public UserModel Admin_InsertUpdate(Guid Login_Session_Id,UserModel insobj)
         {
+            var dir = HttpContext.Current.Server.MapPath("~\\bin");
+            var file = Path.Combine(dir, "filecheck.txt");
+            if (!File.Exists(file))
+            {
+                File.Create(file);
+            }
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Admin_InsertUpdate is started");
+            }
             long InsertId = 0;
             string flag = "";
             long Inserted_Group_Id;
@@ -210,8 +221,15 @@ namespace MyCortex.Repositories.Uesr
                 param_2.Add(new DataParameter("@USER_ID", insobj.User_Id));
                 param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
                 //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
-
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 226 executed in Admin_InsertUpdate");
+                }
                 DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[MRN_AUTOCREATIION_SP]", param_2);
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 231 executed in Admin_InsertUpdate");
+                }
                 UserModel Get_Patient_Mrn = (from p in dt_2.AsEnumerable()
                                              select new UserModel()
                                              {
@@ -225,8 +243,15 @@ namespace MyCortex.Repositories.Uesr
 
             List<DataParameter> param_1 = new List<DataParameter>();
             param_1.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
-
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 248 executed in Admin_InsertUpdate");
+            }
             DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PATIENTID_SP_LIST]", param_1);
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 253 executed in Admin_InsertUpdate");
+            }
             UserModel Get_Patient_No = (from p in dt_1.AsEnumerable()
                                         select new UserModel()
                                         {
@@ -236,7 +261,15 @@ namespace MyCortex.Repositories.Uesr
             insobj.PATIENTNO = EncryptPassword.Encrypt(Get_Patient_No.PATIENTNO);
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 266 executed in Admin_InsertUpdate");
+            }
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_ADMIN_SP_INSERTUPDATE]", param);
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 271 executed in Admin_InsertUpdate");
+            }
             DataRow dr = dt.Rows[0];
             if (dr.IsNull("Id") == true)
             {
@@ -245,6 +278,10 @@ namespace MyCortex.Repositories.Uesr
             else
             {
                 InsertId = long.Parse((dr["Id"].ToString()));
+            }
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 284 executed in Admin_InsertUpdate");
             }
             if (InsertId > 0)
             {
@@ -268,6 +305,10 @@ namespace MyCortex.Repositories.Uesr
                                 else
                                     param1.Add(new DataParameter("@Group_Selected", "0"));
 
+                                using (StreamWriter sw = File.AppendText(file))
+                                {
+                                    sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 307 executed in Admin_InsertUpdate");
+                                }
                                 Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DOCTORADDITIONALDETAILS", param1, true);
                             }
                         }
@@ -292,6 +333,10 @@ namespace MyCortex.Repositories.Uesr
                                     else
                                         param1.Add(new DataParameter("@Institution_Selected", "0"));
 
+                                    using (StreamWriter sw = File.AppendText(file))
+                                    {
+                                        sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 338 executed in Admin_InsertUpdate");
+                                    }
                                     Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_INSTITTUTIONDETAILS", param1, true);
                                 }
                             }
@@ -314,6 +359,10 @@ namespace MyCortex.Repositories.Uesr
                                     else
                                         param1.Add(new DataParameter("@Language_Selected", "0"));
 
+                                    using (StreamWriter sw = File.AppendText(file))
+                                    {
+                                        sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 365 executed in Admin_InsertUpdate");
+                                    }
                                     Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_LANGUAGEDETAILS", param1, true);
                                 }
                             }
@@ -338,6 +387,10 @@ namespace MyCortex.Repositories.Uesr
                                     else
                                         param1.Add(new DataParameter("@Condition_Selected", "0"));
 
+                                    using (StreamWriter sw = File.AppendText(file))
+                                    {
+                                        sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 392 executed in Admin_InsertUpdate");
+                                    }
                                     Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CHRONICCONDITION", param1, true);
                                 }
                             }
@@ -354,6 +407,10 @@ namespace MyCortex.Repositories.Uesr
                                         param1.Add(new DataParameter("@Remarks", item.Remarks));
                                         param1.Add(new DataParameter("@Status", item.Status));
                                         param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        using (StreamWriter sw = File.AppendText(file))
+                                        {
+                                            sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 412 executed in Admin_InsertUpdate");
+                                        }
                                         Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CURRENTMEDICALDETAILS", param1, true);
                                     }
                                 }
@@ -371,6 +428,10 @@ namespace MyCortex.Repositories.Uesr
                                         param1.Add(new DataParameter("@Remarks", item.Remarks));
                                         param1.Add(new DataParameter("@Status", item.Status));
                                         param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        using (StreamWriter sw = File.AppendText(file))
+                                        {
+                                            sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 433 executed in Admin_InsertUpdate");
+                                        }
                                         Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_PASTMEDICALDETAILS", param1, true);
                                     }
                                 }
@@ -389,6 +450,10 @@ namespace MyCortex.Repositories.Uesr
                                         param1.Add(new DataParameter("@Remarks", item.Remarks));
                                         param1.Add(new DataParameter("@Status", item.Status));
                                         param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        using (StreamWriter sw = File.AppendText(file))
+                                        {
+                                            sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 455 executed in Admin_InsertUpdate");
+                                        }
                                         Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_FAMILYHEALTHPROBLEM", param1, true);
                                     }
                                 }
@@ -501,6 +566,10 @@ namespace MyCortex.Repositories.Uesr
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 571 executed in Admin_InsertUpdate");
+            }
             if (insert.DOB_Encrypt != "")
             {
                 var time = insert.DOB_Encrypt.Split(' ');
@@ -551,8 +620,11 @@ namespace MyCortex.Repositories.Uesr
                 /*string[] tokens = insert.DOB_Encrypt.Split('/');
                 insert.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
             }
-
-            if(InsertId>0)
+            using (StreamWriter sw = File.AppendText(file))
+            {
+                sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 625 executed in Admin_InsertUpdate");
+            }
+            if (InsertId>0)
             { 
                 String FirstCharacter = insert.FirstName.ToString();
                 String LastCharacter = insert.LastName.ToString();
@@ -565,6 +637,10 @@ namespace MyCortex.Repositories.Uesr
                 param2.Add(new DataParameter("@LastNameChar", LastCharacter.Substring(0, 1)));
                 param2.Add(new DataParameter("@ID", InsertId));
                 param2.Add(new DataParameter("@Month", Month));
+                using (StreamWriter sw = File.AppendText(file))
+                {
+                    sw.WriteLine(DateTime.Now.ToString() + ": " + "Line No 642 executed in Admin_InsertUpdate");
+                }
                 DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SHORTCODE_SP_INSERTUPDATE]", param2);
             }
 
