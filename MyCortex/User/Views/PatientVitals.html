@@ -484,7 +484,7 @@
                                 </select>
 
 
-                                <button type="button" class="theme-btn-1 mt-10 mr-10" title="Click to Save Protocol" ng-click="AssignedProtocol_InsertUpdate()">
+                                <button type="button" class="theme-btn-1 mt-10 mr-10" title="Click to Save Protocol" id="save" ng-disabled="false" ng-click="AssignedProtocol_InsertUpdate()">
                                     Save
                                 </button>
                                 <button type="button" class="theme-btn-2 mt-10" title="Click to View Protocol History"
@@ -617,7 +617,7 @@
                     </div>
                     <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
                         <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
-                        <button type="button" id="BookNew" disabled class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
+                        <button type="button" id="BookNew" ng-disabled="false" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
                             + Book New
                         </button>
                         <!--<button type="button" class="btnn-check" ng-click="ShowStripePopup()">
@@ -1430,8 +1430,8 @@
                                                                     {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
                                                                 </td>
                                                                 <td style="text-align: left">
-                                                                    <a href="javascript:" title="Save"
-                                                                       ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)"
+                                                                    <a href="javascript:" title="Save" id="save" ng-disabled="false"
+                                                                       ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)" 
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/save.png" />
                                                                     </a>
@@ -1440,7 +1440,7 @@
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/deleteNewIcon.png" />
                                                                     </a>
-                                                                    <a href="javascript:" title="Edit"
+                                                                    <a href="javascript:" title="Edit" 
                                                                        ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <img src="../../Images/EditIcon.png" />
@@ -3002,7 +3002,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-1 btn btn-save" title="Click to Save"
+                            <button type="button" class="theme-btn-1 btn btn-save" id="btnsave" ng-disabled="false" title="Click to Save"
                                     ng-click="ParameterInsert_Update()">
                                 Save
                             </button>
@@ -3058,7 +3058,6 @@
                                         <td style="text-align: left">{{row.ParameterValue}}</td>
                                         <td style="text-align: left">
                                             <a href="javascript:" title="Edit"
-                                               ng-click="EditVitalParameters(row.LifeStyleId, row.IsActive)">
                                                 <img src="../../Images/EditIcon.png" />
                                             </a>
                                             <a href="javascript:" ng-click="DeleteParameters(row.LifeStyleId)"
@@ -4521,7 +4520,7 @@
                        ng-click="AddPatient_OtherData()">|Add|</a>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-2 btn  btn-save" ng-click="Patient_OtherData_InsertUpdate()"
+                            <button type="button" class="theme-btn-2 btn  btn-save"  ng-click="Patient_OtherData_InsertUpdate()"
                                     title="Click to Save">
                                 Save
                             </button>
@@ -5633,7 +5632,7 @@
                         </div>
                         <div class="col-sm-6 flex justify-end mt-6">
 
-                            <button type="button" class="btn-darkblue" ng-click="SavePatientAppointment()" id="shown" title="Save">
+                            <button type="button" class="btn-darkblue" ng-disabled="false" ng-click="SavePatientAppointment()" id="shown" title="Save">
                                 Save this Doctor and Continue
                             </button>
                         </div>

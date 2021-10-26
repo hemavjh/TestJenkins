@@ -661,9 +661,11 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     Photo: $scope.InstitutionLogo,
                     Created_by: $scope.CreatedBy
                 };
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
                     var insId = data.Institute[0].Id;
-                     alert(data.Message);
+                    alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
 
 
                     if ($scope.PhotoValue == 1) {
@@ -1239,9 +1241,10 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Payment_List: InstitutionSelectedPaymentList,
                     Payment_Module_Id: Payment_List_Id
                 }
-
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == "1") {
                         $scope.CancelIntstitutionSubPopup();
                         $scope.TimeZone_Id = "";
@@ -4119,9 +4122,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
+                        $('#btnsave').attr("disabled", true);
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
+                        $('#btnsave').attr("disabled", false);
                         $scope.InstitutionCreatedID = data.UserDetails.INSTITUTION_ID;
                         /*if (data.Message == "Email already exists cannot be Duplicated") {
                             alert("Email already exists, cannot be Duplicate");
@@ -9078,14 +9083,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     PatientHealthDataModel: filteredObj,
                     Modified_By: $window.localStorage['UserId'],
                 }
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/User/PatientHealthDataBulk_Insert_Update/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     var alemsg = "";
                     if ($scope.currentTab == '2') {
                         alemsg = "Vitals data inserted Successfully"
+                        $('#btnsave').attr("disabled", false);
                     }
                     else {
                         alemsg = "Lab data inserted Successfully"
+                        $('#btnsave').attr("disabled", false);
                     }
                     if (data == '1') {
                         alert(alemsg);
@@ -10053,10 +10061,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Protocol_Id: $scope.Monitoring_ProtocolId == 0 ? '' : $scope.Monitoring_ProtocolId,
                     Created_By: $window.localStorage['UserId']
                 };
+                $('#save').attr("disabled", true);
                 $http.post(baseUrl + '/api/User/PatientAssignedProtocol_InsertUpdate', prtobj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.assignedProtocolId = $scope.Monitoring_ProtocolId;
                     alert('Protocol updated successfully')
+                    $('#save').attr("disabled", false);
                 }).error(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.error = "An error has occurred while assigning Protocol " + data;
@@ -13172,6 +13182,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
                         Average: $scope.Average[value.Id] == null ? "" : $scope.Average[value.Id],
                         Remarks: $scope.Remarks[value.Id] == null ? "" : $scope.Remarks[value.Id],
                     }
+                    $('#save').attr("disabled", true);
                     $scope.UnitsParameterdata.push(obj);
                 });
 
@@ -13184,6 +13195,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
                 $http.post(baseUrl + '/api/ParameterSettings/ParameterSettings_AddEdit/', $scope.UnitsParameterdata).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert("Standard parameter saved successfully");
+                    $('#btnsave').attr("disabled", false);
                     $scope.ChatSettings_ViewEdit();
                     $scope.IsEdit = false;
                     //$location.path("/ParameterSettings");
@@ -16000,6 +16012,7 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
                         NormalRange_High: Selected.NormalRange_High,
                         NormalRange_Low: Selected.NormalRange_Low,
                     }
+                    $('#btnsave').attr("disabled", true);
                     $scope.MonitoringDetails.push(obj);
                 });
 
@@ -16015,6 +16028,7 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
                     $("#chatLoaderPV").hide();
                     //$http.post(baseUrl + '/api/StandaredProtocol/ProtocolMonitoring_AddEdit/', obj).success(function (data) {
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.CancelProtocol();
 
@@ -16723,6 +16737,7 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                         Flag: flagstatus,
                         Created_by: $scope.User_Id
                     }
+                    $('#save').attr("disabled", true);
 
                     if (obj.Flag == true) {
                         obj.Flag = 1;
@@ -16737,6 +16752,7 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                         lpcnt = lpcnt + 1 
                         if (savecnt == lpcnt) { 
                             alert(data.Message);
+                            $('#save').attr("disabled", false);
                             $location.path("/EditChatSettings/" + $scope.Institution_Id);
                             //$scope.loading = false;
                             //$rootScope.$broadcast('hide'); 
@@ -17359,10 +17375,12 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     Institution_Id: $scope.InstituteId = $window.localStorage['InstitutionId'],
                     Created_By: $scope.Created_By = $window.localStorage['UserId']
                 };
+                $('#btnsave').attr("disabled", true);
                 $scope.loading = true;
 
                 $http.post(baseUrl + '/api/Common/PasswordPolicy_InsertUpdate/', obj).success(function (data) {
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     $scope.PasswordPolicyView();
                     $scope.ClearFields();
 
@@ -17828,8 +17846,10 @@ MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http
                     Remarks: $scope.Remarks,
                     Created_By: $window.localStorage['UserId']
                 };
+                $('#save').attr("disabled", true);
                 $http.post(baseUrl + '/api/EmailConfiguration/EmailConfiguration_AddEdit/', obj).success(function (data) {
                     alert("Email setup saved successfully");
+                    $('#save').attr("disabled", false);
                     $scope.EmailConfiguration_ViewEdit();
                     //$scope.ClearFields();
                     //   $scope.clearInstitution();
@@ -18012,9 +18032,10 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                     EmailTemplateTagList: $scope.EmailTemplateTagDetails,
                     TemplateName: $scope.TemplateName
                 }
-
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/EmailTemplate/EmailTemplateTag_AddEdit/', obj).success(function (data) {
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.EmailTemplatelist();
@@ -18757,11 +18778,13 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                                 Institution_Id: $scope.InstitutionId,
                                 TemplateType_Id: $scope.PageParameter
                             };
+                            $('#btnsave').attr("disabled", true);
                             $scope.SelectedUserList.push(obj);
                         }
                     });
                     $http.post(baseUrl + '/api/SendEmail/SendEmail_AddEdit/', $scope.SelectedUserList).success(function (data) {
                         alert(data.Message);
+                        $('#btnsave').attr("disabled", false);
                         if (data.ReturnFlag == 1) {
                             $scope.ClearValues();
                             $scope.Get_SendEmail_UserList();
@@ -19077,11 +19100,13 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                                 EmailId: SelectedUser.EmailId,
                                 TemplateType_Id: $scope.PageParameter
                             };
+                            $('#btnsave').attr("disabled", true);
                             $scope.SelectedUserList.push(obj);
                         }
                     });
                     $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Insert/', $scope.SelectedUserList).success(function (data) {
                         alert(data.Message);
+                        $('#btnsave').attr("disabled", false);
                         if (data.ReturnFlag == 1) {
                             $scope.ClearValues();
                             $scope.UndeliveredEmailDetailslist();
@@ -19810,8 +19835,10 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                     ModifiedUser_Id: $scope.Patient_Id,
                     Created_By: $scope.Patient_Id
                 }
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/EmailAlertConfig/EmailAlertDetails_AddEdit/', obj).success(function (data) {
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
                         $scope.CancelPopUP();
@@ -24181,10 +24208,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     IsAutoReschedule: $scope.AutoEnable,
                     MaxScheduleDays: $scope.AppointmentDay
                 };
-
+                $('#save').attr("disabled", true);
                 $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#save').attr("disabled", false);
                     $scope.AppointmentSettings();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Parameter" + data;
@@ -24391,6 +24419,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                             Doctor_Id: value,
                             Remarks: $scope.Remarks
                         };
+                        $('#btnsave').attr("disabled", true);
                         $scope.DoctorAttendanceDetails.push(obj)
                     });
                 }
@@ -24405,17 +24434,20 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                         Doctor_Id: $scope.EditSelectedAttendance,
                         Remarks: $scope.Remarks
                     };
+                    $('#btnsave').attr("disabled", true);
                     $scope.DoctorAttendanceDetails.push(obj)
                 }
                 $http.post(baseUrl + '/api/Attendance/AttendanceDetails_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.DoctorAttendanceDetails).success(function (data) {
                     if (data.ReturnFlag == 1) {
                         alert(data.Message);
+                        $('#btnsave').attr("disabled", false);
                         $scope.AttendanceList();
                         $scope.ClearAttendancePopUp();
                         $("#chatLoaderPV").hide();
                     } else {
                         $("#chatLoaderPV").hide();
                         alert(data.Message);
+                        $('#btnsave').attr("disabled", false);
                         $scope.ClearAttendancePopUp();
                         return false;
                     }
@@ -24746,12 +24778,14 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                     INSTITUTION_ID: $scope.INSTITUTION_ID,
                     CONFIGVALUE: $scope.Config_value[value.ID] == 0 ? null : $scope.Config_value[value.ID],
                 }
+                $('#save').attr("disabled", true);
                 $scope.WebConfigurationDetails.push(obj);
             });
 
             $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
                 $("#chatLoaderPV").hide();
                 alert("Configuration Data saved successfully");
+                $('#save').attr("disabled", false);
                 $scope.WebConfigurationDetails = [];
                 $scope.Config_value = [];
                 $scope.searchqueryWebConfiguration = "";
@@ -25747,10 +25781,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         DevicesList: $scope.DevicesLists,
                         SelectedTabDeviceList: $scope.UserDeviceDetails_List
                     };
-
+                    $('#savemytab').attr("disabled", true);
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
                         $("#chatLoaderPV").hide();
                         alert(data.Message);
+                        $('#savemytab').attr("disabled", false);
                         $scope.TabList();
                         $scope.Cancel_MYTAB();
                     }).error(function (data) {
@@ -26037,10 +26072,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 SelectedDeviceParameterList: $scope.ParameterDetails_List,
                 CreatedBy: $window.localStorage['UserId'],
             };
-
+            $('#btnsave').attr("disabled", true);
             $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
                 $("#chatLoaderPV").hide();
                 alert(data.Message);
+                $('#btnsave').attr("disabled", false);
                 $scope.DeviceList();
                 $scope.CancelDeviceList();
 
