@@ -590,6 +590,7 @@ namespace MyCortex.Login.Controller
                     //long InstitutionId = Ins_model;
                     DataEncryption EncryptPassword = new DataEncryption();
                     long InstitutionId = repository.Get_UserInstitution(EncryptPassword.Encrypt(EmailId));
+                    long UserTypeId = repository.Get_UserType(EncryptPassword.Encrypt(EmailId));
                     // long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
 
                     EmailGeneration egmodel = new EmailGeneration();
@@ -621,12 +622,15 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         model.Status = "True";
 
-                        string Event_Code = "";
-                        Event_Code = "RESET_PWD";
-                        AlertEvents AlertEventReturn = new AlertEvents();
-                        IList<EmailListModel> EmailList;
-                        EmailList = AlertEventReturn.UserCreateEvent((long)model.ResetPassword.UserId, InstitutionId);
-                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, (long)model.ResetPassword.UserId, InstitutionId, EmailList);
+                        if (UserTypeId != 3)
+                        {
+                            string Event_Code = "";
+                            Event_Code = "RESET_PWD";
+                            AlertEvents AlertEventReturn = new AlertEvents();
+                            IList<EmailListModel> EmailList;
+                            EmailList = AlertEventReturn.UserCreateEvent((long)model.ResetPassword.UserId, InstitutionId);
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, (long)model.ResetPassword.UserId, InstitutionId, EmailList);
+                        }
                         //EmailConfigurationModel emailModel = new EmailConfigurationModel();
                         //emailModel = emailrepository.EmailConfiguration_View(InstitutionId);
                         // if (emailModel != null)
@@ -639,7 +643,19 @@ namespace MyCortex.Login.Controller
                         //     SendGridApiManager mail = new SendGridApiManager();
                         //     var res = mail.SendEmailAsync(msg, 0);
                         // }
-                         
+                        if (UserTypeId == 3)
+                        {
+                            EmailGeneration Generator = new EmailGeneration();
+                            EmailGenerateModel MailMessage = new EmailGenerateModel();
+                            MailMessage.Institution_Id = InstitutionId;
+                            MailMessage.MessageToId = EmailId;
+                            MailMessage.MessageSubject = "MyCortex - ForgotPassword";
+                            MailMessage.MessageBody = "Your Forgot Password Is : " + generatedpwd + "";
+                            MailMessage.Created_By = 0;
+                            MailMessage.UserId = 0;
+                            var insData = Generator.SendEmail(MailMessage);
+                        }
+
                     }
                     model.Error_Code = "";
                     model.Message = messagestr;

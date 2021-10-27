@@ -14,6 +14,7 @@ namespace MyCortex.Repositories
         //LoginModel Userlogin_AddEdit(int Id, string UserName, string Password);
         long User_LogOut(long UserId, string SessionId);
         long Get_UserInstitution(string EmailId);
+        long Get_UserType(string EmailId);
         IList<EmployeeLoginModel> BuildVersion_Details();
         IList<EmployeeLoginModel> GetProduct_Details();
         bool CheckDBConnection();
