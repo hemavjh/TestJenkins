@@ -5209,11 +5209,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 var ApprovePatientobj = {
                     Patient_Id: $routeParams.Id
                 };
-                $("#btnsave").attr("disabled", true);
+                $("#save").attr("disabled", true);
                 $scope.ApprovedPatientList.push(ApprovePatientobj);
                 $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
                     alert(data.Message);
-                    $("#btnsave").attr("disabled", false);
+                    $("#save").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $location.path("/PatientApproval");
                     }
@@ -7302,10 +7302,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                     "Page_Type": 0,
                                     "Appointment_Module_Id": Appointment_Module
                                 }
+                                $('#shown').attr("disabled", true);
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
                                     alert(data.Message);
+                                    $('#shown').attr("disabled", false);
                                     if (data.ReturnFlag == 1) {
                                         $scope.Id = "0";
                                         var fd = new FormData();
@@ -17730,6 +17732,7 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
                             });
                             $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
                                 alert(data.Message);
+
                                 if (data.ReturnFlag == 1) {
                                     $scope.PatientApprovalList();
                                     $scope.SelectedAllPatient = false;
