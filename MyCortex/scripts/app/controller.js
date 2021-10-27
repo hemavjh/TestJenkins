@@ -3975,6 +3975,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
+                        $('#btnsave').attr("disabled", true);
+                        $('#btnsave1').attr("disabled", true);
                     } else {
                         var obj = {
                             Id: $scope.Id,
@@ -4123,10 +4125,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             //LanguageList: [{ "Name": "" }]
                         }
                         $('#btnsave').attr("disabled", true);
+                        $('#btnsave1').attr("disabled", true);
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
                         $('#btnsave').attr("disabled", false);
+                        $('#btnsave1').attr("disabled", false);
                         $scope.InstitutionCreatedID = data.UserDetails.INSTITUTION_ID;
                         /*if (data.Message == "Email already exists cannot be Duplicated") {
                             alert("Email already exists, cannot be Duplicate");
@@ -4165,6 +4169,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             $("#UserLogo").val('');
                             $("#NationalLogo").val('');
                             $("#InsuranceLogo").val('');
+                            $('#btnsave').attr("disabled", false);
                         }
 
                         $("#chatLoaderPV").hide();
@@ -10415,6 +10420,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         Modified_By: $window.localStorage['UserId'],
                         InstitutionId: $window.localStorage['InstitutionId']
                     }
+                    $('#save').attr("disabled", true);
+                    $('#save1').attr("disabled", true);
                     $scope.ICD10GroupList.push(obj);
                 })
 
@@ -10422,6 +10429,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     //$scope.insertcount = $scope.insertcount+1;                
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#save').attr("disabled", false);
+                    $('#save1').attr("disabled", false);
                     if (data.ReturnFlag == "2") {
                         $scope.CancelAddICD10Popup();
                         $scope.CancelEditICD10Popup();
@@ -11169,12 +11178,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         Created_By: $window.localStorage['UserId'],
                         Modified_By: $window.localStorage['UserId'],
                     }
+                    $('#save').attr("disabled", true);
                     $scope.MedicationList.push(Medicationobj);
                 });
 
                 $http.post(baseUrl + '/api/User/MedicationInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.MedicationList).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#save').attr("disabled", false);
                     if (data.ReturnFlag == "2") {
                         $scope.PatientMedicationCreateModalClear();
                         $scope.CancelMedicationPopUp();
@@ -11493,10 +11504,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Created_By: $window.localStorage['UserId'],
                     Modified_By: $window.localStorage['UserId'],
                 };
-
+                $("#chatLoaderPV").show();
                 $http.post(baseUrl + 'api/User/Allergy_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     $scope.PatientAllergyList();
                     $scope.PatientAllergyCreateModalClear();
                     $scope.CancelAllergyPopUp();
@@ -11823,9 +11835,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Created_By: $window.localStorage['UserId'],
                     Modified_By: $window.localStorage['UserId'],
                 }
+                $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/User/PatientNotesInsertUpdate/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == "1") {
                         $scope.CancelPatientNotesAddPopup();
                         $scope.patientnotelist();
@@ -12154,6 +12168,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.Patient_OtherData_InsertUpdate = function () {
+            $('#save').attr("disabled", true);
             if ($scope.Patient_OtherData_Insert_Validations() == true) {
                 $("#chatLoaderPV").show();
                 var cnt = $scope.Patient_OtherData.length;
@@ -12180,6 +12195,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     calling the api method for read the file path
                     and saving the image uploaded in the local server.
                     */
+                    
                     $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + value.CertificateFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By,
                         fd,
                         {
@@ -12195,11 +12211,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             if (cnt == $scope.insertcount) {
                                 $("#chatLoaderPV").hide();
                                 alert(response.Message);
+                                $('#save').attr("disabled", false);
                                 $scope.OtherData_CancelPopup();
                                 $scope.Patient_OtherData_List();
                             }
                         });
-                })
+                });
             }
         }
 
@@ -12252,6 +12269,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         };
         $scope.Editresumedoc = "";
         $scope.Patient_OtherData_Edit = function () {
+            $('#save').attr("disabled", true);
             if ($scope.Patient_OtherData_Update_Validations() == true) {
                 $scope.Id = $scope.OtherData_Id,
                     $scope.Patient_Id = $scope.SelectedPatientId;
@@ -12291,6 +12309,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 )
                     .success(function (response) {
                         alert(response.Message);
+                        $('#save').attr("disabled", false);
                         $scope.OtherData_CancelPopup();
                         $scope.Patient_OtherData_List();
                         $("#EditDocument").val('');
@@ -21178,7 +21197,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $sel3.multiselect('enable');
             $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
-            document.getElementById("saveDoctorShift").disabled = false;
+            document.getElementById("saveDoctorShift1").disabled = false;
+            document.getElementById("saveDoctorShift2").disabled = false;
+            document.getElementById("saveDoctorShift3").disabled = false;
             angular.element('#DoctorShiftModal').modal('show');
             $("#chatLoaderPV").hide();
         }
@@ -22074,8 +22095,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
         $scope.DoctorShift_InsertUpdate = function () {
             if ($scope.ValidationcontrolsDoctorShift() == true) {
-                //$("#chatLoaderPV").show();
-                document.getElementById("saveDoctorShift").disabled = true;
+                /*$("#chatLoaderPV").show();*/
+                /*document.getElementById("saveDoctorShift").disabled = true;*/
                 $scope.SelectedDepartment_List = [];
                 angular.forEach($scope.SelectedDepartment, function (value, index) {
                     var obj = {
@@ -22346,10 +22367,15 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         BookingCancelLock: parseInt($scope.Minutes),
                         SelectedDaysList: selectedCheckedDays
                     };
+                    $('#saveDoctorShift1').attr("disabled", true);
+                    $('#saveDoctorShift2').attr("disabled", true);
+                    $('#saveDoctorShift3').attr("disabled", true);
                     $("#chatLoaderPV").show();
                     $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
-                        document.getElementById("saveDoctorShift").disabled = false;
+                        $('#saveDoctorShift1').attr("disabled", false);
+                        $('#saveDoctorShift2').attr("disabled", false);
+                        $('#saveDoctorShift3').attr("disabled", false);
                         $("#chatLoaderPV").hide();
                         if (data.ReturnFlag == 1) {
                             $scope.DoctorShiftClear();
@@ -22733,7 +22759,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             //if (activeFlag == 1) {
             angular.element('#DoctorShiftModal').modal('show');
-            document.getElementById("saveDoctorShift").disabled = true;
+            document.getElementById("saveDoctorShift1").disabled = true;
+            document.getElementById("saveDoctorShift2").disabled = true;
+            document.getElementById("saveDoctorShift3").disabled = true;
             $scope.DoctorShiftClear();
             $scope.Id = DId;
             $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
@@ -23342,7 +23370,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         /*THIS IS FOR View FUNCTION*/
         $scope.DoctorShift_View = function (DId, DoctorId, Institution_Id) {
             $("#chatLoaderPV").show();
-            document.getElementById("saveDoctorShift").disabled = false;
+            document.getElementById("saveDoctorShift1").disabled = false;
+            document.getElementById("saveDoctorShift2").disabled = false;
+            document.getElementById("saveDoctorShift3").disabled = false;
             $scope.EditSelectedDoctor = [];
             $scope.EditSelectedDepartment = [];
             $scope.EditSelectedCCCG = [];
@@ -23705,8 +23735,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             }
                         }
                     });
-                    document.getElementById("saveDoctorShift").disabled = false;
-                }
+                    document.getElementById("saveDoctorShift1").disabled = false;
+                    document.getElementById("saveDoctorShift2").disabled = false;
+                    document.getElementById("saveDoctorShift3").disabled = false;
+                    }
                 //$("#chatLoaderPV").hide();
                     if ($scope.DoctorSave == true) {
                         var sel1 = $('#department');
