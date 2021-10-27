@@ -360,7 +360,7 @@ namespace MyCortex.User.Controllers
                 }
                 else if (ModelData.Flag == 2)
                 {
-                    messagestr = "DashBoadList Information are empty";
+                    messagestr = "DashBoardList Information are empty";
                     model.ReturnFlag = 0;
                 }
                  
@@ -379,6 +379,32 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
              
+        }
+
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage TabDashboardAlertsDetails(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        {
+            IList<TabDashBoardAlertDetails> ModelData = new List<TabDashBoardAlertDetails>();
+            TabAlertsReturnModels model = new TabAlertsReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.Get_ParameterValue(PatientId, UserTypeId, Login_Session_Id);
+                model.TabDashBoardAlertDetails = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in DashBoard Alerts";
+                model.TabDashBoardAlertDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
         }
 
         [Authorize]

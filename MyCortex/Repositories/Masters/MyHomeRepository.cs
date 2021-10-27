@@ -480,15 +480,6 @@ namespace MyCortex.Repositories.Masters
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[UNITGROUPTYPE_SP_LIST]");
-                TabUserDashBordDetails Get_UsersGroupId = (from p in dt_1.AsEnumerable()
-                                            select new TabUserDashBordDetails()
-                                            {
-                                                UserGroupId = p.Field<long>("ID"),
-                                                UserGroupName = p.Field<string>("UNITSGROUPNAME"),
-                                                IsActive = p.Field<int>("ISACTIVE")
-
-                                            }).FirstOrDefault();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TABDASHBOARDUSERDETAILS]", param);  
                 
                 TabUserDashBordDetails  lst = (from p in dt.AsEnumerable()
@@ -510,17 +501,8 @@ namespace MyCortex.Repositories.Masters
                                             }).FirstOrDefault();
                 if (lst != null)
                 {
-
-                    if(Get_UsersGroupId.UserGroupName == "Metric")
-                    {
-                        Get_UsersGroupId.UserGroupId = 1;
-                    } else
-                    {
-                        Get_UsersGroupId.UserGroupId = 2;
-                    }
-
-                    lst.TabParameterList = GroupParameterNameList(lst.InstitutionId, lst.UserId, Get_UsersGroupId.UserGroupId);
-                    lst.TabAlertsList = Get_ParameterValue(lst.UserId,lst.UserTypeId,Login_Session_Id);
+                    lst.TabParameterList = GroupParameterNameList(lst.InstitutionId, lst.UserId);
+                    /*lst.TabAlertsList = Get_ParameterValue(lst.UserId,lst.UserTypeId,Login_Session_Id);*/
                     lst.TabAppointmentList = PatientAppoinmentsList(lst.UserId, Login_Session_Id);
                     lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
                 }
@@ -542,6 +524,7 @@ namespace MyCortex.Repositories.Masters
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@ISTAB", 1));
             try
             {
                 DataEncryption DecryptFields = new DataEncryption();
@@ -586,14 +569,13 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDeviceParameterList> GroupParameterNameList(long InstitutionId, long Patient_Id, long UnitGroupType_Id)
+        public IList<TabDeviceParameterList> GroupParameterNameList(long InstitutionId, long Patient_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             try
             {
                 param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
                 param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
-                param.Add(new DataParameter("@UNITSGROUP_ID", UnitGroupType_Id));
                 DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD]", param);
                 TabDeviceParameterList paramlist = new TabDeviceParameterList();
                 List<TabDeviceParameterList> lst = new List<TabDeviceParameterList>();
@@ -659,6 +641,7 @@ namespace MyCortex.Repositories.Masters
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@ISTAB", 1));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -698,6 +681,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@PATIENT_ID", Id));
             param.Add(new DataParameter("@ISACTIVE", 1));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@ISTAB", 1));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_LIST", param);
             IList <TabDashBoardMedicationDetails> View = (from p in dt.AsEnumerable()
@@ -924,8 +908,6 @@ namespace MyCortex.Repositories.Masters
                 _logger.Error(ex.Message, ex);
             }
         }
-
-
     }
 
 }

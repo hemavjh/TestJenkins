@@ -146,6 +146,14 @@ namespace MyCortex.Masters.Models
         public TabUserDashBordDetails  TabDashBoardList { get; set; }
     }
 
+    public class TabAlertsReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IList<TabDashBoardAlertDetails> TabDashBoardAlertDetails { get; set; }
+    }
+
     public class TabDevicesList
     {
         public long ID { get; set; }
