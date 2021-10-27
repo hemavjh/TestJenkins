@@ -121,10 +121,10 @@ namespace MyCortex.Admin.Controllers
         /// <param name="Id">Id of a Institution</param>    
         /// <returns>a Institution Details </returns>
         [HttpGet]
-        public InstitutionModel InstitutionDetails_View(long Id)
+        public InstitutionModel InstitutionDetails_View(long Id, Guid Login_Session_Id)
         {
             InstitutionModel model = new InstitutionModel();
-            model = repository.InstitutionDetails_View(Id);
+            model = repository.InstitutionDetails_View(Id, Login_Session_Id);
             return model;
         }
 

@@ -120,7 +120,7 @@ namespace MyCortex.Repositories.Admin
         /// </summary>        
         /// <param name="Id">Id of a Institution</param>    
         /// <returns>a Institution Details </returns>
-        public InstitutionModel InstitutionDetails_View(long Id)
+        public InstitutionModel InstitutionDetails_View(long Id, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
 

@@ -830,7 +830,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     $scope.uploadme = null;
                 }
             })
-            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.Id).success(function (data) {
+            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.DuplicatesId = data.Id;
                 $scope.Institution_Name = data.Institution_Name;
                 $scope.INSTITUTION_SHORTNAME = data.INSTITUTION_SHORTNAME;
@@ -2403,7 +2403,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     //$scope.CountryNameList = $ff(data.CountryList, { IsActive: 1 });
                     //$scope.State_Template = data.StateList;
                     //$scope.City_Template = data.LocationList;
-                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId).success(function (data) {
+                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.InsCountryId = data.CountryId.toString();
                         $scope.InsStateId = data.StateId.toString();
                         $scope.InsCityId = data.CityId.toString();
@@ -5284,7 +5284,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     $scope.uploadme = null;
                 }
             })
-            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId).success(function (data) {
+            $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.DuplicatesId = data.Id;
                 $scope.Institution_Name = data.Institution_Name;
                 $scope.INSTITUTION_SHORTNAME = data.INSTITUTION_SHORTNAME;
@@ -17828,7 +17828,7 @@ MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http
         /* Institution Dropdown function  */
         $scope.InstitutionList = [];
         $scope.InstitutionFilterList = [];
-        $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $window.localStorage['InstitutionId']).success(function (data) {
+        $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
             $scope.Insitution_Name = data.Institution_Name;
             // $scope.InstitutionFilterList =  angular.copy($scope.InstitutionList); 
         });
