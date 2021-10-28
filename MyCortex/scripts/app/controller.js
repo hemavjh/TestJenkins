@@ -10428,7 +10428,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
                     $('#buttonsave').attr("disabled", false);
-                    10432  $('#buttonsave1').attr("disabled", false);
+                    $('#buttonsave1').attr("disabled", false);
                     if (data.ReturnFlag == "2") {
                         $scope.CancelAddICD10Popup();
                         $scope.CancelEditICD10Popup();
