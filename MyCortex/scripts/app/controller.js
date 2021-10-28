@@ -21197,9 +21197,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $sel3.multiselect('enable');
             $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
-            document.getElementById("saveDoctorShift1").disabled = false;
+           /* document.getElementById("saveDoctorShift1").disabled = false;
             document.getElementById("saveDoctorShift2").disabled = false;
-            document.getElementById("saveDoctorShift3").disabled = false;
+            document.getElementById("saveDoctorShift3").disabled = false;*/
             angular.element('#DoctorShiftModal').modal('show');
             $("#chatLoaderPV").hide();
         }
@@ -22759,9 +22759,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             //if (activeFlag == 1) {
             angular.element('#DoctorShiftModal').modal('show');
-            document.getElementById("saveDoctorShift1").disabled = true;
+            /*document.getElementById("saveDoctorShift1").disabled = true;
             document.getElementById("saveDoctorShift2").disabled = true;
-            document.getElementById("saveDoctorShift3").disabled = true;
+            document.getElementById("saveDoctorShift3").disabled = true;*/
             $scope.DoctorShiftClear();
             $scope.Id = DId;
             $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
@@ -23370,9 +23370,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         /*THIS IS FOR View FUNCTION*/
         $scope.DoctorShift_View = function (DId, DoctorId, Institution_Id) {
             $("#chatLoaderPV").show();
-            document.getElementById("saveDoctorShift1").disabled = false;
+            /*document.getElementById("saveDoctorShift1").disabled = false;
             document.getElementById("saveDoctorShift2").disabled = false;
-            document.getElementById("saveDoctorShift3").disabled = false;
+            document.getElementById("saveDoctorShift3").disabled = false;*/
             $scope.EditSelectedDoctor = [];
             $scope.EditSelectedDepartment = [];
             $scope.EditSelectedCCCG = [];
@@ -23735,9 +23735,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                             }
                         }
                     });
-                    document.getElementById("saveDoctorShift1").disabled = false;
+                    /*document.getElementById("saveDoctorShift1").disabled = false;
                     document.getElementById("saveDoctorShift2").disabled = false;
-                    document.getElementById("saveDoctorShift3").disabled = false;
+                    document.getElementById("saveDoctorShift3").disabled = false;*/
                     }
                 //$("#chatLoaderPV").hide();
                     if ($scope.DoctorSave == true) {
@@ -25004,6 +25004,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                     LANGUAGE_ID: parseInt($scope.selectedLanguage),
                     LANGUAGE_TEXT: $scope.LanguageText[value.ID],
                 }
+                $('#save').attr("disabled", true);
                 $scope.LanguageSettingsDetails.push(obj);
             });
 
@@ -25014,6 +25015,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 $scope.LanguageSettingsList();
                 $("#chatLoaderPV").hide();
                 alert("LanguageSettings Data saved successfully");
+                $('#save').attr("disabled", false);
                 $scope.IsEdit = false;
             });
 
@@ -25021,12 +25023,14 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
 
         $scope.LanguageDefaultSave = function () {
             $("#chatLoaderPV").show();
+            $('#btnsave').attr("disabled", true);
             $http.get(baseUrl + '/api/LanguageSettings/LanguageDefault_Save/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Language_Id=' + $scope.selectedLanguage
             ).success(function (data) {
                 if (data == 1) {
                     $scope.LanguageList();
                     $("#chatLoaderPV").hide();
                     alert("Saved successfully.");
+                    $('#btnsave').attr("disabled", true);
                 }
                 else {
                     $("#chatLoaderPV").hide();

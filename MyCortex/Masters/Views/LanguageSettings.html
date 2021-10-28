@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="LanguageDefaultSave()"
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" id="btnsave" ng-disabled="false" ng-click="LanguageDefaultSave()"
                             title="Click to Save as default language">
                         Save as Default
                     </button>
@@ -67,7 +67,7 @@
                             title="Click to Edit">
                         Edit
                     </button>
-                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" title="Click to Save" ng-if="IsEdit==true"
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" title="Click to Save" ng-if="IsEdit==true" ng-disabled="false"
                             ng-click="LanguageSettings_AddEdit()">
                         Save
                     </button>
