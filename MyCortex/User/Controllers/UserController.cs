@@ -660,20 +660,21 @@ namespace MyCortex.User.Controller
             List<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
             List<ItemizedUserDetailsModel> search_model = new List<ItemizedUserDetailsModel>();
             List<ItemizedUserDetailsModel> model;
-            if (!memCache.Contains("patient_list"))
+            DataEncryption EncryptPassword = new DataEncryption();
+            if (INSTITUTION_ID == null)
             {
-                DataEncryption EncryptPassword = new DataEncryption();
-                if (INSTITUTION_ID == null)
-                {
-                    INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
-                }
-                else if (INSTITUTION_ID == 0)
-                {
-                    INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
-                }
+                INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+            }
+            else if (INSTITUTION_ID == 0)
+            {
+                INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+            }
+            var key = "patient_list_" + INSTITUTION_ID.ToString();
+            if (!memCache.Contains(key))
+            {
                 search_patient_list = repository.Search_Patient_List(IsActive, INSTITUTION_ID, SearchQuery);
                 var ss = JsonConvert.SerializeObject(search_patient_list);
-                memCache.Add("patient_list", search_patient_list, DateTimeOffset.UtcNow.AddHours(1));
+                memCache.Add(key, search_patient_list, DateTimeOffset.UtcNow.AddHours(1));
                 if (SearchQuery2 != "")
                 {
                     model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).ToList();
@@ -733,7 +734,7 @@ namespace MyCortex.User.Controller
             }
             else
             {
-                search_patient_list = (List<ItemizedUserDetailsModel>)memCache.Get("patient_list");
+                search_patient_list = (List<ItemizedUserDetailsModel>)memCache.Get(key);
                 if (SearchQuery2 != "")
                 {
                     model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).ToList();
