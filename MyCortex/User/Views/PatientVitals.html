@@ -1431,8 +1431,7 @@
                                                                     {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
                                                                 </td>
                                                                 <td style="text-align: left">
-                                                                    <a href="javascript:" title="Save" 
-                                                                       ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)" 
+                                                                    <a href="javascript:" title="Save"                                                                       ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)" 
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/save.png" />
                                                                     </a>
@@ -3422,7 +3421,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-2 btn btn-save" title="Click to Save" id="btnsave" ng-disabled="false" ng-click="AllergyInsert_Update()">
+                            <button type="button" class="theme-btn-2 btn btn-save" title="Click to Save" id="Allergysave" ng-disabled="false" ng-click="AllergyInsert_Update()">
                                 Save
                             </button>
                             <button type="button" class="theme-btn-2 btn btn-save" title="Click to Cancel" ng-click="CancelPopUp()">
@@ -3541,7 +3540,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-2 btn btn-save" title="Click to Save" id="save" ng-disabled="false"
+                            <button type="button" class="theme-btn-2 btn btn-save" title="Click to Save" id="save1" ng-disabled="false"
                                     ng-click="PatientMedication_InsertUpdate()">
                                 Save
                             </button>
@@ -3656,7 +3655,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-1" title="Save the Notes" id="btnsave" ng-disabled="false" ng-click="PatientNotesInsertUpdate()">
+                            <button type="button" class="theme-btn-1" title="Save the Notes" id="saved" ng-disabled="false" ng-click="PatientNotesInsertUpdate()">
                                 Save
                             </button>
                             <button type="button" class="theme-btn-2 ml-10" title="Click to Cancel" ng-click="CancelPatientNotesAddPopup()">
@@ -3748,7 +3747,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-1" title="Click to Save" id="save" ng-disabled="false"
+                            <button type="button" class="theme-btn-1" title="Click to Save" id="buttonsave" ng-disabled="false"
                                     ng-click="PatientICD10_InsertUpdate()">
                                 Save
                             </button>
@@ -4035,7 +4034,7 @@
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="btn btn-save" title="Click to Save" ng-disabled="false" id="save1"
+                            <button type="button" class="btn btn-save" title="Click to Save" ng-disabled="false" id="buttonsave1"
                                     ng-click="PatientICD10_InsertUpdate()">
                                 Save
                             </button>
@@ -4393,7 +4392,7 @@
                         </table>
                         <div class="modal-footer" style="text-align: center;">
                             <div class="col-sm-offset-2 col-sm-9">
-                                <button type="button" class="btn btn-save" title="Click to Save"
+                                <button type="button" class="btn btn-save" title="Click to Save" id="save2" ng-disabled="false"
                                         ng-click="PatientMedication_EditInsert()">
                                     Save
                                 </button>
@@ -4521,7 +4520,7 @@
                        ng-click="AddPatient_OtherData()">|Add|</a>
                     <div class="modal-footer" style="text-align: center;">
                         <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-2 btn  btn-save"  ng-click="Patient_OtherData_InsertUpdate()" ng-disabled="false" id="save"
+                            <button type="button" class="theme-btn-2 btn  btn-save"  ng-click="Patient_OtherData_InsertUpdate()" ng-disabled="false" id="other_Datasave"
                                     title="Click to Save">
                                 Save
                             </button>
@@ -4666,7 +4665,7 @@
                     </form>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn  btn-save" id="save" ng-disabled="false" ng-click="Patient_OtherData_Edit()" title="Click to Save">
+                    <button type="button" class="btn  btn-save" id="other_Datasave1" ng-disabled="false" ng-click="Patient_OtherData_Edit()" title="Click to Save">
                         Save
                     </button>
                     <button type="button" class="btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
