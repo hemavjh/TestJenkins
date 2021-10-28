@@ -25504,6 +25504,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.Model = data.Model; 
                 $scope.OS = data.OS;
                 $scope.AddUserParameters = data.UserList;
+                angular.forEach(data.UserList, function (value, index) {
+                    $scope.EditSelectedTABUser.push(value.ID);
+                    $scope.SelectedTabUser = $scope.EditSelectedTABUser;
+                });
                 if ($scope.AddUserParameters.length > 0) {
                     $scope.MyHomeflag = 1;
                 }
