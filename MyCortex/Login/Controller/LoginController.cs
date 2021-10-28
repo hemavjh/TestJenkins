@@ -132,6 +132,7 @@ namespace MyCortex.Login.Controller
                 }
 
                 string messagestr = "";
+                string languagekey = "";
                 // string VisitorsIPAddr ='';
                 try
                 {
@@ -199,11 +200,12 @@ namespace MyCortex.Login.Controller
                     {
                         model.ReturnFlag = 1;
                         messagestr = "Selected Language not in your subscription.";
+                        languagekey = "selectedlanguagenotinyoursubscription";
                         model.Status = "False";
                     }
                     //model.UserDetails = ModelData;
                     model.Message = messagestr;// "User created successfully";
-
+                    model.LanguageKey = languagekey;
                     model.Error_Code = "";
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                     return response;

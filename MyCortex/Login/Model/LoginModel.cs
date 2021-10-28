@@ -22,6 +22,7 @@ namespace MyCortex.Login.Model
         public string Status { get; set; }
         public string Error_Code { get; set; }
         public string Message { get; set; }
+        public string LanguageKey { get; set; }
         public string DeviceType { get; set; }
         public UserModel UserDetails { get; set; }
 
