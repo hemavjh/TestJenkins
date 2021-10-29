@@ -228,8 +228,9 @@
 <div class="tableFixedLayout">
     <table st-table="Patientemptydata" style="width: 100%" st-safe-src="PatientListFilter" class="table themeTable">
         <thead>
-            <tr >
+            <tr>
                 <th st-ratio="5" st-sort="Id">#</th>
+                <th st-ratio="5" st-sort="RowID">RowID</th>
                 <th st-ratio="5">
                     <input type="checkbox" ng-model="SelectedAllPatient" ng-click="checkAll()" />
                 </th>
@@ -238,8 +239,8 @@
                 <th st-ratio="10" st-sort="MOBILE_NO">Mobile No.</th>
                 <th st-ratio="15" st-sort="EMAILID">Email</th>
                 <!--<th st-ratio="7" st-sort="">Status</th>-->
-                <th st-ratio="14" st-sort="GroupName">Group</th>
-                <th st-ratio="13" st-sort="LoginTime">Last Login</th>
+                <th st-ratio="8" st-sort="GroupName">Group</th>
+                <th st-ratio="14" st-sort="LoginTime">Last Login</th>
                 <th st-ratio="8">Action</th>
             </tr>
         </thead>
@@ -251,6 +252,7 @@
             </tr>
             <tr ng-repeat="row in Patientemptydata">
                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                <td class="textalign">{{row.Id}}</td>
                 <td style="text-align: center">
                     <input type="checkbox" ng-model="row.SelectedPatient" />
                 </td>

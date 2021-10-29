@@ -43,7 +43,8 @@
     <thead>
         <tr>
             <th st-ratio="5" st-sort="Id">#</th>
-            <th st-ratio="35" st-sort="Institution_Name">Institution Name</th>
+            <th st-ratio="5" st-sort="RowID">RowID</th>
+            <th st-ratio="30" st-sort="Institution_Name">Institution Name</th>
             <th st-ratio="20" st-sort="InstitutionPrintName">Short Name</th>
             <th st-ratio="20" st-sort="InstitutionPrintName">Contract Period</th>
             <th st-ratio="5">Action</th>
@@ -57,6 +58,7 @@
         </tr>
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{row.Id}}</td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.Institution.Institution_Name}}</div>
             </td>

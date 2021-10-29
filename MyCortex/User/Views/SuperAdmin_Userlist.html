@@ -144,6 +144,7 @@
     <thead>
         <tr style="text-align: center">
             <th st-ratio="3">#</th>
+            <th st-ratio="3" st-sort="RowID">RowID</th>
             <th st-ratio="14" st-sort="InstitutionName">Institution</th>
             <th st-ratio="15" st-sort="FullName">Admin Name</th>
             <th st-ratio="10" st-sort="Department_Name">Department</th>
@@ -151,8 +152,8 @@
             <th st-ratio="15" st-sort="EMAILID">Email</th>
             <!--<th st-ratio="10" st-sort="">Status</th>-->
             <th st-ratio="15" st-sort="LoginTime">Last Login</th>
-            <th st-ratio="8" st-sort="Is_Master">Is Master</th>
-            <th st-ratio="12">Action</th>
+            <th st-ratio="7" st-sort="Is_Master">Is Master</th>
+            <th st-ratio="8">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -163,6 +164,7 @@
         </tr>
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{row.Id}}</td>
             <td style="text-align: left">
                 {{row.InstitutionName}}
             </td>
@@ -184,12 +186,12 @@
                 {{row.EMAILID}}
             </td>
             <!--<td ng-show="row.IsActive==1">
-                <span class="dotActive"></span>
-            </td>
-            <td ng-show="row.IsActive==0">
+        <span class="dotActive"></span>
+    </td>
+    <td ng-show="row.IsActive==0">
 
-                <span class="dotInActive"></span>
-            </td>-->
+        <span class="dotInActive"></span>
+    </td>-->
             <td style="text-align: left">
                 {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
             </td>

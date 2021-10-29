@@ -150,13 +150,14 @@
     <thead>
         <tr class="textalign">
             <th st-ratio="3">#</th>
+            <th st-ratio="3" st-sort="RowID">RowID</th>
             <th st-ratio="5"><input type="checkbox" ng-model="SelectedAllBuisnessUser" ng-click="BuisnessUsercheckAll()" /></th>
             <th st-ratio="17" st-sort="FullName">Name</th>
             <th st-ratio="12" st-sort="EMAILID">Email</th>
             <th st-ratio="12" st-sort="Department_Name">Department</th>
             <th st-ratio="12" st-sort="EMPLOYEMENTNO">Employment No.</th>
             <th st-ratio="8" st-sort="UserName">User Type</th>
-            <th st-ratio="12" st-sort="GroupName">Groups</th>
+            <th st-ratio="9" st-sort="GroupName">Groups</th>
             <th st-ratio="12" st-sort="LoginTime">Last Login</th>
             <th st-ratio="12">Action</th>
         </tr>
@@ -169,6 +170,7 @@
         </tr>
         <tr ng-repeat="row in BusineessUseremptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{row.Id}}</td>
             <td style="text-align: center"><input type="checkbox" ng-model="row.SelectedBuisnessuser" ng-disabled="row.UserType_Id==7" /></td>
             <td style="text-align: left" title="{{row.FullName}}">
                 <div class="textwrap">

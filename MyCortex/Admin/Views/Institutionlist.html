@@ -124,7 +124,8 @@
     <thead>
         <tr>
             <th st-ratio="5" st-sort="Id">#</th>
-            <th st-ratio="30" st-sort="Institution_Name">Institution Name</th>
+            <th st-ratio="5" st-sort="RowID">RowID</th>
+            <th st-ratio="25" st-sort="Institution_Name">Institution Name</th>
             <th st-ratio="10" st-sort="INSTITUTION_SHORTNAME">Short Name</th>
             <th st-ratio="15" st-sort="CountryName">Country</th>
             <th st-ratio="15" st-sort="StateName">State</th>
@@ -140,6 +141,7 @@
         </tr>
         <tr ng-repeat="row in emptydata | filter : query">
             <td style="text-align: center">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: center">{{row.Id}}</td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.Institution_Name}}</div>
             </td>
