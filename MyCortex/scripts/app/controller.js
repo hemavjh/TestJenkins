@@ -21182,7 +21182,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.TimeSlot54 = new Date();
         $scope.TimeSlot55 = new Date();
         $scope.TimeSlot56 = new Date();
-
+        $scope.NewAppointment2 = "0";
+        $scope.followup2 = "0";
+        $scope.IntervalBt2 = "0";
+        $scope.Days2 = "0";
+        $scope.Minutes2 = "0";
 
         $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
             $scope.DepartmentList = data;
@@ -21239,18 +21243,33 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.OrgDefaultClick = function (event) {
             var checked = $('#OrgDefaultId').is(":checked")
             if (checked == true) {
-                $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                    $("#chatLoaderPV").hide();
-                    if (data != null && data.length != 0) {
-                        $scope.NewAppointment = data.NewAppointmentDuration;
-                        $scope.followup = data.FollowUpDuration;
-                        $scope.IntervalBt = data.AppointmentInterval;
-                    } else {
-                        $('#OrgDefaultId').prop('checked', false);
-                    }
+                if (($scope.NewAppointment2 == "0" && $scope.followup2 == "0" && $scope.IntervalBt2 == "0") || ($scope.NewAppointment2.toString().trim() == "" && $scope.followup2.toString().trim() == "" && $scope.IntervalBt2.toString().trim() == "")) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        if (data != null && data.length != 0) {
+                            $scope.Days = data.MaxScheduleDays;
+                            $scope.Minutes = data.MinRescheduleMinutes;
+                            $scope.Days2 = data.MaxScheduleDays;
+                            $scope.Minutes2 = data.MinRescheduleMinutes;
+                            $scope.NewAppointment = data.NewAppointmentDuration;
+                            $scope.followup = data.FollowUpDuration;
+                            $scope.IntervalBt = data.AppointmentInterval;
+                            $scope.NewAppointment2 = data.NewAppointmentDuration;
+                            $scope.followup2 = data.FollowUpDuration;
+                            $scope.IntervalBt2 = data.AppointmentInterval;
+                        } else {
+                            $('#OrgDefaultId').prop('checked', false);
+                        }
 
-                });
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                    });
+                } else {
+                    $scope.NewAppointment = $scope.NewAppointment2;
+                    $scope.followup = $scope.followup2;
+                    $scope.IntervalBt = $scope.IntervalBt2;
+                }
             } else {
                 $scope.NewAppointment = "0";
                 $scope.followup = "0";
@@ -21261,16 +21280,31 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.OrgBookInfoDefaultClick = function (event) {
             var checked = $('#OrgBookInfoId').is(":checked")
             if (checked == true) {
-                $("#chatLoaderPV").show();
-                $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
-                    $("#chatLoaderPV").hide();
-                    if (data != null && data.length != 0) {
-                        $scope.Days = data.MaxScheduleDays;
-                        $scope.Minutes = data.MinRescheduleMinutes;
-                    } else {
-                        $('#OrgBookInfoId').prop('checked', false);
-                    }
-                });
+                if (($scope.Days2 == "0" && $scope.Minutes2 == "0") || ($scope.Days2.toString().trim() == "" && $scope.Minutes2.toString().trim() == "")) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
+                        $("#chatLoaderPV").hide();
+                        if (data != null && data.length != 0) {
+                            $scope.Days = data.MaxScheduleDays;
+                            $scope.Minutes = data.MinRescheduleMinutes;
+                            $scope.Days2 = data.MaxScheduleDays;
+                            $scope.Minutes2 = data.MinRescheduleMinutes;
+                            $scope.NewAppointment = data.NewAppointmentDuration;
+                            $scope.followup = data.FollowUpDuration;
+                            $scope.IntervalBt = data.AppointmentInterval;
+                            $scope.NewAppointment2 = data.NewAppointmentDuration;
+                            $scope.followup2 = data.FollowUpDuration;
+                            $scope.IntervalBt2 = data.AppointmentInterval;
+                        } else {
+                            $('#OrgBookInfoId').prop('checked', false);
+                        }
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                    });
+                } else {
+                    $scope.Days = $scope.Days2;
+                    $scope.Minutes = $scope.Minutes2;
+                }
             } else {
                 $scope.Days = "0";
                 $scope.Minutes = "0";
