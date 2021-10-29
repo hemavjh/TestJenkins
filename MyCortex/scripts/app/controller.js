@@ -3753,6 +3753,10 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             //    console.log(data2);
             //    $scope.PrefixMRN = data2[0].ConfigValue;
             //});
+
+            $('#btnsave').attr("disabled", true);
+            $('#btnsave1').attr("disabled", true);
+            $('#btnsave2').attr("disabled", true);
             var myPromise = $scope.AgeRestictLimit();
             $scope.Is_Master = false;
             myPromise.then(function (resolve) {
@@ -3975,8 +3979,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
-                        $('#btnsave').attr("disabled", true);
-                        $('#btnsave1').attr("disabled", true);
                     } else {
                         var obj = {
                             Id: $scope.Id,
@@ -4124,13 +4126,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
                         }
-                        $('#btnsave').attr("disabled", true);
-                        $('#btnsave1').attr("disabled", true);
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                         alert(data.Message);
                         $('#btnsave').attr("disabled", false);
                         $('#btnsave1').attr("disabled", false);
+                        $('#btnsave2').attr("disabled", true);
                         $scope.InstitutionCreatedID = data.UserDetails.INSTITUTION_ID;
                         /*if (data.Message == "Email already exists cannot be Duplicated") {
                             alert("Email already exists, cannot be Duplicate");
