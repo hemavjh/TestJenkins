@@ -399,110 +399,82 @@ namespace MyCortex.User.Controller
                 }
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                 // mailing the generated pwd to User
-                //if ((ModelData.flag == 2) == true)
-                //{
-                //    /*EmailGeneration Generator = new EmailGeneration();
-                //    EmailGenerateModel MailMessage = new EmailGenerateModel();
-                //    MailMessage.Institution_Id = userObj.INSTITUTION_ID.Value;
-                //    MailMessage.MessageToId = userObj.EMAILID;
-                //    MailMessage.MessageSubject = "Welcome - Mycortex Registration";
-                //    MailMessage.MessageBody = PasswordEmailBodyCompose(userObj.EMAILID, generatedPwd);
-                //    MailMessage.Created_By = userObj.CREATED_BY ?? 0;
-                //    var userid = ModelData.Id;
-                //    MailMessage.UserId = userid;
-                //    Generator.SendEmail(MailMessage);*/
+                if ((ModelData.flag == 2) == true)
+                {
+                    /*EmailGeneration Generator = new EmailGeneration();
+                    EmailGenerateModel MailMessage = new EmailGenerateModel();
+                    MailMessage.Institution_Id = userObj.INSTITUTION_ID.Value;
+                    MailMessage.MessageToId = userObj.EMAILID;
+                    MailMessage.MessageSubject = "Welcome - Mycortex Registration";
+                    MailMessage.MessageBody = PasswordEmailBodyCompose(userObj.EMAILID, generatedPwd);
+                    MailMessage.Created_By = userObj.CREATED_BY ?? 0;
+                    var userid = ModelData.Id;
+                    MailMessage.UserId = userid;
+                    Generator.SendEmail(MailMessage);*/
 
-                //    /*
-                //    EmailConfigurationModel emailModel = new EmailConfigurationModel();
-                //    emailModel = emailrepository.EmailConfiguration_View((long)userObj.INSTITUTION_ID);
-                //    if (emailModel != null)
-                //    {
-                //        SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id, "Welcome - Mycortex Registration", PasswordEmailBodyCompose(EncryptPassword.Decrypt(userObj.EMAILID), EncryptPassword.Decrypt(userObj.PASSWORD)), model.UserDetails.FullName, EncryptPassword.Decrypt(userObj.EMAILID));
+                    /*
+                    EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                    emailModel = emailrepository.EmailConfiguration_View((long)userObj.INSTITUTION_ID);
+                    if (emailModel != null)
+                    {
+                        SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id, "Welcome - Mycortex Registration", PasswordEmailBodyCompose(EncryptPassword.Decrypt(userObj.EMAILID), EncryptPassword.Decrypt(userObj.PASSWORD)), model.UserDetails.FullName, EncryptPassword.Decrypt(userObj.EMAILID));
 
-                //        SendGridApiManager mail = new SendGridApiManager();
-                //        var res = mail.SendEmailAsync(msg, 0);
-                //    }*/
-                //    using (StreamWriter sw = File.AppendText(file))
-                //    {
-                //        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 489 executed in User Controller");
-                //    }
-                //    string Event_Code = "";
-                //    if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
-                //    {
-                //        Event_Code = "PATIENTSIGNUP";
-                //    }
-                //    else if(userObj.UserType_Id !=2 && userObj.UserType_Id != 3)
-                //    {
-                //        Event_Code = "BUSUSER_CREATE";
-                //    }
-                //    else if (userObj.UserType_Id == 3)
-                //    {
-                //        Event_Code = "INS_CREATION";
-                //    }
-                //    else if (userObj.ApprovalFlag != "0" && userObj.UserType_Id == 2)
-                //    {
-                //        Event_Code = "PAT_SIGNUP_APPROVE";
-                //    }
-                //    using (StreamWriter sw = File.AppendText(file))
-                //    {
-                //        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 510 executed in User Controller");
-                //    }
-                //    AlertEvents AlertEventReturn = new AlertEvents();
-                //    IList<EmailListModel> EmailList;
-                //    using (StreamWriter sw = File.AppendText(file))
-                //    {
-                //        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 516 executed in User Controller");
-                //    }
-                //    if (Event_Code == "INS_CREATION")
-                //    {
-                //        EmailList = AlertEventReturn.InstitutionCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
-                //        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, -1, EmailList);
-                //    }
-                //    else
-                //    {
-                //        EmailList = AlertEventReturn.UserCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
-                //        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
-                //    }
-                //    using (StreamWriter sw = File.AppendText(file))
-                //    {
-                //        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 530 executed in User Controller");
-                //    }
+                        SendGridApiManager mail = new SendGridApiManager();
+                        var res = mail.SendEmailAsync(msg, 0);
+                    }*/
+                    string Event_Code = "";
+                    if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
+                    {
+                        Event_Code = "PATIENTSIGNUP";
+                    }
+                    else if (userObj.UserType_Id != 2 && userObj.UserType_Id != 3)
+                    {
+                        Event_Code = "BUSUSER_CREATE";
+                    }
+                    else if (userObj.UserType_Id == 3)
+                    {
+                        Event_Code = "INS_CREATION";
+                    }
+                    else if (userObj.ApprovalFlag != "0" && userObj.UserType_Id == 2)
+                    {
+                        Event_Code = "PAT_SIGNUP_APPROVE";
+                    }
+                    AlertEvents AlertEventReturn = new AlertEvents();
+                    IList<EmailListModel> EmailList;
+                    if (Event_Code == "INS_CREATION")
+                    {
+                        EmailList = AlertEventReturn.InstitutionCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
+                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, -1, EmailList);
+                    }
+                    else
+                    {
+                        EmailList = AlertEventReturn.UserCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
+                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
+                    }
 
-                //    if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
-                //    {
-                //        Event_Code = "PAT_SIGNUP_HOSADMIN";
-                //        AlertEvents AlertEventReturn_HA = new AlertEvents();
-                //        IList<EmailListModel> EmailList_HA;
-                //        EmailList_HA = AlertEventReturn.Patient_SignUp_HosAdmin_AlertEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
+                    if (userObj.ApprovalFlag == "0" && userObj.UserType_Id == 2)
+                    {
+                        Event_Code = "PAT_SIGNUP_HOSADMIN";
+                        AlertEvents AlertEventReturn_HA = new AlertEvents();
+                        IList<EmailListModel> EmailList_HA;
+                        EmailList_HA = AlertEventReturn.Patient_SignUp_HosAdmin_AlertEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
 
-                //        AlertEventReturn_HA.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList_HA);
-                //    }
-                //    using (StreamWriter sw = File.AppendText(file))
-                //    {
-                //        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 544 executed in User Controller");
-                //    }
-                //    IList<UserLimit_AlertEventModel> ReturnModel;
-                //    ReturnModel = AlertEventReturn.AlertEvent_Get_UserLimit_List((long)userObj.INSTITUTION_ID, ModelData.Id);
-                //    using (StreamWriter sw = File.AppendText(file))
-                //    {
-                //        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 550 executed in User Controller");
-                //    }
-                //    if (ReturnModel.Count >= 1)
-                //    {
-                //        if (userObj.UserType_Id == 2)
-                //            Event_Code = "NEAR_PAT_LIMIT";
-                //        else
-                //            Event_Code = "NEAR_USR_LIMIT";
+                        AlertEventReturn_HA.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList_HA);
+                    }
+                    IList<UserLimit_AlertEventModel> ReturnModel;
+                    ReturnModel = AlertEventReturn.AlertEvent_Get_UserLimit_List((long)userObj.INSTITUTION_ID, ModelData.Id);
+                    if (ReturnModel.Count >= 1)
+                    {
+                        if (userObj.UserType_Id == 2)
+                            Event_Code = "NEAR_PAT_LIMIT";
+                        else
+                            Event_Code = "NEAR_USR_LIMIT";
 
-                //        EmailList = AlertEventReturn.UserLimit_EmailList((long)userObj.INSTITUTION_ID);
+                        EmailList = AlertEventReturn.UserLimit_EmailList((long)userObj.INSTITUTION_ID);
 
-                //        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
-                //    }
-                //    using (StreamWriter sw = File.AppendText(file))
-                //    {
-                //        sw.WriteLine(DateTime.Now.ToString() + ": " + "line no 565 executed in User Controller");
-                //    }
-                //}
+                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)userObj.INSTITUTION_ID, EmailList);
+                    }
+                }
 
                 return response;
             }
