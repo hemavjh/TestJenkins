@@ -9643,9 +9643,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Institution_Id: $window.localStorage['InstitutionId'],
                 }
                 $("#chatLoaderPV").show();
+                $('#msg').attr("disabled",true);
                 $http.post(baseUrl + '/api/CareCoordinnator/Assign_CareGiver/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     alert(data.Message);
+                    $('#msg').attr("disabled", false);
                     $scope.CareGiver_Id = "0";
                     $scope.CC_Remarks = "";
                 }).error(function (data) {
