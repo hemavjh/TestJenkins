@@ -502,7 +502,7 @@ namespace MyCortex.Repositories.Masters
                 if (lst != null)
                 {
                     lst.TabParameterList = GroupParameterNameList(lst.InstitutionId, lst.UserId);
-                    /*lst.TabAlertsList = Get_ParameterValue(lst.UserId,lst.UserTypeId,Login_Session_Id);*/
+                    lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
                     lst.TabAppointmentList = PatientAppoinmentsList(lst.UserId, Login_Session_Id);
                     lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
                 }
