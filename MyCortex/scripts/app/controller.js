@@ -20210,8 +20210,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
             //    return false;
             //}
             //var date1 = new Date($scope.Period_From);
-            var date1 = new Date($scope.Period_From);
-            var date2 = new Date($scope.Period_To);
+            var date1 = new Date($('#datetimepicker').val());
+            var date2 = new Date($('#datetimepicker_mask').val());	
             var diffTime = Math.abs(date2 - date1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             if (diffDays >= $scope.ValidateDays) {
