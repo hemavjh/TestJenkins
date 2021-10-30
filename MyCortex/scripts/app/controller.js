@@ -1666,6 +1666,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
+            $('#btnsave').attr("disabled", false);
+            $('#btnsave2').attr("disabled", false);
             $("#UserLogo").val('');
             photoview = false;
             photoview1 = false;
@@ -1748,6 +1750,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         }
 
         $scope.EditUserPopUP = function (CatId) {
+            $('#btnsave').attr("disabled", false);
+            $('#btnsave2').attr("disabled", false);
             $scope.uploadme = null;
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
@@ -2025,6 +2029,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.EditPatientPopUp = function (CatId) {
             $scope.Id = CatId;
             $scope.DropDownListValue = 3;
+            $('#btnsave1').attr("disabled", false);
             $scope.AppConfigurationProfileImageList();
             //$scope.Admin_View($scope.MenuTypeId);
             $location.path("/PatientEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
@@ -15215,6 +15220,7 @@ MyCortexControllers.controller("PatientController", ['$scope', '$http', '$filter
         $scope.Id = "0";
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD,VIEW AND EDIT */
         $scope.AddPatientPopup = function () {
+            $('#btnsave1').attr("disabled", false);
             angular.element('#PatientCreateModal').modal('show');
         }
 
