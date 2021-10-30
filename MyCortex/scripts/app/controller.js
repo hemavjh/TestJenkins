@@ -6139,6 +6139,7 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
         // THIS IS OPENING POP WINDOW FORM LIST FOR ADD 
         $scope.AddMasterAllergyPopUP = function () {
             angular.element('#AllergyModal').modal('show');
+            $("#btnsave").attr("disabled", false);
             $scope.ClearPopup();
         }
         // THIS IS CLEAR POPUP FUNCTION 
@@ -6161,6 +6162,7 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
         }
         $scope.EditAllergyPopUP = function (value) {
             angular.element('#AllergyModal').modal('show');
+            $("#btnsave").attr("disabled", false);
             $scope.AllergyDropDown = 2;
             $scope.Id = value;
             $scope.ViewICD10();
@@ -14062,6 +14064,7 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddICD10PopUP = function () {
             angular.element('#ICD10Modal').modal('show');
+            $("#btnsave").attr("disabled", false);
             $scope.ClearPopup();
         }
         /* THIS IS OPENING POP WINDOW FORM VIEW */
@@ -14075,6 +14078,7 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
             $scope.Id = CatId;
             $scope.ViewICD10();
             angular.element('#ICD10Modal').modal('show');
+            $("#btnsave").attr("disabled", false);
         }
         /* THIS IS CANCEL POPUP FUNCTION */
         $scope.CancelPopUP = function () {
@@ -14341,6 +14345,7 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
         $scope.AddPayorPopUP = function () {
             $scope.Id = 0;
             $scope.PayorSave = true;
+            $('#btnsave').attr("disabled", false);
             $("#PayorName").attr("disabled", false);
             $("#ShortCode").attr("disabled", false);
             $("#Description").attr("disabled", false);
@@ -14364,6 +14369,7 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
             $scope.Id = CatId;
             $scope.ViewPayor();
             $scope.PayorSave = true;
+            $('#btnsave').attr("disabled", false);
             $("#PayorName").attr("disabled", false);
             $("#ShortCode").attr("disabled", false);
             $("#Description").attr("disabled", false);
@@ -14708,6 +14714,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             $scope.PlanSave = true;
             var sel1 = $('#SelectedPayor');
             sel1.prop('disabled', false);
+            $('#btnsave').attr("disabled", false);
             $("#PlanName").attr("disabled", false);
             $("#ShortCode").attr("disabled", false);
             $("#Description").attr("disabled", false);
@@ -14747,6 +14754,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             $scope.PlanSave = true;
             var sel1 = $('#SelectedPayor');
             sel1.prop('disabled', false);
+            $('#btnsave').attr("disabled", false);
             $("#PlanName").attr("disabled", false);
             $("#ShortCode").attr("disabled", false);
             $("#Description").attr("disabled", false);
@@ -15047,6 +15055,7 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
         $scope.AddDrugDBPopUP = function () {
             $scope.ClearPopup();
             angular.element('#DrugDBModal').modal('show');
+            $("#btnsave").attr("disabled", false);
         }
         /* THIS IS OPENING POP WINDOW VIEW */
         $scope.ViewDrugDBPopUP = function (CatId) {
@@ -15059,6 +15068,7 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
             $scope.Id = CatId;
             $scope.ViewDrugDB();
             angular.element('#DrugDBModal').modal('show');
+            $("#btnsave").attr("disabled", false);
         }
         /* THIS IS CANCEL VIEW POPUP FUNCTION  */
         $scope.CancelViewPopup = function () {
@@ -18212,6 +18222,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailTemplatePopUP = function () {
             angular.element('#EmailTemplateModal').modal('show');
+            $('#btnsave').attr("disabled", false);
             $scope.ClearPopup();
         }
 
@@ -18227,6 +18238,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
             $scope.Id = CatId;
             $scope.ViewEmailTempalte();
             angular.element('#EmailTemplateModal').modal('show');
+            $('#btnsave').attr("disabled", false);
         }
 
         /* THIS IS CANCEL POPUP FUNCTION */
@@ -19147,6 +19159,8 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
 
         $scope.UndeliveredEmail_EditModel = function (EmailTemplate, EmailId, EmailSubject, SendEmail_Id, UserId) {
             angular.element('#EditModal').modal('show');
+            $('#btnsave').attr("disabled", false);
+            $('#send').attr("disabled", false);
             $scope.SendEmail_Id = SendEmail_Id;
             $scope.EmailSubject = EmailSubject;
             $scope.Generated_Template = EmailTemplate;
@@ -19162,6 +19176,8 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
 
         $scope.UndeliveredEmail_Edit = function () {
             $("#chatLoaderPV").show();
+            $('#save').attr("disabled", true);
+            $('#send').attr("disabled", true);
             if ($scope.PageParameter == 1) {
                 $scope.EditEmail_Body = (CKEDITOR.instances.editor1.getData());
             }
@@ -19177,6 +19193,8 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             };
             $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Edit/', obj).success(function (data) {
                 alert(data.Message);
+                $('#save').attr("disabled", false);
+                $('#send').attr("disabled", false);
                 if (data.ReturnFlag == 1) {
                     angular.element('#EditModal').modal('hide');
                     $scope.UndeliveredEmailDetailslist();
@@ -20032,7 +20050,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailAlertPopUP = function () {
-             angular.element('#EmailAlertModal').modal('show');
+            angular.element('#EmailAlertModal').modal('show');
+            $('#btnsave').attr("disabled", false);
              $scope.status = 1;
              //$scope.ClearPopup();
              $('[data-id="select1"]').prop('disabled', false);
@@ -20057,6 +20076,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             $('[data-id="select1"]').prop('disabled', true);
             $scope.Eventselected();  
             angular.element('#EmailAlertModal').modal('show');
+            $('#btnsave').attr("disabled", false);
         }
 
         /* THIS IS CANCEL POPUP FUNCTION */
