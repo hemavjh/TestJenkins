@@ -21207,9 +21207,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $sel3.multiselect('enable');
             $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
-           /* document.getElementById("saveDoctorShift1").disabled = false;
-            document.getElementById("saveDoctorShift2").disabled = false;
-            document.getElementById("saveDoctorShift3").disabled = false;*/
+            $('#saveDoctorShift1').attr("disabled", false);
+            $('#saveDoctorShift2').attr("disabled", false);
+            $('#saveDoctorShift3').attr("disabled", false);
             angular.element('#DoctorShiftModal').modal('show');
             $("#chatLoaderPV").hide();
         }
@@ -22799,9 +22799,9 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
             //if (activeFlag == 1) {
             angular.element('#DoctorShiftModal').modal('show');
-            /*document.getElementById("saveDoctorShift1").disabled = true;
-            document.getElementById("saveDoctorShift2").disabled = true;
-            document.getElementById("saveDoctorShift3").disabled = true;*/
+            $('#saveDoctorShift1').attr("disabled", false);
+            $('#saveDoctorShift2').attr("disabled", false);
+            $('#saveDoctorShift3').attr("disabled", false);
             $scope.DoctorShiftClear();
             $scope.Id = DId;
             $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
