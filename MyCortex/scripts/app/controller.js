@@ -422,6 +422,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             $scope.loadCount = 0;
             $scope.InstitutionClear();
             $scope.DropDownListValue = 1;
+            $('#btnsave').attr("disabled", false);
             angular.element('#InstitutionCreateModal').modal('show');
         }
 
@@ -452,7 +453,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 $scope.InstitutionClear();
                 $scope.Id = CatId;
                 $scope.DropDownListValue = 1;
-                $scope.InstitutionDetails_View(); 
+                $scope.InstitutionDetails_View();
+                $('#btnsave').attr("disabled", false);
                 angular.element('#InstitutionCreateModal').modal('show');
                 $('#rowid').prop('disabled', true);
             }
@@ -1003,6 +1005,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.Institution_Id = "0";
             $scope.TimeZone_Id = "0";
             $scope.ClearInstitutionSubscriptionPopup();
+            $('#btnsave').attr("disabled", false);
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
         }
         $scope.CancelIntstitutionSubPopup = function () {
@@ -1013,6 +1016,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $scope.ClearInstitutionSubscriptionPopup();
                 $scope.Id = InsSubId;
                 $scope.InstitutionSubscriptionDetails_View();
+                $('#btnsave').attr("disabled", false);
                 angular.element('#InstitutionSubscriptionCreateModal').modal('show');
                 $('#subscriptionrowid').prop('disabled', true);
             }
