@@ -10159,7 +10159,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.AddPatientICD10Popup = function () {
             $scope.Id = 0;
             $scope.Icd10AddnewClear();
-
+            $('#buttonsave').attr("disabled", false);
             //$scope.ICD10CategoryClearFunction();
             $scope.Icd10Clear();
             angular.element('#CreateICDModal').modal('show');
@@ -10197,6 +10197,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         /* This is for Edit Popup function from List  window page */
         $scope.EditPatientICD10 = function (CatId, createdDt, editval) {
+            $('#buttonsave1').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
                 alert("ICD10 Cannot be edited");
             }
@@ -10740,6 +10741,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.DropLoadMedication();
                 $scope.MedicationTabCount = $scope.MedicationTabCount + 1;
             }
+            $('#save1').attr("disabled", false);
             angular.element('#PatientMedicationCreateModal').modal('show');
             setTimeout(function () {
                 $scope.calenderSet1($scope.AddMedicationDetails.length);
@@ -10766,6 +10768,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
         //This is for Editpopup	
         $scope.EditMedication = function (MedicationViewId, createdDt, editval) {
+            $('#save1').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
                 alert("Medication Cannot be edited");
             }
@@ -11451,6 +11454,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.AddAllergyPopUp = function () {
             $scope.PatientAllergyCreateModalClear();
             $scope.AllergyClickDetailsList();
+            $('#Allergysave').attr("disabled", false);
             angular.element('#PatientAllergyCreateModal').modal('show');
         }
         $scope.CancelAllergyPopUp = function () {
@@ -11471,6 +11475,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         /* This is for Patient Allergy Edit Popup*/
         $scope.EditAllergy = function (AllergyViewId, createdDt) {
+            $('#Allergysave').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
                 alert("Allergy Cannot be edited");
             }
@@ -11793,6 +11798,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.PatientNotesAddPopup = function () {
             $scope.Id = 0;
             $scope.PatientNotesClear();
+            $('#saved').attr("disabled", false);
             angular.element('#PatientNotesAddEditModal').modal('show');
         }
 
@@ -11820,6 +11826,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         //Edit Function for doctor notes open in modal window with data
         $scope.EditPatientNotes = function (PatNoteId, createdDt, createdBy) {
+            $('#saved').attr("disabled", false);
             if ($window.localStorage['UserId'] == createdBy) {
                 $scope.Id = PatNoteId;
                 $scope.PatientDetails_View();
@@ -11990,6 +11997,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         // Patient Other Data
         $scope.Patient_OtherData_AddModal = function () {
+            $('#other_Datasave').attr("disabled", false);
             angular.element('#Patient_OtherData_AddModal').modal('show');
         }
         $scope.b64toBlob = function (b64Data, contentType, sliceSize) {
@@ -12038,6 +12046,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.Patient_OtherData_EditModal = function (Id, createdDt) {
+            $('#other_Datasave1').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
                 alert("Other Data Cannot be edited");
             }
@@ -12286,7 +12295,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.Patient_OtherData_Edit = function () {
             if ($scope.Patient_OtherData_Update_Validations() == true) {
                 $("#chatLoaderPV").show();
-                $('#other_Datasave').attr("disabled", true);
+                $('#other_Datasave1').attr("disabled", true);
                 $scope.Id = $scope.OtherData_Id,
                     $scope.Patient_Id = $scope.SelectedPatientId;
                 $scope.Created_By = $window.localStorage['UserId'];
@@ -15257,6 +15266,7 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD,VIEW AND EDIT */
         $scope.AddMonitoringProtocolPopup = function () {
             $scope.IsAdd = 1;
+            $('#btnsave').attr("disabled", false);
             angular.element('#ProtocolCreateModal').modal('show');
             $scope.MonitoringProtocolDropDownList();
 
@@ -15264,6 +15274,7 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
 
         $scope.AddCloneProtocolPopup = function () {
             $scope.Cloneval = 1;
+            $('#btnsave').attr("disabled", false);
             angular.element('#ProtocolCreateModal').modal('show');
         }
 
@@ -15388,6 +15399,7 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
                 $scope.CloneProtocolClear();
                 $scope.Id = CatId;
                 $scope.ProtocolDetails_View();
+                $('#btnsave').attr("disabled", false);
                 angular.element('#ProtocolCreateModal').modal('show');
                 $scope.MonitoringProtocolDropDownList();
             }
