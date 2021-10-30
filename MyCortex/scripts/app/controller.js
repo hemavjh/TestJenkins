@@ -24328,6 +24328,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
             $scope.AttendanceToDate = "";
             $scope.Remarks = "";
             angular.element('#AttendanceAddModal').modal('show');
+            $('#btnsave').attr("disabled", false);
         }
         /* on click view, view popup opened*/
         $scope.ViewAttendance = function (CatId) {
@@ -24339,6 +24340,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         $scope.EditAttendance = function (CatId, ActiveFlag, AttendanceToDate) {
             $scope.AttendanceTo_Date = $filter('date')(AttendanceToDate, "dd-MMM-yyyy hh:mm:ss a");
             $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy hh:mm:ss a');
+            $('#btnsave').attr("disabled", false);
             if (ActiveFlag == 1) {
                 $scope.ClearAttendancePopUp();
                 $scope.Id = CatId;
@@ -25357,6 +25359,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Id = "0";
             $scope.PIN = "";
             $scope.SelectedDevice = "0";
+            $('#savemytab').attr("disabled", false);
             $('#tabname').prop('disabled', false);
             $('#refidtab').prop('disabled', false);
             $('#modeltab').prop('disabled', false);
@@ -25621,6 +25624,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Id = CatId;
             $scope.Editid = CatId;
             $scope.currentTab = "1";
+            $('#savemytab').attr("disabled", false);
             $('#tabname').prop('disabled', false);
             $('#refidtab').prop('disabled', false);
             $('#modeltab').prop('disabled', false);
@@ -25976,6 +25980,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.AddDevicePopUP = function () {
             $scope.Id = 0;
             $scope.CancelDeviceList();
+            $('#btnsave').attr("disabled", false);
             $('#DeviceId').prop('disabled', false);
             $('#DeviceName').prop('disabled', false);
             $('#DeviceType').prop('disabled', false);
@@ -25995,6 +26000,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.Id = CatId;
             $scope.Editid = CatId;
             $scope.CancelDeviceList();
+            $('#btnsave').attr("disabled", false);
             $('#DeviceId').prop('disabled', false);
             $('#DeviceName').prop('disabled', false);
             $('#DeviceType').prop('disabled', false);
