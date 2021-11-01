@@ -174,7 +174,7 @@
                         </label>
                         <select class="form-control" data-style="form-control" id="DeviceName" ng-model="DeviceName"
                                 ng-options="item2.ID as item2.DeviceName for item2 in AllDeviceNameList">
-                            <option value="">Select DeviceName</option>
+                            <option value="">Select</option>
                         </select>
 
                     </div>
@@ -184,7 +184,9 @@
                             <font class='mandatory-field'>*</font></sup>
                         </label>
                         <select class="form-control" data-style="form-control" id="DeviceType" ng-model="DeviceType"
-                                ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice"></select>
+                                ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
+                            <option value="">Select</option>
+                        </select>
 
                     </div>
 
