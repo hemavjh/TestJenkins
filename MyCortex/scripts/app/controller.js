@@ -6943,11 +6943,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     if ($scope.UserTypeId != 2) {
                         $scope.chattingWith = data.FullName;
                     }
-            $scope.ConfigCode = "PATIENT_CALL_ENABLED_BEFORE";
-            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data) {
-                $scope.TimeSizeeLeft = data[0].ConfigValue;
-            });
             //patientAppointmentList();
             //function patientAppointmentList() {
             //    $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
