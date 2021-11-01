@@ -758,7 +758,6 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             $('#InstitutionLogo').val('');
         }
         $scope.PhotoUplaodSelected = function () {
-            $('#btnsave').attr("disabled", false);
             $scope.PhotoValue = 1;
             
         };
