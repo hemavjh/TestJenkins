@@ -468,7 +468,9 @@
                                                             <label>Group</label>
                                                             <select ng-model="SelectedGroup" multiple="multiple"
                                                                     ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
-                                                                    multiselect-dropdown style="width: 230px;"></select>
+                                                                    multiselect-dropdown style="width: 230px;">
+                                                                <option value="0">Select</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">

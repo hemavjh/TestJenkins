@@ -332,7 +332,9 @@
                                     <div ng-hide="Pat_UserTypeId==2">
                                         <select ng-model="SelectedGroup" multiple="multiple"
                                                 ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
-                                                multiselect-dropdown style="width: 230px;"></select>
+                                                multiselect-dropdown style="width: 230px;">
+                                            <option value="0">Select</option>
+                                        </select>
                                     </div>
                                     <span ng-show="Pat_UserTypeId==2">
                                         {{ViewGroupName}}
@@ -572,6 +574,7 @@
                                         <select ng-model="SelectedChronicCondition" multiple="multiple"
                                                 ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
                                                 multiselect-dropdown style="width: 230px;">
+                                            <option value="0">Select</option>
                                         </select>
                                     </div>
                                     <span ng-show="Pat_UserTypeId==2">

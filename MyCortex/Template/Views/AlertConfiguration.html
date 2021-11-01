@@ -152,7 +152,6 @@
                         <select class="" data-style="form-control" ng-model="Event" id="select1" data-live-search="true"
                                 data-selectpicker data-collection-name="AlertEvent"
                                 ng-change="DurationDisplayCheck();EventClear();EventBasedToList();EventToClearFunction();">
-                            <option value="0">Select</option>
                             <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.Id}}">
                                 {{sel.EventName}}
                             </option>
@@ -166,6 +165,7 @@
                         <label>Email Template</label>
                         <select class="" data-style="form-control" ng-model="EmailTemplate" id="select3"
                                 data-live-search="true" data-selectpicker data-collection-name="EmailTempalteTypeList">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in EmailTempalteTypeList" ng-selected="EmailTemplate==sel.Id"
                                     value="{{sel.Id}}">
                                 {{sel.TemplateName}}
@@ -185,6 +185,7 @@
                         <label>App Template</label>
                         <select class="" data-style="form-control" ng-model="AppTemplate" id="select4"
                                 data-live-search="true" data-selectpicker data-collection-name="AppTempalteTypeList">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in AppTempalteTypeList" ng-selected="AppTemplate==sel.Id"
                                     value="{{sel.Id}}">
                                 {{sel.TemplateName}}
@@ -201,6 +202,7 @@
                         <label>Web Template</label>
                         <select class="" data-style="form-control" ng-model="WebTemplate" id="select5"
                                 data-live-search="true" data-selectpicker data-collection-name="TempalteTypeList">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in TempalteTypeList" ng-selected="WebTempalte==sel.Id"
                                     value="{{sel.Id}}">
                                 {{sel.TemplateName}}

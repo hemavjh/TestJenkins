@@ -160,6 +160,7 @@
                         <select class="form-control" data-style="form-control" id="SelectedPayor"
                                 data-live-search="true" data-selectpicker data-collection-name="SelectedPayorList"
                                 ng-model="SelectedPayor">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in PayorMasterList" ng-selected="SelectedPayor==sel.Id" ng-required="true"
                                     value="{{sel.Id}}">
                                 {{sel.PayorName}}

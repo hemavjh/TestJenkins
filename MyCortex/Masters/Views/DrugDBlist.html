@@ -148,6 +148,7 @@
 
                         <select class="" data-style="form-control" ng-model="Strength_ID" id="selectpicker"
                                 data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in StrengthIDList" ng-selected="Strength_ID==sel.Id"
                                     value="{{sel.Id}}">
                                 {{sel.Name}}
