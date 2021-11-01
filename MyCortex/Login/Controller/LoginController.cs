@@ -505,6 +505,18 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         model.Message = "Password Changed successfully";
                     }
+                    else if (flag == -1)
+                    {
+                        model.Status = "false";
+                        model.ReturnFlag = 0;
+                        model.Message = "The Old Password Not Matching With The Existing Password. Please Check!";
+                    }
+                    else if (flag == -11)
+                    {
+                        model.Status = "false";
+                        model.ReturnFlag = 0;
+                        model.Message = "The New Password Same Existing Password. Please Check!";
+                    }
                     else
                     {
                         model.Status = "False";
