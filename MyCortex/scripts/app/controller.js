@@ -15355,7 +15355,7 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
                 $scope.DurationTypeList = data;
             });
 
-            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0').success(function (data) {
+            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=1').success(function (data) {
                 $scope.UnitTypeList = data;
             });
 
