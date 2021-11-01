@@ -6067,13 +6067,13 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                             }
                             
                             $scope.AllergyTypeList = [];
-                            $http.get(baseurl + 'api/masterallergy/masterallergytypelist/?institution_id=' + $scope.institution_id).success(function (data) {
+                            $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?institution_id=' + $scope.Institution_Id).success(function (data) {
                                 $("#chatloaderpv").hide();
                                 $scope.allergytypelisttemp = [];
                                 $scope.allergytypelisttemp = data;
                                 var obj = { "id": 0, "allergytypename": "select", "isactive": 1 };
                                 $scope.allergytypelisttemp.splice(0, 0, obj);
-                                $scope.allergytypelist = angular.copy($scope.allergytypelisttemp);
+                                $scope.AllergyTypeList = angular.copy($scope.allergytypelisttemp);
                             })
                             //$scope.AllergenListfilter = [];
                             //$scope.AllegenBasedType = function (AllergyTypeId) {
@@ -20165,8 +20165,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
         }
 
         $scope.Reportflag = 0;
-        $scope.UserTypeId = 0;
-        $scope.UserNameId = 0;
+        $scope.UserTypeId = "0";
+        $scope.UserNameId = "0";
         $scope.Id = "0";
         $scope.Usertype_listdata = [];
         $scope.UserName_listdata = [];
@@ -25129,7 +25129,8 @@ MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', 
         $scope.User_Id = 0;
         $scope.GatewayText = [];
         $scope.InstitutionGatewayList = [];
-        $scope.selectedGatewaySettings = 0;
+        $scope.selectedGatewaySettings = "0";
+        $scope.selectedGateway = "0";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
         $scope.PaymentList = function () {

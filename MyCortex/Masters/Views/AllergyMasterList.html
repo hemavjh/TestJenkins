@@ -188,7 +188,8 @@
                         <select class="form-control" data-style="form-control" id="AllergyTypeselectpicker"
                                 data-live-search="true" data-selectpicker data-collection-name="AllergyTypeList"
                                 ng-model="AllergyTypeId"
-                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()" disabled>
+                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in AllergyTypeList" ng-selected="AllergyTypeId==sel.Id" ng-required="true"
                                     value="{{sel.Id}}">
                                 {{sel.AllergyTypeName}}

@@ -219,6 +219,7 @@
                     <select class="form-control" data-style="form-control" id="stateselectpicker"
                             data-live-search="true" data-selectpicker data-collection-name="Usertype_listdata"
                             ng-model="UserTypeId" ng-change="UserTypeBaseduserName()">
+                        <option value="0">Select</option>
                         <option ng-repeat="sel in Usertype_listdata" ng-required="true" value="{{sel.Id}}">
                             {{sel.TypeName}}
                         </option>
@@ -231,6 +232,7 @@
                     <select class="form-control" data-style="form-control" id="Select1" data-live-search="true"
                             data-selectpicker data-collection-name="UserName_listdata" ng-model="UserNameId"
                             style="width: 150px;">
+                        <option value="0">Select</option>
                         <option ng-repeat="sel in UserName_listdata" ng-required="true" value="{{sel.Id}}">
                             {{sel.FullName}}
                         </option>
