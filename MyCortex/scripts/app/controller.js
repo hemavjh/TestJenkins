@@ -4141,7 +4141,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         alert(data.Message);
                         $('#btnsave').attr("disabled", false);
                         $('#btnsave1').attr("disabled", false);
-                        $('#btnsave2').attr("disabled", true);
+                        $('#btnsave2').attr("disabled", false);
                         $scope.InstitutionCreatedID = data.UserDetails.INSTITUTION_ID;
                         /*if (data.Message == "Email already exists cannot be Duplicated") {
                             alert("Email already exists, cannot be Duplicate");
@@ -4185,6 +4185,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
                         $("#chatLoaderPV").hide();
                     });
+                }
+                else {
+                    $('#btnsave').attr("disabled", false);
+                    $('#btnsave1').attr("disabled", false);
+                    $('#btnsave2').attr("disabled", false);
                 }
             });
         }
