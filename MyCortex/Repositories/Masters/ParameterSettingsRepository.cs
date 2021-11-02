@@ -102,6 +102,7 @@ namespace MyCortex.Repositories.Masters
                         param.Add(new DataParameter("@PARAMETER_ID", item.Parameter_ID));
                         param.Add(new DataParameter("@UNITS_ID", item.Units_ID));
                         param.Add(new DataParameter("@DIAGNOSTIC_FLAG", item.Diagnostic_Flag));
+                        param.Add(new DataParameter("@COMPLIANCE_FLAG", item.Compliance_Flag));
                         param.Add(new DataParameter("@MAX_POSSIBLE", item.Max_Possible));
                         param.Add(new DataParameter("@MIN_POSSIBLE", item.Min_Possible));
                         param.Add(new DataParameter("@NORMALRANGE_HIGH", item.NormalRange_High));
@@ -164,6 +165,7 @@ namespace MyCortex.Repositories.Masters
                                                         Units_ID = p.Field<long?>("UNITS_ID"),
                                                         Units_Name = p.Field<string>("UNITS_NAME"),
                                                         Diagnostic_Flag = p.Field<bool>("DIAGNOSTIC_FLAG"),
+                                                        Compliance_Flag = p.Field<bool>("COMPLIANCE_FLAG"),
                                                         Max_Possible = p.Field<decimal?>("MAX_POSSIBLE"),
                                                         Min_Possible = p.Field<decimal?>("MIN_POSSIBLE"),
                                                         NormalRange_High = p.Field<decimal?>("NORMALRANGE_HIGH"),

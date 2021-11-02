@@ -13009,6 +13009,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
         $scope.Max_Possible = [];
         $scope.Remarks = [];
         $scope.Diagnostic_Flag = [];
+        $scope.Compliance_Flag = [];
         $scope.UnitGroupType = 1;
 
         $scope.InstituteId = $window.localStorage['InstitutionId'];
@@ -13174,6 +13175,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
                                         $scope.Units_Name[masterVal.Id] = $scope.ViewParamList1.Units_Name == null ? "" : $scope.ViewParamList1.Units_Name.toString();
                                     }
                                     $scope.Diagnostic_Flag[masterVal.Id] = $scope.ViewParamList1.Diagnostic_Flag == null ? true : $scope.ViewParamList1.Diagnostic_Flag;
+                                    $scope.Compliance_Flag[masterVal.Id] = $scope.ViewParamList1.Compliance_Flag == null ? true : $scope.ViewParamList1.Compliance_Flag;
                                     $scope.Max_Possible[masterVal.Id] = $scope.ViewParamList1.Max_Possible == null ? "" : $scope.ViewParamList1.Max_Possible;
                                     $scope.Min_Possible[masterVal.Id] = $scope.ViewParamList1.Min_Possible == null ? "" : $scope.ViewParamList1.Min_Possible;
                                     $scope.NormalRange_High[masterVal.Id] = $scope.ViewParamList1.NormalRange_High == null ? "" : $scope.ViewParamList1.NormalRange_High;
@@ -13184,6 +13186,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
                                 else {
                                     $scope.Units_ID[masterVal.Id] = "0";
                                     $scope.Diagnostic_Flag[masterVal.Id] = true;
+                                    $scope.Compliance_Flag[masterVal.Id] = true;
                                     $scope.Max_Possible[masterVal.Id] = "";
                                     $scope.Min_Possible[masterVal.Id] = "";
                                     $scope.NormalRange_High[masterVal.Id] = "";
@@ -13222,6 +13225,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
                         Parameter_ID: value.Id,
                         Units_ID: $scope.Units_ID[value.Id] == 0 ? null : $scope.Units_ID[value.Id],
                         Diagnostic_Flag: $scope.Diagnostic_Flag[value.Id] == null ? false : $scope.Diagnostic_Flag[value.Id],
+                        Compliance_Flag: $scope.Compliance_Flag[value.Id] == null ? false : $scope.Compliance_Flag[value.Id],
                         Max_Possible: $scope.Max_Possible[value.Id] == null ? "" : $scope.Max_Possible[value.Id],
                         Min_Possible: $scope.Min_Possible[value.Id] == null ? "" : $scope.Min_Possible[value.Id],
                         NormalRange_High: $scope.NormalRange_High[value.Id] == null ? "" : $scope.NormalRange_High[value.Id],

@@ -69,7 +69,7 @@
            cellspacing="2" border="0" class="table themeTable">
         <thead>
             <tr style="text-align: center">
-                <th st-ratio="10" colspan="5" st-sort=""></th>
+                <th st-ratio="10" colspan="6" st-sort=""></th>
                 <th st-ratio="10" colspan="2" st-sort="">Normal Range</th>
                 <th st-ratio="10" colspan="2" st-sort=""></th>
             </tr>
@@ -77,10 +77,11 @@
                 <th st-ratio="20" rowspan="1" st-sort="">Parameter</th>
                 <th st-ratio="10" rowspan="1" st-sort="">Units</th>
                 <th st-ratio="4" rowspan="1" st-sort="">Diagnostic Alert</th>
+                <th st-ratio="4" rowspan="1" st-sort="">Compliance Alert</th>
                 <th st-ratio="10" rowspan="1" st-sort="">Min Possible</th>
                 <th st-ratio="10" rowspan="1" st-sort="">Max Possible</th>
-                <th st-ratio="12" st-sort="">From</th>
-                <th st-ratio="12" st-sort="">To</th>
+                <th st-ratio="10" st-sort="">From</th>
+                <th st-ratio="10" st-sort="">To</th>
                 <th st-ratio="10" st-sort="">Average/Target</th>
                 <th st-ratio="10" st-sort="">Remarks</th>
             </tr>
@@ -112,6 +113,12 @@
                 </td>
                 <td style="text-align: center" ng-if="IsEdit==false">
                     <input type="checkbox" ng-model="Diagnostic_Flag[row.Id]" disabled>
+                </td>
+                <td style="text-align: center" ng-if="IsEdit==true">
+                    <input type="checkbox" ng-model="Compliance_Flag[row.Id]">
+                </td>
+                <td style="text-align: center" ng-if="IsEdit==false">
+                    <input type="checkbox" ng-model="Compliance_Flag[row.Id]" disabled>
                 </td>
                 <td style="text-align: left">
                     <input type="text" class="form-control" ng-model="Min_Possible[row.Id]" placeholder=""

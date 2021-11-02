@@ -31,6 +31,7 @@ namespace MyCortex.Masters.Models
         public string Parameter_Name { get; set; }
         public string Units_Name { get; set; }
         public bool Diagnostic_Flag { get; set; }
+        public bool Compliance_Flag { get; set; }
 
     }
 }
