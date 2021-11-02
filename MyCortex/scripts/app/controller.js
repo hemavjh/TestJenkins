@@ -13976,8 +13976,8 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
                                 $("#chatLoaderPV").hide();
                                 $scope.CategoryIDListTemp = [];
                                 $scope.CategoryIDListTemp = data;
-                                /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                                $scope.CategoryIDListTemp.splice(0, 0, obj);*/
+                                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                                $scope.CategoryIDListTemp.splice(0, 0, obj);
                                 $scope.CategoryIDList = angular.copy($scope.CategoryIDListTemp);
                             });
                             $scope.total_page = Math.ceil(($scope.PatientCount) / ($scope.page_size));
@@ -14977,8 +14977,8 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
                                 $scope.StrengthIDListTemp = [];
                                 $scope.StrengthIDListTemp = data;
 
-                                /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                                $scope.StrengthIDListTemp.splice(0, 0, obj);*/
+                                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                                $scope.StrengthIDListTemp.splice(0, 0, obj);
 
                                 $scope.StrengthIDList = angular.copy($scope.StrengthIDListTemp);
                             })
@@ -14986,8 +14986,8 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
                                 $scope.DosageFromIDListTemp = [];
                                 $scope.DosageFromIDListTemp = data;
 
-                               /* var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                                $scope.DosageFromIDListTemp.splice(0, 0, obj);*/
+                                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                                $scope.DosageFromIDListTemp.splice(0, 0, obj);
 
                                 $scope.DosageFromIDList = angular.copy($scope.DosageFromIDListTemp);
                             })
