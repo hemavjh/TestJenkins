@@ -6073,11 +6073,11 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                             $scope.AllergyTypeList = [];
                             $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?institution_id=' + $scope.Institution_Id).success(function (data) {
                                 $("#chatloaderpv").hide();
-                                $scope.allergytypelisttemp = [];
-                                $scope.allergytypelisttemp = data;
-                                var obj = { "id": 0, "allergytypename": "select", "isactive": 1 };
-                                $scope.allergytypelisttemp.splice(0, 0, obj);
-                                $scope.AllergyTypeList = angular.copy($scope.allergytypelisttemp);
+                                $scope.AllergyTypeListTemp = [];
+                                $scope.AllergyTypeListTemp = data;
+                                var obj = { "Id": 0, "AllergyTypeName": "Select", "IsActive": 1 };
+                                $scope.AllergyTypeListTemp.splice(0, 0, obj);
+                                $scope.AllergyTypeList = angular.copy($scope.AllergyTypeListTemp);
                             })
                             //$scope.AllergenListfilter = [];
                             //$scope.AllegenBasedType = function (AllergyTypeId) {
@@ -25134,7 +25134,6 @@ MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', 
         $scope.GatewayText = [];
         $scope.InstitutionGatewayList = [];
         $scope.selectedGatewaySettings = "0";
-        $scope.selectedGateway = "0";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
         $scope.PaymentList = function () {

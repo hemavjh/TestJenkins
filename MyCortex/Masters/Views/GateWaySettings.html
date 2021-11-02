@@ -42,7 +42,7 @@
                         <label>Select Gateway</label>
                         <div class="modernSearch">
                             <select class="form-control" ng-model="selectedGatewaySettings" ng-change="GatewaySettingsList()">
-                                <option value="0">Select</option>
+                                <option value="0" selected>Select</option>
                                 <option value="1">Payment</option>
                                 <option value="2">Insurance</option>
                             </select>
@@ -54,7 +54,7 @@
                         <label>Select {{selectedGatewayText}}</label>
                         <div class="modernSearch">
                             <select class="form-control" ng-model="selectedGateway" ng-change="FilterGatewaySettingsList()">
-                                <option value="0">Select</option>
+                                <option value="" selected>Select</option>
                                 <option ng-repeat="item1 in InstitutionGatewayList" value="{{item1.Id}}">
                                     {{item1.PaymentGatewayName}}
                                 </option>
