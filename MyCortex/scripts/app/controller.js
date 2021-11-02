@@ -17363,6 +17363,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $scope.ResetPassword = function () {
             if ($scope.Validationresetcontrols() == true) {
                 $("#chatLoaderPV").show();
+                $("#btn-signup").attr("disabled", true);
                 if ($scope.User_Selected != undefined) {
                     $scope.User_Id = $scope.User_Selected.originalObject.Id;
                     {
@@ -17376,6 +17377,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                             + '&EmailId=""'
                             + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                                 alert(data.Message);
+                                $("$btn-signup").attr("disabled", false);
                                 $scope.ClearPassword();
                                 $("#chatLoaderPV").hide();
                             }).error(function (data) {
