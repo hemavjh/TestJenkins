@@ -19811,8 +19811,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                 +'&status='+$scope.status).success(function (data) {
                 $scope.AlertListTemp = [];
                 $scope.AlertListTemp = data;
-                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                $scope.AlertListTemp.splice(0, 0, obj);
+                /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                $scope.AlertListTemp.splice(0, 0, obj);*/
                 $scope.AlertEvent = angular.copy($scope.AlertListTemp);
 
             });
@@ -19845,8 +19845,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             $http.get(baseUrl + '/api/EmailAlertConfig/Template_List/?Institution_Id=' + $scope.InstituteId + '&TemplateType_Id=' + $scope.EmailTempId).success(function (data) {
                 $scope.EmailTempalteTypeListTemp = [];
                 $scope.EmailTempalteTypeListTemp = data;
-                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                $scope.EmailTempalteTypeListTemp.splice(0, 0, obj);
+                /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                $scope.EmailTempalteTypeListTemp.splice(0, 0, obj);*/
                 $scope.EmailTempalteTypeList = angular.copy($scope.EmailTempalteTypeListTemp);
             });
         }
@@ -19859,8 +19859,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
                 $scope.AppTempalteTypeListTemp = [];
                 $scope.AppTempalteTypeListTemp = data;
-                var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                $scope.AppTempalteTypeListTemp.splice(0, 0, obj);
+                /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                $scope.AppTempalteTypeListTemp.splice(0, 0, obj);*/
                 $scope.AppTempalteTypeList = angular.copy($scope.AppTempalteTypeListTemp);
 
                 $scope.TempalteTypeList = angular.copy($scope.AppTempalteTypeListTemp);
