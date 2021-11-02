@@ -6138,9 +6138,9 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                 $scope.AllergyTypeDuplicateId = $scope.AllergyTypeId;
                 $scope.AllergenId = data.AllergenId.toString();
                 $scope.AllergenDuplicateId = $scope.AllergenId;
-                if ($scope.AllergyDropDown == 2) {
+               /* if ($scope.AllergyDropDown == 2) {
                     $scope.AllegenBasedType($scope.AllergyTypeId);
-                }
+                }*/
                 $scope.ViewAllergyType = data.AllergyTypeName;
                 $scope.AllergenName = data.AllergenName;
                 $scope.ViewAllegenName = data.AllergenName;
