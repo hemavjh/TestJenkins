@@ -5294,7 +5294,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     $scope.uploadme = 'data:image/png;base64,' + data.PhotoBlob;
                 }
                 else {
-                    $scope.uploadme = null;
+                    $scope.uploadme = '';
                 }
             })
             $http.get(baseUrl + '/api/Institution/InstitutionDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
@@ -21247,6 +21247,10 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $("#chatLoaderPV").show();
             $scope.Id = 0;
             $scope.DoctorSave = true;
+            $('#Shift1Select').prop('checked', false);
+            $('#Shift2Select').prop('checked', false);
+            $('#Shift3Select').prop('checked', false);
+            $('#Shift4Select').prop('checked', false);
             var $sel1 = $('#department');
             $sel1.multiselect('enable');
             var $sel2 = $('#Specialist');
