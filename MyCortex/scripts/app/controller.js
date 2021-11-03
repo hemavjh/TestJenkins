@@ -2149,8 +2149,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Policy_Number = "";
             $scope.Reference_ID = "";
             $scope.ExpiryDate = "";
-            $scope.SelectedPayor = [];
-            $scope.SelectedPlan = [];
+            $scope.SelectedPayor = "0";
+            $scope.SelectedPlan = "0";
         }
 
 
@@ -3514,7 +3514,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                     $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
                                         '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
                                             $scope.PayorMasterList = data1;
-                                            $scope.SelectedPayor = [];
+                                            $scope.SelectedPayor = "0";
                                             if (data.PayorId != null && data.PayorId != "") {
                                                 $scope.EditPayorId = data.PayorId;
                                                 $scope.SelectedPayor.push($scope.EditPayorId);
