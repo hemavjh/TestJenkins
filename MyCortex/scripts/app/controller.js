@@ -9689,7 +9689,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         alert("Clear Alerts updated successfully");
                         $scope.CG_Remarks = "";
                         $scope.ParameterValueList = [];
-                        $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=2&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                             $scope.ParameterValueList = data;  
                         });
                     }
