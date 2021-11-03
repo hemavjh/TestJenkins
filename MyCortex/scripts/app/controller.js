@@ -1637,8 +1637,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
         $scope.Expiry_Date = "";
-        $scope.SelectedPayor = [];
-        $scope.SelectedPlan = [];
+        $scope.SelectedPayor = "0";
+        $scope.SelectedPlan = "0";
         $scope.EditPayorId = [];
         $scope.EditPlanId = [];
         $scope.DoctorInstitutionList = [];
