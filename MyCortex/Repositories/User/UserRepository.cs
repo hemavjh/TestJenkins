@@ -212,6 +212,7 @@ namespace MyCortex.Repositories.Uesr
                 param_2.Add(new DataParameter("@USER_ID", insobj.User_Id));
                 param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
                 //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+                _logger.Info(serializer.Serialize(param_2.Select(x => new { x.ParameterName, x.Value })));
                 DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[MRN_AUTOCREATIION_SP]", param_2);
                 _logger.Info("MRN_AUTOCREATIION_SP");
                 UserModel Get_Patient_Mrn = (from p in dt_2.AsEnumerable()
