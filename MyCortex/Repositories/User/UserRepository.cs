@@ -206,12 +206,14 @@ namespace MyCortex.Repositories.Uesr
 
             if(insobj.Id == 0)
             {
+                _logger.Info("BEFORE MRN_AUTOCREATIION_SP");
                 List<DataParameter> param_2 = new List<DataParameter>();
                 param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.INSTITUTION_ID));
                 param_2.Add(new DataParameter("@USER_ID", insobj.User_Id));
                 param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
                 //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
                 DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[MRN_AUTOCREATIION_SP]", param_2);
+                _logger.Info("MRN_AUTOCREATIION_SP");
                 UserModel Get_Patient_Mrn = (from p in dt_2.AsEnumerable()
                                              select new UserModel()
                                              {
@@ -222,7 +224,7 @@ namespace MyCortex.Repositories.Uesr
                 insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
                 param.Add(new DataParameter("@MNR_NO", insobj.MrnPrefix));
             }
-            _logger.Info("MRN_AUTOCREATIION_SP");
+            
             List<DataParameter> param_1 = new List<DataParameter>();
             param_1.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
             DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PATIENTID_SP_LIST]", param_1);
