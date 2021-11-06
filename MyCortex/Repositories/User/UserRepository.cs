@@ -12,7 +12,7 @@ using MyCortex.User.Models;
 using MyCortex.Utilities;
 using MyCortex.Admin.Models;
 using System.IO;
-
+using System.Data.SqlClient;
 namespace MyCortex.Repositories.Uesr
 {
     public class UserRepository : IUserRepository
