@@ -186,7 +186,8 @@ namespace MyCortex.User.Controller
                 //Ins_model = repository.GetInstitutionForWebURL(request);
                 //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
             }
-            if (userObj.INSTITUTION_ID == 0)
+                _logger.Info("GetInstitutionFromShortName");
+                if (userObj.INSTITUTION_ID == 0)
             {
                 // userObj.INSTITUTION_ID = InstitutionId;
                 return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Invalid Institution!");
@@ -259,6 +260,7 @@ namespace MyCortex.User.Controller
                 if(userObj.Id==0)
                     generatedPwd = egmodel.GeneratePassword_ByPasswordPolicy(userObj.INSTITUTION_ID.Value);
 
+                _logger.Info("GeneratePassword_ByPasswordPolicy");
                 userObj.PASSWORD = generatedPwd;
                 if (userObj.PASSWORD == "") userObj.PASSWORD = defaultPwd;   // this is for demo // default pwd when password policy not exist for the institution
                 DataEncryption EncryptPassword = new DataEncryption();
@@ -277,6 +279,7 @@ namespace MyCortex.User.Controller
                 //    userObj.MrnPrefix = AppConfigmodel[0].ConfigValue;
                 //}
                 modelLF_Formula = commonrepository.AppConfigurationDetails(FullNameFormula, userObj.INSTITUTION_ID.Value);
+                _logger.Info("AppConfigurationDetails");
                 if (modelLF_Formula[0].ConfigValue != null)
                 {
                     FormulaforFullName = modelLF_Formula[0].ConfigValue;
@@ -311,6 +314,7 @@ namespace MyCortex.User.Controller
                 {
                     userObj.Patient_Type = 1;
                 }
+                _logger.Info("before Admin_InsertUpdate");
                 ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
                 if ((ModelData.flag == 1) == true)
                 {

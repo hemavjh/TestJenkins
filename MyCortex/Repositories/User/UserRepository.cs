@@ -222,7 +222,7 @@ namespace MyCortex.Repositories.Uesr
                 insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
                 param.Add(new DataParameter("@MNR_NO", insobj.MrnPrefix));
             }
-
+            _logger.Info("MRN_AUTOCREATIION_SP");
             List<DataParameter> param_1 = new List<DataParameter>();
             param_1.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
             DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PATIENTID_SP_LIST]", param_1);
@@ -235,6 +235,7 @@ namespace MyCortex.Repositories.Uesr
             insobj.PATIENTNO = EncryptPassword.Encrypt(Get_Patient_No.PATIENTNO);
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
+            _logger.Info("GET_PATIENTID_SP_LIST");
             //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_ADMIN_SP_INSERTUPDATE]", param);
             string strXMLIn = string.Empty;
             strXMLIn = "<ADMINUSERINSERT Id =" + "\"" + insobj.Id + "\"" + "";
