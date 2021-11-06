@@ -119,26 +119,28 @@ namespace MyCortexDB
         private static string RegistryConnectionString()
         {
             String Connstr_FromINI = string.Empty;
-            Connstr_FromINI = Read_Ini_File();
+            Connstr_FromINI="Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304";
+            //Connstr_FromINI = Read_Ini_File();
 
-            if (string.IsNullOrEmpty(Connstr_FromINI))
-            {
+            //if (string.IsNullOrEmpty(Connstr_FromINI))
+            //{
 
-                StringBuilder ConnectionStr = new StringBuilder();
-                ConnectionStr.Append("server="
-                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
-                ConnectionStr.Append(";uid="
-                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "LOGIN"));
-                ConnectionStr.Append(";pwd="
-                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "PASSWORD"));
-                ConnectionStr.Append(";database="
-                                + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DB"));
-                //ConnectionStr.Append(@"Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304");
-                return ConnectionStr.ToString();
-            }
-            else
-                return Connstr_FromINI.ToString().Replace("Driver={SQL Server};", ""); ;
+            //    StringBuilder ConnectionStr = new StringBuilder();
+            //    ConnectionStr.Append("server="
+            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
+            //    ConnectionStr.Append(";uid="
+            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "LOGIN"));
+            //    ConnectionStr.Append(";pwd="
+            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "PASSWORD"));
+            //    ConnectionStr.Append(";database="
+            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DB"));
+            ////ConnectionStr.Append(@"Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304");
+            //    return ConnectionStr.ToString();
+            //}
+            //else
+            //    return Connstr_FromINI.ToString().Replace("Driver={SQL Server};", ""); ;
 
+            return Connstr_FromINI.ToString();
         }
 
         public static string SetDBRegistryKey { get; set; }
@@ -160,7 +162,6 @@ namespace MyCortexDB
 
         private static string Read_Ini_File()
         {
-
             //local variables
             string FilePath;
             string rDSN = string.Empty;
@@ -175,7 +176,7 @@ namespace MyCortexDB
                 FilePath = AppDomain.CurrentDomain.BaseDirectory + @"\DATASTRING.INI";
             }
             //FilePath = FilePath.Replace(@"\MyCortex\", @"\BIN\DATASTRING.INI");
-           // throw new Exception(FilePath);
+            // throw new Exception(FilePath);
             // Open the ini file
             FileInfo config_file = new FileInfo(FilePath);
            
