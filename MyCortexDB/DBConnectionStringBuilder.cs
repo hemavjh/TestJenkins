@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
-using System.Data.SqlClient;
 using Microsoft.Win32;
 using System.Web;
 using System.IO;
-using System.Text.RegularExpressions;
+using log4net;
 
 namespace MyCortexDB
 {
@@ -17,7 +13,8 @@ namespace MyCortexDB
     public static class DBConnectionStringBuilder
     {
         private static string _ConnectionString ;
-          
+        private static readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Get the Connection string from reg.
         /// </summary>
@@ -119,12 +116,12 @@ namespace MyCortexDB
         private static string RegistryConnectionString()
         {
             String Connstr_FromINI = string.Empty;
-            Connstr_FromINI="Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304";
-            //Connstr_FromINI = Read_Ini_File();
+            //Connstr_FromINI="Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304";
+            Connstr_FromINI = Read_Ini_File();
 
-            //if (string.IsNullOrEmpty(Connstr_FromINI))
-            //{
-
+            if (string.IsNullOrEmpty(Connstr_FromINI))
+            {
+                _logger.Error("Connection string empty", null);
             //    StringBuilder ConnectionStr = new StringBuilder();
             //    ConnectionStr.Append("server="
             //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
@@ -136,7 +133,7 @@ namespace MyCortexDB
             //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DB"));
             ////ConnectionStr.Append(@"Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304");
             //    return ConnectionStr.ToString();
-            //}
+            }
             //else
             //    return Connstr_FromINI.ToString().Replace("Driver={SQL Server};", ""); ;
 
@@ -199,7 +196,8 @@ namespace MyCortexDB
                         ServerName = "localhost";
                     }
                     ServerName = "[" + ServerName + "]";
-                   
+
+
                     // the file is reached.
                     while ((line = stream_reader.ReadLine()) != null)
                     {
@@ -216,6 +214,9 @@ namespace MyCortexDB
                             break;
                         }
                     }
+
+                    if (string.IsNullOrEmpty(rDSN))
+                        _logger.Info("ServerName" + ServerName);
                 }
                 
             }
