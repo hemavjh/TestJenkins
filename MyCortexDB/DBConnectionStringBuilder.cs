@@ -189,8 +189,17 @@ namespace MyCortexDB
                     string line;
                     string ServerName;
 
-                    ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
+                    // get server name to find the client 
+                    if (HttpContext.Current != null)
+                    {
+                        ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
+                    }
+                    else
+                    {
+                        ServerName = "localhost";
+                    }
                     ServerName = "[" + ServerName + "]";
+
 
                     // the file is reached.
                     while ((line = stream_reader.ReadLine()) != null)
@@ -201,9 +210,8 @@ namespace MyCortexDB
                             section = line.ToUpper();
                         }
                         // read connection string in second iteration
-                        if (section == ServerName && section != line.ToUpper())
+                        if (section.ToUpper() == ServerName.ToUpper() && section != line.ToUpper())
                         {
-
                             rDSN = line.ToString().Replace("DSN=Provider=sqloledb;", "").Trim();
                             break;
                         }
