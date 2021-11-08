@@ -180,7 +180,7 @@
                                                         <Lable>TimeZone ID<sup><font class='mandatory-field'>*</font></sup></Lable>
                                                     </td>
                                                     <td width="25%">
-                                                        <select class="form-control" data-style="form-control" id="TimeZoneID" ng-model="TimeZone_Id">
+                                                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="TimeZoneListID" id="TimeZoneID" ng-model="TimeZone_Id">
                                                             <option value="0">Select Time Zone</option>
                                                             <option ng-repeat="set in TimeZoneListID" ng-required="true" ng-selected="TimeZoneId == set.TimeZoneId" value="{{set.TimeZoneId}}">{{set.TimeZoneDisplayName}} </option>
                                                         </select>
@@ -247,7 +247,7 @@
                                                         <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
                                                     </td>
                                                     <td width="25%">
-                                                        <select class="form-control" data-style="form-control" id="AppointmentModuleID" ng-model="AppointmentModule_Id">
+                                                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="TimeZoneListID" id="AppointmentModuleID" ng-model="AppointmentModule_Id">
                                                             <option value="0">Select</option>
                                                             <option ng-repeat="set in AppointmentModuleListID" ng-required="true" ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">{{set.Name}} </option>
                                                         </select>
