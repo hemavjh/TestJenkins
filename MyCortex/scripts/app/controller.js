@@ -446,7 +446,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             $scope.InstitutionDetails_View();
             angular.element('#ViewInstitutionModal').modal('show');
         };
-
+        $scope.editInstbutton = 0;
         /* on click Edit, edit popup opened*/
         $scope.EditInstitution = function (CatId, activeFlag) {
             if (activeFlag == 1) {
@@ -457,6 +457,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 $('#btnsave').attr("disabled", false);
                 angular.element('#InstitutionCreateModal').modal('show');
                 $('#rowid').prop('disabled', true);
+                $scope.editInstbutton = 1;
             }
             else {
                 alert("Inactive record cannot be edited");
@@ -1011,6 +1012,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.CancelIntstitutionSubPopup = function () {
             angular.element('#InstitutionSubscriptionCreateModal').modal('hide');
         }
+        $scope.EditInstSub = 0;
         $scope.EditIntstitutionSubPopup = function (InsSubId, ActiveFlag) {
             if (ActiveFlag == "1") {
                 $scope.ClearInstitutionSubscriptionPopup();
@@ -1019,6 +1021,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $('#btnsave').attr("disabled", false);
                 angular.element('#InstitutionSubscriptionCreateModal').modal('show');
                 $('#subscriptionrowid').prop('disabled', true);
+                $scope.EditInstSub = 1;
             }
             else {
                 alert("Inactive Institution's Subscription cannot be edited")
@@ -3755,6 +3758,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 })
             }
         };
+        $scope.AdminDefaultConfiguration = 0;
+        $scope.AdminInstitutionCreation = function () {
+            $scope.AdminDefaultConfiguration = 1;
+            $scope.User_InsertUpdate();
+        }
         $scope.User_InsertUpdate = function () {
             //$scope.ConfigCode = "MRN_PREFIX";
             //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -4156,7 +4164,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
                         $scope.UserImageAttach(userid);
                         if (data.ReturnFlag == "1") {
-                            $scope.InstitueDefaultConfiguration();
+                            if ($scope.AdminDefaultConfiguration == 1) {
+                                $scope.InstitueDefaultConfiguration();
+                            }
                             $scope.UserTypeId = $window.localStorage['UserTypeId'];
                             if ($scope.MenuTypeId == 1) {
                                 $scope.User_Admin_List($scope.MenuTypeId);
