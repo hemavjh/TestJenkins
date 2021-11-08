@@ -50,7 +50,9 @@
                     <div class="inputGroups">
                         <label>Select Language</label>
                         <div class="modernSearch">
-                            <select class="form-control" ng-model="selectedLanguage" ng-change="FilterLanguageSettingsList()">
+                            <select class="" data-style="form-control"  ng-model="selectedLanguage" data-live-search="true"
+                                data-selectpicker data-collection-name="InstitutionLanguageList"
+                                    ng-change="FilterLanguageSettingsList()">
                                 <option ng-repeat="item1 in InstitutionLanguageList" value="{{item1.Id}}">
                                     {{item1.LanguageName}}
                                 </option>
