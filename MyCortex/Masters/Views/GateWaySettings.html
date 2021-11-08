@@ -41,7 +41,7 @@
                     <div class="inputGroups">
                         <label>Select Gateway</label>
                         <div class="modernSearch">
-                            <select class="form-control" ng-model="selectedGatewaySettings" ng-change="GatewaySettingsList()">
+                            <select class="" data-style="form-control" ng-model="selectedGatewaySettings" ng-change="GatewaySettingsList()" data-live-search="true" data-selectpicker data-collection-name="GatewaySettingsList">
                                 <option value="0" selected>Select</option>
                                 <option value="1">Payment</option>
                                 <option value="2">Insurance</option>
@@ -53,7 +53,7 @@
                     <div class="inputGroups">
                         <label>Select {{selectedGatewayText}}</label>
                         <div class="modernSearch">
-                            <select class="form-control" ng-model="selectedGateway" ng-change="FilterGatewaySettingsList()">
+                            <select class="" data-style="form-control" ng-model="selectedGateway" ng-change="FilterGatewaySettingsList()" data-live-search="true" data-selectpicker data-collection-name="InstitutionGatewayList">
                                 <option value="" selected>Select</option>
                                 <option ng-repeat="item1 in InstitutionGatewayList" value="{{item1.Id}}">
                                     {{item1.PaymentGatewayName}}

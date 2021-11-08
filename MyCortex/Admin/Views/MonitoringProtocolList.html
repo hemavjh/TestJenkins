@@ -136,7 +136,7 @@
                                         <label>Clone From Template<sup>
                                                 <font class='mandatory-field'>*</font>
                                             </sup></label>
-                                        <select class="form-control" data-style="btn-primary" id="Select1"
+                                        <select class="form-control" data-style="form-control" id="Select1" data-live-search="true" data-selectpicker data-collection-name="rowCollectionFilter"
                                             ng-model="Protocol_Names" ng-change="CloneProtocolFunction()">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in rowCollectionFilter | filter:{Isactive: 1}: true"
@@ -197,7 +197,7 @@
                                     <tr ng-repeat="row in ParameterSettingslist ">
 
                                         <td>
-                                            <select ng-model="row.Parameter_Id" class="form-control"
+                                            <select ng-model="row.Parameter_Id" data-style="form-control" class="form-control" data-live-search="true" data-selectpicker data-collection-name="ParameterTypeList"
                                                 ng-options="item.Id as item.Name for item in ParameterTypeList"
                                                 ng-change="ParameterSettings_ViewEdit(row);">
                                                 <option value="">Select</option>
@@ -379,7 +379,7 @@
                                         <td>{{(ParameterTypeList | filter : {Id : row.Parameter_Id}: true)[0].Name}}
                                         </td>
                                         <td>
-                                            <select ng-model="row.Com_DurationType" class="form-control"
+                                            <select ng-model="row.Com_DurationType" class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="DurationTypeList"
                                                 ng-options="item.Id as item.Name for item in DurationTypeList">
                                                 <option value="">Select</option>
                                             </select>

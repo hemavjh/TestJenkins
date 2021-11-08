@@ -386,7 +386,7 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <select class="form-control" ng-model="GenderId" id="Select3" ng-required="true" ng-change="AdmingetBase64Image()">
+                                                <select class="" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image()">
                                                     <option value="0">Select</option>
                                                     <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
                                                             value="{{sel.Id}}">
@@ -402,7 +402,7 @@
                                                 </label>
                                             </td>
                                             <td width="35%">
-                                                <select class="form-control" ng-model="DepartmentId" id="Select1"
+                                                <select class="" data-style="form-control" ng-model="DepartmentId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="DepartmentList"
                                                         ng-required="true">
                                                     <option value="0">Select</option>
                                                     <option ng-repeat="sel in DepartmentList" ng-selected="DepartmentId==sel.Id"
@@ -455,7 +455,7 @@
                             </div>
                             <div class="modal-footer" style="text-align:center;">
                                 <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Click to Save"
-                                        ng-click="User_InsertUpdate()">
+                                        ng-click="AdminInstitutionCreation()">
                                     Save
                                 </button>
                                 <button type="button" class="theme-btn-2" ng-click="CancelPopup()"

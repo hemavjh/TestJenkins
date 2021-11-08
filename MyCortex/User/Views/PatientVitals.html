@@ -2973,8 +2973,8 @@
                                 <tr ng-repeat="row in AddVitalParameters">
                                     <td class="textalign">{{$index+1}}</td>
                                     <td style="text-align: center">
-                                        <select ng-model="row.ParameterId"
-                                                class="form-control"
+                                        <select ng-model="row.ParameterId" data-live-search="true" data-selectpicker data-collection-name="VitalsParameterList_Data"
+                                                class="form-control" data-style="form-control"
                                                 ng-options="item1.ParameterId as item1.ParameterName for item1 in VitalsParameterList_Data  | filter:{IsFormulaParam: 0,ParameterHas_Child:0}">
                                             <option value="">Select</option>
                                         </select>

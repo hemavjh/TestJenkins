@@ -90,7 +90,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Nationality</label>
-                    <select class="form-control" ng-model="filter_NationalityId" id="Select17" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
                                 value="{{sel.Id}}">
@@ -177,7 +177,7 @@
                 </div>-->
             </div>
             <div class="col-sm-4">
-                <<!--div class="inputGroups">
+                <!--div class="inputGroups">
                     <label>Gender</label>
                     <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
                         <option value="0">Select</option>
