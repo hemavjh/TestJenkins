@@ -97,8 +97,6 @@ namespace MyCortex.Login.Controller
         [HttpPost]
         public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
-            
-             
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -120,7 +118,6 @@ namespace MyCortex.Login.Controller
                     }
                 }
                 
-                _logger.Info("username:" + loginObj.Username + " " + loginObj.Password);
                 if (repository.CheckExpiryDate())
                 {
                     model.Status = "False";
@@ -142,7 +139,6 @@ namespace MyCortex.Login.Controller
                     loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
                     loginObj.Username = EncryptPassword.Encrypt(username);
                     model = repository.Userlogin_AddEdit(loginObj);
-                    _logger.Info("Model:" + model.data + " " + model.UserId);
 
                     HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                     HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();

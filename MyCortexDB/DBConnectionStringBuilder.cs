@@ -122,17 +122,17 @@ namespace MyCortexDB
             if (string.IsNullOrEmpty(Connstr_FromINI))
             {
                 _logger.Error("Connection string empty", null);
-            //    StringBuilder ConnectionStr = new StringBuilder();
-            //    ConnectionStr.Append("server="
-            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
-            //    ConnectionStr.Append(";uid="
-            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "LOGIN"));
-            //    ConnectionStr.Append(";pwd="
-            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "PASSWORD"));
-            //    ConnectionStr.Append(";database="
-            //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DB"));
-            ////ConnectionStr.Append(@"Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304");
-            //    return ConnectionStr.ToString();
+                //    StringBuilder ConnectionStr = new StringBuilder();
+                //    ConnectionStr.Append("server="
+                //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DBSERVER"));
+                //    ConnectionStr.Append(";uid="
+                //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "LOGIN"));
+                //    ConnectionStr.Append(";pwd="
+                //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "PASSWORD"));
+                //    ConnectionStr.Append(";database="
+                //                    + RegValue(Microsoft.Win32.RegistryHive.LocalMachine, "SOFTWARE\\EIP", "DB"));
+                ////ConnectionStr.Append(@"Server=SQL5080.site4now.net;database=DB_A66DEE_mycortexdemo;uid=DB_A66DEE_mycortexdemo_admin;password=vjh@0304");
+                //    return ConnectionStr.ToString();
             }
             //else
             //    return Connstr_FromINI.ToString().Replace("Driver={SQL Server};", ""); ;
@@ -166,20 +166,21 @@ namespace MyCortexDB
             if (HttpContext.Current != null)
             {
                 FilePath = HttpContext.Current.Request.PhysicalApplicationPath;
-                FilePath = FilePath + @"\BIN\DATASTRING.INI";
+                FilePath = FilePath + @"BIN\DATASTRING.INI";
             }
             else
             {
-                FilePath = AppDomain.CurrentDomain.BaseDirectory + @"\DATASTRING.INI";
+                FilePath = AppDomain.CurrentDomain.BaseDirectory + @"DATASTRING.INI";
             }
+
             //FilePath = FilePath.Replace(@"\MyCortex\", @"\BIN\DATASTRING.INI");
             // throw new Exception(FilePath);
             // Open the ini file
             FileInfo config_file = new FileInfo(FilePath);
-           
+
             if (config_file.Exists)
             {
-                
+
                 // read configuration values
                 using (StreamReader stream_reader = new StreamReader(config_file.FullName))
                 {
@@ -188,15 +189,8 @@ namespace MyCortexDB
                     string line;
                     string ServerName;
 
-                    // get server name to find the client 
-                    if (HttpContext.Current != null)
-                    {
-                        ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
-                    } else {
-                        ServerName = "localhost";
-                    }
+                    ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
                     ServerName = "[" + ServerName + "]";
-
 
                     // the file is reached.
                     while ((line = stream_reader.ReadLine()) != null)
@@ -216,9 +210,12 @@ namespace MyCortexDB
                     }
 
                     if (string.IsNullOrEmpty(rDSN))
+                    {
                         _logger.Info("ServerName" + ServerName);
+                        _logger.Info("File Path: " + FilePath);
+                    }
                 }
-                
+
             }
             
             return rDSN;
