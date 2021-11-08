@@ -77,7 +77,7 @@
                         </div>
                         <div class="inputGroups">
                             <label>Nationality</label>
-                            <select class="form-control" ng-model="CG_NationalityId" id="Select17" ng-required="true">
+                            <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="CG_NationalityId" id="Select17" ng-required="true">
                                 <option value="0">Select</option>
                                 <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
                                     value="{{sel.Id}}">
@@ -115,7 +115,7 @@
                         </div>
                         <div class="inputGroups">
                             <label>Ethnic Group</label>
-                            <select class="form-control" ng-model="CG_EthinicGroupId" id="Select20" ng-required="true">
+                            <select class="form-control"data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList" ng-model="CG_EthinicGroupId" id="Select20" ng-required="true">
                                 <option value="0">Select</option>
                                 <option ng-repeat="sel in EthnicGroupList" ng-selected="filter_EthinicGroupId==sel.Id"
                                     value="{{sel.Id}}">
@@ -140,7 +140,7 @@
                         </div>
                         <div class="inputGroups">
                             <label>Blood Group</label>
-                            <select class="form-control" ng-model="CG_BloodGroupId" id="Select19" ng-required="true">
+                            <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="CG_BloodGroupId" id="Select19" ng-required="true">
                                 <option value="0">Select</option>
                                 <option ng-repeat="sel in BloodGroupList" ng-selected="CG_BloodGroupId==sel.Id"
                                     value="{{sel.Id}}">
@@ -152,7 +152,7 @@
                     <div class="col-sm-4">
                         <div class="inputGroups">
                             <label>Gender</label>
-                            <select class="form-control" ng-model="CG_GenderId" id="Select16" ng-required="true">
+                            <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="CG_GenderId" id="Select16" ng-required="true">
                                 <option value="0">Select</option>
                                 <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id"
                                     value="{{sel.Id}}">
@@ -167,7 +167,7 @@
                         </div>
                         <div class="inputGroups">
                             <label>Marital Status</label>
-                            <select class="form-control" ng-model="CG_MaritalStatus" id="Select18" ng-required="true">
+                            <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-model="CG_MaritalStatus" id="Select18" ng-required="true">
                                 <option value="0">Select</option>
                                 <option ng-repeat="sel in MaritalStatusList" ng-selected="filter_MaritalStatus==sel.Id"
                                     value="{{sel.Id}}">
