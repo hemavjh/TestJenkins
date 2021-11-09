@@ -196,7 +196,7 @@ namespace MyCortex.Repositories.Masters
                 List<DataParameter> param = new List<DataParameter>();
                 param.Add(new DataParameter("@Parameter_Id", Parameter_Id));
                 param.Add(new DataParameter("@UNITSGROUP_ID", Unitgroup_Type));
-                //param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+                param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PARAMETERMAPPING_SP_LIST", param);
                 List<ParamaterSettingsModel> lst = (from p in dt.AsEnumerable()
                                                     select new ParamaterSettingsModel()
