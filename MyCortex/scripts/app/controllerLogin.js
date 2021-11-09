@@ -1,6 +1,7 @@
 ﻿var EmpApp = angular.module('AllyController', [
     'ngRoute',
-    'AllyControllersLogin'
+    'AllyControllersLogin',
+    'toastr'
 ]);
 
 
@@ -21,6 +22,20 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     });
 
 }]);
+
+EmpApp.config(function (toastrConfig) {
+    angular.extend(toastrConfig, {
+        autoDismiss: false,
+        containerId: 'toast-container',
+        maxOpened: 0,
+        newestOnTop: true,
+        positionClass: 'toast-top-right',
+        preventDuplicates: false,
+        preventOpenDuplicates: false,
+        target: 'body'
+    });
+});
+
 var MyCortexControllers = angular.module("AllyControllersLogin", []);
 var baseUrl = $("base").first().attr("href");
 if (baseUrl == "/") {
@@ -135,8 +150,8 @@ MyCortexControllers.service('browser', ['$window', function ($window) {
     }
 }]);
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
-MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe',
-function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService) {
+MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, toastr) {
     //Declaration and initialization of Scope Variables.          
     $scope.Id = "0";
     $scope.FirstName = "";
@@ -527,6 +542,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
     $scope.UserLogin = function (data, Message) {
         $("#chatLoaderPV").hide();
         if (data == "1") {
+            // toastr.error("Username and/or Password are not matching, please verify", "Warning");
             $scope.errorlist = "Username and/or Password are not matching, please verify";
         }
         else if (data == "2") {
