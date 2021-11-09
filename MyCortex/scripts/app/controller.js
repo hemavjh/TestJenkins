@@ -2279,20 +2279,37 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.$watch('tab1', function () {
             if ($scope.tab1 == 2) {
                 $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
-                    $scope.NationalityList = data;
+                    $scope.NationalityListTemp = [];
+                    $scope.NationalityListTemp = data;
+                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.NationalityListTemp.splice(0, 0, obj);
+                    $scope.NationalityList = angular.copy($scope.NationalityListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
 
                 $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
-                    $scope.MaritalStatusList = data;
+                    $scope.MaritalStatusListTemp = [];
+                    $scope.MaritalStatusListTemp = data;
+                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.MaritalStatusListTemp.splice(0, 0, obj);
+                    $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
                 $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                    $scope.EthnicGroupList = data;
+                    $scope.EthnicGroupListTemp = [];
+                    $scope.EthnicGroupListTemp = data;
+                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.EthnicGroupListTemp.splice(0, 0, obj);
+                    $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
                 $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
-                    $scope.BloodGroupList = data;
+                    /*$scope.BloodGroupList = data;*/
+                    $scope.BloodGroupListTemp = [];
+                    $scope.BloodGroupListTemp = data;
+                    var obj = { "Id": 0, "BloodGroup_Name": "Select", "IsActive": 1 };
+                    $scope.BloodGroupListTemp.splice(0, 0, obj);
+                    $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
                 $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
@@ -3270,10 +3287,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //};
         $scope.Admin_View = function (MenuType) { 
             
-                $("#chatLoaderPV").show();
-                if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
-                    $scope.DropDownListValue = 4;
-                }
+            $scope.ChronicConditionList = [];
+            $("#chatLoaderPV").show();
+            if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
+                $scope.DropDownListValue = 4;
+            }
+            $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
+                $scope.ChronicConditionList = data;
+            });
 
                 $scope.loadCount = 3;
                 $("#chatLoaderPV").show();

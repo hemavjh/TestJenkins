@@ -239,7 +239,7 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image()" ng-disabled="Pat_UserTypeId==2">
+                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image()" ng-disabled="Pat_UserTypeId==2">
                                         <option value="0">Select</option>
                                         <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
                                                 value="{{sel.Id}}">
@@ -483,13 +483,14 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true" data-selectpicker data-collection-name="NationalityList"
-                                            ng-required="true" ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id"
+                                    <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5"
+                                            data-live-search="true"
+                                            ng-disabled="Pat_UserTypeId==2">
+                                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" ng-required="true"
                                                 value="{{sel.Id}}">
                                             {{sel.Name}}
                                         </option>
+                                        <option value="0">Select</option>
                                     </select>
                                 </div>
                                 <div class="inputGroups">
@@ -498,13 +499,14 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="" data-style="form-control" ng-model="MaritalStatusId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList"
-                                            ng-required="true" ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in MaritalStatusList"
-                                                ng-selected="MaritalStatusId==sel.Id" value="{{sel.Id}}">
+                                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="Select1"
+                                            data-live-search="true"
+                                            ng-disabled="Pat_UserTypeId==2">
+                                        <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id" ng-required="true"
+                                                value="{{sel.Id}}">
                                             {{sel.Name}}
                                         </option>
+                                        <option value="0">Select</option>
                                     </select>
                                 </div>
                                 <div class="inputGroups">
@@ -513,13 +515,14 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="" data-style="form-control" ng-model="EthnicGroupId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList"
-                                            ng-required="true" ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id"
+                                    <select class="form-control" data-style="form-control" ng-model="EthnicGroupId" id="Select3"
+                                            data-live-search="true"
+                                            ng-disabled="Pat_UserTypeId==2">
+                                        <option ng-repeat="sel in EthnicGroupList" ng-selected="EthnicGroupId==sel.Id" ng-required="true"
                                                 value="{{sel.Id}}">
                                             {{sel.Name}}
                                         </option>
+                                        <option value="0">Select</option>
                                     </select>
                                 </div>
                                 <div class="inputGroups">
@@ -531,8 +534,8 @@
                                     <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
-                            <i class="glyphicon glyphicon-th"></i>
-                        </span>-->
+            <i class="glyphicon glyphicon-th"></i>
+        </span>-->
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -559,27 +562,28 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="" data-style="form-control" ng-model="BloodGroupId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="BloodGroupList"
-                                            ng-required="true" ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id"
+                                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="Select2"
+                                            data-live-search="true"
+                                            ng-disabled="Pat_UserTypeId==2">
+                                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id" ng-required="true"
                                                 value="{{sel.Id}}">
                                             {{sel.BloodGroup_Name}}
                                         </option>
+                                        <option value="0">Select</option>
                                     </select>
                                 </div>
                                 <div class="inputGroups">
                                     <label>Chronic Condition</label>
-                                    <div ng-hide="Pat_UserTypeId==2">
+                                    <div>
                                         <select ng-model="SelectedChronicCondition" multiple="multiple"
                                                 ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
                                                 multiselect-dropdown style="width: 230px;">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                    <span ng-show="Pat_UserTypeId==2">
+                                    <!--<span ng-show="Pat_UserTypeId==2">
                                         {{ChronicCondition}}
-                                    </span>
+                                    </span>-->
                                 </div>
                             </div>
                         </div>
@@ -612,7 +616,7 @@
                                                 <font class='mandatory-field'>*</font>
                                             </sup>
                                         </label>
-                                        <select class="" data-style="form-control" data-live-search="true"
+                                        <select class="form-control" data-style="form-control" data-live-search="true"
                                                 id="countryselectpicker" data-selectpicker
                                                 data-collection-name="CountryNameList" ng-model="CountryId"
                                                 ng-change="CountryBased_StateFunction();" ng-disabled="Pat_UserTypeId==2">
@@ -629,7 +633,7 @@
                                                 <font class='mandatory-field'>*</font>
                                             </sup>
                                         </label>
-                                        <select class="" data-style="form-control" data-live-search="true"
+                                        <select class="form-control" data-style="form-control" data-live-search="true"
                                                 data-selectpicker data-collection-name="LocationName_List" ng-model="CityId" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in LocationName_List"
@@ -657,7 +661,7 @@
                                                 <font class='mandatory-field'>*</font>
                                             </sup>
                                         </label>
-                                        <select class="" data-style="form-control" id="stateselectpicker"
+                                        <select class="form-control" data-style="form-control" id="stateselectpicker"
                                                 data-live-search="true" data-selectpicker
                                                 data-collection-name="StateName_List" ng-model="StateId"
                                                 ng-change="StateBased_CityFunction();" ng-disabled="Pat_UserTypeId==2">
@@ -717,7 +721,7 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>Relationship</label>
-                                        <select class="" data-style="form-control" ng-model="EMERG_CONT_RELATIONSHIP_ID" id="Select15" data-live-search="true" data-selectpicker data-collection-name="RelationshipList"
+                                        <select class="form-control" data-style="form-control" ng-model="EMERG_CONT_RELATIONSHIP_ID" id="Select15" data-live-search="true" data-selectpicker data-collection-name="RelationshipList"
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in RelationshipList"
@@ -846,7 +850,7 @@
                                                         Diabetic
                                                     </td>
                                                     <td style="text-align: left">
-                                                        <select class="" data-style="form-control" ng-model="Diabetic" id="Select7" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
+                                                        <select class="form-control" data-style="form-control" ng-model="Diabetic" id="Select7" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
                                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                                             <option value="0">Select</option>
                                                             <option ng-repeat="sel in OptionTypeList"
@@ -872,7 +876,7 @@
                                                     </td>
                                                     <td style="text-align: left">
 
-                                                        <select class="" data-style="form-control" ng-model="HyperTension" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
+                                                        <select class="form-control" data-style="form-control" ng-model="HyperTension" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
                                                                 id="Select6" ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                                             <option value="0">Select</option>
                                                             <option ng-repeat="sel in OptionTypeList"
@@ -898,7 +902,7 @@
                                                     </td>
 
                                                     <td style="text-align: left">
-                                                        <select class="" data-style="form-control" ng-model="Cholestrol" id="Select4" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
+                                                        <select class="form-control" data-style="form-control" ng-model="Cholestrol" id="Select4" data-live-search="true" data-selectpicker data-collection-name="OptionTypeList"
                                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                                             <option value="0">Select</option>
                                                             <option ng-repeat="sel in OptionTypeList"
@@ -1029,7 +1033,7 @@
                                         <label>
                                             Describe your diet
                                         </label>
-                                        <select class="" data-style="form-control" ng-model="DIETDESCRIBE_ID" id="Select9" data-live-search="true" data-selectpicker data-collection-name="DietTypeList"
+                                        <select class="form-control" data-style="form-control" ng-model="DIETDESCRIBE_ID" id="Select9" data-live-search="true" data-selectpicker data-collection-name="DietTypeList"
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in DietTypeList"
@@ -1040,7 +1044,7 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>Are you allergic to any substances?</label>
-                                        <select class="" data-style="form-control  mr-5 pull-left" ng-model="ALERGYSUBSTANCE_ID" data-live-search="true" data-selectpicker data-collection-name="AlergySubstanceList"
+                                        <select class="form-control" data-style="form-control  mr-5 pull-left" ng-model="ALERGYSUBSTANCE_ID" data-live-search="true" data-selectpicker data-collection-name="AlergySubstanceList"
                                                 id="Select12" ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in AlergySubstanceList"
@@ -1055,7 +1059,7 @@
                                         <label>
                                             How often do you drink alcohol? How much at a time?
                                         </label>
-                                        <select class="" data-style="form-control  mr-5 pull-left" ng-model="ALCOHALSUBSTANCE_ID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
+                                        <select class="form-control" data-style="form-control  mr-5 pull-left" ng-model="ALCOHALSUBSTANCE_ID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
                                                 id="Select14" ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in ScheduleList"
@@ -1070,7 +1074,7 @@
                                         <label>
                                             How often do you drink caffeinated beverages? How much at a time?
                                         </label>
-                                        <select class="" data-style="form-control mr-5 pull-left" ng-model="CAFFEINATED_BEVERAGESID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
+                                        <select class="form-control" data-style="form-control mr-5 pull-left" ng-model="CAFFEINATED_BEVERAGESID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
                                                 id="Select8" ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in ScheduleList"
@@ -1096,7 +1100,7 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>How often do you exercise?</label>
-                                        <select class="" data-style="form-control  mr-5 pull-left" ng-model="EXCERCISE_SCHEDULEID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
+                                        <select class="form-control" data-style="form-control  mr-5 pull-left" ng-model="EXCERCISE_SCHEDULEID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
                                                 id="Select11" ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in ScheduleList"
@@ -1112,7 +1116,7 @@
                                             If you smoke cigarettes (or other substances), how many
                                             do you smoke per day?
                                         </label>
-                                        <select class="" data-style="form-control  mr-5 pull-left" ng-model="SMOKESUBSTANCE_ID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
+                                        <select class="form-control" data-style="form-control  mr-5 pull-left" ng-model="SMOKESUBSTANCE_ID" data-live-search="true" data-selectpicker data-collection-name="ScheduleList"
                                                 id="Select13" ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in ScheduleList"
@@ -1174,7 +1178,7 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>Payor Name</label>
-                                        <select class="" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectPayor" data-live-search="true" data-selectpicker data-collection-name="PayorMasterList"
+                                        <select class="form-control" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectPayor" data-live-search="true" data-selectpicker data-collection-name="PayorMasterList"
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in PayorMasterList"
@@ -1185,7 +1189,7 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>Plan Name</label>
-                                        <select class="" data-style="form-control" ng-model="SelectedPlan" id="PLANID" data-live-search="true" data-selectpicker data-collection-name="PayorBasedPlanList"
+                                        <select class="form-control" data-style="form-control" ng-model="SelectedPlan" id="PLANID" data-live-search="true" data-selectpicker data-collection-name="PayorBasedPlanList"
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in PayorBasedPlanList"

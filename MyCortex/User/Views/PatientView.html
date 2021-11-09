@@ -220,13 +220,13 @@
                                                         <label> Chronic Condition</label>
                                                         <span> {{ChronicCondition}}</span>
                                                     </div>
-                                                    <div class="inputGroups">
+                                                    <div class="inputGroups" ng-hide="Pat_UserTypeId==2">
                                                     <label>Chronic Condition</label>
                                                     <select ng-model="SelectedChronicCondition" multiple="multiple"
                                                             ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
                                                             multiselect-dropdown style="width: 230px;">
                                                         <option value="0">Select</option>
-                                                    </select>>
+                                                    </select>
                                                     </div>
                                                 </div>
                                             </div>
