@@ -436,10 +436,12 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
         }).then((result) => {
             if (result.value) {
+                $window.localStorage['inactivity_logout'] = 1;
                 $window.location.href = baseUrl + "/Home/LoginIndex#/";
             } else {
                 if (result.dismiss) {
                     if (result.dismiss === swal.DismissReason.timer) {
+                        $window.localStorage['inactivity_logout'] = 1;
                         $window.location.href = baseUrl + "/Home/LoginIndex#/";
                     } else {
                         timeLeft = 60;

@@ -240,6 +240,10 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
     };
     $http.get(baseUrl + '/api/Login/GetProduct_Details/').success(function (data) {
         $scope.ProductName1 = data[0].ProductName;
+        var chk = $window.localStorage['inactivity_logout'];
+        if (chk === '1') {
+            $scope.errorlist = 'Your session has expired, please provide your credentials to login again.';
+        }
         if ($scope.ProductName1 == 'MyCortex') {
             $scope.Productlogin = 0;
         } else {
@@ -443,6 +447,7 @@ function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, 
                 $window.localStorage['UserId'] = $scope.UserId;
                 $window.sessionStorage['UserId'] = $scope.UserId;
                 $window.localStorage['Auth_Session_Id'] = 1;
+                $window.localStorage['inactivity_logout'] = 0;
                 $window.localStorage['UserTypeId'] = $scope.UserTypeId;
                 $window.localStorage['Login_Session_Id'] = data.Login_Session_Id;
                 if ($scope.UserTypeId == 1) {
