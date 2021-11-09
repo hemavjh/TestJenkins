@@ -172,7 +172,7 @@
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
-                        <select class="form-control" data-style="form-control" id="DeviceName" ng-model="DeviceName"
+                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDeviceNameList" id="DeviceName" ng-model="DeviceName"
                                 ng-options="item2.ID as item2.DeviceName for item2 in AllDeviceNameList">
                             <option value="">Select</option>
                         </select>
@@ -183,7 +183,7 @@
                         <label>DeviceType<sup>
                             <font class='mandatory-field'>*</font></sup>
                         </label>
-                        <select class="form-control" data-style="form-control" id="DeviceType" ng-model="DeviceType"
+                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDevice" id="DeviceType" ng-model="DeviceType"
                                 ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
                             <option value="">Select</option>
                         </select>
