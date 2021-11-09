@@ -162,10 +162,10 @@ namespace MyCortexDB
             //local variables
             string FilePath;
             string rDSN = string.Empty;
-
-            if (HttpContext.Current != null)
+            
+            if (System.Web.HttpContext.Current != null)
             {
-                FilePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                FilePath = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;
                 FilePath = FilePath + @"BIN\DATASTRING.INI";
             }
             else
@@ -190,9 +190,9 @@ namespace MyCortexDB
                     string ServerName;
 
                     // get server name to find the client 
-                    if (HttpContext.Current != null)
+                    if (System.Web.HttpContext.Current != null)
                     {
-                        ServerName = HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
+                        ServerName = System.Web.HttpContext.Current.Request.ServerVariables["SERVER_NAME"].ToUpper();
                     }
                     else
                     {
