@@ -300,6 +300,7 @@
     <Content Include="Css\sweetalert2.min.css" />
     <Content Include="Css\tautocomplete.css" />
     <Content Include="Css\theme.css" />
+    <Content Include="Css\toaster.css" />
     <Content Include="Css\TreeStructure.css" />
     <Content Include="default.css" />
     <Content Include="firebase-messaging-sw.js" />
@@ -526,6 +527,7 @@
     <Content Include="scripts\app\app.js" />
     <Content Include="scripts\app\controller.js" />
     <Content Include="scripts\app\controllerLogin.js" />
+    <Content Include="scripts\app\toaster.js" />
     <Content Include="scripts\bootstrap-datepicker.js" />
     <Content Include="scripts\Bootstrap-multiselect.js" />
     <Content Include="scripts\bootstrap-select-1.13.9\.gitignore" />
