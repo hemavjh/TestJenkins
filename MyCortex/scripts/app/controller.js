@@ -422,7 +422,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             $scope.loadCount = 0;
             $scope.InstitutionClear();
             $scope.DropDownListValue = 1;
-            $('#btnsave').attr("disabled", false);
+            $('#btnsave1').attr("disabled", false);
+            $('#btnsave2').attr("disabled", false);
             angular.element('#InstitutionCreateModal').modal('show');
         }
 
@@ -664,11 +665,13 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     Photo: $scope.InstitutionLogo,
                     Created_by: $scope.CreatedBy
                 };
-                $('#btnsave').attr("disabled", true);
+                $('#btnsave1').attr("disabled", true);
+                $('#btnsave2').attr("disabled", true);
                 $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
                     var insId = data.Institute[0].Id;
                     alert(data.Message);
-                    $('#btnsave').attr("disabled", false);
+                    $('#btnsave1').attr("disabled", false);
+                    $('#btnsave2').attr("disabled", false);
 
 
                     if ($scope.PhotoValue == 1) {
@@ -1007,6 +1010,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.TimeZone_Id = "0";
             $scope.ClearInstitutionSubscriptionPopup();
             $('#btnsave').attr("disabled", false);
+            $('#btnsave1').attr("disabled", false);
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
         }
         $scope.CancelIntstitutionSubPopup = function () {
@@ -1249,9 +1253,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     Payment_Module_Id: Payment_List_Id
                 }
                 $('#btnsave').attr("disabled", true);
+                $('#btnsave1').attr("disabled", true);
                 $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     alert(data.Message);
                     $('#btnsave').attr("disabled", false);
+                    $('#btnsave1').attr("disabled", false);
                     if (data.ReturnFlag == "1") {
                         $scope.CancelIntstitutionSubPopup();
                         $scope.TimeZone_Id = "";
@@ -17826,7 +17832,7 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
                             });
                             $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
                                 alert(data.Message);
-
+                               
                                 if (data.ReturnFlag == 1) {
                                     $scope.PatientApprovalList();
                                     $scope.SelectedAllPatient = false;
