@@ -141,7 +141,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@GENDER_ID", insobj.GENDER_ID));
             param.Add(new DataParameter("@NATIONALITY_ID", insobj.NATIONALITY_ID));
             param.Add(new DataParameter("@ETHINICGROUP_ID", insobj.ETHINICGROUP_ID));
-            param.Add(new DataParameter("@DOB", insobj.DOB));
+            //param.Add(new DataParameter("@DOB", insobj.DOB));
             param.Add(new DataParameter("@HOME_AREACODE", insobj.HOME_AREACODE));
             param.Add(new DataParameter("@HOME_PHONENO", insobj.HOME_PHONENO));
             param.Add(new DataParameter("@MOBIL_AREACODE", insobj.MOBIL_AREACODE));
@@ -266,7 +266,7 @@ namespace MyCortex.Repositories.Uesr
             strXMLIn += " GENDER_ID  = " + "\"" + insobj.GENDER_ID + "\"" + "";
             strXMLIn += " NATIONALITY_ID  = " + "\"" + insobj.NATIONALITY_ID + "\"" + "";
             strXMLIn += " ETHINICGROUP_ID  = " + "\"" + insobj.ETHINICGROUP_ID + "\"" + "";
-            strXMLIn += " DOB  = " + "\"" + insobj.DOB + "\"" + "";
+            //strXMLIn += " DOB  = " + "\"" + insobj.DOB + "\"" + "";
             strXMLIn += " HOME_AREACODE  = " + "\"" + insobj.HOME_AREACODE + "\"" + "";
             strXMLIn += " HOME_PHONENO  = " + "\"" + insobj.HOME_PHONENO + "\"" + "";
             strXMLIn += " MOBIL_AREACODE  = " + "\"" + insobj.MOBIL_AREACODE + "\"" + "";
@@ -509,7 +509,7 @@ namespace MyCortex.Repositories.Uesr
                                     EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
                                     DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                     MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                    DOB = p.Field<DateTime?>("DOB"),
+                                    //DOB = p.Field<DateTime?>("DOB"),
                                     DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                     Department_Name = p.Field<string>("Department_Name"),
                                     InstitutionName = p.Field<string>("InstitutionName"),
@@ -840,7 +840,7 @@ namespace MyCortex.Repositories.Uesr
                                   EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
                                   DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                   MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                  DOB = p.Field<DateTime?>("DOB"),
+                                  //DOB = p.Field<DateTime?>("DOB"),
                                   DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                   Department_Name = p.Field<string>("Department_Name"),
                                   InstitutionName = p.Field<string>("InstitutionName"),
@@ -1272,7 +1272,7 @@ namespace MyCortex.Repositories.Uesr
                                   PatientId = p.Field<long>("ID"),
                                   MNR_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")),
                                   NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
-                                  DOB = p.Field<DateTime?>("DOB"),
+                                  //DOB = p.Field<DateTime?>("DOB"),
                                   DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                   MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
                                   FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
@@ -4026,7 +4026,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@GENDER_ID", 1));
             param.Add(new DataParameter("@NATIONALITY_ID", 10));
             param.Add(new DataParameter("@ETHINICGROUP_ID", 1));
-            param.Add(new DataParameter("@DOB", insobj.DOB));
+            //param.Add(new DataParameter("@DOB", insobj.DOB));
             param.Add(new DataParameter("@HOME_AREACODE", insobj.HOME_AREACODE));
             param.Add(new DataParameter("@HOME_PHONENO", insobj.HOME_PHONENO));
             param.Add(new DataParameter("@MOBIL_AREACODE", insobj.MOBIL_AREACODE));
@@ -4107,7 +4107,7 @@ namespace MyCortex.Repositories.Uesr
                                     EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
                                     DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                     MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                    DOB = p.Field<DateTime?>("DOB"),
+                                    //DOB = p.Field<DateTime?>("DOB"),
                                     DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                     Department_Name = p.Field<string>("Department_Name"),
                                     InstitutionName = p.Field<string>("InstitutionName"),
