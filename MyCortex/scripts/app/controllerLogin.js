@@ -542,15 +542,17 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
     $scope.UserLogin = function (data, Message) {
         $("#chatLoaderPV").hide();
         if (data == "1") {
-            // toastr.error("Username and/or Password are not matching, please verify", "Warning");
-            $scope.errorlist = "Username and/or Password are not matching, please verify";
+            toastr.error("Username and/or Password are not matching, please verify", "Warning");
+            // $scope.errorlist = "Username and/or Password are not matching, please verify";
         }
         else if (data == "2") {
-            $scope.errorlist = "Contract period expired, cannot login";
+            //$scope.errorlist = "Contract period expired, cannot login";
+            toastr.error("Contract period expired, cannot login", "Warning");
         }
         else if (data == "3") {
             //$scope.errorlist = "Contract Time Exceed,contact admin";
-            alert("Contract period expired, Please contact Admin for renewal");
+            //alert("Contract period expired, Please contact Admin for renewal");
+            toastr.error("Contract period expired, Please contact Admin for renewal", "Warning");
             window.location.href = baseUrl + "/Home/Index#/home";
         }
         else if (data == "4" || data == "5") {
@@ -562,18 +564,24 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
 
             window.location.href = baseUrl + "/Home/Index#/ChangePassword/1";
             $scope.errorlist = Message;
+            toastr.error(Message, "Warning");
         }
         else if (data == "7") {
             $scope.errorlist = Message;
+            toastr.error(Message, "Warning");
         }
         else if (data == "8") {
             $scope.errorlist = Message;
+            toastr.error(Message, "Warning");
         }
         else if (data == "9") {
             $scope.errorlist = "Username and/or Password are not active, please verify";
+            toastr.error("Username and/or Password are not active, please verify", "Warning");
         }
-        else
+        else {
             $scope.errorlist = "Username and/or Password are not matching, please verify";
+            toastr.error("Username and/or Password are not matching, please verify", "Warning");
+        }
     }
 
     $scope.getAccessToken = function () {
