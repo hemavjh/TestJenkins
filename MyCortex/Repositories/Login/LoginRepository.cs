@@ -142,6 +142,10 @@ namespace MyCortex.Repositories.Login
                                       Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
                                       EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
                                       Patient_Type = p.IsNull("PATIENT_TYPE") ? 0 : p.Field<int>("PATIENT_TYPE"),
+                                      Unitgroup_preference = p.Field<int?>("UNITGROUP_PREFERENCE") ?? 0,
+                                      Language_preference = p.Field<int?>("LANGUAGE_PREFERENCE") ?? 0,
+                                      Payment_preference = p.Field<long?>("PAYMENT_PREFERENCE") ?? 0,
+                                      Insurance_Preference = p.Field<long?>("INSURANCE_PREFERENCE") ?? 0,
 
                                   },
                               }).FirstOrDefault();

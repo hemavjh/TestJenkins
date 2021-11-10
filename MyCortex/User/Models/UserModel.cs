@@ -165,6 +165,10 @@ namespace MyCortex.User.Model
         public string InsurancePhotoFilename { get; set; }
         public string NationalPhoto { get; set; }
         public string InsurancePhoto { get; set; }
+        public int Unitgroup_preference { get; set; }
+        public int Language_preference { get; set; }
+        public long Payment_preference { get; set; }
+        public long Insurance_Preference { get; set; }
 
     }
 

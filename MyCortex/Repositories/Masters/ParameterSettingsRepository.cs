@@ -203,12 +203,15 @@ namespace MyCortex.Repositories.Masters
                                                     {
                                                         Id = p.Field<long>("ID"),
                                                         Parameter_ID = p.Field<long>("PARAMETER_ID"),
-                                                        Units_ID = p.Field<long>("UNITS_ID"),
-                                                        IsActive = p.Field<int>("ISACTIVE"),
                                                         Parameter_Name = p.Field<string>("PARAMETER_NAME"),
+                                                        Units_ID = p.Field<long>("UNITS_ID"),
                                                         Units_Name = p.Field<string>("UNITS_NAME"),
+                                                        UnitsGroup_ID = p.Field<long>("UNITSGROUP_ID"),
+                                                        UnitsGroup_Name = p.Field<string>("UNITSGROUP_NAME"),
+                                                        Units_with_Group_Name = p.Field<string>("UNITS_NAME") + "(" + p.Field<string>("UNITSGROUP_NAME") + ")",
                                                         Max_Possible = p.IsNull("MAX_POSSIBLE") ? 0 : p.Field<decimal>("MAX_POSSIBLE"),
                                                         Min_Possible = p.IsNull("MIN_POSSIBLE") ? 0 : p.Field<decimal>("MIN_POSSIBLE"),
+                                                        IsActive = p.Field<int>("ISACTIVE"),
                                                     }).ToList();
                 return lst;
             }
