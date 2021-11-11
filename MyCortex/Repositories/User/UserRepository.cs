@@ -104,6 +104,37 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+        public PatientChronicModel PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj)
+        {
+            long Inserted_Group_Id;
+            if (obj.ChronicConditionList != null)
+            {
+                foreach (ChronicConditionModel item in obj.ChronicConditionList)
+                {
+                    if (item.Id != null)
+                    {
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@User_Id", obj.UserId));
+                        param1.Add(new DataParameter("@Chronic_Id", item.Id));
+                        param1.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
+                        var objExist = obj.EditSelectedChronicCondition.Where(ChildItem => ChildItem.Chronic_Id == item.Id);
+
+                        if (objExist.ToList().Count > 0)
+                            param1.Add(new DataParameter("@Condition_Selected", "1"));
+                        else
+                            param1.Add(new DataParameter("@Condition_Selected", "0"));
+
+                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CHRONICCONDITION", param1, true);
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return null;
+        }
+
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution
         /// </summary>

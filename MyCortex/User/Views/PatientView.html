@@ -17,7 +17,7 @@
 </head>
 <div class="container">
 
-    <div class="row" ng-init="Admin_View(3);PageParameter==1?currentTab='1':currentTab='1';">
+    <div class="row" ng-init="Admin_View(3);PageParameter==1?currentTab='1':currentTab='1';PatientView()">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
         <div class="col-md-12">
             <h1 class="page-title">Patient</h1>
@@ -216,17 +216,30 @@
                                                         <label>Blood Group</label>
                                                         <span>{{ViewBloodGroup}}</span>
                                                     </div>
-                                                    <div class="inputGroups">
-                                                        <label> Chronic Condition</label>
-                                                        <span> {{ChronicCondition}}</span>
+                                                    <div class="inputGroups" ng-hide="EditPatientChronicCondition == 1">
+                                                        <div class="row">
+                                                            <div class="col-sm-9">
+                                                                <label> Chronic Condition</label>
+                                                                <span> {{ChronicCondition}}</span>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientChronic()">
+                                                                    Edit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        
                                                     </div>
-                                                    <div class="inputGroups" ng-hide="Pat_UserTypeId==2">
-                                                    <label>Chronic Condition</label>
-                                                    <select ng-model="SelectedChronicCondition" multiple="multiple"
-                                                            ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
-                                                            multiselect-dropdown style="width: 230px;">
-                                                        <option value="0">Select</option>
-                                                    </select>
+                                                    <div class="inputGroups" ng-hide="Pat_UserTypeId==2" ng-if="EditPatientChronicCondition == 1">
+                                                        <label>Chronic Condition</label>
+                                                        <select ng-model="SelectedChronicConditionEdit" multiple="multiple"
+                                                                ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
+                                                                multiselect-dropdown style="width: 230px;">
+                                                            <option value="0">Select</option>
+                                                        </select>
+                                                        <button type="button" style="width:100px;" class="theme-btn-2  btn-save" ng-click="EditSavePatientChronic(SelectedChronicConditionEdit)">
+                                                            Save Chronic
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

@@ -917,7 +917,20 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, ModelData);
             }
         }
-
+        public HttpResponseMessage PatientChronicEdit(Guid Login_Session_Id, [FromBody] PatientChronicModel obj)
+        {
+            PatientChronicModel ModelData = new PatientChronicModel();
+            try
+            {
+                ModelData = repository.PatientChronicEdit(Login_Session_Id, obj);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, ModelData);
+                return response;
+            }
+            catch
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ModelData);
+            }
+        }
         /// <summary>
         /// to add Group's to a patient/business user
         /// </summary>

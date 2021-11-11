@@ -3291,6 +3291,33 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //$scope.LocationClearFunction = function () {
         //    $scope.CityId = "0";
         //};
+        $scope.PatientView = function () {
+            $scope.EditPatientChronicCondition = 0;
+            $scope.EditPatientChronic = function () {
+                $scope.EditPatientChronicCondition = 1;
+            }
+            $scope.SelectedChronicConditionEdit = "0";
+            $scope.EditSavePatientChronic = function (SelectedChronicConditionEdit) {
+                $scope.PatientEditChronicCondition_List = [];
+                angular.forEach(SelectedChronicConditionEdit, function (value, index) {
+                    var obj = {
+                        Id: 0,
+                        Chronic_Id: value
+                    }
+                    $scope.PatientEditChronicCondition_List.push(obj);
+                });
+                var obj1 = {
+                    EditSelectedChronicCondition: $scope.PatientEditChronicCondition_List,
+                    ChronicConditionList: $scope.ChronicConditionList,
+                    UserId: $scope.Id,
+                    CreatedBy: $window.localStorage['UserId']
+                }
+                $http.post(baseUrl + '/api/User/PatientChronicEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).success(function (data) {
+                    var output = data;
+                    console.log(output);
+                });
+            }
+        }
         $scope.Admin_View = function (MenuType) { 
             
             $scope.ChronicConditionList = [];

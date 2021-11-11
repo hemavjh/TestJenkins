@@ -240,7 +240,15 @@ namespace MyCortex.User.Model
         public string Remarks { get; set; }
         public int? Status { get; set; }
     }
+    public class PatientChronicModel
+    {
+        public IList<PatientChronicCondition_List> EditSelectedChronicCondition { get; set; }
+        public IList<ChronicConditionModel> ChronicConditionList { get; set; }
+        public long CreatedBy { get; set; }
+        public long UserId { get; set; }
+        public string returnMessage { get; set; }
 
+    }
     public class Patient_FamilyHeealthHistoryDetails
     {
         public long? Id { get; set; }
