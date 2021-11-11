@@ -17810,6 +17810,7 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
         $scope.ApprovePatient = function () {
             //var cnt = ($filter('filter')($scope.rowCollectionFilter, 'true')).length;
             var cnt = $ff(($filter('filter')($scope.rowCollectionFilter, 'true')), { Approval_Flag: 0 }).length;
+            $('#btnsave').attr("disabled", true);
             if (cnt == 0) {
                 alert("Please select atleast one Patient to Approve");
             }
@@ -17832,7 +17833,6 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
                             });
                             $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
                                 alert(data.Message);
-                               
                                 if (data.ReturnFlag == 1) {
                                     $scope.PatientApprovalList();
                                     $scope.SelectedAllPatient = false;
@@ -17842,6 +17842,7 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
                     }
                     else {
                         alert("Maximum Number of Patient License reached already, cannot be approved");
+                        $('#btnsave').attr("disabled", false);
                         return false;
                     }
                 });
