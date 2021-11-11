@@ -46,8 +46,8 @@ namespace MyCortex.User.Model
         public int? HighCount { get; set; }
         public int? MediumCount { get; set; }
         public int? LowCount { get; set; }
-
         public long Institution_Id { get; set; }
+        public long Units_Group_Id { get; set; }
     }
 
     public class PatientHealthDataReturnModel

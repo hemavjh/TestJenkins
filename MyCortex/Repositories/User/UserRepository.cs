@@ -1573,6 +1573,49 @@ namespace MyCortex.Repositories.Uesr
                                            }).FirstOrDefault();
             return list;
         }
+
+        public PatientHealthDataModel PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            PatientHealthDataModel list = null;
+            param.Add(new DataParameter("@ID", insobj.Id));
+            param.Add(new DataParameter("@PATIENTID", insobj.Patient_Id));
+            param.Add(new DataParameter("@PARAMETERID", insobj.ParameterId));
+            param.Add(new DataParameter("@PARAMETERVALUE", insobj.ParameterValue));
+            param.Add(new DataParameter("@ACTIVTY_DATE", insobj.Activity_Date));
+            if (insobj.Id > 0)
+            {
+                param.Add(new DataParameter("@CREATEDBY", insobj.Modified_By));
+            }
+            else
+            {
+                param.Add(new DataParameter("@CREATEDBY", insobj.Created_By));
+            }
+            param.Add(new DataParameter("@DEVICETYPE", insobj.DeviceType));
+            param.Add(new DataParameter("@DEVICE_NO", insobj.DeviceNo));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@UNITSGROUP_ID", insobj.Units_Group_Id));
+            param.Add(new DataParameter("@PARAMGROUP_ID", 1));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTDATA_SP_INSERTUPDATE_FIT_SYNC]", param);
+            if (dt.Rows.Count > 0)
+            {
+                list = (from p in dt.AsEnumerable()
+                        select new PatientHealthDataModel()
+                        {
+                            Patient_Id = p.Field<long>("PATIENT_ID"),
+                            ParameterId = p.Field<long>("PARAMETER_ID"),
+                            ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
+                            Activity_Date = p.Field<DateTime>("ACTIVITY_DATE"),
+                            flag = p.Field<int>("flag"),
+                            DeviceType = p.Field<string>("DeviceType"),
+                            DeviceNo = p.Field<string>("Device_No"),
+                            Id = p.Field<long>("Id"),
+                            Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                        }).FirstOrDefault();
+            }
+
+            return list;
+        }
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution
         /// </summary>

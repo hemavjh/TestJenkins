@@ -1332,6 +1332,113 @@ namespace MyCortex.User.Controller
             }
         }
 
+        public HttpResponseMessage PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, [FromBody] PatientHealthDataModel patientDataObj)
+        {
+            PatientHealthDataModel ModelData = new PatientHealthDataModel();
+            PatientHealthDataReturnModel model = new PatientHealthDataReturnModel();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.Error_Code = "";
+                model.ReturnFlag = 0;
+                model.PatientHealthDataDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            string messagestr = "";
+            try
+            {
+                if (patientDataObj.ParameterId <= 0)
+                    throw new System.ArgumentException("Parameter is missing", "HealthData");
+                else if (patientDataObj.Patient_Id <= 0 && patientDataObj.Id <= 0)
+                    throw new System.ArgumentException("Patient ID is missing", "HealthData");
+
+                ModelData = repository.PatientHealthData_Sync_Insert_Update(Login_Session_Id, patientDataObj);
+                if ((ModelData.flag == 0) == true)
+                {
+                    messagestr = "Patient data not created, Please check the data";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                else if ((ModelData.flag == 1) == true)
+                {
+                    messagestr = "Patient Data created Successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                else if ((ModelData.flag == 2) == true)
+                {
+                    messagestr = "Patient Data updated Successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                else if ((ModelData.flag == 3) == true)
+                {
+                    messagestr = "Patient Data Already Exits";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                else if ((ModelData.flag == 4) == true)
+                {
+                    messagestr = "Patient Data Cumulate value has less than 1";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                model.Error_Code = "";
+                model.PatientHealthDataDetails = ModelData;
+                model.Message = messagestr;
+                if ((ModelData.flag == 1) == true || (ModelData.flag == 2) == true)
+                {
+                    PatientHealthDataModel phm = new PatientHealthDataModel();
+                    phm = repository.PatientHealthData_AlertNotification_List(ModelData.Id);
+                    string Event_Code = "";
+                    if (phm != null)
+                    {
+                        if (phm.HighCount > 0)
+                            Event_Code = "DIAG_HIGH";
+                        if (phm.MediumCount > 0)
+                            Event_Code = "DIAG_MEDIUM";
+                        if (phm.LowCount > 0)
+                            Event_Code = "DIAG_LOW";
+
+                        if (phm.HighCount > 0 || phm.MediumCount > 0 || phm.LowCount > 0)
+                        {
+                            AlertEvents AlertEventReturn = new AlertEvents();
+                            IList<EmailListModel> EmailList;
+                            EmailList = AlertEventReturn.Diagnostic_Compliance_AlertEvent((long)ModelData.Patient_Id, (long)ModelData.Institution_Id);
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)ModelData.Institution_Id, EmailList);
+                        }
+                    }
+                }
+                if ((ModelData.flag == 1) == true)
+                {
+                    string Event_Code = "";
+                    Event_Code = "NEWDATA_CAPTURE";
+
+                    AlertEvents AlertEventReturn = new AlertEvents();
+                    IList<EmailListModel> EmailList;
+                    EmailList = AlertEventReturn.NewDataCapturedEvent((long)patientDataObj.Patient_Id, (long)ModelData.Institution_Id);
+
+                    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataObj.Patient_Id, (long)ModelData.Institution_Id, EmailList);
+                }
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Patient Health Data";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                model.PatientHealthDataDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
