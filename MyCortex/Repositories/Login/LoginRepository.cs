@@ -698,7 +698,7 @@ namespace MyCortex.Repositories.Login
                                                     PhotoBlob = p.IsNull("BLOBDATA") ? null : decrypt.DecryptFile(p.Field<byte[]>("BLOBDATA")),
                                                     PatientType = p.Field<int>("PATIENT_TYPE"),
                                                     NATIONALITY_ID = p.Field<long>("NATIONALITY_ID"),
-                                                    DOB = p.Field<DateTime>("DOB"),
+                                                    //DOB = p.Field<DateTime>("DOB"), if need add sp dob_encrypt value
                                                     MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
                                                     USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
                                                     UserType = p.Field<string>("USERTYPE")
