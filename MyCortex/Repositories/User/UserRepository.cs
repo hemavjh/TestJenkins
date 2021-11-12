@@ -1419,6 +1419,7 @@ namespace MyCortex.Repositories.Uesr
                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
                                                      XAxis = p.Field<string>("xaxis") ?? "",
                                                      // Average = p.IsNull("PARAM_AVG") ? 0 : p.Field<decimal>("PARAM_AVG"),
+                                                     UOM_Id = p.Field<long>("UNITID"),
                                                      UOM_Name = p.Field<string>("UNITNAME") ?? "",
                                                      Activity_Date = p.Field<DateTime>("ACTIVITYDATE"),
                                                      Activity_DateTime = p.Field<DateTime>("ACTIVITY_DATETIME"),
