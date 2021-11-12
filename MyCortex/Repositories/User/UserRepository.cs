@@ -1588,6 +1588,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@DEVICETYPE", insobj.DeviceType));
             param.Add(new DataParameter("@DEVICE_NO", insobj.DeviceNo));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@UNITS_ID", insobj.Units_Id));
             //param.Add(new DataParameter("@MODIFIEDBY", insobj.Created_By));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDATA_SP_INSERTUPDATE", param);
             PatientHealthDataModel list = (from p in dt.AsEnumerable()
@@ -1626,6 +1627,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@DEVICETYPE", insobj.DeviceType));
             param.Add(new DataParameter("@DEVICE_NO", insobj.DeviceNo));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            /*param.Add(new DataParameter("@UNITS_ID", insobj.Units_Id));*/
             param.Add(new DataParameter("@UNITSGROUP_ID", insobj.Units_Group_Id));
             param.Add(new DataParameter("@PARAMGROUP_ID", 1));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTDATA_SP_INSERTUPDATE_FIT_SYNC]", param);

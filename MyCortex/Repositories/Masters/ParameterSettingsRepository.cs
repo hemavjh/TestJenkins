@@ -208,7 +208,7 @@ namespace MyCortex.Repositories.Masters
                                                         Units_Name = p.Field<string>("UNITS_NAME"),
                                                         UnitsGroup_ID = p.Field<long>("UNITSGROUP_ID"),
                                                         UnitsGroup_Name = p.Field<string>("UNITSGROUP_NAME"),
-                                                        Units_with_Group_Name = p.Field<string>("UNITS_NAME") + "(" + p.Field<string>("UNITSGROUP_NAME") + ")",
+                                                        Units_with_Group_Name = p.Field<string>("UNITS_NAME") + " (" + p.Field<string>("UNITSGROUP_NAME") + ")",
                                                         Max_Possible = p.IsNull("MAX_POSSIBLE") ? 0 : p.Field<decimal>("MAX_POSSIBLE"),
                                                         Min_Possible = p.IsNull("MIN_POSSIBLE") ? 0 : p.Field<decimal>("MIN_POSSIBLE"),
                                                         IsActive = p.Field<int>("ISACTIVE"),
