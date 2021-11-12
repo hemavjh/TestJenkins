@@ -17840,6 +17840,7 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
             $('#btnsave').attr("disabled", true);
             if (cnt == 0) {
                 alert("Please select atleast one Patient to Approve");
+                $('#btnsave').attr("disabled", false);
             }
             else {
                 $http.get(baseUrl + '/api/PatientApproval/Get_PatientCount/?InstitutionId=' + $scope.InstitutionId).success(function (data) {
@@ -17860,6 +17861,7 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
                             });
                             $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
                                 alert(data.Message);
+                                $('#btnsave').attr("disabled", false);
                                 if (data.ReturnFlag == 1) {
                                     $scope.PatientApprovalList();
                                     $scope.SelectedAllPatient = false;
