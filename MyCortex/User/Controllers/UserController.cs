@@ -1604,42 +1604,42 @@ namespace MyCortex.User.Controller
 
                     PatientHealthDataModel phm = new PatientHealthDataModel();
                     phm = repository.PatientHealthData_AlertNotification_List(model.Id);
-                    string Event_Code = "";
-                    if(phm != null)
-                    {
-                        if (phm.HighCount > 0)
-                            Event_Code = "DIAG_HIGH";
-                        else if (phm.MediumCount > 0)
-                            Event_Code = "DIAG_MEDIUM";
-                        else if (phm.LowCount > 0)
-                            Event_Code = "DIAG_LOW";
+                    //string Event_Code = "";
+                    //if(phm != null)
+                    //{
+                    //    if (phm.HighCount > 0)
+                    //        Event_Code = "DIAG_HIGH";
+                    //    else if (phm.MediumCount > 0)
+                    //        Event_Code = "DIAG_MEDIUM";
+                    //    else if (phm.LowCount > 0)
+                    //        Event_Code = "DIAG_LOW";
 
-                        if (phm.HighCount > 0 || phm.MediumCount > 0 || phm.LowCount > 0)
-                        {
-                            AlertEvents AlertEventReturn = new AlertEvents();
-                            IList<EmailListModel> EmailList;
-                            EmailList = AlertEventReturn.Diagnostic_Compliance_AlertEvent((long)patientDataListObj.Patient_Id, (long)model.Institution_Id);
+                    //    if (phm.HighCount > 0 || phm.MediumCount > 0 || phm.LowCount > 0)
+                    //    {
+                    //        AlertEvents AlertEventReturn = new AlertEvents();
+                    //        IList<EmailListModel> EmailList;
+                    //        EmailList = AlertEventReturn.Diagnostic_Compliance_AlertEvent((long)patientDataListObj.Patient_Id, (long)model.Institution_Id);
 
-                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, model.Id, (long)model.Institution_Id, EmailList);
-                        }
-                    }
+                    //        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, model.Id, (long)model.Institution_Id, EmailList);
+                    //    }
+                    //}
 
-                    {
-                        Event_Code = "NEWDATA_CAPTURE";
+                    //{
+                    //    Event_Code = "NEWDATA_CAPTURE";
 
-                        AlertEvents AlertEventReturn = new AlertEvents();
-                        IList<EmailListModel> EmailList;
-                        EmailList = AlertEventReturn.NewDataCapturedEvent((long)patientDataListObj.Patient_Id, (long)model.Institution_Id);
+                    //    AlertEvents AlertEventReturn = new AlertEvents();
+                    //    IList<EmailListModel> EmailList;
+                    //    EmailList = AlertEventReturn.NewDataCapturedEvent((long)patientDataListObj.Patient_Id, (long)model.Institution_Id);
 
-                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataListObj.Patient_Id, (long)model.Institution_Id, EmailList);
+                    //    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataListObj.Patient_Id, (long)model.Institution_Id, EmailList);
 
-                        Event_Code = "TARGET_DAILY";
-                        TargetAchived_AlertEventModel tarobj = new TargetAchived_AlertEventModel();
-                        tarobj = AlertEventReturn.AlertEvent_TargetAchievedDaily_List((long)model.Institution_Id, (long)patientDataListObj.Patient_Id);
+                    //    Event_Code = "TARGET_DAILY";
+                    //    TargetAchived_AlertEventModel tarobj = new TargetAchived_AlertEventModel();
+                    //    tarobj = AlertEventReturn.AlertEvent_TargetAchievedDaily_List((long)model.Institution_Id, (long)patientDataListObj.Patient_Id);
 
-                        if(tarobj != null)
-                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataListObj.Patient_Id, (long)model.Institution_Id, EmailList);
-                    }
+                    //    if(tarobj != null)
+                    //        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataListObj.Patient_Id, (long)model.Institution_Id, EmailList);
+                    //}
                 }
 
                 return 1;
