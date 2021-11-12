@@ -1602,8 +1602,8 @@ namespace MyCortex.User.Controller
                     itemData.Patient_Id = patientDataListObj.Patient_Id;
                     model = repository.PatientHealthData_Insert_Update(Login_Session_Id,itemData);
 
-                    PatientHealthDataModel phm = new PatientHealthDataModel();
-                    phm = repository.PatientHealthData_AlertNotification_List(model.Id);
+                    //PatientHealthDataModel phm = new PatientHealthDataModel();
+                    //phm = repository.PatientHealthData_AlertNotification_List(model.Id);
                     //string Event_Code = "";
                     //if(phm != null)
                     //{
