@@ -258,6 +258,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         var chk = $window.localStorage['inactivity_logout'];
         if (chk === '1') {
             $scope.errorlist = 'Your session has expired, please provide your credentials to login again.';
+            $window.localStorage['inactivity_logout'] = '0';
         }
         if ($scope.ProductName1 == 'MyCortex') {
             $scope.Productlogin = 0;
