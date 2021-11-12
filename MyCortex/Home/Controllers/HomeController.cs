@@ -314,9 +314,9 @@ namespace MyCortex.Home.Controllers
                             t.Add("Images/admin.jpg");
                         }
                         t.Add(i.NATIONALITY_ID.ToString());
-                        string DOB = "";
-                        DOB = ((DateTime)i.DOB).ToString("dd-MM-yyyy");
-                        t.Add(DOB.ToString());
+                        //string DOB = "";
+                        //DOB = ((DateTime)i.DOB).ToString("dd-MM-yyyy");
+                        t.Add("");
                         t.Add(i.UserType.ToString());
                         t.Add(i.MOBILE_NO.ToString());
                         if (i.FullName != null)
