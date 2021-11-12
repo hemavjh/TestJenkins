@@ -966,11 +966,11 @@ namespace MyCortex.Repositories.Login
                 if(!String.IsNullOrEmpty(ExpiryDate))
                     ExpiryDate = DecryptFields.Decrypt(ExpiryDate);
 
-                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow.Date)
+                if (Convert.ToDateTime(ExpiryDate) >= DateTime.UtcNow.Date)
                     isExpired = false;
 
-                if(Convert.ToDateTime(ExpiryDate) == DateTime.UtcNow.Date)
-                    isExpired = false;
+                //if(Convert.ToDateTime(ExpiryDate) == DateTime.UtcNow.Date)
+                //    isExpired = false;
             }
             catch (Exception ex)
             {
