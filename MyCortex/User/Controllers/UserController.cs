@@ -163,90 +163,90 @@ namespace MyCortex.User.Controller
         {
             UserModel ModelData = new UserModel();
             UserReturnModel model = new UserReturnModel();
-            try 
+            try
             {
-            if (Login_Session_Id == null)
-            {
-                Login_Session_Id = new Guid();
-            }
-            // var LoginSession = Login_Session_Id;
-            // var request = HttpContext.Current.Request.Url.Authority;
-            if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
-            {
-                if (!string.IsNullOrEmpty(userObj.INSTITUTION_CODE))
+                if (Login_Session_Id == null)
                 {
-                    userObj.INSTITUTION_ID = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                    Login_Session_Id = new Guid();
                 }
-                //else
-                //{
-                //    userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
-                //}
-                //  return model;
-                //UserModel Ins_model = new UserModel();
-                //Ins_model = repository.GetInstitutionForWebURL(request);
-                //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
-            }
+                // var LoginSession = Login_Session_Id;
+                // var request = HttpContext.Current.Request.Url.Authority;
+                if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
+                {
+                    if (!string.IsNullOrEmpty(userObj.INSTITUTION_CODE))
+                    {
+                        userObj.INSTITUTION_ID = repository.GetInstitutionFromShortName(userObj.INSTITUTION_CODE);
+                    }
+                    //else
+                    //{
+                    //    userObj.INSTITUTION_ID = repository.GetInstitutionForWebURL(request);
+                    //}
+                    //  return model;
+                    //UserModel Ins_model = new UserModel();
+                    //Ins_model = repository.GetInstitutionForWebURL(request);
+                    //   userObj.INSTITUTION_ID = Ins_model.INSTITUTION_ID;
+                }
                 _logger.Info("GetInstitutionFromShortName");
                 if (userObj.INSTITUTION_ID == 0)
-            {
-                // userObj.INSTITUTION_ID = InstitutionId;
-                return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Invalid Institution!");
-            }
-            string defaultPwd = "P@ssw0rd";
-            //AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", userObj.INSTITUTION_ID.Value);
-            // if (AppConfigmodel.Count > 0)
-            //{
-            //    defaultPwd = AppConfigmodel[0].ConfigValue;
-            //}
-            // string defaultPwd = ConfigurationManager.AppSettings["User.defaultPassword"];
-            string generatedPwd = "";
-            //if (ModelState.IsValid)
-            //{
-            if (userObj.Photo != null)
-            {
-                userObj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.Photo);
-            }
-            if (userObj.UPLOAD_FILENAME != null && userObj.UPLOAD_FILENAME != "")
-            {
-                userObj.FILE_FULLPATH = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.UPLOAD_FILENAME);
-            }
-            //if (userObj.NationalPhoto != null && userObj.NationalPhoto != "")
-            //{
-            //    userObj.NationalPhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.NationalPhoto);
-            //}
-            //if (userObj.InsurancePhoto != null && userObj.InsurancePhoto != "")
-            //{
-            //    userObj.InsurancePhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.InsurancePhoto);
-            //}
-            //}
+                {
+                    // userObj.INSTITUTION_ID = InstitutionId;
+                    return Request.CreateResponse(HttpStatusCode.PreconditionFailed, "Invalid Institution!");
+                }
+                string defaultPwd = "P@ssw0rd";
+                //AppConfigmodel = commonrepository.AppConfigurationDetails("User.defaultPassword", userObj.INSTITUTION_ID.Value);
+                // if (AppConfigmodel.Count > 0)
+                //{
+                //    defaultPwd = AppConfigmodel[0].ConfigValue;
+                //}
+                // string defaultPwd = ConfigurationManager.AppSettings["User.defaultPassword"];
+                string generatedPwd = "";
+                //if (ModelState.IsValid)
+                //{
+                if (userObj.Photo != null)
+                {
+                    userObj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.Photo);
+                }
+                if (userObj.UPLOAD_FILENAME != null && userObj.UPLOAD_FILENAME != "")
+                {
+                    userObj.FILE_FULLPATH = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.UPLOAD_FILENAME);
+                }
+                //if (userObj.NationalPhoto != null && userObj.NationalPhoto != "")
+                //{
+                //    userObj.NationalPhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.NationalPhoto);
+                //}
+                //if (userObj.InsurancePhoto != null && userObj.InsurancePhoto != "")
+                //{
+                //    userObj.InsurancePhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.InsurancePhoto);
+                //}
+                //}
 
 
-            //else
-            //{
-            //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            //}
-            
-            //if (!ModelState.IsValid)
-            //{
-            //    model.Status = "False";
-            //    model.Message = "Invalid data";
-            //    model.Error_Code = "";
-            //    model.ReturnFlag = 0;
-            //    model.UserDetails = ModelData;
-            //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-            //}
-            //if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
-            //{
-            //    model.Status = "False";
-            //    model.Message = "Invalid Institution!";
-            //    model.Error_Code = "";
-            //    model.ReturnFlag = 0;
-            //    model.UserDetails = ModelData;
-            //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
-            //}
-            string messagestr = "";
-            //try
-            //{
+                //else
+                //{
+                //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                //}
+
+                //if (!ModelState.IsValid)
+                //{
+                //    model.Status = "False";
+                //    model.Message = "Invalid data";
+                //    model.Error_Code = "";
+                //    model.ReturnFlag = 0;
+                //    model.UserDetails = ModelData;
+                //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                //}
+                //if (userObj.INSTITUTION_ID == null || userObj.INSTITUTION_ID == 0)
+                //{
+                //    model.Status = "False";
+                //    model.Message = "Invalid Institution!";
+                //    model.Error_Code = "";
+                //    model.ReturnFlag = 0;
+                //    model.UserDetails = ModelData;
+                //    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                //}
+                string messagestr = "";
+                //try
+                //{
                 if (userObj.UserType_Id <= 0 || userObj.UserType_Id == null)
                     throw new System.ArgumentException("User Type is missing", "UserData");
                 else if (userObj.EMAILID == "" || userObj.EMAILID == null)
@@ -257,7 +257,7 @@ namespace MyCortex.User.Controller
                     throw new System.ArgumentException("Approval Flag is missing", "UserData");
 
                 EmailGeneration egmodel = new EmailGeneration();
-                if(userObj.Id==0)
+                if (userObj.Id == 0)
                     generatedPwd = egmodel.GeneratePassword_ByPasswordPolicy(userObj.INSTITUTION_ID.Value);
 
                 _logger.Info("GeneratePassword_ByPasswordPolicy");
@@ -316,18 +316,20 @@ namespace MyCortex.User.Controller
                     userObj.Patient_Type = 1;
                 }
                 _logger.Info("before Admin_InsertUpdate");
-                ModelData = repository.Admin_InsertUpdate(Login_Session_Id,userObj);
+                ModelData = repository.Admin_InsertUpdate(Login_Session_Id, userObj);
                 if ((ModelData.flag == 1) == true)
                 {
                     messagestr = "Email already exists, cannot be Duplicated";
                     model.ReturnFlag = 0;
                     model.Status = "False";
-                }else if ((ModelData.flag == 8) == true)
+                }
+                else if ((ModelData.flag == 8) == true)
                 {
-                    if(userObj.GOOGLE_EMAILID != "")
+                    if (userObj.GOOGLE_EMAILID != "")
                     {
                         messagestr = "The Gmail added is linked with another user. Please contact your hospital administrator";
-                    }else if (userObj.FB_EMAILID != "")
+                    }
+                    else if (userObj.FB_EMAILID != "")
                     {
                         messagestr = "The facebook added is linked with another user. Please contact your hospital administrator";
                     }
@@ -339,7 +341,8 @@ namespace MyCortex.User.Controller
                     if (userObj.GOOGLE_EMAILID != "")
                     {
                         messagestr = "the Gmail added is linked with " + Replaced_FullName + " ";
-                    }else if (userObj.FB_EMAILID != "")
+                    }
+                    else if (userObj.FB_EMAILID != "")
                     {
                         messagestr = "the facebook added is linked with " + Replaced_FullName + " ";
                     }
@@ -398,7 +401,7 @@ namespace MyCortex.User.Controller
                 {
                     createCometChatUser(ModelData, (long)userObj.INSTITUTION_ID, 0);
                 }
-                else if(ModelData.flag == 3)
+                else if (ModelData.flag == 3)
                 {
                     createCometChatUser(ModelData, (long)userObj.INSTITUTION_ID, 1);
                 }
@@ -604,7 +607,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,String SearchQuery,string SearchEncryptedQuery)
+        public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, String SearchQuery, string SearchEncryptedQuery)
         {
             IList<ItemizedUserDetailsModel> model;
             if (INSTITUTION_ID == null)
@@ -1020,11 +1023,11 @@ namespace MyCortex.User.Controller
                     StartRowNumber = ((Page - 1) * _metadata.per_page) + 1;
                     EndRowNumber = Page * _metadata.per_page;
                 }
-                
+
                 model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active);
                 if (model != null)
                 {
-                    if(model.Count > 0)
+                    if (model.Count > 0)
                     {
                         _metadata.total_count = Convert.ToInt64(model[0].TotalRecord);
                         _metadata.page_count = Convert.ToInt64(Math.Ceiling(Convert.ToDecimal(model[0].TotalRecord) / _metadata.per_page));
@@ -1122,7 +1125,8 @@ namespace MyCortex.User.Controller
                 if (model.Count > 0)
                 {
                     modelReturn.Average_Value = getAverage(model);
-                } else
+                }
+                else
                 {
                     modelReturn.Average_Value = 0;
                 }
@@ -1145,9 +1149,9 @@ namespace MyCortex.User.Controller
 
         private decimal getAverage(IList<PatientHealthDataModel> PatientHealthDataList)
         {
-            decimal Total=0, Average=0;
+            decimal Total = 0, Average = 0;
 
-            for (int i=0; i<PatientHealthDataList.Count; i++)
+            for (int i = 0; i < PatientHealthDataList.Count; i++)
             {
                 Total = Total + PatientHealthDataList[i].ParameterValue;
             }
@@ -1268,7 +1272,7 @@ namespace MyCortex.User.Controller
                 else if (patientDataObj.Patient_Id <= 0 && patientDataObj.Id <= 0)
                     throw new System.ArgumentException("Patient ID is missing", "HealthData");
 
-                ModelData = repository.PatientHealthData_Insert_Update(Login_Session_Id,patientDataObj);
+                ModelData = repository.PatientHealthData_Insert_Update(Login_Session_Id, patientDataObj);
                 if ((ModelData.flag == 0) == true)
                 {
                     messagestr = "Patient data not created, Please check the data";
@@ -1462,14 +1466,14 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientAppointmentList(long Patient_Id,Guid Login_Session_Id)
+        public HttpResponseMessage PatientAppointmentList(long Patient_Id, Guid Login_Session_Id)
         {
             IList<PatientAppointmentsModel> ModelData = new List<PatientAppointmentsModel>();
             PatientAppointmentsReturnModel model = new PatientAppointmentsReturnModel();
             try
             {
 
-                ModelData = repository.PatientAppointmentList(Patient_Id,Login_Session_Id);
+                ModelData = repository.PatientAppointmentList(Patient_Id, Login_Session_Id);
                 model.Status = "True";
                 model.Message = "Patient Appointment";
                 model.Error_Code = "";
@@ -1588,7 +1592,7 @@ namespace MyCortex.User.Controller
         /// <param name="patientDataObj">Required Params: PatientId, ParameterId, ParameterValue, ActivityDate</param>
         /// <returns>inserted Health Data</returns>
       //  [CheckSessionOutFilter]
-        public int PatientHealthDataBulk_Insert_Update(Guid Login_Session_Id,PatientHealthDataListModel patientDataListObj)
+        public int PatientHealthDataBulk_Insert_Update(Guid Login_Session_Id, PatientHealthDataListModel patientDataListObj)
         {
             var Loginsession = Login_Session_Id;
             PatientHealthDataModel model = new PatientHealthDataModel();
@@ -1603,7 +1607,7 @@ namespace MyCortex.User.Controller
                     itemData.Activity_Date = patientDataListObj.ActivityDate;
                     itemData.Created_By = patientDataListObj.Created_By;
                     itemData.Patient_Id = patientDataListObj.Patient_Id;
-                    model = repository.PatientHealthData_Insert_Update(Login_Session_Id,itemData);
+                    model = repository.PatientHealthData_Insert_Update(Login_Session_Id, itemData);
 
                     //PatientHealthDataModel phm = new PatientHealthDataModel();
                     //phm = repository.PatientHealthData_AlertNotification_List(model.Id);
@@ -1665,7 +1669,7 @@ namespace MyCortex.User.Controller
         public IList<ParametersListModel> GroupParameterNameList(long Patient_Id, long UnitGroupType_Id = 1)
         {
             IList<ParametersListModel> model;
-            model = repository.GroupParameterNameList(Patient_Id,UnitGroupType_Id);
+            model = repository.GroupParameterNameList(Patient_Id, UnitGroupType_Id);
             return model;
         }
 
@@ -1943,7 +1947,7 @@ namespace MyCortex.User.Controller
         /// <param name="Certificate"></param>
         /// <returns></returns>
         [HttpPost]
-        public List<string> AttachPhoto(int Id, int Photo, int Certificate,int CREATED_BY)
+        public List<string> AttachPhoto(int Id, int Photo, int Certificate, int CREATED_BY)
         {
             var UserId = Id;
             var Created_By = CREATED_BY;
@@ -1960,8 +1964,8 @@ namespace MyCortex.User.Controller
                     {
                         foreach (string file in httpRequest.Files)
                         {
-                            var postedFile = httpRequest.Files[file]; 
-                             
+                            var postedFile = httpRequest.Files[file];
+
                             byte[] fileData = null;
                             using (var binaryReader = new BinaryReader(postedFile.InputStream))
                             {
@@ -1970,7 +1974,7 @@ namespace MyCortex.User.Controller
                             //Image x = (Bitmap)((new ImageConverter()).ConvertFrom(fileData));
                             Image img = ToImage(fileData);
                             Size thumbnailSize = GetThumbnailSize(img);
-                            Image ThumImage = ResizeImage(img, thumbnailSize.Width,thumbnailSize.Height);
+                            Image ThumImage = ResizeImage(img, thumbnailSize.Width, thumbnailSize.Height);
                             Image Cimage = ResizeImage(img, 40, 40);
                             //ImageConverter Class convert Image object to Byte array.
                             byte[] compressimage = (byte[])(new ImageConverter()).ConvertTo(Cimage, typeof(byte[]));
@@ -2274,7 +2278,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_ICD10Details_AddEdit(Guid Login_Session_Id,[FromBody] List<MasterICDModel> obj)
+        public HttpResponseMessage Patient_ICD10Details_AddEdit(Guid Login_Session_Id, [FromBody] List<MasterICDModel> obj)
         {
             IList<MasterICDModel> ModelData = new List<MasterICDModel>();
             MasterICDReturnModels model = new MasterICDReturnModels();
@@ -2290,7 +2294,7 @@ namespace MyCortex.User.Controller
             string msg = "";
             try
             {
-                msg = repository.PatientICD10_Date_Overlapping(Login_Session_Id,obj);
+                msg = repository.PatientICD10_Date_Overlapping(Login_Session_Id, obj);
                 //  msg = "";
                 if (msg != "")
                 {
@@ -2299,7 +2303,7 @@ namespace MyCortex.User.Controller
                 }
                 else
                 {
-                    retflag = repository.PatientICD10Details_AddEdit(Login_Session_Id,obj);
+                    retflag = repository.PatientICD10Details_AddEdit(Login_Session_Id, obj);
                     if ((retflag == 2) == true)
                     {
                         messagestr = "ICD10 Saved Successfully";
@@ -2360,7 +2364,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,long StartRowNumber = 0,long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage PatientICD10_Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
 
             IList<MasterICDModel> model = new List<MasterICDModel>();
@@ -2380,7 +2384,7 @@ namespace MyCortex.User.Controller
                     EndRowNumber = Page * _metadata.per_page;
                 }
 
-                model = repository.PatientICD10Details_List(Patient_Id, Isactive, Login_Session_Id, StartRowNumber,EndRowNumber,Institution_Id,Page);
+                model = repository.PatientICD10Details_List(Patient_Id, Isactive, Login_Session_Id, StartRowNumber, EndRowNumber, Institution_Id, Page);
                 if (model != null)
                 {
                     if (model.Count > 0)
@@ -2639,7 +2643,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated allergy to a patient</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Allergy_InsertUpdate(Guid Login_Session_Id,[FromBody] AllergyModel insobj)
+        public HttpResponseMessage Allergy_InsertUpdate(Guid Login_Session_Id, [FromBody] AllergyModel insobj)
         {
             IList<AllergyModel> ModelData = new List<AllergyModel>();
             PatientAllergyDetailsReturnModel model = new PatientAllergyDetailsReturnModel();
@@ -2654,7 +2658,7 @@ namespace MyCortex.User.Controller
             string messagestr = "";
             try
             {
-                ModelData = repository.Allergy_AddEdit(Login_Session_Id,insobj);
+                ModelData = repository.Allergy_AddEdit(Login_Session_Id, insobj);
 
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
@@ -3247,7 +3251,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Medication for a patient</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage MedicationInsertUpdate(Guid Login_Session_Id,[FromBody] List<DrugDBMasterModel> insobj)
+        public HttpResponseMessage MedicationInsertUpdate(Guid Login_Session_Id, [FromBody] List<DrugDBMasterModel> insobj)
         {
             IList<DrugDBMasterModel> ModelData = new List<DrugDBMasterModel>();
             DrugDBMasterReturnModels model = new DrugDBMasterReturnModels();
@@ -3264,14 +3268,14 @@ namespace MyCortex.User.Controller
             string messagestr = "";
             try
             {
-                msg = repository.MedicationInsertUpdateDateOverLapping(Login_Session_Id,insobj);
+                msg = repository.MedicationInsertUpdateDateOverLapping(Login_Session_Id, insobj);
                 if (msg != "")
                 {
                     model.Message = msg;
                 }
                 else
                 {
-                    flagret = repository.MedicationInsertUpdate(Login_Session_Id,insobj);
+                    flagret = repository.MedicationInsertUpdate(Login_Session_Id, insobj);
 
                     if ((flagret == 2) == true)
                     {
@@ -3332,7 +3336,7 @@ namespace MyCortex.User.Controller
         /// <returns>Medication details of a selected Patient Medication</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public DrugDBMasterModel MedicationView(long Id,Guid Login_Session_Id)
+        public DrugDBMasterModel MedicationView(long Id, Guid Login_Session_Id)
         {
             DrugDBMasterModel model = new DrugDBMasterModel();
             try
@@ -3357,7 +3361,7 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id,long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
             IList<DrugDBMasterModel> model = new List<DrugDBMasterModel>();
             DrugDBMasterReturnModels modelReturn = new DrugDBMasterReturnModels();
@@ -3468,7 +3472,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By,int Is_Appointment=0, string Filetype="")
+        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "")
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
@@ -3513,7 +3517,7 @@ namespace MyCortex.User.Controller
                     _logger.Error(ex.Message, ex);
                 }
                 // return docfiles;
-                ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By,Is_Appointment,Filetype);
+                ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, Filetype);
 
                 if ((ModelData.flag == 1) == true)
                 {
@@ -3593,17 +3597,17 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_List(long Patient_Id, int IsActive,Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
         {
-            IList<Patient_OtherDataModel> model = new List<Patient_OtherDataModel>(); 
+            IList<Patient_OtherDataModel> model = new List<Patient_OtherDataModel>();
             DocumentReturnModel modelReturn = new DocumentReturnModel();
             IList<AppConfigurationModel> configList;
             OthersDataPagination _metadata = new OthersDataPagination();
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller"); 
-                 
+                    _logger.Info("Controller");
+
                 configList = commonrepository.AppConfigurationDetails("PATIENTPAGE_COUNT", Institution_Id);
                 _metadata.per_page = Convert.ToInt64(configList[0].ConfigValue);
                 if (Page != 0)
@@ -3784,7 +3788,7 @@ namespace MyCortex.User.Controller
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.AllergyMasterList(IsActive, Institution_Id,  StartRowNumber,  EndRowNumber);
+                model = repository.AllergyMasterList(IsActive, Institution_Id, StartRowNumber, EndRowNumber);
                 return model;
             }
             catch (Exception ex)
@@ -4005,9 +4009,9 @@ namespace MyCortex.User.Controller
         }
 
 
-          
-       public static void CompressImage(string SoucePath, string DestPath, int quality)
-       {
+
+        public static void CompressImage(string SoucePath, string DestPath, int quality)
+        {
             var FileName = Path.GetFileName(SoucePath);
             DestPath = DestPath + "\\" + FileName;
 
@@ -4161,7 +4165,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         [CheckSessionOutFilter]
-        public AppointmentFeeModel GetAppointmentFee(long Institution_Id,long Department_Id,Guid Login_Session_Id)
+        public AppointmentFeeModel GetAppointmentFee(long Institution_Id, long Department_Id, Guid Login_Session_Id)
         {
             try
             {
@@ -4184,9 +4188,10 @@ namespace MyCortex.User.Controller
         {
             UserModel ModelData = new UserModel();
             UserReturnModel model = new UserReturnModel();
-            try 
+            try
             {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++)
+                {
                     UserModel userObj = new UserModel();
                     userObj.FullName = 'A' + i.ToString();
                     userObj.PASSWORD = "P@sswOrd";
