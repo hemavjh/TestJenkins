@@ -16,7 +16,7 @@ namespace MyCortex.Repositories
         IList<DepartmentModel> DepartmentList();
         IList<BusinessUser_UserTypeListModel> BusinessUser_UserTypeList();
         UserModel Admin_InsertUpdate(Guid Login_Session_Id, UserModel insobj);
-        PatientChronicModel PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj);
+        long PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj);
         UserModel Add_Dummy_Users(UserModel insobj);
         UserModel UserDetails_View(long Id, Guid Login_Session_Id);
         UserReturnModel UserDetails_InActive(long Id);

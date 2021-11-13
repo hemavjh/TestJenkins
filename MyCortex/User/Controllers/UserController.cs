@@ -920,15 +920,18 @@ namespace MyCortex.User.Controller
         public HttpResponseMessage PatientChronicEdit(Guid Login_Session_Id, [FromBody] PatientChronicModel obj)
         {
             PatientChronicModel ModelData = new PatientChronicModel();
+            long retId = 0;
             try
             {
-                ModelData = repository.PatientChronicEdit(Login_Session_Id, obj);
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, ModelData);
+                retId = repository.PatientChronicEdit(Login_Session_Id, obj);
+                retId = 1;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, retId);
                 return response;
             }
             catch
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, ModelData);
+                retId = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, retId);
             }
         }
         /// <summary>

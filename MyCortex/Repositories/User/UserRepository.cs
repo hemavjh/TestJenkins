@@ -104,9 +104,9 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
-        public PatientChronicModel PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj)
+        public long PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj)
         {
-            long Inserted_Group_Id;
+            long Inserted_Group_Id = 0;
             if (obj.ChronicConditionList != null)
             {
                 foreach (ChronicConditionModel item in obj.ChronicConditionList)
@@ -128,11 +128,7 @@ namespace MyCortex.Repositories.Uesr
                     }
                 }
             }
-            else
-            {
-                return null;
-            }
-            return null;
+            return Inserted_Group_Id;
         }
 
         /// <summary>
