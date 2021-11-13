@@ -41,7 +41,7 @@
 
 body {
     font-family: "Amazon Ember" !important;
-    font-size: var(--baseFontSize);
+    font-size: var(--baseFontSize) !important;
 }
 .main-tab {
     min-height: 57rem;
@@ -503,7 +503,7 @@ color:red;
 }
 
 a {
-    color: var(--linkText);
+    color: var(--linkText) !important;
 }
 
 .modal-title {
@@ -511,7 +511,7 @@ a {
 }
 
 .modal-header {
-    background: var(--primary);
+    background: var(--primary) !important;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-radius: 0px;
@@ -535,7 +535,7 @@ label {
 }
 
 .mandatory-field {
-    color: var(--warning);
+    color: var(--warning) !important;
 }
 
 /*.input-group-addon {
@@ -554,8 +554,8 @@ label {
     display: flex;
     padding: 0px 15px 0px 0px;
     align-items: center;
-    background: var(--headerBg);
-    color: var(--headerText);
+    background: var(--headerBg) !important;
+    color: var(--headerText) !important;
     height: 90px;
     position: fixed;
     left: 0px;
@@ -693,7 +693,7 @@ li.customDropdownlast-child:hover {
 }
 
 .footerBg {
-    background-color: var(--footerBg);
+    background-color: var(--footerBg) !important;
     border-top: 1px solid #ccc;
     padding: 3px 10px;
     clear: both;
@@ -931,9 +931,9 @@ li.customDropdownlast-child:hover {
 }
 
 .theme-btn-1 {
-    color: var(--positiveBtnText);
-    background: var(--positiveBtnBg);
-    border: 2px solid var(--positiveBtnBorder);
+    color: var(--positiveBtnText) !important;
+    background: var(--positiveBtnBg) !important;
+    border: 2px solid var(--positiveBtnBorder) !important;
     padding: 5px 15px;
     border-radius: 5px;
     display: inline-block !important;
@@ -943,25 +943,25 @@ li.customDropdownlast-child:hover {
 
     .theme-btn-1:hover {
         color: var(--positiveHoverBtnText) !important;
-        background: var(--positiveHoverBtnBg);
-        border: 2px solid var(--positiveHoverBtnBorder);
+        background: var(--positiveHoverBtnBg) !important;
+        border: 2px solid var(--positiveHoverBtnBorder) !important;
         text-decoration: none;
         outline: none;
     }
 
 .theme-btn-2 {
-    color: var(--negativeBtnText);
-    background: var(--negativeBtnBg);
-    border: 2px solid var(--negativeBtnBorder);
+    color: var(--negativeBtnText) !important;
+    background: var(--negativeBtnBg) !important;
+    border: 2px solid var(--negativeBtnBorder) !important;
     padding: 5px 15px;
     border-radius: 5px;
     outline: none;
 }
 
     .theme-btn-2:hover {
-        color: var(--negativeHoverBtnText);
-        background: var(--negativeHoverBtnBg);
-        border: 2px solid var(--negativeHoverBtnBorder);
+        color: var(--negativeHoverBtnText) !important;
+        background: var(--negativeHoverBtnBg) !important;
+        border: 2px solid var(--negativeHoverBtnBorder) !important;
         text-decoration: none;
         outline: none;
     }
@@ -1210,7 +1210,7 @@ li.customDropdownlast-child:hover {
 }
 
 .title1 {
-    color: var(--title);
+    color: var(--title) !important;
     margin: 0px;
     padding: 10px 0px;
     font-weight: 600;
@@ -1219,7 +1219,7 @@ li.customDropdownlast-child:hover {
 }
 
 .title2 {
-    color: var(--subTitle);
+    color: var(--subTitle) !important;
     margin: 0px;
     margin: 0px 0px 10px 0px;
     font-weight: 600;
@@ -1443,7 +1443,7 @@ li.customDropdownlast-child:hover {
 
 .themeTable th {
     color: var(--TableHeaderText) !important;
-    background: var(--TableHeaderBg);
+    background: var(--TableHeaderBg) !important;
     vertical-align: middle !important;
     text-align: center !important;
 }
@@ -1453,13 +1453,13 @@ li.customDropdownlast-child:hover {
 }
 
 .themeTable tr:nth-of-type(even) {
-    background-color: var(--TableAlternateRowBg);
-    color: var(--TableAlternateRowText);
+    background-color: var(--TableAlternateRowBg) !important;
+    color: var(--TableAlternateRowText) !important;
 }
 
 .themeTable tr:hover {
-    background-color: var(--TableRowHoverBg);
-    color: var(--TableRowHoverText);
+    background-color: var(--TableRowHoverBg) !important;
+    color: var(--TableRowHoverText) !important;
 }
 
 .themeTable th {
@@ -2702,9 +2702,9 @@ a.disabled {
 }
 
 .theme-btny-1 {
-    color: var(--positiveBtnText);
-    background: var(--positiveBtnBg);
-    border: 2px solid var(--positiveBtnBorder);
+    color: var(--positiveBtnText) !important;
+    background: var(--positiveBtnBg) !important;
+    border: 2px solid var(--positiveBtnBorder) !important;
     padding: 5px 9px;
     border-radius: 5px;
     float: left !important;
@@ -2714,16 +2714,16 @@ a.disabled {
 
     .theme-btny-1:hover {
         color: var(--positiveHoverBtnText) !important;
-        background: var(--positiveHoverBtnBg);
-        border: 2px solid var(--positiveHoverBtnBorder);
+        background: var(--positiveHoverBtnBg) !important;
+        border: 2px solid var(--positiveHoverBtnBorder) !important;
         text-decoration: none;
         outline: none;
     }
 
 .theme-btnz-1 {
-    color: var(--positiveBtnText);
-    background: var(--positiveBtnBg);
-    border: 2px solid var(--positiveBtnBorder);
+    color: var(--positiveBtnText) !important;
+    background: var(--positiveBtnBg) !important;
+    border: 2px solid var(--positiveBtnBorder) !important;
     padding: 5px 9px;
     border-radius: 5px;
     float: right !important;
@@ -2733,8 +2733,8 @@ a.disabled {
 
     .theme-btnz-1:hover {
         color: var(--positiveHoverBtnText) !important;
-        background: var(--positiveHoverBtnBg);
-        border: 2px solid var(--positiveHoverBtnBorder);
+        background: var(--positiveHoverBtnBg) !important;
+        border: 2px solid var(--positiveHoverBtnBorder) !important;
         text-decoration: none;
         outline: none;
     }
