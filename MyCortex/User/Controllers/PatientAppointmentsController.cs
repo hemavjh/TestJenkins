@@ -95,14 +95,14 @@ namespace MyCortex.User.Controller
 
                 if ((ModelData.flag == 1) == true)
                 {
-                    string Event_Code = "";
-                    Event_Code = "PAT_APPOINTMENT_CANCEL";
+                    //string Event_Code = "";
+                    //Event_Code = "PAT_APPOINTMENT_CANCEL";
 
-                    AlertEvents AlertEventReturn = new AlertEvents();
-                    IList<EmailListModel> EmailList;
-                    EmailList = AlertEventReturn.Patient_Appointment_Cancel_AlertEvent((long)Obj.Id, (long)ModelData.Institution_Id);
+                    //AlertEvents AlertEventReturn = new AlertEvents();
+                    //IList<EmailListModel> EmailList;
+                    //EmailList = AlertEventReturn.Patient_Appointment_Cancel_AlertEvent((long)Obj.Id, (long)ModelData.Institution_Id);
 
-                    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, Obj.Id, (long)ModelData.Institution_Id, EmailList);
+                    //AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, Obj.Id, (long)ModelData.Institution_Id, EmailList);
                 }
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
