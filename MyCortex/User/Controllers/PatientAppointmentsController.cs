@@ -171,14 +171,16 @@ namespace MyCortex.User.Controller
 
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
-                    string Event_Code = "";
-                    Event_Code = "PAT_APPOINTMENT_CREATION";
+                    //  below code moved to windows service
 
-                    AlertEvents AlertEventReturn = new AlertEvents();
-                    IList<EmailListModel> EmailList;
-                    EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
+                    //string Event_Code = "";
+                    //Event_Code = "PAT_APPOINTMENT_CREATION";
 
-                    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
+                    //AlertEvents AlertEventReturn = new AlertEvents();
+                    //IList<EmailListModel> EmailList;
+                    //EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
+
+                    //AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
                 }
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
@@ -233,14 +235,14 @@ namespace MyCortex.User.Controller
 
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
-                    string Event_Code = "";
-                    Event_Code = "PAT_APPOINTMENT_CREATION";
+                    //string Event_Code = "";
+                    //Event_Code = "PAT_APPOINTMENT_CREATION";
 
-                    AlertEvents AlertEventReturn = new AlertEvents();
-                    IList<EmailListModel> EmailList;
-                    EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
+                    //AlertEvents AlertEventReturn = new AlertEvents();
+                    //IList<EmailListModel> EmailList;
+                    //EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)ModelData[0].Id, (long)insobj.Institution_Id);
 
-                    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
+                    //AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, (long)insobj.Institution_Id, EmailList);
                 }
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
