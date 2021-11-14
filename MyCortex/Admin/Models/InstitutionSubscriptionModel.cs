@@ -47,6 +47,12 @@ namespace MyCortex.Admin.Models
         public IList<GatewayMasterModel> ChildPaymentList { get; set; }
         public IList<GatewayMasterModel> Payment_List { get; set; }
         public IList<GatewayMasterModel> ChildInsuranceList { get; set; }
+        public bool ChronicCc { get; set; }
+        public bool ChronicCg { get; set; }
+        public bool ChronicCl { get; set; }
+
+        public bool ChronicSc { get; set; }
+        public bool ChronicPatient { get; set; }
     }
 
   

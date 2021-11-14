@@ -988,6 +988,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.V_Contract_Period_From = "";
         $scope.V_Contract_Period_To = "";
         $scope.Subscription_Type = "1";
+        $scope.Chroniccc = false;
+        $scope.Chroniccg = false;
+        $scope.Chroniccl = false;
+        $scope.Chronicsc = false;
+        $scope.Chronicuserpatient = false;
 
         $scope.InstitutionViewList = [];
         $scope.IsActive = true;
@@ -1250,7 +1255,12 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     TimeZone_ID: $scope.TimeZone_Id,
                     Appointment_Module_Id: $scope.AppointmentModule_Id,
                     Payment_List: InstitutionSelectedPaymentList,
-                    Payment_Module_Id: Payment_List_Id
+                    Payment_Module_Id: Payment_List_Id,
+                    ChronicCc: $scope.Chroniccc,
+                    ChronicCg: $scope.Chroniccg,
+                    ChronicCl: $scope.Chroniccl,
+                    ChronicSc: $scope.Chronicsc,
+                    ChronicPatient: $scope.Chronicuserpatient
                 }
                 $('#btnsave').attr("disabled", true);
                 $('#btnsave1').attr("disabled", true);
@@ -1354,7 +1364,6 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 }
                 $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionDetails_View/?Id=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                     $scope.DuplicatesId = data.Id;
-                    console.log(data);
                     $scope.InstitutiontypeList = data.Module_List;
                     $scope.InstitutionChildList = data.ChildModuleList;
                     $scope.LanguageList = data.Language_List;
@@ -1384,6 +1393,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
                     $scope.InsSub_Id = data.SubscriptionId;
+                    $scope.Chroniccc = data.ChronicCc;
+                    $scope.Chroniccg = data.ChronicCg;
+                    $scope.Chroniccl = data.ChronicCl;
+                    $scope.Chronicsc = data.ChronicSc;
+                    $scope.Chronicuserpatient = data.ChronicPatient;
 
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
 
@@ -1662,6 +1676,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.AddMedicalHistory = [];
         $scope.AddHealthProblem = [];
         $scope.DoctorInstitutionList = [];
+        $scope.EditChronicOptionuser = 0;
+        $scope.Chronicuserpatient = false;
+        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+            $scope.Chronicuserpatient = data.ChronicPatient;
+            if ($window.localStorage['UserTypeId'] == 2 & $scope.Chronicuserpatient == false) {
+                $scope.EditChronicOptionuser = 1;
+            }
+        });
 
         $scope.loadCount = 3;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -2259,6 +2281,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //{
         $scope.tab1 = 0;
         $scope.Patientcreatefunction = function () {
+            $scope.EditChronicOptionuser = 0;
+            $scope.Chronicuserpatient = false;
+            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                $scope.Chronicuserpatient = data.ChronicPatient;
+                if ($window.localStorage['UserTypeId'] == 2 & $scope.Chronicuserpatient == false) {
+                    $scope.EditChronicOptionuser = 1;
+                }
+            });
             $http.get(baseUrl + '/api/Common/GenderList/').success(
                 function (data) {
                     $scope.GenderList = data;
@@ -3297,8 +3327,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.EditPatientChronicCondition = 1;
             }
             $scope.SelectedChronicConditionEdit = "0";
+            $scope.PatientMenu = 0;
             $scope.EditSavePatientChronic = function (SelectedChronicConditionEdit) {
+                $("#chatLoaderPV").show();
                 $scope.PatientEditChronicCondition_List = [];
+                $scope.PatientMenu = $scope.MenuTypeId;
                 angular.forEach(SelectedChronicConditionEdit, function (value, index) {
                     var obj = {
                         Id: 0,
@@ -3312,9 +3345,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     UserId: $scope.Id,
                     CreatedBy: $window.localStorage['UserId']
                 }
+                console.log($scope.PatientEditChronicCondition_List);
                 $http.post(baseUrl + '/api/User/PatientChronicEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).success(function (data) {
-                    var output = data;
-                    console.log(output);
+                    $("#chatLoaderPV").hide();
+                    if (data == 1) {
+                        $scope.EditPatientChronicCondition = 0;
+                        $scope.Admin_View($scope.PatientMenu);
+                    }
                 });
             }
         }
@@ -3354,6 +3391,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.SelectedLanguage = [];
                 $scope.EditSelectedChronicondition = [];
                 $scope.SelectedChronicCondition = [];
+            $scope.SelectedChronicConditionEdit = [];
+            $scope.EditChronicOption = 0;
                 if ($scope.Id > 0) {
                     $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.Id).success(function (data1) {
                         methodcnt = methodcnt - 1;
@@ -3401,6 +3440,25 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }
                         else {
                             $scope.uploadme2 = null;
+                        }
+                    });
+                    $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $scope.Chroniccc = data.ChronicCc;
+                        $scope.Chroniccg = data.ChronicCg;
+                        $scope.Chroniccl = data.ChronicCl;
+                        $scope.Chronicsc = data.ChronicSc;
+                        $scope.Chronicuserpatient = data.ChronicPatient;
+                        if ($window.localStorage['UserTypeId'] == 6 & $scope.Chroniccc == true) {
+                            $scope.EditChronicOption = 1;
+                        }
+                        if ($window.localStorage['UserTypeId'] == 5 & $scope.Chroniccg == true) {
+                            $scope.EditChronicOption = 1;
+                        }
+                        if ($window.localStorage['UserTypeId'] == 4 & $scope.Chroniccl == true) {
+                            $scope.EditChronicOption = 1;
+                        }
+                        if ($window.localStorage['UserTypeId'] == 7 & $scope.Chronicsc == true) {
+                            $scope.EditChronicOption = 1;
                         }
                     });
 
@@ -3631,6 +3689,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
                                     $scope.EditSelectedChronicondition.push(value.Chronic_Id);
                                     $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
+                                    $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
                                 });
                                 //$scope.CountryBased_StateFunction();
                                 //$scope.StateBased_CityFunction();
@@ -5880,6 +5939,11 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
         $scope.Subscription_Type = "1";
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.Chroniccc = false;
+        $scope.Chroniccg = false;
+        $scope.Chroniccl = false;
+        $scope.Chronicsc = false;
+        $scope.Chronicuserpatient = false;
 
         $scope.InstitutionViewList = [];
         $scope.IsActive = true;
@@ -5947,6 +6011,11 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.TimeZoneId = data.TimeZone_ID;
                     $scope.AppointmentModuleId = data.Appointment_Module_Id;
                     $scope.TimeZoneIDName = "";
+                    $scope.Chroniccc = data.ChronicCc;
+                    $scope.Chroniccg = data.ChronicCg;
+                    $scope.Chroniccl = data.ChronicCl;
+                    $scope.Chronicsc = data.ChronicSc;
+                    $scope.Chronicuserpatient = data.ChronicPatient;
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
                         for (i in data2) {
