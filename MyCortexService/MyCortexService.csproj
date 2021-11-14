@@ -98,6 +98,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MyCortexDB\MyCortexDB.csproj">
+      <Project>{5f5ae367-61a1-4a3f-9d64-c1fc39645126}</Project>
+      <Name>MyCortexDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyCortex\MyCortex.csproj">
       <Project>{61736415-d160-4343-ad26-10ef01b2c137}</Project>
       <Name>MyCortex</Name>
