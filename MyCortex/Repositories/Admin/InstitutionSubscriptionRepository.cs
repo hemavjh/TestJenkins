@@ -81,7 +81,6 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@CHRONICCG", obj.ChronicCg));
             param.Add(new DataParameter("@CHRONICCL", obj.ChronicCl));
             param.Add(new DataParameter("@CHRONICSC", obj.ChronicSc));
-            param.Add(new DataParameter("@CHRONICPATIENT", obj.ChronicPatient));
             {
                 // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SUBSCRIPTION_SP_INSERTUPDATE", param);
@@ -338,7 +337,6 @@ namespace MyCortex.Repositories.Admin
                                                     ChronicCg = p.Field<bool>("CHRONIC_CG"),
                                                     ChronicCl = p.Field<bool>("CHRONIC_CL"),
                                                     ChronicSc = p.Field<bool>("CHRONIC_SC"),
-                                                    ChronicPatient = p.Field<bool>("CHRONIC_USERPAT"),
                                                     Contract_PeriodFrom = p.Field<DateTime>("CONTRACT_PERIODFROM"),
                                                     Health_Care_Professionals = p.Field<int>("NOOF_HEALTHCARE"),
                                                     No_Of_Patients = p.Field<int>("NOOF_PATIENT"),

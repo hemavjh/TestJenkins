@@ -52,7 +52,6 @@ namespace MyCortex.Admin.Models
         public bool ChronicCl { get; set; }
 
         public bool ChronicSc { get; set; }
-        public bool ChronicPatient { get; set; }
     }
 
   

@@ -574,14 +574,14 @@
                                 </div>
                                 <div class="inputGroups">
                                     <label>Chronic Condition</label>
-                                    <div ng-hide="EditChronicOptionuser == 1">
+                                    <div ng-hide="Pat_UserTypeId==2">
                                         <select ng-model="SelectedChronicCondition" multiple="multiple"
                                                 ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
                                                 multiselect-dropdown style="width: 230px;">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                    <span ng-show="EditChronicOptionuser == 1">
+                                    <span ng-hide="Pat_UserTypeId==2">
                                         {{ChronicCondition}}
                                     </span>
                                 </div>

@@ -992,7 +992,6 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Chroniccg = false;
         $scope.Chroniccl = false;
         $scope.Chronicsc = false;
-        $scope.Chronicuserpatient = false;
 
         $scope.InstitutionViewList = [];
         $scope.IsActive = true;
@@ -1259,8 +1258,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     ChronicCc: $scope.Chroniccc,
                     ChronicCg: $scope.Chroniccg,
                     ChronicCl: $scope.Chroniccl,
-                    ChronicSc: $scope.Chronicsc,
-                    ChronicPatient: $scope.Chronicuserpatient
+                    ChronicSc: $scope.Chronicsc
                 }
                 $('#btnsave').attr("disabled", true);
                 $('#btnsave1').attr("disabled", true);
@@ -1397,7 +1395,6 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
                     $scope.Chronicsc = data.ChronicSc;
-                    $scope.Chronicuserpatient = data.ChronicPatient;
 
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
 
@@ -1479,6 +1476,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.AppointmentModuleId = "0";
         $scope.InstitutionAddInsuranceList = [];
         $scope.InstitutionAddPaymentList = [];
+
+        $scope.Chroniccc = false;
+        $scope.Chroniccg = false;
+        $scope.Chroniccl = false;
+        $scope.Chronicsc = false;
 
     }
     $scope.InstitutionSubscription_Delete = function () {
@@ -1676,14 +1678,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.AddMedicalHistory = [];
         $scope.AddHealthProblem = [];
         $scope.DoctorInstitutionList = [];
-        $scope.EditChronicOptionuser = 0;
-        $scope.Chronicuserpatient = false;
-        $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            $scope.Chronicuserpatient = data.ChronicPatient;
-            if ($window.localStorage['UserTypeId'] == 2 & $scope.Chronicuserpatient == false) {
-                $scope.EditChronicOptionuser = 1;
-            }
-        });
 
         $scope.loadCount = 3;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -2281,14 +2275,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //{
         $scope.tab1 = 0;
         $scope.Patientcreatefunction = function () {
-            $scope.EditChronicOptionuser = 0;
-            $scope.Chronicuserpatient = false;
-            $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.Chronicuserpatient = data.ChronicPatient;
-                if ($window.localStorage['UserTypeId'] == 2 & $scope.Chronicuserpatient == false) {
-                    $scope.EditChronicOptionuser = 1;
-                }
-            });
             $http.get(baseUrl + '/api/Common/GenderList/').success(
                 function (data) {
                     $scope.GenderList = data;
@@ -3447,7 +3433,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         $scope.Chroniccg = data.ChronicCg;
                         $scope.Chroniccl = data.ChronicCl;
                         $scope.Chronicsc = data.ChronicSc;
-                        $scope.Chronicuserpatient = data.ChronicPatient;
                         if ($window.localStorage['UserTypeId'] == 6 & $scope.Chroniccc == true) {
                             $scope.EditChronicOption = 1;
                         }
@@ -5943,7 +5928,6 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
         $scope.Chroniccg = false;
         $scope.Chroniccl = false;
         $scope.Chronicsc = false;
-        $scope.Chronicuserpatient = false;
 
         $scope.InstitutionViewList = [];
         $scope.IsActive = true;
@@ -6015,7 +5999,6 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
                     $scope.Chronicsc = data.ChronicSc;
-                    $scope.Chronicuserpatient = data.ChronicPatient;
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
                         for (i in data2) {
