@@ -1410,7 +1410,7 @@
                                                                 </td>
                                                             </tr>
 
-                                                            <tr ng-repeat="row in emptydataVitalLab | orderBy:'Activity_DateTime'">
+                                                            <tr ng-repeat="row in emptydataVitalLab | orderBy:'-Activity_DateTime'">
                                                                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                                 <td style="text-align: left">
                                                                     {{(row.Activity_DateTime| date:'dd-MMM-yyyy hh:mm a')}}
