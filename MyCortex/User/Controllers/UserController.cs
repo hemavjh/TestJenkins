@@ -937,6 +937,24 @@ namespace MyCortex.User.Controller
                 return Request.CreateResponse(HttpStatusCode.BadRequest, retId);
             }
         }
+
+        public HttpResponseMessage PatientGroupEdit(Guid Login_Session_Id, [FromBody] PatientGroupModel obj)
+        {
+            PatientGroupModel ModelData = new PatientGroupModel();
+            long retId = 0;
+            try
+            {
+                retId = repository.PatientGroupEdit(Login_Session_Id, obj);
+                retId = 1;
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, retId);
+                return response;
+            }
+            catch
+            {
+                retId = 0;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, retId);
+            }
+        }
         /// <summary>
         /// to add Group's to a patient/business user
         /// </summary>

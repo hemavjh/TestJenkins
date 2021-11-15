@@ -130,6 +130,32 @@ namespace MyCortex.Repositories.Uesr
             }
             return Inserted_Group_Id;
         }
+        public long PatientGroupEdit(Guid Login_Session_Id, PatientGroupModel obj)
+        {
+            long Inserted_Group_Id = 0;
+            if (obj.GroupTypeList != null)
+            {
+                foreach (GroupTypeModel item in obj.GroupTypeList)
+                {
+                    if (item.Id != null)
+                    {
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@User_Id", obj.UserId));
+                        param1.Add(new DataParameter("@Group_Id", item.Id));
+                        param1.Add(new DataParameter("@Created_by", obj.CreatedBy));
+                        var objExist = obj.EditSelectedGroupList.Where(ChildItem => ChildItem.Group_Id == item.Id);
+
+                        if (objExist.ToList().Count > 0)
+                            param1.Add(new DataParameter("@Group_Selected", "1"));
+                        else
+                            param1.Add(new DataParameter("@Group_Selected", "0"));
+
+                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DOCTORADDITIONALDETAILS", param1, true);
+                    }
+                }
+            }
+            return Inserted_Group_Id;
+        }
 
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution

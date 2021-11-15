@@ -246,7 +246,14 @@ namespace MyCortex.User.Model
         public IList<ChronicConditionModel> ChronicConditionList { get; set; }
         public long CreatedBy { get; set; }
         public long UserId { get; set; }
-        public string returnMessage { get; set; }
+
+    }
+    public class PatientGroupModel
+    {
+        public IList<UserGroupDetails_List> EditSelectedGroupList { get; set; }
+        public IList<GroupTypeModel> GroupTypeList { get; set; }
+        public long CreatedBy { get; set; }
+        public long UserId { get; set; }
 
     }
     public class Patient_FamilyHeealthHistoryDetails

@@ -1678,6 +1678,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.AddMedicalHistory = [];
         $scope.AddHealthProblem = [];
         $scope.DoctorInstitutionList = [];
+        $scope.DoctorInstitutionList = [];
+
+        $scope.EditgroupOption = 0;
+        if ($window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 6) {
+            $scope.EditgroupOption = 1;
+        }
 
         $scope.loadCount = 3;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -3308,12 +3314,49 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         //    $scope.CityId = "0";
         //};
         $scope.PatientView = function () {
+            $scope.PatientMenu = $scope.MenuTypeId;
             $scope.EditPatientChronicCondition = 0;
             $scope.EditPatientChronic = function () {
                 $scope.EditPatientChronicCondition = 1;
             }
+            $scope.EditPatientGroupId = 0;
+            $scope.GroupTypeList = [];
+            $scope.EditPatientGroup = function () {
+                $("#chatLoaderPV").show();
+                $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                    $scope.GroupTypeList = data;
+                });
+                $("#chatLoaderPV").hide();
+                $scope.EditPatientGroupId = 1;
+            }
+            $scope.EditSavePatientgroup = function (SelectedGroup) {
+                $("#chatLoaderPV").show();
+                $scope.PatientGroupDetails_List = [];
+                angular.forEach(SelectedGroup, function (value, index) {
+                    var obj = {
+                        Id: 0,
+                        Group_Id: value
+                    }
+                    $scope.PatientGroupDetails_List.push(obj);
+                });
+                var obj1 = {
+                    EditSelectedGroupList: $scope.PatientGroupDetails_List,
+                    GroupTypeList: $scope.GroupTypeList,
+                    UserId: $scope.Id,
+                    CreatedBy: $window.localStorage['UserId']
+                }
+                $http.post(baseUrl + '/api/User/PatientGroupEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    if (data == 1) {
+                        $scope.EditPatientGroupId = 0;
+                        $scope.Admin_View($scope.PatientMenu);
+                    }
+                    if (data == 0) {
+                        alert("Nothing Happened")
+                    }
+                });
+            }
             $scope.SelectedChronicConditionEdit = "0";
-            $scope.PatientMenu = 0;
             $scope.EditSavePatientChronic = function (SelectedChronicConditionEdit) {
                 $("#chatLoaderPV").show();
                 $scope.PatientEditChronicCondition_List = [];
@@ -3331,7 +3374,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     UserId: $scope.Id,
                     CreatedBy: $window.localStorage['UserId']
                 }
-                console.log($scope.PatientEditChronicCondition_List);
                 $http.post(baseUrl + '/api/User/PatientChronicEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj1).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data == 1) {

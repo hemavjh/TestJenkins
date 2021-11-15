@@ -124,9 +124,31 @@
                                                     <label>Mobile No.</label>
                                                     <span>{{MobileNo}}</span>
                                                 </div>
-                                                <div class="inputGroups">
+                                                <div class="inputGroups" ng-hide="EditPatientGroupId == 1">
+                                                    <div class="row">
+                                                        <div class="col-sm-9">
+                                                            <label> Group</label>
+                                                            <span> {{ViewGroupName}}</span>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientGroup()" ng-show="EditgroupOption == 1">
+                                                                Edit Group
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="inputGroups" ng-if="EditPatientGroupId == 1">
                                                     <label>Group</label>
-                                                    <span> {{ViewGroupName}}</span>
+                                                    <div>
+                                                        <select ng-model="SelectedGroup" multiple="multiple"
+                                                                ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
+                                                                multiselect-dropdown style="width: 230px;">
+                                                            <option value="0">Select</option>
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" style="width:100px;" class="theme-btn-2  btn-save" ng-click="EditSavePatientgroup(SelectedGroup)">
+                                                        Save
+                                                    </button>
                                                 </div>
                                                 <div class="inputGroups">
                                                     <label>Patient Type</label>
