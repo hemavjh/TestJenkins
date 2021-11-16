@@ -6487,6 +6487,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $window.history.back();
             return false;
         }
+        $scope.NewAppointmentDuration = 0;
+        $scope.FollowUpDuration = 0;
         $scope.SearchMsg = "No Data Available";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.LiveDataCurrentTime = "";
@@ -7200,6 +7202,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             if (data.IsCl) { $scope.bookCl = 4; }
                             if (data.IsSc) { $scope.bookSc = 7; }
                             if (data.IsPatient) { $scope.bookpa = 2; }
+                            $scope.NewAppointmentDuration = data.NewAppointmentDuration;
+                            $scope.FollowUpDuration = data.FollowUpDuration;
                             if (data.MaxScheduleDays) {
                                 var futu_date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + data.MaxScheduleDays);
                                 var futureDate = futu_date.getFullYear() + '-' + (((futu_date.getMonth() + 1).toString().length > 1) ? ((futu_date.getMonth() + 1).toString()) : '0' + (futu_date.getMonth() + 1).toString()) + '-' + (((futu_date.getDate()).toString().length > 1) ? ((futu_date.getDate()).toString()) : '0' + (futu_date.getDate()).toString());
