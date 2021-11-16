@@ -368,8 +368,8 @@ MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$rou
     }
 ]);
 /* THIS IS FOR INSTITUTION CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub) {
+MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
         $scope.CreatedBy = $window.localStorage['UserId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.CountryFlag = false;
@@ -529,7 +529,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             */
         $scope.InstitutionAddEdit_Validations = function () {
             if (typeof ($scope.Institution_Name) == "undefined" || $scope.Institution_Name == "") {
-                alert("Please enter Institution Name");
+                //alert("Please enter Institution Name");
+                toastr.warning('Please enter Institution Name', 'warning');
                 return false;
             }
             else if (typeof ($scope.INSTITUTION_SHORTNAME) == "undefined" || $scope.INSTITUTION_SHORTNAME == "") {
