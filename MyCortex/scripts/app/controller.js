@@ -9503,7 +9503,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.DeleteParameters = function (comId, paramId) {
             var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: paramId }, true)[0]
             if (checkobj.IsFormulaParam == "1") {
-                alert(checkobj.ParameterName + " cannot be deactivated");
+                //alert(checkobj.ParameterName + " cannot be deactivated");
+                toastr.warning(checkobj.ParameterName + " cannot be deactivated", "warning");
             }
             else {
                 $scope.Id = comId;
@@ -9519,7 +9520,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Modified_By: $window.localStorage['UserId']
                 }
                 $http.post(baseUrl + '/api/User/ParametersDetails_Delete/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.error(data.Message, "warning");
+                    }
                     $scope.HistoryDetails();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Parameter" + data;
@@ -9549,7 +9556,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Modified_By: $window.localStorage['UserId']
                 }
                 $http.post(baseUrl + '/api/User/ParametersDetails_Active/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.HistoryDetails();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsertParameterDetails" + data;
@@ -9565,7 +9575,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
             }
             else {
-                alert("Inactive record cannot be edited");
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
             }
         };
 
@@ -9619,7 +9630,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.Update_CancelledAppointment = function (Appointment_Id) {
             if (typeof ($scope.ReasonTypeId) == "undefined" || $scope.ReasonTypeId == "0") {
-                alert("Please select Reason Type");
+                //alert("Please select Reason Type");
+                toastr.warning("Please select Reason Type", "warning");
                 return false;
             }
             else {
@@ -9632,7 +9644,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $("#chatLoaderPV").show();
                 $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     angular.element('#PatientAppointmentModal').modal('hide');
                     $scope.Cancelled_Remarks = "";
                     $scope.ReasonTypeId = '0';
@@ -9960,7 +9978,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.CG_Update_ClearAlerts = function () {
 
             if (typeof ($scope.CG_Remarks) == "undefined" || $scope.CG_Remarks == "") {
-                alert("Please enter Notes / Remarks to clear alert");
+                //alert("Please enter Notes / Remarks to clear alert");
+                toastr.warning("Please enter Notes / Remarks to clear alert", "warning");
                 return false;
             }
             else {
@@ -9971,10 +9990,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Page_Type: $scope.PageParameter == 7 ? 0 : 1
                 }
                 $("#chatLoaderPV").show();
+                $('#clear').attr("disabled", true);
                 $http.post(baseUrl + '/api/CareGiver/CG_Update_ClearAlerts/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if ((data == 1) || (data == 3)) {
-                        alert("Clear Alerts updated successfully");
+                        //alert("Clear Alerts updated successfully");
+                        toastr.success("Clear Alerts updated successfully", "success");
+                        $('#clear').attr("disabled", false);
                         $scope.CG_Remarks = "";
                         $scope.ParameterValueList = [];
                         $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=2&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
@@ -9982,7 +10004,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         });
                     }
                     else if (data == 2) {
-                        alert("Alert already cleared by Caregiver, cannot be cleared");
+                        //alert("Alert already cleared by Caregiver, cannot be cleared");
+                        toastr.warning("Alert already cleared by Caregiver, cannot be cleared", "warning");
                     }
                 }).error(function (data) {
                     $("#chatLoaderPV").hide();
@@ -10688,12 +10711,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 });
             });
             if (TSDuplicate == 1) {
-                alert('Category Name' + Duplicateparameter + ' already exist, cannot be Duplicated');
+                //alert('Category Name' + Duplicateparameter + ' already exist, cannot be Duplicated');
+                toastr.error('Category Name' + Duplicateparameter + ' already exist, cannot be Duplicated', "warning");
                 return false;
             }
 
             if (validateflag == false) {
-                alert(validationMsg);
+                //alert(validationMsg);
+                toastr.warning(validationMsg, "warning");
                 return false;
             }
 
@@ -10729,7 +10754,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $http.post(baseUrl + '/api/User/Patient_ICD10Details_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, $scope.ICD10GroupList).success(function (data) {
                     //$scope.insertcount = $scope.insertcount+1;                
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 1) {
+                        toastr.warning(data.Message, "warning");
+                    }
                     $('#buttonsave').attr("disabled", false);
                     $('#buttonsave1').attr("disabled", false);
                     if (data.ReturnFlag == "2") {
@@ -11271,27 +11302,33 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
             });
             if (Drugflag == 1) {
-                alert("Please select Drug Code");
+                //alert("Please select Drug Code");
+                toastr.warning("Please select Drug Code", "warning");
                 return false;
             }
             if (Frequency == 1) {
-                alert("Please select Frequency");
+                //alert("Please select Frequency");
+                toastr.warning("Please select Frequency", "warning");
                 return false;
             }
             if (Route == 1) {
-                alert("Please select Route");
+                //alert("Please select Route");
+                toastr.warning("Please select Route", "warning");
                 return false;
             }
             if (Startdate == 1) {
-                alert("Please select Start date");
+                //alert("Please select Start date");
+                toastr.warning("Please select Start date", "warning");
                 return false;
             }
             if (Enddate == 1) {
-                alert("Please select End date");
+                //alert("Please select End date");
+                toastr.warning("Please select End date", "warning");
                 return false;
             }
             if (dateval == 1) {
-                alert("Start Date Should not be greater than End Date");
+                //alert("Start Date Should not be greater than End Date");
+                toastr.warning("Start Date Should not be greater than End Date", "warning");
                 return false;
             };
             return true;
@@ -11388,27 +11425,33 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
         $scope.PatientMedication_EditInsert_Validationcontrols = function () {
             if (typeof ($scope.DrugId) == "undefined" || $scope.DrugId == 0) {
-                alert("Please select Drug Code");
+                //alert("Please select Drug Code");
+                toastr.warning("Please select Drug Code", "warning");
                 return false;
             }
             else if (typeof ($scope.FrequencyId) == "undefined" || $scope.FrequencyId == 0) {
-                alert("Please select Frequency");
+                //alert("Please select Frequency");
+                toastr.warning("Please select Frequency", "warning");
                 return false;
             }
             else if (typeof ($scope.NoOfDays) == "undefined" || $scope.FrequencyId == "") {
-                alert("Please enter No. of Days");
+                //alert("Please enter No. of Days");
+                toastr.warning("Please enter No. of Days", "warning");
                 return false;
             }
             else if (typeof ($scope.RouteId) == "undefined" || $scope.RouteId == 0) {
-                alert("Please select Route");
+                //alert("Please select Route");
+                toastr.warning("Please select Route", "warning");
                 return false;
             }
             else if (typeof ($scope.StartDate) == "undefined" || $scope.StartDate == 0) {
-                alert("Please select StartDate");
+                //alert("Please select StartDate");
+                toastr.warning("Please select StartDate", "warning");
                 return false;
             }
             else if (typeof ($scope.EndDate) == "undefined" || $scope.EndDate == 0) {
-                alert("Please select EndDate");
+                //alert("Please select EndDate");
+                toastr.warning("Please select EndDate", "warning");
                 return false;
             }
             else if (($scope.StartDate !== null) && ($scope.EndDate !== null)) {
@@ -11416,7 +11459,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.EndDate = moment($scope.EndDate).format('DD-MMM-YYYY');
 
                 if ((ParseDate($scope.EndDate) < ParseDate($scope.StartDate))) {
-                    alert("Start Date Should not be greater than End Date");
+                    //alert("Start Date Should not be greater than End Date");
+                    toastr.warning("Start Date Should not be greater than End Date", "warning");
                     $scope.StartDate = DateFormatEdit($scope.StartDate);
                     $scope.EndDate = DateFormatEdit($scope.EndDate);
                     return false;
@@ -11449,7 +11493,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
                 $scope.MedicationList.push(Medicationobj);
                 $http.post(baseUrl + '/api/User/MedicationInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.MedicationList).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.error(data.Message, "warning");
+                    }
                     $('#save2').attr("disabled", false);
                     if (data.ReturnFlag == "2") {
                         $scope.PatientMedicationCreateModalClear();
@@ -11489,7 +11539,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                 $http.post(baseUrl + '/api/User/MedicationInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.MedicationList).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.error(data.Message, "warning");
+                    }
                     $('#save1').attr("disabled", false);
                     if (data.ReturnFlag == "2") {
                         $scope.PatientMedicationCreateModalClear();
