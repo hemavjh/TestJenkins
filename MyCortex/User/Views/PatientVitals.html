@@ -5615,8 +5615,8 @@
                                     </label>
                                 </div>
                                 <div class="col-sm-12">
-                                    <div class="col-sm-12 file">
-                                        <p class="m-bottom-0">{{appdocfilename!=""?appdocfilename:fileexceed}}</p>
+                                    <div class="col-sm-12 file" ng-repeat="list in files">
+                                        <p class="m-bottom-0">{{list.name}}</p>
                                     </div>
                                 </div>
                             </div>

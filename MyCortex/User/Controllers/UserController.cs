@@ -3516,7 +3516,15 @@ namespace MyCortex.User.Controller
                                 using (var binaryReader = new BinaryReader(postedFile.InputStream))
                                 {
                                     fileData = binaryReader.ReadBytes(postedFile.ContentLength);
-
+                                    if (FileName == "")
+                                    {
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                    }
+                                    else
+                                    {
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                    }
+                                    model.DocumentDetails = ModelData;
                                 }
 
                                 docfiles.Add(postedFile.ToString());
@@ -3535,15 +3543,15 @@ namespace MyCortex.User.Controller
                     _logger.Error(ex.Message, ex);
                 }
                 // return docfiles;
-                ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, Filetype);
+                //ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, Filetype);
 
-                if ((ModelData.flag == 1) == true)
+                if ((model.DocumentDetails.flag == 1) == true)
                 {
                     messagestr = "Patient Other Data created successfully";
                     model.ReturnFlag = 1;
                     model.Status = "True";
                 }
-                else if ((ModelData.flag == 2) == true)
+                else if ((model.DocumentDetails.flag == 2) == true)
                 {
                     messagestr = "Patient Other Data updated successfully";
                     model.ReturnFlag = 1;
@@ -3551,20 +3559,20 @@ namespace MyCortex.User.Controller
                 }
 
                 model.Error_Code = "";
-                model.DocumentDetails = ModelData;
+                
                 model.Message = messagestr;// "User created successfully";
 
-                if ((ModelData.flag == 1) == true)
-                {
-                    string Event_Code = "";
-                    Event_Code = "NEWDATA_CAPTURE";
+                //if ((ModelData.flag == 1) == true)
+                //{
+                //    string Event_Code = "";
+                //    Event_Code = "NEWDATA_CAPTURE";
 
-                    AlertEvents AlertEventReturn = new AlertEvents();
-                    IList<EmailListModel> EmailList;
-                    EmailList = AlertEventReturn.NewDataCapturedEvent((long)Patient_Id, (long)ModelData.Institution_Id);
+                //    AlertEvents AlertEventReturn = new AlertEvents();
+                //    IList<EmailListModel> EmailList;
+                //    EmailList = AlertEventReturn.NewDataCapturedEvent((long)Patient_Id, (long)ModelData.Institution_Id);
 
-                    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, Patient_Id, (long)ModelData.Institution_Id, EmailList);
-                }
+                //    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, Patient_Id, (long)ModelData.Institution_Id, EmailList);
+                //}
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
 
@@ -3578,7 +3586,7 @@ namespace MyCortex.User.Controller
                 model.Message = "Error in creating Document";
                 model.Error_Code = ex.Message;
                 model.ReturnFlag = 0;
-                model.DocumentDetails = ModelData;
+                model.DocumentDetails = model.DocumentDetails;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
