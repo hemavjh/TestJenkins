@@ -7576,13 +7576,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
-                                    //alert(data.Message);
-                                    if (data.ReturnFlag == 0) {
-                                        toastr.info(data.Message, "info");
-                                    }
-                                    else if (data.ReturnFlag == 1) {
-                                        toastr.success(data.Message, "success");
-                                    }
+                                    alert(data.Message);
                                     $('#shown').attr("disabled", false);
                                     if (data.ReturnFlag == 1) {
                                         $scope.Id = "0";
@@ -9400,7 +9394,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                     }
                     else {
-                        alert("Error in creating Vitals!");
+                        //alert("Error in creating Vitals!");
                         toastr.warning("Error in creating Vitals!", "warning");
                     }
                 });
@@ -9416,7 +9410,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else {
                 if ($scope.IsEditableCheck(rowData.Activity_Date) == false) {
                     //alert("Parameter value cannot be edited");
-                    toastr.warning("Parameter value cannot be edited", "warning");
+                    toastr.info("Parameter value cannot be edited", "info");
                 }
                 else {
                     $scope.EditVitalRow_EditFlag[rowIndex] = 2;
@@ -10076,23 +10070,28 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.AppointmentDate = moment($scope.AppointmentDate).format('DD-MMM-YYYY');
 
             if ($scope.Doctor_Id == "") {
-                alert("Please select Doctor");
+                //alert("Please select Doctor");
+                toastr.warning("Please select Doctor", "warning");
                 return false;
             }
             else if ($scope.AppointmentDate == "") {
-                alert("Please select Appointment Date");
+                //alert("Please select Appointment Date");
+                toastr.warning("Please select Appointment Date", "warning");
                 return false;
             }
             else if ($scope.AppointmentFromTime == "") {
-                alert("Please select Appointment From time");
+                //alert("Please select Appointment From time");
+                toastr.warning("Please select Appointment From time", "warning");
                 return false;
             }
             else if ($scope.AppointmentToTime == "") {
-                alert("Please select Appointment To time");
+                //alert("Please select Appointment To time");
+                toastr.warning("Please select Appointment To time", "warning");
                 return false;
             }
             else if ($scope.ReasonForVisit == "" || $scope.ReasonForVisit == undefined) {
-                alert("Please enter Reason for Visit");
+                //alert("Please enter Reason for Visit");
+                toastr.warning("Please enter Reason for Visit", "warning");
                 return false;
             }
             /*else if (($scope.AppointmentToTime) < ($scope.AppointmentFromTime)) {
@@ -10100,18 +10099,21 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 return false;
             }*/
             else if ((ParseDate($scope.AppointmentDate) < ParseDate(today))) {
-                alert("Appointment Date Can Be Booked Only For Future");
+                //alert("Appointment Date Can Be Booked Only For Future");
+                toastr.warning("Appointment Date Can Be Booked Only For Future", "warning");
                 return false;
             }
             else if ($scope.AppointmentDate != "") {
                 if (moment($scope.AppointmentDate + " " + $scope.AppointmentFromTime) > moment($scope.AppointmentDate + " " + $scope.AppointmentToTime)) {
-                    alert("Appointment From Time should not be greater than Appointment To Time");
+                    //alert("Appointment From Time should not be greater than Appointment To Time");
+                    toastr.warning("Appointment From Time should not be greater than Appointment To Time", "warning");
                     $scope.AppointmentDate = DateFormatEdit($scope.AppointmentDate);
                     return false;
                 }
             }
             else if (moment().diff(moment($scope.AppointmentDate + " " + $scope.AppointmentFromTime), 'minute') > 0) {
-                alert("Appointment can be booked only for future");
+                //alert("Appointment can be booked only for future");
+                toastr.warning("Appointment can be booked only for future", "warning");
                 return false;
             }
             $scope.AppointmentDate = DateFormatEdit($scope.AppointmentDate);
@@ -11089,7 +11091,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.EditMedication = function (MedicationViewId, createdDt, editval) {
             $('#save1').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
-                alert("Medication Cannot be edited");
+                //alert("Medication Cannot be edited");
+                toastr.info("Medication Cannot be edited", "info");
             }
             else {
                 if (editval == 3) {
@@ -11824,7 +11827,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('#Allergysave').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
                 //alert("Allergy Cannot be edited");
-                toastr.warning("Allergy Cannot be edited", "warning");
+                toastr.info("Allergy Cannot be edited", "info");
             }
             else {
                 $scope.AllergyClickDetailsList();
@@ -12611,9 +12614,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             if (cnt == $scope.insertcount) {
                                 $("#chatLoaderPV").hide();
                                 //alert(response.Message);
-                                if (data.ReturnFlag == 1) {
-                                    toastr.success(response.Message, "success");
-                                }
+                                toastr.success(response.Message, "success");
                                 $('#other_Datasave').attr("disabled", false);
                                 $scope.OtherData_CancelPopup();
                                 $scope.Patient_OtherData_List();
@@ -12718,9 +12719,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     .success(function (response) {
                         $("#chatLoaderPV").hide();
                         //alert(response.Message);
-                        if (data.ReturnFlag == 1) {
-                            toastr.success(response.Message, "success");
-                        }
+                        toastr.success(response.Message, "success");
                         $('#other_Datasave1').attr("disabled", false);
                         $scope.OtherData_CancelPopup();
                         $scope.Patient_OtherData_List();
@@ -12967,7 +12966,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Modified_By: $window.localStorage['UserId'],
                 }
                 $http.post(baseUrl + '/api/User/DoctorNotesDetails_Active/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.patientnotelist();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
@@ -15661,8 +15663,8 @@ MyCortexControllers.controller("PatientController", ['$scope', '$http', '$filter
 
 
 // This is for Monitoring Protocol controller functions/ /
-MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         //List Page Pagination.
         $scope.current_page = 1;
@@ -16643,7 +16645,8 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
             var Ins = confirm("Do you like to activate the selected Monitoring Protocol?");
             if (Ins == true) {
                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Monitoring Protocol has been activated successfully");
+                    //alert("Selected Monitoring Protocol has been activated successfully");
+                    toastr.success("Selected Monitoring Protocol has been activated successfully", "success");
                     $scope.MonitoringProtocolDetailsListGo();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + data;
@@ -16663,7 +16666,8 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
             var del = confirm("Do you like to deactivate the selected Monitoring Protocol?");
             if (del == true) {
                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Monitoring Protocol has been deactivated Successfully");
+                    //alert("Selected Monitoring Protocol has been deactivated Successfully");
+                    toastr.success("Selected Monitoring Protocol has been deactivated Successfully", "success");
                     $scope.MonitoringProtocolDetailsListGo();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Monitoring Protocol!" + data;
