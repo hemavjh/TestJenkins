@@ -11697,7 +11697,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var del = confirm("Do you like to deactivate the selected Medication?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/MedicationDetails_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Medication has been deactivated Successfully");
+                    //alert("Selected Medication has been deactivated Successfully");
+                    toastr.success("Selected Medication has been deactivated Successfully", "success");
                     $scope.PatientMedicationList();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Medication!" + data;
@@ -11720,7 +11721,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var Ins = confirm("Do you like to activate the selected Medication?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/User/MedicationDetails_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Medication has been activated successfully");
+                    //alert("Selected Medication has been activated successfully");
+                    toastr.success("Selected Medication has been activated successfully", "success");
                     $scope.PatientMedicationList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while Medication" + data;
@@ -11821,7 +11823,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.EditAllergy = function (AllergyViewId, createdDt) {
             $('#Allergysave').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
-                alert("Allergy Cannot be edited");
+                //alert("Allergy Cannot be edited");
+                toastr.warning("Allergy Cannot be edited", "warning");
             }
             else {
                 $scope.AllergyClickDetailsList();
@@ -11871,7 +11874,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $("#chatLoaderPV").show();
                 $http.post(baseUrl + 'api/User/Allergy_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $('#Allergysave').attr("disabled", false);
                     $scope.PatientAllergyList();
                     $scope.PatientAllergyCreateModalClear();
@@ -11884,11 +11893,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         /* This is for Mandatorycondition*/
         $scope.AllergyInsert_Update_Validationcontrols = function () {
             if (typeof ($scope.AllergyTypeId) == "" || $scope.AllergyTypeId == "0") {
-                alert("Please select Allergy Type Name ");
+                //alert("Please select Allergy Type Name ");
+                toastr.warning("Please select Allergy Type Name ", "warning");
                 return false;
             }
             else if (typeof ($scope.AllergenId) == "" || $scope.AllergenId == "0") {
-                alert("Please select Allergen Name");
+                //alert("Please select Allergen Name");
+                toastr.warning("Please select Allergen Name", "warning");
                 return false;
             }
             return true;
@@ -11998,7 +12009,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
 
                 $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.PatientAllergyList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
@@ -12026,7 +12040,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
 
                 $http.post(baseUrl + '/api/User/AllergyDetails_Active/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.PatientAllergyList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
@@ -12035,7 +12052,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
 
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
         $scope.AllergyTypeeId = "0";
         $scope.SeverityIdTemp = "";
@@ -12176,7 +12194,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.PatientDetails_View();
                 angular.element('#PatientNotesAddEditModal').modal('show');
             } else {
-                alert('Notes only edited by author');
+                //alert('Notes only edited by author');
+                toastr.info("Notes only edited by author", "info");
             }
 
         }
@@ -12184,7 +12203,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         //Validation for insert function
         $scope.PatientNotesInsertUpdate_Validations = function () {
             if (typeof ($scope.Notes) == "" || $scope.Notes == "") {
-                alert("Please enter Notes");
+                //alert("Please enter Notes");
+                toastr.warning("Please enter Notes", "warning");
                 return false;
             }
             return true;
@@ -12204,7 +12224,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }
                 $http.post(baseUrl + '/api/User/PatientNotesInsertUpdate/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.warning(data.Message, "warning");
+                    }
                     $('#saved').attr("disabled", false);
                     if (data.ReturnFlag == "1") {
                         $scope.CancelPatientNotesAddPopup();
@@ -12392,7 +12418,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.Patient_OtherData_EditModal = function (Id, createdDt) {
             $('#other_Datasave1').attr("disabled", false);
             if ($scope.IsEditableCheck(createdDt) == false) {
-                alert("Other Data Cannot be edited");
+                //alert("Other Data Cannot be edited");
+                toastr.info("Other Data Cannot be edited", "info");
             }
             else {
                 $scope.Patient_OtherData_View(Id);
@@ -12474,7 +12501,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
         $scope.Patient_OtherData_Insert_Validations = function () {
             if ($scope.Patient_OtherData.length == 0) {
-                alert("Please add atleast one row");
+                //alert("Please add atleast one row");
+                toastr.info("Please add atleast one row", "info");
                 return false;
             }
             else {
@@ -12504,13 +12532,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         fileval = 2;
                     }
                     if (fileval == 2) {
-                        alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex");
+                        //alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex");
+                        toastr.warning("Please choose files of type jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex", "warning");
                         return false;
                     }
                 });
 
                 if ($scope.Patient_OtherData.length < 1 || AMitem == 1) {
-                    alert("Please enter Document Name");
+                    //alert("Please enter Document Name");
+                    toastr.warning("Please enter Document Name", "warning");
                     return false;
                 }
                 var Uploaditem = 0;
@@ -12524,11 +12554,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
                 });
                 if ($scope.Patient_OtherData.length < 1 || Uploaditem == 1) {
-                    alert("Please upload Document");
+                    //alert("Please upload Document");
+                    toastr.warning("Please upload Document", "warning");
                     return false;
                 }
                 else if (Uploaditem == 2) {
-                    alert("Uploaded file size cannot be greater than 5MB");
+                    //alert("Uploaded file size cannot be greater than 5MB");
+                    toastr.warning("Uploaded file size cannot be greater than 5MB", "warning");
                     return false;
                 }
             }
@@ -12578,7 +12610,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                             if (cnt == $scope.insertcount) {
                                 $("#chatLoaderPV").hide();
-                                alert(response.Message);
+                                //alert(response.Message);
+                                if (data.ReturnFlag == 1) {
+                                    toastr.success(response.Message, "success");
+                                }
                                 $('#other_Datasave').attr("disabled", false);
                                 $scope.OtherData_CancelPopup();
                                 $scope.Patient_OtherData_List();
@@ -12592,11 +12627,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
 
             if (typeof ($scope.DocumentName) == "undefined" || $scope.DocumentName == "" || $scope.DocumentName == null) {
-                alert("Please enter Document Name");
+                //alert("Please enter Document Name");
+                toastr.warning("Please enter Document Name", "warning");
                 return false;
             }
             if (typeof ($scope.EditFileName) == "undefined" || $scope.EditFileName == "" || $scope.EditFileName == null) {
-                alert("Please Upload Document");
+                //alert("Please Upload Document");
+                toastr.warning("Please Upload Document", "warning");
                 return false;
             }
             var fileval = 0;
@@ -12619,12 +12656,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 fileval = 2;
             }
             if (fileval == 2) {
-                alert("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.");
+                //alert("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.");
+                toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
                 return false;
             }
             if ($scope.CertificateValue == 1) {
                 if ($scope.dataURItoBlob($scope.EditFileName).size > 5242880) {
-                    alert("Uploaded file size cannot be greater than 5MB");
+                    //alert("Uploaded file size cannot be greater than 5MB");
+                    toastr.warning("Uploaded file size cannot be greater than 5MB", "warning");
                     return false;
                 }
             }
@@ -12678,7 +12717,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 )
                     .success(function (response) {
                         $("#chatLoaderPV").hide();
-                        alert(response.Message);
+                        //alert(response.Message);
+                        if (data.ReturnFlag == 1) {
+                            toastr.success(response.Message, "success");
+                        }
                         $('#other_Datasave1').attr("disabled", false);
                         $scope.OtherData_CancelPopup();
                         $scope.Patient_OtherData_List();
@@ -12773,7 +12815,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         }
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
         $scope.dataURItoBlob = function (dataURI) {
             var binary = atob(dataURI.split(',')[1]);
@@ -12832,7 +12875,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Modified_By: $window.localStorage['UserId'],
                 }
                 $http.post(baseUrl + '/api/User/Patient_OtherData_InActive', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.Patient_OtherData_List();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Document" + data;
@@ -12849,7 +12895,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Modified_By: $window.localStorage['UserId'],
                 }
                 $http.post(baseUrl + '/api/User/Patient_OtherData_Active', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.Patient_OtherData_List();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Document" + data;
@@ -12867,7 +12916,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         $scope.DoctorNotesDetails_InActive = function (comId) {
             if ($window.localStorage['UserTypeId'] == 2) {
-                alert('Not allowed');
+                //alert('Not allowed');
+                toastr.info("Not allowed", "info");
             } else {
                 $scope.Id = comId;
                 $scope.DoctorNotes_Delete();
@@ -12881,7 +12931,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Modified_By: $window.localStorage['UserId'],
                 }
                 $http.post(baseUrl + '/api/User/DoctorNotesDetails_InActive/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.patientnotelist();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
@@ -12892,7 +12945,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         /*'Active' the Institution*/
         $scope.DoctorNotesDetails_Active = function (comId) {
             if ($window.localStorage['UserTypeId'] == 2) {
-                alert('Not Allowed');
+                //alert('Not Allowed');
+                toastr.info("Not Allowed", "info");
             } else {
                 $scope.Id = comId;
                 $scope.ReInsertDoctorNotesDetails();
