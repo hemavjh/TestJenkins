@@ -461,7 +461,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 $scope.editInstbutton = 1;
             }
             else {
-                alert("Inactive record cannot be edited");
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
             }
         };
 
@@ -932,7 +933,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             var del = confirm("Do you like to deactivate the selected Institution?");
             if (del == true) {
                 $http.get(baseUrl + '/api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Institution has been deactivated Successfully");
+                    //alert("Selected Institution has been deactivated Successfully");
+                    toastr.success("Selected Institution has been deactivated Successfully", "success");
                     $scope.InstitutionDetailsListGo();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
@@ -956,7 +958,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
             var Ins = confirm("Do you like to activate the selected Institution?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/Institution/InstitutionDetails_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Institution has been activated successfully");
+                    //alert("Selected Institution has been activated successfully");
+                    toastr.success("Selected Institution has been activated successfully", "success");
                     $scope.InstitutionDetailsListGo();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsertInstitutionDetails" + data;
@@ -1511,7 +1514,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
 
     }
     $scope.InstitutionSubscription_Delete = function () {
-        alert("Subscription cannot be activated / deactivated")
+        //alert("Subscription cannot be activated / deactivated")
+        toastr.info("Subscription cannot be activated / deactivated", "info");
     };
     if ($scope.serviceData > 0) {
         $scope.AddIntstitutionSubPopup();
@@ -2229,7 +2233,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
         //$http.get(baseUrl + '/api/Common/InstitutionNameList/').success(function (data) {
         //    $scope.InstitutionList = data;
@@ -3803,7 +3808,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             var Usertype = parseInt(localStorage.getItem('UserTypeId'));
             for (var k = 0; k < $scope.UserDetailsList.length; k++) {
                 if ($scope.UserDetailsList[k].Id === GetId && $scope.UserDetailsList[k].Is_Master === true && Usertype !== 1) {
-                    alert("Could not deactivate the selected User!");
+                    //alert("Could not deactivate the selected User!");
+                    toastr.info("Could not deactivate the selected User!", "info");
                     return false;
                 }
             }
@@ -3813,7 +3819,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             if (del == true) {
                 $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
                     if (data.Status == "True") {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        toastr.success(data.Message, "success");
                         if ($scope.MenuTypeId == 1)
                             $scope.User_Admin_List($scope.MenuTypeId);
                         else if ($scope.MenuTypeId == 2)
@@ -3822,7 +3829,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             $scope.Patient_List($scope.MenuTypeId);
                     }
                     else {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        toastr.info(data.Message, "info");
                     }
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting User Details" + data;
@@ -3835,7 +3843,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             if (del == true) {
                 $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
                     if (data.Status == "True") {
-                        alert("User Details has been activated Successfully");
+                        //alert("User Details has been activated Successfully");
+                        toastr.success("User Details has been activated Successfully", "success");
                         if ($scope.MenuTypeId == 1)
                             $scope.User_Admin_List($scope.MenuTypeId);
                         else if ($scope.MenuTypeId == 2)
@@ -6417,7 +6426,8 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
             var del = confirm("Do you like to deactivate the selected Allergies details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MasterAllergy/AllergyMaster_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert(" Allergy detail has been deactivated Successfully");
+                    //alert(" Allergy detail has been deactivated Successfully");
+                    toastr.success(" Allergy detail has been deactivated Successfully", "success");
                     $scope.AllergyMasterList_Details();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Allergy details" + data;
@@ -6448,6 +6458,9 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
 
                 $http.post(baseUrl + '/api/MasterAllergy/AllergyMaster_Active/', obj).success(function (data) {
                     alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.AllergyMasterList_Details();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Allergies" + data;
@@ -6551,8 +6564,8 @@ MyCortexControllers.controller("PatientAppointmentListController", ['$scope', '$
     }
 ]);
 
-MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval',
-    function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval) {
+MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval','toastr',
+    function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
         if (chatService.checkCall($routeParams.Id)) {
             alert('You cannot switch patient during call.')
             $window.history.back();
@@ -7298,9 +7311,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.DoctorListWithTimeZone = [];
                 document.getElementById("show").disabled = true;
                 if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
-                    alert('Please select Speciality')
+                    //alert('Please select Speciality')
+                    toastr.warning("Please select Speciality", "warning");
                 } else if ($scope.AppoimDate == undefined || $scope.AppoimDate == null || $scope.AppoimDate == "") {
-                    alert('Please select Date')
+                    //alert('Please select Date')
+                    toastr.warning("Please select Date", "warning");
                 }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 }*/ else {
@@ -7366,7 +7381,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             $scope.newAppoinmentDates = function () {
                 if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
-                    alert('Please select Doctor')
+                    //alert('Please select Doctor')
+                    toastr.warning("Please select Doctor", "warning");
                 } else {
                     //alert(Intl.DateTimeFormat().resolvedOptions().timeZone);
                     //var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
@@ -7519,11 +7535,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             $scope.SavePatientAppointment = function () {
                 if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
-                    alert('Please select Appointment Date')
+                    //alert('Please select Appointment Date')
+                    toastr.warning("Please select Appointment Date", "warning");
                 } else if ($scope.AppoiFromTime == undefined || $scope.AppoiFromTime == null || $scope.AppoiFromTime == "") {
-                    alert('Please select Appointment Time')
+                    //alert('Please select Appointment Time')
+                    toastr.warning("Please select Appointment Time", "warning");
                 } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
-                    alert('Please select Appointment Time')
+                    //alert('Please select Appointment Time')
+                    toastr.warning("Please select Appointment Time", "warning");
                 }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
@@ -7557,7 +7576,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
-                                    alert(data.Message);
+                                    //alert(data.Message);
+                                    if (data.ReturnFlag == 0) {
+                                        toastr.info(data.Message, "info");
+                                    }
+                                    else if (data.ReturnFlag == 1) {
+                                        toastr.success(data.Message, "success");
+                                    }
                                     $('#shown').attr("disabled", false);
                                     if (data.ReturnFlag == 1) {
                                         $scope.Id = "0";
@@ -9305,30 +9330,35 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     });
                     if (value1.ParameterValue == '' || value1.ParameterValue <= 0) {
                         varlidationCheck = 1;
-                        alert("Please enter value for " + checkobj.ParameterName);
+                        //alert("Please enter value for " + checkobj.ParameterName);
+                        toastr.warning("Please enter value for" + checkobj.ParameterName, "warning");
                         return false;
                     }
                     else if (checkobj.Min_Possible > parseFloat(value1.ParameterValue) && checkobj.Min_Possible > 0) {
                         varlidationCheck = 1;
-                        alert(checkobj.ParameterName + " value cannot be less than " + checkobj.Min_Possible);
+                        //alert(checkobj.ParameterName + " value cannot be less than " + checkobj.Min_Possible);
+                        toastr.warning(checkobj.ParameterName + " value cannot be less than " + checkobj.Min_Possible, "warning");
                         return false;
                     }
                     else if (checkobj.Max_Possible < parseFloat(value1.ParameterValue) && checkobj.Max_Possible > 0) {
                         varlidationCheck = 1;
-                        alert(checkobj.ParameterName + " value cannot be greater than " + checkobj.Max_Possible);
+                        //alert(checkobj.ParameterName + " value cannot be greater than " + checkobj.Max_Possible);
+                        toastr.warning(checkobj.ParameterName + " value cannot be greater than " + checkobj.Max_Possible, "warning");
                         return false;
                     }
                 }
             });
             if (TSDuplicate == 1) {
-                alert('Parameters ' + DuplicateParam + 'already exist, cannot be Duplicated');
+                //alert('Parameters ' + DuplicateParam + 'already exist, cannot be Duplicated');
+                toastr.error('Parameters ' + DuplicateParam + 'already exist, cannot be Duplicated', "warning");
                 return false;
             }
             else if (varlidationCheck == 1) {
                 return false;
             }
             else if (paramExist == 0) {
-                alert('Please enter Parameter details to Save');
+                //alert('Please enter Parameter details to Save');
+                toastr.warning("Please enter Parameter details to Save", "warning");
                 return false;
             }
             return true;
@@ -9363,14 +9393,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $('#btnsave').attr("disabled", false);
                     }
                     if (data == '1') {
-                        alert(alemsg);
-
+                        //alert(alemsg);
+                        toastr.success(alemsg, "success");
                         $scope.ParameterCancelPopup();
                         $scope.HistoryDetails($scope.currentTab);      // vitals grid view refresh
 
                     }
                     else {
                         alert("Error in creating Vitals!");
+                        toastr.warning("Error in creating Vitals!", "warning");
                     }
                 });
             }
@@ -9379,11 +9410,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.ParameterClickEdit = function (rowData, rowIndex) {
             var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: rowData.ParameterId }, true)[0];
             if (checkobj.IsFormulaParam == "1") {
-                alert(checkobj.ParameterName + " cannot be edited");
+                //alert(checkobj.ParameterName + " cannot be edited");
+                toastr.warning(checkobj.ParameterName + " cannot be edited", "warning");
             }
             else {
                 if ($scope.IsEditableCheck(rowData.Activity_Date) == false) {
-                    alert("Parameter value cannot be edited");
+                    //alert("Parameter value cannot be edited");
+                    toastr.warning("Parameter value cannot be edited", "warning");
                 }
                 else {
                     $scope.EditVitalRow_EditFlag[rowIndex] = 2;
@@ -9392,16 +9425,19 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
         $scope.ParameterEdit_Update = function (rowData, rowIndex) {
             if (rowData.newParameterValue == '') {
-                alert("Please enter value");
+                //alert("Please enter value");
+                toastr.warning("Please enter value", "warning");
                 return false;
             }
             var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: rowData.ParameterId }, true)[0];
             if (checkobj.Min_Possible > parseFloat(rowData.newParameterValue) && checkobj.Min_Possible > 0) {
-                alert(checkobj.ParameterName + " value cannot be less than " + checkobj.Min_Possible);
+                //alert(checkobj.ParameterName + " value cannot be less than " + checkobj.Min_Possible);
+                toastr.warning(checkobj.ParameterName + " value cannot be less than " + checkobj.Min_Possible, "warning");
                 return false;
             }
             else if (checkobj.Max_Possible < parseFloat(rowData.newParameterValue) && checkobj.Max_Possible > 0) {
-                alert(checkobj.ParameterName + " value cannot be greater than " + checkobj.Max_Possible);
+                //alert(checkobj.ParameterName + " value cannot be greater than " + checkobj.Max_Possible);
+                toastr.warning(checkobj.ParameterName + " value cannot be greater than " + checkobj.Max_Possible, "warning");
                 return false;
             }
 
@@ -9418,11 +9454,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $("#chatLoaderPV").hide();
                 if (data.ReturnFlag == "1") {
                     $scope.EditVitalRow_EditFlag[rowIndex] = 1;
-                    alert("Vitals data updated Successfully");
+                    //alert("Vitals data updated Successfully");
+                    toastr.success("Vitals data updated Successfully", "success");
                 }
                 else {
                     $("#chatLoaderPV").hide();
-                    alert("Error in creating Vitals!");
+                    //alert("Error in creating Vitals!");
+                    toastr.warning("Error in creating Vitals!", "warning");
                 }
 
             });
