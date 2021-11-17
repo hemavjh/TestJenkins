@@ -9938,7 +9938,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
         $scope.Assign_CareGiver = function () {
             if (typeof ($scope.CareGiver_Id) == "undefined" || $scope.CareGiver_Id == "0") {
-                alert("Please select Care Giver");
+                //alert("Please select Care Giver");
+                toastr.warning("Please select Care Giver", "warning");
                 return false;
             }
             else {
@@ -9957,7 +9958,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $('#msg').attr("disabled",true);
                 $http.post(baseUrl + '/api/CareCoordinnator/Assign_CareGiver/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                     //alert(data.Message);
+                    if (data.ReturnFlag == 0) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if(data.ReturnFlag == 1) {
+                        toastr.info(data.Message, "info");
+                    }
                     $('#msg').attr("disabled", false);
                     $scope.CareGiver_Id = "0";
                     $scope.CC_Remarks = "";
@@ -10379,7 +10386,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         /** Insert and Update Patient Assigned monitoring protocol controller functions */
         $scope.AssignedProtocol_InsertUpdate = function (Monitoring_ProtocolId) {
             if ($scope.assignedProtocolId == $scope.Monitoring_ProtocolId) {
-                alert('This protocol is already assigned to this patient');
+                //alert('This protocol is already assigned to this patient');
+                toastr.info("This protocol is already assigned to this patient");
                 return false;
             }
             var del = true;
@@ -10397,7 +10405,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $http.post(baseUrl + '/api/User/PatientAssignedProtocol_InsertUpdate', prtobj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.assignedProtocolId = $scope.Monitoring_ProtocolId;
-                    alert('Protocol updated successfully')
+                    //alert('Protocol updated successfully')
+                    toastr.success('Protocol updated successfully', "success");
                     $('#save').attr("disabled", false);
                 }).error(function (data) {
                     $("#chatLoaderPV").hide();
