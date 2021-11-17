@@ -161,10 +161,10 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="inputGroups">
-                                                    <label>Photo</label>
+                                                    <label>Patient Profile Image</label>
                                                         <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
-            <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
-        </div>-->
+                                                            <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
                                                         <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null||uploadme=='')&&uploadview ==true"
                                                              valign="top" rowspan="6">
                                                             <img width="180" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
@@ -185,6 +185,34 @@
 
                                                         <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
                                                            class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="inputGroups">
+                                                    <label>National ID image</label>
+                                                    <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
+                                                             <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
+                                                        <div ng-if="(ViewGender| lowercase)=='male' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)=='female' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true">
+
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/female.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                        </div>
+                                                        <div ng-if="(uploadme1!=null)&&Nationaluploadview ==true" valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme1}}" />
+                                                        </div>
+                                                        <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                           class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                           class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -633,7 +661,34 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        
+                                            <div class="col-sm-4" style="margin-left: -15px;">
+                                                <div class="inputGroups">
+                                                    <label>Insurance Card Image</label>
+                                                    <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
+                                                             <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
+                                                        <div ng-if="(ViewGender| lowercase)=='male' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)=='female' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true">
+
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/female.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                        </div>
+                                                        <div ng-if="(uploadme2!=null)&&Insuranceuploadview ==true" valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme2}}" />
+                                                        </div>
+                                                        <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                           class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                           class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

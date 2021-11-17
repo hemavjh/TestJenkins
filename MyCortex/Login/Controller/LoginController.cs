@@ -605,7 +605,7 @@ namespace MyCortex.Login.Controller
 
                     EmailGeneration egmodel = new EmailGeneration();
                     generatedpwd = egmodel.GeneratePassword_ByPasswordPolicy(InstitutionId);
-                    if (generatedpwd == "")
+                    if (generatedpwd == "" || generatedpwd == null)
                         generatedpwd = ConfigurationManager.AppSettings["User.defaultPassword"];
 
                     //NewPassword = Encrypt(NewPassword);

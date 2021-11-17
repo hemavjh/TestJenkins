@@ -1689,8 +1689,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
         $scope.Expiry_Date = "";
-        $scope.SelectedPayor = "0";
-        $scope.SelectedPlan = "0";
+        $scope.SelectedPayor = [];
+        $scope.SelectedPlan = [];	
         $scope.EditPayorId = [];
         $scope.EditPlanId = [];
         $scope.DoctorInstitutionList = [];
@@ -2208,8 +2208,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Policy_Number = "";
             $scope.Reference_ID = "";
             $scope.ExpiryDate = "";
-            $scope.SelectedPayor = "0";
-            $scope.SelectedPlan = "0";
+            $scope.SelectedPayor = [];
+            $scope.SelectedPlan = [];	
         }
 
 
@@ -3690,16 +3690,25 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                     $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
                                         '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
                                             $scope.PayorMasterList = data1;
-                                            $scope.SelectedPayor = "0";
+                                            $scope.SelectedPayor = [];
                                             if (data.PayorId != null && data.PayorId != "") {
                                                 $scope.EditPayorId = data.PayorId;
-                                                $scope.SelectedPayor.push($scope.EditPayorId);
-                                                $scope.PayorBased_PlanFunction(data.PlanId);
+                                                //$scope.SelectedPayor.push($scope.EditPayorId);
+                                                $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + data.PayorId).success(function (data) {
+                                                    $scope.PayorBasedPlanList = data;
+                                                    $scope.SelectedPlan = [];
+                                                    $scope.EditPlanId = [];
+                                                    $scope.EditPlanId = data[0].Id;
+                                                    $scope.PlanName = data[0].PlanName;
+                                                    //$scope.SelectedPlan.push($scope.EditPlanId);
+                                                    setTimeout(function () {
+                                                        $scope.SelectedPayor = $scope.EditPayorId.toString();
+                                                        $scope.SelectedPlan = $scope.EditPlanId.toString();
+                                                    }, 5000);
+                                                    //}
+                                                });
                                             }
-                                            setTimeout(function () {
-                                                $('#SelectPayor').val(data.PayorId);
-                                            }, 10000);
-                                        });                                    
+                                        });                                     
                                 });
 
                                 methodcnt = methodcnt - 1;
@@ -4120,8 +4129,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             PolicyNumber: $scope.Policy_Number,
                             RefernceId: $scope.Reference_ID,
                             ExpiryDate: $scope.ExpiryDate,
-                            PayorId: $scope.SelectPayor,
-                            PlanId: $scope.SelectPlan,
+                            PayorId: $scope.SelectedPayor,
+                            PlanId: $scope.SelectedPlan,
                             InstitutionName: "",
                             Department_Name: "",
                             INSTITUTION_CODE: "",
@@ -4267,8 +4276,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             PolicyNumber: $scope.Policy_Number,
                             RefernceId: $scope.Reference_ID,
                             ExpiryDate: $scope.ExpiryDate,
-                            PayorId: $scope.SelectPayor,
-                            PlanId: $scope.SelectPlan,
+                            PayorId: $scope.SelectedPayor,
+                            PlanId: $scope.SelectedPlan,
                             InstitutionName: "",
                             Department_Name: "",
                             INSTITUTION_CODE: "",
@@ -5045,17 +5054,17 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.LanguageList = ch9;
             }
             if ($scope.SelectedPayor.length == 1) {
-                $scope.SelectPayor = "";
-                $scope.SelectPayor = $scope.SelectedPayor[0];
+                $scope.SelectedPayor = [];
+                $scope.SelectedPayor = $scope.SelectedPayor[0];
             } else {
-                $scope.SelectPayor = "";
+                $scope.SelectPayor = [];
             }
             if ($scope.SelectedPlan.length == 1) {
-                $scope.SelectPlan = "";
-                $scope.SelectPlan = $scope.SelectedPlan[0];
+                $scope.SelectedPlan = [];
+                $scope.SelectedPlan = $scope.SelectedPlan[0];
             } else {
-                $scope.SelectPlan = "";
-             }
+                $scope.SelectedPlan = [];
+            }
         }
 
         $scope.ResetPatientFilter = function () {
@@ -15044,7 +15053,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
         $scope.ClearPopup = function () {
             $scope.Id = "0";
             $scope.PlanName = "";
-            $scope.SelectedPayor = "0";
+            $scope.SelectedPayor = [];
             $scope.ShortCode = "";
             $scope.Description = "";
             $scope.PackageName = "";

@@ -372,7 +372,7 @@
                                                ng-click="PhotoUplaodSelected()" />
 
                                         <div ng-if="(uploadme!=null || uploadme!='')" valign="top" rowspan="6">
-                                            <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}" />
+                                            <img id="item-img-output" style=" width: 200px; height: 200px;" class="responsiveProfileImage" src="{{uploadme}}" />
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatient();"
@@ -416,7 +416,7 @@
 
                             <div class="col-sm-4">
                                 <div class="inputGroups" style="font-size: 16px;">
-                                    <label style=" margin-left: 0px; margin-top: 29px;">National Image</label>
+                                    <label style=" margin-left: 0px; margin-top: 29px;">National ID image</label>
                                 </div>
                                 <div class="inputGroups">
                                     <div class="imgAdd1">
@@ -427,7 +427,7 @@
                                                ng-click="NationalityPhotoUplaodSelected()" />
 
                                             <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
-                                                <img id="item-img-output1" class="responsiveProfileImage1" src="{{uploadme1}}" />
+                                                <img id="item-img-output1" style=" width: 200px; height: 200px;" class="responsiveProfileImage1" src="{{uploadme1}}" />
                                             </div>
                                             <div style="margin-top: 15px;">
                                                 <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
@@ -1178,7 +1178,7 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>Payor Name</label>
-                                        <select class="form-control" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectPayor" data-live-search="true" data-selectpicker data-collection-name="PayorMasterList"
+                                        <select class="form-control" data-style="form-control" ng-model="SelectedPayor" ng-change="PayorBased_PlanFunction(0);" id="SelectedPayor" data-live-search="true" data-selectpicker data-collection-name="PayorMasterList"
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in PayorMasterList"
@@ -1189,7 +1189,7 @@
                                     </div>
                                     <div class="inputGroups">
                                         <label>Plan Name</label>
-                                        <select class="form-control" data-style="form-control" ng-model="SelectedPlan" id="PLANID" data-live-search="true" data-selectpicker data-collection-name="PayorBasedPlanList"
+                                        <select class="form-control" data-style="form-control" ng-model="SelectedPlan" id="SelectedPlan" data-live-search="true" data-selectpicker data-collection-name="PayorBasedPlanList"
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in PayorBasedPlanList"
@@ -1202,7 +1202,7 @@
 
                                 <div class="col-sm-4">
                                     <div class="inputGroups" style="font-size: 16px;">
-                                        <label style=" margin-left: 0px; margin-top: 29px;">Insurance Image</label>
+                                        <label style=" margin-left: 0px; margin-top: 29px;">Insurance Card Image</label>
                                     </div>
                                     <div class="inputGroups">
                                         <div class="imgAdd">
@@ -1213,7 +1213,7 @@
                                                    ng-click="InsurancePhotoUplaodSelected()" />
 
                                             <div ng-if="(uploadme2!=null || uploadme2!='')" valign="top" rowspan="6">
-                                                <img id="item-img-output2" class="responsiveProfileImage2" src="{{uploadme2}}" />
+                                                <img id="item-img-output2" style=" width: 200px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme2}}" />
                                             </div>
 
                                             <div style="margin-top: 15px;">
