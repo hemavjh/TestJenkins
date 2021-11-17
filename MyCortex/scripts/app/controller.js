@@ -534,27 +534,33 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 return false;
             }
             else if (typeof ($scope.INSTITUTION_SHORTNAME) == "undefined" || $scope.INSTITUTION_SHORTNAME == "") {
-                alert("Please enter Short Name");
+                //alert("Please enter Short Name");
+                toastr.warning('Please enter Short Name', 'warning');
                 return false;
             }
             else if (typeof ($scope.Email) == "undefined" || $scope.Email == "") {
-                alert("Please enter Email");
+                //alert("Please enter Email");
+                toastr.warning("Please enter Email", "warning");
                 return false;
             }
             else if (EmailFormate($scope.Email) == false) {
-                alert("Invalid email format");
+                //alert("Invalid email format");
+                toastr.warning("Invalid email format", "warning");
                 return false;
             }
             else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
-                alert("Please select Country");
+                //alert("Please select Country");
+                toastr.warning("Please select Country", "warning");
                 return false;
             }
             else if (typeof ($scope.StateNameId) == "undefined" || $scope.StateNameId == "0") {
-                alert("Please select State");
+                //alert("Please select State");
+                toastr.warning("Please select State", "warning");
                 return false;
             }
             else if (typeof ($scope.LocationNameId) == "undefined" || $scope.LocationNameId == "0") {
-                alert("Please select City");
+                //alert("Please select City");
+                toastr.warning("Please select City", "warning");
                 return false;
             }
             return true;
@@ -670,7 +676,13 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 $('#btnsave2').attr("disabled", true);
                 $http.post(baseUrl + '/api/Institution/Institution_AddEdit/', obj).success(function (data) {
                     var insId = data.Institute[0].Id;
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == "1") {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == "0") {
+                        toastr.error(data.Message, "Warning");
+                    }
                     $('#btnsave1').attr("disabled", false);
                     $('#btnsave2').attr("disabled", false);
 
@@ -971,8 +983,8 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
 ]);
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub ) {
+MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
 
         //Declaration and initialization of Scope Variables.
         $scope.serviceData = InstSub.getInstiID();
@@ -1128,31 +1140,38 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         */
         $scope.Institution_SubscriptionAddEditValidations = function () {
             if (typeof ($scope.Institution_Id) == "undefined" || $scope.Institution_Id == "0") {
-                alert("Please select Institution");
+                //alert("Please select Institution");
+                toastr.warning("Please select Institution", "warning");
                 return false;
             }
             else if (typeof ($scope.TimeZone_Id) == "undefined" || $scope.TimeZone_Id == "0") {
-                alert("Please select TimeZone");
+                //alert("Please select TimeZone");
+                toastr.warning("Please select TimeZone", "warning");
                 return false;
             }
             else if (typeof ($scope.Health_Care_Professionals) == "undefined" || $scope.Health_Care_Professionals == "") {
-                alert("Please enter No. of Health Care Professionals");
+                //alert("Please enter No. of Health Care Professionals");
+                toastr.warning("Please enter No. of Health Care Professionals", "warning");
                 return false;
             }
             else if (typeof ($scope.Patients) == "undefined" || $scope.Patients == "") {
-                alert("Please enter No. of Patients");
+                //alert("Please enter No. of Patients");
+                toastr.warning("Please enter No. of Patients", "warning");
                 return false;
             }
             else if (typeof ($scope.Contract_Period_From) == "undefined" || $scope.Contract_Period_From == "") {
-                alert("Please select Contract Period From");
+                //alert("Please select Contract Period From");
+                toastr.warning("Please select Contract Period From", "warning");
                 return false;
             }
             else if (typeof ($scope.Contract_Period_To) == "undefined" || $scope.Contract_Period_To == "") {
-                alert("Please select Contract Period To");
+                //alert("Please select Contract Period To");
+                toastr.warning("Please select Contract Period To", "warning");
                 return false;
             }
             else if (typeof ($scope.AppointmentModule_Id) == "undefined" || $scope.AppointmentModule_Id == "0") {
-                alert("Please select AppointmentModule");
+                //alert("Please select AppointmentModule");
+                toastr.warning("Please select AppointmentModule", "warning");
                 return false;
             }
             if (($scope.Contract_Period_From != "0") && ($scope.Contract_Period_To != "0")) {
@@ -1161,7 +1180,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $scope.Contract_Period_To = moment($scope.Contract_Period_To).format('DD-MMM-YYYY');
 
                 if ((ParseDate($scope.Contract_Period_To) < ParseDate($scope.Contract_Period_From))) {
-                    alert("Contract Period From should not be greater than Contract Period To");
+                    //alert("Contract Period From should not be greater than Contract Period To");
+                    toastr.warning("Contract Period From should not be greater than Contract Period To", "warning");
                     $scope.Contract_Period_From = DateFormatEdit($scope.Contract_Period_From);
                     $scope.Contract_Period_To = DateFormatEdit($scope.Contract_Period_To);
                     return false;
@@ -1264,7 +1284,13 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                 $('#btnsave').attr("disabled", true);
                 $('#btnsave1').attr("disabled", true);
                 $http.post(baseUrl + '/api/InstitutionSubscription/InstitutionSubscription_AddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 0) {
+                        toastr.error(data.Message, "Warning");
+                    }
+                    else if (data.ReturnFlag==1) {
+                        toastr.success(data.Message, "success");
+                    }
                     $('#btnsave').attr("disabled", false);
                     $('#btnsave1').attr("disabled", false);
                     if (data.ReturnFlag == "1") {
@@ -1495,8 +1521,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
     ]);
 
 // This is for User controller functions/ /
-MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub',
-    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub) {
+MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub','toastr',
+    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub,toastr) {
         $scope.SearchMsg = "No Data Available";
         $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
@@ -2047,7 +2073,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             $http.post(baseUrl + '/api/User/InstitutionSubscriptionLicensecheck/', obj).success(function (data) {
                 if (data.ReturnFlag == 0) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    toastr.warning(data.Message, "warning");
                 }
             }).error(function (data) {
                 $scope.error = "An error has occurred InstitutionSubscriptionLicensecheck" + data;
@@ -2893,18 +2920,21 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.User_Admin_AddEdit_Validations = function () {
             if ($scope.MenuTypeId == 1 || $scope.MenuTypeId == 2) {
                 if (($scope.MenuTypeId == 1) && (($scope.InstitutionId) == "undefined" || $scope.InstitutionId == "0")) {
-                    alert("Please select Institution");
+                    //alert("Please select Institution");
+                    toastr.warning("Please select Institution", "Warning");
                     return false;
                 }
                 else if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
-                    alert("Please enter First Name");
+                    //alert("Please enter First Name");
+                    toastr.warning("Please enter First Name", "Warning");
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
                     return false;
                 }
                 else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
-                    alert("Please enter Last Name");
+                    //alert("Please enter Last Name");
+                    toastr.warning("Please enter Last Name", "Warning");
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
@@ -2932,21 +2962,24 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     return false;
                 }*/
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
-                    alert("Please enter Email");
+                    //alert("Please enter Email");
+                    toastr.warning("Please enter Email", "Warning");
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
                     return false;
                 }
                 else if (EmailFormate($scope.EmailId) == false) {
-                    alert("Invalid email format");
+                    //alert("Invalid email format");
+                    toastr.warning("Invalid email format", "Warning");
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
                     return false;
                 }
                 else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
-                    alert("Please enter Mobile No.");
+                    //alert("Please enter Mobile No.");
+                    toastr.warning("Please enter Mobile No.", "Warning");
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
@@ -4286,7 +4319,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 0) {
+                            toastr.error(data.Message, "warning");
+                        }
+                        else if (data.ReturnFlag == 1) {
+                            toastr.success(data.Message, "success");
+                        }
                         $('#btnsave').attr("disabled", false);
                         $('#btnsave1').attr("disabled", false);
                         $('#btnsave2').attr("disabled", false);
@@ -4348,7 +4387,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration2();
             }).error(function (data) {
-                alert("Error In Step 1");
+                //alert("Error In Step 1");
+                toastr.error("Error In Step 1", "warning");
                 $scope.InstitueDefaultConfiguration2();
             });
         };
@@ -4357,7 +4397,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=2', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration3();
             }).error(function (data) {
-                alert("Error In Step 2");
+                //alert("Error In Step 2");
+                toastr.error("Error In Step 2", "warning");
                 $scope.InstitueDefaultConfiguration3();
             });
         };
@@ -4366,7 +4407,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=3', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration4();
             }).error(function (data) {
-                alert("Error In Step 3");
+                //alert("Error In Step 3");
+                toastr.error("Error In Step 3", "warning");
                 $scope.InstitueDefaultConfiguration4();
             });
         };
@@ -4375,7 +4417,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=4', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration5();
             }).error(function (data) {
-                alert("Error In Step 4");
+                //alert("Error In Step 4");
+                toastr.error("Error In Step 4", "warning");
                 $scope.InstitueDefaultConfiguration5();
             });
         };
@@ -4384,7 +4427,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=5', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration6();
             }).error(function (data) {
-                alert("Error In Step 5");
+                //alert("Error In Step 5");
+                toastr.error("Error In Step 5", "warning");
                 $scope.InstitueDefaultConfiguration6();
             });
         };
@@ -4393,7 +4437,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=6', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration7();
             }).error(function (data) {
-                alert("Error In Step 6");
+                //alert("Error In Step 6");
+                toastr.error("Error In Step 6", "warning");
                 $scope.InstitueDefaultConfiguration7();
             });
         };
@@ -4402,7 +4447,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=7', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration8();
             }).error(function (data) {
-                alert("Error In Step 7");
+                //alert("Error In Step 7");
+                toastr.error("Error In Step 7", "warning");
                 $scope.InstitueDefaultConfiguration8();
             });
         };
@@ -4411,7 +4457,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=8', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration9();
             }).error(function (data) {
-                alert("Error In Step 8");
+                //alert("Error In Step 8");
+                toastr.error("Error In Step 8", "warning");
                 $scope.InstitueDefaultConfiguration9();
             });
         };
@@ -4420,7 +4467,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=9', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration10();
             }).error(function (data) {
-                alert("Error In Step 9");
+                //alert("Error In Step 9");
+                toastr.error("Error In Step 9", "warning");
                 $scope.InstitueDefaultConfiguration10();
             });
         };
@@ -4429,7 +4477,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=10', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration11();
             }).error(function (data) {
-                alert("Error In Step 10");
+                //alert("Error In Step 10");
+                toastr.error("Error In Step 10", "warning");
                 $scope.InstitueDefaultConfiguration11();
             });
         };
@@ -4438,7 +4487,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=11', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration12();
             }).error(function (data) {
-                alert("Error In Step 11");
+                //alert("Error In Step 11");
+                toastr.error("Error In Step 11", "warning");
                 $scope.InstitueDefaultConfiguration12();
             });
         };
@@ -4447,7 +4497,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=12', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration13();
             }).error(function (data) {
-                alert("Error In Step 12");
+                //alert("Error In Step 12");
+                toastr.error("Error In Step 12", "warning");
                 $scope.InstitueDefaultConfiguration13();
             });
         };
@@ -4456,7 +4507,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=13', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration14();
             }).error(function (data) {
-                alert("Error In Step 13");
+                //alert("Error In Step 13");
+                toastr.error("Error In Step 13", "warning");
                 $scope.InstitueDefaultConfiguration14();
             });
         };
@@ -4465,7 +4517,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=14', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration15();
             }).error(function (data) {
-                alert("Error In Step 14");
+                //alert("Error In Step 14");
+                toastr.error("Error In Step 14", "warning");
                 $scope.InstitueDefaultConfiguration15();
             });
         };
@@ -4474,7 +4527,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=15', $scope.InstitutionCreatedID).success(function (data) {
                 $scope.InstitueDefaultConfiguration16();
             }).error(function (data) {
-                alert("Error In Step 15");
+                //alert("Error In Step 15");
+                toastr.error("Error In Step 15", "warning");
                 $scope.InstitueDefaultConfiguration16();
             });
         };
@@ -4482,7 +4536,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.InstitueDefaultConfiguration16 = function () {
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).success(function (data) {
             }).error(function (data) {
-                alert("Error In Step 16");
+                //alert("Error In Step 16");
+                toastr.error("Error In Step 16", "warning"); 
             });
         };
 
@@ -5556,31 +5611,38 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
             */
         $scope.InstitutionAddEdit_Validations = function () {
             if (typeof ($scope.Institution_Name) == "undefined" || $scope.Institution_Name == "") {
-                alert("Please enter Institution Name");
+                //alert("Please enter Institution Name");
+                toastr.warning("Please enter Institution Name","warning");
                 return false;
             }
             else if (typeof ($scope.INSTITUTION_SHORTNAME) == "undefined" || $scope.INSTITUTION_SHORTNAME == "") {
-                alert("Please enter Short Name");
+                //alert("Please enter Short Name");
+                toastr.warning("Please enter Short Name", "warning");
                 return false;
             }
             else if (typeof ($scope.Email) == "undefined" || $scope.Email == "") {
-                alert("Please enter Email");
+                //alert("Please enter Email");
+                toastr.warning("Please enter Email", "warning");
                 return false;
             }
             else if (EmailFormate($scope.Email) == false) {
-                alert("Invalid email format");
+                //alert("Invalid email format");
+                toastr.warning("Invalid email format", "warning");
                 return false;
             }
             else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
-                alert("Please select Country");
+                //alert("Please select Country");
+                toastr.warning("Please select Country", "warning");
                 return false;
             }
             else if (typeof ($scope.StateNameId) == "undefined" || $scope.StateNameId == "0") {
-                alert("Please select State");
+                //alert("Please select State");
+                toastr.warning("Please select State", "warning");
                 return false;
             }
             else if (typeof ($scope.LocationNameId) == "undefined" || $scope.LocationNameId == "0") {
-                alert("Please select City");
+                //alert("Please select City");
+                toastr.warning("Please select City", "warning");
                 return false;
             }
             if ($scope.uploadme != "" && $scope.uploadme != null) {
