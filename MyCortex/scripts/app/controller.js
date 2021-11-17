@@ -13029,7 +13029,8 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
         $scope.Update_CancelledAppointment = function () {
             $("#chatLoaderPV").show();
             if (typeof ($scope.ReasonTypeId) == "undefined" || $scope.ReasonTypeId == "") {
-                alert("Please select Reason Type for  cancellation");
+                //alert("Please select Reason Type for  cancellation");
+                toastr.warning("Please select Reason Type for  cancellation", "warning");
                 return false;
             }
             else {
@@ -13040,7 +13041,13 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
                     ReasonTypeId: $scope.ReasonTypeId
                 }
                 $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     angular.element('#PatientAppointmentModal').modal('hide');
                     $scope.Cancelled_Remarks = "";
                     $scope.ReasonTypeId = '0';
@@ -14217,8 +14224,8 @@ MyCortexControllers.controller("CareGiverAssignedPatientsController", ['$scope',
 ]);
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
-MyCortexControllers.controller("ParameterController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter) {
+MyCortexControllers.controller("ParameterController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, toastr) {
 
         $scope.AddParameterPopup = function () {
 
@@ -14477,7 +14484,8 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
 
@@ -14757,7 +14765,8 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
 
@@ -14827,8 +14836,8 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
 ]);
 
 // This is for Plan controller functions//    
-MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.Id = "0";
         $scope.DuplicateId = "0";
@@ -15124,7 +15133,8 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
 
@@ -15223,8 +15233,8 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 ]);
 
 // This is for Drug DB controller functions//    
-MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         // Declaration and initialization of Scope Variables.
         $scope.Id = "0";
@@ -15468,7 +15478,8 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
@@ -15629,8 +15640,8 @@ MyCortexControllers.controller("ProtocolController", ['$scope', '$http', '$filte
 ]);
 
 // This is for User controller functions/ /
-MyCortexControllers.controller("PatientController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("PatientController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.Id = "0";
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD,VIEW AND EDIT */
@@ -15806,7 +15817,8 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
                 $scope.MonitoringProtocolDropDownList();
             }
             else {
-                alert("Inactive record cannot be edited");
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
             }
         };
 
@@ -15863,11 +15875,13 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
         $scope.ProtocolMonitoring_Validations = function () {
 
             if ((typeof ($scope.Protocol_Names) == "undefined" || ($scope.Protocol_Names == 0)) && ($scope.Cloneval == 1)) {
-                alert("Please select Clone Name");
+                //alert("Please select Clone Name");
+                toastr.warning("Please select Clone Name", "warning");
                 return false;
             }
             if (typeof ($scope.ProtocolName) == "undefined" || $scope.ProtocolName == "") {
-                alert("Please enter Protocol Name");
+                //alert("Please enter Protocol Name");
+                toastr.warning("Please enter Protocol Name", "warning");
                 return false;
             }
 
@@ -16488,7 +16502,13 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
                 $http.post(baseUrl + '/api/Protocol/ProtocolMonitoring_AddEdit/', obj1).success(function (data) {
                     $("#chatLoaderPV").hide();
                     //$http.post(baseUrl + '/api/StandaredProtocol/ProtocolMonitoring_AddEdit/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 0) {
+                        toastr.warning(data.Message, "warning");
+                    }
+                    else if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
                     $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.CancelProtocol();
@@ -16600,7 +16620,8 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
             var del = confirm("Do you like to deactivate the selected Institution?");
             if (del == true) {
                 $http.get(baseUrl + 'api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Institution has been deactivated Successfully");
+                    //alert("Selected Institution has been deactivated Successfully");
+                    toastr.success("Selected Institution has been deactivated Successfully", "success");
                     $scope.InstitutionDetailsListGo();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
