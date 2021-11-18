@@ -108,6 +108,7 @@ namespace MyCortex.Email.SendGrid
                 int ClientPort = emailModel.PortNo;
                 String DisplayName = emailModel.DisplayName;
 
+
                 String UserName = emailModel.UserName;
                 Boolean SSL = true;
                 if (emailModel.EConfigSSL_Enable == 2)
