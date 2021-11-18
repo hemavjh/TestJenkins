@@ -18573,8 +18573,8 @@ MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http
     }
 ]);
 
-MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.Id = "0";
         $scope.DuplicateId = "0";
@@ -18619,23 +18619,28 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                 $scope.Template = (CKEDITOR.instances.editor1.getData());
             }
             if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
-                alert("Please enter Template Name");
+                //alert("Please enter Template Name");
+                toastr.warning("Please enter Template Name", "warning");
                 return false;
             }
 
             else if (typeof ($scope.EmailSubject) == "undefined" || $scope.EmailSubject == "") {
                 if ($scope.PageParameter == 1)
-                    alert("Please enter Email Subject");
+                    //alert("Please enter Email Subject");
+                     toastr.warning("Please enter Email Subject", "warning");
                 else
-                    alert("Please enter Notification Title");
+                    //alert("Please enter Notification Title");
+                     warning("Please enter Notification Title", "warning");
 
                 return false;
             }
             else if (typeof ($scope.Template) == "undefined" || $scope.Template == "") {
                 if ($scope.PageParameter == 1)
-                    alert("Please enter Email Template");
+                    //alert("Please enter Email Template");
+                    toastr.warning("Please enter Email Template", "warning");
                 else
-                    alert("Please enter Notification Message");
+                    //alert("Please enter Notification Message");
+                    toastr.warning("Please enter Notification Message", "warning");
 
                 return false;
             }
@@ -18658,7 +18663,6 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
 
         /* THIS IS FOR ADD/EDIT FUNCTION */
         $scope.EmailTemplateAddEdit = function () {
-            $("#chatLoaderPV").show();
             if ($scope.Validationcontrols() == true) {
 
                 var TemplateChildList = [],
@@ -18702,9 +18706,12 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                     EmailTemplateTagList: $scope.EmailTemplateTagDetails,
                     TemplateName: $scope.TemplateName
                 }
+                $("#chatLoaderPV").show();
                 $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/EmailTemplate/EmailTemplateTag_AddEdit/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    toastr.success(data.Message, "success");
+                    $("#chatLoaderPV").hide();
                     $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
@@ -18810,7 +18817,8 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
             var del = confirm("Do you like to deactivate the selected Template?");
             if (del == true) {
                 $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Template has been deactivated Successfully");
+                    //alert("Template has been deactivated Successfully");
+                    toastr.success("Template has been deactivated Successfully", "success");
                     $scope.EmailTemplatelist();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
@@ -18834,7 +18842,8 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
             var Ins = confirm("Do you like to activate the selected Template?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Template has been activated successfully");
+                    //alert("Selected Template has been activated successfully");
+                    toastr.success("Selected Template has been activated successfully", "success");
                     $scope.EmailTemplatelist();
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting ICD 1O records" + data;
@@ -18843,12 +18852,14 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
         };
 
         $scope.Active_ErrorFunction = function () {
-            alert("Inactive Template cannot be edited");
+            //alert("Inactive Template cannot be edited");
+            toastr.info("Inactive Template cannot be edited", "info");
         };
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
@@ -18910,8 +18921,8 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
     }
 ]);
 
-MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.PageParameter = $routeParams.PageParameter;
 
         $scope.currentTab = "1";
@@ -19020,7 +19031,8 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
 
             if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
-                alert("Please select Period From");
+                //alert("Please select Period From");
+                toastr.warning("Please select Period From", "warning");
                 return false;
             }
             //else if (isDate($scope.Period_From) == false) {
@@ -19028,7 +19040,8 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             //    return false;
             //}
             if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
-                alert("Please select Period To");
+                //alert("Please select Period To");
+                toastr.warning("Please select Period To", "warning");
                 return false;
             }
             //else if (isDate($scope.Period_To) == false) {
@@ -19041,7 +19054,8 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             var diffTime = Math.abs(date2 - date1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             if (diffDays >= $scope.ValidateDays) {
-                alert($scope.ValidateDays + '  ' + "days only allowed to filter");
+                //alert($scope.ValidateDays + '  ' + "days only allowed to filter");
+                toastr.warning($scope.ValidateDays + '  ' + "days only allowed to filter", "warning");
                 return false;
             }
 
@@ -19073,7 +19087,8 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
 
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
-                    alert("From Date should not be greater than To Date");
+                    //alert("From Date should not be greater than To Date");
+                    toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.Period_From = DateFormatEdit($scope.Period_From);
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
                     retval = false;
@@ -19215,8 +19230,8 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
     }
 ]);
 
-MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.UserId = $window.localStorage['UserId'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
@@ -19333,7 +19348,8 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
 
         $scope.GenerateTemplate = function (GetId, EmailId) {
             if (typeof ($scope.Template_Id) == "undefined" || $scope.Template_Id == "0") {
-                alert("Please select Template");
+                //alert("Please select Template");
+                toastr.warning("Please select Template", "warning");
                 return false;
             }
             else {
@@ -19365,11 +19381,13 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
         $scope.Get_SendEmail_UserList = function () {
 
             if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
-                alert("Please select User Type");
+                //alert("Please select User Type");
+                toastr.warning("Please select User Type", "warning");
                 return false;
             }
             else if (typeof ($scope.Template_Id) == "undefined" || $scope.Template_Id == "0") {
-                alert("Please select Template");
+                //alert("Please select Template");
+                toastr.warning("Please select Template", "warning");
                 return false;
             }
             else {
@@ -19426,10 +19444,12 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
 
             var cnt = ($filter('filter')($scope.Filter_SendEmailUserList, 'true')).length;
             if (cnt == 0) {
-                alert("Please select atleast one User");
+                //alert("Please select atleast one User");
+                toastr.warning("Please select atleast one User", "warning");
             }
             else if (typeof ($scope.Template_Id) == "undefined" || $scope.Template_Id == "0") {
-                alert("Please select Template");
+                //alert("Please select Template");
+                toastr.warning("Please select Template", "warning");
                 return false;
             }
             else {
@@ -19455,7 +19475,13 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                         }
                     });
                     $http.post(baseUrl + '/api/SendEmail/SendEmail_AddEdit/', $scope.SelectedUserList).success(function (data) {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 1) {
+                            toastr.success(data.Message, "success");
+                        }
+                        else if (data.ReturnFlag == 0) {
+                            toastr.info(data.Message, "info");
+                        }
                         $('#btnsave').attr("disabled", false);
                         if (data.ReturnFlag == 1) {
                             $scope.ClearValues();
