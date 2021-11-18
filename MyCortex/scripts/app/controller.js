@@ -15985,6 +15985,38 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
             return Param_Name;
         }
 
+        $scope.addFields = function () {
+            var number = document.getElementById("member").value;
+            var container = document.getElementById("container");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            for (i = 0; i < number; i++) {
+                container.appendChild(document.createTextNode("Timing " + (i + 1)));
+                var input = document.createElement("input");
+                input.type = "time";
+                input.name = "member" + i;
+                input.id = "member" + i;
+                container.appendChild(input);
+                container.appendChild(document.createElement("br"));
+            }
+            for (i = 0; i < number; i++) {
+                var number = document.getElementById("member" + (i + 1)).value;
+                console.log(number);
+            }
+        }
+
+        $scope.ComplianceWeekly = 0;
+        $scope.ChangeMethod = function () {
+            if ($scope.Compliancealert == 2) {
+                $scope.ComplianceWeekly = 1;
+            } else if ($scope.Compliancealert == 3) {
+                $scope.ComplianceWeekly = 2;
+            } else {
+                $scope.ComplianceWeekly = 0;
+            }
+        }
+
         /* Validating the create page mandatory fields
        checking mandatory for the follwing fields
        InstituionName,InstitutionPrintName,Email,CountryName,StateName,LocationName,Registrationdate
