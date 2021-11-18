@@ -3511,7 +3511,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "")
+        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "")
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
@@ -3537,13 +3537,13 @@ namespace MyCortex.User.Controller
                                 using (var binaryReader = new BinaryReader(postedFile.InputStream))
                                 {
                                     fileData = binaryReader.ReadBytes(postedFile.ContentLength);
-                                    if (FileName == "")
+                                    if (FileName == "" || FileName== null)
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
                                     }
                                     else
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
                                     }
                                     model.DocumentDetails = ModelData;
                                 }

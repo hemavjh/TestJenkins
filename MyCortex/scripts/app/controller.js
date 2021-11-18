@@ -7649,7 +7649,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                                             //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
 
-                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=""' + '&DocumentName=""'+ '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id +  '&Id=' + $scope.Id + '&FileName=""' + '&DocumentName=""'+ '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
                                                 fddata,
                                                 {
                                                     transformRequest: angular.identity,
@@ -7660,6 +7660,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                             )
                                                 .success(function (response) {
                                                     $("#appoint_waveLoader").hide();
+                                                    $scope.files = [];
                                                     angular.element('#BookAppointmentModal').modal('hide');
                                                     //document.getElementById("main-box").style = "";
                                                     //document.getElementById("box").style = "display:none";
@@ -7704,7 +7705,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                                     } else {
                                                         $scope.$broadcast("appointment_list");
                                                     }
-                                                    $scope.appdocfilename = "File Name";
+                                                    $scope.appdocfilename = "";
                                                 }).error(function (response) {
                                                     $scope.appdocfilename = "";
 
@@ -7760,7 +7761,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                                             //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
 
-                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=""'+'&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id +  '&Id=' + $scope.Id + '&FileName=""'+'&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
                                                 fddata,
                                                 {
                                                     transformRequest: angular.identity,
@@ -7770,7 +7771,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                                 }
                                             )
                                                 .success(function (response) {
-                                                    $scope.appdocfilename = "File Name";
+                                                    $scope.appdocfilename = "";
+                                                    $scope.files = [];
                                                 }).error(function (response) {
                                                     $scope.appdocfilename = "";
 
@@ -12657,7 +12659,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     and saving the image uploaded in the local server.
                     */
                     
-                    $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + value.CertificateFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By,
+                    $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + value.CertificateFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By,
                         fd,
                         {
                             transformRequest: angular.identity,
@@ -12765,7 +12767,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 calling the api method for read the file path
                 and saving the image uploaded in the local server.
                 */
-                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By,
+                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By,
                     fd,
                     {
                         transformRequest: angular.identity,
