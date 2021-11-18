@@ -2309,7 +2309,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.GroupTypeList = data;
             });
         }
-
         //$scope.Patientcreatefunction = function()
         //{
         $scope.tab1 = 0;
