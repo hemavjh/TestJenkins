@@ -1537,7 +1537,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         
         $scope.CancelPopup = function () {
             if (confirm('Are you sure?')) {
-                window.location.href = baseUrl + "/Home/Index#/home";
+                window.location.href = baseUrl + "/login";
             }
         }
         /*
