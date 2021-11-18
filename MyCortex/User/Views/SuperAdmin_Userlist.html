@@ -68,6 +68,36 @@
             }
         });
     </script>
+    <script>
+        var input = document.querySelector("#txtPhone");
+        var inputPhoneNo = window.intlTelInput(input, {
+            formatOnDisplay: true,
+            geoIpLookup: function (callback) {
+                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            preferredCountries: ["in"],
+            utilsScript: "scripts/utils.js",
+        });
+
+        function txtPhoneChange() {
+            //var phoneNo = document.getElementById("txtPhone");
+            const PhoneNumber = inputPhoneNo.getNumber();
+
+            if (PhoneNumber != "") {
+                var isValidNum = inputPhoneNo.isValidNumber();
+                //alert(isValidNum);
+                if (!isValidNum) {
+                    //toastr.error("Phone Number Invalid", "error");
+                    alert("Phone number invalid");
+                }
+            }
+
+            //inputPhoneNo.setCountry("us");
+        }
+    </script>
 </head>
 <style>
     .toggle {
@@ -288,31 +318,31 @@
                                                         </div>
 
                                                         <!--<div class="uploadIconContainer">
-                                                            <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
-                                                                <u>Clear</u>
+                        <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
+                            <u>Clear</u>
+                        </a>
+                    </div>-->
+                                                        <div style="margin-top: 15px;">
+                                                            <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="Adminimageclear();"
+                                                               title="Clear">
+                                                                Clear
                                                             </a>
-                                                        </div>-->
-                                                            <div style="margin-top: 15px;">
-                                                                <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="Adminimageclear();"
-                                                                   title="Clear">
-                                                                    Clear
-                                                                </a>
-                                                                <div style="max-width: 250px;" class="theme-btn-1">
-                                                                    <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
-                                                                        <i class="fa fa-upload"></i>
-                                                                        <span>Upload Profile Photo</span>
-                                                                    </label>
+                                                            <div style="max-width: 250px;" class="theme-btn-1">
+                                                                <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
+                                                                    <i class="fa fa-upload"></i>
+                                                                    <span>Upload Profile Photo</span>
+                                                                </label>
 
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                        <!--<div class="uploadIconContainer">
-                                                            <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
-                                                                <i class="fa fa-upload"></i>
-                                                            </label>
-                                                            <span>Upload Photo</span>
-                                                        </div>-->
+                                                </div>
+                                                <!--<div class="uploadIconContainer">
+                <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
+                    <i class="fa fa-upload"></i>
+                </label>
+                <span>Upload Photo</span>
+            </div>-->
                                             </td>
                                             <td width="17%">
                                                 <label valign="top" ng-show="LoginType == 1">
@@ -449,7 +479,18 @@
                                                        ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />
                                             </td>
                                         </tr>
-                                        
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Phone No.<sup><font class="mandatory-field">*</font></sup>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input type="tel" class="form-control" id="txtPhone" ng-model="PhoneNo"
+                                                       ng-required="true" onblur="txtPhoneChange()" />
+                                            </td>
+                                        </tr>
+
                                     </table>
                                 </form>
                             </div>
