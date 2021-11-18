@@ -3511,7 +3511,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "")
+        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "", long Appointment_Id=0)
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
