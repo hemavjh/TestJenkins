@@ -19505,8 +19505,8 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
     }
 ]);
 
-MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) { 
+MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) { 
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.currentTab = "1";
         $scope.Id = "0";
@@ -19632,6 +19632,7 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
 
             if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
                 alert("Please select Period From");
+                
                 return false;
             }
             //else if (isDate($scope.Period_From) == false) {
@@ -19651,24 +19652,28 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             var diffTime = Math.abs(date2 - date1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             if (diffDays >= 14) {
-                alert("14 days only allowed to filter");
+                //alert("14 days only allowed to filter");
+                toastr.warning("14 days only allowed to filter", "warning");
                 return false;
             }
             if ((ParseDate($scope.Period_From) < ParseDate(today))) {
-                alert("FromDate Can Be Booked Only For Past");
+                //alert("FromDate Can Be Booked Only For Past");
+                toastr.warning("FromDate Can Be Booked Only For Past", "warning");
                 $scope.Period_From = DateFormatEdit($scope.Period_From);
                 $scope.Period_To = DateFormatEdit($scope.Period_From);
                 return false;
             }
             if ((ParseDate($scope.Period_To) < ParseDate(today))) {
-                alert("To Date Can Be Booked Only For Past");
+                //alert("To Date Can Be Booked Only For Past");
+                toastr.warning("To Date Can Be Booked Only For Past", "warning");
                 $scope.Period_From = DateFormatEdit($scope.Period_From);
                 $scope.Period_To = DateFormatEdit($scope.Period_From);
                 return false;
             }
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
-                    alert("From Date should not be greater than To Date");
+                    //alert("From Date should not be greater than To Date");
+                    toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.Period_From = DateFormatEdit($scope.Period_From);
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
                     return false;
@@ -19780,7 +19785,8 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
 
             var cnt = ($filter('filter')($scope.EmailrowCollectionFilter, 'true')).length;
             if (cnt == 0) {
-                alert("Please select atleast one User");
+                //alert("Please select atleast one User");
+                toastr.warning("Please select atleast one User", "warning");
             }
             else {
                 var msg = confirm("Do you like to Resend the Email for Selected User?");
@@ -19803,7 +19809,8 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                         }
                     });
                     $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Insert/', $scope.SelectedUserList).success(function (data) {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        toastr.success(data.Message, "success");
                         $('#btnsave').attr("disabled", false);
                         if (data.ReturnFlag == 1) {
                             $scope.ClearValues();
@@ -19850,7 +19857,13 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 Email_Subject: $scope.EmailSubject
             };
             $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Edit/', obj).success(function (data) {
-                alert(data.Message);
+                //alert(data.Message);
+                if (data.ReturnFlag == 1) {
+                    toastr.success(data.Message, "success");
+                }
+                else if (data.ReturnFlag == 0) {
+                    toastr.info(data.Message, "info");
+                }
                 $('#save').attr("disabled", false);
                 $('#send').attr("disabled", false);
                 if (data.ReturnFlag == 1) {
@@ -19888,8 +19901,8 @@ MyCortexControllers.controller("CommonController", ['$scope', '$http', '$filter'
         }
     }
 ]);
-MyCortexControllers.controller("NotificationViewController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("NotificationViewController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 7 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 6) {
             $scope.User_Id = $window.localStorage['UserId'];
             $scope.listdata = [];
@@ -20809,8 +20822,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         }
     }
 ]);
-MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         if ($window.localStorage['UserTypeId'] == 3) {
         $scope.current_page = 1;
         $scope.TotalPageAuditReport = 1;  
@@ -20874,15 +20887,18 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
 
         $scope.patientReportValidation = function () {
             if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
-                alert("Please select User Type");
+                //alert("Please select User Type");
+                toastr.warning("Please select User Type", "warning");
                 return false;
             }
             else if (typeof ($scope.UserNameId) == "undefined" || $scope.UserNameId == "0") {
-                alert("Please select User Name");
+                //alert("Please select User Name");
+                toastr.warning("Please select User Name", "warning");
                 return false;
             }
             else if ($scope.ShortNameId == "" || $scope.ShortNameId == "0") {
-                alert("Please select Table Short Name");
+                //alert("Please select Table Short Name");
+                toastr.warning("Please select Table Short Name", "warning");
                 return false;
             }
             //else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
@@ -20912,7 +20928,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
             var diffTime = Math.abs(date2 - date1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             if (diffDays >= $scope.ValidateDays) {
-                alert($scope.ValidateDays.toString() + " days only allowed Audit Report");
+                //alert($scope.ValidateDays.toString() + " days only allowed Audit Report");
+                toastr.warning($scope.ValidateDays.toString() + " days only allowed Audit Report", "warning");
                 return false;
             }
             var retval = true;
@@ -20921,7 +20938,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                 $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
 
                 if ((ParseDate($scope.Period_From + " " + $scope.PeriodFromTime) > ParseDate($scope.Period_To + " " + $scope.PeriodToTime))) {
-                    alert("From Date should not be greater than To Date");
+                    //alert("From Date should not be greater than To Date");
+                    toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.Period_From = DateFormatEdit($scope.Period_From);
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
                     retval = false;
