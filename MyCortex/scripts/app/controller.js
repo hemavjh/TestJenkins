@@ -25049,8 +25049,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
     }
 ]);
 
-MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         //  $scope.InstituteId = $window.localStorage['InstitutionId'];
         //Declaration and initialization of Scope Variables.
         $scope.ShiftName = "";
@@ -25101,11 +25101,13 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                     angular.element('#AttendanceAddModal').modal('show');
                 }
                 else {
-                    alert("Completed To date  record cannot be edited");
+                    //alert("Completed To date  record cannot be edited");
+                    toastr.info("Completed To date  record cannot be edited", "info");
                 }
             }
             else {
-                alert("Inactive record cannot be edited");
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
             }
         };
 
@@ -25182,26 +25184,31 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
             $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY');
 
             if ($scope.SelectedAttendance == "" || $scope.SelectedAttendance == undefined) {
-                alert("Please select User");
+                //alert("Please select User");
+                toastr.warning("Please select User", "warning");
                 return false;
             }
 
             else if (typeof ($scope.AttendanceFromDate) == "undefined" || $scope.AttendanceFromDate == 0) {
-                alert("Please select From Date");
+                //alert("Please select From Date");
+                toastr.warning("Please select From Date", "warning");
                 return false;
             }
             else if (typeof ($scope.AttendanceToDate) == "undefined" || $scope.AttendanceToDate == 0) {
-                alert("Please select To Date");
+                //alert("Please select To Date");
+                toastr.warning("Please select To Date", "warning");
                 return false;
             }
             else if ((ParseDate($scope.AttendanceFromDate) < ParseDate(today)))  {
-                alert("From Date Can Be Booked Only For Future");
+                //alert("From Date Can Be Booked Only For Future");
+                toastr.warning("From Date Can Be Booked Only For Future", "warning");
                 $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
                 $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
             else if ((ParseDate($scope.AttendanceToDate) < ParseDate(today)))  {
-                alert("To Date Can Be Booked Only For Future");
+                //alert("To Date Can Be Booked Only For Future");
+                toastr.warning("To Date Can Be Booked Only For Future", "warning");
                 $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
                 $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
@@ -25209,7 +25216,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
 
             else if (($scope.AttendanceFromDate !== null) && ($scope.AttendanceToDate !== null)) {
                 if ((ParseDate($scope.AttendanceToDate) < ParseDate($scope.AttendanceFromDate))) {
-                    alert("From Date Should not be greater than To Date");
+                    //alert("From Date Should not be greater than To Date");
+                    toastr.warning("From Date Should not be greater than To Date", "warning");
                     $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
                     $scope.AttendanceToDate = Dmoment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                     return false;
@@ -25268,14 +25276,23 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 }
                 $http.post(baseUrl + '/api/Attendance/AttendanceDetails_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.DoctorAttendanceDetails).success(function (data) {
                     if (data.ReturnFlag == 1) {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 1) {
+                            toastr.success(data.Message, "success");
+                        }
                         $('#btnsave').attr("disabled", false);
                         $scope.AttendanceList();
                         $scope.ClearAttendancePopUp();
                         $("#chatLoaderPV").hide();
                     } else {
                         $("#chatLoaderPV").hide();
-                        alert(data.Message);
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.info(data.Message, "info");
+                        }
+                        else if (data.ReturnFlag == 0) {
+                            toastr.info(data.Message, "info");
+                        }
                         $('#btnsave').attr("disabled", false);
                         $scope.ClearAttendancePopUp();
                         return false;
@@ -25404,7 +25421,10 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 }
 
                 $http.post(baseUrl + '/api/Attendance/Attendance_InActive/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.AttendanceList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Holiday" + data;
@@ -25432,7 +25452,10 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 }
 
                 $http.post(baseUrl + '/api/Attendance/Attendance_Active/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $scope.AttendanceList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Holiday" + data;
@@ -25441,7 +25464,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         }
 
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
     }
@@ -26059,8 +26083,8 @@ MyCortexControllers.controller("DirectVideoCallController", ['$scope', '$http', 
         }    }
 ]);
 
-MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         $scope.IsActive = true; 
         $scope.currentTab = "1";
         $scope.TabName = "";
@@ -26347,7 +26371,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             var del = confirm("Do you like to deactivate the selected My Home details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert(" My Home details has been deactivated Successfully");
+                    //alert(" My Home details has been deactivated Successfully");
+                    toastr.success(" My Home details has been deactivated Successfully", "success");
                     $scope.TabList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  My Home details" + data;
@@ -26365,7 +26390,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             var del = confirm("Do you like to activate the selected My Home details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert(" My Home details has been  Activated Successfully");
+                    //alert(" My Home details has been  Activated Successfully");
+                    toastr.success(" My Home details has been  Activated Successfully", "success");
                     $scope.TabList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  My Home details" + data;
@@ -26375,7 +26401,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
         /* THIS IS EDIT POPUP FUNCTION */
@@ -26407,16 +26434,19 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         }
         
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
             if (typeof ($scope.TabName) == "undefined" || $scope.TabName == "") {
-                alert("Please enter Tab Name");
+                //alert("Please enter Tab Name");
+                toastr.warning("Please enter Tab Name", "warning");
                 return false;
             }
             else if (typeof ($scope.RefId) == "undefined" || $scope.RefId == "") {
-                alert("Please enter Ref Id");
+                //alert("Please enter Ref Id");
+                toastr.warning("Please enter Ref Id", "warning");
                 return false;
             }
             /*else if (typeof ($scope.Category_ID) == "undefined" || $scope.Category_ID == "0") {
@@ -26553,11 +26583,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 }
             });
             if (TSDuplicate == 1) {
-                alert('User Name already exist, cannot be Duplicated');
+                //alert('User Name already exist, cannot be Duplicated');
+                toastr.info("User Name already exist, cannot be Duplicated", "info");
                 return false;
             }
             if (UserEmpty == 1) {
-                alert('Data missing in user info tab');
+                //alert('Data missing in user info tab');
+                toastr.warning("User Name already exist, cannot be Duplicated", "warning");
                 return false;
             }
             var DuplicateDevice = 0;
@@ -26578,11 +26610,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 }
             });
             if (DuplicateDevice == 1) {
-                alert('Device already exist, cannot be Duplicated');
+                //alert('Device already exist, cannot be Duplicated');
+                toastr.info("Device already exist, cannot be Duplicated", "info");
                 return false;
             }
             if (DeviceEmpty == 1) {
-                alert('Data missing in Device tab');
+                //alert('Data missing in Device tab');
+                toastr.warning("Data missing in Device tab", "warning");
                 return false;
             }
 
@@ -26634,7 +26668,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $('#savemytab').attr("disabled", true);
                     $http.post(baseUrl + '/api/MyHome/Tab_InsertUpdate/', obj).success(function (data) {
                         $("#chatLoaderPV").hide();
-                        alert(data.Message);
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 1) {
+                            toastr.success(data.Message, "success");
+                        }
+                        else if (data.ReturnFlag == 0) {
+                            toastr.info(data.Message, "info");
+                        }
                         $('#savemytab').attr("disabled", false);
                         $scope.TabList();
                         $scope.Cancel_MYTAB();
@@ -26842,7 +26882,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             var Dev = confirm("Do you like to activate the selected Device?");
             if (Dev == true) {
                 $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Device has been activated successfully");
+                    //alert("Selected Device has been activated successfully");
+                    toastr.success("Selected Device has been activated successfully", "success");
                     $scope.DeviceList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
@@ -26862,7 +26903,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             var del = confirm("Do you like to deactivate the selected Device?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert(" Device details has been deactivated Successfully");
+                    //alert(" Device details has been deactivated Successfully");
+                    toastr.success(" Device details has been deactivated Successfully", "success");
                     $scope.DeviceList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  Device details" + data;
@@ -26927,7 +26969,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#btnsave').attr("disabled", true);
             $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
                 $("#chatLoaderPV").hide();
-                alert(data.Message);
+                //alert(data.Message);
+                if (data.ReturnFlag == 1) {
+                    toastr.success(data.Message, "success");
+                }
+                else if (data.ReturnFlag == 0) {
+                    toastr.info(data.Message, "info");
+                }
                 $('#btnsave').attr("disabled", false);
                 $scope.DeviceList();
                 $scope.CancelDeviceList();
@@ -26943,27 +26991,33 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         /* THIS IS FOR DEVICE ADD EDIT VALIDATION CONTROL */
         $scope.DeviceValidationcontrols = function () {
             if (typeof ($scope.DeviceId) == "undefined" || $scope.DeviceId == "") {
-                alert("Please enter Device Id");
+                //alert("Please enter Device Id");
+                toastr.warning("Please enter Device Id", "warning");
                 return false;
             }
             else if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null ) {
-                alert("Please Select Device Name");
+                //alert("Please Select Device Name");
+                toastr.warning("Please enter Device Id", "warning");
                 return false;
             }
             else if (typeof ($scope.DeviceMake) == "undefined" || $scope.DeviceMake == "") {
-                alert("Please enter DeviceMake");
+                //alert("Please enter DeviceMake");
+                toastr.warning("Please enter DeviceMake", "warning");
                 return false;
             }
             else if (typeof ($scope.DeviceModel) == "undefined" || $scope.DeviceModel == "") {
-                alert("Please enter DeviceModel");
+                //alert("Please enter DeviceModel");
+                toastr.warning("Please enter DeviceModel", "warning");
                 return false;
             }
             else if (typeof ($scope.DeviceType) == "undefined" || $scope.DeviceType == "" || $scope.DeviceType == "0" || $scope.DeviceType == null) {
-                alert("Please Select DeviceType");
+                //alert("Please Select DeviceType");
+                toastr.warning("Please Select DeviceType", "warning");
                 return false;
             }
             else if (typeof ($scope.SelectedParamter) == "undefined" || $scope.SelectedParamter == "" || $scope.SelectedParamter == "0") {
-                alert("Please Select Parameter");
+                //alert("Please Select Parameter");
+                toastr.warning("Please Select Parameter", "warning");
                 return false;
             }
 
