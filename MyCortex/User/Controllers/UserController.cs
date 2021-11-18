@@ -416,7 +416,10 @@ namespace MyCortex.User.Controller
                 string turl = HttpContext.Current.Request.Url.Host.ToString();
                 string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + userObj.PASSWORD;
                 // below alert for change password
-                AlertEventReturn_CP.Generate_SMTPEmail_Notification_For_ChangePwd(url, ModelData.Id, (long)userObj.INSTITUTION_ID, user_email);
+                if (userid != "0")
+                {
+                    AlertEventReturn_CP.Generate_SMTPEmail_Notification_For_ChangePwd(url, ModelData.Id, (long)userObj.INSTITUTION_ID, user_email);
+                }
 
                 // create cometchat user only in insert
                 if (ModelData.flag == 2)
