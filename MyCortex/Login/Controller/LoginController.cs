@@ -863,6 +863,93 @@ namespace MyCortex.Login.Controller
                 return null;
             }
         }
+
+        [HttpPost]
+        public HttpResponseMessage ChangePassword_For_User(LoginModel loginMod)
+        {
+            ResetPasswordReturnModel model = new ResetPasswordReturnModel();
+            int flag = 0;
+            if (loginMod.NewPassword == loginMod.ReenterPassword)
+            {
+                try
+                {
+                    if (_logger.IsInfoEnabled)
+                        _logger.Info("Controller");
+                    DataEncryption EncryptPassword = new DataEncryption();
+                    Int64 userid = Convert.ToInt64(EncryptPassword.Decrypt(loginMod.Status));
+                    if (userid > 0)
+                    {
+                        loginMod.UserId = userid;
+                        loginMod.NewPassword = EncryptPassword.Encrypt(loginMod.NewPassword);
+                        //loginMod.Password = EncryptPassword.Encrypt(loginMod.Password);
+                        flag = repository.ChangePassword(loginMod.UserId, loginMod.NewPassword, loginMod.Password, loginMod.NewPassword, loginMod.UserId, loginMod.InstitutionId, loginMod.LoginType);
+                        if (flag > 0)
+                        {
+                            model.Status = "True";
+                            model.ReturnFlag = 1;
+                            model.Message = "Password Changed successfully";
+                        }
+                        else if (flag == -1)
+                        {
+                            model.Status = "false";
+                            model.ReturnFlag = 0;
+                            model.Message = "The Old Password Not Matching With The Existing Password. Please Check!";
+                        }
+                        else if (flag == -11)
+                        {
+                            model.Status = "false";
+                            model.ReturnFlag = 0;
+                            model.Message = "The New Password Same Existing Password. Please Check!";
+                        }
+                        else
+                        {
+                            model.Status = "False";
+                            model.ReturnFlag = 0;
+                            model.Message = "Invalid password";
+                        }
+
+                        if (flag > 0)
+                        {
+                            string Event_Code = "CHANGE_PWD";
+                            AlertEvents AlertEventReturn = new AlertEvents();
+                            IList<EmailListModel> EmailList;
+
+                            EmailList = alertrepository.UserSpecificEmailList((long)loginMod.InstitutionId, loginMod.UserId);
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, loginMod.UserId, (long)loginMod.InstitutionId, EmailList);
+                        }
+
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                        return response;
+                    }
+                    else
+                    {
+                        model.Status = "False";
+                        model.ReturnFlag = 0;
+                        model.Message = "Invalid password";
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.Message, ex);
+                    model.Status = "False";
+                    model.ReturnFlag = 0;
+                    model.Message = ex.Message;
+
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                }
+
+            }
+
+            else
+            {
+                model.Status = "False";
+                model.ReturnFlag = 0;
+                model.Message = "Invalid password";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
     }
 }
 
