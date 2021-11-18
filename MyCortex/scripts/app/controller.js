@@ -6238,8 +6238,8 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
     }
 ]);
 
-MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.AllergyMasterflag = 0;
         $scope.IsActive = true;
@@ -6254,11 +6254,13 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
         // THIS IS FOR VALIDATION CONTROL /
         $scope.Validationcontrols = function () {
             if (typeof ($scope.AllergyTypeId) == "" || $scope.AllergyTypeId == "0") {
-                alert("Please select Allergy Type Name ");
+                //alert("Please select Allergy Type Name ");
+                toastr.warning("Please select Allergy Type Name ", "warning");
                 return false;
             }
             else if (typeof ($scope.AllergenName) == "" || $scope.AllergenName == undefined) {
-                alert("Please select Allergen Name");
+                //alert("Please select Allergen Name");
+                toastr.warning("Please select Allergen Name", "warning");
                 return false;
             }
             return true;
@@ -6279,7 +6281,13 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                 $("#btnsave").attr("disabled", true);
                 $http.post(baseUrl + '/api/MasterAllergy/MasterAllergy_AddEdit/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $("#btnsave").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
@@ -6498,7 +6506,7 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                 }
 
                 $http.post(baseUrl + '/api/MasterAllergy/AllergyMaster_Active/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
                     if (data.ReturnFlag == 2) {
                         toastr.success(data.Message, "success");
                     }
@@ -14304,8 +14312,8 @@ MyCortexControllers.controller("ParameterController", ['$scope', '$http', '$rout
 ]);
 
 // This is for ICD10 controller functions//    
-MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.Id = "0";
         $scope.DuplicateId = "0";
@@ -14327,11 +14335,13 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
             if (typeof ($scope.ICD_Code) == "undefined" || $scope.ICD_Code == 0) {
-                alert("Please enter ICD Code");
+                //alert("Please enter ICD Code");
+                toastr.warning("Please enter ICD Code", "warning");
                 return false;
             }
             else if (typeof ($scope.Description) == "undefined" || $scope.Description == 0) {
-                alert("Please enter ICD Description");
+                //alert("Please enter ICD Description");
+                toastr.warning("Please enter ICD Description", "warning");
                 return false;
             }
             /*else if (typeof ($scope.Category_ID) == "undefined" || $scope.Category_ID == "0") {
@@ -14356,7 +14366,13 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
                 $("#btnsave").attr("disabled", true);
                 $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $("#btnsave").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
@@ -14498,7 +14514,8 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
             var del = confirm("Do you like to deactivate the selected ICD 10 details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MasterICD/ICDMaster_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert(" ICD 10 details has been deactivated Successfully");
+                    //alert(" ICD 10 details has been deactivated Successfully");
+                    toastr.success(" ICD 10 details has been deactivated Successfully", "success");
                     $scope.ICD10list();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
@@ -14522,7 +14539,8 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
             var Ins = confirm("Do you like to activate the selected ICD 10 details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/MasterICD/ICDMaster_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected ICD 10 details has been activated successfully");
+                    //alert("Selected ICD 10 details has been activated successfully");
+                    toastr.success("Selected ICD 10 details has been activated successfully", "success");
                     $scope.ICD10list();
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting ICD 1O records" + data;
@@ -14531,7 +14549,8 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
         };
 
         $scope.Active_ErrorFunction = function () {
-            alert("Inactive ICD 10 details cannot be edited");
+            //alert("Inactive ICD 10 details cannot be edited");
+            toastr.info("Inactive ICD 10 details cannot be edited", "info");
         };
 
         /*calling Alert message for cannot edit inactive record function */
@@ -14588,8 +14607,8 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
 ]);
 
 // This is for Payor controller functions//    
-MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.Id = "0";
         $scope.DuplicateId = "0";
@@ -14626,19 +14645,23 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
             //    return false;
             //}
             if (typeof ($scope.PayorName) == "undefined" || $scope.PayorName == "") {
-                alert("Please enter PayorName");
+                //alert("Please enter PayorName");
+                toastr.warning("Please enter PayorName", "warning");
                 return false;
             }
             else if (typeof ($scope.ShortCode) == "undefined" || $scope.ShortCode == "") {
-                alert("Please enter ShortCode");
+                //alert("Please enter ShortCode");
+                toastr.warning("Please enter ShortCode", "warning");
                 return false;
             }
             else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
-                alert("Please enter Description");
+                //alert("Please enter Description");
+                toastr.warning("Please enter Description", "warning");
                 return false;
             }
             else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
-                alert("Please enter ReferCode");
+                //alert("Please enter ReferCode");
+                toastr.warning("Please enter ReferCode", "warning");
                 return false;
             }
 
@@ -14704,7 +14727,13 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
                 }
                 $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/PayorMaster/PayorMaster_AddEdit/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
@@ -14780,7 +14809,8 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
             if (del == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Payor details has been deactivated Successfully");
+                    //alert("Payor details has been deactivated Successfully");
+                    toastr.success("Payor details has been deactivated Successfully", "success");
                     $("#chatLoaderPV").hide();
                     $scope.Payorlist();
                 }).error(function (data) {
@@ -14801,7 +14831,8 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
             if (Ins == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Payor details has been activated successfully");
+                    //alert("Selected Payor details has been activated successfully");
+                    toastr.success("Selected Payor details has been activated successfully", "success");
                     $("#chatLoaderPV").hide();
                     $scope.Payorlist();
                 }).error(function (data) {
@@ -14812,7 +14843,8 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
         };
 
         $scope.Active_ErrorFunction = function () {
-            alert("Inactive Payor details cannot be edited");
+            //alert("Inactive Payor details cannot be edited");
+            toastr.info("Inactive Payor details cannot be edited", "info");
         };
 
         /*calling Alert message for cannot edit inactive record function */
@@ -14941,49 +14973,60 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             $scope.ValidToDate = moment($scope.ValidToDate).format('DD-MMM-YYYY');
 
             if (typeof ($scope.SelectedPayor) == "undefined" || $scope.SelectedPayor == "" || $scope.SelectedPayor == null) {
-                alert("Please Select Any Payor");
+                //alert("Please Select Any Payor");
+                toastr.warning("Please Select Any Payor", "warning");
                 return false;
             }
             else if (typeof ($scope.PlanName) == "undefined" || $scope.PlanName == "") {
-                alert("Please enter PlanName");
+                //alert("Please enter PlanName");
+                toastr.warning("Please enter PlanName", "warning");
                 return false;
             }
 
             if (typeof ($scope.ShortCode) == "undefined" || $scope.ShortCode == "") {
-                alert("Please enter ShortCode");
+                //alert("Please enter ShortCode");
+                toastr.warning("Please enter ShortCode", "warning");
                 return false;
             }
             else if (typeof ($scope.Description) == "undefined" || $scope.Description == "") {
-                alert("Please enter Description");
+                //alert("Please enter Description");
+                toastr.warning("Please enter Description", "warning");
                 return false;
             }
             else if (typeof ($scope.PackageName) == "undefined" || $scope.PackageName == "") {
-                alert("Please enter PackageName");
+                //alert("Please enter PackageName");
+                toastr.warning("Please enter PackageName", "warning");
                 return false;
             }
             else if (typeof ($scope.FinancialClass) == "undefined" || $scope.FinancialClass == "") {
-                alert("Please enter FinancialClass");
+                //alert("Please enter FinancialClass");
+                toastr.warning("Please enter FinancialClass", "warning");
                 return false;
             }
             else if (typeof ($scope.PriceCode) == "undefined" || $scope.PriceCode == "") {
-                alert("Please enter PriceCode");
+                //alert("Please enter PriceCode");
+                toastr.warning("Please enter PriceCode", "warning");
                 return false;
             }
             else if (typeof ($scope.ReferCode) == "undefined" || $scope.ReferCode == "") {
-                alert("Please enter ReferCode");
+                //alert("Please enter ReferCode");
+                toastr.warning("Please enter ReferCode", "warning");
                 return false;
             }
             else if (typeof ($scope.ValidFromDate) == "undefined" || $scope.ValidFromDate == "") {
-                alert("Please enter ValidFromDate");
+                //alert("Please enter ValidFromDate");
+                toastr.warning("Please enter ValidFromDate", "warning");
                 return false;
             }
             else if (typeof ($scope.ValidToDate) == "undefined" || $scope.ValidToDate == "") {
-                alert("Please enter ValidToDate");
+                //alert("Please enter ValidToDate");
+                toastr.warning("Please enter ValidToDate", "warning");
                 return false;
             }
             if (($scope.ValidFromDate !== null) && ($scope.ValidToDate !== null)) {
                 if ((ParseDate($scope.ValidToDate) < ParseDate($scope.ValidFromDate))) {
-                    alert("From Date should not be greater than To Date");
+                    //alert("From Date should not be greater than To Date");
+                    toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.ValidFromDate = DateFormatEdit($scope.ValidFromDate);
                     $scope.ValidToDate = DateFormatEdit($scope.ValidToDate);
                     return false;
@@ -15060,7 +15103,13 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                 $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/PlanMaster/PlanMasterAddEdit/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $('#btnsave').attr("disabled", false);
 
                     if (data.ReturnFlag == 1) {
@@ -15148,7 +15197,8 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             if (del == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Plan details has been deactivated Successfully");
+                    //alert("Plan details has been deactivated Successfully");
+                    toastr.success("Plan details has been deactivated Successfully", "success");
                     $("#chatLoaderPV").hide();
                     $scope.Planlist();
                 }).error(function (data) {
@@ -15169,7 +15219,8 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             if (Ins == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Plan details has been activated successfully");
+                    //alert("Selected Plan details has been activated successfully");
+                    toastr.success("Selected Plan details has been activated successfully", "success");
                     $("#chatLoaderPV").hide();
                     $scope.Planlist();
                 }).error(function (data) {
@@ -15180,7 +15231,8 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
         };
 
         $scope.Active_ErrorFunction = function () {
-            alert("Inactive Payor details cannot be edited");
+            //alert("Inactive Payor details cannot be edited");
+            toastr.info("Inactive Payor details cannot be edited","info");
         };
 
         /*calling Alert message for cannot edit inactive record function */
@@ -15318,15 +15370,18 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
         $scope.Validationcontrols = function () {
 
             if (typeof ($scope.Generic_Name) == "undefined" || $scope.Generic_Name == 0) {
-                alert("Please enter Generic Name");
+                //alert("Please enter Generic Name");
+                toastr.warning("Please enter Generic Name", "warning");
                 return false;
             }
             else if (typeof ($scope.Strength_ID) == "undefined" || $scope.Strength_ID == 0) {
-                alert("Please select Strength");
+                //alert("Please select Strength");
+                toastr.warning("Please select Strength", "warning");
                 return false;
             }
             else if (typeof ($scope.Dosage_From_ID) == "undefined" || $scope.Dosage_From_ID == 0) {
-                alert("Please select Dosage Form");
+                //alert("Please select Dosage Form");
+                toastr.warning("Please select Dosage Form", "warning");
                 return false;
             }
             /*else if(typeof ($scope.Item_Code) == "undefined" || $scope.Item_Code == 0) {
@@ -15365,7 +15420,13 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
                 $("#btnsave").attr("disabled", true);
 
                 $http.post(baseUrl + '/api/DrugDBMaster/DrugDBMaster_AddEdit/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $("#btnsave").attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.CancelPopup();
@@ -15382,7 +15443,8 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
         }
 
         $scope.Active_ErrorFunction = function () {
-            alert("Inactive Drug DB details cannot be edited");
+            //alert("Inactive Drug DB details cannot be edited");
+            toastr.info("Inactive Drug DB details cannot be edited", "info");
         };
 
 
@@ -15584,7 +15646,8 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
             var del = confirm("Do you like to deactivate the selected Drug DB details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert(" Drug DB details has been deactivated Successfully");
+                    //alert(" Drug DB details has been deactivated Successfully");
+                    toastr.success(" Drug DB details has been deactivated Successfully","success");
                     $scope.DrugDB_List();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  Drug DB details" + data;
@@ -15606,7 +15669,8 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
             var Ins = confirm("Do you like to activate the selected Drug DB details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Drug DB details has been activated successfully");
+                    //alert("Selected Drug DB details has been activated successfully");
+                    toastr.success("Selected Drug DB details has been activated successfully", "success");
                     $scope.DrugDB_List();
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting Drug DB records" + data;
