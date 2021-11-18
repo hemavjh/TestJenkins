@@ -21771,8 +21771,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
 
 ]);
 
-MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
 
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.page_size = 0;
@@ -22032,7 +22032,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 if (($scope.TimeSlot1 == 0 && $scope.TimeSlot2 == 0) && ($scope.TimeSlot7 == 0 && $scope.TimeSlot8 == 0) && ($scope.TimeSlot13 == 0 && $scope.TimeSlot14 == 0) && ($scope.TimeSlot19 == 0 && $scope.TimeSlot20 == 0) &&
                     ($scope.TimeSlot25 == 0 && $scope.TimeSlot26 == 0) && ($scope.TimeSlot31 == 0 && $scope.TimeSlot32 == 0) && ($scope.TimeSlot37 == 0 && $scope.TimeSlot38 == 0)) {
-                    alert('Please Enter Any One Shift !');
+                    //alert('Please Enter Any One Shift !');
+                    toastr.warning("Please Enter Any One Shift !", "warning");
                     $('#Shift1Select').prop('checked', false);
                 }
                 else {
@@ -22369,7 +22370,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 if (($scope.TimeSlot5 == 0 && $scope.TimeSlot6 == 0) && ($scope.TimeSlot11 == 0 && $scope.TimeSlot12 == 0) && ($scope.TimeSlot17 == 0 && $scope.TimeSlot18 == 0) && ($scope.TimeSlot23 == 0 && $scope.TimeSlot24 == 0) &&
                     ($scope.TimeSlot29 == 0 && $scope.TimeSlot30 == 0) && ($scope.TimeSlot35 == 0 && $scope.TimeSlot36 == 0) && ($scope.TimeSlot41 == 0 && $scope.TimeSlot42 == 0)) {
-                    alert('Please Enter Any One Shift !');
+                    //alert('Please Enter Any One Shift !');
+                    toastr.warning("Please Enter Any One Shift!", "warning");
                     $('#Shift3Select').prop('checked', false);
                 }
                 else {
@@ -22508,7 +22510,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $scope.TimeSlot36 = angular.copy($scope.TimeSlot42);
                     }
                     else {
-                        alert('Please Enter Proper Shift FromTime And ToTime !');
+                        //alert('Please Enter Proper Shift FromTime And ToTime !');
+                        toastr.warning("Please Enter Proper Shift FromTime And ToTime!", "warning");
                         $('#Shift3Select').prop('checked', false);
                         return false;
                     }
@@ -22537,7 +22540,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 if (($scope.TimeSlot43 == 0 && $scope.TimeSlot44 == 0) && ($scope.TimeSlot45 == 0 && $scope.TimeSlot46 == 0) && ($scope.TimeSlot47 == 0 && $scope.TimeSlot48 == 0) && ($scope.TimeSlot49 == 0 && $scope.TimeSlot50 == 0) &&
                     ($scope.TimeSlot51 == 0 && $scope.TimeSlot52 == 0) && ($scope.TimeSlot53 == 0 && $scope.TimeSlot54 == 0) && ($scope.TimeSlot55 == 0 && $scope.TimeSlot56 == 0)) {
-                    alert('Please Enter Any One Shift !');
+                    //alert('Please Enter Any One Shift !');
+                    toastr.warning("Please Enter Any One Shift!", "warning");
                     $('#Shift4Select').prop('checked', false);
                 }
                 else {
@@ -23128,7 +23132,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $('#saveDoctorShift3').attr("disabled", true);
                     $("#chatLoaderPV").show();
                     $http.post(baseUrl + '/api/PatientAppointments/AddDoctorShiftInsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 1) {
+                            toastr.success(data.Message, "success");
+                        }
+                        else if (data.ReturnFlag == 0) {
+                            toastr.info(data.Message, "info");
+                        }
                         $('#saveDoctorShift1').attr("disabled", false);
                         $('#saveDoctorShift2').attr("disabled", false);
                         $('#saveDoctorShift3').attr("disabled", false);
@@ -23146,9 +23156,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $scope.error = "An error has occurred while Adding Docor Shift" + data;
                     });
                 } else if (chk == 0) {
-                    alert('Please Enter Valid Timeslot!');
+                    //alert('Please Enter Valid Timeslot!');
+                    toastr.warning("Please Enter Valid Timeslot!", "warning");
                 } else if (chk == 3) {
-                    alert('Please Select Any One Day');
+                    //alert('Please Select Any One Day');
+                    toastr.warning("Please Select Any One Day", "warning");
                 }
             }
         }
@@ -23223,44 +23235,53 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.ToDate = moment($scope.ToDate).format('DD-MMM-YYYY');
 
             if (typeof ($scope.SelectedDepartment) == "undefined" || $scope.SelectedDepartment == "") {
-                alert("Please Select Department");
+                //alert("Please Select Department");
+                toastr.warning("Please Select Department", "warning");
                 return false;
             }
             else if (typeof ($scope.SelectedSpecialist) == "undefined" || $scope.SelectedSpecialist == "") {
-                alert("Please Select Specialist");
+                //alert("Please Select Specialist");
+                toastr.warning("Please Select Specialist", "warning");
                 return false;
             }
             else if (typeof ($scope.SelectedCCCG) == "undefined" || $scope.SelectedCCCG == "") {
-                alert("Please Select CCCG");
+                //alert("Please Select CCCG");
+                toastr.warning("Please Select CCCG", "warning");
                 return false;
             }
             else if (typeof ($scope.FromDate) == "undefined" || $scope.FromDate == "") {
-                alert("Please select From Date");
+                //alert("Please select From Date");
+                toastr.warning("Please select From Date", "warning");
                 return false;
             }
             else if (typeof ($scope.ToDate) == "undefined" || $scope.ToDate == "") {
-                alert("Please select  End Date");
+                //alert("Please select  End Date");
+                toastr.warning("Please select  End Date", "warning");
                 return false;
             }
             if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
                 if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
-                    alert("Start Date should not be greater than End Date");
+                    //alert("Start Date should not be greater than End Date");
+                    toastr.warning("Start Date should not be greater than End Date", "warning");
                     $scope.FromDate = DateFormatEdit($scope.FromDate);
                     $scope.ToDate = DateFormatEdit($scope.ToDate);
                     return false;
                 }
             }
             else if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0" || $scope.NewAppointment == '') {
-                alert("Please Enter NewAppointment Time Slot");
+                //alert("Please Enter NewAppointment Time Slot");
+                toastr.warning("Please Enter NewAppointment Time Slot", "warning");
                 return false;
             }
             else if (typeof ($scope.followup) == "undefined" || $scope.followup == "0" || $scope.followup == '') {
-                alert("Please Enter followup Time Slot");
+                //alert("Please Enter followup Time Slot");
+                toastr.warning("Please Enter followup Time Slot", "warning");
                 return false;
             }
 
             else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0" || $scope.IntervalBt == '') {
-                alert("Please Enter Interval Time Slot");
+               //alert("Please Enter Interval Time Slot");
+                toastr.warning("Please Enter Interval Time Slot", "warning");
                 return false;
             }
             /*else if (typeof ($scope.CustomSlot) == "undefined" || $scope.CustomSlot == "0" || $scope.CustomSlot == '') {
@@ -23268,11 +23289,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 return false;
             }*/
             else if (typeof ($scope.Days) == "undefined" || $scope.Days == "0" || $scope.Days == '') {
-                alert("Please Enter Days");
+                //alert("Please Enter Days");
+                toastr.warning("Please Enter Days", "warning");
                 return false;
             }
             else if (typeof ($scope.Minutes) == "undefined" || $scope.Minutes == "0" || $scope.Minutes == '') {
-                alert("Please Enter Minutes");
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter Minutes", "warning");
                 return false;
             }
 
@@ -24563,7 +24586,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 + '&Doctor_Id=' + DoctorId
             ).success(function (data) {
                 if (data.returnval == 1) {
-                    alert("Activate Doctor Shift is already created, Please check");
+                    //alert("Activate Doctor Shift is already created, Please check");
+                    toastr.info("Activate Doctor Shift is already created, Please check", "info");
                 }
                 else {
                     var Ins = confirm("Do you like to activate the selected Doctor Shift?");
@@ -24665,7 +24689,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             var del = confirm("Do you like to Reset the AppointmentSetting  details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                       alert("AppointmentSetting  has been Reset Successfully");
+                    //alert("AppointmentSetting  has been Reset Successfully");
+                    toastr.success("AppointmentSetting  has been Reset Successfully", "success");
                         $scope.AppointmentSettings();  
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
@@ -24838,23 +24863,28 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.ValidationcontrolsAppointment = function () {
             if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0") {
-                alert("Please Enter NewAppointment");
+                //alert("Please Enter NewAppointment");
+                toastr.warning("Please Enter NewAppointment", "warning");
                 return false;
             }
             else if (typeof ($scope.followup) == "undefined" || $scope.followup == "0") {
-                alert("Please Enter FollowUp");
+                //alert("Please Enter FollowUp");
+                toastr.warning("Please Enter FollowUp", "warning");
                 return false;
             }
             else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0") {
-                alert("Please Enter IntervalBetween");
+                //alert("Please Enter IntervalBetween");
+                toastr.warning("Please Enter IntervalBetween", "warning");
                 return false;
             }
             else if (typeof ($scope.AppointmentDay) == "undefined" || $scope.AppointmentDay == "0") {
-                alert("Please Enter AppointmentDay");
+                //alert("Please Enter AppointmentDay");
+                toastr.warning("Please Enter AppointmentDay", "warning");
                 return false;
             }
             else if (typeof ($scope.Minutest) == "undefined" || $scope.Minutest == "0") {
-                alert("Please Enter Minutes");
+                //alert("Please Enter Minutes");
+                toastr.warning("Please Enter Minutes", "warning");
                 return false;
             }
              
@@ -25002,7 +25032,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $('#save').attr("disabled", true);
                 $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $('#save').attr("disabled", false);
                     $scope.AppointmentSettings();
                 }).error(function (data) {
