@@ -285,8 +285,16 @@ namespace MyCortex.User.Controller
                 //{
                 //    FormulaforFullName = modelLF_Formula[0].ConfigValue;
                 //}
+
+                IList<EmailListModel> user_email = new List<EmailListModel>();
+                EmailListModel mail = new EmailListModel();
+                mail.EmailId = userObj.EMAILID;
+                mail.EmailType_Flag = 1;  // dont change
+                mail.UserId = 0;
+
                 string Replaced_FullName = "[L][F]";
                 Replaced_FullName = FormulaforFullName.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
+                mail.UserName = Replaced_FullName;
                 userObj.FullName = EncryptPassword.Encrypt(Replaced_FullName);
                 userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
                 userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
@@ -396,6 +404,19 @@ namespace MyCortex.User.Controller
                 model.Error_Code = "";
                 model.UserDetails = ModelData;
                 model.Message = messagestr;// "User created successfully";
+
+                mail.UserId = (long)ModelData.Id;
+                user_email.Add(mail);
+                DateTime dateTime = DateTime.UtcNow.Date.AddDays(7);
+                AlertEvents AlertEventReturn_CP = new AlertEvents();
+                string userid = ModelData.Id.ToString();
+                string text = (Convert.ToInt64(dateTime.ToString("dd-MM-yyyy").Replace("-", "")) * 3).ToString();
+                //c# encrrption
+                var encryptString = EncryptPassword.Encrypt(userid);
+                string url = "http://localhost:49000/#/ChangePassword/" + text + "/" + encryptString;
+                // below alert for change password
+                AlertEventReturn_CP.Generate_SMTPEmail_Notification_For_ChangePwd(url, ModelData.Id, (long)userObj.INSTITUTION_ID, user_email);
+
                 // create cometchat user only in insert
                 if (ModelData.flag == 2)
                 {
