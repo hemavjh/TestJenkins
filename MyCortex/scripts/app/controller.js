@@ -3007,29 +3007,34 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         fileval = 2;
                     }
                     if (fileval == 2) {
-                        alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico");
+                        //alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico");
+                        toastr.warning("Please choose files of type jpeg/jpg/png/bmp/gif/ico", "warning");
                         return false;
                     }
                 }
             }
             if ($scope.MenuTypeId == 2) {
                 if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
-                    alert("Please select Type of User");
+                    //alert("Please select Type of User");
+                    toastr.warning("Please select Type of User", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.Health_License) == "undefined" || $scope.Health_License == "") {
-                    alert("Please enter Health License under Additional Info");
+                    //alert("Please enter Health License under Additional Info");
+                    toastr.warning("Please enter Health License under Additional Info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                    alert("Please select Nationality under Additional Info");
+                    //alert("Please select Nationality under Additional Info");
+                    toastr.warning("Please select Nationality under Additional Info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
-                    alert("Please select Date of Birth under Additional info");
+                    //alert("Please select Date of Birth under Additional info");
+                    toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
@@ -3039,22 +3044,26 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 //    return false;
                 //}
                 else if ($scope.AgeRestrictioncalculation() == false) {
-                    alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
+                    //alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
+                    toastr.warning("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
-                    alert("Please select Country under Address Info");
+                    //alert("Please select Country under Address Info");
+                    toastr.warning("Please select Country under Address Info", "warning");
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
-                    alert("Please select State under Address Info");
+                    //alert("Please select State under Address Info");
+                    toastr.warning("Please select State under Address Info", "warning");
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
-                    alert("Please select City under Address Info");
+                    //alert("Please select City under Address Info");
+                    toastr.warning("Please select City under Address Info", "warning");
                     $scope.currentTab = 3;
                     return false;
                 }
@@ -3079,24 +3088,28 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         fileval = 2;
                     }
                     if (fileval == 2) {
-                        alert("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.");
+                        //alert("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.");
+                        toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
                         return false;
                     }
                 }
             }
             if ($scope.MenuTypeId == 3) {
                 if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
-                    alert("Please enter First Name");
+                    //alert("Please enter First Name");
+                    toastr.warning("Please enter First Name", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
-                    alert("Please enter Last Name");
+                    //alert("Please enter Last Name");
+                    toastr.warning("Please enter Last Name", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
-                    alert("Please select Gender");
+                    //alert("Please select Gender");
+                    toastr.warning("Please select Gender", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
@@ -3106,66 +3119,79 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 //    return false;
                 //}
                 else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
-                    alert("Please enter National ID");
+                    //alert("Please enter National ID");
+                    toastr.warning("Please enter National ID", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
-                    alert("Please enter Insurance ID");
+                    //alert("Please enter Insurance ID");
+                    toastr.warning("Please enter Insurance ID", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
-                    alert("Please enter Email");
+                   //alert("Please enter Email");
+                    toastr.warning("Please enter Email", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (EmailFormate($scope.EmailId) == false) {
-                    alert("Invalid email format");
+                    //alert("Invalid email format");
+                    toastr.warning("Invalid email format", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (EmailFormate($scope.Google_EmailId) == false) {
-                    alert("Invalid Google Email format");
+                    //alert("Invalid Google Email format");
+                    toastr.warning("Invalid Google Email format", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (EmailFormate($scope.FB_EmailId) == false) {
-                    alert("Invalid Facebook Email format");
+                    //alert("Invalid Facebook Email format");
+                    toastr.warning("Invalid Facebook Email format", "warning");
                     $scope.currentTab = 1;
                     return false;
                 } else if (EmailFormate($scope.appleUserID) == false) {
-                    alert("Invalid Apple Email format");
+                    //alert("Invalid Apple Email format");
+                    toastr.warning("Invalid Apple Email format", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
-                    alert("Please enter Mobile No.");
+                    //alert("Please enter Mobile No.");
+                    toastr.warning("Please enter Mobile No.", "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                    alert("Please select Nationality under Additional Info");
+                    //alert("Please select Nationality under Additional Info");
+                    toastr.warning("Please select Nationality under Additional Info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
-                    alert("Please select Marital Status under Additional Info");
+                    //alert("Please select Marital Status under Additional Info");
+                    toastr.warning("Please select Marital Status under Additional Info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
-                    alert("Please select Blood Group under Additional Info");
+                    //alert("Please select Blood Group under Additional Info");
+                    toastr.warning("Please select Blood Group under Additional Info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
-                    alert("Please select Ethnic Group under Additional Info");
+                    //alert("Please select Ethnic Group under Additional Info");
+                    toastr.warning("Please select Ethnic Group under Additional Info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
-                    alert("Please select Date of Birth under Additional info");
+                    //alert("Please select Date of Birth under Additional info");
+                    toastr.warning("Please select Date of Birth under Additional info", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
@@ -3175,28 +3201,33 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 //    return false;
                 //}
                 else if ($scope.AgeRestrictioncalculation() == false) {
-                    alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
+                    //alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
+                    toastr.warning("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth", "warning");
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
-                    alert("Please select Country under Address Info");
+                    //alert("Please select Country under Address Info");
+                    toastr.warning("Please select Country under Address Info", "warning");
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
-                    alert("Please select State under Address Info");
+                    //alert("Please select State under Address Info");
+                    toastr.warning("Please select State under Address Info", "warning");
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
-                    alert("Please select City under Address Info");
+                    //alert("Please select City under Address Info");
+                    toastr.warning("Please select City under Address Info", "warning");
                     $scope.currentTab = 3;
                     return false;
                 }
                 if ($scope.CURRENTLY_TAKEMEDICINE == 1) {
                     if (($ff($scope.AddMedicines, { Status: 1 }).length == 0)) {
-                        alert("Please add atleast one row for Currrently Take Medicine under Medical Info");
+                        //alert("Please add atleast one row for Currrently Take Medicine under Medical Info");
+                        toastr.warning("Please add atleast one row for Currrently Take Medicine under Medical Info", "warning");
                         $scope.currentTab = 5;
                         return false;
                     }
@@ -3208,7 +3239,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
                         });
                         if ($scope.AddMedicines.length < 1 || AMitem == 1) {
-                            alert("Please enter Medicine Name under Medical Info");
+                            //alert("Please enter Medicine Name under Medical Info");
+                            toastr.warning("Please enter Medicine Name under Medical Info", "warning");
                             $scope.currentTab = 5;
                             return false;
                         }
@@ -3222,14 +3254,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }
                     });
                     if ($scope.AddMedicalHistory.length < 1 || MHitem == 1) {
-                        alert("Please enter Medical History under Medical Info");
+                        //alert("Please enter Medical History under Medical Info");
+                        toastr.warning("Please enter Medical History under Medical Info", "warning");
                         $scope.currentTab = 5;
                         return false;
                     }
                 }
                 if ($scope.FAMILYHEALTH_PROBLEMHISTORY == 1) {
                     if (($ff($scope.AddHealthProblem, { Status: 1 }).length == 0)) {
-                        alert("Please add atleast one row for family Health Problem History under Medical Info");
+                        //alert("Please add atleast one row for family Health Problem History under Medical Info");
+                        toastr.warning("Please add atleast one row for family Health Problem History under Medical Info", "warning");
                         $scope.currentTab = 5;
                         return false;
                     }
@@ -3245,12 +3279,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
                         });
                         if ($scope.AddHealthProblem.length < 1 || Relation_Healthitem == 1) {
-                            alert("Please select Relationship under Medical Info");
+                            //alert("Please select Relationship under Medical Info");
+                            toastr.warning("Please select Relationship under Medical Info", "warning");
                             $scope.currentTab = 5;
                             return false;
                         }
                         if ($scope.AddHealthProblem.length < 1 || HealthProb_Item == 1) {
-                            alert("Please enter Health Problem under Medical Info");
+                            //alert("Please enter Health Problem under Medical Info");
+                            toastr.warning("Please enter Health Problem under Medical Info", "warning");
                             $scope.currentTab = 5;
                             return false;
                         }
@@ -3272,7 +3308,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         fileval = 2;
                     }
                     if (fileval == 2) {
-                        alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico");
+                        //alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico");
+                        toastr.warning("Please choose files of type jpeg/jpg/png/bmp/gif/ico", "warning");
                         return false;
                     }
                 }
@@ -3283,7 +3320,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     if ($scope.ProfileImageSize <= 1045504) {
                         alertmsg = "Uploaded Photo size cannot be greater than " + ($scope.ProfileImageSize / 1024).toString() + "KB";
                     }
-                    alert(alertmsg);
+                    //alert(alertmsg);
+                    toastr.warning(alertmsg, "warning");
                     $scope.currentTab = 1;
                     return false;
                 }
@@ -3291,7 +3329,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             if ($scope.Editresumedoc != null) {
                 if ($scope.Editresumedoc != undefined && $scope.Editresumedoc != null && $scope.Editresumedoc != "") {
                     if ($scope.dataURItoBlob($scope.Editresumedoc).size > 1048576) {
-                        alert("Certificate file size cannot be greater than 1MB");
+                        //alert("Certificate file size cannot be greater than 1MB");
+                        toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
                         $scope.currentTab = 5;
                         return false;
                     }
@@ -4337,13 +4376,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                        //alert(data.Message);
-                        if (data.ReturnFlag == 0) {
+                        alert(data.Message);
+                        /*if (data.ReturnFlag == 0) {
                             toastr.error(data.Message, "warning");
                         }
                         else if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
-                        }
+                        }*/
                         $('#btnsave').attr("disabled", false);
                         $('#btnsave1').attr("disabled", false);
                         $('#btnsave2').attr("disabled", false);
@@ -5472,8 +5511,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
 
 /* THIS IS FOR INSTITUTION SUBSCRIPTION HOSPITAL ADMIN FUNCTION*/
-MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff,toastr) {
         //List Page Pagination.
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -5680,6 +5719,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                 }
                 if (fileval == 2) {
                     alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico");
+                    toastr.warning("Please choose files of type jpeg/jpg/png/bmp/gif/ico", "warning");
                     return false;
                 }
             }
@@ -5796,7 +5836,8 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                             });
                     }
                     else {
-                        alert(data.Message);
+                        //alert(data.Message);
+                        toastr.success(data.Message, "success");
                         $("#btnsave").attr("disabled", false);
                         $scope.CancelInstitutionHospitalAdmin();
                     }
@@ -18009,8 +18050,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
     }
 ]);
 
-MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
 
         $scope.Id = "0";
         $scope.Filter_PatientNo = "";
@@ -18207,7 +18248,8 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
             var cnt = $ff(($filter('filter')($scope.rowCollectionFilter, 'true')), { Approval_Flag: 0 }).length;
             $('#btnsave').attr("disabled", true);
             if (cnt == 0) {
-                alert("Please select atleast one Patient to Approve");
+                //alert("Please select atleast one Patient to Approve");
+                toastr.warning("Please select atleast one Patient to Approve", "warning");
                 $('#btnsave').attr("disabled", false);
             }
             else {
@@ -18228,7 +18270,8 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
                                 }
                             });
                             $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
-                                alert(data.Message);
+                                //alert(data.Message);
+                                toastr.success(data.Message, "success");
                                 $('#btnsave').attr("disabled", false);
                                 if (data.ReturnFlag == 1) {
                                     $scope.PatientApprovalList();
@@ -18238,7 +18281,8 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
                         }
                     }
                     else {
-                        alert("Maximum Number of Patient License reached already, cannot be approved");
+                        //alert("Maximum Number of Patient License reached already, cannot be approved");
+                        toastr.info("Maximum Number of Patient License reached already, cannot be approved", "info");
                         $('#btnsave').attr("disabled", false);
                         return false;
                     }
