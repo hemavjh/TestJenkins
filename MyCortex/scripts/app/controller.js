@@ -17201,8 +17201,8 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
 ]);
 
 /* THIS IS FOR CHAT SETTINGS CONTROLLER FUNCTION */
-MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout', '$document',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $timeout, $document) {
+MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout', '$document','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $timeout, $document, toastr) {
         $scope.Id = 0;
         $scope.Flag = [];
         $scope.UserGroupList = [];
@@ -17353,7 +17353,8 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                        
                         lpcnt = lpcnt + 1 
                         if (savecnt == lpcnt) { 
-                            alert(data.Message);
+                            //alert(data.Message);
+                            toastr.success(data.Message, "success");
                             $('#save').attr("disabled", false);
                             $location.path("/EditChatSettings/" + $scope.Institution_Id);
                             //$scope.loading = false;
@@ -17391,8 +17392,8 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
 ]);
 
 // This is for Change Password and Rest Password controller functions/ /
-MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, $timeout, $rootScope) {
+MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, $timeout, $rootScope, toastr) {
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.Id = "0";
         $scope.Institution_Id = "";
@@ -17440,31 +17441,37 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             $scope.PasswordPolicyDetails();
 
             if (typeof ($scope.OldPassword) == "undefined" || $scope.OldPassword == '') {
-                alert("Please enter Password");
+                //alert("Please enter Password");
+                toastr.warning("Please enter Password", "warning");
                 return false;
             }
 
             if (typeof ($scope.NewPassword) == "undefined" || $scope.NewPassword == '') {
-                alert("Please enter New password");
+                //alert("Please enter New password");
+                toastr.warning("Please enter Password", "warning");
                 return false;
             }
             else if (typeof ($scope.confirmpassword) == "undefined" || $scope.confirmpassword == '') {
-                alert("Please enter Confirm password");
+                //alert("Please enter Confirm password");
+                toastr.warning("Please enter Confirm password", "warning");
                 return false;
             }
 
             else if (($scope.confirmpassword) != ($scope.NewPassword)) {
-                alert("New password and Confirm Password mismatch Please enter same password");
+                //alert("New password and Confirm Password mismatch Please enter same password");
+                toastr.warning("New password and Confirm Password mismatch Please enter same password", "warning");
                 return false;
             }
             //Password policy based validations
             else if (parseInt(('' + $scope.NewPassword).length) < parseInt($scope.Minimum_Length)) {
-                alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                //alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length, "warning");
                 return false;
             }
 
             else if (parseInt(('' + $scope.NewPassword).length) > parseInt($scope.Maximum_Length)) {
-                alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                //alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                toastr.warning("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length, "warning");
                 return false;
             }
             $scope.flag = 0;
@@ -17489,7 +17496,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagchar <= 0) {
-                    alert("Please enter atleast one special character ");
+                    //alert("Please enter atleast one special character ");
+                    toastr.warning("Please enter atleast one special character ", "warning");
                     return false;
                 }
             }
@@ -17611,33 +17619,40 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $scope.Validationresetcontrols = function () {
             //$scope.PasswordPolicyDetails();
             if (typeof ($scope.UserTypeName) == "undefined" || $scope.UserTypeName == 0) {
-                alert("Please select User Type");
+                //alert("Please select User Type");
+                toastr.warning("Please select User Type", "warning");
                 return false;
             }
             if (typeof ($scope.User_Selected) == "undefined" || $scope.User_Selected == '') {
-                alert("Please select User");
+                //alert("Please select User");
+                toastr.warning("Please select User", "warning");
                 return false;
             }
             if (typeof ($scope.NewPassword) == "undefined" || $scope.NewPassword == '') {
-                alert("Please enter New password");
+                //alert("Please enter New password");
+                toastr.warning("Please enter New password", "warning");
                 return false;
             }
             if (typeof ($scope.ReenterPassword) == "undefined" || $scope.ReenterPassword == '') {
-                alert("Please enter Re-enter password");
+                //alert("Please enter Re-enter password");
+                toastr.warning("Please enter Re-enter password", "warning");
                 return false;
             }
             if (($scope.NewPassword) != ($scope.ReenterPassword)) {
-                alert("New password and Re-enter Password mismatch please enter same password");
+                //alert("New password and Re-enter Password mismatch please enter same password");
+                toastr.warning("New password and Re-enter Password mismatch please enter same password", "warning");
                 return NewPasssword;
             }
             //Password policy based validations
             else if (parseInt(('' + $scope.NewPassword).length) < parseInt($scope.Minimum_Length)) {
-                alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                //alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length, "warning");
                 return false;
             }
 
             else if (parseInt(('' + $scope.NewPassword).length) > parseInt($scope.Maximum_Length)) {
-                alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                //alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                toastr.warning("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length, "warning");
                 return false;
             }
             $scope.flag = 0;
@@ -17662,7 +17677,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagchar <= 0) {
-                    alert("Please enter atleast one special character ");
+                    //alert("Please enter atleast one special character ");
+                    toastr.warning("Please enter atleast one special character ", "warning");
                     return false;
                 }
             }
@@ -17919,7 +17935,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                             + '&created_By=' + $window.localStorage['UserId']
                             + '&EmailId=""'
                             + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                                alert(data.Message);
+                                //alert(data.Message);
+                                toastr.success(data.Message, "success");
                                 $('#btn-signup').attr("disabled", false);
                                 $scope.ClearPassword();
                                 $("#chatLoaderPV").hide();
@@ -17934,19 +17951,23 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         //validation for password policy insert update
         $scope.ValidationPasswordControls = function () {
             if (typeof ($scope.Minimum_Length) == "undefined" || $scope.Minimum_Length == "") {
-                alert("Please enter Minimum Length");
+                //alert("Please enter Minimum Length");
+                toastr.warning("Please enter Minimum Length", "warning");
                 return false;
             }
             else if (typeof ($scope.Maximum_Length) == "undefined" || $scope.Maximum_Length == "") {
-                alert("Please enter Maximum Length");
+                //alert("Please enter Maximum Length");
+                toastr.warning("Please enter Maximum Length", "warning");
                 return false;
             }
             else if (parseInt($scope.Maximum_Length) < parseInt($scope.Minimum_Length)) {
-                alert("Please enter Maximum Length greater than Minimum Length");
+                //alert("Please enter Maximum Length greater than Minimum Length");
+                toastr.warning("Please enter Maximum Length greater than Minimum Length", "warning");
                 return false;
             }
             else if (typeof ($scope.Expiry_Period) == "undefined" || $scope.Expiry_Period == "" && $scope.AllowExpiryDays != 1) {
-                alert("Please enter Password  Expiry Period");
+                //alert("Please enter Password  Expiry Period");
+                toastr.warning("Please enter Password  Expiry Period", "warning");
                 return false;
             }
             return true;
@@ -17983,7 +18004,13 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 $scope.loading = true;
 
                 $http.post(baseUrl + '/api/Common/PasswordPolicy_InsertUpdate/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
                     $('#btnsave').attr("disabled", false);
                     $scope.PasswordPolicyView();
                     $scope.ClearFields();
@@ -20277,8 +20304,8 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
     }
 ]);
 /* Email Alert Configuration Controller*/
-MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.currentTab = "1";
         $scope.Id = "0";
@@ -20307,24 +20334,29 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
             if (typeof ($scope.Event) == "undefined" || $scope.Event == "0") {
-                alert("Please select Event");
+                //alert("Please select Event");
+                toastr.warning("Please select Event","warning");
                 return false;
             }
             else if (($scope.EmailTemplate == 0) && $scope.EmailFlag == true) {
-                alert("Please select Email Template");
+                //alert("Please select Email Template");
+                toastr.warning("Please select Email Template", "warning");
                 return false;
             }
             else if (($scope.AppTemplate == 0) && $scope.AppFlag == true) {
-                alert("Please select App Template");
+                //alert("Please select App Template");
+                toastr.warning("Please select App Template", "warning");
                 return false;
             }
             else if (($scope.WebTemplate == 0) && $scope.WebFlag == true) {
-                alert("Please select Web Template");
+                //alert("Please select Web Template");
+                toastr.warning("Please select Web Template", "warning");
                 return false;
             }
 
             if (($scope.EmailFlag == false) && ($scope.AppFlag == false) && ($scope.WebFlag == false)) {
-                alert("Please select Email or App or Web for alert");
+                //alert("Please select Email or App or Web for alert");
+                toastr.warning("Please select Email or App or Web for alert", "warning");
                 return false;
             }
             $scope.EventCodeName = "";
@@ -20339,7 +20371,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                 $scope.Eventtype == "TARGET_DAILY" || $scope.Eventtype == "TARGET_WEEKLY") {
                 if ($scope.AlertDays != null) {
                     if (($scope.AlertDays + "") == "") {
-                        alert("Please enter valid values");
+                        //alert("Please enter valid values");
+                        toastr.warning("Please enter valid values", "warning");
                         $scope.DurationDisplayCheck();
                         return false;
                     }
@@ -20456,7 +20489,13 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                 }
                 $('#btnsave').attr("disabled", true);
                 $http.post(baseUrl + '/api/EmailAlertConfig/EmailAlertDetails_AddEdit/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $('#btnsave').attr("disabled", false);
                     if (data.ReturnFlag == 1) {
                         $scope.ClearPopup();
@@ -20580,7 +20619,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             var del = confirm("Do you like to deactivate the selected Alert details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Delete/?Id=' + $scope.Id).success(function (data) {
-                    alert("Alert has been deactivated Successfully");
+                    //alert("Alert has been deactivated Successfully");
+                    toastr.success("Alert has been deactivated Successfully", "success");
                     $scope.EmailAlertlist();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Alert details" + data;
@@ -20604,7 +20644,8 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             var Ins = confirm("Do you like to activate the selected Alert details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Active/?Id=' + $scope.Id).success(function (data) {
-                    alert("Selected Alert details has been activated successfully");
+                    //alert("Selected Alert details has been activated successfully");
+                    toastr.success("Selected Alert details has been activated successfully", "success");
                     $scope.EmailAlertlist();
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting alert records" + data;
@@ -20613,12 +20654,14 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         };
 
         $scope.Active_ErrorFunction = function () {
-            alert("Inactive Alert details cannot be edited");
+            //alert("Inactive Alert details cannot be edited");
+            toastr.info("Inactive Alert details cannot be edited", "info");
         };
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
@@ -25293,8 +25336,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
 
 ]);
 
-MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         $scope.IsActive = true;
         $scope.Id = 0;
         $scope.User_Id = 0;
@@ -25458,7 +25501,8 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
 
             $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
                 $("#chatLoaderPV").hide();
-                alert("Configuration Data saved successfully");
+                //alert("Configuration Data saved successfully");
+                toastr.success("Configuration Data saved successfully", "success");
                 $('#save').attr("disabled", false);
                 $scope.WebConfigurationDetails = [];
                 $scope.Config_value = [];
@@ -25479,7 +25523,8 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 angular.element('#WebConfigurationAddModal').modal('show');
             }
             else {
-                alert("Inactive record cannot be edited");
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
             }
         };
 
@@ -25539,8 +25584,8 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
     }
 ]);
 
-MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         $scope.IsActive = true;
         $scope.Id = 0;
         $scope.User_Id = 0;
@@ -25653,7 +25698,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 $scope.searchqueryLanguageSettings = "";
                 $scope.LanguageSettingsList();
                 $("#chatLoaderPV").hide();
-                alert("LanguageSettings Data saved successfully");
+                //alert("LanguageSettings Data saved successfully");
+                toastr.success("LanguageSettings Data saved successfully", "success");
                 $('#save').attr("disabled", false);
                 $scope.IsEdit = false;
             });
@@ -25668,7 +25714,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 if (data == 1) {
                     $scope.LanguageList();
                     $("#chatLoaderPV").hide();
-                    alert("Saved successfully.");
+                    //alert("Saved successfully.");
+                    toastr.success("Saved successfully.", "success");
                     $('#btnsave').attr("disabled", false);
                 }
                 else {
@@ -25681,8 +25728,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
 ]);
 
 
-MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         $scope.IsActive = true;
         $scope.Id = 0;
         $scope.User_Id = 0;
@@ -25817,7 +25864,8 @@ MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', 
                 $scope.searchqueryGatewaySettings = "";
                 $scope.GatewaySettingsList();
                 $("#chatLoaderPV").hide();
-                alert("GatewaySettings Data saved successfully");
+                //alert("GatewaySettings Data saved successfully");
+                toastr.success("GatewaySettings Data saved successfully", "success");
                 $('#save').attr("disabled", false);
                 $scope.IsEdit = false;
             });
@@ -25836,12 +25884,14 @@ MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', 
                         $scope.InsuranceList();
                     }
                     $("#chatLoaderPV").hide();
-                    alert("Saved successfully.");
+                    //alert("Saved successfully.");
+                    toastr.success("Saved successfully.", "success");
                     $('#save1').attr("disabled", false);
                 }
                 else {
                     $("#chatLoaderPV").hide();
-                    alert("Error occurred.");
+                    //alert("Error occurred.");
+                    toastr.error("Error occurred.", "warning");
                 }
             })
         }
