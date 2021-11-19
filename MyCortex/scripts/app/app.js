@@ -3,8 +3,23 @@ var EmpApp = angular.module('EmpApp', [
     'ngRoute',
     'AllyControllers',
     'ngSanitize',
-    'ngIdle'
+    'ngIdle',
+    'toastr'
 ]);
+
+
+EmpApp.config(function (toastrConfig) {
+    angular.extend(toastrConfig, {
+        autoDismiss: false,
+        containerId: 'toast-container',
+        maxOpened: 0,
+        newestOnTop: true,
+        positionClass: 'toast-top-right',
+        preventDuplicates: false,
+        preventOpenDuplicates: false,
+        target: 'body'
+    });
+});
 
 EmpApp.config(['IdleProvider', function (IdleProvider) {
     // configure Idle settings
@@ -160,6 +175,14 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Masters/Views/MasterICDlist.html',
         controller: 'ICD10Controller'
     }).
+    when('/Payor', {
+        templateUrl: baseUrl + 'Masters/Views/Payor.html',
+        controller: 'PayorMasterController'
+    }).
+    when('/Plan', {
+        templateUrl: baseUrl + 'Masters/Views/PlanMaster.html',
+        controller: 'PlanMasterController'
+    }).
     when('/DrugDBMaster', {
         templateUrl: baseUrl + 'Masters/Views/DrugDBlist.html',
         controller: 'DrugDBController'
@@ -204,6 +227,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
        templateUrl: baseUrl + 'Masters/Views/AttendanceDetails.html',
        controller: 'AttendanceDetailsController'
    }).
+    when('/MyAppointmentSetting', {
+        templateUrl: baseUrl + 'Masters/Views/MyAppointmentSetting.html',
+        controller: 'DoctorShiftController'
+    }).
     when('/WebConfiguration', {
         templateUrl: baseUrl + 'Masters/Views/WebConfiguration.html',
         controller: 'WebConfigurationController'
@@ -211,6 +238,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     when('/LanguageSettings', {
         templateUrl: baseUrl + 'Masters/Views/LanguageSettings.html',
         controller: 'LanguageSettingsController'
+    }).
+    when('/GateWaySettings', {
+        templateUrl: baseUrl + 'Masters/Views/GateWaySettings.html',
+        controller: 'GateWaySettingsController'
     }).
     //when('/EditParameterSettings/:Id', {
     //    templateUrl: baseUrl + 'Masters/Views/ParameterSettings.html',
@@ -284,7 +315,22 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
              templateUrl: baseUrl + 'Masters/Views/AllergyMasterlist.html',
              controller: 'AllergyMasterList'
          }).
-
+        when('/DirectCall/:CallSessionId', {
+            templateUrl: baseUrl + 'User/Views/DirectCall.html',
+            controller: 'DirectCallController'
+        }).
+        when('/DirectVideoCall/:CallSessionId', {
+            templateUrl: baseUrl + 'User/Views/DirectVideoCall.html',
+            controller: 'DirectVideoCallController'
+        }).
+        when('/Hive', {
+            templateUrl: baseUrl + 'Masters/Views/Myhome.html',
+            controller: 'MyHomeController'
+        }). 
+        when('/DeviceList', {
+            templateUrl: baseUrl + 'Masters/Views/DeviceList.html',
+            controller: 'MyHomeController'
+        }). 
     otherwise({
         redirectTo: '/Googlehome'
     });
@@ -317,14 +363,34 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     authInterceptorServiceFactory.request = _request;
     authInterceptorServiceFactory.responseError = _responseError;
     $(document).ready(function () {
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+        User_id = window.localStorage['UserTypeId'];
+
+        $('#logout').on('click', function () {
+            sessionStorage.clear();
         });
-        $('.menuList button').on('click', function () {
-            $('.menuList button').removeClass('activeButton');
-            $(this).addClass('activeButton');
+        $('#logoutalldevice').on('click', function () {
+            sessionStorage.clear();
         });
+
     });
+    $(document).click(function (e) { //Here is when you click in your entire document
+        if ($(e.target).closest('.jinglebelllow').length == 0) { // If click is not paragraph
+            $('.jinglebelllow').removeClass('active');
+            $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
+            $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell'); //It removes this class existed from any paragraph
+        }
+        if ($(e.target).closest('.jinglebellmedium').length == 0) { // If click is not paragraph
+            $('.jinglebellmedium').removeClass('active');
+            $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+            $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell'); //It removes this class existed from any paragraph
+        }
+        if ($(e.target).closest('.jinglebellhigh').length == 0) { // If click is not paragraph
+            $('.jinglebellhigh').removeClass('active');
+            $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+            $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell'); //It removes this class existed from any paragraph
+        }
+    })
+
     return authInterceptorServiceFactory;
 }])
 .run(['$rootScope', 'Idle', '$window', function ($rootScope, Idle, $window) {
@@ -333,6 +399,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             // alert("Yes");
             $('#User_id').hide();
             $('#patient_profile').hide();
+            $('#chronic').hide();
         }
         $('#divPatientType').attr('style', 'display : none');
         $rootScope.previousPage = oldLocation;
@@ -384,10 +451,12 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
             }
         }).then((result) => {
             if (result.value) {
+                $window.localStorage['inactivity_logout'] = 1;
                 $window.location.href = baseUrl + "/Home/LoginIndex#/";
             } else {
                 if (result.dismiss) {
                     if (result.dismiss === swal.DismissReason.timer) {
+                        $window.localStorage['inactivity_logout'] = 1;
                         $window.location.href = baseUrl + "/Home/LoginIndex#/";
                     } else {
                         timeLeft = 60;

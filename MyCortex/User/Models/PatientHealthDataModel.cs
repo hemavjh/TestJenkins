@@ -8,6 +8,8 @@ namespace MyCortex.User.Model
 {
     public class PatientHealthDataModel
     {
+        public string TotalRecord { get; set; }
+        public int RowNumber { get; set; }
         public long Id { get; set; }
         public long Patient_Id { get; set; }
         public int Type_Id { get; set; }
@@ -44,8 +46,9 @@ namespace MyCortex.User.Model
         public int? HighCount { get; set; }
         public int? MediumCount { get; set; }
         public int? LowCount { get; set; }
-
         public long Institution_Id { get; set; }
+        public long Units_Group_Id { get; set; }
+        public long Units_Id { get; set; }
     }
 
     public class PatientHealthDataReturnModel
@@ -53,9 +56,10 @@ namespace MyCortex.User.Model
         public string Status { get; set; }
         public string Message { get; set; }
         public string Error_Code { get; set; }
-        
         public int ReturnFlag { get; set; }
+        public decimal Average_Value { get; set; }
         public PatientHealthDataModel PatientHealthDataDetails { get; set; }
+        public PatientHealthDataPagination _metadata { get; set; }
         public IList<PatientHealthDataModel> PatientHealthDataList { get; set; }
     }
     public class ParametersListModel
@@ -82,6 +86,37 @@ namespace MyCortex.User.Model
         public DateTime ActivityDate { get; set; }
         public long Patient_Id { get; set; }
         public IList<PatientHealthDataModel> PatientHealthDataModel { get; set; }
+    }
+    public class PatientInstituteModel
+    {
+        public long Institution_Id { get; set; }
+    }
+
+    public class PatientHealthDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public PatientHealthDataLinks Links { get; set; }
+
+    }
+
+    public class PatientHealthDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
+    }
+
+    public class CG_PatientAppointmentConfirm
+    {
+        public string Id { get; set; }
+        public string SESSION_ID { get; set; }
+        public string Institution_Id { get; set; }
+        public string user_id { get; set; }
     }
 
 }

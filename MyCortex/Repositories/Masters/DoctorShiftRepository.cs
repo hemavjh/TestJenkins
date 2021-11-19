@@ -29,34 +29,37 @@ namespace MyCortex.Repositories.Masters
         /// </summary>        
         /// <param name="Id">Id of a Doctor Shift</param>    
         /// <returns>Populated a Doctor Shift Details DataTable </returns>
-        public IList<DoctorShiftDayDetailsModel> DoctorShiftDayDetails_View(long Id)
+        public IList<SelectedDaysList> DoctorShiftDayDetails_View(long Id, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@DoctorShift_id", Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLDOCTORSHIFT_DETAILS_SP_VIEW", param);
-                List<DoctorShiftDayDetailsModel> INS = (from p in dt.AsEnumerable()
-                                                        select
-                                                        new DoctorShiftDayDetailsModel()
-                                                        {
-                                                            Id = p.Field<long>("Id"),
-                                                            DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
-                                                            WeekdayName = p.Field<string>("WEEKDAYNAME"),
-                                               //Sunday = p.Field<string>("SUNDAY"),
-                                               //Monday = p.Field<string>("MONDAY"),
-                                               //Tuesday = p.Field<string>("TUESDAY"),
-                                               //Wednessday = p.Field<string>("WEDNESSDAY"),
-                                               //Thursday = p.Field<string>("THURSDAY"),
-                                               //Friday = p.Field<string>("FRIDAY"),
-                                               //Saturday = p.Field<string>("SATURDAY"),
-                                               Shift_Id = p.Field<long?>("SHIFT_ID"),
-                                                            ShiftName = p.Field<string>("SHIFTNAME"),
-                                                            IsActive = p.Field<int>("ISACTIVE"),
-                                                            Created_By = p.Field<long>("CREATED_BY"),
-                                                            Modified_By = p.Field<long?>("MODIFIED_BY"),
-                                                        }).ToList();
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Doctor_Shift_Details_WithDates_SP]", param);
+                List<SelectedDaysList> INS = (from p in dt.AsEnumerable()
+                                              select
+                                              new SelectedDaysList()
+                                              {
+                                                  //Id = p.Field<long>("Id"),
+                                                  Day = p.Field<DateTime>("SHIFT_DATE"),
+                                                  TimeSlotFromTime = p.Field<DateTime>("SHIFT_Starttime"),
+                                                  TimeSlotToTime = p.Field<DateTime>("SHIFT_Endtime"),
+                                                  SHIFT = p.Field<int>("SHIFT_No"),
+                                                  //Sunday = p.Field<string>("SUNDAY"),
+                                                  //Monday = p.Field<string>("MONDAY"),
+                                                  //Tuesday = p.Field<string>("TUESDAY"),
+                                                  //Wednessday = p.Field<string>("WEDNESSDAY"),
+                                                  //Thursday = p.Field<string>("THURSDAY"),
+                                                  //Friday = p.Field<string>("FRIDAY"),
+                                                  //Saturday = p.Field<string>("SATURDAY"),
+                                                  //Shift_Id = p.Field<long?>("SHIFT_ID"),
+                                                  //ShiftName = p.Field<string>("SHIFTNAME"),
+                                                  //IsActive = p.Field<int>("ISACTIVE"),
+                                                  //Created_By = p.Field<long>("CREATED_BY"),
+                                                  //Modified_By = p.Field<long?>("MODIFIED_BY"),
+                                              }).ToList();
                 return INS;
             }
             catch (Exception ex)
@@ -75,25 +78,27 @@ namespace MyCortex.Repositories.Masters
         /// <param name="Id">Id of a Institution Id</param> 
         /// <param name="Id">Id of a Doctor Id</param> 
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
-        public IList<DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
+        public IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             DataEncryption DecryptFields = new DataEncryption();
-            param.Add(new DataParameter("@IsActive", IsActive));
+            //param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLDOCTORSHIFT_SP_LIST", param);
-                List<DoctorShiftModel> list = (from p in dt.AsEnumerable()
-                                               select new DoctorShiftModel()
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLDOCTORSHIFT_SP_VIEWLIST]", param);
+                List<New_DoctorShiftModel> list = (from p in dt.AsEnumerable()
+                                               select new New_DoctorShiftModel()
                                                {
-                                                   Id = p.Field<long>("ID"),
-                                                   Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                   ID = p.Field<long>("ID"),
+                                                   DoctorId = p.Field<long>("DOCTOR_ID"),
+                                                   Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                    Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                   DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
-                                                   WeekDayName = p.Field<string>("WEEKDAYNAME"),
+                                                   //DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
+                                                   //WeekDayName = p.Field<string>("WEEKDAYNAME"),
                                                    //Sunday = p.Field<string>("SUNDAY"),
                                                    //Monday = p.Field<string>("MONDAY"),
                                                    //Tuesday = p.Field<string>("TUESDAY"),
@@ -102,9 +107,9 @@ namespace MyCortex.Repositories.Masters
                                                    //Friday = p.Field<string>("FRIDAY"),
                                                    //Saturday = p.Field<string>("SATURDAY"),
                                                    //Shift_Id = p.Field<long?>("SHIFT_ID"),
-                                                   ShiftName = p.Field<string>("SHIFTNAME"),
-                                                   FromDate = p.Field<DateTime?>("FROMDATE"),
-                                                   ToDate = p.Field<DateTime?>("TODATE"),
+                                                   //ShiftName = p.Field<string>("SHIFTNAME"),
+                                                   FromDate = p.Field<DateTime>("FROMDATE"),
+                                                   ToDate = p.Field<DateTime>("TODATE"),
                                                    IsActive = p.Field<int>("ISACTIVE")
                                                }).ToList();
                 return list;
@@ -355,33 +360,39 @@ namespace MyCortex.Repositories.Masters
         /// </summary>      
         /// <param name="Id">Id of a Doctor Shift</param>        
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
-        public DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id)
+        public New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@doctor_id", DoctorId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@INSTITUTION_ID", institution_id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLDOCTORSHIFT_SP_VIEW]", param);
-                DoctorShiftModel INS = (from p in dt.AsEnumerable()
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Doctor_Shift_Details_SP]", param);
+                New_DoctorShiftModel INS = (from p in dt.AsEnumerable()
                                         select
-                                        new DoctorShiftModel()
+                                        new New_DoctorShiftModel()
                                         {
-                                            Id = p.Field<long>("Id"),
-                                            Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                            Institution_Name = p.Field<string>("INSTITUTION_NAME"),
-                                            Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                            Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                            FromDate = p.Field<DateTime?>("FROMDATE"),
-                                            ToDate = p.Field<DateTime?>("TODATE"),
-                                            IsActive = p.Field<int>("ISACTIVE"),
-                                            Created_By = p.Field<long>("CREATED_BY"),
-                                            Modified_By = p.Field<long?>("MODIFIED_BY"),
-                                            Department_Name = p.Field<string>("DEPARTMENT_NAME"),
+                                            ID = p.Field<long>("ID"),
+                                            DoctorId = p.Field<long>("DOCTOR_ID"),
+                                            FromDate = p.Field<DateTime>("FROMDATE"),
+                                            ToDate = p.Field<DateTime>("TODATE"),
+                                            //IsActive = p.Field<int>("ISACTIVE"),
+                                            CreatedBy = p.Field<long>("CREATED_BY"),
+                                            //ModifiedBy = p.Field<long>("MODIFIED_BY"),
+                                            NewAppointment = p.Field<int>("NEWAPPOINTMNET"),
+                                            FollowUp = p.Field<int>("FOLLOWUP"),
+                                            Intervel = p.Field<int>("INTERVAL"),
+                                            CustomSlot = p.Field<int>("CUSTOM_SLOT"),
+                                            BookingOpen = p.Field<int>("BOOKING_OPEN"),
+                                            BookingCancelLock = p.Field<int>("BOOKING_CANCEL_LOCK"),
+                                            DepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                         }).FirstOrDefault();
-                INS.ChildModuleList = DoctorShiftDayDetails_View(INS.Id);
+                INS.SelectedDaysList = DoctorShiftDayDetails_View(INS.ID, Login_Session_Id);
+                INS.CC_CG = DoctorShift_CCCG_View(INS.ID);
                 return INS;
             }
             catch (Exception ex)
@@ -389,6 +400,22 @@ namespace MyCortex.Repositories.Masters
                 _logger.Error(ex.Message, ex);
                 return null;
             }
+        }
+
+        public IList<CcCg> DoctorShift_CCCG_View(long ID)
+        {
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@DoctorShift_id", ID));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DoctorShift_CCCG_View]", param);
+            List<CcCg> INS1 = (from p in dt.AsEnumerable()
+                               select new CcCg()
+                               {
+                                   //ID = p.Field<long>('Id'),
+                                   CcCg_Id = p.Field<long>("Cc_Cg"),
+                                   IsActive = p.Field<int>("IsActive"),
+                               }).ToList();
+            return INS1;
         }
 
         /// <summary>
@@ -551,5 +578,274 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<AppointmentTimeZone> GetTimeZoneList()
+        {
+            // int returnval; 
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.APPOINTMENT_TIMEZONE_SETTINGS ");
+
+                IList<AppointmentTimeZone> lst = (from p in dt.AsEnumerable()
+                                                  select new AppointmentTimeZone()
+                                                  {
+                                                      TimeZoneId = p.Field<long>("TimeZoneID"),
+                                                      TimeZoneName = p.Field<string>("TimeZoneName"),
+                                                      UtcOffSet = p.Field<string>("UTCOFFSET"),
+                                                      TimeZoneDisplayName = p.Field<string>("TimeZoneDisplayName"),
+                                                      IsActive = p.Field<int>("IsActive")
+
+                                                  }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public IList<AppointmentModule> GetAppointmentModuleList()
+        {
+            // int returnval; 
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.APPOINTMENT_MODULE_MASTERLIST");
+
+                IList<AppointmentModule> lst = (from p in dt.AsEnumerable()
+                                                  select new AppointmentModule()
+                                                  {
+                                                      Id = p.Field<long>("ID"),
+                                                      Name = p.Field<string>("NAME"),
+                                                      IsActive = p.Field<int>("ISACTIVE")
+
+                                                  }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public IList<OrgAppointmentSettings> GetOrgAppointmentSettings(Guid Login_Session_Id, OrgAppointmentSettings InObj)
+        {
+            long InsertId = 0;
+            string flag = "";
+            long Inserted_Group_Id;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", InObj.ID));
+            param.Add(new DataParameter("@InstitutionId", InObj.InstitutionId));
+            param.Add(new DataParameter("@AppointmentDays", InObj.MinRescheduleDays));
+            param.Add(new DataParameter("@CancelAppointmentMinutes", InObj.MinRescheduleMinutes));
+            param.Add(new DataParameter("@TimeZone", InObj.DefautTimeZone));
+            param.Add(new DataParameter("@HolidayBooking", InObj.IsAppointmentInHolidays));
+            param.Add(new DataParameter("@CC", InObj.IsCc));
+            param.Add(new DataParameter("@CG", InObj.IsCg));
+            param.Add(new DataParameter("@CL", InObj.IsCl));
+            param.Add(new DataParameter("@SC", InObj.IsSc));
+            param.Add(new DataParameter("@Patient", InObj.IsPatient));
+            param.Add(new DataParameter("@ConfirmBooking", InObj.IsDirectAppointment));
+            param.Add(new DataParameter("@IsAutoReschedule", InObj.IsAutoReschedule));
+            param.Add(new DataParameter("@MaxScheduleDays", InObj.MaxScheduleDays));
+            param.Add(new DataParameter("@CreatedBy", InObj.CreatedBy));
+
+
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.ORGAPPOINTMENT_SETTINGS_INSERTUPDATE", param);
+                DataRow dr = dt.Rows[0];
+                if (dr.IsNull("ID") == true)
+                {
+                    InsertId = 0;
+                }
+                else
+                {
+                    InsertId = long.Parse((dr["ID"].ToString()));
+                }
+
+                if (InsertId > 0)
+                {
+                    
+                    List<DataParameter> param2 = new List<DataParameter>();
+                    param2.Add(new DataParameter("@ID", InObj.ID));
+                    param2.Add(new DataParameter("@MYAPPCONFIG_ID", InsertId));
+                    param2.Add(new DataParameter("@NewAppointment", InObj.NewAppointmentDuration));
+                    param2.Add(new DataParameter("@FollowUp", InObj.FollowUpDuration));
+                    param2.Add(new DataParameter("@AppointmentInterval", InObj.AppointmentInterval));
+                    param2.Add(new DataParameter("@WorkingDays", InObj.DefaultWorkingDays));
+                    param2.Add(new DataParameter("@HoliDays", InObj.DefaultHoliDays));
+                    param2.Add(new DataParameter("@CreatedBy", InObj.CreatedBy));
+                    Inserted_Group_Id = ClsDataBase.Insert("MYCORTEX.ORGAPPOINTMENT_MYAPPCONFIGDET_INSERTUPDATE", param2, true);
+
+                    if (InObj.ReminderTimeInterval != null)
+                    {
+
+                        foreach (ReminderUserLists item in InObj.ReminderTimeInterval)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@Id", item.ID));
+                            param1.Add(new DataParameter("@MYREMINDERID", InsertId));
+                            param1.Add(new DataParameter("@ReminderDays", item.ReminderDays));
+                            param1.Add(new DataParameter("@ReminderHours", item.ReminderHours));
+                            param1.Add(new DataParameter("@ReminderMinutes", item.ReminderMinutes));
+                            param1.Add(new DataParameter("@IsActive", item.IsActive));
+                            param1.Add(new DataParameter("@CreatedBy", InObj.CreatedBy));
+                            param1.Add(new DataParameter("@InstitutionId", InObj.InstitutionId));
+                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].[APPOINTMENTREMINDERUSER_INSERTUPDATE]", param1, true);
+                        }
+
+                    }
+                }
+                IList<OrgAppointmentSettings> INS = (from p in dt.AsEnumerable()
+                                                     select
+                                                     new OrgAppointmentSettings()
+                                                     {
+
+                                                         MinRescheduleDays = p.Field<int>("MinRescheduleDays"),
+                                                         MinRescheduleMinutes = p.Field<int>("MinRescheduleMinutes"),
+                                                         DefautTimeZone = p.Field<string>("TimeZone"),
+                                                         IsAppointmentInHolidays = p.Field<bool>("IsAppointmentInHolidays"),
+                                                         IsCc = p.Field<bool>("Iscc"),
+                                                         IsCg = p.Field<bool>("Iscg"),
+                                                         IsCl = p.Field<bool>("Iscl"),
+                                                         IsSc = p.Field<bool>("Issc"),
+                                                         IsPatient = p.Field<bool>("IsPatient"),
+                                                         IsDirectAppointment = p.Field<bool>("IsDirectAppointment"),
+                                                         IsAutoReschedule = p.Field<bool>("IsAutoReschedule"),
+                                                         MaxScheduleDays = p.Field<int>("MaxScheduleDays"),
+                                                         Flag = p.Field<int>("Flag")
+                                                     }).ToList();
+                return INS;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+
+            }
+
+        }
+
+        public OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId, Guid Login_Session_Id)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+           
+            param.Add(new DataParameter("@InstitutionId", InstitutionId));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.ORGAPPOINTMENTLIST_VIEW", param);
+
+                OrgAppointmentSettings list = (from p in dt.AsEnumerable()
+                                     select new OrgAppointmentSettings()
+                                     {
+
+                                         ID = p.Field<long>("ID"),
+                                         InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                         MyAppConfigId = p.Field<long>("MYAPPCONFIG_ID"),
+                                         NewAppointmentDuration = p.Field<int>("NEWAPPOINTMENT_DURATION"),
+                                         FollowUpDuration = p.Field<int>("FOLLOWUP_DURATION"),
+                                         AppointmentInterval = p.Field<int>("APPOINTMENT_INTERVAL"),
+                                         DefaultWorkingDays= p.Field<string>("DEFAULT_WORKINGDAYS"),
+                                         DefaultHoliDays = p.Field<string>("DEFAULT_HOLIDAYS"),
+                                         MinRescheduleDays = p.Field<int>("MIN_RESCHEDULE_DAYS"),
+                                         MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
+                                         DefautTimeZone = p.Field<string>("DEFAUT_TIMEZONE"),
+                                         IsAppointmentInHolidays = p.Field<bool>("IS_APPOINTMENTINHOLIDAYS"),
+                                         IsCc = p.Field<bool>("IS_CC"),
+                                         IsCg = p.Field<bool>("IS_CG"),
+                                         IsCl = p.Field<bool>("IS_CL"),
+                                         IsSc = p.Field<bool>("IS_SC"),
+                                         IsPatient = p.Field<bool>("IS_PATIENT"),
+                                         IsDirectAppointment = p.Field<bool>("IS_DIRECTAPPOINTMENT"),
+                                         IsAutoReschedule = p.Field<bool>("IS_AUTORESCHEDULE"),
+                                         MaxScheduleDays = p.Field<int>("MAX_SCHEDULE_DAYS"),
+                                         CreatedBy = p.Field<long>("CREATED_BY"),
+                                         IsActive =  p.Field<int>("ISACTIVE")
+
+                                     }).FirstOrDefault();
+                if (list != null)
+                {
+                    
+                    list.ReminderTimeInterval = ReminderUserLists(list.MyAppConfigId,list.InstitutionId);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public OrgAppointmentModuleSettings ORG_APPOINTMENT_MODULE_SETTINGS(long InstitutionId)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+
+            param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.GETAPPOINTMENTSETTINGS", param);
+
+                OrgAppointmentModuleSettings list = (from p in dt.AsEnumerable()
+                                               select new OrgAppointmentModuleSettings()
+                                               {
+
+                                                   InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                   MaxScheduleDays = p.Field<int>("MAX_SCHEDULE_DAYS"),
+                                                   IsPatient = p.Field<bool>("IS_PATIENT"),
+                                                   MinRescheduleDays = p.Field<int>("MIN_RESCHEDULE_DAYS"),
+                                                   MinRescheduleHours = p.Field<int>("MIN_RESCHEDULE_HOURS"),
+                                                   MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
+                                                   TimeZoneId = p.Field<int>("TIMEZONE_ID"),
+                                                   TimeZoneDisplayName = p.Field<string>("DISPLAYNAME"),
+                                                   AppointmentModuleId = p.Field<int>("APPOINTMENT_MODULE_ID"),
+                                                   AppointmentModuleName = p.Field<string>("APPOINTMENT_MODULE_NAME"),
+                                               }).FirstOrDefault();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<ReminderUserLists> ReminderUserLists(long MyAppConfigId,long InstitutionId)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@MYAPPCONFIGID", MyAppConfigId));
+            param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[REMINDERUSERS_SP_VIEW]", param);
+            List<ReminderUserLists> INS = (from p in dt.AsEnumerable()
+                                     select new ReminderUserLists()
+                                     {
+                                         ID = p.Field<long>("ID"),
+                                         InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                         ReminderDays = p.Field<int>("REMINDER_DAYS"),
+                                         ReminderHours = p.Field<int>("REMINDER_HOURS"),
+                                         ReminderMinutes = p.Field<int>("REMINDER_MINUTES"),
+                                         IsActive = p.Field<int>("ISACTIVE")
+                                     }).ToList();
+            return INS;
+        }
+        public void APPOINTMENTRESETDETAILS(long InstitutionId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InstitutionId", InstitutionId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                ClsDataBase.Update("MYCORTEX.ORGAPPOINTMENTLIST_DELETE", param);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+            }
+        }
     }
 }

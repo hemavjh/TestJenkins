@@ -1,4 +1,29 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#P_From').attr('max', maxDate);
+        $('#P_To').attr('max', maxDate);
+    });
+</script>
+   <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+            $(element).addClass('activeButton');
+        });
+    </script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/Notification/2">Notification Template</a>
     </li>
@@ -6,7 +31,7 @@
         <a href="Home/Index#/NotificationSend/2">Send Notification</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/NotificationUndelivered/2">Resend Notification</a>
+        <a class="secondaryMenuActive" href="Home/Index#/NotificationUndelivered/2" data-menu="Bulk Notification">Resend Notification</a>
     </li>
     <li>
         <a href="Home/Index#/NotificationHistory/2">Notification History</a>
@@ -39,7 +64,7 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
                         <div id="Div13">
-                            <input type="text" datepicker class="form-control date" ng-model="Period_From"
+                            <input type="date" id="P_From" max="2099-12-31" class="form-control" ng-model="Period_From"
                                 ng-init="Period_From=''">
 
 
@@ -52,7 +77,7 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
                         <div id="Div14">
-                            <input type="text" datepicker class="form-control date" ng-model="Period_To"
+                            <input type="date" id="P_To" max="2099-12-31" class="form-control" ng-model="Period_To"
                                 ng-init="Period_To=''">
 
                         </div>
@@ -74,8 +99,8 @@
                         </a>
                         <button type="button" class="theme-btn-1 pull-right" ng-click="UndeliveredEmailDetailslist()"
                             title="Click to Search">Go</button>
-                        <button type="button" class="theme-btn-1 pull-right mr-10" ng-click="UndeliveredEmail_Insert()"
-                            title="Click to Resend the Email">Resend</button></td>
+                        <button type="button" class="theme-btn-1 pull-right mr-10" id="btnsave" ng-disabled="false" ng-click="UndeliveredEmail_Insert()"
+                            title="Click to Resend the Email">Resend</button>
                     </div>
                 </div>
             </div>
@@ -97,7 +122,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Nationality</label>
-                    <select class="form-control" ng-model="filter_NationalityId" id="Select17" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
                             value="{{sel.Id}}">{{sel.Name}}
@@ -121,7 +146,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Blood Group</label>
-                    <select class="form-control" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in BloodGroupList" ng-selected="filter_BloodGroupId==sel.Id"
                             value="{{sel.Id}}">{{sel.BloodGroup_Name}}</option>
@@ -136,7 +161,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Ethnic Group</label>
-                    <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in EthnicGroupList" ng-selected="filter_EthinicGroupId==sel.Id"
                             value="{{sel.Id}}">{{sel.Name}}
@@ -170,7 +195,7 @@
             <div class="col-sm-4">
                 <div class="inputGroups">
                     <label>Gender</label>
-                    <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="Filter_GenderId" id="Select16" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id" value="{{sel.Id}}">
                             {{sel.Gender_Name}}</option>
@@ -183,7 +208,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Marital Status</label>
-                    <select class="form-control" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in MaritalStatusList" ng-selected="filter_MaritalStatus==sel.Id"
                             value="{{sel.Id}}">{{sel.Name}}
@@ -357,7 +382,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" title="Click to Send the Email"
+                <button type="button" class="theme-btn-1 mr-10" title="Click to Send the Email" id="save" ng-disabled="false"
                     ng-click="UndeliveredEmail_Edit()">Send</button>
                 <button type="button" class="theme-btn-2" title="Click to Cancel"
                     ng-click="UndeliveredEmail_Cancel()">Cancel</button>
@@ -378,14 +403,14 @@
 </script>
 
 <script>
-    $(".date").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        endDate: '+0d',
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$(".date").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    endDate: '+0d',
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
 
 </script>

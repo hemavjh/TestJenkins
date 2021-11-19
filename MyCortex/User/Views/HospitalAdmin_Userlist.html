@@ -7,12 +7,84 @@
     <script>
         $('#btnLogo').click(function () {
             $("#UserLogo").trigger('click');
-        })
+        });
+
+        $(document).ready(function () {
+            var image = $('#UserLogo').val();
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                url: image,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'square' //square
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                },
+                points: {
+                    topLeftX: 0,
+                    topLeftY: 0,
+                    bottomRightX: 0,
+                    bottomRightY: 0
+                }
+            });
+
+            $('#UserLogo').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function () {
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#insertimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function (event) {
+                $image_crop.croppie('result', {
+                    type: 'base64',
+                    format: 'jpeg',
+                    //type: 'canvas',
+                    size: 'viewport'
+                    //size: {width: 150, height: 200}
+                }).then(function (response) {
+                    $('#item-img-output').attr('src', response);
+                    $('#insertimageModal').modal('hide');
+                });
+            });
+
+        });
+
     </script>
     <script>
         $('#doclogo').click(function () {
             $("#EditDocument").trigger('click');
         })
+    </script>
+    <script>
+        $(function () {
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
+
+            var maxDate = year + '-' + month + '-' + day;
+            $('#Date_Birth').attr('max', maxDate);
+        });
+    </script>
+      <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
     </script>
 </head>
 <ul class="secondaryMenu">
@@ -21,7 +93,7 @@
         <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/HospitalAdmin_UserList/2">
+        <a class="secondaryMenuActive" href="Home/Index#/HospitalAdmin_UserList/2" data-menu="Home">
             Clinical
             User
         </a>
@@ -78,13 +150,14 @@
     <thead>
         <tr class="textalign">
             <th st-ratio="3">#</th>
+            <th st-ratio="3" st-sort="RowID">RowID</th>
             <th st-ratio="5"><input type="checkbox" ng-model="SelectedAllBuisnessUser" ng-click="BuisnessUsercheckAll()" /></th>
-            <th st-ratio="17" st-sort="FullName">User Name</th>
+            <th st-ratio="17" st-sort="FullName">Name</th>
             <th st-ratio="12" st-sort="EMAILID">Email</th>
             <th st-ratio="12" st-sort="Department_Name">Department</th>
             <th st-ratio="12" st-sort="EMPLOYEMENTNO">Employment No.</th>
             <th st-ratio="8" st-sort="UserName">User Type</th>
-            <th st-ratio="12" st-sort="GroupName">Groups</th>
+            <th st-ratio="9" st-sort="GroupName">Groups</th>
             <th st-ratio="12" st-sort="LoginTime">Last Login</th>
             <th st-ratio="12">Action</th>
         </tr>
@@ -97,6 +170,7 @@
         </tr>
         <tr ng-repeat="row in BusineessUseremptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{row.Id}}</td>
             <td style="text-align: center"><input type="checkbox" ng-model="row.SelectedBuisnessuser" ng-disabled="row.UserType_Id==7" /></td>
             <td style="text-align: left" title="{{row.FullName}}">
                 <div class="textwrap">
@@ -108,7 +182,6 @@
                          ng-if="(row.GENDER_NAME| lowercase)!='female' && (row.GENDER_NAME| lowercase)!='male'" />
 
                     {{ row.FullName.length > 25 ? row.FullName.substring(0,25)+ "..." : row.FullName}}
-                    v>
                 </div>
                 <!--<div class="textwrap">{{row.FullName}}</div>-->
             </td>
@@ -319,7 +392,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="form-control" ng-model="GenderId" id="Select3"
+                                                            <select class="" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList"
                                                                     ng-required="true" ng-change="getBase64Image()">
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="sel in GenderList"
@@ -328,7 +401,7 @@
                                                                 </option>
                                                             </select>
                                                         </div>
-
+                                                        
                                                     </div>
                                                     <div class="col-sm-4">
 
@@ -338,7 +411,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="form-control" ng-model="DepartmentId" id="Select1"
+                                                            <select class="" data-style="form-control" ng-model="DepartmentId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="DepartmentList"
                                                                     ng-required="true">
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="sel in DepartmentList"
@@ -382,7 +455,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="form-control" ng-model="UserTypeId" id="Select2"
+                                                            <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
                                                                     ng-required="true" ng-change="getBase64Image();ClearGroup()">
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="sel in UserTypeList"
@@ -395,7 +468,9 @@
                                                             <label>Group</label>
                                                             <select ng-model="SelectedGroup" multiple="multiple"
                                                                     ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
-                                                                    multiselect-dropdown style="width: 230px;"></select>
+                                                                    multiselect-dropdown style="width: 230px;">
+                                                                <option value="0">Select</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
@@ -422,7 +497,7 @@
                                                             </div>-->
                                                             <div ng-if="(uploadme!=null||uploadme!='')" valign="top"
                                                                  rowspan="6">
-                                                                <img class="responsiveProfileImage mb-10" src="{{uploadme}}" />
+                                                                <img id="item-img-output" class="responsiveProfileImage mb-10" src="{{uploadme}}" />
                                                             </div>
                                                             <a class="textRight theme-btn-2 mr-10" style="max-width: 250px;" href="javascript:"
                                                                ng-click="imageclear()" title="Clear">
@@ -436,6 +511,31 @@
                                                                 <span>Upload Photo</span>
                                                             </div>
                                                         </div>
+
+                                                        <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
+                                                            <div class="modal-dialog" role="document" style="min-width: 700px">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Crop Image</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 text-center">
+                                                                                <div id="image_demo"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-primary crop_image">Crop and Save</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%"
@@ -472,7 +572,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="form-control" ng-model="NationalityId" id="Select5"
+                                                            <select class="" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true" data-selectpicker data-collection-name="NationalityList"
                                                                     ng-required="true">
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="sel in NationalityList"
@@ -509,18 +609,12 @@
                                                                     multiselect-dropdown style="width: 230px;"></select>
                                                         </div>
                                                         <div class="inputGroups">
-                                                            <label>
-                                                                Date of Birth<sup>
-                                                                    <font class='mandatory-field'>*</font>
-                                                                </sup>
-                                                            </label>
-
-                                                            <input id="DOB" type="text" class="form-control dateIcon" ng-model="DOB"
-                                                                   ng-init="DOB=''" ng-required="true">
-
+                                                            <label for="email">DOB<sup><font class="mandatory-field">*</font></sup></label>
+                                                            <!--<div class="date">-->
+                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">
+                                                            <!--</div>-->
                                                         </div>
-
-
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -678,7 +772,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-click="User_InsertUpdate()" title="Click to Save">
+                <button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
                     Save
                 </button>
                 <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
@@ -740,15 +834,15 @@
                                                 <div class="col-sm-4">
                                                     <div class="inputGroups">
                                                         <label>First Name</label>
-                                                        <span>{{FirstName}}</span>
+                                                        <span style="overflow-wrap: break-word;">{{FirstName}}</span>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Middle Name</label>
-                                                        <span>{{MiddleName}}</span>
+                                                        <span style="overflow-wrap: break-word;">{{MiddleName}}</span>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Last Name</label>
-                                                        <span>{{LastName}}</span>
+                                                        <span style="overflow-wrap: break-word;">{{LastName}}</span>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Employment No.</label>
@@ -798,20 +892,20 @@
                                                     </label>
                                                     <div ng-if="(ViewGender| lowercase)=='male' && (uploadme==null)&&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img class="responsiveProfileImage" src="../../Images/male.png" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/male.png" />
                                                     </div>
                                                     <div ng-if="(ViewGender| lowercase)=='female' && (uploadme==null)&&uploadview ==true"
                                                          valign="top" rowspan="6">
 
-                                                        <img class="responsiveProfileImage" src="../../Images/female.png" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/female.png" />
                                                     </div>
                                                     <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme==null) &&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="../../Images/Others.png" />
                                                     </div>
                                                     <div ng-if="(uploadme!=null || uploadme!=0)&&uploadview ==true"
                                                          valign="top" rowspan="6">
-                                                        <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                                        <img style="width:150px;height:150px;" class="responsiveProfileImage" src="{{uploadme}}" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -850,7 +944,15 @@
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>Date of Birth</label>
-                                                        <span> {{DOB}}</span>
+                                                        <span>
+                                                            {{DOB |date:"dd-MMM-yyyy"}}
+                                                            <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
+                                                        </span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label valign="top">RowId</label>
+                                                        <span id="hosadminrowid">{{Id}}</span>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>
@@ -951,15 +1053,15 @@
     </div>
 </div>
 <script>
-    $("#DOB").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        endDate: '+0d',
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$("#DOB").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    endDate: '+0d',
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
 
     $(document).ready(function () {
         $("#Text1").bind('paste', function () {

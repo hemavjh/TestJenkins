@@ -10,6 +10,7 @@ namespace MyCortex.Masters.Models
     public class MasterICDModel
     {
         public string TotalRecord { get; set; }
+        public int RowNumber { get; set; }
         public long Id { get; set; }        
         public string ICD_Code { get; set; }
         public string Description { get; set; }
@@ -30,6 +31,8 @@ namespace MyCortex.Masters.Models
         public long Code_ID { get; set; }
         public string Remarks { get; set; }
         public string Created_By_Name { get; set; }
+        public int StartRowNumber { get; set; }
+        public int EndRowNumber { get; set; }
     }
     public class MasterICDReturnModels
     {
@@ -37,6 +40,26 @@ namespace MyCortex.Masters.Models
         public string Status { get; set; }
         public string Message { get; set; }
         public IList<MasterICDModel> MasterICD { get; set; }
+        public MasterICDDataPagination _metadata { get; set; }
         public int ReturnFlag { get; set; }
+    }
+
+    public class MasterICDDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public MasterICDDataLinks Links { get; set; }
+
+    }
+
+    public class MasterICDDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
     }
 }

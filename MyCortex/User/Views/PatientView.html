@@ -17,7 +17,7 @@
 </head>
 <div class="container">
 
-    <div class="row" ng-init="Admin_View(3);PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
+    <div class="row" ng-init="Admin_View(3);PageParameter==1?currentTab='1':currentTab='1';PatientView()">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
         <div class="col-md-12">
             <h1 class="page-title">Patient</h1>
@@ -45,6 +45,11 @@
                 <li>
                     <a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5'">
                         <i class="far fa-hospital"></i>Medical Info
+                    </a>
+                </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='6'}" ng-click="currentTab='6';TabClickLoad(currentTab)">
+                        <i class="fas fa-notes-medical"></i>Insurance Info
                     </a>
                 </li>
             </ul>
@@ -78,7 +83,7 @@
                                                     <span>{{MNR_No}}</span>
                                                 </div>
                                                 <div class="inputGroups">
-                                                    <label valign="top">Patient ID</label>
+                                                    <label valign="top">Row ID</label>
                                                     <span>{{PatientNo}}</span>
                                                 </div>
                                                 <div class="inputGroups">
@@ -110,44 +115,104 @@
                                                         <span>{{FB_EmailId}}</span>
                                                 </div>
                                                 <div class="inputGroups">
+                                                    <label valign="top">Apple Email</label>
+                                                    </td>
+                                                    <td width="35%">
+                                                        <span>{{appleUserID}}</span>
+                                                </div>
+                                                <div class="inputGroups">
                                                     <label>Mobile No.</label>
                                                     <span>{{MobileNo}}</span>
                                                 </div>
-                                                <div class="inputGroups">
+                                                <div class="inputGroups" ng-hide="EditPatientGroupId == 1">
+                                                    <div class="row">
+                                                        <div class="col-sm-9">
+                                                            <label> Group</label>
+                                                            <span> {{ViewGroupName}}</span>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientGroup()" ng-show="EditgroupOption == 1">
+                                                                Edit Group
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="inputGroups" ng-if="EditPatientGroupId == 1">
                                                     <label>Group</label>
-                                                    <span> {{ViewGroupName}}</span>
+                                                    <div>
+                                                        <select ng-model="SelectedGroup" multiple="multiple"
+                                                                ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
+                                                                multiselect-dropdown style="width: 230px;">
+                                                            <option value="0">Select</option>
+                                                        </select>
+                                                    </div>
+                                                    <button type="button" style="width:100px;" class="theme-btn-2  btn-save" ng-click="EditSavePatientgroup(SelectedGroup)">
+                                                        Save
+                                                    </button>
                                                 </div>
                                                 <div class="inputGroups">
                                                     <label>Patient Type</label>
                                                     <span>{{Patient_Type==1?'Standard':Patient_Type==2?'Premium':null}}</span>
                                                 </div>
+                                                <div class="inputGroups">
+                                                    <label valign="top">Patient ID</label>
+                                                    <span>{{PATIENT_ID}}</span>
+                                                </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="inputGroups">
-                                                    <label>Photo</label>
+                                                    <label>Patient Profile Image</label>
                                                         <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
-            <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
-        </div>-->
+                                                            <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
                                                         <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null||uploadme=='')&&uploadview ==true"
                                                              valign="top" rowspan="6">
-                                                            <img class="responsiveProfileImage" src="../../Images/male.png" />
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
                                                         </div>
                                                         <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null||uploadme=='')&&uploadview ==true">
 
-                                                            <img class="responsiveProfileImage" src="../../Images/female.png" />
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/female.png" />
                                                         </div>
                                                         <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null||uploadme=='')&&uploadview ==true"
                                                              valign="top" rowspan="6">
-                                                            <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/Others.png" />
                                                         </div>
                                                         <div ng-if="(uploadme!=null)&&uploadview ==true" valign="top" rowspan="6">
-                                                            <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme}}" />
                                                         </div>
                                                         <a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
                                                            class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
 
                                                         <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
                                                            class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="inputGroups">
+                                                    <label>National ID image</label>
+                                                    <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
+                                                             <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
+                                                        <div ng-if="(ViewGender| lowercase)=='male' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)=='female' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true">
+
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/female.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                        </div>
+                                                        <div ng-if="(uploadme1!=null)&&Nationaluploadview ==true" valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme1}}" />
+                                                        </div>
+                                                        <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                           class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                           class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -180,8 +245,8 @@
                                                     <div class="inputGroups">
                                                         <label>Date of Birth</label>
                                                         <span>
-                                                            {{DOB_Encrypt}}
-                                                            {{DOB}}
+                                                            {{DOB |date:"dd-MMM-yyyy"}}
+                                                            <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
                                                     </div>
                                                 </div>
@@ -196,14 +261,37 @@
                                                                 {{Home_PhoneNo}}
                                                             </div>
                                                         </div>
-                                                                </div>
+                                                    </div>
                                                     <div class="inputGroups">
                                                         <label>Blood Group</label>
                                                         <span>{{ViewBloodGroup}}</span>
                                                     </div>
-                                                    <div class="inputGroups">
-                                                        <label> Chronic Condition</label>
-                                                        <span> {{ChronicCondition}}</span>
+                                                    <div class="inputGroups" ng-hide="EditPatientChronicCondition == 1">
+                                                        <div class="row">
+                                                            <div class="col-sm-9">
+                                                                <label> Chronic Condition</label>
+                                                                <span> {{ChronicCondition}}</span>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientChronic()" ng-show="EditChronicOption == 1">
+                                                                    Edit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="inputGroups" ng-hide="Pat_UserTypeId==2" ng-if="EditPatientChronicCondition == 1">
+                                                        <label>Chronic Condition</label>
+                                                        <div>
+                                                            <select ng-model="SelectedChronicConditionEdit" multiple="multiple"
+                                                                    ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
+                                                                    multiselect-dropdown style="width: 230px;">
+                                                                <option value="0">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <button type="button" style="width:100px;" class="theme-btn-2  btn-save" ng-click="EditSavePatientChronic(SelectedChronicConditionEdit)">
+                                                            Save Chronic
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,6 +341,10 @@
                                                     <div class="inputGroups">
                                                         <label>State</label>
                                                         <span> {{ViewStateName}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>RowId</label>
+                                                        <span> {{rowId}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -535,13 +627,79 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='6'">
+                                    <div id="collapse11" class="panel-collapse">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
+                                                        <label>Member ID</label>
+                                                        <span>{{Member_ID}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Policy Number</label>
+                                                        <span>{{Policy_Number}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Reference ID</label>
+                                                        <span>{{Reference_ID}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="inputGroups">
+                                                        <label>Expiry Date</label>
+                                                        <span> {{ExpiryDate | date : format : "dd-MM-yyyy"}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Payor Name</label>
+                                                        <span>{{PayorName}}</span>
+                                                    </div>
+                                                    <div class="inputGroups">
+                                                        <label>Plan Name</label>
+                                                        <span>{{PlanName}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4" style="margin-left: -15px;">
+                                                <div class="inputGroups">
+                                                    <label>Insurance Card Image</label>
+                                                    <!--<div ng-if="Patient_Type==2" valign="top" rowspan="6">
+                                                             <img class="responsiveProfileImage" src="../../Images/mycortexlogo4.jpg" />
+                                                        </div>-->
+                                                        <div ng-if="(ViewGender| lowercase)=='male' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)=='female' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true">
+
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/female.png" />
+                                                        </div>
+                                                        <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme2 == null||uploadme2=='')&&Insuranceuploadview ==true"
+                                                             valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/Others.png" />
+                                                        </div>
+                                                        <div ng-if="(uploadme2!=null)&&Insuranceuploadview ==true" valign="top" rowspan="6">
+                                                            <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme2}}" />
+                                                        </div>
+                                                        <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                           class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
+
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                           class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="btn  btn-save" ng-if="PageParameter==1" ng-click="EditPatientData()">
+                 <button type="button"  style="width:78px;"class="theme-btn-2  btn-save" ng-if="PageParameter==1" ng-click="EditPatientData()">
                     Edit
                 </button>
                 <button type="button" class="btn  btn-save" ng-if="PageParameter==0" ng-click="EditPatientData_Approval()">

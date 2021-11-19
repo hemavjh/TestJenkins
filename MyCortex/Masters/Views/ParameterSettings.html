@@ -1,17 +1,21 @@
-﻿<ul class="secondaryMenu">
-    <li><a href="Home/Index#/ParameterSettings" class="secondaryMenuActive">Standard Parameter</a></li>
-    <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
-    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
-    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
-    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
-    <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming">Slot Timing</a></li>
-    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
-    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
-    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
-    <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
-</ul>
+﻿ <script>
+       $(document).ready(function () {
+                $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+       });
+</script> 
+ 
+ <ul class="secondaryMenu">
+     <li><a href="Home/Index#/ParameterSettings" class="secondaryMenuActive" data-menu="Settings">Standard Parameter</a></li>
+     <li><a href="Home/Index#/ChatSetting/2">Chat</a></li>
+     <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
+     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+     <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
+     <li><a href="Home/Index#/LanguageSettings">Language</a></li>
+     <li><a href="Home/Index#/GateWaySettings" data-menu="Settings">GateWay</a></li>
+ </ul>
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
     <div></div>
@@ -38,8 +42,8 @@
                     <div class="inputGroups">
                         <label>Unit Group Type</label>
                         <div class="modernSearch">
-                            <input style="margin-left: 5px !important" type="radio" value="1" ng-model="UnitGroupType" ng-init="SetUnitGroupPreference();ChatSettings_ViewEdit()" ng-change="ChatSettings_ViewEdit()"> Metric
-                            <input style="margin-left: 5px !important" type="radio" value="2" ng-model="UnitGroupType" ng-change="ChatSettings_ViewEdit()"> English
+                            <input style="margin-left: 5px !important" type="radio" value="1" ng-disabled="IsEdit==true" ng-model="UnitGroupType" ng-init="SetUnitGroupPreference();ChatSettings_ViewEdit()" ng-change="ChatSettings_ViewEdit()"> Metric
+                            <input style="margin-left: 5px !important" type="radio" value="2" ng-disabled="IsEdit==true" ng-model="UnitGroupType" ng-change="ChatSettings_ViewEdit()"> English
                         </div>
                     </div>
                 </div>
@@ -48,7 +52,7 @@
                             title="Click to Edit">
                         Edit
                     </button>
-                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" title="Click to Save" ng-if="IsEdit==true"
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" ng-disabled="false" title="Click to Save" ng-if="IsEdit==true"
                             ng-click="StandardParameter_AddEdit()">
                         Save
                     </button>
@@ -65,7 +69,7 @@
            cellspacing="2" border="0" class="table themeTable">
         <thead>
             <tr style="text-align: center">
-                <th st-ratio="10" colspan="5" st-sort=""></th>
+                <th st-ratio="10" colspan="6" st-sort=""></th>
                 <th st-ratio="10" colspan="2" st-sort="">Normal Range</th>
                 <th st-ratio="10" colspan="2" st-sort=""></th>
             </tr>
@@ -73,10 +77,11 @@
                 <th st-ratio="20" rowspan="1" st-sort="">Parameter</th>
                 <th st-ratio="10" rowspan="1" st-sort="">Units</th>
                 <th st-ratio="4" rowspan="1" st-sort="">Diagnostic Alert</th>
+                <th st-ratio="4" rowspan="1" st-sort="">Compliance Alert</th>
                 <th st-ratio="10" rowspan="1" st-sort="">Min Possible</th>
                 <th st-ratio="10" rowspan="1" st-sort="">Max Possible</th>
-                <th st-ratio="12" st-sort="">From</th>
-                <th st-ratio="12" st-sort="">To</th>
+                <th st-ratio="10" st-sort="">From</th>
+                <th st-ratio="10" st-sort="">To</th>
                 <th st-ratio="10" st-sort="">Average/Target</th>
                 <th st-ratio="10" st-sort="">Remarks</th>
             </tr>
@@ -108,6 +113,12 @@
                 </td>
                 <td style="text-align: center" ng-if="IsEdit==false">
                     <input type="checkbox" ng-model="Diagnostic_Flag[row.Id]" disabled>
+                </td>
+                <td style="text-align: center" ng-if="IsEdit==true">
+                    <input type="checkbox" ng-model="Compliance_Flag[row.Id]">
+                </td>
+                <td style="text-align: center" ng-if="IsEdit==false">
+                    <input type="checkbox" ng-model="Compliance_Flag[row.Id]" disabled>
                 </td>
                 <td style="text-align: left">
                     <input type="text" class="form-control" ng-model="Min_Possible[row.Id]" placeholder=""

@@ -1,12 +1,24 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ICD10Master">ICD 10</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/DrugDBMaster">Drug DB</a>
+        <a class="secondaryMenuActive" href="Home/Index#/DrugDBMaster" data-menu="Master">Drug DB</a>
     </li>
     <li>
         <a href="Home/Index#/AllergyMaster">Allergies</a>
+    </li>
+    <li>
+        <a href="Home/Index#/Payor">Payor</a>
+    </li>
+    <li>
+        <a href="Home/Index#/Plan">Plan</a>
     </li>
 </ul>
 <h1 class="page-title">Drug DB</h1>
@@ -48,18 +60,18 @@
     <thead>
         <tr style="text-align: center">
             <th st-ratio="5">#</th>
-            <th st-ratio="15" st-sort="Generic_Name">Generic Name</th>
-            <th st-ratio="12" st-sort="StrengthName">Strength </th>
-            <th st-ratio="12" st-sort="Dosage_FromName">Dosage Form</th>
+            <th st-ratio="20" st-sort="Generic_Name">Generic Name</th>
+            <th st-ratio="14" st-sort="StrengthName">Strength </th>
+            <th st-ratio="30" st-sort="Dosage_FromName">Dosage Form</th>
             <th st-ratio="12" st-sort="Item_Code">Item Code</th>
-            <th st-ratio="10" st-sort="Drug_Code">Drug Code</th>
+            <th st-ratio="12" st-sort="Drug_Code">Drug Code</th>
             <th st-ratio="8">Action</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-if="rowCollectionFilter.length==0">
             <td colspan="9" style="text-align: center">
-                {{SearchMsg}}
+                No Data Available
             </td>
         </tr>
         <tr ng-repeat="row in emptydata">
@@ -173,7 +185,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" ng-click="DrugDBAddEdit()"
+                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="DrugDBAddEdit()"
                         title="Click to Save">
                     Save
                 </button>

@@ -51,6 +51,8 @@ namespace MyCortex.User.Model
         public string UserType { get; set; }
         public byte[] PhotoBlob { get; set; }
         public string PhotoBlobs { get; set; }
+        public string PATIENT_ID { get; set; }
+        public string INSURANCEID { get; set; }
     }
 
 }

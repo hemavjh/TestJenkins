@@ -16,6 +16,74 @@ namespace MyCortex.Masters.Models
         public string WeekDayNumber { get; set; }
         public int OrderNumber { get; set; }
     }
+    public class New_DoctorShiftModel
+    {
+        public long ID { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public int NewAppointment { get; set; }
+        public int FollowUp { get; set; }
+        public int Intervel { get; set; }
+        public int CustomSlot { get; set; }
+        public int BookingOpen { get; set; }
+        public int BookingCancelLock { get; set; }
+        public long Institution_Id { get; set; }
+        public long CreatedBy { get; set; }
+        public long ModifiedBy { get; set; }
+        public int Flag { get; set; }
+        public long DoctorId { get; set; }
+        public IList<SelectedDaysList> SelectedDaysList { get; set; }
+        public IList<SlotsList> TimeSlot { get; set; }
+        public IList<DoctorsId> Doctor_Id { get; set; }
+        public long INSTITUTION_ID { get; set; }
+        public int IsActive { get; set; }
+
+        public long DepartmentId { get; set; }
+
+        public string Doctor_Name { get; set; }
+
+        public IList<CcCg> CC_CG { get; set; }
+    }
+    public class CcCg
+    {
+        public long CcCg_Id { get; set; }
+        public int IsActive { get; set; }
+    }
+    public class DoctorsId
+    {
+        public long DoctorId { get; set; }
+        public int IsActive { get; set; }
+    }
+    public class SlotsList
+    {
+        public DateTime Day { get; set; }
+        public int SHIFT { get; set; }
+        public DateTime TimeSlotFromTime { get; set; }
+
+        public DateTime TimeSlotToTime { get; set; }
+    }
+    public class SelectedDaysList
+    {
+        public long Id { get; set; }
+        //public long DoctorShiftId { get; set; }
+
+        public DateTime Day { get; set; }
+        public IList<SlotsList> TimeSlot { get; set; }
+
+        //public DateTime CreatedAt { get; set; }
+
+        //public string CreatedBy { get; set; }
+        public DateTime TimeSlotFromTime { get; set; }
+
+        public DateTime TimeSlotToTime { get; set; }
+
+        public int SHIFT { get; set; }
+
+        //public int IsActive { get; set; }
+
+        //public long ShiftId { get; set; }
+
+    }
     public class DoctorShiftModel
     {
         public long Id { get; set; }
@@ -81,5 +149,91 @@ namespace MyCortex.Masters.Models
             public string Status { get; set; }
             public string Message { get; set; }
             public IList<DoctorShiftModel> DoctorShift { get; set; }
-        }   
+        }
+
+    public class AppointmentTimeZone
+    {
+        public long TimeZoneId { get; set; }
+        public string TimeZoneName { get; set; }
+        public string UtcOffSet { get; set; }
+        public string TimeZoneDisplayName { get; set; }
+        public int IsActive { get; set; }
+    }
+    public class OrgAppointmentSettings
+    {
+        public long ID { get; set; }
+        public long InstitutionId { get; set; }
+        public int MaxScheduleDays { get; set; }
+        public bool IsDirectAppointment { get; set; }
+        public bool IsCc { get; set; }
+        public bool IsCg { get; set; }
+        public bool IsCl { get; set; }
+        public bool IsSc { get; set; }
+        public bool IsPatient { get; set; }
+        public int MinRescheduleDays { get; set; }
+        public int MinRescheduleHours { get; set; }
+        public int MinRescheduleMinutes { get; set; }
+        public bool IsAutoReschedule { get; set; }
+        public string DefautTimeZone { get; set; }
+        public bool IsAppointmentInHolidays { get; set; }
+        public int IsActive { get; set; }
+        public long CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public long MyAppConfigId { get; set; }
+        public int NewAppointmentDuration { get; set; }
+        public int FollowUpDuration { get; set; }
+        public int AppointmentInterval { get; set; }
+        public int ReminderDays { get; set; }
+        public int ReminderHours { get; set; }
+        public int ReminderMinutes { get; set; }
+        public string DefaultWorkingDays { get; set; }
+        public string DefaultHoliDays { get; set; }
+        public int Flag { get; set; }
+        public IList<ReminderUserLists> ReminderTimeInterval { get; set; }
+        //public IList<DefaultWorkingDays> DefaultWorkingDays { get; set; }
+
+
+    }
+
+    public class OrgAppointmentModuleSettings
+    {
+        public long InstitutionId { get; set; }
+        public int MaxScheduleDays { get; set; }
+        public bool IsDirectAppointment { get; set; }
+        public bool IsPatient { get; set; }
+        public int MinRescheduleDays { get; set; }
+        public int MinRescheduleHours { get; set; }
+        public int MinRescheduleMinutes { get; set; }
+        public int TimeZoneId { get; set; }
+        public string TimeZoneDisplayName { get; set; }
+        public int AppointmentModuleId { get; set; }
+        public string AppointmentModuleName { get; set; }
+    }
+
+    public class OrgAppointmentSettingsReturnModels
+    {
+        public int ReturnFlag { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IList<OrgAppointmentSettings> OrgAppointmentSettingDetails { get; set; }
+    }
+    public class ReminderUserLists
+    {
+        public int ReminderDays { get; set; }
+        public int ReminderHours { get; set; }
+        public int ReminderMinutes { get; set; }
+        public long InstitutionId { get; set; }
+        public long ID { get; set; }
+        public long MyIntervalConfigId { get; set; }
+        public long CreatedBy { get; set; }
+        public int IsActive { get; set; }
+    }
+
+    public class AppointmentModule
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public int IsActive { get; set; }
+    }
 }

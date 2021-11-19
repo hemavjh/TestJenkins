@@ -109,6 +109,13 @@ namespace MyCortex.Admin.Controllers
             model = repository.LanguageNameList();
             return model;
         }
+        [HttpGet]
+        public IList<GatewayMasterModel> PaymentModule_List()
+        {
+            IList<GatewayMasterModel> model;
+            model = repository.PaymentModule_List();
+            return model;
+        }
 
         /// <summary>
         /// list of institution subscription details for the given filter

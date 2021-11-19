@@ -89,9 +89,9 @@ namespace MyCortex.Masters.Controllers
         /// <returns>Populated List of Doctor Shift Details DataTable</returns>
 
         [HttpGet]
-        public IList<DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
+        public IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
         {
-            IList<DoctorShiftModel> model;
+            IList<New_DoctorShiftModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -113,14 +113,14 @@ namespace MyCortex.Masters.Controllers
         /// <param name="Id">Id of a Doctor Shift</param>    
         /// <returns>Populated a Doctor Shift Details DataTable </returns>
         [HttpGet]
-        public IList<DoctorShiftDayDetailsModel> DoctorShiftDayDetails_View(long Id)
+        public IList<SelectedDaysList> DoctorShiftDayDetails_View(long Id, Guid Login_Session_Id)
         {
-            IList<DoctorShiftDayDetailsModel> model;
+            IList<SelectedDaysList> model;
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.DoctorShiftDayDetails_View(Id);
+                model = repository.DoctorShiftDayDetails_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)
@@ -139,14 +139,14 @@ namespace MyCortex.Masters.Controllers
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
 
         [HttpGet]
-        public DoctorShiftModel DoctorShift_View(long Id, Guid Login_Session_Id)
+        public New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id)
         {
-            DoctorShiftModel model = new DoctorShiftModel();
+            New_DoctorShiftModel model = new New_DoctorShiftModel();
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
-                model = repository.DoctorShift_View(Id, Login_Session_Id);
+                model = repository.DoctorShift_View(DoctorId, Id, Login_Session_Id, institution_id);
             }
             catch (Exception ex)
             {
@@ -225,6 +225,11 @@ namespace MyCortex.Masters.Controllers
                 if (ModelData.Any(item => item.flag == 1) == true)
                 {
                     messagestr = "doctor Shift deactivated successfully";
+                    model.ReturnFlag = 2;
+                }
+                if (ModelData.Any(item => item.flag == 2) == true)
+                {
+                    messagestr = "doctor Shift cannot be deactivated";
                     model.ReturnFlag = 2;
                 }
                 model.DoctorShift = ModelData;
@@ -320,6 +325,113 @@ namespace MyCortex.Masters.Controllers
 
         }
 
+        //[Authorize]
+        [HttpGet]
+        public IList<AppointmentTimeZone> TimeZoneList()
+        {
+            IList<AppointmentTimeZone> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetTimeZoneList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
 
+        //[Authorize]
+        [HttpGet]
+        public IList<AppointmentModule> AppointmentModuleList()
+        {
+            IList<AppointmentModule> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetAppointmentModuleList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Org_AppointmentSettings_InsertUpdate(Guid Login_Session_Id, [FromBody] OrgAppointmentSettings obj)
+        {
+            IList<OrgAppointmentSettings> ModelData = new List<OrgAppointmentSettings>();
+            OrgAppointmentSettingsReturnModels model = new OrgAppointmentSettingsReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetOrgAppointmentSettings(Login_Session_Id, obj);
+                if (ModelData.Any(item => item.Flag == 1) == true)
+                {
+                    messagestr = "OrganizationAppointmentSettings  already exists, cannot be Duplicated";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.Flag == 2) == true)
+                {
+                    messagestr = "AppointmentSettings created successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.Flag == 3) == true)
+                {
+                    messagestr = "AppointmentSettings updated Successfully";
+                    model.ReturnFlag = 1;
+                }
+                model.OrgAppointmentSettingDetails = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating OrgAppointmentSettings";
+                model.OrgAppointmentSettingDetails = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public OrgAppointmentSettings AppointmentSettingView(long InstitutionId, Guid Login_Session_Id)
+        {
+            OrgAppointmentSettings model = new OrgAppointmentSettings();
+            model = repository.APPOINTMENTLISTDETAILS(InstitutionId, Login_Session_Id);
+            return model;
+        }
+
+        [HttpGet]
+        public OrgAppointmentModuleSettings AppointmentModuleSettingView(long InstitutionId)
+        {
+            OrgAppointmentModuleSettings model = new OrgAppointmentModuleSettings();
+            model = repository.ORG_APPOINTMENT_MODULE_SETTINGS(InstitutionId);
+            return model;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage AppointmentSettingDelete(long InstitutionId)
+        {
+            if (InstitutionId > 0)
+            {
+                repository.APPOINTMENTRESETDETAILS(InstitutionId);
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+                return response;
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
     }
 }

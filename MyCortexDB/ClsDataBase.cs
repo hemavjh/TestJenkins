@@ -300,6 +300,7 @@ namespace MyCortexDB
                     command.Connection = connection;
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = storedProcedureName;
+                    command.CommandTimeout = 0;
                     foreach (DataParameter parameter in parameters)
                     {
                         DbParameter dbparameter = command.CreateParameter();

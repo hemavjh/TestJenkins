@@ -1,104 +1,109 @@
-﻿
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        document.getElementById("Monitoring Protocol").className += 'activeButton';
+    });
+</script>
 
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
-        <div></div>
-        <div></div>
-    </div>
+<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+    <div></div>
+    <div></div>
+</div>
 
-    <div ng-init="MonitoringProtocolDetailsListGo()">
-        <h1 class="page-title">Monitoring Protocol</h1>
-        <div class="panel panel-default" id="tableid">
+<div ng-init="MonitoringProtocolDetailsListGo()">
+    <h1 class="page-title">Monitoring Protocol</h1>
+    <div class="panel panel-default" id="tableid">
 
-            <form class="form-horizontal" role="form">
-                <div class="overlay" show-on-load>
-                    <div id="loading-img"></div>
-                </div>
-                <div class="panel-body" id="table1">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="inputGroups">
-                                <label>Search</label>
-                                <input type="text" ng-model="query" class="form-control  search-input"
-                                    ng-change="filterProtocolList()" placeholder="" />
-                            </div>
-
+        <form class="form-horizontal" role="form">
+            <div class="overlay" show-on-load>
+                <div id="loading-img"></div>
+            </div>
+            <div class="panel-body" id="table1">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Search</label>
+                            <input type="text" ng-model="query" class="form-control  search-input"
+                                   ng-change="filterProtocolList()" placeholder="" />
                         </div>
-                        <div class="col-sm-4">
-                            <div class="inputGroups">
-                                <label>Active</label>
-                                <input toggle-checkbox ng-model="IsActive" type="checkbox"
-                                    ng-change="MonitoringProtocolDetailsListGo();" title="Active / All">
-                            </div>
 
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="inputGroups">
-                                <a href="javascript:" ng-click="AddCloneProtocolPopup();ProtocolClear()"
-                                    class="theme-btn-1 pull-right mt-20 ml-10">
-                                    Clone</a>
-                                <a href="javascript:"
-                                    ng-click="AddMonitoringProtocolPopup();ProtocolClear();CloneProtocolClear();"
-                                    class="theme-btn-1 pull-right mt-20 ml-10">Add New</a>
-                            </div>
-
-                        </div>
                     </div>
-
-                </div>
-            </form>
-        </div>
-        <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" class="table themeTable">
-            <thead>
-                <tr style="text-align: center">
-                    <th st-ratio="5" st-sort="Id">#</th>
-                    <th st-ratio="35" st-sort="ProtocolName">Protocol</th>
-                    <th st-ratio="10">Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr ng-if="rowCollectionFilter.length==0">
-                    <td colspan="7" style="text-align: center">No Data Available
-                    </td>
-                </tr>
-                <tr class="info" ng-repeat="row in emptydata">
-                    <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
-                    <td style="text-align: left">{{row.ProtocolName}}</td>
-                    <td st-ratio="10" class="text-center">
-
-                        <a href="javascript:" ng-click="ViewProtocol(row.Id)" title="View">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:" title="Edit" ng-click="EditProtocol(row.Id, row.Isactive)">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:" ng-click="InActiveProtocol(row.Id)" title="Active">
-                            <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.Isactive==1"></i>
-
-                            <a href="javascript:" ng-click="ReInsertProtocol(row.Id)" title="Inactive">
-                                <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.Isactive== 0"></i>
-
-                            </a>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot ng-show="rowCollection.length >30">
-                <tr>
-                    <td colspan="5" class="text-center">
-                        <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                            st-template="Masters/Views/pagination.custom.html">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Active</label>
+                            <input toggle-checkbox ng-model="IsActive" type="checkbox"
+                                   ng-change="MonitoringProtocolDetailsListGo();" title="Active / All">
                         </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <a href="javascript:" ng-click="AddCloneProtocolPopup();ProtocolClear()"
+                               class="theme-btn-1 pull-right mt-20 ml-10">
+                                Clone</a>
+                            <a href="javascript:"
+                               ng-click="AddMonitoringProtocolPopup();ProtocolClear();CloneProtocolClear();"
+                               class="theme-btn-1 pull-right mt-20 ml-10">Add New</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
     </div>
+    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5" st-sort="Id">#</th>
+                <th st-ratio="35" st-sort="ProtocolName">Protocol</th>
+                <th st-ratio="10">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-if="rowCollectionFilter.length==0">
+                <td colspan="7" style="text-align: center">No Data Available
+                </td>
+            </tr>
+            <tr class="info" ng-repeat="row in emptydata">
+                <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                <td style="text-align: left">{{row.ProtocolName}}</td>
+                <td st-ratio="10" class="text-center">
+
+                    <a href="javascript:" ng-click="ViewProtocol(row.Id)" title="View">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </a>
+                    <a href="javascript:" title="Edit" ng-click="EditProtocol(row.Id, row.Isactive)">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                    <a href="javascript:" ng-click="InActiveProtocol(row.Id)" title="Active">
+                        <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.Isactive==1"></i>
+
+                        <a href="javascript:" ng-click="ReInsertProtocol(row.Id)" title="Inactive">
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.Isactive== 0"></i>
+
+                        </a>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="rowCollection.length >30">
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                         st-template="Masters/Views/pagination.custom.html">
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
 
 <!--MONITORING PROTOCOL ADD MODAL ---->
 <div id="ProtocolCreateModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false"
-    ng-init="currentTab='1'">
+     ng-init="currentTab='1'">
     <div class="modal-dialog" style="width: 90%">
         <div class="modal-content">
             <div class="modal-header">
@@ -126,22 +131,22 @@
 
                         <div class="row">
                             <div class="col-sm-4" ng-show="Cloneval == 1">
-                            
-                                    <div class="inputGroups">
-                                        <label>Clone From Template<sup>
-                                                <font class='mandatory-field'>*</font>
-                                            </sup></label>
-                                        <select class="form-control" data-style="btn-primary" id="Select1"
-                                            ng-model="Protocol_Names" ng-change="CloneProtocolFunction()">
-                                            <option value="0">Select</option>
-                                            <option ng-repeat="sel in rowCollectionFilter | filter:{Isactive: 1}: true"
-                                                ng-selected="Protocol_Names==sel.Id" value="{{sel.Id}}">
-                                                {{sel.ProtocolName}}
-                                            </option>
-                                        </select>
-                                    </div>
 
-                               
+                                <div class="inputGroups">
+                                    <label>Clone From Template<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup></label>
+                                    <select class="form-control" data-style="form-control" id="Select1" data-live-search="true" data-selectpicker data-collection-name="rowCollectionFilter"
+                                            ng-model="Protocol_Names" ng-change="CloneProtocolFunction()">
+                                        <option value="0">Select</option>
+                                        <option ng-repeat="sel in rowCollectionFilter | filter:{Isactive: 1}: true"
+                                                ng-selected="Protocol_Names==sel.Id" value="{{sel.Id}}">
+                                            {{sel.ProtocolName}}
+                                        </option>
+                                    </select>
+                                </div>
+
+
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
@@ -149,8 +154,8 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup></label>
                                     <input type="text" class="form-control" id="Text5" ng-model="ProtocolName"
-                                        ng-init="ProtocolName=''" ng-maxlength="100" maxlength="100" placeholder=""
-                                        onkeypress="">
+                                           ng-init="ProtocolName=''" ng-maxlength="100" maxlength="100" placeholder=""
+                                           onkeypress="">
                                 </div>
                             </div>
                         </div>
@@ -192,9 +197,9 @@
                                     <tr ng-repeat="row in ParameterSettingslist ">
 
                                         <td>
-                                            <select ng-model="row.Parameter_Id" class="form-control"
-                                                ng-options="item.Id as item.Name for item in ParameterTypeList"
-                                                ng-change="ParameterSettings_ViewEdit(row);">
+                                            <select ng-model="row.Parameter_Id" data-style="form-control" class="form-control" data-live-search="true" data-selectpicker data-collection-name="ParameterTypeList"
+                                                    ng-options="item.Id as item.Name for item in ParameterTypeList"
+                                                    ng-change="ParameterSettings_ViewEdit(row);">
                                                 <option value="">Select</option>
                                             </select></td>
 
@@ -207,21 +212,21 @@
 
                                         <td style="width: 10%;">
                                             <input type="text"
-                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                ng-model="row.NormalRange_Low" maxlength="10" ng-maxlength="10"
-                                                onkeypress="OnlySpecCharNum(event)">
+                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                   ng-model="row.NormalRange_Low" maxlength="10" ng-maxlength="10"
+                                                   onkeypress="OnlySpecCharNum(event)">
                                         </td>
                                         <td style="width: 10%;">
                                             <input type="text"
-                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                ng-model="row.NormalRange_High" maxlength="10" ng-maxlength="10"
-                                                onkeypress="OnlySpecCharNum(event)">
+                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                   ng-model="row.NormalRange_High" maxlength="10" ng-maxlength="10"
+                                                   onkeypress="OnlySpecCharNum(event)">
                                         </td>
                                         <td>
 
 
                                             <table class="table themeTable" template-pagination="custom/pager"
-                                                style="width: 100%;">
+                                                   style="width: 100%;">
                                                 <thead>
                                                     <tr>
                                                         <th></th>
@@ -237,15 +242,15 @@
 
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_HighMin_One" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_HighMin_One" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_HighMax_One" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_HighMax_One" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
 
                                                     </tr>
@@ -253,15 +258,15 @@
                                                         <th>Medium</th>
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_MediumMin_One" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_MediumMin_One" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_MediumMax_One" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_MediumMax_One" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -269,15 +274,15 @@
 
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_LowMin_One" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_LowMin_One" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_LowMax_One" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_LowMax_One" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
 
                                                     </tr>
@@ -286,15 +291,15 @@
 
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_LowMin_Two" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_LowMin_Two" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_LowMax_Two" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_LowMax_Two" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                     </tr>
 
@@ -303,30 +308,30 @@
 
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_MediumMin_Two" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_MediumMin_Two" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_MediumMax_Two" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_MediumMax_Two" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                     </tr>
                                                     <tr>
                                                         <th>High</th>
 
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_HighMin_Two" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_HighMin_Two" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                         </td>
                                                         <td>
                                                             <input type="text"
-                                                                class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                ng-model="row.Diag_HighMax_Two" maxlength="10"
-                                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                   ng-model="row.Diag_HighMax_Two" maxlength="10"
+                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                                     </tr>
 
 
@@ -337,8 +342,8 @@
                                         </td>
                                         <td style="text-align: center">
                                             <i class="fa fa-trash-o" aria-hidden="true"
-                                                ng-click="MonitoringProtocolDelete($index,row)"
-                                                ng-model="row.selectedQual" style="width: 20px;" id="Image7"></i>
+                                               ng-click="MonitoringProtocolDelete($index,row)"
+                                               ng-model="row.selectedQual" style="width: 20px;" id="Image7"></i>
 
                                         </td>
 
@@ -346,21 +351,21 @@
                                 </tbody>
                             </table>
                             <a href="javascript:" title="Click to Add" class="theme-btn-1"
-                                ng-click="MonitoringParameterSettings_Insert()">
+                               ng-click="MonitoringParameterSettings_Insert()">
                                 Add</a>
 
 
                         </div>
-                        <div ng-show="currentTab=='2'">
+                        <div class="row" ng-show="currentTab=='2'">
                             <table class="table themeTable" template-pagination="custom/pager">
                                 <thead>
                                     <tr style="text-align: center">
                                         <th>Parameter</th>
                                         <th>Duration</th>
                                         <th>Count</th>
-                                        <th>High</th>
+                                        <!--<th>High</th>
                                         <th>Medium</th>
-                                        <th>Low</th>
+                                        <th>Low</th>-->
                                         <th>Action</th>
                                     </tr>
 
@@ -374,16 +379,16 @@
                                         <td>{{(ParameterTypeList | filter : {Id : row.Parameter_Id}: true)[0].Name}}
                                         </td>
                                         <td>
-                                            <select ng-model="row.Com_DurationType" class="form-control"
-                                                ng-options="item.Id as item.Name for item in DurationTypeList">
+                                            <select ng-model="row.Com_DurationType" class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="DurationTypeList"
+                                                    ng-options="item.Id as item.Name for item in DurationTypeList">
                                                 <option value="">Select</option>
                                             </select>
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" ng-model="row.Comp_Duration"
-                                                maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                         </td>
-                                        <td>
+                                        <!--<td>
                                             <input type="text" class="form-control" ng-model="row.Comp_High"
                                                 maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                         </td>
@@ -394,28 +399,101 @@
                                         <td>
                                             <input type="text" class="form-control" ng-model="row.Comp_Low"
                                                 maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                        </td>
+                                        </td>-->
                                         <td style="text-align: center">
                                             <i class="fa fa-trash-o" aria-hidden="true"
-                                                ng-click="MonitoringProtocolDelete($index,row.Id)"
-                                                ng-model="row.selectedQual" id="Image5"></i>
+                                               ng-click="MonitoringProtocolDelete($index,row.Id)"
+                                               ng-model="row.selectedQual" id="Image5"></i>
 
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="input-group">
+                                <h2>Custom Recurrence</h2>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <h3>Repeat Every</h3>
+                                    <select data-style="form-control" ng-change="ChangeMethod()" ng-model="Compliancealert">
+                                        <option value="1">Daily</option>
+                                        <option value="2">Weekly</option>
+                                        <option value="3">Monthly</option>
+                                        <option value="4">Yearly</option>
+                                    </select>
+                                    <input type="text" id="member" name="member" value="" placeholder="No of Times in a day">
+                                    <button type="button" class="theme-btn-1 mr-10" id="btnsave" title="Click to Save"
+                                            ng-click="addFields()">
+                                        Fill Details
+                                    </button>
+                                    <!--<div id="container" />-->
 
-
+                                </div>
+                                <div class="inputGroups" ng-if="ComplianceWeekly==1">
+                                    <div class="weekDays-selector">
+                                        <input type="checkbox" id="weekday-mon" class="weekday" />
+                                        <label for="weekday-mon">M</label>
+                                        <input type="checkbox" id="weekday-tue" class="weekday" />
+                                        <label for="weekday-tue">T</label>
+                                        <input type="checkbox" id="weekday-wed" class="weekday" />
+                                        <label for="weekday-wed">W</label>
+                                        <input type="checkbox" id="weekday-thu" class="weekday" />
+                                        <label for="weekday-thu">T</label>
+                                        <input type="checkbox" id="weekday-fri" class="weekday" />
+                                        <label for="weekday-fri">F</label>
+                                        <input type="checkbox" id="weekday-sat" class="weekday" />
+                                        <label for="weekday-sat">S</label>
+                                        <input type="checkbox" id="weekday-sun" class="weekday" />
+                                        <label for="weekday-sun">S</label>
+                                    </div>
+                                </div>
+                                <div class="inputGroups" ng-if="ComplianceWeekly==2">
+                                    <label>Select Date of the month</label>
+                                    <select class="form-control" ng-change="ChangeMethod()" ng-model="Compliancealert">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <h4>Timings</h4>
+                                    <div id="container" />
+                                </div>
+                            </div>
                         </div>
-
-
-
                     </form>
                 </div>
             </div>
             <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="theme-btn-1 mr-10" title="Click to Save"
-                    ng-click="ProtocolParameter_AddEdit()">
+                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
+                        ng-click="ProtocolParameter_AddEdit()">
                     Save</button>
                 <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelProtocol()">
                     Cancel</button>
@@ -431,10 +509,10 @@
     <div class="modal-dialog" style="width: 90%">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" >
+                <button type="button" class="close" data-dismiss="modal" title="Close">
                     &times;</button>
-                    <h4 class="modal-title">Monitoring Protocol</h4>
-               
+                <h4 class="modal-title">Monitoring Protocol</h4>
+
             </div>
             <ul class="themeTabs">
                 <li>
@@ -458,191 +536,191 @@
                             </div>
                         </div>
                     </div>
-                  
-
-                        <!--  <div id="Div1" class="panel-collapse" ng-show="currentTab=='1'">-->
-                        <div id="Div2"  ng-show="currentTab=='1'">
-                        
-                                <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="1" rowspan="3">Parameter</th>
-                                            <th colspan="1" rowspan="3">Unit</th>
-                                            <th colspan="2" rowspan="2">Normal Range</th>
-                                            <th colspan="6">Diagnostic</th>
-                                            <th colspan="6">Diagnostic</th>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2" rowspan="1">High</th>
-                                            <th colspan="2" rowspan="1">Medium</th>
-                                            <th colspan="2" rowspan="1">Low</th>
-                                            <th colspan="2" rowspan="1">Low</th>
-                                            <th colspan="2" rowspan="1">Medium</th>
-                                            <th colspan="2" rowspan="1">High</th>
-
-                                        </tr>
-                                        <tr>
-
-                                            <th>From</th>
-                                            <th>To</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                            <th>From</th>
-                                            <th>To</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-if="ParameterSettingslist.length==0">
-                                            <td colspan="16" style="text-align: center">No Data Available
-                                            </td>
-                                        </tr>
-                                        <tr ng-repeat="row in ParameterSettingslist">
-
-                                            <td style="width: 10%"><span>{{row.ParameterName}}</span></td>
-                                            <td style="width: 10%"><span>{{row.UnitsName}}</span></td>
-                                            <!--                                             <th style="width: 15%">High</th>  -->
-                                            <td style="width:5%">
-                                                <span>{{row.NormalRange_Low}}</span>
-                                            </td>
-                                            <td style="width:5%">
-                                                <span>{{row.NormalRange_High}}</span>
-                                            </td>
-                                            <td style="width:5%">
-                                                <span>{{row.Diag_HighMin_One}}</span>
-                                            </td>
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_HighMax_One}}</span>
-                                            </td>
-
-                                            <!--                                            <th>Medium</th>-->
-
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_MediumMin_One}}</span>
-                                            </td>
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_MediumMax_One}}</span>
-                                            </td>
-
-                                            <!--                                             <th>Low</th>-->
-
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_LowMin_One}}</span>
-                                            </td>
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_LowMax_One}}</span>
-                                            </td>
-
-                                            <!--                                             <th>Low</th>-->
-
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_LowMin_Two}}</span>
-                                            </td>
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_LowMax_Two}}</span>
-                                            </td>
-                                            <!--                                            <th>Medium</th>-->
-
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_MediumMin_Two}}</span>
-                                            </td>
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_MediumMax_Two}}</span>
-                                            </td>
-                                            <!--                                             <th>High</th>-->
-
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_HighMin_Two}}</span>
-                                            </td>
-                                            <td style="width: 5%">
-                                                <span>{{row.Diag_HighMax_Two}}</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
 
 
+                    <!--  <div id="Div1" class="panel-collapse" ng-show="currentTab=='1'">-->
+                    <div id="Div2"  ng-show="currentTab=='1'">
 
-                           
+                        <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th colspan="1" rowspan="3">Parameter</th>
+                                    <th colspan="1" rowspan="3">Unit</th>
+                                    <th colspan="2" rowspan="2">Normal Range</th>
+                                    <th colspan="6">Diagnostic</th>
+                                    <th colspan="6">Diagnostic</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" rowspan="1">High</th>
+                                    <th colspan="2" rowspan="1">Medium</th>
+                                    <th colspan="2" rowspan="1">Low</th>
+                                    <th colspan="2" rowspan="1">Low</th>
+                                    <th colspan="2" rowspan="1">Medium</th>
+                                    <th colspan="2" rowspan="1">High</th>
 
+                                </tr>
+                                <tr>
+
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="ParameterSettingslist.length==0">
+                                    <td colspan="16" style="text-align: center">No Data Available
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="row in ParameterSettingslist">
+
+                                    <td style="width: 10%"><span>{{row.ParameterName}}</span></td>
+                                    <td style="width: 10%"><span>{{row.UnitsName}}</span></td>
+                                    <!--                                             <th style="width: 15%">High</th>  -->
+                                    <td style="width:5%">
+                                        <span>{{row.NormalRange_Low}}</span>
+                                    </td>
+                                    <td style="width:5%">
+                                        <span>{{row.NormalRange_High}}</span>
+                                    </td>
+                                    <td style="width:5%">
+                                        <span>{{row.Diag_HighMin_One}}</span>
+                                    </td>
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_HighMax_One}}</span>
+                                    </td>
+
+                                    <!--                                            <th>Medium</th>-->
+
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_MediumMin_One}}</span>
+                                    </td>
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_MediumMax_One}}</span>
+                                    </td>
+
+                                    <!--                                             <th>Low</th>-->
+
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_LowMin_One}}</span>
+                                    </td>
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_LowMax_One}}</span>
+                                    </td>
+
+                                    <!--                                             <th>Low</th>-->
+
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_LowMin_Two}}</span>
+                                    </td>
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_LowMax_Two}}</span>
+                                    </td>
+                                    <!--                                            <th>Medium</th>-->
+
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_MediumMin_Two}}</span>
+                                    </td>
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_MediumMax_Two}}</span>
+                                    </td>
+                                    <!--                                             <th>High</th>-->
+
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_HighMin_Two}}</span>
+                                    </td>
+                                    <td style="width: 5%">
+                                        <span>{{row.Diag_HighMax_Two}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+
+
+
+                    </div>
+
+
+
+                    <div  ng-show="currentTab=='2'">
+                        <!--<div class="panel-heading containeralign" style="text-align: left;"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
+                                        </a></h4></div>-->
+                        <div id="Div5" >
+
+                            <table class="table themeTable" template-pagination="custom/pager">
+                                <thead>
+                                    <tr style="text-align: center">
+                                        <th>Parameter</th>
+                                        <th>Duration</th>
+                                        <th>Count</th>
+                                        <th>High</th>
+                                        <th>Medium</th>
+                                        <th>Low</th>
+                                        <!--  <th>Action</th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="ParameterSettingslist.length==0">
+                                        <td colspan="7" style="text-align: center">No Data Available
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="row in ParameterSettingslist">
+                                        <td>
+                                            <span>{{row.ParameterName}}</span>
+
+                                        </td>
+                                        <td>
+                                            <span>{{row.DurationName}}</span>
+
+                                        </td>
+                                        <td>
+                                            <span>{{row.Comp_Duration}}</span>
+
+                                        </td>
+                                        <td>
+                                            <span>{{row.Comp_High}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{row.Comp_Medium}}</span>
+
+                                        </td>
+                                        <td>
+                                            <span>{{row.Comp_Low}}</span>
+
+                                        </td>
+                                        <!--  <td style="text-align: center">
+                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                                                ng-click="MonitoringProtocolDelete($index,row.Parameter_Id)" ng-model="row.selectedQual"
+                                                style="width: 20px;" id="Image4" />
+                                        </td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         </div>
+                    </div>
 
 
 
-                        <div  ng-show="currentTab=='2'">
-                            <!--<div class="panel-heading containeralign" style="text-align: left;"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
-                                            </a></h4></div>-->
-                            <div id="Div5" >
-                               
-                                    <table class="table themeTable" template-pagination="custom/pager">
-                                        <thead>
-                                            <tr style="text-align: center">
-                                                <th>Parameter</th>
-                                                <th>Duration</th>
-                                                <th>Count</th>
-                                                <th>High</th>
-                                                <th>Medium</th>
-                                                <th>Low</th>
-                                                <!--  <th>Action</th>-->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-if="ParameterSettingslist.length==0">
-                                                <td colspan="7" style="text-align: center">No Data Available
-                                                </td>
-                                            </tr>
-                                            <tr ng-repeat="row in ParameterSettingslist">
-                                                <td>
-                                                    <span>{{row.ParameterName}}</span>
-
-                                                </td>
-                                                <td>
-                                                    <span>{{row.DurationName}}</span>
-
-                                                </td>
-                                                <td>
-                                                    <span>{{row.Comp_Duration}}</span>
-
-                                                </td>
-                                                <td>
-                                                    <span>{{row.Comp_High}}</span>
-                                                </td>
-                                                <td>
-                                                    <span>{{row.Comp_Medium}}</span>
-
-                                                </td>
-                                                <td>
-                                                    <span>{{row.Comp_Low}}</span>
-
-                                                </td>
-                                                <!--  <td style="text-align: center">
-                                                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
-                                                        ng-click="MonitoringProtocolDelete($index,row.Parameter_Id)" ng-model="row.selectedQual"
-                                                        style="width: 20px;" id="Image4" />
-                                                </td>-->
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                              
-                            </div>
-                        </div>
-
-                   
-                    
                 </form>
             </div>
             <div class="modal-footer" style="text-align: center;">
 
                 <button type="button" class="theme-btn-2" title="Click to Cancel"
-                    ng-click="CancelViewProtocol()">
+                        ng-click="CancelViewProtocol()">
                     Cancel</button>
             </div>
         </div>
@@ -651,13 +729,35 @@
 </div>
 
 <script>
-    $("#DOB").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        endDate: '+0d',
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$("#DOB").bootstrapDP({
+    //    //format: "dd-M-yyyy",
+    //    //forceParse: false,
+    //    //endDate: '+0d',
+    //    //autoclose: true,
+    //    //todayHighlight: true,
+    //    //toggleActive: true,
+    //    //todayBtn: true
+    //});
 </script>
+<style>
+    .weekDays-selector input {
+        display: none !important;
+    }
+
+        .weekDays-selector input[type=checkbox] + label {
+            display: inline-block;
+            border-radius: 6px;
+            background: #dddddd;
+            height: 40px;
+            width: 30px;
+            margin-right: 3px;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .weekDays-selector input[type=checkbox]:checked + label {
+            background: #2AD705;
+            color: #ffffff;
+        }
+</style>

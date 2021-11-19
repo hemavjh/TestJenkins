@@ -75,6 +75,12 @@ namespace MyCortex.Repositories.Admin
             param.Add(new DataParameter("@SUBSCRIPTION_TYPE", obj.Subscription_Type));
             param.Add(new DataParameter("@SESSION_ID", LoginSession));
             param.Add(new DataParameter("@Created_by", HttpContext.Current.Session["UserId"]));
+            param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_ID));
+            param.Add(new DataParameter("@APPOINTMENT_MODULE_ID", obj.Appointment_Module_Id));
+            param.Add(new DataParameter("@CHRONICCC", obj.ChronicCc));
+            param.Add(new DataParameter("@CHRONICCG", obj.ChronicCg));
+            param.Add(new DataParameter("@CHRONICCL", obj.ChronicCl));
+            param.Add(new DataParameter("@CHRONICSC", obj.ChronicSc));
             {
                 // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SUBSCRIPTION_SP_INSERTUPDATE", param);
@@ -92,7 +98,9 @@ namespace MyCortex.Repositories.Admin
                                                                No_Of_Patients = p.Field<int>("NOOF_PATIENT"),
                                                                Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                                Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
+                                                               TimeZone_ID = p.Field<int>("TIMEZONE_ID"),
                                                                flag = p.Field<int>("flag"),
+                                                               Appointment_Module_Id = p.Field<int>("APPOINTMENT_MODULE_ID")
                                                                //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                            }).ToList();
 
@@ -128,6 +136,21 @@ namespace MyCortex.Repositories.Admin
                         param1.Add(new DataParameter("@LANGUAGE_SELECTED", "0"));
 
                     InsSubModId = ClsDataBase.Insert("[MYCORTEX].INSTITUTION_SUBSCRIPTION_LANGUAGE_SP_INSERTUPDATE", param1, true);
+                }
+                foreach (GatewayMasterModel item in obj.Payment_List)
+                {
+                    List<DataParameter> param1 = new List<DataParameter>();
+                    param1.Add(new DataParameter("@INSTITUTIONSUBSCRIPTION_ID", InsertId));
+                    param1.Add(new DataParameter("@PAYMENT_ID", item.Id));
+                    param1.Add(new DataParameter("@GATEWAYTYPE", item.GateWayType));
+                    var objExist = obj.Payment_Module_Id.Where(ChildItem => ChildItem.Id == item.Id);
+
+                    if (objExist.ToList().Count > 0)
+                        param1.Add(new DataParameter("@PAYMENT_SELECTED", "1"));
+                    else
+                        param1.Add(new DataParameter("@PAYMENT_SELECTED", "0"));
+
+                    InsSubModId = ClsDataBase.Insert("[MYCORTEX].[INSTITUTION_SUBSCRIPTION_PAYMENT_SP_INSERTUPDATE]", param1, true);
                 }
                 return INS;
             }
@@ -170,12 +193,12 @@ namespace MyCortex.Repositories.Admin
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].LANGUAGEMASTER_SP_LANGUAGENAME");
                 List<LanguageMasterModel> lst = (from p in dt.AsEnumerable()
-                                               select new LanguageMasterModel()
-                                               {
-                                                   Id = p.Field<long>("ID"),
-                                                   LanguageName = p.Field<string>("LANGUAGE_NAME"),
-                                                   IsActive = p.Field<bool>("ISACTIVE")
-                                               }).ToList();
+                                                 select new LanguageMasterModel()
+                                                 {
+                                                     Id = p.Field<long>("ID"),
+                                                     LanguageName = p.Field<string>("LANGUAGE_NAME"),
+                                                     IsActive = p.Field<bool>("ISACTIVE")
+                                                 }).ToList();
                 return lst;
             }
             catch (Exception ex)
@@ -205,7 +228,29 @@ namespace MyCortex.Repositories.Admin
                                                              }).ToList();
             return INS;
         }
+        public IList<GatewayMasterModel> PaymentModule_List()
+        {
+            List<DataParameter> param = new List<DataParameter>();
 
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONPAYMENTMETHODS_SP_LIST]");
+                List<GatewayMasterModel> lst = (from p in dt.AsEnumerable()
+                                                 select new GatewayMasterModel()
+                                                 {
+                                                     Id = p.Field<long>("ID"),
+                                                     PaymentName = p.Field<string>("PAYMENTNAME"),
+                                                     GateWayType = p.Field<int>("GATEWAYTYPE"),
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>
         /// details of a selected Institution Subscription
         /// </summary>
@@ -227,6 +272,32 @@ namespace MyCortex.Repositories.Admin
             return INS;
         }
 
+        public IList<GatewayMasterModel> InstitutionSubscriptionPaymentDetails_View(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTION_SUBSCRIPTIONPAYMENT_SP_VIEW]", param);
+            List<GatewayMasterModel> INS = (from p in dt.AsEnumerable()
+                                                               select new GatewayMasterModel()
+                                                               {
+                                                                   Id = p.Field<long>("PAYMENT_ID"),
+                                                                   GateWayType = p.Field<int>("GATEWAYTYPE"),
+                                                               }).ToList();
+            return INS;
+        }
+        public IList<GatewayMasterModel> InstitutionSubscriptionInsuranceDetails_View(long Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTION_SUBSCRIPTIONINSURANCE_SP_VIEW]", param);
+            List<GatewayMasterModel> INS = (from p in dt.AsEnumerable()
+                                            select new GatewayMasterModel()
+                                            {
+                                                Id = p.Field<long>("PAYMENT_ID"),
+                                                GateWayType = p.Field<int>("GATEWAYTYPE"),
+                                            }).ToList();
+            return INS;
+        }
         /// <summary>
         /// to get the current subscription details of a Institution
         /// </summary>
@@ -262,12 +333,17 @@ namespace MyCortex.Repositories.Admin
                                                         CityName = p.Field<string>("LOCATIONNAME"),
                                                         IsActive = p.Field<int>("ISACTIVE")
                                                     },
-
+                                                    ChronicCc = p.Field<bool>("CHRONIC_CC"),
+                                                    ChronicCg = p.Field<bool>("CHRONIC_CG"),
+                                                    ChronicCl = p.Field<bool>("CHRONIC_CL"),
+                                                    ChronicSc = p.Field<bool>("CHRONIC_SC"),
                                                     Contract_PeriodFrom = p.Field<DateTime>("CONTRACT_PERIODFROM"),
                                                     Health_Care_Professionals = p.Field<int>("NOOF_HEALTHCARE"),
                                                     No_Of_Patients = p.Field<int>("NOOF_PATIENT"),
                                                     Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                     Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
+                                                    TimeZone_ID = p.IsNull("TIMEZONE_ID") ? 0 : p.Field<int>("TIMEZONE_ID"),
+                                                    Appointment_Module_Id = p.IsNull("APPOINTMENT_MODULE_ID") ? 0 : p.Field<int>("APPOINTMENT_MODULE_ID")
                                                     //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                 }).FirstOrDefault();
             //ViewId = INS.Id;
@@ -275,6 +351,9 @@ namespace MyCortex.Repositories.Admin
             INS.ChildModuleList = InstitutionSubscriptionModuleDetails_View(INS.Id);
             INS.Language_List = LanguageNameList();
             INS.ChildLanguageList = InstitutionSubscriptionLanguageDetails_View(INS.Id);
+            INS.Payment_List = PaymentModule_List();
+            INS.ChildPaymentList = InstitutionSubscriptionPaymentDetails_View(INS.Id);
+            INS.ChildInsuranceList = InstitutionSubscriptionInsuranceDetails_View(INS.Id);
 
             return INS;
             //INS.ToList=

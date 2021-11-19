@@ -10,7 +10,7 @@ namespace MyCortex.User.Model
     {
 
         public long Id { get; set; }
-        public long PatientId { get; set; }
+        public string PatientId { get; set; }
         public string InstitutionName { get; set; }
         public int? IsActive { get; set; }
         public string Department_Name { get; set; }
@@ -24,6 +24,7 @@ namespace MyCortex.User.Model
         public string EMAILID { get; set; }
         public string GOOGLE_EMAILID { get; set; }
         public string FB_EMAILID { get; set; }
+        public string appleUserID { get; set; }
         public string ApprovalFlag { get; set; }
         public int? Patient_Type { get; set; }
 
@@ -51,6 +52,14 @@ namespace MyCortex.User.Model
 	    public string ADDRESS1 { get; set; }
 	    public string ADDRESS2 { get; set; }
 	    public string ADDRESS3 { get; set; }
+        public string Memberid { get; set; }
+        public string PolicyNumber { get; set; }
+        public string RefernceId { get; set; }
+        public string ExpiryDate { get; set; }
+        public string PayorId { get; set; }
+        public string PlanId { get; set; }
+        public string PayorName { get; set; }
+        public string PlanName { get; set; }
         public long? COUNTRY_ID { get; set; }
         public long? STATE_ID { get; set; }
         public long? CITY_ID { get; set; }
@@ -66,10 +75,11 @@ namespace MyCortex.User.Model
         public long? CHOLESTEROL { get; set; }
 	    public int? ISACTIVE { get; set; }
 	    public int? CREATED_BY { get; set; }
+        public int? User_Id { get; set; }
         public string GroupName { get; set; }
         public string GENDER_NAME { get; set; }
         public string Nationality { get; set; } 
-	    public DateTime CREATED_DT { get; set; }
+	    public DateTime? CREATED_DT { get; set; }
         public string COUNTRY_NAME {get;set; }
         public string EthnicGroup { get; set; }
         public string StateName { get; set; }
@@ -98,7 +108,8 @@ namespace MyCortex.User.Model
 	    public string EMERG_CONT_LASTNAME { get; set; }
         public long? EMERG_CONT_RELATIONSHIP_ID { get; set; }
         public DateTime? LoginTime { get; set; }
-
+        public int? Appointment_Module_Id { get; set; }
+        public int? TimeZone_Id { get; set; }
         public string MaritalStatus { get; set; }
         public string BLOODGROUP_NAME { get; set; }
         public string RelationShipName { get; set; }
@@ -110,8 +121,8 @@ namespace MyCortex.User.Model
         public string CAFFEINATED_BEVERAGES { get; set; }
         public string ChronicCondition { get; set; }
         public int MenuType { get; set; }
-        public int flag { get; set; }
-        public long Group_Id { get; set; }
+        public int? flag { get; set; }
+        public long? Group_Id { get; set; }
         public string PASSWORD { get; set; }
         
         public string Diabetic_Option { get; set; }
@@ -123,9 +134,9 @@ namespace MyCortex.User.Model
         public long? Protocol_Id { get; set; }
         public string ProtocolName { get; set; }
 
-        public int Approval_flag { get; set; }
+        public int? Approval_flag { get; set; }
 
-        public long Modified_By { get; set; }
+        public long? Modified_By { get; set; }
         public IList<GroupTypeModel> GroupTypeList { get; set; }
         public IList<UserGroupDetails_List> SelectedGroupList { get; set; }
 
@@ -143,7 +154,22 @@ namespace MyCortex.User.Model
         public string PHOTOBLOB_LOW { get; set; }
         public string PHOTOBLOB_THUMB { get; set; }
         public bool IS_MASTER { get; set; }
-        
+        public string TAB_PIN { get; set; }
+        public string TAB_PHOTO { get; set; }
+        public string TAB_FINGERPRINT { get; set; }
+        public string MrnPrefix { get; set; }
+        //public string FullNameFormula { get; set; }
+        public string NationalPhotoFullpath { get; set; }
+        public string NationalPhotoFilename { get; set; }
+        public string InsurancePhotoFullpath { get; set; }
+        public string InsurancePhotoFilename { get; set; }
+        public string NationalPhoto { get; set; }
+        public string InsurancePhoto { get; set; }
+        public int Unitgroup_preference { get; set; }
+        public int Language_preference { get; set; }
+        public long Payment_preference { get; set; }
+        public long Insurance_Preference { get; set; }
+
     }
 
     public class UserReturnModel
@@ -186,10 +212,12 @@ namespace MyCortex.User.Model
         public int? IsActive { get; set; }
     }
 
+
     public class PatientChronicCondition_List
     {
         public long? Id { get; set; }
         public long? User_Id { get; set; }
+        public string ChronicGroup { get; set; }
         public long? Chronic_Id { get; set; }
         public string ChronicCondition { get; set; }
 
@@ -212,7 +240,22 @@ namespace MyCortex.User.Model
         public string Remarks { get; set; }
         public int? Status { get; set; }
     }
+    public class PatientChronicModel
+    {
+        public IList<PatientChronicCondition_List> EditSelectedChronicCondition { get; set; }
+        public IList<ChronicConditionModel> ChronicConditionList { get; set; }
+        public long CreatedBy { get; set; }
+        public long UserId { get; set; }
 
+    }
+    public class PatientGroupModel
+    {
+        public IList<UserGroupDetails_List> EditSelectedGroupList { get; set; }
+        public IList<GroupTypeModel> GroupTypeList { get; set; }
+        public long CreatedBy { get; set; }
+        public long UserId { get; set; }
+
+    }
     public class Patient_FamilyHeealthHistoryDetails
     {
         public long? Id { get; set; }

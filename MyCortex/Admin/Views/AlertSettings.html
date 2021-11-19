@@ -15,17 +15,17 @@
 
     </script>
     <!--  <script language="javascript">
-        var imgRe = /^.+\.(jpg|jpeg|gif|png)$/i;
-        function showImage(obj) {
-            var path = obj.value;
-            if (path.search(imgRe) != -1) {
-                document['image'].src = 'file://' + path;
+            var imgRe = /^.+\.(jpg|jpeg|gif|png)$/i;
+            function showImage(obj) {
+                var path = obj.value;
+                if (path.search(imgRe) != -1) {
+                    document['image'].src = 'file://' + path;
+                }
+                else {
+                    alert("JPG, PNG, and GIFs only!");
+                }
             }
-            else {
-                alert("JPG, PNG, and GIFs only!");
-            }
-        }
-</script>-->
+    </script>-->
 
     <style>
         .column {
@@ -36,7 +36,6 @@
             /* Should be removed. Only for demonstration */
             margin-left: 5px;
             margin-bottom: 5px;
-
         }
 
 
@@ -44,7 +43,6 @@
         .rowMargin {
             margin-right: 5px !important;
             margin-bottom: 5px !important;
-
         }
 
         /* Clear floats after the columns */
@@ -59,14 +57,20 @@
             border-radius: 20px;
         }
 
-        .toggle.ios .toggle-handle {
-            border-radius: 20px;
-        }
+            .toggle.ios .toggle-handle {
+                border-radius: 20px;
+            }
     </style>
     <script>
         $(function () {
             $('#toggle-one').bootstrapToggle();
         })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
     </script>
 </head>
 <ul class="secondaryMenu">
@@ -74,14 +78,14 @@
         <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
     </li>
     <li>
-        <a href="Home/Index#/ChatSetting/2">Chat Settings</a>
+        <a href="Home/Index#/ChatSetting/2">Chat</a>
     </li>
     <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/MasterAlertConfigurationList" data-menu="Settings">Alerts</a></li>
     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
-    <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
+    <li><a href="Home/Index#/LanguageSettings">Language</a></li>
 </ul>
 <h1 class="page-title">Alert Configuration</h1>
 

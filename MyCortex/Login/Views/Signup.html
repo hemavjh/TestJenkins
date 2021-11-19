@@ -1,30 +1,58 @@
-﻿    <style>
-        .viewPassword {
-            position: relative;
-        }
+﻿<style>
+    .viewPassword {
+        position: relative;
+    }
 
-        .viewPassword i {
-            position: absolute;
-            right: 0px;
-            top: 0px;
-            color: #555;
-            padding: 10px;
-            cursor: pointer;
-        }
-        pre{
-            display: none;
-        }
+    .viewPassword i {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        color: #555;
+        padding: 10px;
+        cursor: pointer;
+    }
+    pre{
+        display: none;
+    }
 </style>
+<script>
+    $(function () {
+        var dtToday = new Date();
 
-<div class="loginContainer">    
-       <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-    <h1>MyCortex Sign Up</h1>
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#DOB').attr('max', maxDate);
+
+    });
+</script>
+
+<div class="loginContainer" style="width:636px;">    
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div>
+        <h1>
+            MyCortex Sign Up
+            <i class="fa fa-language" aria-hidden="true"></i>
+            <select style="text-align:right !important; width:22%;font-size:15px" ng-model="selectedLanguage" ng-change="FilterLanguageSettingsList()">
+                <option ng-repeat="item1 in InstitutionLanguageList" value="{{item1.Id}}">
+                    {{item1.LanguageName}}
+                </option>
+            </select>
+        </h1>
+    </div>
     <!--<p>New to MyCortex?<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>-->
     <form>
         <div class="row">
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">First Name<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{firstname}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text5" name="FirstName" ng-model="FirstName"
                            ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
                            maxlength="100" />
@@ -32,7 +60,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">Middle Name</label>
+                    <label for="email">{{middlename}}</label>
                     <input type="text" class="form-control" id="Text19" name="MiddleName" ng-model="MiddleName"
                            ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
                            maxlength="100" />
@@ -40,7 +68,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="LastName">Last Name<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="LastName">{{lastname}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="LastName" name="LastName" ng-model="LastName"
                            ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
                            maxlength="100" />
@@ -48,28 +76,35 @@
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">MRN No.<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
+                    <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
+                           maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
+                </div>
+            </div>
+            <!--<div class="col-sm-6">
+                <div class="inputGroups">
+                    <label for="email">{{mrnnumber}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="T1" name="MNR_No" ng-model="MNR_No" ng-init="MNR_No=''"
                            ng-required="true" onkeypress="" placeholder="" ng-maxlength="50" maxlength="50" />
                 </div>
-            </div>
+            </div>-->
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">National ID<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{nationalityid}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
                            ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" />
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">Insurance ID<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{insuranceid}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId"
                            ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">Sex<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{gender}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <select class="form-control" ng-model="GenderId" id="Select3" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
@@ -80,7 +115,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">Nationality<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{nationality}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <select class="form-control" placeholder="Nationality" ng-model="NationalityId" id="Select5"
                             ng-required="true">
                         <option value="0">Select</option>
@@ -92,27 +127,35 @@
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
-                    <div class="date" id="DOB">
-                        <input type="date" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''"
+                    <label for="email">{{dob}}<sup><font class='mandatory-field'>*</font></sup></label>
+                    <div class="date">
+                        <input type="date" max="2099-12-31" id="DOB" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                ng-required="true">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">Email<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{email}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text4" name="" ng-model="EmailId" ng-init="EmailId=''"
                            ng-required="true" placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                 </div>
             </div>
-            <div class="col-sm-6">
+            <!--<div class="col-sm-6">
                 <div class="inputGroups">
-                    <label for="email">Mobile No.<sup><font class='mandatory-field'>*</font></sup></label>
+                    <label for="email">{{mobilenumber}}<sup><font class='mandatory-field'>*</font></sup></label>
                     <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
                            maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
                 </div>
-            </div>
+            </div>-->
+        </div>
+        <div>
+            <p style="text-align:left;">
+                {{defaultsignupacknowledgement}}
+            </p>
+            <p style="text-align:right;">
+                {{signupacknowledgement}}
+            </p>
         </div>
         <div class="alert alert-danger def" ng-if="errorlist!=null">
             <div ng-if="errorlist!=null">
@@ -273,9 +316,9 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background: deepskyblue;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Forgot Password</h4>
+                <h4 class="modal-title1">Forgot Password</h4>
             </div>
             <div class="modal-body">
                 <form action="/action_page.php">

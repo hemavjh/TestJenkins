@@ -4,6 +4,12 @@
             $("#UserLogo").trigger('click');
         })
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 </head>
 <ul class="secondaryMenu">
     <li>
@@ -15,7 +21,7 @@
         <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
     </li>
     <li><a href="Home/Index#/HospitalAdmin_UserList/2">Clinical user</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/PatientList/3" data-menu="Home">All Patient</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
     <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
 </ul>
@@ -35,8 +41,7 @@
                             Search
                         </label>
                         <div class="modernSearch">
-                            <input type="text" ng-model="Patientsearchquery" ng-change="PatientFilterChange();"
-                                   placeholder="" />
+                            <input type="text" ng-model="Patientsearchquery" ng-change="PatientSearch();" placeholder="" />
                             <i class="fa fa-search"></i>
                         </div>
                     </div>
@@ -85,7 +90,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Nationality</label>
-                    <select class="form-control" ng-model="filter_NationalityId" id="Select17" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
                                 value="{{sel.Id}}">
@@ -93,7 +98,7 @@
                         </option>
                     </select>
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>Home Phone Number</label>
                     <input type="text" class="form-control" id="Text13" ng-model="filter_HomePhoneNo" maxlength="50"
                            ng-maxlength="50" placeholder="">
@@ -118,16 +123,27 @@
                             {{sel.BloodGroup_Name}}
                         </option>
                     </select>
+                </div>-->
+                <div class="inputGroups">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" ng-model="Filter_FirstName" maxlength="50"
+                           ng-maxlength="100">
                 </div>
             </div>
             <div class="col-sm-4">
+                <div class="inputGroups">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" ng-model="Filter_LastName" maxlength="50"
+                           ng-maxlength="100">
+                </div>
                 <div class="inputGroups">
                     <label>Insurance ID</label>
                     <td width="20%">
                         <input type="text" class="form-control" ng-model="filter_InsuranceId" maxlength="50"
                                ng-maxlength="100">
+                        </td>
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>Ethnic Group</label>
                     <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
                         <option value="0">Select</option>
@@ -136,13 +152,13 @@
                             {{sel.Name}}
                         </option>
                     </select>
-                </div>
+                </div>-->
                 <div class="inputGroups">
                     Email
                     <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
                            ng-maxlength="100" />
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>State</label>
                     <select class="form-control" data-style="form-control" id="stateselectpicker"
                             data-live-search="true" data-selectpicker data-collection-name="StateNameList"
@@ -158,10 +174,10 @@
                     <select ng-model="filter_GroupId" multiple="multiple"
                             ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
                             style="width: 230px;"></select>
-                </div>
+                </div>-->
             </div>
             <div class="col-sm-4">
-                <div class="inputGroups">
+                <!--div class="inputGroups">
                     <label>Gender</label>
                     <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
                         <option value="0">Select</option>
@@ -169,13 +185,13 @@
                             {{sel.Gender_Name}}
                         </option>
                     </select>
-                </div>
+                </div>-->
                 <div class="inputGroups">
                     <label>Mobile No.</label>
                     <input type="text" class="form-control" id="Text11" ng-model="filter_MOBILE_NO"
                            ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
                 </div>
-                <div class="inputGroups">
+                <!--<div class="inputGroups">
                     <label>Marital Status</label>
                     <select class="form-control" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
                         <option value="0">Select</option>
@@ -195,9 +211,14 @@
                             {{sel.LocationName}}
                         </option>
                     </select>
+                </div>-->
+                <div class="inputGroups">
+                    <label>MRN</label>
+                    <input type="text" class="form-control" ng-model="Filter_MRN" maxlength="50"
+                           ng-maxlength="100">
                 </div>
                 <div class="inputGroups">
-                    <a href="javascript:" ng-click="Patient_List(3)" class="theme-btn-1 btn-autosize mt-20 mr-10">Search</a>
+                    <a href="javascript:" ng-click="PatientAdvanceSearch()" class="theme-btn-1 btn-autosize mt-20 mr-10">Search</a>
                     <a href="javascript:" ng-click="ResetPatientFilter()" class="theme-btn-2 btn-autosize mt-20">Reset</a>
                 </div>
             </div>
@@ -207,8 +228,9 @@
 <div class="tableFixedLayout">
     <table st-table="Patientemptydata" style="width: 100%" st-safe-src="PatientListFilter" class="table themeTable">
         <thead>
-            <tr >
+            <tr>
                 <th st-ratio="5" st-sort="Id">#</th>
+                <th st-ratio="5" st-sort="RowID">RowID</th>
                 <th st-ratio="5">
                     <input type="checkbox" ng-model="SelectedAllPatient" ng-click="checkAll()" />
                 </th>
@@ -217,8 +239,8 @@
                 <th st-ratio="10" st-sort="MOBILE_NO">Mobile No.</th>
                 <th st-ratio="15" st-sort="EMAILID">Email</th>
                 <!--<th st-ratio="7" st-sort="">Status</th>-->
-                <th st-ratio="14" st-sort="GroupName">Group</th>
-                <th st-ratio="13" st-sort="LoginTime">Last Login</th>
+                <th st-ratio="8" st-sort="GroupName">Group</th>
+                <th st-ratio="14" st-sort="LoginTime">Last Login</th>
                 <th st-ratio="8">Action</th>
             </tr>
         </thead>
@@ -230,6 +252,7 @@
             </tr>
             <tr ng-repeat="row in Patientemptydata">
                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                <td class="textalign">{{row.Id}}</td>
                 <td style="text-align: center">
                     <input type="checkbox" ng-model="row.SelectedPatient" />
                 </td>
@@ -326,7 +349,7 @@
                         style="color: #8B0000;">
                     &times;
                 </button>
-                <h1 class="page-title">Create Group</h1>
+                <h4 class="modal-title">Create Group</h4>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -12,19 +12,25 @@
     <style>
         .toggle {
             border-radius: 20px;
-        }
+        } 
             .toggle.ios .toggle-handle {
                 border-radius: 20px;
-            }
+            } 
         .linkhead {
             margin-left: -16px;
         }
     </style>
-    
+
     <script>
         $(function () {
             $('#toggle-one').bootstrapToggle();
         })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
     </script>
 </head>
 <ul class="secondaryMenu">
@@ -38,7 +44,7 @@
     </li>
     <li><a href="Home/Index#/HospitalAdmin_UserList/2">Clinical user</a></li>
     <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/PatientApproval">Patient Approval</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/PatientApproval" data-menu="Home">Patient Approval</a></li>
     <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
 </ul>
 <div class="container">
@@ -79,7 +85,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <a href="javascript:" class="theme-btn-1 btn-autosize pull-right ml-10 mt-15" ng-click="ApprovePatient()" title="Click to Approve the Patient">Approve</a>
+                                    <button type="button" class="theme-btn-1 btn-autosize pull-right ml-10 mt-15" id="btnsave" ng-disabled="false" ng-click="ApprovePatient()" title="Click to Approve the Patient">Approve</button>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +103,7 @@
                             </div>
                             <div class="inputGroups">
                                 <label>Nationality</label>
-                                <select class="form-control" ng-model="filter_NationalityId" id="Select17"
+                                <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17"
                                         ng-required="true">
                                     <option value="0">Select</option>
                                     <option ng-repeat="sel in NationalityList"
@@ -123,7 +129,7 @@
 
                             <div class="inputGroups">
                                 <label>Blood Group</label>
-                                <select class="form-control" ng-model="filter_BloodGroupId" id="Select19"
+                                <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-model="filter_BloodGroupId" id="Select19"
                                         ng-required="true">
                                     <option value="0">Select</option>
                                     <option ng-repeat="sel in BloodGroupList" ng-selected="filter_BloodGroupId==sel.Id"
@@ -141,7 +147,7 @@
                             </div>
                             <div class="inputGroups">
                                 <label>Ethnic Group</label>
-                                <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20"
+                                <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList" ng-model="filter_EthinicGroupId" id="Select20"
                                         ng-required="true">
                                     <option value="0">Select</option>
                                     <option ng-repeat="sel in EthnicGroupList"
@@ -175,7 +181,7 @@
                         <div class="col-sm-4">
                             <div class="inputGroups">
                                 <label>Gender</label>
-                               <select class="form-control" ng-model="Filter_GenderId" id="Select16"
+                               <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="Filter_GenderId" id="Select16"
                                             ng-required="true">
                                         <option value="0">Select</option>
                                         <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id"
@@ -191,7 +197,7 @@
                             </div>
                             <div class="inputGroups">
                                 <label>Marital Status</label>
-                               <select class="form-control" ng-model="filter_MaritalStatus" id="Select18"
+                               <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-model="filter_MaritalStatus" id="Select18"
                                             ng-required="true">
                                         <option value="0">Select</option>
                                         <option ng-repeat="sel in MaritalStatusList"

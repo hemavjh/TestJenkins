@@ -5,9 +5,62 @@
         }
     </style>
     <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#Institution').addClass('activeButton');
+        });
         $('#btnLogo').click(function () {
             $("#InstitutionLogo").trigger('click');
-        })
+        });
+
+        $(document).ready(function () {
+            var image = $('#InstitutionLogo').val();
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                url: image,
+                viewport: {
+                    width: 300,
+                    height: 200,
+                    type: 'rectangle' //rectangle
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                },
+                points: {
+                    topLeftX: 0,
+                    topLeftY: 0,
+                    bottomRightX: 0,
+                    bottomRightY: 0
+                }
+            });
+
+            $('#InstitutionLogo').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function () {
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#insertimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function (event) {
+                $image_crop.croppie('result', {
+                    type: 'base64',
+                    format: 'jpeg',
+                    //type: 'canvas',
+                    size: 'viewport'
+                    //size: {width: 150, height: 200}
+                }).then(function (response) {
+                    $('#item-img-output').attr('src', response);
+                    $('#insertimageModal').modal('hide');
+                });
+            });
+
+        });
     </script>
 
     <!--<style>
@@ -71,7 +124,8 @@
     <thead>
         <tr>
             <th st-ratio="5" st-sort="Id">#</th>
-            <th st-ratio="30" st-sort="Institution_Name">Institution Name</th>
+            <th st-ratio="5" st-sort="RowID">RowID</th>
+            <th st-ratio="25" st-sort="Institution_Name">Institution Name</th>
             <th st-ratio="10" st-sort="INSTITUTION_SHORTNAME">Short Name</th>
             <th st-ratio="15" st-sort="CountryName">Country</th>
             <th st-ratio="15" st-sort="StateName">State</th>
@@ -86,7 +140,8 @@
             </td>
         </tr>
         <tr ng-repeat="row in emptydata | filter : query">
-            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: center">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td style="text-align: center">{{row.Id}}</td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.Institution_Name}}</div>
             </td>
@@ -212,7 +267,31 @@
                                                        accept="image/x-png,image/gif,image/jpeg"
                                                        ng-click="PhotoUplaodSelected()" />
 
-                                                <img class="responsiveProfileImage" src="{{uploadme}}"
+                                                <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
+                                                    <div class="modal-dialog" role="document" style="min-width: 700px">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Crop Image</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 text-center">
+                                                                        <div id="image_demo"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary crop_image">Crop and Save</button>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}"
                                                      ng-show="(uploadme != null)" style="max-width: 120px;" />
                                                 <img class="responsiveProfileImage" src="../../Images/noImage.jpg"
                                                      ng-show="(uploadme == null)" style="max-width: 120px;" />
@@ -356,15 +435,15 @@
                                                         </td>
                                                     </tr>
                                                     <!--<tr ng-show="Id != 0">
-                                                        <td>
-                                                            <label>Default Data</label>
-                                                        </td>
-                                                        <td>
-                                                            <button ng-click="InsertDefaultData();">
-                                                                Insert
-                                                            </button>
-                                                        </td>
-                                                    </tr>-->
+                                                <td>
+                                                    <label>Default Data</label>
+                                                </td>
+                                                <td>
+                                                    <button ng-click="InsertDefaultData();">
+                                                        Insert
+                                                    </button>
+                                                </td>
+                                            </tr>-->
                                                 </table>
                                             </td>
                                         </tr>
@@ -373,9 +452,13 @@
                             </form>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="theme-btn-1 mr-10" id="btnsave" title="Click to Save"
-                                    ng-click="Institution_AddEdit()">
+                            <button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
+                                    ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
                                 Save
+                            </button>
+                            <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
+                                    ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
+                                Save and Add Subscription
                             </button>
                             <button type="button" class="theme-btn-2" title="Click to Cancel"
                                     ng-click="CancelInstitutionpopup()">
@@ -507,17 +590,27 @@
                                             {{ViewCityName}}
                                         </td>
                                     </tr>
-                                    <!--<tr>
-                                        <td width="10%" valign="top" rowspan="4">
+                                    <tr>
+                                        <td>
                                             <label>
-                                                Logo Upload
-                                                <br />
+                                                RowId
                                             </label>
                                         </td>
-                                        <td style="width:180px;height:180px;" valign="top" rowspan="6">
-                                            <img src="{{uploadme}}" width="180" height="180" class="mtb-7 com_img" />
+                                        <td id="rowid">
+                                            {{DuplicatesId}}
                                         </td>
-                                    </tr>-->
+                                    </tr>
+                                    <!--<tr>
+        <td width="10%" valign="top" rowspan="4">
+            <label>
+                Logo Upload
+                <br />
+            </label>
+        </td>
+        <td style="width:180px;height:180px;" valign="top" rowspan="6">
+            <img src="{{uploadme}}" width="180" height="180" class="mtb-7 com_img" />
+        </td>
+    </tr>-->
                                 </table>
                             </form>
                         </div>

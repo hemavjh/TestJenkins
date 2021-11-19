@@ -1,4 +1,209 @@
-﻿<h1 class="page-title">Audit Report</h1>
+﻿<script>
+    $('#datetimepicker_mask').datetimepicker({
+        ownerDocument: document,
+        contentWindow: window,
+
+        value: '',
+        rtl: false,
+
+        format: 'Y/m/d H:i',
+        formatTime: 'H:i',
+        formatDate: 'Y/m/d',
+
+        startDate: false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
+        step: 60,
+        monthChangeSpinner: true,
+
+        closeOnDateSelect: false,
+        closeOnTimeSelect: true,
+        closeOnWithoutClick: true,
+        closeOnInputClick: true,
+        openOnFocus: true,
+
+        timepicker: true,
+        datepicker: true,
+        weeks: false,
+
+        defaultTime: false, // use formatTime format (ex. '10:00' for formatTime: 'H:i')
+        defaultDate: false, // use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
+
+        minDate: false,
+        maxDate: false,
+        minTime: false,
+        maxTime: false,
+        minDateTime: false,
+        maxDateTime: false,
+
+        allowTimes: [],
+        opened: false,
+        initTime: true,
+        inline: false,
+        theme: '',
+        touchMovedThreshold: 5,
+
+        onSelectDate: function () { },
+        onSelectTime: function () { },
+        onChangeMonth: function () { },
+        onGetWeekOfYear: function () { },
+        onChangeYear: function () { },
+        onChangeDateTime: function () { },
+        onShow: function () { },
+        onClose: function () { },
+        onGenerate: function () { },
+
+        withoutCopyright: true,
+        inverseButton: false,
+        hours12: false,
+        next: 'xdsoft_next',
+        prev: 'xdsoft_prev',
+        dayOfWeekStart: 0,
+        parentID: 'body',
+        timeHeightInTimePicker: 25,
+        //timepicker<a href = "https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a> bar: true,
+        todayButton: true,
+        prevButton: true,
+        nextButton: true,
+        defaultSelect: true,
+
+        scrollMonth: true,
+        scrollTime: true,
+        scrollInput: true,
+
+        lazyInit: false,
+        mask: false,
+        validateOnBlur: true,
+        allowBlank: true,
+        yearStart: 1950,
+        yearEnd: 2050,
+        monthStart: 0,
+        monthEnd: 11,
+        style: '',
+        id: '',
+        fixed: false,
+        roundTime: 'round', // ceil, floor
+        className: '',
+        weekends: [],
+        highlightedDates: [],
+        highlightedPeriods: [],
+        allowDates: [],
+        allowDateRe: null,
+        disabledDates: [],
+        disabledWeekDays: [],
+        yearOffset: 0,
+        beforeShowDay: null,
+
+        enterLikeTab: true,
+        showApplyButton: false
+    });
+
+    $('#datetimepicker').datetimepicker({
+        ownerDocument: document,
+        contentWindow: window,
+
+        value: '',
+        rtl: false,
+
+        format: 'Y/m/d H:i',
+        formatTime: 'H:i',
+        formatDate: 'Y/m/d',
+
+        startDate: false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
+        step: 60,
+        monthChangeSpinner: true,
+
+        closeOnDateSelect: false,
+        closeOnTimeSelect: true,
+        closeOnWithoutClick: true,
+        closeOnInputClick: true,
+        openOnFocus: true,
+
+        timepicker: true,
+        datepicker: true,
+        weeks: false,
+
+        defaultTime: false, // use formatTime format (ex. '10:00' for formatTime: 'H:i')
+        defaultDate: false, // use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
+
+        minDate: false,
+        maxDate: false,
+        minTime: false,
+        maxTime: false,
+        minDateTime: false,
+        maxDateTime: false,
+
+        allowTimes: [],
+        opened: false,
+        initTime: true,
+        inline: false,
+        theme: '',
+        touchMovedThreshold: 5,
+
+        onSelectDate: function () { },
+        onSelectTime: function () { },
+        onChangeMonth: function () { },
+        onGetWeekOfYear: function () { },
+        onChangeYear: function () { },
+        onChangeDateTime: function () { },
+        onShow: function () { },
+        onClose: function () { },
+        onGenerate: function () { },
+
+        withoutCopyright: true,
+        inverseButton: false,
+        hours12: false,
+        next: 'xdsoft_next',
+        prev: 'xdsoft_prev',
+        dayOfWeekStart: 0,
+        parentID: 'body',
+        timeHeightInTimePicker: 25,
+        //timepicker<a href = "https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a> bar: true,
+        todayButton: true,
+        prevButton: true,
+        nextButton: true,
+        defaultSelect: true,
+
+        scrollMonth: true,
+        scrollTime: true,
+        scrollInput: true,
+
+        lazyInit: false,
+        mask: false,
+        validateOnBlur: true,
+        allowBlank: true,
+        yearStart: 1950,
+        yearEnd: 2050,
+        monthStart: 0,
+        monthEnd: 11,
+        style: '',
+        id: '',
+        fixed: false,
+        roundTime: 'round', // ceil, floor
+        className: '',
+        weekends: [],
+        highlightedDates: [],
+        highlightedPeriods: [],
+        allowDates: [],
+        allowDateRe: null,
+        disabledDates: [],
+        disabledWeekDays: [],
+        yearOffset: 0,
+        beforeShowDay: null,
+
+        enterLikeTab: true,
+        showApplyButton: false
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#Report').addClass('activeButton');
+        document.getElementById("datetimepicker_mask").style.display = "block"; 
+        document.getElementById("datetimepicker").style.display = "block";
+    });
+</script>
+<h1 class="page-title">Audit Report</h1>
 
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -7,15 +212,13 @@
 </div>
 <div class="panel panel-default" id="AMid">
     <div class="panel-body">
-
-
         <div class="row">
             <div class="col-sm-4">
                 <div class="inputGroups">
                     <label>User Type<font class='mandatory-field'>*</font></label>
                     <select class="form-control" data-style="form-control" id="stateselectpicker"
-                        data-live-search="true" data-selectpicker data-collection-name="Usertype_listdata"
-                        ng-model="UserTypeId" ng-change="UserTypeBaseduserName()">
+                            data-live-search="true" data-selectpicker data-collection-name="Usertype_listdata"
+                            ng-model="UserTypeId" ng-change="UserTypeBaseduserName()">
                         <option ng-repeat="sel in Usertype_listdata" ng-required="true" value="{{sel.Id}}">
                             {{sel.TypeName}}
                         </option>
@@ -26,8 +229,8 @@
                 <div class="inputGroups">
                     <label>User Name<font class='mandatory-field'>*</font></label>
                     <select class="form-control" data-style="form-control" id="Select1" data-live-search="true"
-                        data-selectpicker data-collection-name="UserName_listdata" ng-model="UserNameId"
-                        style="width: 150px;">
+                            data-selectpicker data-collection-name="UserName_listdata" ng-model="UserNameId"
+                            style="width: 150px;">
                         <option ng-repeat="sel in UserName_listdata" ng-required="true" value="{{sel.Id}}">
                             {{sel.FullName}}
                         </option>
@@ -38,16 +241,16 @@
                 <div class="inputGroups">
                     <label>Table Short Name<font class='mandatory-field'>*</font></label>
                     <select ng-model="ShortNameId" multiple="multiple"
-                        ng-options="item1.ShortNameId as item1.ShortName for item1 in TableShortName_listdata"
-                        multiselect-dropdown style="width: 150px;"></select>
+                            ng-options="item1.ShortNameId as item1.ShortName for item1 in TableShortName_listdata"
+                            multiselect-dropdown style="width: 150px;"></select>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="inputGroups">
                     <label>Period From<font class='mandatory-field'>*</font></label>
                     <div id="Div13">
-                        <input type="text" datepicker class="form-control date" ng-model="Period_From">
-
+                        <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_From">-->
+                        <input type="text" ej-datetimepicker  ng-init="Period_From=''" ng-model="Period_From" class="form-control date" id="datetimepicker" ng-required="true"><br><br>
                     </div>
                 </div>
             </div>
@@ -55,17 +258,42 @@
                 <div class="inputGroups">
                     <label>Period To<font class='mandatory-field'>*</font></label>
                     <div id="PeriodTo">
-                        <input type="text" class="form-control date" ng-model="Period_To">
-                        <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-th"></i>
-                        </span>
+                        <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_To">-->
+                        <input type="text" ej-datetimepicker  ng-init="Period_To=''" ng-model="Period_To" class="form-control date" id="datetimepicker_mask" ng-required="true"><br><br>
+                        <!--<span class="input-group-addon">
+                    <i class="glyphicon glyphicon-th"></i>
+                </span>-->
                     </div>
                 </div>
             </div>
+
+            <!--<div class="col-sm-4">
+        <div class="inputGroups">
+            <label>Period From Time<font class='mandatory-field'>*</font></label>
+            <div class="input-group bootstrap-timepicker timepicker">
+                <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodFromTime"
+                       ng-init="PeriodFromTime=''">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+            </div>
+        </div>
+    </div>-->
+            <!--<div class="col-sm-4">
+        <div class="inputGroups">
+            <label>Period To Time<font class='mandatory-field'>*</font></label>
+            <div class="input-group bootstrap-timepicker timepicker">
+                <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodToTime"
+                       ng-init="PeriodToTime=''">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+            </div>
+        </div>
+    </div>-->
+
             <div class="col-sm-4">
                 <div class="inputGroups">
                     <button type="button" class="theme-btn-1 mt-15" ng-click="PatientReportDetailslist()"
-                        title="Click to Search">Go</button>
+                            title="Click to Search">
+                        Go
+                    </button>
                 </div>
             </div>
         </div>
@@ -81,18 +309,18 @@
                     <label>Search</label>
                     <div class="modernSearch">
                         <input type="text" ng-model="searchreportquery" ng-change="filterReportList()" placeholder=""
-                            style="width: 200px" />
+                               style="width: 200px" />
                         <i class="fa fa-search"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  
+
 
 </div>
 <table st-table="ReportDetailsemptydata" style="width: 100%" st-safe-src="PatientDetailsFilteredDataList"
-    class="table themeTable">
+       class="table themeTable">
     <thead>
         <tr>
             <th st-ratio="4" st-sort="Id">#</th>
@@ -141,12 +369,27 @@
 
         </tr>
     </tbody>
-    <tfoot ng-show="ReportDetails_ListOrder.length >page_size">
+    <tfoot ng-show="TotalPageAuditReport >1">
         <tr>
             <td colspan="9" class="text-center">
-                <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                    st-template="Masters/Views/pagination.custom.html">
-                </div>
+                <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                       st-template="Masters/Views/pagination.custom.html">
+                </div>-->
+                <ul class="pagination" style="margin-left:110px;">
+                    <li>
+                        <a ng-click="setPage(1)">First</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page - 1)">&lt;</a>
+                    </li>
+                    <li>
+                        <a><input style="width: 130px" class="text-center" type="number" min="1" max="{{TotalPageAuditReport}}" step="1" ng-model="inputPage" ng-value="current_page" ng-change="setPage(0);"> of {{TotalPageAuditReport}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="setPage(current_page+ 1)">&gt;</a>
+                    </li>
+                    <li><a ng-click="setPage(TotalPageAuditReport)">Last</a></li>
+                </ul>
             </td>
         </tr>
     </tfoot>
@@ -155,12 +398,14 @@
 
 
 <script>
-    $('.date').bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$('.date').bootstrapDP({
+    //    //format: "dd-M-yyyy",
+    //    //forceParse: false,
+    //    //autoclose: true,
+    //    //todayHighlight: true,
+    //    //toggleActive: true,
+    //    //todayBtn: true
+    //});
+    $('#timepicker1').timepicker();
+    $('#timepicker2').timepicker();
 </script>

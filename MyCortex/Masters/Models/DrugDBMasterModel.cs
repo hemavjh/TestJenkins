@@ -11,6 +11,7 @@ namespace MyCortex.Masters.Models
     public class DrugDBMasterModel
     {
         public string TotalRecord { get; set; }
+        public int RowNumber { get; set; }
         public long Id { get; set; }
         public string Generic_name { get; set; }
         public long Strength_ID { get; set; }
@@ -48,5 +49,25 @@ namespace MyCortex.Masters.Models
         public string Status { get; set; }
         public string Message { get; set; }
         public IList<DrugDBMasterModel> DrugDBMaster { get; set; }
+        public DrugDBDataPagination _metadata { get; set; }
+    }
+
+    public class DrugDBDataPagination
+    {
+        public long page { get; set; }
+        public long per_page { get; set; }
+        public long page_count { get; set; }
+        public long total_count { get; set; }
+        public DrugDBDataLinks Links { get; set; }
+
+    }
+
+    public class DrugDBDataLinks
+    {
+        public string self { get; set; }
+        public string first { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
+        public string last { get; set; }
     }
 }

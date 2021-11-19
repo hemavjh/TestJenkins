@@ -65,6 +65,28 @@ namespace MyCortex.Login.Controller
             return isExpired;
         }
 
+        /// <summary>
+        /// Product details
+        /// </summary>
+        /// <returns>Product details</returns>
+        [HttpGet]
+        public IList<EmployeeLoginModel> GetProduct_Details()
+        {
+            IList<EmployeeLoginModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetProduct_Details();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// check login user authentication, stores Login History
@@ -75,24 +97,27 @@ namespace MyCortex.Login.Controller
         [HttpPost]
         public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
-            
-             
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
                 UserModel ModelData = new UserModel();
                 LoginModel model = new LoginModel();
-                if (!ModelState.IsValid)
+                //IList<TabDevicesModel> tabDevices;
+                //IList<TabUserModel> tabUsers;
+                if (loginObj.LoginType == 1)
                 {
-                    model.Status = "False";
-                    model.Message = "Invalid data";
-                    model.Error_Code = "";
-                    model.UserDetails = ModelData;
-                    model.ReturnFlag = 0;
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                    if (!ModelState.IsValid)
+                    {
+                        model.Status = "False";
+                        model.Message = "Invalid data";
+                        model.Error_Code = "";
+                        model.UserDetails = ModelData;
+                        model.ReturnFlag = 0;
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                    }
                 }
-                _logger.Info("username:" + loginObj.Username + " " + loginObj.Password);
+                
                 if (repository.CheckExpiryDate())
                 {
                     model.Status = "False";
@@ -104,15 +129,16 @@ namespace MyCortex.Login.Controller
                 }
 
                 string messagestr = "";
+                string languagekey = "";
                 // string VisitorsIPAddr ='';
                 try
                 {
                     // encrypt the password
+                    var username = loginObj.Username.ToLower();
                     DataEncryption EncryptPassword = new DataEncryption();
                     loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
-                    loginObj.Username = EncryptPassword.Encrypt(loginObj.Username.ToLower());
+                    loginObj.Username = EncryptPassword.Encrypt(username);
                     model = repository.Userlogin_AddEdit(loginObj);
-                    _logger.Info("Model:" + model.data + " " + model.UserId);
 
                     HttpContext.Current.Session["UserId"] = model.UserId.ToString();
                     HttpContext.Current.Session["UserTypeId"] = model.UserTypeId.ToString();
@@ -136,6 +162,11 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         messagestr = "Login  Successfully";
                         model.Status = "True";
+                        //if (loginObj.isTab && !String.IsNullOrEmpty(loginObj.Tab_Ref_ID))
+                        //{
+                        //    model.TabDevices = repository.Get_TabDevices(model.InstitutionId, loginObj.Tab_Ref_ID);
+                        //    model.TabUsers = repository.Get_TabUsers(model.InstitutionId, loginObj.Tab_Ref_ID);
+                        //}
                     }
                     else if ((model.data == 1) == true)
                     {
@@ -155,9 +186,22 @@ namespace MyCortex.Login.Controller
                         messagestr = "Inactive User Cannot Login";
                         model.Status = "False";
                     }
+                    else if ((model.data == 11) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "Given Reference Id is not Available.";
+                        model.Status = "False";
+                    }
+                    else if ((model.data == 12) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "Selected Language not in your subscription.";
+                        languagekey = "selectedlanguagenotinyoursubscription";
+                        model.Status = "False";
+                    }
                     //model.UserDetails = ModelData;
                     model.Message = messagestr;// "User created successfully";
-
+                    model.LanguageKey = languagekey;
                     model.Error_Code = "";
                     HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
                     return response;
@@ -457,6 +501,18 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         model.Message = "Password Changed successfully";
                     }
+                    else if (flag == -1)
+                    {
+                        model.Status = "false";
+                        model.ReturnFlag = 0;
+                        model.Message = "The Old Password Not Matching With The Existing Password. Please Check!";
+                    }
+                    else if (flag == -11)
+                    {
+                        model.Status = "false";
+                        model.ReturnFlag = 0;
+                        model.Message = "The New Password Same Existing Password. Please Check!";
+                    }
                     else
                     {
                         model.Status = "False";
@@ -542,16 +598,19 @@ namespace MyCortex.Login.Controller
                     // UserModel Ins_model = new UserModel();
                     // Ins_model = userrepo.GetInstitutionForWebURL(request);
                     //long InstitutionId = Ins_model;
-                    long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
+                    DataEncryption EncryptPassword = new DataEncryption();
+                    long InstitutionId = repository.Get_UserInstitution(EncryptPassword.Encrypt(EmailId));
+                    long UserTypeId = repository.Get_UserType(EncryptPassword.Encrypt(EmailId));
+                    // long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
 
                     EmailGeneration egmodel = new EmailGeneration();
                     generatedpwd = egmodel.GeneratePassword_ByPasswordPolicy(InstitutionId);
-                    if (generatedpwd == "")
+                    if (generatedpwd == "" || generatedpwd == null)
                         generatedpwd = ConfigurationManager.AppSettings["User.defaultPassword"];
 
                     //NewPassword = Encrypt(NewPassword);
                     //ReenterPassword = Encrypt(ReenterPassword);
-                    DataEncryption EncryptPassword = new DataEncryption();
+                    
                     string NewPassword = EncryptPassword.Encrypt(generatedpwd);
                     long UserId = 0;
                     model = repository.ResetPassword(UserId, NewPassword, NewPassword, InstitutionId, UserId, EncryptPassword.Encrypt(EmailId));
@@ -573,19 +632,40 @@ namespace MyCortex.Login.Controller
                         model.ReturnFlag = 1;
                         model.Status = "True";
 
-                        EmailConfigurationModel emailModel = new EmailConfigurationModel();
-                        emailModel = emailrepository.EmailConfiguration_View(InstitutionId);
-                         if (emailModel != null)
-                         {
-                             SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id,
-                                 productname,
-                                 "New Password is : " + generatedpwd,
-                                 model.ResetPassword.Username, EncryptPassword.Decrypt(model.ResetPassword.Email));
+                        if (UserTypeId != 3)
+                        {
+                            string Event_Code = "";
+                            Event_Code = "RESET_PWD";
+                            AlertEvents AlertEventReturn = new AlertEvents();
+                            IList<EmailListModel> EmailList;
+                            EmailList = AlertEventReturn.UserCreateEvent((long)model.ResetPassword.UserId, InstitutionId);
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, (long)model.ResetPassword.UserId, InstitutionId, EmailList);
+                        }
+                        //EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                        //emailModel = emailrepository.EmailConfiguration_View(InstitutionId);
+                        // if (emailModel != null)
+                        // {
+                        //     SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id,
+                        //         productname,
+                        //         "New Password is : " + generatedpwd,
+                        //         model.ResetPassword.Username, EncryptPassword.Decrypt(model.ResetPassword.Email));
 
-                             SendGridApiManager mail = new SendGridApiManager();
-                             var res = mail.SendEmailAsync(msg, 0);
-                         }
-                         
+                        //     SendGridApiManager mail = new SendGridApiManager();
+                        //     var res = mail.SendEmailAsync(msg, 0);
+                        // }
+                        if (UserTypeId == 3)
+                        {
+                            EmailGeneration Generator = new EmailGeneration();
+                            EmailGenerateModel MailMessage = new EmailGenerateModel();
+                            MailMessage.Institution_Id = InstitutionId;
+                            MailMessage.MessageToId = EmailId;
+                            MailMessage.MessageSubject = "MyCortex - ForgotPassword";
+                            MailMessage.MessageBody = "Your Forgot Password Is : " + generatedpwd + "";
+                            MailMessage.Created_By = 0;
+                            MailMessage.UserId = 0;
+                            var insData = Generator.SendEmail(MailMessage);
+                        }
+
                     }
                     model.Error_Code = "";
                     model.Message = messagestr;
@@ -781,6 +861,93 @@ namespace MyCortex.Login.Controller
             {
                 _logger.Error(ex.Message, ex);
                 return null;
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ChangePassword_For_User(LoginModel loginMod)
+        {
+            ResetPasswordReturnModel model = new ResetPasswordReturnModel();
+            int flag = 0;
+            if (loginMod.NewPassword == loginMod.ReenterPassword)
+            {
+                try
+                {
+                    if (_logger.IsInfoEnabled)
+                        _logger.Info("Controller");
+                    DataEncryption EncryptPassword = new DataEncryption();
+                    Int64 userid = Convert.ToInt64(EncryptPassword.Decrypt(loginMod.Status));
+                    if (userid > 0)
+                    {
+                        loginMod.UserId = userid;
+                        loginMod.NewPassword = EncryptPassword.Encrypt(loginMod.NewPassword);
+                        //loginMod.Password = EncryptPassword.Encrypt(loginMod.Password);
+                        flag = repository.ChangePassword(loginMod.UserId, loginMod.NewPassword, loginMod.Password, loginMod.NewPassword, loginMod.UserId, loginMod.InstitutionId, loginMod.LoginType);
+                        if (flag > 0)
+                        {
+                            model.Status = "True";
+                            model.ReturnFlag = 1;
+                            model.Message = "Password Changed successfully";
+                        }
+                        else if (flag == -1)
+                        {
+                            model.Status = "false";
+                            model.ReturnFlag = 0;
+                            model.Message = "The Old Password Not Matching With The Existing Password. Please Check!";
+                        }
+                        else if (flag == -11)
+                        {
+                            model.Status = "false";
+                            model.ReturnFlag = 0;
+                            model.Message = "The New Password Same Existing Password. Please Check!";
+                        }
+                        else
+                        {
+                            model.Status = "False";
+                            model.ReturnFlag = 0;
+                            model.Message = "Invalid password";
+                        }
+
+                        if (flag > 0)
+                        {
+                            string Event_Code = "CHANGE_PWD";
+                            AlertEvents AlertEventReturn = new AlertEvents();
+                            IList<EmailListModel> EmailList;
+
+                            EmailList = alertrepository.UserSpecificEmailList((long)loginMod.InstitutionId, loginMod.UserId);
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, loginMod.UserId, (long)loginMod.InstitutionId, EmailList);
+                        }
+
+                        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                        return response;
+                    }
+                    else
+                    {
+                        model.Status = "False";
+                        model.ReturnFlag = 0;
+                        model.Message = "Invalid password";
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.Message, ex);
+                    model.Status = "False";
+                    model.ReturnFlag = 0;
+                    model.Message = ex.Message;
+
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+                }
+
+            }
+
+            else
+            {
+                model.Status = "False";
+                model.ReturnFlag = 0;
+                model.Message = "Invalid password";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
     }

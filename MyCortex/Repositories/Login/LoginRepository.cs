@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Utilities;
 using MyCortex.Notification.Model;
+using MyCortex.Masters.Models;
 
 namespace MyCortex.Repositories.Login
 {
@@ -46,6 +47,9 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@Login_Country", obj.Login_Country));
             param.Add(new DataParameter("@Login_City", obj.Login_City));
             param.Add(new DataParameter("@Login_IpAddress", obj.Login_IpAddress));
+            param.Add(new DataParameter("@Is_Tab", obj.isTab));
+            param.Add(new DataParameter("@Ref_Id", obj.Tab_Ref_ID));
+            param.Add(new DataParameter("@Language_Id", obj.LanguageId));
             //   param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
 
 
@@ -59,6 +63,7 @@ namespace MyCortex.Repositories.Login
                                   UserTypeId = p.Field<long>("UserTypeId"),
                                   InstitutionId = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
                                   Messagetype = p.Field<string>("Messagetype"),
+                                  TabID = p.Field<long>("TABID"),
                                   Login_Session_Id = p.Field<Guid?>("Session_Id"),
 
                                   UserDetails = new UserModel()
@@ -73,7 +78,7 @@ namespace MyCortex.Repositories.Login
                                       // EMAILID = p.Field<string>("EMAILID") ?? "",
                                       DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                       MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
-                                      DOB = p.Field<DateTime?>("DOB"),
+                                      //DOB = p.Field<DateTime?>("DOB"),
                                       DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                       Department_Name = p.Field<string>("Department_Name") ?? "",
                                       InstitutionName = p.Field<string>("InstitutionName") ?? "",
@@ -137,12 +142,59 @@ namespace MyCortex.Repositories.Login
                                       Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
                                       EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
                                       Patient_Type = p.IsNull("PATIENT_TYPE") ? 0 : p.Field<int>("PATIENT_TYPE"),
+                                      Unitgroup_preference = p.Field<int?>("UNITGROUP_PREFERENCE") ?? 0,
+                                      Language_preference = p.Field<int?>("LANGUAGE_PREFERENCE") ?? 0,
+                                      Payment_preference = p.Field<long?>("PAYMENT_PREFERENCE") ?? 0,
+                                      Insurance_Preference = p.Field<long?>("INSURANCE_PREFERENCE") ?? 0,
 
                                   },
                               }).FirstOrDefault();
             if (lst.UserDetails.DOB_Encrypt != "")
             {
-                lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
+                var time = lst.UserDetails.DOB_Encrypt.Split(' ');
+
+                var time4 = time[0].Split('/');
+                try
+                {
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    lst.UserDetails.DOB = dt1;
+                }
+                catch (Exception ex1)
+                {
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    lst.UserDetails.DOB = dt1;
+                }
+                //lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
                 /*_logger.Info(lst.UserDetails.DOB_Encrypt);
                 string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
                 
@@ -187,7 +239,7 @@ namespace MyCortex.Repositories.Login
                                           // EMAILID = p.Field<string>("EMAILID") ?? "",
                                           DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                           MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
-                                          DOB = p.Field<DateTime?>("DOB"),
+                                          //DOB = p.Field<DateTime?>("DOB"),
                                           DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                           Department_Name = p.Field<string>("Department_Name") ?? "",
                                           InstitutionName = p.Field<string>("InstitutionName") ?? "",
@@ -255,12 +307,49 @@ namespace MyCortex.Repositories.Login
                                   }).FirstOrDefault();
                 if (lst.UserDetails.DOB_Encrypt != "")
                 {
-                    lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                    /*
-                    _logger.Info(lst.UserDetails.DOB_Encrypt);
-                    //lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                    string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
-                    lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+                    var time = lst.UserDetails.DOB_Encrypt.Split(' ');
+
+                    var time4 = time[0].Split('/');
+                    try
+                    {
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '/' + time1 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex)
+                        {
+                            var dateime = time1 + '/' + time2 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
+                    catch (Exception ex1)
+                    {
+                        time4 = time[0].Split('-');
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '-' + time1 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex2)
+                        {
+                            var dateime = time1 + '-' + time2 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
                 }
                 return lst;
             }
@@ -307,7 +396,7 @@ namespace MyCortex.Repositories.Login
                                           // EMAILID = p.Field<string>("EMAILID") ?? "",
                                           DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                           MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
-                                          DOB = p.Field<DateTime?>("DOB"),
+                                          //DOB = p.Field<DateTime?>("DOB"),
                                           DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                           Department_Name = p.Field<string>("Department_Name") ?? "",
                                           InstitutionName = p.Field<string>("InstitutionName") ?? "",
@@ -375,9 +464,49 @@ namespace MyCortex.Repositories.Login
                                   }).FirstOrDefault();
                 if (lst.UserDetails.DOB_Encrypt != "")
                 {
-                    lst.UserDetails.DOB = Convert.ToDateTime(lst.UserDetails.DOB_Encrypt);
-                    /*string[] tokens = lst.UserDetails.DOB_Encrypt.Split('/');
-                    lst.UserDetails.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+                    var time = lst.UserDetails.DOB_Encrypt.Split(' ');
+
+                    var time4 = time[0].Split('/');
+                    try
+                    {
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '/' + time1 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex)
+                        {
+                            var dateime = time1 + '/' + time2 + '/' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
+                    catch (Exception ex1)
+                    {
+                        time4 = time[0].Split('-');
+                        var time1 = time4[0];
+                        var time2 = time4[1];
+                        var time3 = time4[2];
+
+
+                        DateTime dt1 = new DateTime();
+                        try
+                        {
+                            var dateime = time2 + '-' + time1 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        catch (Exception ex2)
+                        {
+                            var dateime = time1 + '-' + time2 + '-' + time3;
+                            dt1 = Convert.ToDateTime(dateime);
+                        }
+                        lst.UserDetails.DOB = dt1;
+                    }
                 }
                 return lst;
             }
@@ -421,6 +550,69 @@ namespace MyCortex.Repositories.Login
             {
                 retid = ClsDataBase.Update("[MYCORTEX].USER_SP_LOGOUTALLDEVICE", param);
                 return retid;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
+        public long Get_UserInstitution(string EmailId)
+        {
+            long InstitutionId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@EMAILID", EmailId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_INSTITUTION_GET]", param);
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        return InstitutionId = Convert.ToInt64(dt.Rows[0][0]);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+        public long Get_UserType(string EmailId)
+        {
+            long InstitutionId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@EMAILID", EmailId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_TYPE_GET]", param);
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        return InstitutionId = Convert.ToInt64(dt.Rows[0][0]);
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
             }
             catch (Exception ex)
             {
@@ -491,7 +683,7 @@ namespace MyCortex.Repositories.Login
                 DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERLOGIN_SP_DETAILS]", param);
 
-                List<EmployeeLoginModel> LPH = (from p in dt.AsEnumerable()
+                IList<EmployeeLoginModel> LPH = (from p in dt.AsEnumerable()
                                                 select new EmployeeLoginModel()
                                                 {
                                                     LogInTime = p.Field<DateTime?>("LogInTime"),
@@ -506,7 +698,7 @@ namespace MyCortex.Repositories.Login
                                                     PhotoBlob = p.IsNull("BLOBDATA") ? null : decrypt.DecryptFile(p.Field<byte[]>("BLOBDATA")),
                                                     PatientType = p.Field<int>("PATIENT_TYPE"),
                                                     NATIONALITY_ID = p.Field<long>("NATIONALITY_ID"),
-                                                    DOB = p.Field<DateTime>("DOB"),
+                                                    //DOB = p.Field<DateTime>("DOB"), if need add sp dob_encrypt value
                                                     MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
                                                     USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
                                                     UserType = p.Field<string>("USERTYPE")
@@ -769,19 +961,46 @@ namespace MyCortex.Repositories.Login
             DataEncryption DecryptFields = new DataEncryption();
             try
             {
-                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_SP_EXPIRYDATE]").ToString();
+                String ExpiryDate = ClsDataBase.GetScalar("[MYCORTEX].[GET_EXPIRYDATE]").ToString();
 
                 if(!String.IsNullOrEmpty(ExpiryDate))
                     ExpiryDate = DecryptFields.Decrypt(ExpiryDate);
 
-                if (Convert.ToDateTime(ExpiryDate) > DateTime.UtcNow)
+                if (Convert.ToDateTime(ExpiryDate) >= DateTime.UtcNow.Date)
                     isExpired = false;
+
+                //if(Convert.ToDateTime(ExpiryDate) == DateTime.UtcNow.Date)
+                //    isExpired = false;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
             }
             return isExpired;
+        }
+        /// <summary>
+        /// Product details
+        /// </summary>
+        /// <returns>Product details</returns>
+        public IList<EmployeeLoginModel> GetProduct_Details()
+        {
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_SP_EXPIRYDATE");
+
+                IList<EmployeeLoginModel> lst = (from p in dt.AsEnumerable()
+                                                 select new EmployeeLoginModel()
+                                                 {
+                                                    ProductName = p.Field<string>("PRODUCTNAME"),
+                                                    ProductImg = p.Field<string>("PRODUCTIMAGE"),
+                                                    ProductCopyRight = p.Field<string>("COPYRIGHT"),
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

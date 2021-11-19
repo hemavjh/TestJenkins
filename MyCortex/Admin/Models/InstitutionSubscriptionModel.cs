@@ -31,6 +31,8 @@ namespace MyCortex.Admin.Models
         public int? IsActive { get; set; }
         public int? CreatedBy_Id { get; set; }
         public DateTime Created_Dt { get; set; }
+        public int TimeZone_ID { get; set; }
+        public int Appointment_Module_Id { get; set; }
         public int returnval { get; set; }
         public int flag { get; set; }
 
@@ -41,7 +43,15 @@ namespace MyCortex.Admin.Models
         public IList<InstitutionSubscriptionLanguageModels> Institution_Languages { get; set; }
         public IList<LanguageMasterModel> Language_List { get; set; }
         public IList<InstitutionSubscriptionLanguageModels> ChildLanguageList { get; set; }
+        public IList<GatewayMasterModel> Payment_Module_Id { get; set; }
+        public IList<GatewayMasterModel> ChildPaymentList { get; set; }
+        public IList<GatewayMasterModel> Payment_List { get; set; }
+        public IList<GatewayMasterModel> ChildInsuranceList { get; set; }
+        public bool ChronicCc { get; set; }
+        public bool ChronicCg { get; set; }
+        public bool ChronicCl { get; set; }
 
+        public bool ChronicSc { get; set; }
     }
 
   
@@ -71,6 +81,18 @@ namespace MyCortex.Admin.Models
         public string Message { get; set; }
         public IList<InstitutionSubscriptionModel> Institute { get; set; }
     }
-
-
+    public class GatewayMasterModel
+    {
+        public long Id { get; set; }
+        public string PaymentGatewayName { get; set; }
+        public int IsActive { get; set; }
+        public long DefaultPaymentGatewayId { get; set; }
+        public string PaymentName { get; internal set; }
+        public long GateWayType { get; set; }
+    }
+    public class GatewayMasterReturn
+    {
+        public long Id { get; set; }
+        public int GateWayType { get; set; }
+    }
 }

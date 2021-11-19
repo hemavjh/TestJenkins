@@ -7,7 +7,96 @@
     <script>
         $('#btnLogo').click(function () {
             $("#UserLogo").trigger('click');
-        })
+        });
+
+        $(document).ready(function () {
+            var image = $('#UserLogo').val();
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                url: image,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'rectangle' //rectangle
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                },
+                points: {
+                    topLeftX: 0,
+                    topLeftY: 0,
+                    bottomRightX: 0,
+                    bottomRightY: 0
+                }
+            });
+
+            $('#UserLogo').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function () {
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#insertimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function (event) {
+                $image_crop.croppie('result', {
+                    type: 'base64',
+                    format: 'jpeg',
+                    //type: 'canvas',
+                    size: 'viewport'
+                    //size: {width: 150, height: 200}
+                }).then(function (response) {
+                    $('#item-img-output').attr('src', response);
+                    $('#insertimageModal').modal('hide');
+                });
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                $('#Admin').addClass('activeButton');
+            }
+        });
+    </script>
+    <script>
+        var input = document.querySelector("#txtPhone");
+        var inputPhoneNo = window.intlTelInput(input, {
+            formatOnDisplay: true,
+            geoIpLookup: function (callback) {
+                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            preferredCountries: ["in"],
+            utilsScript: "scripts/utils.js",
+        });
+
+        function txtPhoneChange() {
+            //var phoneNo = document.getElementById("txtPhone");
+            const PhoneNumber = inputPhoneNo.getNumber();
+
+            if (PhoneNumber != "") {
+                var isValidNum = inputPhoneNo.isValidNumber();
+                //alert(isValidNum);
+                if (!isValidNum) {
+                    //toastr.error("Phone Number Invalid", "error");
+                    alert("Phone number invalid");
+                }
+            }
+
+            //inputPhoneNo.setCountry("us");
+        }
     </script>
 </head>
 <style>
@@ -23,7 +112,7 @@
     $(function () {
         $('#toggle-one').bootstrapToggle();
     })
-</script>-->
+</script>--> 
 <ul class="secondaryMenu" ng-show="LoginType == 3">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
     <li>
@@ -37,9 +126,10 @@
     </li>
     <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3"  data-menu="Home">Hospital Admin</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
+
 <h1 class="page-title">Admin</h1>
 <div ng-init="User_Admin_List(1);">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
@@ -83,16 +173,17 @@
        class="table themeTable">
     <thead>
         <tr style="text-align: center">
-            <th st-ratio="5">#</th>
-            <th st-ratio="15" st-sort="InstitutionName">Institution</th>
+            <th st-ratio="3">#</th>
+            <th st-ratio="3" st-sort="RowID">RowID</th>
+            <th st-ratio="14" st-sort="InstitutionName">Institution</th>
             <th st-ratio="15" st-sort="FullName">Admin Name</th>
             <th st-ratio="10" st-sort="Department_Name">Department</th>
             <th st-ratio="10" st-sort="EMPLOYEMENTNO">Employment No.</th>
             <th st-ratio="15" st-sort="EMAILID">Email</th>
             <!--<th st-ratio="10" st-sort="">Status</th>-->
-            <th st-ratio="20" st-sort="LoginTime">Last Login</th>
-            <th st-ratio="10" st-sort="Is_Master">Is Master</th>
-            <th st-ratio="10">Action</th>
+            <th st-ratio="15" st-sort="LoginTime">Last Login</th>
+            <th st-ratio="7" st-sort="Is_Master">Is Master</th>
+            <th st-ratio="8">Action</th>
         </tr>
     </thead>
     <tbody>
@@ -103,6 +194,7 @@
         </tr>
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{row.Id}}</td>
             <td style="text-align: left">
                 {{row.InstitutionName}}
             </td>
@@ -117,19 +209,19 @@
             <td style="text-align: left">
                 {{row.Department_Name}}
             </td>
-            <td style="text-align: left">
+            <td style="text-align: left;word-break: break-all;">
                 <div class="textwrap">{{row.EMPLOYEMENTNO}}</div>
             </td>
             <td style="text-align: left">
                 {{row.EMAILID}}
             </td>
             <!--<td ng-show="row.IsActive==1">
-                <span class="dotActive"></span>
-            </td>
-            <td ng-show="row.IsActive==0">
+        <span class="dotActive"></span>
+    </td>
+    <td ng-show="row.IsActive==0">
 
-                <span class="dotInActive"></span>
-            </td>-->
+        <span class="dotInActive"></span>
+    </td>-->
             <td style="text-align: left">
                 {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
             </td>
@@ -156,7 +248,7 @@
     </tbody>
     <tfoot ng-show="UserDetailsList.length >10">
         <tr>
-            <td colspan="8" class="text-center">
+            <td colspan="10" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                      st-template="Masters/Views/pagination.custom.html"></div>
             </td>
@@ -188,30 +280,69 @@
                                         <tr>
 
                                             <td style="width:10%" valign="top" rowspan="11">
+                                                <div class="inputGroups">
+                                                    <div class="imgAdd">
+                                                        <input type="file" id="UserLogo" fileread="uploadme"
+                                                               onchange="angular.element(this).scope().photoChange(this)"
+                                                               name="FileName" title="Click to Upload Image "
+                                                               style="height:0px !important"
+                                                               accept="image/x-png,image/gif,image/jpeg" ng-click="PhotoUplaodSelected()" />
 
-                                                <input type="file" id="UserLogo" fileread="uploadme"
-                                                       onchange="angular.element(this).scope().photoChange(this)"
-                                                       name="FileName" title="Click to Upload Image "
-                                                       style="height:0px !important"
-                                                       accept="image/x-png,image/gif,image/jpeg" ng-click="PhotoUplaodSelected()" />
 
-                                                <div valign="top" rowspan="6">
-                                                    <img class="responsiveProfileImage" src="{{uploadme}}" />
+                                                        <div class="modal" tabindex="-1" role="dialog" id="insertimageModal">
+                                                            <div class="modal-dialog" role="document" style="min-width: 700px">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Crop Image</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 text-center">
+                                                                                <div id="image_demo"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-primary crop_image">Crop and Save</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div valign="top" rowspan="6">
+                                                            <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}" style="width:200px;height:200px;" />
+                                                        </div>
+
+                                                        <!--<div class="uploadIconContainer">
+                        <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
+                            <u>Clear</u>
+                        </a>
+                    </div>-->
+                                                        <div style="margin-top: 15px;">
+                                                            <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="Adminimageclear();"
+                                                               title="Clear">
+                                                                Clear
+                                                            </a>
+                                                            <div style="max-width: 250px;" class="theme-btn-1">
+                                                                <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
+                                                                    <i class="fa fa-upload"></i>
+                                                                    <span>Upload Profile Photo</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-                                                <div class="uploadIconContainer">
-                                                    <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
-                                                        <u>Clear</u>
-                                                    </a>
-                                                </div>
-                                                <div class="uploadIconContainer">
-                                                    <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
-                                                        <i class="fa fa-upload"></i>
-                                                    </label>
-                                                    <span>Upload Photo</span>
-                                                </div>
-
-
+                                                <!--<div class="uploadIconContainer">
+                <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
+                    <i class="fa fa-upload"></i>
+                </label>
+                <span>Upload Photo</span>
+            </div>-->
                                             </td>
                                             <td width="17%">
                                                 <label valign="top" ng-show="LoginType == 1">
@@ -269,9 +400,7 @@
                                         <tr>
                                             <td width="15%">
                                                 <label valign="top">
-                                                    Employment No.<sup>
-                                                        <font class='mandatory-field'>*</font>
-                                                    </sup>
+                                                    Employment No.
                                                 </label>
                                             </td>
                                             <td width="35%">
@@ -283,13 +412,11 @@
                                         <tr>
                                             <td>
                                                 <label>
-                                                    Gender<sup>
-                                                        <font class='mandatory-field'>*</font>
-                                                    </sup>
+                                                    Gender
                                                 </label>
                                             </td>
                                             <td>
-                                                <select class="form-control" ng-model="GenderId" id="Select3" ng-required="true" ng-change="AdmingetBase64Image()">
+                                                <select class="" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image()">
                                                     <option value="0">Select</option>
                                                     <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
                                                             value="{{sel.Id}}">
@@ -301,13 +428,11 @@
                                         <tr>
                                             <td width="15%">
                                                 <label valign="top">
-                                                    Department<sup>
-                                                        <font class='mandatory-field'>*</font>
-                                                    </sup>
+                                                    Department
                                                 </label>
                                             </td>
                                             <td width="35%">
-                                                <select class="form-control" ng-model="DepartmentId" id="Select1"
+                                                <select class="" data-style="form-control" ng-model="DepartmentId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="DepartmentList"
                                                         ng-required="true">
                                                     <option value="0">Select</option>
                                                     <option ng-repeat="sel in DepartmentList" ng-selected="DepartmentId==sel.Id"
@@ -354,12 +479,24 @@
                                                        ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    Phone No.<sup><font class="mandatory-field">*</font></sup>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input type="tel" class="form-control" id="txtPhone" ng-model="PhoneNo"
+                                                       ng-required="true" onblur="txtPhoneChange()" />
+                                            </td>
+                                        </tr>
+
                                     </table>
                                 </form>
                             </div>
                             <div class="modal-footer" style="text-align:center;">
-                                <button type="button" class="theme-btn-1 mr-10" title="Click to Save"
-                                        ng-click="User_InsertUpdate()">
+                                <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Click to Save"
+                                        ng-click="AdminInstitutionCreation()">
                                     Save
                                 </button>
                                 <button type="button" class="theme-btn-2" ng-click="CancelPopup()"
@@ -387,27 +524,27 @@
                 <form class="form-horizontal" role="form" style="font-size:small">
                     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
                         <tr>
-                            <td width="10%" valign="top" rowspan="10">
+                            <td width="10%" valign="top" rowspan="11">
                                 <label>
                                     Photo<br />
                                 </label>
                             </td>
                             <!--ng-if="!uploadme==0 ||!uploadme==null"-->
-                            <td style="width:180px;height:180px;" valign="top" rowspan="10">
+                            <td style="width:180px;height:180px;" valign="top" rowspan="11">
                                 <div ng-if="uploadme!=null && uploadview ==true">
                                     <img src="{{uploadme}}" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)=='male' && (uploadme == null)&&uploadview ==true"
                                      valign="top" rowspan="6">
-                                    <img class="responsiveProfileImage" src="../../Images/male.png" />
+                                    <img class="responsiveProfileImage" src="../../Images/male.png" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)=='female' && (uploadme == null)&&uploadview ==true" valign="top" rowspan="6">
 
-                                    <img class="responsiveProfileImage" src="../../Images/female.png" />
+                                    <img class="responsiveProfileImage" src="../../Images/female.png" width="180" height="180" />
                                 </div>
                                 <div ng-if="(ViewGender| lowercase)!='female' && (ViewGender| lowercase)!='male' && (uploadme == null)&&uploadview ==true"
                                      valign="top" rowspan="6">
-                                    <img class="responsiveProfileImage" src="../../Images/Others.png" />
+                                    <img class="responsiveProfileImage" src="../../Images/Others.png" width="180" height="180" />
                                 </div>
                             </td>
                             <td style="width:7%">
@@ -489,6 +626,14 @@
                             </td>
                             <td>
                                 <span>{{MobileNo}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>RowId</label>
+                            </td>
+                            <td>
+                                <span id="spradminrowid">{{Id}}</span>
                             </td>
                         </tr>
                     </table>

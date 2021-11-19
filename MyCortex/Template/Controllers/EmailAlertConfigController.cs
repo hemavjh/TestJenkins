@@ -162,12 +162,12 @@ namespace MyCortex.EmailAlert.Controllers
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>list of Email alert detail of a institution</returns>
         [HttpGet]
-        public IList<EventModel> AlertEvent_List(int Institution_Id, int Id)
+        public IList<EventModel> AlertEvent_List(int Institution_Id, int Id,int status)
         {
             IList<EventModel> model;
             try
             {
-                model = repository.AlertEvent_List(Institution_Id ,Id);
+                model = repository.AlertEvent_List(Institution_Id ,Id,status);
                 return model;
             }
             catch (Exception ex)

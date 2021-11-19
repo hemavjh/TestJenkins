@@ -1,9 +1,43 @@
-﻿    <style>
-        .viewPassword {
-            position: relative;
-        }
+﻿    
+<script>
 
-        .viewPassword i {
+    $(function () {
+
+        $('body:not(".viewPassword")').click(function () {
+
+            $('#viewPassword').addClass('fa-eye');
+            $('#viewPassword').removeClass('fa-eye-slash');
+            $('#psw').attr('type', 'password');
+        })
+        $('#viewPassword').on('mousedown', function () {
+
+            $(this).addClass('fa-eye-slash');
+            $(this).removeClass('fa-eye');
+            $('#psw').attr('type', 'text');
+        }).on('mouseup', function () {
+            $(this).addClass('fa-eye');
+            $(this).removeClass('fa-eye-slash');
+            $('#psw').attr('type', 'password');
+        });
+    })
+
+    $("#DOB").datepicker({
+        format: "dd-M-yyyy",
+        forceParse: true,
+        endDate: '+0d',
+        autoclose: true,
+        todayHighlight: true,
+        toggleActive: true,
+        todayBtn: true
+    });
+</script>
+
+<style>
+    .viewPasswordClass {
+        position: relative;
+    }
+
+        .viewPasswordClass i {
             position: absolute;
             right: 0px;
             top: 0px;
@@ -16,55 +50,60 @@
         }
 </style>
 
-<div class="loginContainer">    
-       <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-    <h1>MyCortex Sign In</h1>
-    <!--<p>New to MyCortex?<a href="#" data-toggle="modal" data-target="#signupModal" class="prl-8">Sign Up</a></p>-->
-    <form>
-        <label>Username</label>
-        <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
-               class="form-control" onkeypress="EmailFormate(event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
-        <label>Password</label>
-        <div class="viewPassword">
-            <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
-            <input type="password" placeholder="Enter Your Password" required="required" ng-model="Password"
-                   ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" id="psw" name="psw" class="form-control">
+    <div class="loginContainer">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div ng-hide="Productlogin == 1">
+            <h1>{{ProductName1}} Sign In</h1>
         </div>
-        <div class="alert alert-danger def" ng-if="errorlist!=null">
-            <div ng-if="errorlist!=null">
-                {{errorlist}}
-            </div>
+        <div ng-hide="Productlogin == 0">
+            <h3>Sign In</h3>
+            <h2>New to {{ProductName1}}? Sign Up</h2>
         </div>
-        <button type="button" class="loginBtn" ng-click="UserLogin_AddEdit()">Log in</button>
-        <div class="row">
-            <div class="col-xs-6">
-                <input id="rem" ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
-                <label for="rem" class="pr-8">Remember Me</label>
+        <form>
+            <label>Username</label>
+            <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
+                   class="form-control" onkeypress="EmailFormate(event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
+            <label>Password</label>
+            <div class="viewPasswordClass">
+                <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
+                <input type="password" id="psw" placeholder="Enter Your Password" required="required" ng-model="Password"
+                       ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()" name="psw" class="form-control">
             </div>
-            <div class="col-xs-6 text-right">
-                <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
+            <div class="alert alert-danger def" ng-if="errorlist!=null">
+                <div ng-if="errorlist!=null">
+                    {{errorlist}}
+                </div>
             </div>
-        </div>
-        <h2>Or login with</h2>
-        <div class="row">
-            <div class="col-xs-6">
-                <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
-                    <img src="./images/fb.png" style="width:30px;height:30px;" />
-                    <span>Facebook</span>
-                </a>
+            <button type="button" class="loginBtn" ng-click="UserLogin_AddEdit()">Log in</button>
+            <div class="row">
+                <div class="col-xs-6">
+                    <input ng-model="remember" name="remember" type="checkbox" ng-keyup="$event.keyCode == 13 && rememberMe()">
+                    <label for="rem" class="pr-8">Remember Me</label>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="prl-8">Forgot Password?</a>
+                </div>
             </div>
-            <div class="col-xs-6">
-                <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
-                    <img src="./images/google.png" style="width:30px;height:30px;" />
-                    <span>Google</span>
-                </a>
+            <h2>Or login with</h2>
+            <div class="row">
+                <div class="col-xs-6">
+                    <a href="#" title="Facebook" class="loginOptions" ng-click="getAccessToken();">
+                        <img src="./images/fb.png" style="width:30px;height:30px;" />
+                        <span>Facebook</span>
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    <a href="#" title="Google" class="loginOptions" ng-click="GoogleLogin()">
+                        <img src="./images/google.png" style="width:30px;height:30px;" />
+                        <span>Google</span>
+                    </a>
+                </div>
             </div>
-        </div>
-        <!--<div class="version">
+            <!--<div class="version">
             V1.3
         </div>-->
-    </form>
-</div>
+        </form>
+    </div>
 
 <div id="signupModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -79,7 +118,7 @@
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">First Name<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" id="Text5" name="FirstName" ng-model="FirstName"
+                                <input type="text" class="form-control" name="FirstName" ng-model="FirstName"
                                        ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
                                        maxlength="100" />
                             </div>
@@ -87,7 +126,7 @@
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">Middle Name</label>
-                                <input type="text" class="form-control" id="Text19" name="MiddleName" ng-model="MiddleName"
+                                <input type="text" class="form-control" name="MiddleName" ng-model="MiddleName"
                                        ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
                                        maxlength="100" />
                             </div>
@@ -95,7 +134,7 @@
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="LastName">Last Name<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" id="LastName" name="LastName" ng-model="LastName"
+                                <input type="text" class="form-control" name="LastName" ng-model="LastName"
                                        ng-required="true" onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
                                        maxlength="100" />
                             </div>
@@ -103,28 +142,28 @@
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">MRN No.<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" id="T1" name="MNR_No" ng-model="MNR_No" ng-init="MNR_No=''"
+                                <input type="text" class="form-control" name="MNR_No" ng-model="MNR_No" ng-init="MNR_No=''"
                                        ng-required="true" onkeypress="" placeholder="" ng-maxlength="50" maxlength="50" />
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">National ID</label>
-                                <input type="text" class="form-control" id="Text9" name="NationalId" ng-model="NationalId"
+                                <input type="text" class="form-control" name="NationalId" ng-model="NationalId"
                                        ng-init="NationalId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="" />
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">Insurance ID</label>
-                                <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-model="InsuranceId"
+                                <input type="text" class="form-control" name="InsuranceId" ng-model="InsuranceId"
                                        ng-init="InsuranceId=''" placeholder="" ng-maxlength="50" maxlength="50" onkeypress="NoSpecChar(event)" />
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">Sex<sup><font class='mandatory-field'>*</font></sup></label>
-                                <select class="form-control" ng-model="GenderId" id="Select3" ng-required="true">
+                                <select class="form-control" ng-model="GenderId" ng-required="true">
                                     <option value="0">Select</option>
                                     <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
                                         {{sel.Gender_Name}}
@@ -135,7 +174,7 @@
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">Nationality<sup><font class='mandatory-field'>*</font></sup></label>
-                                <select class="form-control" placeholder="Nationality" ng-model="NationalityId" id="Select5"
+                                <select class="form-control" placeholder="Nationality" ng-model="NationalityId"
                                         ng-required="true">
                                     <option value="0">Select</option>
                                     <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
@@ -147,24 +186,26 @@
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">DOB<sup><font class='mandatory-field'>*</font></sup></label>
-                                <div class="date" id="DOB">
-                                    <input type="text" placeholder="" class="form-control dateIcon" ng-model="DOB" ng-init="DOB=''"
-                                            ng-required="true">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                <div class="date">
+                                    <!--<input type="text" placeholder="" class="form-control dateIcon" ng-model="DOB" ng-init="DOB=''"
+                                                ng-required="true">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
+                                    <input type="date" placeholder="" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                           ng-model="DOB" ng-init="DOB=''" ng-required="true">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">Email<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" id="Text4" name="" ng-model="EmailId" ng-init="EmailId=''"
+                                <input type="text" class="form-control" name="" ng-model="EmailId" ng-init="EmailId=''"
                                        ng-required="true" placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="inputGroups">
                                 <label for="email">Mobile No.<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" id="Text6" name="" ng-model="MobileNo" ng-maxlength="20"
+                                <input type="text" class="form-control" name="" ng-model="MobileNo" ng-maxlength="20"
                                        maxlength="20" onkeypress="OnlySpecCharNum(event)" ng-required="true" placeholder="" />
                             </div>
                         </div>
@@ -186,9 +227,9 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Forgot Password</h4>
+            <div class="modal-header" style="background: deepskyblue;">
+                <button type="button" class="close" style="color:#080808" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title1">Forgot Password</h4>
             </div>
             <div class="modal-body">
                 <form action="/action_page.php">
@@ -196,7 +237,7 @@
                         <div class="col-sm-12">
                             <div class="inputGroups">
                                 <label for="email">Email<sup><font class='mandatory-field'>*</font></sup></label>
-                                <input type="text" class="form-control" id="Text1" name="forgotPasswordEmail" ng-model="forgotPasswordEmail"
+                                <input type="text" class="form-control" name="forgotPasswordEmail" ng-model="forgotPasswordEmail"
                                        ng-required="true" placeholder="" ng-maxlength="100"
                                        maxlength="100" />
                             </div>
@@ -218,7 +259,7 @@
     <input type="hidden" id="productname" value=""/>
 </div>
 
-<script>
+<!--<script>
      
         $(function () {
             
@@ -249,4 +290,4 @@
             toggleActive: true,
             todayBtn: true
         });
-</script>
+</script>-->

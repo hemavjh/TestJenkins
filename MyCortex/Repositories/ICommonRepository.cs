@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MyCortex.Admin.Models;
+using System.Threading.Tasks;
 
 namespace MyCortex.Repositories
 {
@@ -28,11 +29,22 @@ namespace MyCortex.Repositories
         IList<AlergySubstanceModel> AlergySubstanceList();
         IList<BloodGroupModel> BloodGroupList();
         IList<MaritalStatusModel> MaritalStatusList();
-        IList<ddItemList> InstitutionNameList();
+        IList<ddItemList> InstitutionNameList(long status);
         IList<OptionTypeModel> OptionTypeList();
         IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id);
         IList<UnitGroupTypeModel> UnitGroupTypeList();
         IList<LanguageMasterModel> InstitutionLanguages(long Institution_Id);
+        IList<GatewayMaster> InstitutionPayments(long Institution_Id);
+        IList<GatewayMaster> InstitutionInsurances(long Institution_Id);
+        IList<TabDevicesList> Deviceslist();
+        IList<TabUserList> UserList(long Institution_Id);
+        TabUserList USERPINDETAILS(long ID);
+        object DBQueryAPI(string qry);
+        int DefaultConfig_InsertUpdate(long Institution_Id, int Step);
+        IList<GatewayInsuranceList> InstitutionInsurance();
+        IList<GatewayInsuranceList> InstitutionPayment();
+        AppointmentTimeZone getTimeZoneMasterId(string Name);
+        MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id);
 
     }
 }

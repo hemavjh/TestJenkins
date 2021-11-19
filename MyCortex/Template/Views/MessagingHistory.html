@@ -1,4 +1,11 @@
-﻿<ul class="secondaryMenu">
+﻿  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+            $(element).addClass('activeButton');
+        });
+    </script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/EmailTemplate/1">Email Template</a>
     </li>
@@ -9,7 +16,7 @@
         <a href="Home/Index#/MessagingUndelivered/1">Resend Email</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/MessagingHistory/1">Email History</a>
+        <a class="secondaryMenuActive" href="Home/Index#/MessagingHistory/1" data-menu="Bulk Email">Email History</a>
     </li>
 </ul>
 <h1 class="page-title">Email History</h1>
@@ -37,7 +44,7 @@
                     <label>Period From<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="text" datepicker class="form-control date" ng-model="Period_From"
+                    <input type="date" max="2099-12-31" class="form-control" ng-model="Period_From"
                         ng-init="Period_From=''">
                 </div>
             </div>
@@ -46,13 +53,13 @@
                     <label>Period To<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="text" class="form-control date" ng-model="Period_To" ng-init="Period_To=''">
+                    <input type="date" max="2099-12-31" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="inputGroups">
                     <label for="Status">Status</label>
-                    <select class="form-control" id="Select1" ng-required="true" ng-model="Email_Stauts">
+                    <select class="form-control" data-style="form-control" id="Select1" ng-required="true" ng-model="Email_Stauts" data-live-search="true" data-selectpicker data-collection-name="Email_Stauts">
                         <option value="0">All</option>
                         <option value="1">Delivered</option>
                         <option value="2">Undelivered</option>
@@ -102,7 +109,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Nationality</label>
-                    <select class="form-control" ng-model="filter_NationalityId" id="Select17" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
                             value="{{sel.Id}}">{{sel.Name}}
@@ -126,7 +133,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Blood Group</label>
-                    <select class="form-control" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in BloodGroupList" ng-selected="filter_BloodGroupId==sel.Id"
                             value="{{sel.Id}}">{{sel.BloodGroup_Name}}</option>
@@ -142,7 +149,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Ethnic Group</label>
-                    <select class="form-control" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in EthnicGroupList" ng-selected="filter_EthinicGroupId==sel.Id"
                             value="{{sel.Id}}">{{sel.Name}}
@@ -176,7 +183,7 @@
             <div class="col-sm-4">
                 <div class="inputGroups">
                     <label>Gender</label>
-                    <select class="form-control" ng-model="Filter_GenderId" id="Select16" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="Filter_GenderId" id="Select16" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id" value="{{sel.Id}}">
                             {{sel.Gender_Name}}</option>
@@ -189,7 +196,7 @@
                 </div>
                 <div class="inputGroups">
                     <label>Marital Status</label>
-                    <select class="form-control" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
+                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in MaritalStatusList" ng-selected="filter_MaritalStatus==sel.Id"
                             value="{{sel.Id}}">{{sel.Name}}
@@ -327,12 +334,12 @@
     </div>
 </div>
 <script>
-    $('.date').bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$('.date').bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
 </script>

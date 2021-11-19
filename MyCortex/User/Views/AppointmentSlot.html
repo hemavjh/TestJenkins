@@ -1,17 +1,17 @@
-﻿<ul class="secondaryMenu">
-    <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
-    <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
-    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
-    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
-    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
-    <li><a href="Home/Index#/AppointmentSlot" class="secondaryMenuActive">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
-    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
-    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
-    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
-    <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
-</ul>
+﻿  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+            $(element).addClass('activeButton');
+        });
+    </script>
+  <ul class="secondaryMenu">
+      <!--<li><a href="Home/Index#/AppointmentSlot" class="secondaryMenuActive" data-menu="Appointment Setting">Appointment Slot</a></li>
+      <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>-->
+      <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
+      <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+      <li><a href="Home/Index#/MyAppointmentSetting">Organization Settings</a></li>
+  </ul>
 <h1 class="page-title">Appointment Slot</h1>
 <div ng-init="AppoinmentSlotListGo()">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -198,7 +198,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
                     title="Close">&times;</button>
-                <h1 class="page-title">Appointment Slot</h1>
+                <h4 class="modal-title">Appointment Slot</h4>
             </div>
             <form class="form-horizontal" role="form">
                 <div class="panel panel-default" id="Div2">

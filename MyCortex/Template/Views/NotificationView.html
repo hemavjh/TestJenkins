@@ -1,5 +1,5 @@
-﻿<h1 class="page-title">View Notification({{UnreadCount}})</h1>
-<div class="panel panel-default" id="Div4" ng-init="NotificationList()">
+﻿<h1 class="page-title">Notifications</h1>
+<div class="panel panel-default" id="Div4" ng-init="NotificationList();PatientNotification();MyAppointmentsNotification();PatientAllergyNotificationList()">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
     <form class="panel-body" role="form">
         <div class="overlay" show-on-load>
@@ -14,10 +14,10 @@
                         <i class="fa fa-search"></i>
                     </div>
                 </div>
-                
+
             </div>
         </div>
-    
+
     </form>
 </div>
 <table st-table="emptydata" style="width: 100%" st-safe-src="UserNotificationList_Filter" class="table themeTable">
@@ -37,20 +37,20 @@
             </td>
         </tr>
         <tr ng-repeat="row in emptydata">
-            <td style="text-align: right" ng-class="{tdBackColor: row.ReadFlag==1}">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
+            <td id="id{{((current_page-1)*page_size)+$index+1}}" style="text-align: right" ng-class="{tdBackColor: row.ReadFlag==1}">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td id="msubj{{((current_page-1)*page_size)+$index+1}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <div class="textwrap">{{row.MessageSubject}}</div>
             </td>
-            <td style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
+            <td id="mbody{{((current_page-1)*page_size)+$index+1}}" style="text-align: left" ng-class="{tdBackColor: row.ReadFlag==1}">
                 <div class="textwrap">
                     {{ row.MessageBody.length > 100 ? row.MessageBody.substring(0,100)+"..." : row.MessageBody}}
                 </div>
             </td>
-            <td ng-class="{tdBackColor: row.ReadFlag==1}" style="text-align: left">
+            <td id="msend{{((current_page-1)*page_size)+$index+1}}" ng-class="{tdBackColor: row.ReadFlag==1}" style="text-align: left">
                 {{row.SentDate| date :'dd-MMM-yyyy hh:mm a'}}
             </td>
-            <td style="text-align: center" ng-class="{tdBackColor: row.ReadFlag==1}">
-                <a href="javascript:" ng-click="NotificationUpdate($index, row.Id, row.MessageSubject, row.MessageBody, row.ReadFlag)" title="Click to Read Notification">
+            <td id="viewid{{((current_page-1)*page_size)+$index+1}}" style="text-align: center" ng-class="{tdBackColor: row.ReadFlag==1}">
+                <a href="javascript:" ng-click="NotificationUpdate(((current_page-1)*page_size)+$index+1, row.Id, row.MessageSubject, row.MessageBody, row.ReadFlag)" title="Click to Read Notification">
                     <img src="../../Images/ViewIcon.png" />
                 </a>
             </td>
@@ -67,10 +67,14 @@
     </tfoot>
 </table>
 
-<div  style="text-align:center;">
+<div style="text-align:center;">
     <button type="button" class="theme-btn-2" title="Click to Cancel"
             ng-click="closeNotification()">
         Cancel
+    </button>
+    <button type="button" class="theme-btn-2" title="Click to Clear"
+            ng-click="clearAllNotification()">
+        Clear All
     </button>
 </div>
 
@@ -80,8 +84,9 @@
     <div class="modal-dialog" style="width: 50%">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title=""
-                    >&times;</button>
+                <button type="button" class="close" data-dismiss="modal" title="">
+                    &times;
+                </button>
                 <h4 class="modal-title">Notification</h4>
             </div>
             <div class="modal-body">
@@ -100,12 +105,191 @@
                             </div>
                         </div>
                     </div>
-             
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button type="button" class="theme-btn-2" title="Click to Cancel"
-                    ng-click="CancelModel()">Cancel</button>
+                        ng-click="CancelModel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="PatientMonitoringProtocolModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Monitoring Protocol</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <table st-table="emptydata" id="patientprotocol" style="width: 100%" st-safe-src="rowCollectionFilter" class="table themeTable">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th st-ratio="5" st-sort="Id">#</th>
+                                <th st-ratio="35" st-sort="ProtocolName">Protocol</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="MonitoringProtocolName.length==0">
+                                <td colspan="7" style="text-align: center">
+                                    No Data Available
+                                </td>
+                            </tr>
+                            <tr class="info" ng-show="MonitoringProtocolName.length != '0'">
+                                <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+                                <td style="text-align: left">{{MonitoringProtocolName}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot ng-show="rowCollection.length >30">
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                                         st-template="Masters/Views/pagination.custom.html">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" class="btn btn-save" ng-click="CancelPatientMonitoringProtocolModal()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="PatientGroupListModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Groups</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <table st-table="emptydata" style="width: 100%"
+                           st-safe-src="GroupName_List"
+                           class="table themeTable">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th st-ratio="5" st-sort="">#</th>
+                                <th st-ratio="95" st-sort="">Group Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="PatientGroupflag== 0 && GroupName_List.length==0">
+                                <td colspan="10" style="text-align: center">
+                                    {{SearchMsg}}
+                                </td>
+                            </tr>
+                            <tr ng-repeat="Data in GroupName_List ">
+                                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                <td style="text-align: left">
+                                    {{Data.GroupName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" class="btn btn-save" ng-click="CancelPatientGroupNamePopup()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="PatientAllergyListModal" ng-if="PatientAssignedAllergyDataList.length >0" class="modal fade " role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 85%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Allergy List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <table st-table="PatientAllergyemptydataforLoading" style="width: 100%" st-safe-src="PatientAssignedknownAllergyActiveDataList"
+                           class="table themeTable">
+                        <thead>
+                            <tr>
+                                <th st-ratio="5" st-sort="Id">#</th>
+                                <th st-ratio="15" st-sort="AllergyType">Allergy Type</th>
+                                <th st-ratio="17" st-sort="AllergyenName">Allergen Name</th>
+                                <th st-ratio="14" st-sort="Severity">Severity</th>
+                                <th st-ratio="15" st-sort="Reaction">Reaction</th>
+                                <th st-ratio="14" st-sort="OnSet">Onset Name/ Onset Date</th>
+                                <!-- <th st-ratio="15" st-sort="OnSetDate">OnSet Date</th>-->
+                                <th st-ratio="15" st-sort="OnSetDate">Created By/ Created On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="PatientAssignedknownAllergyActiveDataList.length==0">
+                                <td colspan="8" style="text-align: center">
+                                    {{SearchMsg}}
+                                </td>
+                            </tr>
+                            <tr ng-repeat="Allen in PatientAllergyemptydataforLoading">
+                                <!--  |filter:'No Known Allergies'-->
+                                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                                <td style="text-align: left">
+                                    {{Allen.AllergyTypeName}}
+                                </td>
+                                <td style="text-align: left">
+                                    {{Allen.AllergenName}}
+                                </td>
+                                <td style="text-align: left">
+                                    {{Allen.AllergySeverityName}}
+                                </td>
+                                <td style="text-align: left">
+                                    <div class="textwrap">{{Allen.AllergyReactionName}}</div>
+                                </td>
+                                <td style="text-align: left">
+                                    {{Allen.AllergyOnsetName}}<br />{{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                </td>
+                                <!--  <td style="text-align: left">
+                                    {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
+                                </td>-->
+                                <td style="text-align: left">
+
+
+
+                                    {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot ng-show="PatientAssignedknownAllergyActiveDataList.length >page_size">
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
+                                         st-pagination=""
+                                         st-template="Masters/Views/pagination.custom.html">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="button" class="btn btn-save" ng-click="CancelPatientAllergyNamePopup()">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -113,7 +297,7 @@
 
 
 <style>
-        .tdBackColor {
+    .tdBackColor {
         font-weight:bold
     }
 </style>

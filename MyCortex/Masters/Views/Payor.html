@@ -1,0 +1,205 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
+    <li>
+        <a href="Home/Index#/ICD10Master">ICD 10</a>
+    </li>
+    <li>
+        <a href="Home/Index#/DrugDBMaster">Drug DB</a>
+    </li>
+    <li>
+        <a href="Home/Index#/AllergyMaster">Allergies</a>
+    </li>
+    <li>
+        <a class="secondaryMenuActive" href="Home/Index#/Payor" data-menu="Master">Payor</a>
+    </li>
+    <li>
+        <a href="Home/Index#/Plan">Plan</a>
+    </li>
+</ul>
+
+<h1 class="page-title">Payor</h1>
+<div class="container" style="max-width: 1530px;">
+    <div class="row">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div class="" ng-init="Payorlist()">
+            <div class="panel panel-default" id="ICD10Id">
+                <form class="form-horizontal" role="form">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label>Search</label>
+                                    <div class="modernSearch">
+                                        <input type="text" ng-model="searchquery" ng-change="fliterPayorList()"
+                                               placeholder="" style="width: 200px" />
+                                        <i class="fa fa-search"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label>Active</label>
+                                </div>
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Payorlist();" title="Active / All">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <a href="javascript:" ng-click="ClearPopup();AddPayorPopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New Payor">Add New</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="">
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="3">#</th>
+                        <!--<th st-ratio="29" st-sort="ICD_Code">Payor</th>
+                        <th st-ratio="25" st-sort="CategoryName">Plan</th>-->
+                        <th st-ratio="20" st-sort="PayorName">PayorName</th>
+                        <th st-ratio="20" st-sort="ShortCode">ShortCode</th>
+                        <th st-ratio="20" st-sort="Description">Description</th>
+                        <th st-ratio="20" st-sort="ReferCode">ReferCode</th>
+                        <th st-ratio="8">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="rowCollectionFilter.length==0">
+                        <td colspan="6" class="text-center">
+                            No Data Available
+                        </td>
+                    </tr>
+                    <tr ng-repeat="row in emptydata">
+                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                        <!--<td style="text-align: left">{{row.ICD_Code}}</td>
+                        <td style="text-align: left"> <div class="textwrap">{{row.PayorName}}</div></td>-->
+                        <td style="text-align: left;word-break: break-all">{{row.PayorName}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.ShortCode}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.Description}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.ReferCode}}</td>
+                        <td st-ratio="10">
+
+                            <a href="javascript:" ng-click="ViewPayorPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                            <a href="javascript:" ng-click="row.IsActive == 0 ||  EditPayorPopUP(row.Id)" title="Edit">
+                                <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+
+                                </a>
+                            </a>
+                            <!--<a href="javascript:" ng-click="DeletePayor(row.Id)" title="Active" ng-if="row.IsActive==0">
+                                <i class="fa fa-check-circle-o ng-scope" aria-hidden="true"></i>
+                                <a href="javascript:" ng-click="ActivePayor(row.Id)" title="InActive" ng-if="row.IsActive==0">
+
+                                </a>-->
+                        <a href="javascript:;" ng-click="DeletePayor(row.Id)" title="Active" ng-if="row.IsActive==1">
+                        <i class="fa fa-check-circle-o" aria-hidden="true" ></i>
+
+                        <a href="javascript:" ng-click="ActivePayor(row.Id)" title="Inactive" ng-if="row.IsActive==0">
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ></i>
+
+                        </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot ng-show="total_page>1">
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
+                            <ul class="pagination">
+                                <li>
+                                    <a ng-click="setPage(1)">First</a>
+                                </li>
+                                <li>
+                                    <a ng-click="setPage(current_page - 1)">&lt;</a>
+                                </li>
+                                <li>
+                                    <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                                </li>
+                                <li>
+                                    <a ng-click="setPage(current_page + 1)">&gt;</a>
+                                </li>
+                                <li><a ng-click="setPage(total_page)">Last</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--ADD&EDIT MODAL-->
+<div id="PayorModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
+                <h4 class="modal-title">Payor</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <div class="inputGroups">
+                        <label>PayorName<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="PayorName" name="PayorName" ng-model="PayorName" ng-init="PayorName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>ShortCode<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="Description" name="Description" ng-model="Description" ng-init="Description=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>ReferCode<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="ReferCode" name="ReferCode" ng-model="ReferCode" ng-init="ReferCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-show="PayorSave == true" id="btnsave" ng-disabled="false" ng-click="PayorAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--VIEW MODAL-->
+<!--<div id="PayorViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false" ng-int="ViewICD10()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()">&times;</button>
+                <h4 class="modal-title">Payor</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" style="font-size:small">
+                    <div class="inputGroups">
+                        <label>ICD Code</label>
+                        <span>{{ICD_Code}}</span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Description</label>
+                        <span><div class="textwrap">{{Description}}</div></span>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Category</label>
+                        <span>{{ViewCategoryName}}</span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelViewPopup()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>-->

@@ -11,7 +11,8 @@ using MyCortex.Masters.Models;
 using MyCortex.User.Models;
 using MyCortex.Utilities;
 using MyCortex.Admin.Models;
-
+using System.IO;
+using System.Data.SqlClient;
 namespace MyCortex.Repositories.Uesr
 {
     public class UserRepository : IUserRepository
@@ -103,6 +104,59 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+        public long PatientChronicEdit(Guid Login_Session_Id, PatientChronicModel obj)
+        {
+            long Inserted_Group_Id = 0;
+            if (obj.ChronicConditionList != null)
+            {
+                foreach (ChronicConditionModel item in obj.ChronicConditionList)
+                {
+                    if (item.Id != null)
+                    {
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@User_Id", obj.UserId));
+                        param1.Add(new DataParameter("@Chronic_Id", item.Id));
+                        param1.Add(new DataParameter("@CREATED_BY", obj.CreatedBy));
+                        var objExist = obj.EditSelectedChronicCondition.Where(ChildItem => ChildItem.Chronic_Id == item.Id);
+
+                        if (objExist.ToList().Count > 0)
+                            param1.Add(new DataParameter("@Condition_Selected", "1"));
+                        else
+                            param1.Add(new DataParameter("@Condition_Selected", "0"));
+
+                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CHRONICCONDITION", param1, true);
+                    }
+                }
+            }
+            return Inserted_Group_Id;
+        }
+        public long PatientGroupEdit(Guid Login_Session_Id, PatientGroupModel obj)
+        {
+            long Inserted_Group_Id = 0;
+            if (obj.GroupTypeList != null)
+            {
+                foreach (GroupTypeModel item in obj.GroupTypeList)
+                {
+                    if (item.Id != null)
+                    {
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@User_Id", obj.UserId));
+                        param1.Add(new DataParameter("@Group_Id", item.Id));
+                        param1.Add(new DataParameter("@Created_by", obj.CreatedBy));
+                        var objExist = obj.EditSelectedGroupList.Where(ChildItem => ChildItem.Group_Id == item.Id);
+
+                        if (objExist.ToList().Count > 0)
+                            param1.Add(new DataParameter("@Group_Selected", "1"));
+                        else
+                            param1.Add(new DataParameter("@Group_Selected", "0"));
+
+                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DOCTORADDITIONALDETAILS", param1, true);
+                    }
+                }
+            }
+            return Inserted_Group_Id;
+        }
+
         /// <summary>
         /// to Insert/Update the Sign up Users, Hospital Admin and Business Users for a Institution
         /// </summary>
@@ -126,6 +180,10 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Photo_Name", insobj.Photo));
             param.Add(new DataParameter("@Photo_FileName", insobj.FileName));
             param.Add(new DataParameter("@Photo_FullPath", insobj.Photo_Fullpath));
+            //param.Add(new DataParameter("@NationalPhotoFilename", insobj.NationalPhotoFilename));
+            //param.Add(new DataParameter("@NationalPhotoFullpath", insobj.NationalPhotoFullpath));
+            //param.Add(new DataParameter("@InsurancePhotoFilename", insobj.InsurancePhotoFilename));
+            //param.Add(new DataParameter("@InsurancePhotoFullpath", insobj.InsurancePhotoFullpath));
             param.Add(new DataParameter("@UserTypeId", insobj.UserType_Id));
 
             param.Add(new DataParameter("@TITLE_ID", insobj.TITLE_ID));
@@ -136,7 +194,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@GENDER_ID", insobj.GENDER_ID));
             param.Add(new DataParameter("@NATIONALITY_ID", insobj.NATIONALITY_ID));
             param.Add(new DataParameter("@ETHINICGROUP_ID", insobj.ETHINICGROUP_ID));
-            param.Add(new DataParameter("@DOB", insobj.DOB));
+            //param.Add(new DataParameter("@DOB", insobj.DOB));
             param.Add(new DataParameter("@HOME_AREACODE", insobj.HOME_AREACODE));
             param.Add(new DataParameter("@HOME_PHONENO", insobj.HOME_PHONENO));
             param.Add(new DataParameter("@MOBIL_AREACODE", insobj.MOBIL_AREACODE));
@@ -152,7 +210,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@BLOODGROUP_ID", insobj.BLOODGROUP_ID));
             //param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@INSURANCEID", insobj.INSURANCEID));
-            param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
+            //param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
+            //param.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
             param.Add(new DataParameter("@NATIONALID", insobj.NATIONALID));
             param.Add(new DataParameter("@SMOKER", insobj.SMOKER));
             param.Add(new DataParameter("@DIABETIC", insobj.DIABETIC));
@@ -189,9 +248,39 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             //param.Add(new DataParameter("@CREATED_DT", insobj.CREATED_DT));
+            param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
+            param.Add(new DataParameter("@PATIENT_ID", insobj.PatientId));
+            param.Add(new DataParameter("@Memberid", insobj.Memberid));
+            param.Add(new DataParameter("@PolicyNumber", insobj.PolicyNumber));
+            param.Add(new DataParameter("@RefernceId", insobj.RefernceId));
+            param.Add(new DataParameter("@ExpiryDate", insobj.ExpiryDate));
+            param.Add(new DataParameter("@PayorId", insobj.PayorId));
+            param.Add(new DataParameter("@PlanId", insobj.PlanId));
+
+            if(insobj.Id == 0)
+            {
+                _logger.Info("BEFORE MRN_AUTOCREATIION_SP");
+                List<DataParameter> param_2 = new List<DataParameter>();
+                param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.INSTITUTION_ID));
+                param_2.Add(new DataParameter("@USER_ID", insobj.User_Id));
+                param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+                //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+                _logger.Info(serializer.Serialize(param_2.Select(x => new { x.ParameterName, x.Value })));
+                DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[MRN_AUTOCREATIION_SP]", param_2);
+                _logger.Info("MRN_AUTOCREATIION_SP");
+                UserModel Get_Patient_Mrn = (from p in dt_2.AsEnumerable()
+                                             select new UserModel()
+                                             {
+                                                 MNR_NO = p.Field<string>("LASTCOUNT"),
+                                             }).FirstOrDefault();
+                DataEncryption EncryptMrn = new DataEncryption();
+                //insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
+                insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
+                param.Add(new DataParameter("@MNR_NO", insobj.MrnPrefix));
+            }
+            
             List<DataParameter> param_1 = new List<DataParameter>();
             param_1.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
-
             DataTable dt_1 = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PATIENTID_SP_LIST]", param_1);
             UserModel Get_Patient_No = (from p in dt_1.AsEnumerable()
                                         select new UserModel()
@@ -202,7 +291,102 @@ namespace MyCortex.Repositories.Uesr
             insobj.PATIENTNO = EncryptPassword.Encrypt(Get_Patient_No.PATIENTNO);
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
+            _logger.Info("GET_PATIENTID_SP_LIST");
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_ADMIN_SP_INSERTUPDATE]", param);
+            //string strXMLIn = string.Empty;
+            //strXMLIn = "<ADMINUSERINSERT Id =" + "\"" + insobj.Id + "\"" + "";
+            //strXMLIn += " InstitutionId = " + "\"" + insobj.INSTITUTION_ID + "\"" + "";
+            //strXMLIn += " FirstName = " + "\"" + insobj.FirstName + "\"" + "";
+            //strXMLIn += " MiddleName  = " + "\"" + insobj.MiddleName + "\"" + "";
+            //strXMLIn += " LastName  = " + "\"" + insobj.LastName + "\"" + "";
+            //strXMLIn += " Employment_No  = " + "\"" + insobj.EMPLOYEMENTNO + "\"" + "";
+            //strXMLIn += " EmailId  = " + "\"" + insobj.EMAILID + "\"" + "";
+            //strXMLIn += " DepartmentId  = " + "\"" + insobj.DEPARTMENT_ID + "\"" + "";
+            //strXMLIn += " MobileNo  = " + "\"" + insobj.MOBILE_NO + "\"" + "";
+            //strXMLIn += " Photo_Name  = " + "\"" + insobj.Photo + "\"" + "";
+            //strXMLIn += " Photo_FileName  = " + "\"" + insobj.FileName + "\"" + "";
+            //strXMLIn += " Photo_FullPath  = " + "\"" + insobj.Photo_Fullpath + "\"" + "";
+            //strXMLIn += " NationalPhotoFilename  = " + "\"" + insobj.NationalPhotoFilename + "\"" + "";
+            //strXMLIn += " NationalPhotoFullpath  = " + "\"" + insobj.NationalPhotoFullpath + "\"" + "";
+            //strXMLIn += " InsurancePhotoFilename  = " + "\"" + insobj.InsurancePhotoFilename + "\"" + "";
+            //strXMLIn += " InsurancePhotoFullpath  = " + "\"" + insobj.InsurancePhotoFullpath + "\"" + "";
+            //strXMLIn += " UserTypeId  = " + "\"" + insobj.UserType_Id + "\"" + "";
+            //strXMLIn += " TITLE_ID  = " + "\"" + insobj.TITLE_ID + "\"" + "";
+            //strXMLIn += " HEALTH_LICENSE  = " + "\"" + insobj.HEALTH_LICENSE + "\"" + "";
+            //strXMLIn += " FILE_NAME  = " + "\"" + insobj.FILE_NAME + "\"" + "";
+            //strXMLIn += " FILE_FULLPATH  = " + "\"" + insobj.FILE_FULLPATH + "\"" + "";
+            //strXMLIn += " UPLOAD_FILENAME  = " + "\"" + insobj.UPLOAD_FILENAME + "\"" + "";
+            //strXMLIn += " GENDER_ID  = " + "\"" + insobj.GENDER_ID + "\"" + "";
+            //strXMLIn += " NATIONALITY_ID  = " + "\"" + insobj.NATIONALITY_ID + "\"" + "";
+            //strXMLIn += " ETHINICGROUP_ID  = " + "\"" + insobj.ETHINICGROUP_ID + "\"" + "";
+            ////strXMLIn += " DOB  = " + "\"" + insobj.DOB + "\"" + "";
+            //strXMLIn += " HOME_AREACODE  = " + "\"" + insobj.HOME_AREACODE + "\"" + "";
+            //strXMLIn += " HOME_PHONENO  = " + "\"" + insobj.HOME_PHONENO + "\"" + "";
+            //strXMLIn += " MOBIL_AREACODE  = " + "\"" + insobj.MOBIL_AREACODE + "\"" + "";
+            //strXMLIn += " POSTEL_ZIPCODE  = " + "\"" + insobj.POSTEL_ZIPCODE + "\"" + "";
+            //strXMLIn += " EMR_AVAILABILITY  = " + "\"" + insobj.EMR_AVAILABILITY + "\"" + "";
+            //strXMLIn += " ADDRESS1  = " + "\"" + insobj.ADDRESS1 + "\"" + "";
+            //strXMLIn += " ADDRESS2  = " + "\"" + insobj.ADDRESS2 + "\"" + "";
+            //strXMLIn += " ADDRESS3  = " + "\"" + insobj.ADDRESS3 + "\"" + "";
+            //strXMLIn += " COUNTRY_ID  = " + "\"" + insobj.COUNTRY_ID + "\"" + "";
+            //strXMLIn += " STATE_ID  = " + "\"" + insobj.STATE_ID + "\"" + "";
+            //strXMLIn += " CITY_ID  = " + "\"" + insobj.CITY_ID + "\"" + "";
+            //strXMLIn += " MARITALSTATUS_ID  = " + "\"" + insobj.MARITALSTATUS_ID + "\"" + "";
+            //strXMLIn += " BLOODGROUP_ID  = " + "\"" + insobj.BLOODGROUP_ID + "\"" + "";
+            ////strXMLIn += " PATIENTNO  = " + "\"" + insobj.PATIENTNO + "\"" + "";
+            //strXMLIn += " INSURANCEID  = " + "\"" + insobj.INSURANCEID + "\"" + "";
+            //strXMLIn += " NATIONALID  = " + "\"" + insobj.NATIONALID + "\"" + "";
+            //strXMLIn += " SMOKER  = " + "\"" + insobj.SMOKER + "\"" + "";
+            //strXMLIn += " DIABETIC  = " + "\"" + insobj.DIABETIC + "\"" + "";
+            //strXMLIn += " HYPERTENSION  = " + "\"" + insobj.HYPERTENSION + "\"" + "";
+            //strXMLIn += " CHOLESTEROL  = " + "\"" + insobj.CHOLESTEROL + "\"" + "";
+            //strXMLIn += " CURRENTLY_TAKEMEDICINE  = " + "\"" + insobj.CURRENTLY_TAKEMEDICINE + "\"" + "";
+            //strXMLIn += " PAST_MEDICALHISTORY  = " + "\"" + insobj.PAST_MEDICALHISTORY + "\"" + "";
+            //strXMLIn += " FAMILYHEALTH_PROBLEMHISTORY  = " + "\"" + insobj.FAMILYHEALTH_PROBLEMHISTORY + "\"" + "";
+            //strXMLIn += " VACCINATIONS  = " + "\"" + insobj.VACCINATIONS + "\"" + "";
+            //strXMLIn += " DIETDESCRIBE_ID  = " + "\"" + insobj.DIETDESCRIBE_ID + "\"" + "";
+            //strXMLIn += " EXCERCISE_SCHEDULEID  = " + "\"" + insobj.EXCERCISE_SCHEDULEID + "\"" + "";
+            //strXMLIn += " EXCERCISE_TEXT  = " + "\"" + insobj.EXCERCISE_TEXT + "\"" + "";
+            //strXMLIn += " ALERGYSUBSTANCE_ID  = " + "\"" + insobj.ALERGYSUBSTANCE_ID + "\"" + "";
+            //strXMLIn += " ALERGYSUBSTANCE_TEXT  = " + "\"" + insobj.ALERGYSUBSTANCE_TEXT + "\"" + "";
+            //strXMLIn += " SMOKESUBSTANCE_ID  = " + "\"" + insobj.SMOKESUBSTANCE_ID + "\"" + "";
+            //strXMLIn += " SMOKESUBSTANCE_TEXT  = " + "\"" + insobj.SMOKESUBSTANCE_TEXT + "\"" + "";
+            //strXMLIn += " ALCOHALSUBSTANCE_ID  = " + "\"" + insobj.ALCOHALSUBSTANCE_ID + "\"" + "";
+            //strXMLIn += " ALCOHALSUBSTANCE_TEXT  = " + "\"" + insobj.ALCOHALSUBSTANCE_TEXT + "\"" + "";
+            //strXMLIn += " CAFFEINATED_BEVERAGESID  = " + "\"" + insobj.CAFFEINATED_BEVERAGESID + "\"" + "";
+            //strXMLIn += " CAFFEINATEDBEVERAGES_TEXT  = " + "\"" + insobj.CAFFEINATEDBEVERAGES_TEXT + "\"" + "";
+            //strXMLIn += " EMERG_CONT_FIRSTNAME  = " + "\"" + insobj.EMERG_CONT_FIRSTNAME + "\"" + "";
+            //strXMLIn += " EMERG_CONT_MIDDLENAME  = " + "\"" + insobj.EMERG_CONT_MIDDLENAME + "\"" + "";
+            //strXMLIn += " EMERG_CONT_LASTNAME  = " + "\"" + insobj.EMERG_CONT_LASTNAME + "\"" + "";
+            //strXMLIn += " EMERG_CONT_RELATIONSHIP_ID  = " + "\"" + insobj.EMERG_CONT_RELATIONSHIP_ID + "\"" + "";
+            //strXMLIn += " GOOGLE_EMAILID  = " + "\"" + insobj.GOOGLE_EMAILID + "\"" + "";
+            //strXMLIn += " FB_EMAILID  = " + "\"" + insobj.FB_EMAILID + "\"" + "";
+            //strXMLIn += " APPROVAL_FLAG  = " + "\"" + insobj.ApprovalFlag + "\"" + "";
+            //strXMLIn += " PASSWORD  = " + "\"" + insobj.PASSWORD + "\"" + "";
+            //strXMLIn += " Patient_Type  = " + "\"" + insobj.Patient_Type + "\"" + "";
+            //strXMLIn += " Emergency_MobileNo  = " + "\"" + insobj.Emergency_MobileNo + "\"" + "";
+            //strXMLIn += " DOB_Encrypt  = " + "\"" + insobj.DOB_Encrypt + "\"" + "";
+            //strXMLIn += " FullName  = " + "\"" + insobj.FullName + "\"" + "";
+            //strXMLIn += " CREATED_BY  = " + "\"" + insobj.CREATED_BY + "\"" + "";
+            //strXMLIn += " SESSION_ID  = " + "\"" + Login_Session_Id + "\"" + "";
+            //strXMLIn += " appleUserID  = " + "\"" + insobj.appleUserID + "\"" + "";
+            //strXMLIn += " PATIENT_ID  = " + "\"" + insobj.PatientId + "\"" + "";
+            //strXMLIn += " Memberid  = " + "\"" + insobj.Memberid + "\"" + "";
+            //strXMLIn += " PolicyNumber  = " + "\"" + insobj.PolicyNumber + "\"" + "";
+            //strXMLIn += " RefernceId  = " + "\"" + insobj.RefernceId + "\"" + "";
+            //strXMLIn += " ExpiryDate  = " + "\"" + insobj.ExpiryDate + "\"" + "";
+            //strXMLIn += " PayorId  = " + "\"" + insobj.PayorId + "\"" + "";
+            //strXMLIn += " PlanId  = " + "\"" + insobj.PlanId + "\"" + "";
+
+            //strXMLIn += " MNR_NO  = " + "\"" + insobj.MrnPrefix + "\"" + "";
+            //strXMLIn += " PATIENTNO  = " + "\"" + insobj.PATIENTNO + "\"" + "";
+            //strXMLIn += " IS_MASTER  = " + "\"" + insobj.IS_MASTER + "\"" + "";
+
+            //strXMLIn += "/>";
+
+            //List<DataParameter> param_xml = new List<DataParameter>();
+            //param_xml.Add(new DataParameter("@strXML", strXMLIn));
+            //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USER_ADMIN_SP_INSERTUPDATE_XMLTEST]", param_xml);
             DataRow dr = dt.Rows[0];
             if (dr.IsNull("Id") == true)
             {
@@ -220,20 +404,22 @@ namespace MyCortex.Repositories.Uesr
                     {
                         foreach (GroupTypeModel item in insobj.GroupTypeList)
                         {
+                            if (item.Id != null)
+                            {
+                                List<DataParameter> param1 = new List<DataParameter>();
+                                param1.Add(new DataParameter("@User_Id", InsertId));
+                                param1.Add(new DataParameter("@Group_Id", item.Id));
+                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                var objExist = insobj.SelectedGroupList.Where(ChildItem => ChildItem.Group_Id == item.Id);
 
-                            List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@User_Id", InsertId));
-                            param1.Add(new DataParameter("@Group_Id", item.Id));
-                            param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                            var objExist = insobj.SelectedGroupList.Where(ChildItem => ChildItem.Group_Id == item.Id);
+                                if (objExist.ToList().Count > 0)
+                                    //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
+                                    param1.Add(new DataParameter("@Group_Selected", "1"));
+                                else
+                                    param1.Add(new DataParameter("@Group_Selected", "0"));
 
-                            if (objExist.ToList().Count > 0)
-                                //    if (obj.Institution_Modules.Select(ChildItem=>ChildItem.ModuleId = item.Id).ToList()==0)
-                                param1.Add(new DataParameter("@Group_Selected", "1"));
-                            else
-                                param1.Add(new DataParameter("@Group_Selected", "0"));
-
-                            Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DOCTORADDITIONALDETAILS", param1, true);
+                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_DOCTORADDITIONALDETAILS", param1, true);
+                            }
                         }
                     }
                     if (insobj.MenuType == 2)
@@ -243,19 +429,21 @@ namespace MyCortex.Repositories.Uesr
                             // Institution Child Table save
                             foreach (InstitutionMasterModel item in insobj.InstitutionList)
                             {
+                                if (item.Id != null)
+                                {
+                                    List<DataParameter> param1 = new List<DataParameter>();
+                                    param1.Add(new DataParameter("@User_Id", InsertId));
+                                    param1.Add(new DataParameter("@Institution_Id", item.Id));
+                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                    var objExist = insobj.SelectedInstitutionList.Where(ChildItem => ChildItem.Institution_Id == item.Id);
 
-                                List<DataParameter> param1 = new List<DataParameter>();
-                                param1.Add(new DataParameter("@User_Id", InsertId));
-                                param1.Add(new DataParameter("@Institution_Id", item.Id));
-                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                var objExist = insobj.SelectedInstitutionList.Where(ChildItem => ChildItem.Institution_Id == item.Id);
+                                    if (objExist.ToList().Count > 0)
+                                        param1.Add(new DataParameter("@Institution_Selected", "1"));
+                                    else
+                                        param1.Add(new DataParameter("@Institution_Selected", "0"));
 
-                                if (objExist.ToList().Count > 0)
-                                    param1.Add(new DataParameter("@Institution_Selected", "1"));
-                                else
-                                    param1.Add(new DataParameter("@Institution_Selected", "0"));
-
-                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_INSTITTUTIONDETAILS", param1, true);
+                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_INSTITTUTIONDETAILS", param1, true);
+                                }
                             }
                         }
                         if (insobj.LanguageList != null)
@@ -263,19 +451,21 @@ namespace MyCortex.Repositories.Uesr
                             // Language Child table save
                             foreach (LanguageProficiencyModel item in insobj.LanguageList)
                             {
+                                if (item.Id != null)
+                                {
+                                    List<DataParameter> param1 = new List<DataParameter>();
+                                    param1.Add(new DataParameter("@User_Id", InsertId));
+                                    param1.Add(new DataParameter("@Language_Id", item.Id));
+                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                    var objExist = insobj.SelectedLanguageList.Where(ChildItem => ChildItem.Language_Id == item.Id);
 
-                                List<DataParameter> param1 = new List<DataParameter>();
-                                param1.Add(new DataParameter("@User_Id", InsertId));
-                                param1.Add(new DataParameter("@Language_Id", item.Id));
-                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                var objExist = insobj.SelectedLanguageList.Where(ChildItem => ChildItem.Language_Id == item.Id);
+                                    if (objExist.ToList().Count > 0)
+                                        param1.Add(new DataParameter("@Language_Selected", "1"));
+                                    else
+                                        param1.Add(new DataParameter("@Language_Selected", "0"));
 
-                                if (objExist.ToList().Count > 0)
-                                    param1.Add(new DataParameter("@Language_Selected", "1"));
-                                else
-                                    param1.Add(new DataParameter("@Language_Selected", "0"));
-
-                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_LANGUAGEDETAILS", param1, true);
+                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].USER_SP_INSERTUPDATE_LANGUAGEDETAILS", param1, true);
+                                }
                             }
                         }
                     }
@@ -285,61 +475,72 @@ namespace MyCortex.Repositories.Uesr
                         {
                             foreach (ChronicConditionModel item in insobj.ChronicConditionList)
                             {
+                                if (item.Id != null)
+                                {
+                                    List<DataParameter> param1 = new List<DataParameter>();
+                                    param1.Add(new DataParameter("@User_Id", InsertId));
+                                    param1.Add(new DataParameter("@Chronic_Id", item.Id));
+                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                    var objExist = insobj.SelectedChronicConnditionList.Where(ChildItem => ChildItem.Chronic_Id == item.Id);
 
-                                List<DataParameter> param1 = new List<DataParameter>();
-                                param1.Add(new DataParameter("@User_Id", InsertId));
-                                param1.Add(new DataParameter("@Chronic_Id", item.Id));
-                                param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                var objExist = insobj.SelectedChronicConnditionList.Where(ChildItem => ChildItem.Chronic_Id == item.Id);
+                                    if (objExist.ToList().Count > 0)
+                                        param1.Add(new DataParameter("@Condition_Selected", "1"));
+                                    else
+                                        param1.Add(new DataParameter("@Condition_Selected", "0"));
 
-                                if (objExist.ToList().Count > 0)
-                                    param1.Add(new DataParameter("@Condition_Selected", "1"));
-                                else
-                                    param1.Add(new DataParameter("@Condition_Selected", "0"));
-
-                                Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CHRONICCONDITION", param1, true);
+                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CHRONICCONDITION", param1, true);
+                                }
                             }
                             if (insobj.CURRENTLY_TAKEMEDICINE == 1)
                             {
                                 foreach (Patient_CurrentMedicalDetails item in insobj.AddMedicines)
                                 {
-                                    List<DataParameter> param1 = new List<DataParameter>();
-                                    param1.Add(new DataParameter("@Id", item.Id));
-                                    param1.Add(new DataParameter("@User_Id", InsertId));
-                                    param1.Add(new DataParameter("@Medicine_Name", item.MedicineName));
-                                    param1.Add(new DataParameter("@Remarks", item.Remarks));
-                                    param1.Add(new DataParameter("@Status", item.Status));
-                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CURRENTMEDICALDETAILS", param1, true);
+                                    if (item.Id != null)
+                                    {
+                                        List<DataParameter> param1 = new List<DataParameter>();
+                                        param1.Add(new DataParameter("@Id", item.Id));
+                                        param1.Add(new DataParameter("@User_Id", InsertId));
+                                        param1.Add(new DataParameter("@Medicine_Name", item.MedicineName));
+                                        param1.Add(new DataParameter("@Remarks", item.Remarks));
+                                        param1.Add(new DataParameter("@Status", item.Status));
+                                        param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_CURRENTMEDICALDETAILS", param1, true);
+                                    }
                                 }
                             }
                             if (insobj.PAST_MEDICALHISTORY == 1)
                             {
                                 foreach (Patient_PastMedicalDetails item in insobj.AddMedicalHistory)
                                 {
-                                    List<DataParameter> param1 = new List<DataParameter>();
-                                    param1.Add(new DataParameter("@Id", item.Id));
-                                    param1.Add(new DataParameter("@User_Id", InsertId));
-                                    param1.Add(new DataParameter("@Medicine_Name", item.Medical_History));
-                                    param1.Add(new DataParameter("@Remarks", item.Remarks));
-                                    param1.Add(new DataParameter("@Status", item.Status));
-                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_PASTMEDICALDETAILS", param1, true);
+                                    if (item.Id != null)
+                                    {
+                                        List<DataParameter> param1 = new List<DataParameter>();
+                                        param1.Add(new DataParameter("@Id", item.Id));
+                                        param1.Add(new DataParameter("@User_Id", InsertId));
+                                        param1.Add(new DataParameter("@Medicine_Name", item.Medical_History));
+                                        param1.Add(new DataParameter("@Remarks", item.Remarks));
+                                        param1.Add(new DataParameter("@Status", item.Status));
+                                        param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_PASTMEDICALDETAILS", param1, true);
+                                    }
                                 }
                             }
                             if (insobj.FAMILYHEALTH_PROBLEMHISTORY == 1)
                             {
                                 foreach (Patient_FamilyHeealthHistoryDetails item in insobj.AddHealthProblem)
                                 {
-                                    List<DataParameter> param1 = new List<DataParameter>();
-                                    param1.Add(new DataParameter("@Id", item.Id));
-                                    param1.Add(new DataParameter("@User_Id", InsertId));
-                                    param1.Add(new DataParameter("@Relationship_Id", item.Relationship_Id));
-                                    param1.Add(new DataParameter("@Health_Problem", item.Health_Problem));
-                                    param1.Add(new DataParameter("@Remarks", item.Remarks));
-                                    param1.Add(new DataParameter("@Status", item.Status));
-                                    param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
-                                    Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_FAMILYHEALTHPROBLEM", param1, true);
+                                    if(item.Id != null)
+                                    {
+                                        List<DataParameter> param1 = new List<DataParameter>();
+                                        param1.Add(new DataParameter("@Id", item.Id));
+                                        param1.Add(new DataParameter("@User_Id", InsertId));
+                                        param1.Add(new DataParameter("@Relationship_Id", item.Relationship_Id));
+                                        param1.Add(new DataParameter("@Health_Problem", item.Health_Problem));
+                                        param1.Add(new DataParameter("@Remarks", item.Remarks));
+                                        param1.Add(new DataParameter("@Status", item.Status));
+                                        param1.Add(new DataParameter("@CREATED_BY", insobj.CREATED_BY));
+                                        Inserted_Group_Id = ClsDataBase.Insert("[MYCORTEX].PATIENT_SP_INSERTUPDATE_FAMILYHEALTHPROBLEM", param1, true);
+                                    }
                                 }
                             }
                         }
@@ -361,7 +562,7 @@ namespace MyCortex.Repositories.Uesr
                                     EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
                                     DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                     MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                    DOB = p.Field<DateTime?>("DOB"),
+                                    //DOB = p.Field<DateTime?>("DOB"),
                                     DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                     Department_Name = p.Field<string>("Department_Name"),
                                     InstitutionName = p.Field<string>("InstitutionName"),
@@ -391,7 +592,8 @@ namespace MyCortex.Repositories.Uesr
                                     BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
                                     MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
                                     PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
-                                    MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                    //MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                    MNR_NO = p.Field<string>("MNR_NO"),
                                     INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")),
                                     NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
                                     EthnicGroup = p.Field<string>("EthnicGroup"),
@@ -440,15 +642,66 @@ namespace MyCortex.Repositories.Uesr
                                     Patient_Type = p.Field<int?>("Patient_Type"),
                                     Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
                                     FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                    appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
+                                    PatientId = p.Field<string>("PATIENT_ID"),
+                                    Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
+                                    PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
+                                    RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
+                                    ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                    PayorId = p.Field<string>("PAYORID"),
+                                    PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
             if (insert.DOB_Encrypt != "")
             {
-                insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
+                var time = insert.DOB_Encrypt.Split(' ');
+
+                var time4 = time[0].Split('/');
+                try
+                {
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
+                }
+                catch (Exception ex1)
+                {
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
+                }
+
+                //insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
                 /*string[] tokens = insert.DOB_Encrypt.Split('/');
                 insert.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
             }
-
-            if(InsertId>0)
+            if (InsertId>0)
             { 
                 String FirstCharacter = insert.FirstName.ToString();
                 String LastCharacter = insert.LastName.ToString();
@@ -579,6 +832,40 @@ namespace MyCortex.Repositories.Uesr
             return list;
         }
 
+
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery)
+        {
+            DataEncryption EncryptPassword = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ISACTIVE", IsActive));
+            param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
+            param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
+            //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);
+            DataEncryption DecryptFields = new DataEncryption();
+            List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
+                                                   select new ItemizedUserDetailsModel()
+                                                   {
+                                                       //TotalRecord = p.Field<string>("TotalRecords"),
+                                                       Id = p.Field<long>("Id"),
+                                                       FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
+                                                       MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
+                                                       LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                                       FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
+                                                       MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                                       IsActive = p.Field<int?>("IsActive"),
+                                                       GroupName = p.Field<string>("GroupName"),
+                                                       MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                                       GENDER_NAME = p.Field<string>("Gender_Name"),
+                                                       LoginTime = p.Field<DateTime?>("LOGINTIME"),
+                                                       EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+                                                       PATIENT_ID = (p.Field<string>("PATIENT_ID")) ?? "",
+                                                       INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
+                                                       NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
+                                                   }).OrderBy(o => o.FullName).ToList();
+            return list;
+        }
+
         /// <summary>
         /// to get User basic details of a User Id 
         /// </summary>
@@ -591,10 +878,12 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW", param);
+            
             UserModel View = (from p in dt.AsEnumerable()
-                              select
-                              new UserModel()
-                              {
+                              select 
+                                new UserModel()
+                                { 
+                                   
                                   Id = p.Field<long>("Id"),
                                   INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
                                   FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
@@ -604,13 +893,13 @@ namespace MyCortex.Repositories.Uesr
                                   EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
                                   DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
                                   MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                  DOB = p.Field<DateTime?>("DOB"),
+                                  //DOB = p.Field<DateTime?>("DOB"),
                                   DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                   Department_Name = p.Field<string>("Department_Name"),
                                   InstitutionName = p.Field<string>("InstitutionName"),
                                   IsActive = p.Field<int?>("IsActive"),
-                                  Photo = p.Field<string>("PHOTO_NAME"),
-                                  Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH"),
+                                  Photo =  p.Field<string>("PHOTO_NAME"),
+                                  Photo_Fullpath =  p.Field<string>("PHOTO_FULLPATH"),
                                   FileName = p.Field<string>("PHOTO_FILENAME"),
                                   FILE_NAME = p.Field<string>("FILE_NAME"),
                                   FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
@@ -688,11 +977,80 @@ namespace MyCortex.Repositories.Uesr
                                   Patient_Type = p.Field<int?>("Patient_Type"),
                                   Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
                                   Approval_flag = p.Field<int>("APPROVAL_FLAG"),
-                                  Createdby_ShortName = p.Field<string>("SHORTNAME_CODE")
-                              }).FirstOrDefault();
+                                  Createdby_ShortName = p.Field<string>("SHORTNAME_CODE"),
+                                  appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
+                                  PatientId = p.Field<string>("PATIENT_ID"),
+                                  Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
+                                  PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
+                                  RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
+                                  ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                  PayorId = p.Field<string>("PAYORID"),
+                                  PlanId = p.Field<string>("PLANID"),
+                                  PayorName = p.Field<string>("PayorName"),
+                                  PlanName = p.Field<string>("PlanName"),
+                                  Appointment_Module_Id = p.Field<int?>("APPOINTMENT_MODULE_ID"),
+                                  TimeZone_Id = p.Field<int?>("TIMEZONE_ID"),
+                                  NationalPhotoFullpath = p.Field<string>("NATIONAL_PHOTO_FULLPATH"),
+                                  NationalPhotoFilename = p.Field<string>("NATIONAL_PHOTO_FILENAME"),
+                                  InsurancePhotoFullpath = p.Field<string>("INSURANCE_PHOTO_FULLPATH"),
+                                  InsurancePhotoFilename = p.Field<string>("INSURANCE_PHOTO_FILENAME")
+                                }).FirstOrDefault();
+            
+
             if (View.DOB_Encrypt != "")
             {
-                View.DOB = Convert.ToDateTime(View.DOB_Encrypt);
+                var time = View.DOB_Encrypt.Split(' ');
+
+             
+
+                var time4 = time[0].Split('/');
+                try
+                {
+
+
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    View.DOB = dt1;
+                }
+                catch (Exception ex1)
+                {
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2]; 
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    View.DOB = dt1;
+                }
+               
                 /*string[] tokens = View.DOB_Encrypt.Split('/');
                 View.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
                 //View.DOB= DateTime.ParseExact(View.DOB_Encrypt, "MM-dd-yyyy HH:mm:ss,fff", System.Globalization.CultureInfo.InvariantCulture);
@@ -916,11 +1274,18 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id">User id</param>
         /// <returns>success status of user deactivated</returns>
-        public void UserDetails_InActive(long Id)
+        public UserReturnModel UserDetails_InActive(long Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
-            ClsDataBase.Update("[MYCORTEX].USERDETAILS_SP_INACTIVE", param);
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_INACTIVE", param);
+            UserReturnModel Active = (from p in dt.AsEnumerable()
+                                      select new UserReturnModel()
+                                      {
+                                          ReturnFlag = p.Field<int>("flag"),
+                                      }).FirstOrDefault();
+            return Active;
+            //ClsDataBase.Update("[MYCORTEX].USERDETAILS_SP_INACTIVE", param);
         }
         /// <summary>
         /// to activate a user
@@ -960,7 +1325,7 @@ namespace MyCortex.Repositories.Uesr
                                   PatientId = p.Field<long>("ID"),
                                   MNR_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")),
                                   NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
-                                  DOB = p.Field<DateTime?>("DOB"),
+                                  //DOB = p.Field<DateTime?>("DOB"),
                                   DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
                                   MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
                                   FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
@@ -1054,9 +1419,12 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id)
+        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber,int Active)
         {
             List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Active", Active));
             param.Add(new DataParameter("@PATIENTID", Patient_Id));
             param.Add(new DataParameter("@TYPE", OptionType_Id));
             param.Add(new DataParameter("@PARAMGROUP_ID", Group_Id));
@@ -1067,6 +1435,55 @@ namespace MyCortex.Repositories.Uesr
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                  select new PatientHealthDataModel()
                                                  {
+                                                     TotalRecord = p.Field<string>("TotalRecords"),
+                                                     RowNumber = p.Field<int>("ROW_NUM"),
+                                                     ParameterId = p.Field<long>("PARAMETER"),
+                                                     ParameterName = p.Field<string>("PARAMETERNAME"),
+                                                     XAxis = p.Field<string>("xaxis") ?? "",
+                                                     // Average = p.IsNull("PARAM_AVG") ? 0 : p.Field<decimal>("PARAM_AVG"),
+                                                     UOM_Id = p.Field<long>("UNITID"),
+                                                     UOM_Name = p.Field<string>("UNITNAME") ?? "",
+                                                     Activity_Date = p.Field<DateTime>("ACTIVITYDATE"),
+                                                     Activity_DateTime = p.Field<DateTime>("ACTIVITY_DATETIME"),
+                                                     ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
+                                                     Id = p.Field<long>("LIFESTYLEID"),
+                                                     IsActive = p.Field<int>("ISACTIVE"),
+                                                     DeviceType = p.Field<string>("DeviceType"),
+                                                     DeviceNo = p.Field<string>("Device_No"),
+                                                     TypeName = p.Field<string>("TYPENAME") ?? "",
+                                                     //Createdby_FullName = p.Field<string>("CREATEDBY_FULLNAME"),
+                                                     Createdby_FullName = DecryptFields.Decrypt(p.Field<string>("CREATEDBY_FULLNAME")),
+                                                     Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME") ?? "",
+                                                     Created_Dt = p.Field<DateTime>("CREATED_DT")
+                                                 }).ToList();
+            return list;
+        }
+
+        /// <summary>
+        /// Patient Health Data List of a Patient for the selected option and parameter type
+        /// </summary>
+        /// <param name="Patient_Id">Patient Id</param>
+        /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
+        /// <returns>List of Health Data</returns>
+        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Active", Active));
+            param.Add(new DataParameter("@PATIENTID", Patient_Id));
+            param.Add(new DataParameter("@TYPE", OptionType_Id));
+            param.Add(new DataParameter("@PARAMGROUP_ID", Group_Id));
+            param.Add(new DataParameter("@PARAMETER_ID", Parameter_Id));
+            param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTH_DATA_SP_LIST]", param);
+            DataEncryption DecryptFields = new DataEncryption();
+            List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
+                                                 select new PatientHealthDataModel()
+                                                 {
+                                                     TotalRecord = p.Field<string>("TotalRecords"),
+                                                     RowNumber = p.Field<int>("ROW_NUM"),
                                                      ParameterId = p.Field<long>("PARAMETER"),
                                                      ParameterName = p.Field<string>("PARAMETERNAME"),
                                                      XAxis = p.Field<string>("xaxis") ?? "",
@@ -1193,6 +1610,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@DEVICETYPE", insobj.DeviceType));
             param.Add(new DataParameter("@DEVICE_NO", insobj.DeviceNo));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@UNITS_ID", insobj.Units_Id));
             //param.Add(new DataParameter("@MODIFIEDBY", insobj.Created_By));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDATA_SP_INSERTUPDATE", param);
             PatientHealthDataModel list = (from p in dt.AsEnumerable()
@@ -1208,6 +1626,50 @@ namespace MyCortex.Repositories.Uesr
                                                Id = p.Field<long>("Id"),
                                                Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                            }).FirstOrDefault();
+            return list;
+        }
+
+        public PatientHealthDataModel PatientHealthData_Sync_Insert_Update(Guid Login_Session_Id, PatientHealthDataModel insobj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            PatientHealthDataModel list = null;
+            param.Add(new DataParameter("@ID", insobj.Id));
+            param.Add(new DataParameter("@PATIENTID", insobj.Patient_Id));
+            param.Add(new DataParameter("@PARAMETERID", insobj.ParameterId));
+            param.Add(new DataParameter("@PARAMETERVALUE", insobj.ParameterValue));
+            param.Add(new DataParameter("@ACTIVTY_DATE", insobj.Activity_Date));
+            if (insobj.Id > 0)
+            {
+                param.Add(new DataParameter("@CREATEDBY", insobj.Modified_By));
+            }
+            else
+            {
+                param.Add(new DataParameter("@CREATEDBY", insobj.Created_By));
+            }
+            param.Add(new DataParameter("@DEVICETYPE", insobj.DeviceType));
+            param.Add(new DataParameter("@DEVICE_NO", insobj.DeviceNo));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            /*param.Add(new DataParameter("@UNITS_ID", insobj.Units_Id));*/
+            param.Add(new DataParameter("@UNITSGROUP_ID", insobj.Units_Group_Id));
+            param.Add(new DataParameter("@PARAMGROUP_ID", 1));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTDATA_SP_INSERTUPDATE_FIT_SYNC]", param);
+            if (dt.Rows.Count > 0)
+            {
+                list = (from p in dt.AsEnumerable()
+                        select new PatientHealthDataModel()
+                        {
+                            Patient_Id = p.Field<long>("PATIENT_ID"),
+                            ParameterId = p.Field<long>("PARAMETER_ID"),
+                            ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
+                            Activity_Date = p.Field<DateTime>("ACTIVITY_DATE"),
+                            flag = p.Field<int>("flag"),
+                            DeviceType = p.Field<string>("DeviceType"),
+                            DeviceNo = p.Field<string>("Device_No"),
+                            Id = p.Field<long>("Id"),
+                            Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                        }).FirstOrDefault();
+            }
+
             return list;
         }
         /// <summary>
@@ -1272,6 +1734,34 @@ namespace MyCortex.Repositories.Uesr
             //DataRow dr = dt.Rows[0];
             //flag = (dr["FLAG"].ToString());
         }
+        public string GetInstitutionName(string INSTITUTION_CODE)
+        {
+            string INSTITUTION_NAME;
+            List<DataParameter> param = new List<DataParameter>();
+
+            param.Add(new DataParameter("@INSTITUTION_SHORTNAME", INSTITUTION_CODE));
+            DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.GETINSTITUTIONNAME", param);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                /*   UserModel View = (from p in dt.AsEnumerable()
+                                     select
+                                     new UserModel()
+                                     {
+                                         INSTITUTION_ID = p.IsNull("Id") ? 0 : p.Field<long>("Id")
+                                     }).FirstOrDefault();*/
+                INSTITUTION_NAME = dr.IsNull("INSTITUTION_NAME") ? "" : dr.Field<string>("INSTITUTION_NAME");
+            }
+            else
+            {
+                INSTITUTION_NAME = "";
+            }
+            var data = (INSTITUTION_NAME);
+            return data;
+            //DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_INSERTUPDATE", param);
+            //DataRow dr = dt.Rows[0];
+            //flag = (dr["FLAG"].ToString());
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -1305,7 +1795,10 @@ namespace MyCortex.Repositories.Uesr
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                                           Id = p.Field<long>("Id"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
                                                           ViewGenderName = p.Field<string>("GENDER_NAME"),
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                          Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
                                                       }).ToList();
                 return lst;
             }
@@ -1315,6 +1808,138 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+
+        public IList<PatientAppointmentsModel> CG_PatientAppointmentList(long Institution_Id, Guid Login_Session_Id, long UserId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@UserId", UserId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_PATIENTAPPOINTMENTS_SP_LIST]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                DataEncryption decrypt = new DataEncryption();
+                List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                      select new PatientAppointmentsModel()
+                                                      {
+                                                          Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          //PatientName = p.Field<string>("PATIENTNAME"),
+                                                          //DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                          //Photo = p.Field<string>("PHOTO_NAME"),
+                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          TimeDifference = p.Field<string>("TimeDifference"),
+                                                          Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                          Id = p.Field<long>("Id"),
+                                                          Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          DoctorDepartmentId = p.Field<long>("DEPARTMENT_ID"),
+                                                          ViewGenderName = p.Field<string>("GENDER_NAME"),
+                                                          Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<PatientAppointmentsModel> CG_Confirm_PatientAppointments (CG_PatientAppointmentConfirm obj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ROW_ID", obj.Id));
+            param.Add(new DataParameter("@USER_ID", obj.user_id));
+            param.Add(new DataParameter("@Institution_Id", obj.Institution_Id));
+            param.Add(new DataParameter("@SESSION_ID", obj.SESSION_ID));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_UPDATE_PATIENTAPPOINTMENTS]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                DataEncryption decrypt = new DataEncryption();
+                IList<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                       select
+                                                       new PatientAppointmentsModel()
+                                                       {
+                                                           Id = p.Field<long>("Id"),
+                                                       //Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                       Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                           Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                           Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                       //AppointmentFromTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_FROMTIME").ToString()),
+                                                       //AppointmentToTime = GetTimeSpan(p.Field<DateTime>("APPOINTMENT_TOTIME").ToString()),
+                                                       AppointmentFromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                           AppointmentToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                           Appointment_Type = p.Field<long>("APPOINTMENT_TYPE"),
+                                                           ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
+                                                           Remarks = p.Field<string>("REMARKS"),
+                                                           Status = p.Field<int>("STATUS"),
+                                                       //Canceled_Date = p.Field<DateTime>("CANCELED_DATE"),
+                                                       //Cancel_Remarks = p.Field<string>("CANCEL_REMARKS"),
+                                                       Created_By = p.Field<int>("CREATED_BY"),
+                                                       //   ReasonTypeId = p.Field<long>("REASONTYPE_ID"),    
+                                                       //   Created_Date = p.Field<DateTime>("CREATED_DATE"),
+                                                       flag = p.Field<int>("flag")
+
+                                                       }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<PatientAppointmentsModel> PatientPreviousAppointmentList(long PatientId, Guid Login_Session_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Patient_Id", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENTS_PREVIOUS_SP_LIST]", param);
+                DataEncryption DecryptFields = new DataEncryption();
+                DataEncryption decrypt = new DataEncryption();
+                List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                      select new PatientAppointmentsModel()
+                                                      {
+                                                          Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          //PatientName = p.Field<string>("PATIENTNAME"),
+                                                          //DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                          //Photo = p.Field<string>("PHOTO_NAME"),
+                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          TimeDifference = p.Field<string>("TimeDifference"),
+                                                          Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                          Id = p.Field<long>("Id"),
+                                                          Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                          ViewGenderName = p.Field<string>("GENDER_NAME"),
+                                                          Payment_Status = (p.IsNull("PAYMENT_STATUS") ? "" : p.Field<string>("PAYMENT_STATUS")),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Parameter list of a patient
         /// </summary>
@@ -1380,6 +2005,32 @@ namespace MyCortex.Repositories.Uesr
                 return null;
             }
         }
+
+        public IList<PatientInstituteModel> GETPATIENTINSTITUTION(long ID)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                // List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@Id", ID)); 
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPATIENTINSTITUTION]", param);
+                IList<PatientInstituteModel> list = (from p in dt.AsEnumerable()
+                                                      select new PatientInstituteModel()
+                                                      {
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID")
+                                                      }).ToList();
+                return list;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+
         /// <summary>
         /// Parameters - Parameters Details List - Action - Active
         /// activate Selected Parameters (LS,  details 
@@ -1453,7 +2104,75 @@ namespace MyCortex.Repositories.Uesr
 
         }
 
+        /// <summary>
+        /// to attach photo or National Image of user
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Photo"></param>
+        /// <param name="Certificate"></param>
+        /// <returns></returns>
+		public void UserDetails_NationalPhotoUpload(byte[] imageFile, int Id)
+        {
+            DataEncryption encrypt = new DataEncryption();
 
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            if (imageFile != null)
+            {
+                param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            }
+            else
+            {
+                param.Add(new DataParameter("@BLOBDATA", null));
+            }
+            ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSERNATIONALIMAGE_SP_INSERTUPDATE]", param);
+
+        }
+
+
+        /// <summary>
+        /// to attach photo or Insurance of user
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Photo"></param>
+        /// <param name="Certificate"></param>
+        /// <returns></returns>
+        public void UserDetails_InsurancePhotoUpload(byte[] imageFile, int Id)
+        {
+            DataEncryption encrypt = new DataEncryption();
+
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", Id));
+            //param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            if (imageFile != null)
+            {
+                param.Add(new DataParameter("@BLOBDATA", encrypt.EncryptFile(imageFile)));
+            }
+            else
+            {
+                param.Add(new DataParameter("@BLOBDATA", null));
+            }
+            ClsDataBase.Update("[MYCORTEX].[TBLUPLOADUSERINSURANCEIMAGE_SP_INSERTUPDATE]", param);
+
+        }
+
+
+        public IList<PatientChronicCondition_List> Chronic_Conditions(long PatientId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@User_Id", PatientId));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CHRONIC_CONDITON", param);
+            List<PatientChronicCondition_List> INS = (from p in dt.AsEnumerable()
+                                                      select new PatientChronicCondition_List()
+                                                      { 
+                                                          Chronic_Id = p.Field<long>("CHRONIC_ID"),
+                                                          ChronicCondition = p.Field<string>("CHRONIC_NAME"),
+                                                          ChronicGroup = p.Field<string>("ChronicGroup")
+                                                      }).ToList();
+            return INS;
+        }
+        
         public void UserDetails_PhotoImageCompress(byte[] imageFile,byte[] imageFile1, int Id,int Created_By)
         {
             DataEncryption encrypt = new DataEncryption();
@@ -1533,6 +2252,89 @@ namespace MyCortex.Repositories.Uesr
                 };
             }
         }
+
+
+        /// <summary>
+        /// to get National photo of a business user/patient
+        /// </summary>
+        /// <param name="Id">User Id
+        public PhotoUploadModal UserDetails_GetNationalPhoto(int Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLUPLOADUSRE_SP_GETNATIONALPHOTO", param);
+            //  byte[] returnPhoto = (byte[])dt.Rows[0]["Id"];
+            if (dt.Rows.Count > 0)
+            {
+                if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
+                {
+                    byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
+
+                    return new PhotoUploadModal
+                    {
+                        Id = Id,
+                        NationalPhotoBlob = decrypt.DecryptFile(returnPhoto)
+                    };
+
+                    //return decrypt.DecryptFile(returnPhoto);
+                }
+                else
+                {
+                    return new PhotoUploadModal
+                    {
+                    };
+                }
+            }
+            else
+            {
+                return new PhotoUploadModal
+                {
+                };
+            }
+        }
+
+
+        /// <summary>
+        /// to get Insurance photo of a business user/patient
+        /// </summary>
+        /// <param name="Id">User Id
+        public PhotoUploadModal UserDetails_GetInsurancePhoto(int Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLUPLOADUSRE_SP_GETINSURANCEPHOTO", param);
+            //  byte[] returnPhoto = (byte[])dt.Rows[0]["Id"];
+            if (dt.Rows.Count > 0)
+            {
+                if (!Convert.IsDBNull(dt.Rows[0]["BLOBDATA"]))
+                {
+                    byte[] returnPhoto = (byte[])dt.Rows[0]["BLOBDATA"];
+
+                    return new PhotoUploadModal
+                    {
+                        Id = Id,
+                        InsurancePhotoBlob = decrypt.DecryptFile(returnPhoto)
+                    };
+
+                    //return decrypt.DecryptFile(returnPhoto);
+                }
+                else
+                {
+                    return new PhotoUploadModal
+                    {
+                    };
+                }
+            }
+            else
+            {
+                return new PhotoUploadModal
+                {
+                };
+            }
+        }
+
 
         /// <summary>
         /// to get document blob of a business user / patient
@@ -1677,6 +2479,58 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCTORAPPOINMENTHISTORY_SP_VIEW", param);
+                List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
+                                                      select new PatientAppointmentsModel()
+                                                      {
+                                                          Id = p.Field<long>("Id"),
+                                                          Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                          Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                          Doctor_Id = p.Field<long>("DOCTOR_ID"),
+                                                          Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
+                                                          Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
+                                                          Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
+                                                          Appointment_Type = p.Field<long>("APPOINTMENT_TYPE"),
+                                                          ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
+                                                          Remarks = p.Field<string>("REMARKS"),
+                                                          // Status = p.Field<int>("STATUS"),
+                                                          Cancelled_Date = p.Field<DateTime?>("CANCELED_DATE"),
+                                                          Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
+                                                          //IsActive = p.Field<int>("ISACTIVE"),
+                                                          Created_By = p.Field<int>("CREATED_BY"),
+                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          // DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          // PatientName = p.Field<string>("PATIENTNAME"),
+                                                          // Created_By_Name = p.Field<string>("CREATEDBYNAME"),
+                                                          Created_By_Name = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                                          PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                          Created_Dt = p.Field<DateTime>("CREATED_DT"),
+                                                      }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// to get appointment history for a patient
+        /// </summary>
+        /// <param name="PatientId">Patient Id</param>
+        /// <returns>appointment history for a patient</returns>
+        public IList<PatientAppointmentsModel> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id)
+        {
+            DataEncryption decrypt = new DataEncryption();
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PATIENTID", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DOCTORAPPOINMENTS_SP_VIEW]", param);
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
                                                       {
@@ -1908,17 +2762,21 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="Isactive"></param>
         /// <returns></returns>
-        public IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id)
+        public IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,long StartRowNumber,long EndRowNumber, long Institution_Id, long Page)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", Isactive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_LIST ", param);
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ICD10DETAILS_SP_LIST", param);
             List<MasterICDModel> list = (from p in dt.AsEnumerable()
                                          select new MasterICDModel()
                                          {
+                                             TotalRecord = p.Field<string>("TotalRecords"),
+                                             RowNumber = p.Field<int>("ROW_NUM"),
                                              Id = p.Field<long>("ID"),
                                              CategoryName = p.Field<string>("CATEGORY_NAME"),
                                              ICD_Code = p.Field<string>("ICDCODE"),
@@ -2208,17 +3066,21 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active flag</param>
         /// <returns></returns>
-        public IList<DrugDBMasterModel> MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<DrugDBMasterModel> MedicationList(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_LIST", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<DrugDBMasterModel> lst = (from p in dt.AsEnumerable()
                                            select new DrugDBMasterModel()
                                            {
+                                               TotalRecord = p.Field<string>("TotalRecords"),
+                                               RowNumber = p.Field<int>("ROW_NUM"),
                                                Id = p.Field<long>("ID"),
                                                FrequencyName = p.Field<string>("FREQUENCYNAME"),
                                                RouteName = p.Field<string>("ROUTENAME"),
@@ -2500,17 +3362,21 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active Flag</param>
         /// <returns>allergy list of a patient</returns>
-        public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber)); 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_ALLERGY_DETAILS_SP_LIST", param);
             List<AllergyModel> lst = (from p in dt.AsEnumerable()
                                       select new AllergyModel()
                                       {
+                                          TotalRecord = p.Field<String>("TotalRecords"),
+                                          RowNumber = p.Field<int>("ROW_NUM"),
                                           Id = p.Field<long>("ID"),
                                           AllergenName = p.Field<string>("ALLERGENNAME"),
                                           AllergyTypeName = p.Field<string>("ALLERGYTYPE"),
@@ -2625,7 +3491,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id"></param>
         /// <param name="IsActive"></param>
         /// <returns>Clinical notes list of a patient</returns>
-        public IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id)
+        public IList<DoctorNotesModel> PatientNotes_List(long idval, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -2635,11 +3501,15 @@ namespace MyCortex.Repositories.Uesr
                 param.Add(new DataParameter("@patientid", idval));
                 param.Add(new DataParameter("@ISACTIVE", IsActive));
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDOCTORNOTES_SP_LIST ", param);
+                param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+                param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTDOCTORNOTES_SP_LIST", param);
 
                 List<DoctorNotesModel> list = (from p in dt.AsEnumerable()
                                                select new DoctorNotesModel()
                                                {
+                                                   TotalRecord = p.Field<string>("TotalRecords"),
+                                                   RowNumber = p.Field<int>("ROW_NUM"),
                                                    Id = p.Field<long>("ID"),
                                                    PatientId = p.Field<long>("PATIENT_ID"),
                                                    Notes = p.Field<string>("NOTES"),
@@ -2756,18 +3626,21 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Remarks"></param>
         /// <param name="Created_By"></param>
         /// <returns>inserted/updated Patient other data document</returns>
-        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By)
+        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id,long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By,int Is_Appointment=0, string Filetype="")
         {
             List<DataParameter> param = new List<DataParameter>();
-            DataEncryption encrypt = new DataEncryption();
+            //DataEncryption encrypt = new DataEncryption();
 
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@Patient_Id", Patient_Id));
+            param.Add(new DataParameter("@Appointment_Id", Appointment_Id));
             param.Add(new DataParameter("@DocumentName", DocumentName));
             param.Add(new DataParameter("@FileName", FileName));
             param.Add(new DataParameter("@DocumentBlobData", (fileData)));
             param.Add(new DataParameter("@Remarks", Remarks));
             param.Add(new DataParameter("@Created_By", Created_By));
+            param.Add(new DataParameter("@Is_Appoinment", Is_Appointment));
+            param.Add(new DataParameter("@FileType", Filetype));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_OTHERDATA_INSERTUPDATE]", param);
             DataEncryption DecryptFields = new DataEncryption();
@@ -2777,13 +3650,16 @@ namespace MyCortex.Repositories.Uesr
                                              {
                                                  Id = p.Field<long>("Id"),
                                                  Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                 Appointment_Id = p.Field<long>("APPOINTMENT_ID"),
                                                  DocumentName = p.Field<string>("DOCUMENT_NAME"),
                                                  FileName = p.Field<string>("FILE_NAME"),
                                                  IsActive = p.Field<int>("ISACTIVE"),
                                                  Created_By = p.Field<long>("CREATED_BY"),
-                                                 Created_Name = p.Field<string>("Created_Name"),
-                                                 PatientName = p.Field<string>("PatientName"),
+                                                 Is_Appointment = p.Field<int>("IS_APPOINTMENT"),
+                                                 Created_Name = DecryptFields.Decrypt(p.Field<string>("Created_Name")),
+                                                 PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
                                                  Remarks = p.Field<string>("Remarks"),
+                                                 Filetype = p.Field<string>("FILETYPE"),
                                                  flag = p.Field<int>("flag"),
                                                  Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                              }).FirstOrDefault();
@@ -2828,19 +3704,49 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public AppointmentFeeModel GetAppointmentFee(long Institution_Id, long Department_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            param.Add(new DataParameter("@DEPARTMENT_ID", Department_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBL_GETAPPOINTMENTFEES]", param);
+                AppointmentFeeModel View = (from p in dt.AsEnumerable()
+                                               select
+                                               new AppointmentFeeModel()
+                                               {
+                                                   Id = p.Field<long>("Id"),
+                                                   InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                   DepartmentId = p.Field<long>("DEPARTMENT_ID"),
+                                                   DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
+                                                   Amount = p.Field<string>("AMOUNT")
+                                               }).FirstOrDefault();
+                return View;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// Patient other data list of a selected patient and active flag
         /// </summary>
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="IsActive">Active flag</param>
         /// <returns></returns>
-        public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id)
+        public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -2848,6 +3754,8 @@ namespace MyCortex.Repositories.Uesr
                 List<Patient_OtherDataModel> lst = (from p in dt.AsEnumerable()
                                                     select new Patient_OtherDataModel()
                                                     {
+                                                        TotalRecord = p.Field<string>("TotalRecords"),
+                                                        RowNumber = p.Field<int>("ROW_NUM"),
                                                         Id = p.Field<long>("Id"),
                                                         Patient_Id = p.Field<long>("PATIENT_ID"),
                                                         DocumentName = p.Field<string>("DOCUMENT_NAME"),
@@ -2883,11 +3791,14 @@ namespace MyCortex.Repositories.Uesr
             {
                 byte[] returnDocument = (byte[])dt.Rows[0]["BLOBDATA"];
                 string FileName = (string)dt.Rows[0]["FILE_NAME"];
+                string FileType = (string)dt.Rows[0]["FILETYPE"];
                 return new Patient_OtherDataModel
                 {
                     Id = Id,
                     DocumentBlobData = (returnDocument),
-                    FileName = FileName
+                    FileName = FileName,
+                    Filetype= FileType
+
                 };
 
                 //return decrypt.DecryptFile(returnPhoto);
@@ -3146,6 +4057,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
             param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
             param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
+            param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_UPDATE]", param);
 
@@ -3161,6 +4073,7 @@ namespace MyCortex.Repositories.Uesr
                 insobj.MOBILE_NO = DecryptFields.Decrypt(insobj.MOBILE_NO);
                 insobj.GOOGLE_EMAILID = DecryptFields.Decrypt(insobj.GOOGLE_EMAILID);
                 insobj.FB_EMAILID = DecryptFields.Decrypt(insobj.FB_EMAILID);
+                insobj.appleUserID = DecryptFields.Decrypt(insobj.appleUserID);
                 insobj.flag = int.Parse((dr["flag"].ToString()));
             }
             
@@ -3183,6 +4096,276 @@ namespace MyCortex.Repositories.Uesr
                 }
             }
             return SessionStatus;
+        }
+
+        public UserModel Add_Dummy_Users(UserModel insobj)
+        {
+            long InsertId = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InstitutionId", insobj.INSTITUTION_ID));
+            param.Add(new DataParameter("@FirstName", insobj.FirstName));
+            param.Add(new DataParameter("@MiddleName", insobj.MiddleName));
+            param.Add(new DataParameter("@LastName", insobj.LastName));
+            param.Add(new DataParameter("@Employment_No", insobj.EMPLOYEMENTNO));
+            param.Add(new DataParameter("@EmailId", insobj.EMAILID));
+            param.Add(new DataParameter("@DepartmentId", 1));
+            param.Add(new DataParameter("@MobileNo", insobj.MOBILE_NO));
+            param.Add(new DataParameter("@Photo_Name", insobj.Photo));
+            param.Add(new DataParameter("@Photo_FileName", insobj.FileName));
+            param.Add(new DataParameter("@Photo_FullPath", insobj.Photo_Fullpath));
+            param.Add(new DataParameter("@NationalPhotoFilename", insobj.NationalPhotoFilename));
+            param.Add(new DataParameter("@NationalPhotoFullpath", insobj.NationalPhotoFullpath));
+            param.Add(new DataParameter("@InsurancePhotoFilename", insobj.InsurancePhotoFilename));
+            param.Add(new DataParameter("@InsurancePhotoFullpath", insobj.InsurancePhotoFullpath));
+            param.Add(new DataParameter("@UserTypeId", 2));
+
+            param.Add(new DataParameter("@TITLE_ID", 1));
+            param.Add(new DataParameter("@HEALTH_LICENSE", insobj.HEALTH_LICENSE));
+            param.Add(new DataParameter("@FILE_NAME", insobj.FILE_NAME));
+            param.Add(new DataParameter("@FILE_FULLPATH", insobj.FILE_FULLPATH));
+            param.Add(new DataParameter("@UPLOAD_FILENAME", insobj.UPLOAD_FILENAME));
+            param.Add(new DataParameter("@GENDER_ID", 1));
+            param.Add(new DataParameter("@NATIONALITY_ID", 10));
+            param.Add(new DataParameter("@ETHINICGROUP_ID", 1));
+            //param.Add(new DataParameter("@DOB", insobj.DOB));
+            param.Add(new DataParameter("@HOME_AREACODE", insobj.HOME_AREACODE));
+            param.Add(new DataParameter("@HOME_PHONENO", insobj.HOME_PHONENO));
+            param.Add(new DataParameter("@MOBIL_AREACODE", insobj.MOBIL_AREACODE));
+            param.Add(new DataParameter("@POSTEL_ZIPCODE", insobj.POSTEL_ZIPCODE));
+            param.Add(new DataParameter("@EMR_AVAILABILITY", insobj.EMR_AVAILABILITY));
+            param.Add(new DataParameter("@ADDRESS1", insobj.ADDRESS1));
+            param.Add(new DataParameter("@ADDRESS2", insobj.ADDRESS2));
+            param.Add(new DataParameter("@ADDRESS3", insobj.ADDRESS3));
+            param.Add(new DataParameter("@COUNTRY_ID", 228));
+            param.Add(new DataParameter("@STATE_ID", 3732));
+            param.Add(new DataParameter("@CITY_ID", 10553));
+            param.Add(new DataParameter("@MARITALSTATUS_ID", 1));
+            param.Add(new DataParameter("@BLOODGROUP_ID", 1));
+            //param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
+            param.Add(new DataParameter("@INSURANCEID", insobj.INSURANCEID));
+            //param.Add(new DataParameter("@MNR_NO", insobj.MNR_NO));
+            //param.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+            param.Add(new DataParameter("@NATIONALID", insobj.NATIONALID));
+            param.Add(new DataParameter("@SMOKER", 10));
+            param.Add(new DataParameter("@DIABETIC", 5));
+            param.Add(new DataParameter("@HYPERTENSION", 3));
+            param.Add(new DataParameter("@CHOLESTEROL", 2));
+            param.Add(new DataParameter("@CURRENTLY_TAKEMEDICINE", insobj.CURRENTLY_TAKEMEDICINE));
+            param.Add(new DataParameter("@PAST_MEDICALHISTORY", insobj.PAST_MEDICALHISTORY));
+            param.Add(new DataParameter("@FAMILYHEALTH_PROBLEMHISTORY", insobj.FAMILYHEALTH_PROBLEMHISTORY));
+            param.Add(new DataParameter("@VACCINATIONS", insobj.VACCINATIONS));
+            param.Add(new DataParameter("@DIETDESCRIBE_ID", 3));
+            param.Add(new DataParameter("@EXCERCISE_SCHEDULEID", insobj.EXCERCISE_SCHEDULEID));
+            param.Add(new DataParameter("@EXCERCISE_TEXT", insobj.EXCERCISE_TEXT));
+            param.Add(new DataParameter("@ALERGYSUBSTANCE_ID", 2));
+            param.Add(new DataParameter("@ALERGYSUBSTANCE_TEXT", insobj.ALERGYSUBSTANCE_TEXT));
+            param.Add(new DataParameter("@SMOKESUBSTANCE_ID", 3));
+            param.Add(new DataParameter("@SMOKESUBSTANCE_TEXT", insobj.SMOKESUBSTANCE_TEXT));
+            param.Add(new DataParameter("@ALCOHALSUBSTANCE_ID", 8));
+            param.Add(new DataParameter("@ALCOHALSUBSTANCE_TEXT", insobj.ALCOHALSUBSTANCE_TEXT));
+            param.Add(new DataParameter("@CAFFEINATED_BEVERAGESID", 5));
+            param.Add(new DataParameter("@CAFFEINATEDBEVERAGES_TEXT", insobj.CAFFEINATEDBEVERAGES_TEXT));
+            param.Add(new DataParameter("@EMERG_CONT_FIRSTNAME", insobj.EMERG_CONT_FIRSTNAME));
+            param.Add(new DataParameter("@EMERG_CONT_MIDDLENAME", insobj.EMERG_CONT_MIDDLENAME));
+            param.Add(new DataParameter("@EMERG_CONT_LASTNAME", insobj.EMERG_CONT_LASTNAME));
+            param.Add(new DataParameter("@EMERG_CONT_RELATIONSHIP_ID", 4));
+            param.Add(new DataParameter("@GOOGLE_EMAILID", insobj.GOOGLE_EMAILID));
+            param.Add(new DataParameter("@FB_EMAILID", insobj.FB_EMAILID));
+            param.Add(new DataParameter("@APPROVAL_FLAG", 0));
+            param.Add(new DataParameter("@PASSWORD", insobj.PASSWORD));
+            param.Add(new DataParameter("@Patient_Type", insobj.Patient_Type));
+            param.Add(new DataParameter("@Emergency_MobileNo", insobj.Emergency_MobileNo));
+            param.Add(new DataParameter("@DOB_Encrypt", insobj.DOB_Encrypt));
+            param.Add(new DataParameter("@FullName", insobj.FullName));
+            //param.Add(new DataParameter("@ISACTIVE", insobj.ISACTIVE));
+            param.Add(new DataParameter("@CREATED_BY", 754));
+            //param.Add(new DataParameter("@CREATED_DT", insobj.CREATED_DT));
+            param.Add(new DataParameter("@appleUserID", insobj.appleUserID));
+            param.Add(new DataParameter("@PATIENT_ID", 754));
+            param.Add(new DataParameter("@Memberid", insobj.Memberid));
+            param.Add(new DataParameter("@PolicyNumber", insobj.PolicyNumber));
+            param.Add(new DataParameter("@RefernceId", insobj.RefernceId));
+            param.Add(new DataParameter("@ExpiryDate", insobj.ExpiryDate));
+            param.Add(new DataParameter("@PayorId", 1));
+            param.Add(new DataParameter("@PlanId", 1));
+            param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
+            param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Dummy_UserDetails_Insert]", param);
+            DataRow dr = dt.Rows[0];
+
+            DataEncryption DecryptFields = new DataEncryption();
+            UserModel insert = (from p in dt.AsEnumerable()
+                                select
+                                new UserModel()
+                                {
+                                    Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
+                                    flag = p.Field<int>("flag"),
+                                    INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
+                                    FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
+                                    MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
+                                    LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                    EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
+                                    EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                    DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
+                                    MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                    //DOB = p.Field<DateTime?>("DOB"),
+                                    DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
+                                    Department_Name = p.Field<string>("Department_Name"),
+                                    InstitutionName = p.Field<string>("InstitutionName"),
+                                    IsActive = p.Field<int?>("IsActive"),
+                                    Photo = p.Field<string>("PHOTO_NAME"),
+                                    Photo_Fullpath = p.Field<string>("PHOTO_FULLPATH"),
+                                    FileName = p.Field<string>("PHOTO_FILENAME"),
+                                    FILE_NAME = p.Field<string>("FILE_NAME"),
+                                    FILE_FULLPATH = p.Field<string>("FILE_FULLPATH"),
+                                    UPLOAD_FILENAME = p.Field<string>("UPLOAD_FILENAME"),
+                                    UserType_Id = p.Field<long?>("UserType_Id"),
+                                    HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
+                                    GENDER_ID = p.IsNull("GENDER_ID") ? 0 : p.Field<long>("GENDER_ID"),
+                                    NATIONALITY_ID = p.IsNull("NATIONALITY_ID") ? 0 : p.Field<long>("NATIONALITY_ID"),
+                                    ETHINICGROUP_ID = p.IsNull("ETHINICGROUP_ID") ? 0 : p.Field<long>("ETHINICGROUP_ID"),
+                                    EMR_AVAILABILITY = p.Field<bool?>("EMR_AVAILABILITY"),
+                                    ADDRESS1 = p.Field<string>("ADDRESS1"),
+                                    ADDRESS2 = p.Field<string>("ADDRESS2"),
+                                    ADDRESS3 = p.Field<string>("ADDRESS3"),
+                                    HOME_AREACODE = p.Field<string>("HOME_AREACODE"),
+                                    HOME_PHONENO = p.Field<string>("HOME_PHONENO"),
+                                    MOBIL_AREACODE = p.Field<string>("MOBIL_AREACODE"),
+                                    POSTEL_ZIPCODE = p.Field<string>("POSTEL_ZIPCODE"),
+                                    COUNTRY_ID = p.IsNull("COUNTRY_ID") ? 0 : p.Field<long>("COUNTRY_ID"),
+                                    STATE_ID = p.IsNull("STATE_ID") ? 0 : p.Field<long>("STATE_ID"),
+                                    CITY_ID = p.IsNull("CITY_ID") ? 0 : p.Field<long>("CITY_ID"),
+                                    BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
+                                    MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
+                                    PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
+                                    //MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                    MNR_NO = p.Field<string>("MNR_NO"),
+                                    INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")),
+                                    NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
+                                    EthnicGroup = p.Field<string>("EthnicGroup"),
+                                    UserName = p.Field<string>("UserName"),
+                                    GENDER_NAME = p.Field<string>("GENDER_NAME"),
+                                    Nationality = p.Field<string>("Nationality"),
+                                    COUNTRY_NAME = p.Field<string>("COUNTRY_NAME"),
+                                    StateName = p.Field<string>("StateName"),
+                                    LocationName = p.Field<string>("LocationName"),
+                                    MaritalStatus = p.Field<string>("MaritalStatus"),
+                                    BLOODGROUP_NAME = p.Field<string>("BLOODGROUP_NAME"),
+                                    RelationShipName = p.Field<string>("RelationShipName"),
+                                    DietDescribe = p.Field<string>("DietDescribe"),
+                                    AlergySubstance = p.Field<string>("AlergySubstance"),
+                                    EXCERCISE_SCHEDULE = p.Field<string>("EXCERCISE_SCHEDULE"),
+                                    SMOKESUBSTANCE = p.Field<string>("SMOKESUBSTANCE"),
+                                    ALCOHALSUBSTANCE = p.Field<string>("ALCOHALSUBSTANCE"),
+                                    CAFFEINATED_BEVERAGES = p.Field<string>("CAFFEINATED_BEVERAGES"),
+                                    CURRENTLY_TAKEMEDICINE = p.Field<int?>("CURRENTLY_TAKEMEDICINE"),
+                                    PAST_MEDICALHISTORY = p.Field<int?>("PAST_MEDICALHISTORY"),
+                                    FAMILYHEALTH_PROBLEMHISTORY = p.Field<int?>("FAMILYHEALTH_PROBLEMHISTORY"),
+                                    VACCINATIONS = p.Field<int?>("VACCINATIONS"),
+                                    DIETDESCRIBE_ID = p.IsNull("DIETTYPE_ID") ? 0 : p.Field<long?>("DIETTYPE_ID"),
+                                    EXCERCISE_SCHEDULEID = p.IsNull("EXCERCISE_SCHEDULEID") ? 0 : p.Field<long?>("EXCERCISE_SCHEDULEID"),
+                                    EXCERCISE_TEXT = p.Field<string>("EXCERCISE_TEXT"),
+                                    ALERGYSUBSTANCE_ID = p.IsNull("ALERGYSUBSTANCE_ID") ? 0 : p.Field<long>("ALERGYSUBSTANCE_ID"),
+                                    ALERGYSUBSTANCE_TEXT = p.Field<string>("ALERGYSUBSTANCE_TEXT"),
+                                    SMOKESUBSTANCE_ID = p.IsNull("SMOKESUBSTANCE_ID") ? 0 : p.Field<long>("SMOKESUBSTANCE_ID"),
+                                    SMOKESUBSTANCE_TEXT = p.Field<string>("SMOKESUBSTANCE_TEXT"),
+                                    ALCOHALSUBSTANCE_ID = p.IsNull("ALCOHALSUBSTANCE_ID") ? 0 : p.Field<long>("ALCOHALSUBSTANCE_ID"),
+                                    ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT"),
+                                    CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
+                                    CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT"),
+                                    EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")),
+                                    EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
+                                    EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
+                                    EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
+                                    GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
+                                    FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
+                                    DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
+                                    HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
+                                    CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
+                                    Diabetic_Option = p.Field<string>("Diabetic_Option"),
+                                    HyperTension_Option = p.Field<string>("HyperTension_Option"),
+                                    Cholesterol_Option = p.Field<string>("Cholestrol_Option"),
+                                    Patient_Type = p.Field<int?>("Patient_Type"),
+                                    Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
+                                    FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                    appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
+                                    PatientId = p.Field<string>("PATIENT_ID"),
+                                    Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
+                                    PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
+                                    RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
+                                    ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                    PayorId = p.Field<string>("PAYORID"),
+                                    PlanId = p.Field<string>("PLANID"),
+                                }).FirstOrDefault();
+
+            if (insert.DOB_Encrypt != "")
+            {
+                var time = insert.DOB_Encrypt.Split(' ');
+
+                var time4 = time[0].Split('/');
+                try
+                {
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '/' + time1 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex)
+                    {
+                        var dateime = time1 + '/' + time2 + '/' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
+                }
+                catch (Exception ex1)
+                {
+                    time4 = time[0].Split('-');
+                    var time1 = time4[0];
+                    var time2 = time4[1];
+                    var time3 = time4[2];
+
+
+                    DateTime dt1 = new DateTime();
+                    try
+                    {
+                        var dateime = time2 + '-' + time1 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    catch (Exception ex2)
+                    {
+                        var dateime = time1 + '-' + time2 + '-' + time3;
+                        dt1 = Convert.ToDateTime(dateime);
+                    }
+                    insert.DOB = dt1;
+                }
+
+                //insert.DOB = Convert.ToDateTime(insert.DOB_Encrypt);
+                /*string[] tokens = insert.DOB_Encrypt.Split('/');
+                insert.DOB = new DateTime(int.Parse(tokens[2].Substring(0, 4)), int.Parse(tokens[0]), int.Parse(tokens[1]));*/
+            }
+
+            if (InsertId > 0)
+            {
+                String FirstCharacter = insert.FirstName.ToString();
+                String LastCharacter = insert.LastName.ToString();
+                String Month = "00";
+                if (insert.DOB != null)
+                    Month = insert.DOB.Value.Month.ToString("00");
+
+                List<DataParameter> param2 = new List<DataParameter>();
+                param2.Add(new DataParameter("@FirstNameChar", FirstCharacter.Substring(0, 1)));
+                param2.Add(new DataParameter("@LastNameChar", LastCharacter.Substring(0, 1)));
+                param2.Add(new DataParameter("@ID", InsertId));
+                param2.Add(new DataParameter("@Month", Month));
+                DataTable dt1 = ClsDataBase.GetDataTable("[MYCORTEX].[USER_SHORTCODE_SP_INSERTUPDATE]", param2);
+            }
+
+            return insert;
         }
 
     }

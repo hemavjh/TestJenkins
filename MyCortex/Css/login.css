@@ -52,17 +52,23 @@ body {
     right: 0px;
 }
 
-.loginBg {
+.loginBgCor {
     min-height: calc(100vh - 105px);
     padding-bottom: 30px;
     /* margin-top: 75px; */
-    background-image: url(../images/loginBg.png);
+    background-image: url(../images/loginBg.jpg);
     background-size: cover;
 }
-
+.loginBgHel {
+    min-height: calc(115vh - 125px);
+    padding-bottom: 30px;
+    /* margin-top: 75px; */
+    background-image: url(../images/MyHealthLoginBg.jpg);
+    background-size: cover;
+}
 .loginContainer {
     margin: 15px 15px;
-    width: 500px;
+    width: 450px;
     padding: 30px;
     background: #fff;
     border-radius: 5px;
@@ -70,10 +76,15 @@ body {
     position: relative;
 }
 
-.loginBg {
+.loginBgCor {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.loginBgHel {
+    display: flex;
+    align-items: center;
+    justify-content: right;
 }
 
 .loginContainer h1 {
@@ -84,6 +95,11 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 40px;
+}
+.loginContainer h3 {
+    font-size: 36px;
+    margin: 0px 0px 15px 0px;
+    text-align: center;
 }
 
 .loginContainer p {

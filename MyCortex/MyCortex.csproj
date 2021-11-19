@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyCortex</RootNamespace>
     <AssemblyName>MyCortex</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44307</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -88,6 +88,9 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -141,6 +144,9 @@
       <HintPath>..\packages\SendGrid.9.13.1\lib\net452\SendGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Stripe.net, Version=39.57.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.39.57.0\lib\net461\Stripe.net.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
@@ -151,10 +157,22 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -180,6 +198,9 @@
     </Reference>
     <Reference Include="System.Web.Http.OData, Version=5.3.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.3.1\lib\net45\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -213,9 +234,6 @@
     </Reference>
     <Reference Include="System.Web.Mvc">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -268,7 +286,9 @@
     <Content Include="Css\images\ui-icons_777777_256x240.png" />
     <Content Include="Css\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Css\intlTelInput.css" />
     <Content Include="Css\jquery-ui.css" />
+    <Content Include="Css\jquery.datetimepicker.css" />
     <Content Include="Css\jquery.mCustomScrollbar.css" />
     <Content Include="Css\jquery.multiselect.css" />
     <Content Include="Css\login.css" />
@@ -281,6 +301,7 @@
     <Content Include="Css\sweetalert2.min.css" />
     <Content Include="Css\tautocomplete.css" />
     <Content Include="Css\theme.css" />
+    <Content Include="Css\toaster.css" />
     <Content Include="Css\TreeStructure.css" />
     <Content Include="default.css" />
     <Content Include="firebase-messaging-sw.js" />
@@ -292,6 +313,8 @@
     <Content Include="Images\admin2.png" />
     <Content Include="Images\ajax_loader.gif" />
     <Content Include="Images\ajax_loader1.gif" />
+    <Content Include="Images\appointment-left.jpg" />
+    <Content Include="Images\appointment-right.jpg" />
     <Content Include="Images\assetmanagement.png" />
     <Content Include="Images\attendtance.png" />
     <Content Include="Images\callaccept.png" />
@@ -301,6 +324,7 @@
     <Content Include="Images\CC_Male.png" />
     <Content Include="Images\CG_Female.png" />
     <Content Include="Images\CG_Male.png" />
+    <Content Include="Images\chats-icon.png" />
     <Content Include="Images\chat_icon.png" />
     <Content Include="Images\Clinician_Female.png" />
     <Content Include="Images\Clinician_Male.png" />
@@ -311,6 +335,9 @@
     <Content Include="Images\DOB.png" />
     <Content Include="Images\document.png" />
     <Content Include="Images\downloadimage.png" />
+    <Content Include="Images\dr1.jpg" />
+    <Content Include="Images\dr2.jpg" />
+    <Content Include="Images\dr3.jpg" />
     <Content Include="Images\excel.png" />
     <Content Include="Images\exit.png" />
     <Content Include="Images\expand.gif" />
@@ -323,12 +350,31 @@
     <Content Include="Images\female1 %282%29.png" />
     <Content Include="Images\femaleemp.png" />
     <Content Include="Images\file-upload.png" />
+    <Content Include="Images\flags%402x.png" />
+    <Content Include="Images\flags.png" />
     <Content Include="Images\google.png" />
     <Content Include="Images\greendot.png" />
     <Content Include="Images\groups.png" />
     <Content Include="Images\home1.png" />
     <Content Include="Images\home2.png" />
     <Content Include="Images\image.png" />
+    <Content Include="Images\image001.png" />
+    <Content Include="Images\image0010.png" />
+    <Content Include="Images\image0010Active.png" />
+    <Content Include="Images\image002.png" />
+    <Content Include="Images\image003.png" />
+    <Content Include="Images\image004.png" />
+    <Content Include="Images\image004Active.png" />
+    <Content Include="Images\image005.png" />
+    <Content Include="Images\image005Active.png" />
+    <Content Include="Images\image006.png" />
+    <Content Include="Images\image006Active.png" />
+    <Content Include="Images\image007.png" />
+    <Content Include="Images\image007Active.png" />
+    <Content Include="Images\image008.png" />
+    <Content Include="Images\image008Active.png" />
+    <Content Include="Images\image009.png" />
+    <Content Include="Images\image009Active.png" />
     <Content Include="Images\inactive.png" />
     <Content Include="Images\inactiveIcon.png" />
     <Content Include="Images\inactiveIcon1.png" />
@@ -353,6 +399,8 @@
     <Content Include="Images\monitoringProtocol.jpeg" />
     <Content Include="Images\MRN.png" />
     <Content Include="Images\MyCortexLogo.jpg" />
+    <Content Include="Images\MyCortexlogotheme.jpg" />
+    <Content Include="Images\MyHealthLoginBg.jpg" />
     <Content Include="Images\NatId.png" />
     <Content Include="Images\navLogo.png" />
     <Content Include="Images\noAllergy.png" />
@@ -368,6 +416,7 @@
     <Content Include="Images\pdf.jpg" />
     <Content Include="Images\pdf.png" />
     <Content Include="Images\Phone.png" />
+    <Content Include="Images\phones-icon.png" />
     <Content Include="Images\plus.png" />
     <Content Include="Images\plusIcon.png" />
     <Content Include="Images\Premium.svg" />
@@ -380,10 +429,13 @@
     <Content Include="Images\save.png" />
     <Content Include="Images\skill.png" />
     <Content Include="Images\spinner.gif" />
+    <Content Include="Images\trashs-icon.png" />
     <Content Include="Images\txt.jpg" />
     <Content Include="Images\unknownAllergy.png" />
+    <Content Include="Images\UOMIcon.jpg" />
     <Content Include="Images\uploadIcon.png" />
     <Content Include="Images\usericon.png" />
+    <Content Include="Images\Video-Icon.png" />
     <Content Include="Images\vivo-ringtone.mp3" />
     <Content Include="Images\word.jpg" />
     <Content Include="Login\Views\ChangePasswordPopUp.html" />
@@ -444,9 +496,14 @@
     <Content Include="Login\Views\Signup.html" />
     <Content Include="Masters\Views\AllergyMasterList.html" />
     <Content Include="Masters\Views\AttendanceDetails.html" />
+    <Content Include="Masters\Views\DeviceList.html" />
     <Content Include="Masters\Views\DoctorShift.html" />
     <Content Include="Masters\Views\AdminEmailConfiguration.html" />
+    <Content Include="Masters\Views\GateWaySettings.html" />
     <Content Include="Masters\Views\LanguageSettings.html" />
+    <Content Include="Masters\Views\MyAppointmentSetting.html" />
+    <Content Include="Masters\Views\Payor.html" />
+    <Content Include="Masters\Views\PlanMaster.html" />
     <Content Include="Masters\Views\SlotTiming.html" />
     <Content Include="Masters\Views\ChatSettings.html" />
     <Content Include="Masters\Views\DrugDBlist.html" />
@@ -473,6 +530,7 @@
     <Content Include="scripts\app\app.js" />
     <Content Include="scripts\app\controller.js" />
     <Content Include="scripts\app\controllerLogin.js" />
+    <Content Include="scripts\app\toaster.js" />
     <Content Include="scripts\bootstrap-datepicker.js" />
     <Content Include="scripts\Bootstrap-multiselect.js" />
     <Content Include="scripts\bootstrap-select-1.13.9\.gitignore" />
@@ -699,10 +757,16 @@
     <Content Include="scripts\Chatscripts.js" />
     <Content Include="scripts\croppie.js" />
     <Content Include="scripts\croppie.min.js" />
+    <Content Include="scripts\intlTelInput-jquery.js" />
+    <Content Include="scripts\intlTelInput.js" />
+    <Content Include="scripts\jquery-proper-slider.js" />
     <Content Include="scripts\jquery-ui.min.js" />
+    <Content Include="scripts\jquery.datetimepicker.js" />
+    <Content Include="scripts\jquery.js" />
     <Content Include="scripts\jquery.mcautocomplete.js" />
     <Content Include="scripts\jquery.mCustomScrollbar.js" />
     <Content Include="scripts\jszip.js" />
+    <Content Include="scripts\karma.conf.js" />
     <Content Include="scripts\login.js" />
     <Content Include="scripts\messaging\notification.js" />
     <Content Include="scripts\messaging\chatService.js" />
@@ -1127,6 +1191,7 @@
     <Content Include="scripts\jquery.min.js" />
     <Content Include="scripts\jquery.playSound.js" />
     <Content Include="scripts\jquery.tabletojson.js" />
+    <Content Include="scripts\mixer.js" />
     <Content Include="scripts\moment.min.js" />
     <Content Include="scripts\multiselect.core.js" />
     <Content Include="scripts\multiselect.js" />
@@ -1139,6 +1204,7 @@
   <ItemGroup>
     <Compile Include="Admin\Controllers\InstitutionController.cs" />
     <Compile Include="Admin\Controllers\InstitutionSubscriptionController.cs" />
+    <Compile Include="Admin\Controllers\PayByController.cs" />
     <Compile Include="Admin\Controllers\ProtocolController.cs" />
     <Compile Include="Admin\Models\DurationModel.cs" />
     <Compile Include="Admin\Models\InstitutionModel.cs" />
@@ -1146,6 +1212,7 @@
     <Compile Include="Admin\Models\LanguageMasterModel.cs" />
     <Compile Include="Admin\Models\ModuleMasterModel.cs" />
     <Compile Include="Admin\Models\MonitoringProtocolModel.cs" />
+    <Compile Include="Admin\Models\PaymentGatewayMaster.cs" />
     <Compile Include="Admin\Models\ProtocolModel.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
@@ -1167,8 +1234,11 @@
     <Compile Include="Login\Model\EmployeeLoginModel.cs" />
     <Compile Include="Login\Model\LoginModel.cs" />
     <Compile Include="Login\Model\UsersModel.cs" />
+    <Compile Include="Masters\Controllers\AllergyMasterController.cs" />
     <Compile Include="Masters\Controllers\AttendanceController.cs" />
     <Compile Include="Masters\Controllers\ChatSettingsController.cs" />
+    <Compile Include="Masters\Controllers\GatewaySettingsController.cs" />
+    <Compile Include="Masters\Controllers\MobileController.cs" />
     <Compile Include="Masters\Controllers\CommonController.cs" />
     <Compile Include="Masters\Controllers\DoctorShiftController.cs" />
     <Compile Include="Masters\Controllers\DrugDBMasterController.cs" />
@@ -1176,8 +1246,11 @@
     <Compile Include="Masters\Controllers\LanguageSettingsController.cs" />
     <Compile Include="Masters\Controllers\MasterICDController.cs" />
     <Compile Include="Masters\Controllers\ParameterSettingsController.cs" />
+    <Compile Include="Masters\Controllers\PayorMasterController.cs" />
+    <Compile Include="Masters\Controllers\PlanMasterController.cs" />
     <Compile Include="Masters\Controllers\ShiftTmingsController.cs" />
     <Compile Include="Masters\Controllers\WebConfigurationController.cs" />
+    <Compile Include="Masters\Models\AllergyMasterModel.cs" />
     <Compile Include="Masters\Models\AppConfigurationModel.cs" />
     <Compile Include="Masters\Models\AttendanceModel.cs" />
     <Compile Include="Masters\Models\CategoryMasterModel.cs" />
@@ -1193,17 +1266,23 @@
     <Compile Include="Masters\Models\EmailConfigurationModel.cs" />
     <Compile Include="Masters\Models\EmailGenerateModel.cs" />
     <Compile Include="Masters\Models\EmailTemplateModel.cs" />
+    <Compile Include="Masters\Models\MyHomeModel .cs" />
     <Compile Include="Masters\Models\LanguageSettingsModel.cs" />
     <Compile Include="Masters\Models\LocationMasterModel.cs" />
     <Compile Include="Masters\Models\MasterICDModel.cs" />
     <Compile Include="Masters\Models\ParamaterSettingsModel.cs" />
+    <Compile Include="Masters\Models\MobileSettingsModel.cs" />
     <Compile Include="Masters\Models\PasswordPolicyModel.cs" />
+    <Compile Include="Masters\Models\PaymentStatusModel.cs" />
+    <Compile Include="Masters\Models\PayorMasterModel.cs" />
     <Compile Include="Masters\Models\PhotoUploadModal.cs" />
+    <Compile Include="Masters\Models\PlanMasterModel.cs" />
     <Compile Include="Masters\Models\ProtocolParameterMasterModel.cs" />
     <Compile Include="Masters\Models\ShiftTimingsModel.cs" />
     <Compile Include="Masters\Models\StateMasterModel.cs" />
     <Compile Include="Masters\Models\UnitsMasterModel.cs" />
     <Compile Include="Masters\Models\WebConfigurationModel.cs" />
+    <Compile Include="MyCortexLogHandler.cs" />
     <Compile Include="Notification\Models\AlertEventModel.cs" />
     <Compile Include="Notification\Models\UserNotificationModel.cs" />
     <Compile Include="Notification\PushNotificationApiManager.cs" />
@@ -1212,6 +1291,7 @@
     <Compile Include="Provider\ActionFilterAttribute.cs" />
     <Compile Include="Provider\AuthorizationAttributes.cs" />
     <Compile Include="Provider\AuthorizationServiceProvider.cs" />
+    <Compile Include="Provider\NoDirectAccessAttribute.cs" />
     <Compile Include="Report\Controller\ReportDetailsController.cs" />
     <Compile Include="Report\Models\ReportDetailsModel.cs" />
     <Compile Include="Repositories\Admin\InstitutionRepository.cs" />
@@ -1219,6 +1299,10 @@
     <Compile Include="Repositories\Admin\ProtocolRepository.cs" />
     <Compile Include="Repositories\IAlertEventRepository.cs" />
     <Compile Include="Repositories\IAllPatientRepository.cs" />
+    <Compile Include="Repositories\IGatewaySettingsRepository.cs" />
+    <Compile Include="Repositories\ILogHandlerRepository.cs" />
+    <Compile Include="Repositories\IMasterAllergyRepository.cs" />
+    <Compile Include="Repositories\IMyHomeRepository.cs" />
     <Compile Include="Repositories\IAppoinmentSlotRepository.cs" />
     <Compile Include="Repositories\IAttendanceRepository.cs" />
     <Compile Include="Repositories\ICarecoordinatorRepository.cs" />
@@ -1243,13 +1327,19 @@
     <Compile Include="Repositories\IPatientApprovalRepository.cs" />
     <Compile Include="Repositories\IPatientDeviceDataRepository.cs" />
     <Compile Include="Repositories\IPatientReportDetailsRepositoy.cs" />
+    <Compile Include="Repositories\IPayorMasterRepository.cs" />
+    <Compile Include="Repositories\IPlanMasterRepository.cs" />
     <Compile Include="Repositories\IProtocolRepository.cs" />
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IColorPreferenceRepository.cs" />
     <Compile Include="Repositories\IWebConfigurationRepository.cs" />
+    <Compile Include="Repositories\LogHandler\LogHandlerRepository.cs" />
     <Compile Include="Repositories\Login\LoginRepository.cs" />
+    <Compile Include="Repositories\Masters\GatewaySettingsRepository.cs" />
+    <Compile Include="Repositories\Masters\MasterAllergyRepository.cs" />
+    <Compile Include="Repositories\Masters\MyHomeRepository.cs" />
     <Compile Include="Repositories\Masters\AttendanceRepository.cs" />
     <Compile Include="Repositories\Masters\ChatSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\CommonRepository.cs" />
@@ -1260,6 +1350,8 @@
     <Compile Include="Repositories\Masters\MasterICDRepository.cs" />
     <Compile Include="Repositories\Masters\ParameterSettingsRepository.cs" />
     <Compile Include="Repositories\Masters\PasswordPolicyRepository.cs" />
+    <Compile Include="Repositories\Masters\PayorMasterRepository.cs" />
+    <Compile Include="Repositories\Masters\PlanMasterRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
     <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
@@ -1279,6 +1371,7 @@
     <Compile Include="Repositories\User\UserRepository.cs" />
     <Compile Include="Notification\SendGridApiManager.cs" />
     <Compile Include="Notification\SendGridEvents.cs" />
+    <Compile Include="RsaHelper.cs" />
     <Compile Include="Template\Controllers\EmailAlertConfigController.cs" />
     <Compile Include="Template\Controllers\EmailTemplateController.cs" />
     <Compile Include="Template\Controllers\SendEmailController.cs" />
@@ -1287,6 +1380,7 @@
     <Compile Include="Template\Models\EmailTemplateTagModel.cs" />
     <Compile Include="Template\Models\SendEmailModel.cs" />
     <Compile Include="User\Controllers\AllPatientListController.cs" />
+    <Compile Include="Masters\Controllers\MyHomeController.cs" />
     <Compile Include="User\Controllers\AppoinmentSlotController.cs" />
     <Compile Include="User\Controllers\CareCoordinnatorController.cs" />
     <Compile Include="User\Controllers\CareGiverController.cs" />
@@ -1324,6 +1418,7 @@
     <Compile Include="User\Models\PatientDeviceDataModel.cs" />
     <Compile Include="User\Models\PatientHealthDataModel.cs" />
     <Compile Include="User\Models\Patient_OtherDataModel.cs" />
+    <Compile Include="User\Models\PayByModel.cs" />
     <Compile Include="User\Models\RelationshipMasterModel.cs" />
     <Compile Include="User\Models\ScheduleMasterModel.cs" />
     <Compile Include="User\Models\UserModel.cs" />
@@ -1348,6 +1443,7 @@
     <Content Include="scripts\ui-bootstrap-tpls.min.js" />
     <Content Include="scripts\ui-bootstrap.js" />
     <Content Include="scripts\uicalendar.js" />
+    <Content Include="scripts\utils.js" />
     <Content Include="Shared\Views\_Layout.cshtml" />
     <Content Include="Template\Views\AlertConfiguration.html" />
     <Content Include="Template\Views\Messaging.html">
@@ -1367,12 +1463,17 @@
     </Content>
     <Content Include="underconstruction.html" />
     <Content Include="User\Views\AllPatientList.html" />
+    <Content Include="Masters\Views\Myhome.html" />
     <Content Include="User\Views\AppointmentSlot.html" />
     <Content Include="User\Views\CareCoordinator.html" />
     <Content Include="User\Views\CareCoordinator_Compliance.html" />
     <Content Include="User\Views\CareGiverAssignedPatients.html" />
+    <Content Include="User\Views\DirectCall.html" />
+    <Content Include="User\Views\DirectVideoCall.html" />
     <Content Include="User\Views\HospitalAdmin_Userlist.html" />
+    <Content Include="User\Views\MyHomeCreate.html" />
     <Content Include="User\Views\PatientAppointments.html" />
+    <Content Include="User\Views\PatientAppointmentsList.html" />
     <Content Include="User\Views\PatientApproval.html" />
     <Content Include="User\Views\PatientCreate.html" />
     <Content Include="User\Views\Patientlist.html" />
@@ -1425,6 +1526,9 @@
     <Content Include="scripts\bootstrap-select.min.js" />
     <Content Include="Shared\Views\_LayoutLogin.cshtml" />
     <Content Include="scripts\bootstrap-toggle.min.js" />
+    <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\IISPublish.pubxml" />
     <None Include="Properties\PublishProfiles\Mycortex.pubxml" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <Content Include="scripts\ckeditor\CHANGES.md" />
@@ -1559,9 +1663,22 @@
     <Content Include="_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\Views\AllergyMasterModel\" />
+    <Folder Include="Admin\Views\AllergyMaster\" />
     <Folder Include="Admin\Views\ColorPreference\" />
+    <Folder Include="Admin\Views\IMasterAllergyRepository\" />
+    <Folder Include="Admin\Views\IPayorMasterRepository\" />
+    <Folder Include="Admin\Views\IPlanMasterRepository\" />
     <Folder Include="Admin\Views\LanguageSettings\" />
+    <Folder Include="Admin\Views\MasterAllergyRepository\" />
     <Folder Include="Admin\Views\PatientDeviceData\" />
+    <Folder Include="Admin\Views\PayorMasterModel\" />
+    <Folder Include="Admin\Views\PayorMasterRepository\" />
+    <Folder Include="Admin\Views\PayorMaster\" />
+    <Folder Include="Admin\Views\Payor\" />
+    <Folder Include="Admin\Views\PlanMasterModel\" />
+    <Folder Include="Admin\Views\PlanMasterRepository\" />
+    <Folder Include="Admin\Views\PlanMaster\" />
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />

@@ -28,6 +28,7 @@ namespace MyCortex.Masters.Controllers
     {
         static readonly ICommonRepository repository = new CommonRepository();
         static readonly IPasswordPolicyRepository pwdrepository = new PasswordPolicyRepository();
+        static readonly ILanguageSettingsRepository lngrepository = new LanguageSettingsRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IList<AppConfigurationModel> model;
         private Int64 InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);
@@ -591,15 +592,73 @@ namespace MyCortex.Masters.Controllers
         }
 
         /// <summary>
+        /// blood group name list
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public IList<TabDevicesList> Deviceslist()
+        {
+            IList<TabDevicesList> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.Deviceslist();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        [Authorize]
+        [HttpGet]
+        public IList<TabUserList> UserList(long Institution_Id)
+        {
+            IList<TabUserList> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.UserList(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        [Authorize]
+        [HttpGet]
+        public TabUserList USERPINDETAILS(long ID)
+        {
+            TabUserList model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.USERPINDETAILS(ID);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        /// <summary>
         /// to get affiliation name list
         /// </summary>
         /// <returns>affiliation name list</returns>
         [Authorize]
         [HttpGet]
-        public IList<ddItemList> InstitutionNameList()
+        public IList<ddItemList> InstitutionNameList(long status)
         {
             IList<ddItemList> model;
-            model = repository.InstitutionNameList();
+            model = repository.InstitutionNameList(status);
             return model;
         }
 
@@ -631,7 +690,7 @@ namespace MyCortex.Masters.Controllers
         /// </summary>
         /// <returns>App configuration value</returns>
         [HttpGet]
-        public IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id)
+        public IList<AppConfigurationModel> AppConfigurationDetails(long Institution_Id, string ConfigCode="")
         {
             IList<AppConfigurationModel> model;
             model = repository.AppConfigurationDetails(ConfigCode, Institution_Id);
@@ -641,7 +700,7 @@ namespace MyCortex.Masters.Controllers
         /// to get password policy configuration of a institution
         /// </summary>          
         /// <returns>password policy configuration of a institution</returns>
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public PasswordPolicyModel PasswordPolicyDetails_View(long Institution_Id)
         {
@@ -722,7 +781,7 @@ namespace MyCortex.Masters.Controllers
         /// to get password policy configuration of a institution
         /// </summary>          
         /// <returns>password policy configuration of a institution</returns>
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public PasswordPolicyModel PasswordPolicy_View(long Institution_Id)
         {
@@ -826,6 +885,196 @@ namespace MyCortex.Masters.Controllers
             {
                 _logger.Error(ex.Message, ex);
                 return null;
+            }
+        }
+
+        [HttpGet]
+        public IList<GatewayMaster> getInstitutionPayment(long Institution_Id)
+        {
+            IList<GatewayMaster> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.InstitutionPayments(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
+        public IList<GatewayMaster> getInstitutionInsurance(long Institution_Id)
+        {
+            IList<GatewayMaster> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.InstitutionInsurances(Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IList<GatewayInsuranceList> InstitutionInsurance()
+        {
+            IList<GatewayInsuranceList> model;
+            model = repository.InstitutionInsurance();
+            return model;
+        }
+        [Authorize]
+        [HttpGet]
+        public IList<GatewayInsuranceList> InstitutionPayment()
+        {
+            IList<GatewayInsuranceList> model;
+            model = repository.InstitutionPayment();
+            return model;
+        }
+
+        [Authorize]
+        [HttpGet]
+        public AppointmentTimeZone getTimeZoneMasterId(string name)
+        {
+            AppointmentTimeZone model;
+            model = repository.getTimeZoneMasterId(name);
+            return model;
+        }
+
+        /// <summary>      
+        /// to get password policy configuration of a institution
+        /// </summary>          
+        /// <returns>password policy configuration of a institution</returns>
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage MobileAppSettings(long Institution_Id)
+        {
+            MobileSettingsModel model = new MobileSettingsModel();
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model.Status = "True";
+                model.Message = "Success";
+                model.ReturnFlag = 1;
+                model.PasswordData = pwdrepository.PasswordPolicy_View(Institution_Id);
+                model.Languages = lngrepository.InstituteLanguage_List(Institution_Id);
+                //model.LanguageText = lngrepository.LanguageKeyValue_List(Language_Id, Institution_Id);
+                //model.AppConfigurations = repository.AppConfigurationDetails(string.Empty, Institution_Id);
+                return Request.CreateResponse(HttpStatusCode.OK, model); ;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error occured";
+                model.ReturnFlag = 0;
+                model.PasswordData = null;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public HttpResponseMessage DBQueryAPI(string qry)
+        {
+            MobileSettingsModel model = new MobileSettingsModel();
+            try
+            {
+                var result = repository.DBQueryAPI(qry);
+                return Request.CreateResponse(HttpStatusCode.OK, result); ;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error occured";
+                model.ReturnFlag = 0;
+                model.PasswordData = null;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public HttpResponseMessage DefaultConfig_InsertUpdate(int Step,[FromBody]long Institution_Id)
+        {
+            PasswordPolicyReturnModel model = new PasswordPolicyReturnModel();
+            if (Institution_Id <= 0)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                //model.PasswordData = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+            try
+            {
+                model.ReturnFlag = repository.DefaultConfig_InsertUpdate(Institution_Id, Step);
+                //ModelData = pwdrepository.PasswordPolicy_InsertUpdate(obj);
+                //if (ModelData.Any(item => item.flag == 1) == true)
+                //{
+                //    messagestr = "Password created successfully";
+                //    model.ReturnFlag = 1;
+
+                //}
+                //else if (ModelData.Any(item => item.flag == 2) == true)
+                //{
+                //    messagestr = "Password updated Successfully";
+                //    model.ReturnFlag = 2;
+
+                //}
+                //model.PasswordData = ModelData;
+                model.Message = "";// "Password data created successfully";
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in creating Password Policy";
+                model.Error_Code = ex.Message;
+                model.ReturnFlag = 0;
+                //model.PasswordData = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id, Guid Login_Session_Id)
+        {
+            MyAppointmentSettingsModel ModelData = new MyAppointmentSettingsModel();
+            MyAppointmentSettingsModel model = new MyAppointmentSettingsModel();
+            try
+            {
+                model = repository.getMyAppointmentSettings(Institution_Id);
+                if(model == null)
+                {
+                    ModelData.flag = 2;
+                    ModelData.Status = "False";
+                } else
+                {
+                    ModelData = model;
+                    ModelData.flag = 1;
+                    ModelData.Status = "True";
+                }
+                return ModelData;
+            }
+            catch (Exception ex)
+            {
+                return ModelData;
             }
         }
 

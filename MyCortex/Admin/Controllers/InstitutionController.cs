@@ -13,6 +13,7 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
+using MyCortex.Utilities;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -41,9 +42,9 @@ namespace MyCortex.Admin.Controllers
                 }
                 else 
                 {
-                    if (insobj.Photo != null)
+                    if (insobj.Photo != null && insobj.Photo != "")
                     {
-                        insobj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + insobj.Photo);
+                            insobj.Photo_Fullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + insobj.Photo);
                     }
                 }
                
@@ -70,6 +71,18 @@ namespace MyCortex.Admin.Controllers
                     {
                         messagestr = "Institution updated Successfully";
                         model.ReturnFlag = 1;
+                    }
+                    if (model.ReturnFlag == 1)
+                    {
+                        EmailGeneration Generator = new EmailGeneration();
+                        EmailGenerateModel MailMessage = new EmailGenerateModel();
+                        MailMessage.Institution_Id = -1;
+                        MailMessage.MessageToId = insobj.Email;
+                        MailMessage.MessageSubject = "Welcome - Mycortex Registration";
+                        MailMessage.MessageBody = messagestr;
+                        MailMessage.Created_By = 0;
+                        MailMessage.UserId = 0;
+                        var insData = Generator.SendEmail(MailMessage);
                     }
                     model.Institute = ModelData;
                     model.Message = messagestr;// "User created successfully";
@@ -108,10 +121,10 @@ namespace MyCortex.Admin.Controllers
         /// <param name="Id">Id of a Institution</param>    
         /// <returns>a Institution Details </returns>
         [HttpGet]
-        public InstitutionModel InstitutionDetails_View(long Id)
+        public InstitutionModel InstitutionDetails_View(long Id, Guid Login_Session_Id)
         {
             InstitutionModel model = new InstitutionModel();
-            model = repository.InstitutionDetails_View(Id);
+            model = repository.InstitutionDetails_View(Id, Login_Session_Id);
             return model;
         }
 

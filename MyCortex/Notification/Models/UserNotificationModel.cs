@@ -15,8 +15,10 @@ namespace MyCortex.Notification.Model
         public long TemplateId { get; set; }
         public long Created_By { get; set; }
         public int ReadFlag { get; set; }
-
         public DateTime SentDate { get; set; }
+        public int NotificationTotal { get; set; }
+        public int NotificationUnread { get; set; }
+        
     }
     public class NotificationReturnModel
     {
@@ -24,6 +26,7 @@ namespace MyCortex.Notification.Model
         public string Message { get; set; }
         public string Error_Code { get; set; }
         public int ReturnFlag { get; set; }
+        public int NotificationUnread { get; set; }
         public UserNotificationModel NotificationDetails { get; set; }
     }
     public class UserNotificationListModel
@@ -33,5 +36,6 @@ namespace MyCortex.Notification.Model
         public int NotificationUnread { get; set; }
         public List<UserNotificationModel> usernotification { get; set; }
     }
+    
 }
 

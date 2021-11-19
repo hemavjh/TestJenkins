@@ -8,7 +8,7 @@
     <script>
         $('#btnLogo').click(function () {
             $("#InstitutionLogo").trigger('click');
-        })
+        });
 
         $(document).ready(function () {
             var image = $('#InstitutionLogo').val();
@@ -16,9 +16,9 @@
                 enableExif: true,
                 url: image,
                 viewport: {
-                    width: 200,
+                    width: 300,
                     height: 200,
-                    type: 'square' //circle
+                    type: 'rectangle' //rectangle
                 },
                 boundary: {
                     width: 300,
@@ -34,12 +34,10 @@
 
             $('#InstitutionLogo').on('change', function () {
                 var reader = new FileReader();
-                console.log('jQuery');
                 reader.onload = function (event) {
                     $image_crop.croppie('bind', {
                         url: event.target.result
                     }).then(function () {
-                        console.log('jQuery bind complete');
                     });
                 }
                 reader.readAsDataURL(this.files[0]);
@@ -82,6 +80,9 @@
         <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
     </li>
     <li><a href="Home/Index#/HospitalAdmin_UserList/2">Clinical User</a></li>
+    <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
+    <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
 </ul>
 
 <h1 class="page-title">Institution</h1>
@@ -233,7 +234,7 @@
         </form>
 
         <div class="text-center mb-20">
-            <button type="button" class="theme-btn-1 mr-10" id="btnsave" title="Click to Save" ng-click="Institution_AddEdit()">
+            <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save" ng-click="Institution_AddEdit()">
                 Save
             </button>
             <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelInstitutionHospitalAdmin()">
@@ -244,12 +245,12 @@
 
 </div>
 <script>
-    $("#RegistrationDate").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: true,
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$("#RegistrationDate").bootstrapDP({
+    //    //format: "dd-M-yyyy",
+    //    //forceParse: true,
+    //    //autoclose: true,
+    //    //todayHighlight: true,
+    //    //toggleActive: true,
+    //    //todayBtn: true
+    //});
 </script>

@@ -10,6 +10,9 @@ using log4net;
 using System.Web.Script.Serialization;
 using MyCortex.User.Model;
 using MyCortex.Admin.Models;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using MyCortex.Utilities;
 
 namespace MyCortex.Repositories.Masters
 {
@@ -485,17 +488,84 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        /// <summary>
+        /// blood group name list
+        /// </summary>
+        /// <returns></returns>
+        public IList<TabDevicesList> Deviceslist()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[MyHomeDeviceLists]");
+                List<TabDevicesList> lst = (from p in dt.AsEnumerable()
+                                             select new TabDevicesList()
+                                             {
+                                                 ID = p.Field<long>("ID"),
+                                                 DeviceName = p.Field<string>("DeviceName"),
+                                                 IsActive = p.Field<bool>("ISACTIVE")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        public IList<TabUserList> UserList(long Institution_Id)
+        {
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>(); 
+            param.Add(new DataParameter("@INSTITUTIONID", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_TAB_DETAILS]", param);
+                List<TabUserList> lst = (from p in dt.AsEnumerable()
+                                         select new TabUserList()
+                                         {
+                                             ID = p.Field<long>("ID"),
+                                             FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                             PIN = p.Field<string>("PIN"),
+                                             IsActive = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
 
+        public TabUserList USERPINDETAILS(long ID)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", ID));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTYPE_TABPIN_DETAILS]", param);
+            TabUserList list = (from p in dt.AsEnumerable()
+                                      select new TabUserList()
+                                      {
+                                          ID = p.Field<long>("ID"),
+                                          FullName = p.Field<string>("USERNAME"),
+                                          PIN = p.Field<string>("PIN"),
+                                          IsActive = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
+
+                                      }).FirstOrDefault();
+            return list;
+        }
 
         /// <summary>
         /// to get affiliation name list
         /// </summary>
         /// <returns>affiliation name list</returns>
-        public IList<ddItemList> InstitutionNameList()
+        public IList<ddItemList> InstitutionNameList(long status)
         {
             List<DataParameter> param = new List<DataParameter>();
-
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SP_GETINSTITUTIONNAME");
+            param.Add(new DataParameter("@Status", status));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].INSTITUTION_SP_GETINSTITUTIONNAME", param);
             List<ddItemList> list = (from p in dt.AsEnumerable()
                                      select new ddItemList()
                                      {
@@ -536,20 +606,25 @@ namespace MyCortex.Repositories.Masters
         /// <returns>App configuration value</returns>
         public IList<AppConfigurationModel> AppConfigurationDetails(string ConfigCode, long Institution_Id)
         {
+            
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@CONFIGCODE", ConfigCode));
+            if (!string.IsNullOrEmpty(ConfigCode))
+            {
+                param.Add(new DataParameter("@CONFIGCODE", ConfigCode));
+            }
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[APPCONFIGURATION_SP_LIST]", param);
-            List<AppConfigurationModel> list = (from p in dt.AsEnumerable()
-                                                select new AppConfigurationModel()
-                                                          {
-                                                              Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                                              ConfigCode = p.Field<string>("CONFIGCODE"),
-                                                              ConfigInfo = p.Field<string>("CONFIGINFO"),
-                                                              ConfigValue = p.Field<string>("CONFIGVALUE"),
-                                                              ConfigTypeDefinition = p.Field<string>("CONFIG_TYPEDEFINITION")
-                                                          }).ToList();
-            return list;
+            var configList = (from p in dt.AsEnumerable()
+                                select new AppConfigurationModel()
+                                {
+                                    Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                    ConfigCode = p.Field<string>("CONFIGCODE"),
+                                    ConfigInfo = p.Field<string>("CONFIGINFO"),
+                                    ConfigValue = p.Field<string>("CONFIGVALUE"),
+                                    ConfigTypeDefinition = p.Field<string>("CONFIG_TYPEDEFINITION")
+                                }).ToList();
+               
+            return configList;
         }
 
         public IList<UnitGroupTypeModel> UnitGroupTypeList()
@@ -588,7 +663,9 @@ namespace MyCortex.Repositories.Masters
                                                 select new LanguageMasterModel()
                                                 {
                                                     Id = p.Field<long>("LANGUAGE_ID"),
-                                                    LanguageName = p.Field<string>("LANGUAGE_NAME")
+                                                    LanguageName = p.Field<string>("LANGUAGE_NAME"),
+                                                    DefaultLanguageId = p.Field<int>("LANGUAGE_PREFERENCE"),
+                                                    ISRTL = p.Field<bool>("ISRTL")
                                                 }).ToList();
                 return lst;
             }
@@ -599,7 +676,171 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
+        public IList<GatewayMaster> InstitutionPayments(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ISUBSCRIPTIONPAYMENT_SP_LIST]", param);
+                List<GatewayMaster> lst = (from p in dt.AsEnumerable()
+                                                 select new GatewayMaster()
+                                                 {
+                                                     Id = p.Field<long>("ID"),
+                                                     PaymentGatewayName = p.Field<string>("NAME"),
+                                                     IsActive = p.Field<int>("ISACTIVE"),
+                                                     DefaultPaymentGatewayId = p.Field<long>("Preference")
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
 
+        public IList<GatewayMaster> InstitutionInsurances(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Institution_Id", Institution_Id));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ISUBSCRIPTIONINSURANCE_SP_LIST]", param);
+                List<GatewayMaster> lst = (from p in dt.AsEnumerable()
+                                                  select new GatewayMaster()
+                                                  {
+                                                      Id = p.Field<long>("ID"),
+                                                      PaymentGatewayName = p.Field<string>("NAME"),
+                                                      IsActive = p.Field<int>("ISACTIVE"),
+                                                      DefaultPaymentGatewayId = p.Field<long>("Preference")
+                                                  }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        public IList<GatewayInsuranceList> InstitutionInsurance()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONINSURANCE_SP_LIST]");
+            List<GatewayInsuranceList> list = (from p in dt.AsEnumerable()
+                                               select new GatewayInsuranceList()
+                                               {
+                                                   Id = p.Field<long>("ID"),
+                                                   PaymentName = p.Field<string>("PAYMENTNAME"),
+                                                   GateWayType = p.Field<int>("GATEWAYTYPE"),
+                                                   IsActive = p.Field<int>("ISACTIVE")
+                                               }).ToList();
+            return list;
+        }
+        public IList<GatewayInsuranceList> InstitutionPayment()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTIONPAYMENT_SP_LIST]");
+            List<GatewayInsuranceList> list = (from p in dt.AsEnumerable()
+                                               select new GatewayInsuranceList()
+                                               {
+                                                   Id = p.Field<long>("ID"),
+                                                   PaymentName = p.Field<string>("PAYMENTNAME"),
+                                                   GateWayType = p.Field<int>("GATEWAYTYPE"),
+                                                   IsActive = p.Field<int>("ISACTIVE")
+                                               }).ToList();
+            return list;
+        }
+
+        public object DBQueryAPI(string qry)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Qry", qry));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DBQueryAPI", param);
+                string json = JsonConvert.SerializeObject(dt);
+                return json;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public int DefaultConfig_InsertUpdate(long Institution_Id, int Step)
+        {
+            int retid = 0;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTIONID", Institution_Id));
+            param.Add(new DataParameter("@STEP", Step));
+            retid = ClsDataBase.Insert("[MYCORTEX].CREATEINSTITUTIONMASTER_SP", param, true);
+            //await Task.Delay(1000);
+            return retid;
+        }
+
+        public AppointmentTimeZone getTimeZoneMasterId(string Name)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@NAME", Name));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLTIMEZONEMATCHING]",param);
+            AppointmentTimeZone list = (from p in dt.AsEnumerable()
+                                               select new AppointmentTimeZone()
+                                               {
+                                                   TimeZoneId = p.Field<long>("TIMEZONEID"),
+                                                   TimeZoneDisplayName = p.Field<string>("DISPLAYNAME")
+                                               }).FirstOrDefault();
+            return list;
+        }
+
+        public MyAppointmentSettingsModel getMyAppointmentSettings(long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[MYAPPOINTMENTSSETTING_SP_GET]", param);
+            MyAppointmentSettingsModel list = (from p in dt.AsEnumerable()
+                                               select new MyAppointmentSettingsModel()
+                                               {
+                                                   Id = p.Field<long>("ID"),
+                                                   InstitutionId = p.Field<long>("INSTITUTION_ID"),
+                                                   NewAppointmentDuration = p.Field<int>("NEWAPPOINTMENT_DURATION"),
+                                                   FollowupDuration = p.Field<int>("FOLLOWUP_DURATION"),
+                                                   Interval = p.Field<int>("APPOINTMENT_INTERVAL"),
+                                                   MaxScheduleDays = p.Field<int>("MAX_SCHEDULE_DAYS"),
+                                                   IsDirectAppointment = p.Field<bool>("IS_DIRECTAPPOINTMENT"),
+                                                   IsCC = p.Field<bool>("IS_CC"),
+                                                   IsCG = p.Field<bool>("IS_CG"),
+                                                   IsCL = p.Field<bool>("IS_CL"),
+                                                   IsSC = p.Field<bool>("IS_SC"),
+                                                   IsPatient = p.Field<bool>("IS_PATIENT"),
+                                                   MinRescheduleDays = p.Field<int>("MIN_RESCHEDULE_DAYS"),
+                                                   MinRescheduleMinutes = p.Field<int>("MIN_RESCHEDULE_MINUTES"),
+                                                   IsAutoReschedule = p.Field<bool>("IS_AUTORESCHEDULE"),
+                                                   TimeZoneId = p.Field<int>("TIMEZONE_ID"),
+                                                   TimeZoneName = p.Field<string>("TIMEZONE_NAME"),
+                                                   Appointment_Module = p.Field<int>("APPOINTMENT_MODULE_ID"),
+                                                   DefaultPaymentId = p.Field<long>("DEFAULTPAYMENT_ID"),
+                                                   DefaultInsuranceId = p.Field<long>("DEFAULTINSURANCE_ID"),
+                                               }).FirstOrDefault();
+            param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            dt = ClsDataBase.GetDataTable("[MYCORTEX].[MYAPPOINTMENTSGATEWAYSETTING_SP_GET]", param);
+            if (dt.Rows.Count > 0) {
+                list.GatewayDetails = (from p in dt.AsEnumerable()
+                                       select new MyAppointmentGatewayModel()
+                                       {
+                                           GatewayId = p.Field<long>("PAYMENT_ID"),
+                                           GatewayName = p.Field<string>("PAYMENTNAME"),
+                                           GatewayType = p.Field<int>("GATEWAYTYPE"),
+                                           GatewayKey = p.Field<string>("GATEWAY_KEY"),
+                                           GatewayValue = p.Field<string>("GATEWAY_VALUE"),
+                                       }).ToList();
+            }
+            return list;
+        }
     }
 }
 

@@ -1,17 +1,35 @@
-﻿<ul class="secondaryMenu">
-    <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
-    <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
-    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
-    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
-    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
-    <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming" class="secondaryMenuActive">Shift Timing</a></li>
-    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
-    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
-    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
-    <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
-</ul>
+﻿<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#ShiftFromDate').attr('min', maxDate);
+        $('#ShiftToDate').attr('min', maxDate);
+    });
+</script> 
+  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+            $(element).addClass('activeButton');
+        });
+    </script>
+  <ul class="secondaryMenu">
+      <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
+      <li><a href="Home/Index#/SlotTiming" class="secondaryMenuActive" data-menu="Appointment Setting">Shift Timing</a></li>-->
+      <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
+      <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+      <li><a href="Home/Index#/MyAppointmentSetting">Organization Settings</a></li>
+  </ul>
 <h1 class="page-title">Shift Timing</h1>
 <div ng-init="ShiftTimingList()">
 
@@ -120,7 +138,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
-                    ng-click="CancelPopup()">&times;</button>
+                        ng-click="CancelPopup()">&times;</button>
                 <h4 class="modal-title">Shift Timing</h4>
             </div>
             <div class="modal-body">
@@ -130,8 +148,8 @@
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
                         <input type="text" class="form-control" id="Text4" name="ShiftName" ng-model="ShiftName"
-                            ng-init="ShiftName=''" ng-required="true" placeholder="" ng-maxlength="100" maxlength="100"
-                            onkeypress="" />
+                               ng-init="ShiftName=''" ng-required="true" placeholder="" ng-maxlength="100" maxlength="100"
+                               onkeypress="" />
                     </div>
                     <div class="inputGroups">
                         <label>Shift Start Time</label>
@@ -139,60 +157,63 @@
                             <div class="col-sm-12">
                                 <div class="input-group bootstrap-timepicker timepicker">
                                     <input id="timepicker1" type="text" class="form-control input-small"
-                                        ng-model="ShiftFromTime" ng-init="ShiftFromTime=''">
+                                           ng-model="ShiftFromTime" ng-init="ShiftFromTime=''">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="inputGroups">
-                            <label>Shift End Time<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup></label>
+                    </div>
+                    <div class="inputGroups">
+                        <label>Shift End Time<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup></label>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="input-group bootstrap-timepicker timepicker">
-                                        <input id="timepicker2" type="text" class="form-control input-small"
-                                            ng-model="ShiftEndTime" ng-init="ShiftEndTime=''">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                    </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="input-group bootstrap-timepicker timepicker">
+                                    <input id="timepicker2" type="text" class="form-control input-small"
+                                           ng-model="ShiftEndTime" ng-init="ShiftEndTime=''">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="inputGroups">
-                            <label>From date<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup></label>
+                    </div>
+                    <div class="inputGroups">
+                        <label>From date<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup></label>
 
-                            <div id="ShiftFromDate">
-                                <input type="text" class="form-control date" ng-model="ShiftFromDate"
-                                    ng-init="ShiftFromDate=''">
-
-                            </div>
-                        </div>
-                        <div class="inputGroups">
-                            <label>To date<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup></label>
-
-                            <div id="ShiftToDate">
-                                <input type="text" class="form-control date" ng-model="ShiftToDate"
-                                    ng-init="ShiftToDate=''">
-
-                            </div>
-                        </div>
-                        <div class="inputGroups">
+                        <div >
+                            <input type="date" max="2099-12-31" id="ShiftFromDate" class="form-control" ng-model="ShiftFromDate"
+                                   ng-init="ShiftFromDate=''">
 
                         </div>
+                    </div>
+                    <div class="inputGroups">
+                        <label>To date<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup></label>
+
+                        <div >
+                            <input type="date" id="ShiftToDate" max="2099-12-31" class="form-control" ng-model="ShiftToDate"
+                                   ng-init="ShiftToDate=''">
+
+                        </div>
+                    </div>
+                    <div class="inputGroups">
+
+                    </div>
 
                 </form>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="button" class="theme-btn-1 mr-10" ng-click="ShiftTimingAddEdit()"
+                            title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2" ng-click="CancelTiming()" title="Click to Cancel">Cancel</button>
+                </div>
             </div>
-
-        </div>
-        <div class="modal-footer" style="text-align:center;">
-            <button type="button" class="theme-btn-1 mr-10" ng-click="ShiftTimingAddEdit()"
-                title="Click to Save">Save</button>
-            <button type="button" class="theme-btn-2" ng-click="CancelTiming()" title="Click to Cancel">Cancel</button>
+            
         </div>
     </div>
 </div>
@@ -217,42 +238,43 @@
                     </div>
                     <div class="inputGroups">
                         <label>Shift End Time</label>
-                         <span> {{ShiftEndTime}}</span>  
-                       
+                        <span> {{ShiftEndTime}}</span>
+
                     </div>
                     <div class="inputGroups">
                         <label>From date</label>
-                        <span> {{ShiftFromDate}}</span>
+                        <span> {{ShiftFromDate | date :'dd-MMM-yyyy'}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>To date</label>
-                        <span> {{ShiftToDate}}</span>
+                        <span> {{ShiftToDate | date :'dd-MMM-yyyy'}}</span>
                     </div>
-                    
-                   
+
+
                 </form>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelShiftTimingPopUp()">
+                        Cancel
+                    </button>
+                </div>
             </div>
             
         </div>
-        <div class="modal-footer" style="text-align:center;">
-            <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelShiftTimingPopUp()">
-                Cancel
-            </button>
-        </div>
+        
     </div>
 </div>
 <script>
     $('#timepicker1').timepicker();
     $('#timepicker2').timepicker();
-    $(".date").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        //endDate: '+0d',
-        startDate: new Date(),
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$(".date").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    //endDate: '+0d',
+    //    startDate: new Date(),
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
 
 </script>

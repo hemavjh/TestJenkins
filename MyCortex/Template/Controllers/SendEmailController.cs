@@ -187,7 +187,7 @@ namespace MyCortex.Template.Controllers
                         message.Title = itemData.Email_Subject;
                         message.Message = itemData.Email_Body;
 
-                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, itemData.UserId, 4);
+                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, itemData.Created_By, 4);
                     }
                 }
 
@@ -516,13 +516,64 @@ namespace MyCortex.Template.Controllers
                 return null;
             }
         }
+
+        /// <summary>
+        /// to get Notification list of a user
+        /// </summary>
+        /// <param name="User_Id">User Id</param>
+        /// <returns>Notification list of a user</returns>
+        [HttpGet]
+        public UserNotificationListModel ClearNotification_Update(long User_Id)
+        {
+            UserNotificationListModel model = new UserNotificationListModel();
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            try
+            {
+                model = repository.ClearNotification_Update(User_Id);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+        /// <summary>
+        /// to get Notification list of a user
+        /// </summary>
+        /// <param name="User_Id">User Id</param>
+        /// <returns>Notification list of a user</returns>
+        [HttpGet]
+        public UserNotificationListModel CountNotification_Update(long User_Id)
+        {
+            UserNotificationListModel model = new UserNotificationListModel();
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            try
+            {
+                model = repository.CountNotification_Update(User_Id);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>
         /// to insert/update a notification for a user
         /// </summary>
         /// <param name="SendEmail_Id">Email config id</param>
         /// <returns>inserted/updated notification</returns>
         [HttpPost]
-        public HttpResponseMessage Notification_Update(long SendEmail_Id, Guid Login_Session_Id)
+        public HttpResponseMessage Notification_Update(Guid Login_Session_Id, [FromBody]SendEmailModel sendEmailModel)
         {
             UserNotificationModel ModelData = new UserNotificationModel();
             NotificationReturnModel model = new NotificationReturnModel();
@@ -536,7 +587,7 @@ namespace MyCortex.Template.Controllers
             string messagestr = "";
             try
             {
-                ModelData = repository.Notification_Update(SendEmail_Id, Login_Session_Id);
+                ModelData = repository.Notification_Update(sendEmailModel.Id, Login_Session_Id);
                 messagestr = "Notification updated successfully";
                 model.NotificationDetails = ModelData;
                 model.Message = messagestr;

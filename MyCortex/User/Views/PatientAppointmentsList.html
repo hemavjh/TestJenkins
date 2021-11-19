@@ -1,0 +1,179 @@
+﻿<div class="mt-15">
+    <div class="panel panel-default patientProfileInfo">
+
+        <ul ng-if="userTypeId != 5" class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
+            <li><a data-toggle="tab" href="#Past">Past</a></li>
+        </ul>
+        <ul ng-if="userTypeId == 5" class="nav nav-tabs">
+            <li style="width:33.3% !important;" class="active"><a data-toggle="tab" href="#appt">Upcoming</a></li>
+            <li style="width:33.3% !important;"><a data-toggle="tab" href="#Past">Past</a></li>
+            <li style="width:33.4% !important;"><a data-toggle="tab" href="#Waiting_Appointment">Waiting</a></li>
+        </ul>
+        <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
+
+            <div id="Past" class="tab-pane fade">
+                <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
+                    <div class=" upcoming-doctor">
+                        <div class="flex justify-content-between align-items-center mb-4">
+                            <p class="up-time">
+                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} ({{Row.TimeDifference}} )
+                            </p>
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </div>
+                        <div class="flex">
+                            <div class="" style="width:20%">
+                                <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                </div>
+                            </div>
+                            <div class="" style="width:80%">
+                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                <p class="m-bottom-0 secondary-text" style="font-size:13px;">{{Row.Doctor_DepartmentName}}</p>
+                            </div>
+                        </div>
+                        <!--<div class="flex">
+                            <a class="homepadamicon chats" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                            <button id="AudioDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
+                            <button id="videoDisable" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                            <img style="padding-right:30px;" src="images/Video-icon1.png">
+                            </button>
+                            <a class="homepadamicon Video" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" onclick="openChatWindow();videoCallUser()">
+                                <img style="margin-top: -4px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -2px;" src="images/Video-Icon.png">
+                            </a>
+                            <a class="homepadamicon trashs" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                        </div>-->
+                    </div>
+                </div>
+
+                <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
+                    No Past Appointment...
+                </div>
+            </div>
+
+            <div id="appt" class="tab-pane fade in active">
+                <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
+                    <div class=" upcoming-doctor">
+                        <div class="flex justify-content-between align-items-center mb-4">
+                            <p class="up-time">
+                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
+                            </p>
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </div>
+                        <div class="flex">
+                            <div class="" style="width:20%">
+                                <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                </div>
+                            </div>
+                            <div class="" style="width:80%">
+                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / {{Row.Payment_Status}}</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ViewDoctorBio(Row.Doctor_Id)"> View Doctor Bio |</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size: 9px; margin-right: 2px" ng-click="CancelDocAppointment(Row)"> Cancel |</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-show="Row.Payment_Status === 'UNPAID'" ng-click="AppointmentPayment(Row)">  Pay</a>
+                        </div>
+                        <div class="flex">
+                            <a class="homepadamicon chats" style="cursor: pointer" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
+                            <button id="AudioDisable" style="cursor: pointer" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon phones" onclick="openChatWindow ();audioCallUser()"><img style="margin-left: -3px;" src="images/phones-icon.png"> </button>
+                            <button id="videoDisable" style="cursor: pointer" ng-disabled="Row.RemainingTimeInMinutes > TimeSizeeLeft" class="homepadamicon Video" onclick="openChatWindow();videoCallUser()">
+                                <img style=" margin-top: -7px; padding-left: 0px; padding-top: 0px; padding-bottom: 0px; padding-right: 4px; width: 41px; margin-left: -9px;" src="images/Video-Icon.png">
+                            </button>
+                            <a class="homepadamicon trashs" style="cursor: pointer" ng-click="CancelAppointmentModal(Appointment_Id)"><img class="kutticon" src="images/trashs-icon.png"> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
+                    No Upcoming Appointment...
+                </div>
+            </div>
+            <div id="Waiting_Appointment" ng-if="userTypeId == 5" class="tab-pane fade in active">
+                <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
+                    <div class=" upcoming-doctor">
+                        <div class="flex justify-content-between align-items-center mb-4">
+                            <p class="up-time">
+                                {{Row.Appointment_FromTime | date:'hh: mm' }} &nbsp; - {{Row.Appointment_ToTime | date:'hh: mm a' }},
+                                {{Row.Appointment_Date | date :'dd-MMM-yyyy'}} (In {{Row.TimeDifference}} )
+                            </p>
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </div>
+                        <div class="flex">
+                            <div class="" style="width:20%">
+                                <div ng-if="(Row.PhotoBlob!=null && Row.PhotoBlob!='')" valign="top" rowspan="6">
+                                    <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
+                                </div>
+                            </div>
+                            <div class="" style="width:80%">
+                                <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
+                                <p class="m-bottom-0 secondary-text1" style="font-size:13px;">{{Row.Doctor_DepartmentName}}  / {{Row.Payment_Status}}</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="ConfirmAppointment(Row)">Confirm |</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-click="CancelDocAppointment(Row)"> Cancel</a>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
+         No Upcoming Waiting Appointment...
+     </div>-->
+            </div>
+            <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" style="width: 70%">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                            <h4 class="modal-title">Payment Integration POC</h4>
+                        </div>
+                        <div id="main-box">
+                            <div class="modal-body">
+                                <div class="flex">
+                                    <div class="col-sm-4">
+                                        <div class="inputGroups">
+                                            <label for="usr">Stripe</label>
+                                            <form action="/Home/CreateStripeCheckoutSession" method="POST">
+                                                <button type="submit">Checkout</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="inputGroups">
+                                            <label for="usr">PayBy</label>
+                                            <form action="/Home/CreatePayByCheckoutSession" method="POST">
+                                                <input type="hidden" name="paymentAppointmentId" id="paymentAppointmentId" value="{{paymentappointmentId}}" />
+                                                <input type="hidden" name="paymentdepartmentId" id="paymentAppointmentId" value="{{paymentdepartmentId}}" />
+                                                <input type="hidden" name="paymentInstitutionId" id="paymentInstitutionId" value="{{paymentInstitutionId}}" />
+                                                <button id="but_payby" type="submit">Checkout</button>
+                                            </form>
+                                        </div>
+                                        <div class="inputGroups">
+                                            <label for="usr">PayBy Refund</label>
+                                            <form action="/Home/RefundPayByCheckoutSession" method="POST">
+                                                <input type="hidden" name="refundAppointmentId" id="refundAppointmentId" value="{{refundAppointmentId}}" />
+                                                <input type="hidden" name="refundMerchantOrderNo" id="refundMerchantOrderNo" value="{{refundMerchantOrderNo}}" />
+                                                <input type="hidden" name="refundAmount" id="refundAmount" value="{{refundAmount}}" />
+                                                <input type="hidden" name="refundOrderNo" id="refundOrderNo" value="{{refundOrderNo}}" />
+                                                <input type="hidden" name="refundInstitutionId" id="refundInstitutionId" value="{{refundInstitutionId}}" />
+                                                <button id="but_paybyrefund" type="submit">Checkout</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

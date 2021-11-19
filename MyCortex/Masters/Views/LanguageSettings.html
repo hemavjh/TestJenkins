@@ -1,20 +1,27 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
     </li>
     <li>
-        <a href="Home/Index#/ChatSetting/2">Chat Settings</a>
+        <a href="Home/Index#/ChatSetting/2">Chat</a>
     </li>
     <li><a href="Home/Index#/Password_Policy">Password Policy</a></li>
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
     <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
-    <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming">Slot Timing</a></li>
+    <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
+    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
-    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/LanguageSettings">Language Settings</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/LanguageSettings" data-menu="Settings">Language</a></li>
+    <li><a href="Home/Index#/GateWaySettings" data-menu="Settings">GateWay</a></li>
 </ul>
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -43,18 +50,26 @@
                     <div class="inputGroups">
                         <label>Select Language</label>
                         <div class="modernSearch">
-                            <select class="form-control" ng-model="selectedLanguage" ng-options="item1.Id as item1.LanguageName for item1 in InstitutionLanguageList" 
-                                    ng-change="">
+                            <select class="" data-style="form-control"  ng-model="selectedLanguage" data-live-search="true"
+                                data-selectpicker data-collection-name="InstitutionLanguageList"
+                                    ng-change="FilterLanguageSettingsList()">
+                                <option ng-repeat="item1 in InstitutionLanguageList" value="{{item1.Id}}">
+                                    {{item1.LanguageName}}
+                                </option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-4">
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" id="btnsave" ng-disabled="false" ng-click="LanguageDefaultSave()"
+                            title="Click to Save as default language">
+                        Save as Default
+                    </button>
                     <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="LanguageSettingsEdit()"
                             title="Click to Edit">
                         Edit
                     </button>
-                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" title="Click to Save" ng-if="IsEdit==true"
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" title="Click to Save" ng-if="IsEdit==true" ng-disabled="false"
                             ng-click="LanguageSettings_AddEdit()">
                         Save
                     </button>
@@ -94,7 +109,7 @@
                 <td style="text-align: left">
                     <input type="text" class="form-control" style="max-width:100% !important"
                            ng-model="LanguageText[row.ID]" placeholder="" ng-if="IsEdit==true">
-                    <span ng-if="IsEdit==false">{{LanguageText[row.ID]}}</span>
+                    <span ng-if="IsEdit==false">{{row.LANGUAGE_TEXT}}</span>
                 </td>
                 <td style="text-align: left">
                     {{row.LANGUAGE_DEFAULT}}

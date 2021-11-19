@@ -18,14 +18,14 @@ using Newtonsoft.Json;
 namespace MyCortex.Masters.Controllers
 {
     [System.Web.Http.Authorize]
-    [CheckSessionOutFilter]
     public class LanguageSettingsController : ApiController
     {
         static readonly ILanguageSettingsRepository repository = new LanguageSettingsRepository();
         private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        [AllowAnonymous]
         [HttpGet]
-        public IList<LanguageSettingsModel> LanguageSettings_List(int Institution_Id, Guid Login_Session_Id)
+        public IList<LanguageSettingsModel> LanguageSettings_List(long Institution_Id, Guid Login_Session_Id)
         {
             IList<LanguageSettingsModel> model;
             try
@@ -40,6 +40,7 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpPost]
+        [CheckSessionOutFilter]
         public HttpResponseMessage LanguageSettings_AddEdit(List<LanguageSettingsModel> model)
         {
             try
@@ -70,40 +71,48 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpGet]
-        [ActionName("List")]
-        public IList<LanguageKeyValueModel> LanguageKeyValue_List(int Institution_Id, Guid Login_Session_Id)
+        [CheckSessionOutFilter]
+        public HttpResponseMessage LanguageDefault_Save(long Institution_Id, int Language_Id)
         {
-            IList<LanguageKeyValueModel> model;
             try
             {
-                model = repository.LanguageKeyValue_List(Institution_Id, Login_Session_Id);
+                int id = repository.LanguageDefault_Save(Institution_Id, Language_Id);
+                return Request.CreateResponse(HttpStatusCode.OK, id);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [ActionName("InstituteLanguages")]
+        public IList<InstituteLanguageModel> InstituteLanguage_List(long Institution_Id)
+        {
+            try
+            {
+                IList<InstituteLanguageModel> model;
+                model = repository.InstituteLanguage_List(Institution_Id);
                 return model;
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
-        [ActionName("ListIOS")]
-        public HttpResponseMessage LanguageKeyValue_ListIOS(int Institution_Id, Guid Login_Session_Id)
+        [ActionName("List")]
+        public HttpResponseMessage LanguageKeyValue_List(int Language_Id = 1, long Institution_Id = 0)
         {
-            IList<LanguageKeyValueModel> model;
             StringBuilder jsonOutput = new StringBuilder();
             try
             {
-                model = repository.LanguageKeyValue_List(Institution_Id, Login_Session_Id);
-                var filter = model.Where(x => x.LANGUAGE_NAME == "en").Select(s => s);
-
-                foreach (LanguageKeyValueModel item in filter)
-                {
-                    if (jsonOutput.Length > 0)
-                        jsonOutput.Append(",");
-
-                    jsonOutput.Append("\"" + item.LANGUAGE_KEY + "\":\"" + item.LANGUAGE_VALUE + "\"");
-                }
-                var response = JsonConvert.DeserializeObject("{\"lng\":{" + jsonOutput + "}}");
+                var response = repository.LanguageKeyValue_List(Language_Id, Institution_Id);
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }

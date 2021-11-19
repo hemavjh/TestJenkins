@@ -172,7 +172,134 @@ function isDate(txtDate) {
     }
     return true;
 }
+function dateRange(startDate, endDate, steps = 1) {
+    const dateArray = [];
+    var EmptySlot = {};
+    let currentDate = new Date(startDate);
+    
+    while (currentDate <= new Date(endDate)) {
+        EmptySlot = {
+            Day: new Date(currentDate),
+            TimeSlot: [
+                [], [], [], []
+            ],
+            exist: 0
+        }
+        dateArray.push(EmptySlot);
+        currentDate.setUTCDate(currentDate.getUTCDate() + steps);
+    }
+    return dateArray;
+}
 
+function Convert24to12Timeformat(inputTime) {
+    var outputTime = null;
+    if (inputTime != '' && inputTime != null) {
+        inputTime = inputTime.toString(); //value to string for splitting
+        var splitTime = inputTime.split(':');
+        splitTime.splice(2, 1);
+        var ampm = (splitTime[0] >= 12 ? ' PM' : ' AM'); //determine AM or PM
+        splitTime[0] = splitTime[0] % 12;
+        splitTime[0] = (splitTime[0] == 0 ? 12 : splitTime[0]); //adjust for 0 = 12
+        outputTime = splitTime.join(':') + ampm;
+    }
+    return outputTime;
+};
+function Convert12To24Timeformat(timeval) {
+    var outputTime = null;
+    if (timeval != '' && timeval != null) {
+        var time = timeval;
+        var hours = Number(time.match(/^(\d+)/)[1]);
+        var minutes = Number(time.match(/:(\d+)/)[1]);
+        var AMPM = time.match(/\s(.*)$/)[1];
+        if (AMPM == "PM" && hours < 12) hours = hours + 12;
+        if (AMPM == "AM" && hours == 12) hours = hours - 12;
+        var sHours = hours.toString();
+        var sMinutes = minutes.toString();
+        if (hours < 10) sHours = "0" + sHours;
+        if (minutes < 10) sMinutes = "0" + sMinutes;
+        outputTime = sHours + ":" + sMinutes;
+    }
+    return outputTime;
+};
+
+function DateFormatEdit(txtDate) {
+    var currVal = txtDate;
+    if (currVal == '' || currVal == null)
+        return;
+
+    var rxDatePattern = /^(\d{1,2})(-)(\S{1,3})(-)(\d{4})$/; //Declare Regex
+    var dtArray = currVal.match(rxDatePattern); // is format OK?
+
+    if (dtArray == null)
+        return false;
+
+    var monthList = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+    //Checks for mm/dd/yyyy format.
+    dtMonth = parseInt(monthList.indexOf(dtArray[3].toLowerCase())) + 1;
+    dtDay = dtArray[1];
+    dtYear = dtArray[5];
+    //var val_date = dtYear + '-' + dtMonth + '-' + dtDay
+    var val_date = dtDay + '-' + dtMonth + '-' + dtYear;
+    if (val_date.length == 9) {
+        //val_date = dtYear + '-' + '0' + dtMonth + '-' + dtDay
+        val_date = dtDay + '-' + '0' + dtMonth + '-' + dtYear;
+        val_date = val_date.split("-")
+        var ChagneDate = new Date(val_date[2], val_date[1] - 1, val_date[0]);
+    } else {
+        val_date = val_date.split("-")
+        var ChagneDate = new Date(val_date[2], val_date[1] - 1, val_date[0]);
+    }
+    if (dtMonth < 1 || dtMonth > 12)
+        return false;
+    else if (dtDay < 1 || dtDay > 31)
+        return false;
+    else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)
+        return false;
+    else if (dtMonth == 2) {
+        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+        if (dtDay > 29 || (dtDay == 29 && !isleap))
+            return false;
+    }
+    return ChagneDate;
+}
+
+function DateFormat(txtDate) {
+    var currVal = txtDate;
+    if (currVal == '' || currVal == null)
+        return;
+
+    var rxDatePattern = /^(\d{1,2})(-)(\S{1,3})(-)(\d{4})$/; //Declare Regex
+    var dtArray = currVal.match(rxDatePattern); // is format OK?
+
+    if (dtArray == null)
+        return false;
+
+    var monthList = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+    //Checks for mm/dd/yyyy format.
+    dtMonth = parseInt(monthList.indexOf(dtArray[3].toLowerCase())) + 1;
+    dtDay = dtArray[1];
+    dtYear = dtArray[5];
+    //var val_date = dtYear + '-' + dtMonth + '-' + dtDay
+    var val_date = dtDay + '-' + dtMonth + '-' + dtYear;
+    if (val_date.length == 9) {
+        //val_date = dtYear + '-' + '0' + dtMonth + '-' + dtDay
+        val_date = dtDay + '-' + '0' + dtMonth + '-' + dtYear;
+    } 
+    //if (dtMonth < 1 || dtMonth > 12)
+    //    return false;
+    //else if (dtDay < 1 || dtDay > 31)
+    //    return false;
+    //else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)
+    //    return false;
+    //else if (dtMonth == 2) {
+    //    var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+    //    if (dtDay > 29 || (dtDay == 29 && !isleap))
+    //        return false;
+    //}
+    return val_date;
+}
 
 function EmailFormate(EmailIds) {
 
@@ -269,7 +396,12 @@ function divcollapse(tableid, imageId) {
 
     var x = document.getElementById(tableid);
     var i = document.getElementById(imageId);
-
+    $('#tableid1').hide();
+    $('#tableid2').hide();
+    $('#tableid3').hide();
+    $('#tableid4').hide();
+    $('#tableid5').hide();
+    $('#tableid6').hide();
     if (x.style.display === "none") {
         i.src = "../../Images/collapse.gif"
         x.style.display = "block";

@@ -102,6 +102,7 @@ namespace MyCortex.Repositories.Masters
                         param.Add(new DataParameter("@PARAMETER_ID", item.Parameter_ID));
                         param.Add(new DataParameter("@UNITS_ID", item.Units_ID));
                         param.Add(new DataParameter("@DIAGNOSTIC_FLAG", item.Diagnostic_Flag));
+                        param.Add(new DataParameter("@COMPLIANCE_FLAG", item.Compliance_Flag));
                         param.Add(new DataParameter("@MAX_POSSIBLE", item.Max_Possible));
                         param.Add(new DataParameter("@MIN_POSSIBLE", item.Min_Possible));
                         param.Add(new DataParameter("@NORMALRANGE_HIGH", item.NormalRange_High));
@@ -164,6 +165,7 @@ namespace MyCortex.Repositories.Masters
                                                         Units_ID = p.Field<long?>("UNITS_ID"),
                                                         Units_Name = p.Field<string>("UNITS_NAME"),
                                                         Diagnostic_Flag = p.Field<bool>("DIAGNOSTIC_FLAG"),
+                                                        Compliance_Flag = p.Field<bool>("COMPLIANCE_FLAG"),
                                                         Max_Possible = p.Field<decimal?>("MAX_POSSIBLE"),
                                                         Min_Possible = p.Field<decimal?>("MIN_POSSIBLE"),
                                                         NormalRange_High = p.Field<decimal?>("NORMALRANGE_HIGH"),
@@ -187,23 +189,29 @@ namespace MyCortex.Repositories.Masters
         /// </summary>
         /// <param name="Parameter_Id">Parameter Id</param>
         /// <returns> unit list of a parameter</returns>
-        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Unitgroup_Type)
+        public IList<ParamaterSettingsModel> ParameterMappingList(int? Parameter_Id, int? Institution_Id, int? Unitgroup_Type)
         {
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
                 param.Add(new DataParameter("@Parameter_Id", Parameter_Id));
                 param.Add(new DataParameter("@UNITSGROUP_ID", Unitgroup_Type));
+                param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PARAMETERMAPPING_SP_LIST", param);
                 List<ParamaterSettingsModel> lst = (from p in dt.AsEnumerable()
                                                     select new ParamaterSettingsModel()
                                                     {
                                                         Id = p.Field<long>("ID"),
                                                         Parameter_ID = p.Field<long>("PARAMETER_ID"),
-                                                        Units_ID = p.Field<long>("UNITS_ID"),
-                                                        IsActive = p.Field<int>("ISACTIVE"),
                                                         Parameter_Name = p.Field<string>("PARAMETER_NAME"),
-                                                        Units_Name = p.Field<string>("UNITS_NAME")
+                                                        Units_ID = p.Field<long>("UNITS_ID"),
+                                                        Units_Name = p.Field<string>("UNITS_NAME"),
+                                                        UnitsGroup_ID = p.Field<long>("UNITSGROUP_ID"),
+                                                        UnitsGroup_Name = p.Field<string>("UNITSGROUP_NAME"),
+                                                        Units_with_Group_Name = p.Field<string>("UNITS_NAME") + " (" + p.Field<string>("UNITSGROUP_NAME") + ")",
+                                                        Max_Possible = p.IsNull("MAX_POSSIBLE") ? 0 : p.Field<decimal>("MAX_POSSIBLE"),
+                                                        Min_Possible = p.IsNull("MIN_POSSIBLE") ? 0 : p.Field<decimal>("MIN_POSSIBLE"),
+                                                        IsActive = p.Field<int>("ISACTIVE"),
                                                     }).ToList();
                 return lst;
             }

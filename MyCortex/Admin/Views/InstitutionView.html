@@ -22,11 +22,17 @@
         })
 
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 </head>
 <div class="mainbody">
     <ul class="secondaryMenu">
         <li>
-            <a class="secondaryMenuActive" href="Home/Index#/InstitutionHospitalAdmin_view">
+            <a class="secondaryMenuActive" href="Home/Index#/InstitutionHospitalAdmin_view" data-menu="Home">
                 Institution
             </a>
         </li>
@@ -49,27 +55,31 @@
                         <div class="panel panel-default panel-info" id="tableid">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <div class="inputGroups">
-                                            <span style="font-weight:bold;">Name </span> 
+                                            <span style="font-weight:bold;">Name </span>
+                                            <span style="font-weight:bold;margin-left: 40px;">: </span>
                                             <span>{{Institution_Name}}</span>
                                         </div>
                                         <div class="inputGroups">
-                                            <span style="font-weight:bold;"> Short Name </span>
+                                            <span style="font-weight:bold;"> Short Name : </span>
                                             <span>{{INSTITUTION_SHORTNAME}}</span>
                                         </div>
                                         <div class="inputGroups">
                                             <span style="font-weight:bold;">Email </span>
+                                            <span style="font-weight:bold;margin-left: 40px;">: </span>
                                             <span>{{Email}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         <div class="inputGroups">
-                                            <span style="font-weight:bold;"> Logo Upload</span>
-                                            <img src="{{uploadme}}" class="institutionLogo"
-                                                 ng-show="(uploadme != '')" />
-                                            <img src="../../Images/noImage.jpg" class="institutionLogo"
-                                                 ng-show="(uploadme == '')" />
+                                            <div style="margin-left: 151px;margin-top: -12px;">
+                                                <span style="font-weight:bold;"> Logo Upload</span>
+                                                <img src="{{uploadme}}" style="margin-left:-20px;height: 200px;width: 170px;" class="institutionLogo"
+                                                     ng-show="(uploadme != '')" />
+                                                <img src="../../Images/noImage.jpg" style="margin-left: -20px; height: 200px; width: 170px;" class="institutionLogo"
+                                                     ng-show="(uploadme == '' || uploadme == null)" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -80,33 +90,36 @@
                         <div class="panel panel-default panel-info" id="Div1">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-8">
                                         <div class="inputGroups">
                                             <span style="font-weight:bold;">Address</span>
-                                            <div>  <span>  {{Address1}}</span></div>
-                                            <div>  <span> {{Address2}}</span></div>
-                                            <div> <span>  {{Address3}}</span></div>
-
-
+                                            <span style="font-weight:bold;margin-left: 51px;">:</span>
+                                            <div style="width: 178%;margin-top: -19px;">  <span style="margin-left: 112px;">  {{Address1}}</span></div>
+                                            <div style="width: 178%;"> <span style="margin-left: 112px;"> {{Address2}}</span></div>
+                                            <div style="width: 178%;"> <span style="margin-left: 112px;">  {{Address3}}</span></div>
 
                                         </div>
                                         <div class="inputGroups">
                                             <span style="font-weight:bold;">Postal / Zip code</span>
+                                            <span style="font-weight:bold;">:</span>
                                             <span>   {{ZipCode}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                         <div class="inputGroups">
                                             <span style="font-weight:bold;">Country</span>
+                                            <span style="font-weight:bold;margin-left:57px;">:</span>
                                             <span>  {{ViewCountryName}}</span>
 
                                         </div>
                                         <div class="inputGroups">
                                             <span style="font-weight:bold;">State</span>
+                                            <span style="font-weight:bold;margin-left: 75px;">:</span>
                                             <span>{{ViewStateName}}</span>
                                         </div>
                                         <div class="inputGroups">
                                             <span style="font-weight:bold;">City</span>
+                                            <span style="font-weight:bold;margin-left: 84px;">:</span>
                                             <span>  {{ViewCityName}}</span>
                                         </div>
                                     </div>
@@ -121,10 +134,13 @@
 
             </form>
             <div class="text-center mb-20">
-                <button type="button" class="theme-btn-1 center-block" title="Click to Edit"
+                <button type="button" class="theme-btn-1 mr-10" title="Click to Edit"
                         ng-click="EditInstitutionHospitalAdmin()">
                     Edit
                 </button>
+                <a id="runConfig" style="cursor:pointer" title="Click to re-run configuration" ng-click="InstitueConfiguration()">
+                    Re-run configuration
+                </a>
             </div>
 
         </div>

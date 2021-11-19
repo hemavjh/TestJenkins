@@ -1,0 +1,220 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
+    <li>
+        <a href="Home/Index#/ICD10Master">ICD 10</a>
+    </li>
+    <li>
+        <a href="Home/Index#/DrugDBMaster">Drug DB</a>
+    </li>
+    <li>
+        <a href="Home/Index#/AllergyMaster">Allergies</a>
+    </li>
+    <li>
+        <a  href="Home/Index#/Payor">Payor</a>
+    </li>
+    <li>
+        <a class="secondaryMenuActive" href="Home/Index#/Plan" data-menu="Master">Plan</a>
+    </li>
+</ul>
+
+<h1 class="page-title">Plan</h1>
+<div class="container" style="max-width: 1530px;">
+    <div class="row">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+        <div class="" ng-init="Planlist()">
+            <div class="panel panel-default" id="ICD10Id">
+                <form class="form-horizontal" role="form">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label>Search</label>
+                                    <div class="modernSearch">
+                                        <input type="text" ng-model="searchquery" ng-change="fliterPayorList()"
+                                               placeholder="" style="width: 200px" />
+                                        <i class="fa fa-search"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <label>Active</label>
+                                </div>
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="Planlist();" title="Active / All">
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="inputGroups">
+                                    <a href="javascript:" ng-click="ClearPopup();AddPlanPopUP();" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10" title="Click to Add New Plan">Add New</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="">
+            <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query" class="table themeTable">
+                <thead>
+                    <tr style="text-align: center">
+                        <th st-ratio="3">#</th>
+                        <th st-ratio="10" st-sort="PayorName">SelectedPayor</th>
+                        <th st-ratio="10" st-sort="PlanName">PlanName</th>
+                        <th st-ratio="8" st-sort="ShortCode">ShortCode</th>
+                        <th st-ratio="10" st-sort="Description">Description</th>
+                        <th st-ratio="10" st-sort="PackageName">PackageName</th>
+                        <th st-ratio="10" st-sort="FinancialClass">FinancialClass</th>
+                        <th st-ratio="8" st-sort="PriceCode">PriceCode</th>
+                        <th st-ratio="8" st-sort="ReferCode">ReferCode</th>
+                        <th st-ratio="8" st-sort="ValidFromDate">ValidFromDate</th>
+                        <th st-ratio="8" st-sort="ValidToDate">ValidToDate</th>
+                        <th st-ratio="6">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="rowCollectionFilter.length==0">
+                        <td colspan="6" class="text-center">
+                            No Data Available
+                        </td>
+                    </tr>
+                    <tr ng-repeat="row in emptydata">
+                        <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                        <td style="text-align: left;word-break: break-all" >{{row.PayorName}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.PlanName}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.ShortCode}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.Description}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.PackageName}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.FinancialClass}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.PriceCode}}</td>
+                        <td style="text-align: left;word-break: break-all">{{row.ReferCode}}</td>
+                        <td style="text-align: left">{{row.ValidFromDate | date : format : "dd-MM-yyyy"}}</td>
+                        <td style="text-align: left">{{row.ValidToDate | date : format : "dd-MM-yyyy"}}</td>
+                        <td st-ratio="10">
+
+                            <a href="javascript:" ng-click="ViewPlanPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
+                            <a href="javascript:" ng-click="row.IsActive == 0 ||  EditPlanPopUP(row.Id)" title="Edit">
+                                <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+
+                                </a>
+                            </a>
+                            <!--<a href="javascript:" ng-click="DeletePayor(row.Id)" title="Active" ng-if="row.IsActive==0">
+                            <i class="fa fa-check-circle-o ng-scope" aria-hidden="true"></i>
+                            <a href="javascript:" ng-click="ActivePayor(row.Id)" title="InActive" ng-if="row.IsActive==0">
+
+                            </a>-->
+                            <a href="javascript:;" ng-click="DeletePlan(row.Id)" title="Active" ng-if="row.IsActive==1">
+                                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+
+                                <a href="javascript:" ng-click="ActivePlan(row.Id)" title="Inactive" ng-if="row.IsActive==0">
+                                    <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+
+                                </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot ng-show="total_page>1">
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
+                            <ul class="pagination">
+                                <li>
+                                    <a ng-click="setPage(1)">First</a>
+                                </li>
+                                <li>
+                                    <a ng-click="setPage(current_page - 1)">&lt;</a>
+                                </li>
+                                <li>
+                                    <a><input style="width: 50px" class="text-center" type="number" min="1" max="{{total_page}}" step="1" ng-model="inputPageNo" ng-value="current_page" ng-change="setPage(0);"> of {{total_page}}</a>
+                                </li>
+                                <li>
+                                    <a ng-click="setPage(current_page + 1)">&gt;</a>
+                                </li>
+                                <li><a ng-click="setPage(total_page)">Last</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--ADD&EDIT MODAL-->
+<div id="PlanMasterModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopUP()" style="color:#fff;">&times;</button>
+                <h4 class="modal-title">Plan</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="inputGroups">
+                        <label>Selected PayorName<sup><font class='mandatory-field'>*</font></sup></label>
+                        <select class="form-control" data-style="form-control" id="SelectedPayor"
+                                data-live-search="true" data-selectpicker data-collection-name="SelectedPayorList"
+                                ng-model="SelectedPayor">
+                            <option value="0">Select</option>
+                            <option ng-repeat="sel in PayorMasterList" ng-selected="SelectedPayor==sel.Id" ng-required="true"
+                                    value="{{sel.Id}}">
+                                {{sel.PayorName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="inputGroups">
+                        <label>PlanName<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="PlanName" name="PlanName" ng-model="PlanName" ng-init="PlanName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>ShortCode<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="Description" name="Description" ng-model="Description" ng-init="Description=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>Package Name<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="PackageName" name="PackageName" ng-model="PackageName" ng-init="PackageName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>Financial Class<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="FinancialClass" name="FinancialClass" ng-model="FinancialClass" ng-init="FinancialClass=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>Price Code<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="PriceCode" name="PriceCode" ng-model="PriceCode" ng-init="PriceCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <label>Refer Code<sup><font class='mandatory-field'>*</font></sup></label>
+                        <input type="text" class="form-control" id="ReferCode" name="ReferCode" ng-model="ReferCode" ng-init="ReferCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                    </div>
+                    <div class="inputGroups">
+                        <div class="col-xs-11 input-group date">
+                            <label>ValidFromDate<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="date" class="form-control" ng-model="ValidFromDate" id="ValidFromDate"
+                                   ng-init="ValidFromDate=''" style="width:190px">
+                        </div>
+                    </div>
+                    <div class="inputGroups">
+                        <div class="col-xs-11 input-group date">
+                            <label>ValidToDate<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="date" class="form-control" ng-model="ValidToDate" id="ValidToDate"
+                                   ng-init="ValidToDate=''" style="width:190px">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-show="PlanSave == true" ng-click="PlanAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

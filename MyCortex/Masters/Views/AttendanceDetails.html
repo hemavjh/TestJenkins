@@ -1,16 +1,214 @@
-﻿<ul class="secondaryMenu">
-    <li><a href="Home/Index#/ParameterSettings">Standard Parameter</a></li>
-    <li><a href="Home/Index#/ChatSetting/2">Chat Settings</a></li>
-    <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
-    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
-    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
-    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
-    <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
+﻿<script>
+    $('#datetimepickerholiday_To').datetimepicker({
+        ownerDocument: document,
+        contentWindow: window,
+
+        value: '',
+        rtl: false,
+
+        format: 'Y/m/d H:i',
+        formatTime: 'H:i',
+        formatDate: 'Y/m/d',
+
+        startDate: false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
+        step: 60,
+        monthChangeSpinner: true,
+
+        closeOnDateSelect: false,
+        closeOnTimeSelect: true,
+        closeOnWithoutClick: true,
+        closeOnInputClick: true,
+        openOnFocus: true,
+
+        timepicker: true,
+        datepicker: true,
+        weeks: false,
+
+        defaultTime: false, // use formatTime format (ex. '10:00' for formatTime: 'H:i')
+        defaultDate: false, // use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
+
+        minDate: false,
+        maxDate: false,
+        minTime: false,
+        maxTime: false,
+        minDateTime: false,
+        maxDateTime: false,
+
+        allowTimes: [],
+        opened: false,
+        initTime: true,
+        inline: false,
+        theme: '',
+        touchMovedThreshold: 5,
+
+        onSelectDate: function () { },
+        onSelectTime: function () { },
+        onChangeMonth: function () { },
+        onGetWeekOfYear: function () { },
+        onChangeYear: function () { },
+        onChangeDateTime: function () { },
+        onShow: function () { },
+        onClose: function () { },
+        onGenerate: function () { },
+
+        withoutCopyright: true,
+        inverseButton: false,
+        hours12: false,
+        next: 'xdsoft_next',
+        prev: 'xdsoft_prev',
+        dayOfWeekStart: 0,
+        parentID: 'body',
+        timeHeightInTimePicker: 25,
+        //timepicker<a href = "https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a> bar: true,
+        todayButton: true,
+        prevButton: true,
+        nextButton: true,
+        defaultSelect: true,
+
+        scrollMonth: true,
+        scrollTime: true,
+        scrollInput: true,
+
+        lazyInit: false,
+        mask: false,
+        validateOnBlur: true,
+        allowBlank: true,
+        yearStart: 1950,
+        yearEnd: 2050,
+        monthStart: 0,
+        monthEnd: 11,
+        style: '',
+        id: '',
+        fixed: false,
+        roundTime: 'round', // ceil, floor
+        className: '',
+        weekends: [],
+        highlightedDates: [],
+        highlightedPeriods: [],
+        allowDates: [],
+        allowDateRe: null,
+        disabledDates: [],
+        disabledWeekDays: [],
+        yearOffset: 0,
+        beforeShowDay: null,
+
+        enterLikeTab: true,
+        showApplyButton: false
+    });
+
+    $('#datetimepickerholiday_From').datetimepicker({
+        ownerDocument: document,
+        contentWindow: window,
+
+        value: '',
+        rtl: false,
+
+        format: 'Y/m/d H:i',
+        formatTime: 'H:i',
+        formatDate: 'Y/m/d',
+
+        startDate: false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
+        step: 60,
+        monthChangeSpinner: true,
+
+        closeOnDateSelect: false,
+        closeOnTimeSelect: true,
+        closeOnWithoutClick: true,
+        closeOnInputClick: true,
+        openOnFocus: true,
+
+        timepicker: true,
+        datepicker: true,
+        weeks: false,
+
+        defaultTime: false, // use formatTime format (ex. '10:00' for formatTime: 'H:i')
+        defaultDate: false, // use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
+
+        minDate: false,
+        maxDate: false,
+        minTime: false,
+        maxTime: false,
+        minDateTime: false,
+        maxDateTime: false,
+
+        allowTimes: [],
+        opened: false,
+        initTime: true,
+        inline: false,
+        theme: '',
+        touchMovedThreshold: 5,
+
+        onSelectDate: function () { },
+        onSelectTime: function () { },
+        onChangeMonth: function () { },
+        onGetWeekOfYear: function () { },
+        onChangeYear: function () { },
+        onChangeDateTime: function () { },
+        onShow: function () { },
+        onClose: function () { },
+        onGenerate: function () { },
+
+        withoutCopyright: true,
+        inverseButton: false,
+        hours12: false,
+        next: 'xdsoft_next',
+        prev: 'xdsoft_prev',
+        dayOfWeekStart: 0,
+        parentID: 'body',
+        timeHeightInTimePicker: 25,
+        //timepicker<a href = "https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a> bar: true,
+        todayButton: true,
+        prevButton: true,
+        nextButton: true,
+        defaultSelect: true,
+
+        scrollMonth: true,
+        scrollTime: true,
+        scrollInput: true,
+
+        lazyInit: false,
+        mask: false,
+        validateOnBlur: true,
+        allowBlank: true,
+        yearStart: 1950,
+        yearEnd: 2050,
+        monthStart: 0,
+        monthEnd: 11,
+        style: '',
+        id: '',
+        fixed: false,
+        roundTime: 'round', // ceil, floor
+        className: '',
+        weekends: [],
+        highlightedDates: [],
+        highlightedPeriods: [],
+        allowDates: [],
+        allowDateRe: null,
+        disabledDates: [],
+        disabledWeekDays: [],
+        yearOffset: 0,
+        beforeShowDay: null,
+
+        enterLikeTab: true,
+        showApplyButton: false
+    });
+</script> 
+ 
+<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+        $(element).addClass('activeButton');
+        document.getElementById("datetimepickerholiday_To").style.display = "block";
+        document.getElementById("datetimepickerholiday_From").style.display = "block";
+    });
+</script>
+<ul class="secondaryMenu">
+    <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
+    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>-->
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
-    <li><a href="Home/Index#/DoctorHoliday" class="secondaryMenuActive">Doctor Holiday</a></li>
-    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
-    <li><a href="Home/Index#/LanguageSettings">Language Settings</a></li>
+    <li><a href="Home/Index#/DoctorHoliday"  class="secondaryMenuActive" data-menu="Appointment Setting">Doctor Holiday</a></li>
+    <li><a href="Home/Index#/MyAppointmentSetting">Organization Settings</a></li>
 </ul>
 <h1 class="page-title">Holiday</h1>
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -28,7 +226,7 @@
 
                         <div class="modernSearch">
                             <input type="text" ng-model="searchqueryAttendance" ng-change="FilterAttendanceList()"
-                                placeholder="" style="width: 200px" />
+                                   placeholder="" style="width: 200px" />
                             <i class="fa fa-search"></i>
                         </div>
                     </div>
@@ -39,14 +237,14 @@
                     <div class="inputGroups">
                         <label for="Active">Active</label>
                         <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="AttendanceList();"
-                            title="Active / All">
+                               title="Active / All">
                     </div>
 
                 </div>
                 <div class="col-sm-4">
                     <div class="inputGroups">
                         <a href="javascript:" ng-click="AddAttendance();" class="theme-btn-1 pull-right mt-15"
-                            title="Click to Add New Shift Timing">Add New</a>
+                           title="Click to Add New Shift Timing">Add New</a>
                     </div>
                 </div>
             </div>
@@ -55,14 +253,15 @@
     </div>
 
     <table st-table="emptydataAttendance" style="width: 100%" st-safe-src="rowCollectionAttendanceFilter"
-        st-search="query" class="table themeTable">
+           st-search="query" class="table themeTable">
         <thead>
             <tr style="text-align: center">
                 <th st-ratio="5">#</th>
-                <th st-ratio="33" st-sort="DoctorName">Doctor Name</th>
+                <th st-ratio="27" st-sort="DoctorName">Name</th>
+                <th st-ratio="8">User Type</th>
                 <th st-ratio="14" st-sort="AttendanceFromDate">From Date</th>
                 <th st-ratio="14" st-sort="ShiftEndTime">To Date</th>
-                <th st-ratio="14" st-sort="ShiftEndTime">Remarks</th>
+                <th st-ratio="12" st-sort="ShiftEndTime">Remarks</th>
                 <th st-ratio="12" st-sort="AttendanceFromDate">Created By/Created On </th>
                 <th st-ratio="8">Action</th>
             </tr>
@@ -77,19 +276,22 @@
             <tr ng-repeat="row in emptydataAttendance">
                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
 
-                <td style="text-align: left">
+                <td style="text-align: left; overflow-wrap: anywhere;">
                     <div class="textwrap">{{row.DoctorName}}</div>
                 </td>
                 <td style="text-align: left">
-                    {{row.AttendanceFromDate| date:'dd-MMM-yyyy '}}
+                    {{row.UserTypeName}}
                 </td>
                 <td style="text-align: left">
-                    {{row.AttendanceToDate| date:'dd-MMM-yyyy'}}
+                    {{row.AttendanceFromDate| date:'dd-MMM-yyyy hh:mm:ss'}}
                 </td>
                 <td style="text-align: left">
+                    {{row.AttendanceToDate| date:'dd-MMM-yyyy hh:mm:ss'}}
+                </td>
+                <td style="text-align: left;word-break:break-all;">
                     <div class="textwrap"> {{row.Remarks}} </div>
                 </td>
-                <td style="text-align: left">
+                <td style="text-align: left; overflow-wrap: anywhere;">
                     {{row.CreatedByName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm:ss a'}}
                 </td>
                 <td style="text-align: center">
@@ -97,7 +299,7 @@
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
                     <a href="javascript:" title="Edit"
-                        ng-click="EditAttendance(row.Id, row.IsActive,row.AttendanceToDate)">
+                       ng-click="EditAttendance(row.Id, row.IsActive,row.AttendanceToDate)">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                     <a href="javascript:;" ng-click="DeleteAttendance(row.Id)" title="Active">
@@ -106,14 +308,15 @@
                         <a href="javascript:" ng-click="ReInsertAttendance(row.Id)" title="Inactive">
                             <i class="fa fa-times-circle-o" ng-if="row.IsActive==0" aria-hidden="true"></i>
 
-                        </a></td>
+                        </a>
+                </td>
             </tr>
         </tbody>
         <tfoot ng-show="rowCollectionAttendanceFilter.length >10">
             <tr>
                 <td colspan="9" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                        st-template="Masters/Views/pagination.custom.html"></div>
+                         st-template="Masters/Views/pagination.custom.html"></div>
                 </td>
             </tr>
         </tfoot>
@@ -126,70 +329,86 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
-                    ng-click="ClearAttendancePopUp()">&times;</button>
+                        ng-click="ClearAttendancePopUp()">
+                    &times;
+                </button>
                 <h4 class="modal-title">Holiday</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="inputGroups" ng-show="Id==0">
-                        <label>Doctor<sup>
+                        <label>
+                            User Name<sup>
                                 <font class='mandatory-field'>*</font>
-                            </sup></label>
+                            </sup>
+                        </label>
 
                         <select ng-model="SelectedAttendance" multiple="multiple"
-                            ng-options="item1.Id as item1.FullName for item1 in UserTypeList" multiselect-dropdown
-                            style="width: 230px;">
-                        </select>
+                                ng-options="item1.Id as item1.FullName for item1 in UserTypeList" multiselect-dropdown
+                                style="width: 230px;"></select>
                     </div>
                     <div class="inputGroups" ng-show="Id>0">
-                        <label>Doctor<sup>
+                        <label>
+                            User Name<sup>
                                 <font class='mandatory-field'>*</font>
-                            </sup></label>
+                            </sup>
+                        </label>
 
                         <select class="form-control" data-style="form-control" id="stateselectpicker"
-                            data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
-                            ng-model="EditSelectedAttendance">
+                                data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
+                                ng-model="EditSelectedAttendance">
                             <option ng-repeat="sel in UserTypeList" ng-required="true" value="{{sel.Id}}">
-                                {{sel.FullName}}</option>
+                                {{sel.FullName}}
+                            </option>
                         </select>
                     </div>
                     <div class="inputGroups">
-                        <label>From date<sup>
+                        <label>
+                            From date<sup>
                                 <font class='mandatory-field'>*</font>
-                            </sup></label>
+                            </sup>
+                        </label>
 
-                        <div id="AttendanceFromDate">
-                            <input type="text" class="form-control date" ng-model="AttendanceFromDate"
-                                ng-init="AttendanceFromDate=''">
+                        <div>
+                            <!--<input type="date" id="AttendanceFromDate" max="2099-12-31" class="form-control" ng-model="AttendanceFromDate"
+            ng-init="AttendanceFromDate=''">-->
+                            <input type="text" ej-datetimepicker ng-init="AttendanceFromDate=''" ng-model="AttendanceFromDate" class="form-control date" id="datetimepickerholiday_From" ng-required="true">
 
                         </div>
                     </div>
                     <div class="inputGroups">
-                        <label>To date<sup>
+                        <label>
+                            To date<sup>
                                 <font class='mandatory-field'>*</font>
-                            </sup></label>
+                            </sup>
+                        </label>
 
-                        <div id="AttendanceToDate">
-                            <input type="text" class="form-control date" ng-model="AttendanceToDate"
-                                ng-init="AttendanceToDate=''">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-th"></i>
-                            </span>
+                        <div>
+                            <!--<input type="date" class="form-control" max="2099-12-31" id="AttendanceToDate" ng-model="AttendanceToDate"
+            ng-init="AttendanceToDate=''">-->
+                            <input type="text" ej-datetimepicker ng-init="AttendanceToDate=''" ng-model="AttendanceToDate" class="form-control date" id="datetimepickerholiday_To" ng-required="true">
+                            <!--<span class="input-group-addon">
+                <i class="glyphicon glyphicon-th"></i>
+            </span>-->
                         </div>
                     </div>
                     <div class="inputGroups">
                         <label for="Remarks">Remarks</label>
                         <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks" ng-maxlength="250"
-                            maxlength="250"></textarea>
+                                  maxlength="250"></textarea>
                     </div>
 
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" ng-click="AttendanceAddEdit()"
-                    title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="AttendanceAddEdit()"
+                        title="Click to Save">
+                    Save
+                </button>
                 <button type="button" class="theme-btn-2" ng-click="CancelAttendancePopUp()"
-                    title="Click to Cancel">Cancel</button>
+                        title="Click to Cancel">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
@@ -199,32 +418,34 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
-                    ng-click="CancelPopup()">&times;</button>
+                        ng-click="CancelPopup()">
+                    &times;
+                </button>
                 <h4 class="modal-title">Holiday</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="inputGroups">
-                        <label>Doctor</label>
+                        <label>User</label>
 
                         <span class="textwrap"> {{DoctorName}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>From Date</label>
-                           
-                        <span>{{AttendanceFromDate}}</span>
+
+                        <span>{{AttendanceFromDate | date:'dd-MMM-yyyy hh:mm:ss'}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>To Date</label>
-                           
-                        <span>{{AttendanceToDate}}</span>
+
+                        <span>{{AttendanceToDate | date:'dd-MMM-yyyy hh:mm:ss'}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>Remarks</label>
-                        <span class="textwrap"> {{Remarks}}</span>
+                        <span class="textwrap" style="word-break:break-all;"> {{Remarks}}</span>
                     </div>
-                    
-                    
+
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
@@ -236,18 +457,18 @@
     </div>
 </div>
 <script>
-    // $('#timepicker1').timepicker();
-    // $('#timepicker2').timepicker();
-    $(".date").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: false,
-        //endDate: '+0d',
-        startDate: new Date(),
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    $('#timepicker1').timepicker();
+    $('#timepicker2').timepicker();
+    //$(".date").bootstrapDP({
+    //    format: "dd-M-yyyy",
+    //    forceParse: false,
+    //    //endDate: '+0d',
+    //    startDate: new Date(),
+    //    autoclose: true,
+    //    todayHighlight: true,
+    //    toggleActive: true,
+    //    todayBtn: true
+    //});
     // $("#AttendanceToDate").bootstrapDP({
     //     format: "dd-M-yyyy",
     //     forceParse: false,

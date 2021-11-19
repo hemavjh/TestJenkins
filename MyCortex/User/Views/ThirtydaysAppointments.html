@@ -147,6 +147,12 @@
 
     });
 </script>
+  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 <style>
     .numberCircle {
         border-radius: 100%;
@@ -162,14 +168,14 @@
         font: 12px Arial, sans-serif;
     }
 </style>
-
+ 
 
 <ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/TodaysAppoint_ments" title="Today Appointment Page">Today's Appointment</a>
     </li>
     <li><a class="secondaryMenuActive" href="Home/Index#/Thirtydays_appointments"
-            title="Click here to go Next 30 Days Appointment Page">Next 30 Days Appointments</a>
+            title="Click here to go Next 30 Days Appointment Page" data-menu="Appointment">Next 30 Days Appointments</a>
     </li>
 </ul>
 <h1 class="title1">Next 30 Days Appointments</h1>

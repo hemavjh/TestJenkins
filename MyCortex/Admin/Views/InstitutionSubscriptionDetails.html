@@ -52,6 +52,23 @@
                                  </div>
                               </td>
                            </table>
+                            <table>
+                                <tr>
+                                    <td width="13%">
+                                        <Lable>TimeZone Name <sup><font class='mandatory-field'>*</font></sup></Lable>
+                                    </td>
+                                    <td width="25%">
+                                        <select class="form-control" ng-model="TimeZone_Id" id="selectpicker">
+                                            <option value="0" data-tokens="TimeZone_Name">Select</option>
+                                            <option ng-repeat="set in TimeZoneListID" ng-required="true" ng-selected="TimeZoneId == set.TimeZoneId"
+                                                    value="{{set.TimeZoneId}}">
+                                                {{set.TimeZoneDisplayName}}
+                                            </option>
+                                        </select>
+
+                                    </td>
+                                </tr>
+                            </table>
                            <table cellpadding="0" cellspacing="0" border="0" width="70%" class="formControlGroup">
                               <tr>
                                  <td width="7%">
@@ -74,9 +91,12 @@
                                     <label>Contract Period From<sup><font class='mandatory-field'>*</font></sup></label>
                                  </td>
                                  <td>
-                                    <div class="col-xs-11 input-group date" id="PeriodFrom">
-                                       <input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span> 
-                                    </div>
+                                     <div class="col-xs-11 input-group date">
+                                         <!--<input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
+                                         <input type="date" placeholder="" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                                ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:165px" ng-required="true">
+                                     </div>
                                  </td>
                               </tr>
                               <tr>
@@ -84,8 +104,10 @@
                                     <label>Contract Period To<sup><font class='mandatory-field'>*</font></sup></label>
                                  </td>
                                  <td>
-                                    <div class="col-xs-12 input-group date" id="PeriodTo">
-                                       <input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px"  ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span> 
+                                    <div class="col-xs-12 input-group date">
+                                       <!--<input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px"  ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>--> 
+                                        <input type="date" placeholder="" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                               ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:165px" ng-required="true">
                                     </div>
                                  </td>
                               </tr>
@@ -169,21 +191,21 @@
 </div>
 <script>
     $("#PeriodFrom").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: true,
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
+        //format: "dd-M-yyyy",
+        //forceParse: true,
+        //autoclose: true,
+        //todayHighlight: true,
+        //toggleActive: true,
+        //todayBtn: true
     });
 </script>
 <script>
-    $("#PeriodTo").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: true,
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$("#PeriodTo").bootstrapDP({
+    //    //format: "dd-M-yyyy",
+    //    //forceParse: true,
+    //    //autoclose: true,
+    //    //todayHighlight: true,
+    //    //toggleActive: true,
+    //    //todayBtn: true
+    //});
 </script>

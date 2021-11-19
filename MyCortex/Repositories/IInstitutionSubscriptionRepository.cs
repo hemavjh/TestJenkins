@@ -18,6 +18,6 @@ namespace MyCortex.Repositories
         InstitutionSubscriptionModel InstitutionSubscriptionDetails_View(long Id, Guid Login_Session_Id);
         //IList<InstitutionSubscriptionModuleModels> InstitutionSubscriptionModuleDetails_View(int Id);
         InstitutionSubscriptionModel InstitutionSubscriptionActiveDetails_View(long Id, Guid Login_Session_Id);
-
+        IList<GatewayMasterModel> PaymentModule_List();
     }
 }

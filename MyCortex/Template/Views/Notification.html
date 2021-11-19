@@ -15,10 +15,18 @@
         //ev.target.appendChild(data);
         ev.preventDefault();
     }
-</script>
+</script> 
+  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+            $(element).addClass('activeButton');
+            //$('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 <ul class="secondaryMenu">
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/Notification/2">Notification Template</a>
+        <a class="secondaryMenuActive" href="Home/Index#/Notification/2" data-menu="Bulk Notification">Notification Template</a>
     </li>
     <li>
         <a href="Home/Index#/NotificationSend/2">Send Notification</a>
@@ -199,7 +207,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" ng-click="EmailTemplateAddEdit()"
+                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="EmailTemplateAddEdit()"
                     title="Click to Save">Save</button>
                 <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
                     title="Click to Cancel">Cancel</button>

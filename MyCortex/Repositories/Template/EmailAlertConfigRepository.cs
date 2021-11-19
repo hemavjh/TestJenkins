@@ -215,13 +215,14 @@ namespace MyCortex.Repositories.EmailAlert
         /// </summary>
         /// <param name="Institution_Id">Institution Id</param>
         /// <returns>list of Email alert detail of a institution</returns>
-        public IList<EventModel> AlertEvent_List(int Institution_Id ,int Id)
+        public IList<EventModel> AlertEvent_List(int Institution_Id ,int Id,int status)
         {
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                param.Add(new DataParameter("@Status", status));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ALERTEVENTMASTER_SP_LIST", param);
                 List<EventModel> lst = (from p in dt.AsEnumerable()
                                         select new EventModel()

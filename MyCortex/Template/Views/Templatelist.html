@@ -8,10 +8,17 @@
         // Set the drag's format and data. Use the event target's id for the data 
         ev.dataTransfer.setData("text/html", "{" + ev.srcElement.innerHTML + "}");
     }
-</script>
+</script> 
+  <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+            $(element).addClass('activeButton');
+        });
+    </script>
 <ul class="secondaryMenu">
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/EmailTemplate/1">Email Template</a>
+        <a class="secondaryMenuActive" href="Home/Index#/EmailTemplate/1" data-menu="Bulk Email">Email Template</a>
     </li>
     <li>
         <a href="Home/Index#/MessagingSend/1">Send Email</a>
@@ -188,7 +195,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" ng-click="EmailTemplateAddEdit()"
+                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="EmailTemplateAddEdit()"
                     title="Click to Save">Save</button>
                 <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
                     title="Click to Cancel">Cancel</button>

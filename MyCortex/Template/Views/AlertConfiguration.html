@@ -1,145 +1,161 @@
-﻿<ul class="secondaryMenu">
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
     </li>
     <li>
-        <a href="Home/Index#/ChatSetting/2">Chat Settings</a>
+        <a href="Home/Index#/ChatSetting/2">Chat</a>
     </li>
     <li> <a href="Home/Index#/Password_Policy">Password Policy</a></li>
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
-    <li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming">Slot Timing</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/MasterAlertConfigurationList" data-menu="Settings">Alerts</a></li>
+    <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
+    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
     <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
-    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>
+    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
+    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
+    <li><a href="Home/Index#/LanguageSettings">Language</a></li>
+    <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>
 </ul>
 <h1 class="page-title">Alert Configuration</h1>
-
-<div ng-init="EmailAlertlist()">
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
-        <div></div>
-        <div></div>
-    </div>
-    <div class="panel panel-default" id="DMid">
-        <form class="panel-body" role="form">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="inputGroups">
-                        <label>Search</label>
-                        <div class="modernSearch">
-                            <input type="text" ng-model="searchquery" ng-change="filteralertList()" placeholder=""
-                                style="width: 200px" />
-                            <i class="fa fa-search"></i>
+<div class="container">
+    <div class="row">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+            <div></div>
+            <div></div>
+        </div>
+        <div ng-init="EmailAlertlist()">
+            <div class="panel panel-default" id="DMid">
+                <form class="panel-body" role="form">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <label>Search</label>
+                                <div class="modernSearch">
+                                    <input type="text" ng-model="searchquery" ng-change="filteralertList()" placeholder=""
+                                           style="width: 200px" />
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <label for="Active">Active</label>
+                                <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="EmailAlertlist();"
+                                       title="Active / All">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="inputGroups">
+                                <a href="javascript:" ng-click="AddEmailAlertPopUP();ClearPopup()"
+                                   class="theme-btn-1 pull-right mt-15" title="Click to Add New Drug DB">Add New</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="inputGroups">
-                        <label for="Active">Active</label>
-                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="EmailAlertlist();"
-                            title="Active / All">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="inputGroups">
-                        <a href="javascript:" ng-click="AddEmailAlertPopUP();ClearPopup()"
-                            class="theme-btn-1 pull-right mt-15" title="Click to Add New Drug DB">Add New</a>
-                    </div>
-                </div>
-            </div>
 
-        </form>
+                </form>
+            </div>
+        </div>
+
+        <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" class="table themeTable">
+            <thead>
+                <tr style="text-align: center">
+                    <th st-ratio="5">#</th>
+                    <th st-ratio="12" st-sort="EventName">Event</th>
+                    <th st-ratio="10" st-sort="EmailFlag">Send Email</th>
+                    <th st-ratio="12" st-sort="EmailTemplate">Email Template</th>
+                    <th st-ratio="10" st-sort="AppFlag">App Notification</th>
+                    <th st-ratio="12" st-sort="AppTemplate">App Template</th>
+                    <th st-ratio="10" st-sort="WebFlag">Web Notification</th>
+                    <th st-ratio="11" st-sort="WebTemplate">Web Template</th>
+                    <th st-ratio="10" st-sort="AlertDays">Event Duration</th>
+                    <th st-ratio="8">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="rowCollectionFilter.length==0">
+                    <td colspan="10" class="text-center">
+                        No Data Available
+                    </td>
+                </tr>
+                <tr ng-repeat="row in emptydata">
+                    <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                    <td style="text-align: left">
+                        <div class="textwrap">{{row.EventName}}</div>
+                    </td>
+                    <td style="text-align: center">{{row.EmailFlag==true?'Yes':'No'}}</td>
+                    <td style="text-align: left">{{row.EmailTemplate}}</td>
+                    <td style="text-align: center">{{row.AppFlag==true?'Yes':'No'}}</td>
+                    <td style="text-align: left">{{row.AppTemplate}}</td>
+                    <td style="text-align: center">{{row.WebFlag==true?'Yes':'No'}}</td>
+                    <td style="text-align: left">{{row.WebTemplate}}</td>
+                    <td style="text-align: left">{{row.AlertDays}}</td>
+                    <td st-ratio="10">
+                        <a href="javascript:" ng-click="ViewEmailAlertPopUP(row.Id)" title="View">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="javascript:" ng-click="row.IsActive == 0 ||  EditEmailAlert(row.Id)" title="Edit">
+
+                            <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                            <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                                <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                            </a>
+                        </a>
+                        <a href="javascript:" ng-click="DeleteEmailAlert(row.Id)" title="Active">
+                            <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                            <a href="javascript:" ng-click="ActiveEmailAlert(row.Id)" title="InActive">
+                                <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+
+                            </a>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot ng-show="rowCollectionFilter.length >10">
+                <tr>
+                    <td colspan="10" class="text-center">
+                        <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                             st-template="Masters/Views/pagination.custom.html"></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
     </div>
 </div>
-
-<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" class="table themeTable">
-    <thead>
-        <tr style="text-align: center">
-            <th st-ratio="5">#</th>
-            <th st-ratio="12" st-sort="EventName">Event</th>
-            <th st-ratio="10" st-sort="EmailFlag">Send Email</th>
-            <th st-ratio="12" st-sort="EmailTemplate">Email Template</th>
-            <th st-ratio="10" st-sort="AppFlag">App Notification</th>
-            <th st-ratio="12" st-sort="AppTemplate">App Template</th>
-            <th st-ratio="10" st-sort="WebFlag">Web Notification</th>
-            <th st-ratio="11" st-sort="WebTemplate">Web Template</th>
-            <th st-ratio="10" st-sort="AlertDays">Event Duration</th>
-            <th st-ratio="8">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-if="rowCollectionFilter.length==0">
-            <td colspan="10" class="text-center">
-                No Data Available
-            </td>
-        </tr>
-        <tr ng-repeat="row in emptydata">
-            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: left">
-                <div class="textwrap">{{row.EventName}}</div>
-            </td>
-            <td style="text-align: center">{{row.EmailFlag==true?'Yes':'No'}}</td>
-            <td style="text-align: left">{{row.EmailTemplate}}</td>
-            <td style="text-align: center">{{row.AppFlag==true?'Yes':'No'}}</td>
-            <td style="text-align: left">{{row.AppTemplate}}</td>
-            <td style="text-align: center">{{row.WebFlag==true?'Yes':'No'}}</td>
-            <td style="text-align: left">{{row.WebTemplate}}</td>
-            <td style="text-align: left">{{row.AlertDays}}</td>
-            <td st-ratio="10">
-                <a href="javascript:" ng-click="ViewEmailAlertPopUP(row.Id)" title="View">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-
-                <a href="javascript:" ng-click="row.IsActive == 0 ||  EditEmailAlert(row.Id)" title="Edit">
-
-                    <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                        <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
-                    </a>
-                </a>
-                <a href="javascript:" ng-click="DeleteEmailAlert(row.Id)" title="Active">
-                    <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="ActiveEmailAlert(row.Id)" title="InActive">
-                        <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
-
-                    </a>
-                </a>
-            </td>
-        </tr>
-    </tbody>
-    <tfoot ng-show="rowCollectionFilter.length >10">
-        <tr>
-            <td colspan="10" class="text-center">
-                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                    st-template="Masters/Views/pagination.custom.html"></div>
-            </td>
-        </tr>
-    </tfoot>
-</table>
-
-
 <!--Add&Edit Modal-->
 <div id="EmailAlertModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
-                    ng-click="CancelPopup()">&times;</button>
+                        ng-click="CancelPopup()">
+                    &times;
+                </button>
                 <h4 class="modal-title">Alert Configuration</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="inputGroups">
-                        <label>Event <sup>
+                        <label>
+                            Event <sup>
                                 <font class='mandatory-field'>*</font>
-                            </sup></label>
+                            </sup>
+                        </label>
                         <select class="" data-style="form-control" ng-model="Event" id="select1" data-live-search="true"
-                            data-selectpicker data-collection-name="AlertEvent"
-                            ng-change="DurationDisplayCheck();EventClear();EventBasedToList();EventToClearFunction();">
+                                data-selectpicker data-collection-name="AlertEvent"
+                                ng-change="DurationDisplayCheck();EventClear();EventBasedToList();EventToClearFunction();">
                             <option value="0">Select</option>
                             <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.Id}}">
-                                {{sel.EventName}}</option>
+                                {{sel.EventName}}
+                            </option>
                         </select>
                     </div>
                     <div class="inputGroups">
@@ -149,9 +165,12 @@
                     <div class="inputGroups" ng-show="EmailFlag==true">
                         <label>Email Template</label>
                         <select class="" data-style="form-control" ng-model="EmailTemplate" id="select3"
-                            data-live-search="true" data-selectpicker data-collection-name="EmailTempalteTypeList">
+                                data-live-search="true" data-selectpicker data-collection-name="EmailTempalteTypeList">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in EmailTempalteTypeList" ng-selected="EmailTemplate==sel.Id"
-                                value="{{sel.Id}}">{{sel.TemplateName}}</option>
+                                    value="{{sel.Id}}">
+                                {{sel.TemplateName}}
+                            </option>
                         </select>
                     </div>
                     <div class="inputGroups">
@@ -166,9 +185,12 @@
 
                         <label>App Template</label>
                         <select class="" data-style="form-control" ng-model="AppTemplate" id="select4"
-                            data-live-search="true" data-selectpicker data-collection-name="AppTempalteTypeList">
+                                data-live-search="true" data-selectpicker data-collection-name="AppTempalteTypeList">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in AppTempalteTypeList" ng-selected="AppTemplate==sel.Id"
-                                value="{{sel.Id}}">{{sel.TemplateName}}</option>
+                                    value="{{sel.Id}}">
+                                {{sel.TemplateName}}
+                            </option>
                         </select>
 
                     </div>
@@ -180,9 +202,12 @@
 
                         <label>Web Template</label>
                         <select class="" data-style="form-control" ng-model="WebTemplate" id="select5"
-                            data-live-search="true" data-selectpicker data-collection-name="TempalteTypeList">
+                                data-live-search="true" data-selectpicker data-collection-name="TempalteTypeList">
+                            <option value="0">Select</option>
                             <option ng-repeat="sel in TempalteTypeList" ng-selected="WebTempalte==sel.Id"
-                                value="{{sel.Id}}">{{sel.TemplateName}}</option>
+                                    value="{{sel.Id}}">
+                                {{sel.TemplateName}}
+                            </option>
                         </select>
 
                     </div>
@@ -190,18 +215,24 @@
 
                         <label>Duration</label>
 
-                        <span style="display:flex;"><input type="text" class="form-control" ng-model="AlertDays"
-                                maxlength="6" />&nbsp;&nbsp;{{EventDurationUOM}}</span>
+                        <span style="display:flex;">
+                            <input type="text" class="form-control" ng-model="AlertDays"
+                                   maxlength="6" />&nbsp;&nbsp;{{EventDurationUOM}}
+                        </span>
 
                     </div>
-                    
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1" ng-click="EmailAlertAddEdit()"
-                    title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-1" id="btnsave" ng-disabled="false" ng-click="EmailAlertAddEdit()"
+                        title="Click to Save">
+                    Save
+                </button>
                 <button type="button" class="theme-btn-2 ml-10" ng-click="CancelPopUP()"
-                    title="Click to Cancel">Cancel</button>
+                        title="Click to Cancel">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
@@ -212,20 +243,21 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()"
-                   >&times;</button>
+                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()">
+                    &times;
+                </button>
                 <h4 class="modal-title">Alert Configuration</h4>
             </div>
             <div class="modal-body">
-                <form  role="form">
+                <form role="form">
                     <div class="inputGroups">
                         <label>Event</label>
-                                <span>{{ViewEvent}}</span>
+                        <span>{{ViewEvent}}</span>
                     </div>
                     <div class="inputGroups">
                         <label>Email</label>
-                                <input type="checkbox" style="display: inline-block;" value="agree" ng-model="EmailFlag"
-                                ng-disabled="true">
+                        <input type="checkbox" style="display: inline-block;" value="agree" ng-model="EmailFlag"
+                               ng-disabled="true">
                     </div>
                     <div class="inputGroups" ng-show="EmailFlag==true">
                         <label>Template</label>
@@ -255,12 +287,14 @@
                         <label>Duration</label>
                         <span>{{AlertDays}}&nbsp;&nbsp;{{EventDurationUOM}}</span>
                     </div>
-                    
+
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button type="button" class="btn  btn-save" ng-click="CancelViewPopup()"
-                    title="Click to Cancel">Cancel</button>
+                        title="Click to Cancel">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>

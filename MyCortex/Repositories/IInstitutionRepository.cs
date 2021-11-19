@@ -11,7 +11,7 @@ namespace MyCortex.Repositories
 {
     interface IInstitutionRepository
     {
-        InstitutionModel InstitutionDetails_View(long Id);
+        InstitutionModel InstitutionDetails_View(long Id, Guid Login_Session_Id);
         IList<InstitutionModel> InstitutionDetails_AddEdit(InstitutionModel obj);
         IList<InstitutionModel> InstitutionDetails_List(long? Id,int? IsActive);
         void InstitutionDetails_Delete(long Id);

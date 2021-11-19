@@ -1,4 +1,11 @@
-﻿<h1 class="page-title">Subscription</h1>
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#Subscription').addClass('activeButton');
+    });
+</script>
+
+<h1 class="page-title">Subscription</h1>
 <div ng-init="InstitutionSubscriptionDetailsListTemplate()">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
         <div></div>
@@ -36,7 +43,8 @@
     <thead>
         <tr>
             <th st-ratio="5" st-sort="Id">#</th>
-            <th st-ratio="35" st-sort="Institution_Name">Institution Name</th>
+            <th st-ratio="5" st-sort="RowID">RowID</th>
+            <th st-ratio="30" st-sort="Institution_Name">Institution Name</th>
             <th st-ratio="20" st-sort="InstitutionPrintName">Short Name</th>
             <th st-ratio="20" st-sort="InstitutionPrintName">Contract Period</th>
             <th st-ratio="5">Action</th>
@@ -49,7 +57,8 @@
             </td>
         </tr>
         <tr ng-repeat="row in emptydata">
-            <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            <td class="textalign">{{row.Id}}</td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.Institution.Institution_Name}}</div>
             </td>
@@ -83,7 +92,7 @@
 </table>
 <!--Create & Edit Modal-->
 <div id="InstitutionSubscriptionCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="width: 70%">
+    <div class="modal-dialog" style="width: 75%">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close" >&times;</button>
@@ -126,13 +135,57 @@
                                                     <td>
                                                         <div class="row">
                                                             <div class="col-sm-6" ng-repeat="(key,value) in LanguageList">
-                                                                <input type="checkbox" ng-model="InstitutionAddLanguageList[$index]" />{{value.LanguageName}}
+                                                                <div ng-if="value.LanguageName == 'English'">
+                                                                    <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" /> {{value.LanguageName}}
+                                                                </div>
+                                                                <div ng-if="value.LanguageName !== 'English'">
+                                                                    <input type="checkbox" ng-model="InstitutionAddLanguageList[$index]" />{{value.LanguageName}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Insurance</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                                <input type="checkbox" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Payment</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                                <input type="checkbox" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
+                                                <tr>
+                                                    <td width="13%">
+                                                        <Lable>TimeZone ID<sup><font class='mandatory-field'>*</font></sup></Lable>
+                                                    </td>
+                                                    <td width="25%">
+                                                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="TimeZoneListID" id="TimeZoneID" ng-model="TimeZone_Id">
+                                                            <option value="0">Select Time Zone</option>
+                                                            <option ng-repeat="set in TimeZoneListID" ng-required="true" ng-selected="TimeZoneId == set.TimeZoneId" value="{{set.TimeZoneId}}">{{set.TimeZoneDisplayName}} </option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td width="15%">
                                                         <label>No. of Health Care Professionals<sup><font class='mandatory-field'>*</font></sup></label>
@@ -157,13 +210,17 @@
                                                         <table>
                                                             <tr>
                                                                 <td>
-                                                                    <div class="col-sm-6 col-xs-11 input-group date" id="PeriodFrom">
-                                                                        <input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                                                    <div>
+                                                                        <!--<input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
+                                                                        <input type="date" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                                                               ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:165px" ng-required="true">
                                                                     </div>
                                                                 </td>
                                                                 <td>
-                                                                    <div class="col-sm-6 col-xs-12 input-group date" id="PeriodTo">
-                                                                        <input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                                                    <div>
+                                                                        <!--<input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
+                                                                        <input type="date" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                                                               ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:165px" ng-required="true">
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -183,6 +240,34 @@
                                                                 </td>
                                                             </tr>
                                                         </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td class="nopadding">
+                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc">CC
+                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg">CG
+                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl">CL
+                                                                    <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc">SC
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="13%">
+                                                        <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
+                                                    </td>
+                                                    <td width="25%">
+                                                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AppointmentModuleListID" id="AppointmentModuleID" ng-model="AppointmentModule_Id">
+                                                            <option value="0">Select</option>
+                                                            <option ng-repeat="set in AppointmentModuleListID" ng-required="true" ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">{{set.Name}} </option>
+                                                        </select>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -236,11 +321,17 @@
                                         </td>
                                         <td><span>{{City}}</span></td>
                                     </tr>
+
                                 </table>
                             </form>
                         </div>
                         <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="theme-btn-1 mr-10" id="save" title="Click to Save" id="Page" ng-click="Institution_SubscriptionAddEdit()">Save</button>
+                            <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save" ng-click="Institution_SubscriptionAddEdit()" ng-hide="EditInstSub == 0">
+                                        Save</button>
+                            <button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Save and Add Admin"
+                                    ng-click="AndSubscription_AndAdmin()" ng-hide="EditInstSub == 1">
+                                Save and Add Admin
+                            </button>
                             <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>
                         </div>
                     </div>
@@ -297,7 +388,49 @@
                                                     </td>
                                                 </tr>
                                             </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Insurance</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                                <tr>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="centerallign">
+                                                                <label>Payment</label>
+                                                            </div>
+                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                             <table cellpadding="0" cellspacing="0" border="0" width="90%" class="formControlGroup">
+                                                <tr>
+                                                    <td width="7%">
+                                                        <label>TimeZone Name</label>
+                                                    </td>
+                                                    <td width="20%">
+                                                        <select class="form-control" id="selectpicker" disabled>
+                                                            <option value="0" data-tokens="TimeZone_Name">Select</option>
+                                                            <option ng-repeat="set in TimeZoneListID" ng-required="true" ng-selected="TimeZoneId == set.TimeZoneId"
+                                                                    value="{{set.TimeZoneId}}">
+                                                                {{set.TimeZoneDisplayName}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td width="7%">
                                                         <label>No. of Health Care Professionals</label>
@@ -319,7 +452,7 @@
                                                         <label>Contract Period</label>
                                                     </td>
                                                     <td>
-                                                        {{Contract_Period_From}} - {{Contract_Period_To}}
+                                                        {{Contract_Period_From |date:"dd-MMM-yyyy"}} - {{Contract_Period_To |date:"dd-MMM-yyyy"}}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -336,8 +469,36 @@
                                                         </table>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
+                                                    </td>
+                                                    <td class="nopadding">
+                                                        <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc" disabled>CC
+                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg" disabled>CG
+                                                                    <input type="checkbox" class="input-checkbox" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl" disabled>CL
+                                                                    <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled>SC
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="7%">
+                                                        <label>Appointment Module</label>
+                                                    </td>
+                                                    <td width="20%">
+                                                        <select class="form-control" id="AppointmentModuleID" disabled>
+                                                            <option value="0" data-tokens="AppointmentModule_Name">Select</option>
+                                                            <option ng-repeat="set in AppointmentModuleListID" ng-required="true" ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">{{set.Name}} </option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                             </table>
-                                        <tr>
+                                    <tr>
                                         <td>
                                             <label>Email</label>
                                         </td>
@@ -385,6 +546,12 @@
                                         </td>
                                         <td><span>{{City}}</span></td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <label>RowId</label>
+                                        </td>
+                                        <td><span id="subscriptionrowid">{{DuplicatesId}}</span></td>
+                                    </tr>
                                 </table>
                             </form>
                         </div>
@@ -399,22 +566,22 @@
 </div>
 
 <script>
-    $("#PeriodFrom").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: true,
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$("#PeriodFrom").bootstrapDP({
+    //    //format: "dd-M-yyyy",
+    //    //forceParse: true,
+    //    //autoclose: true,
+    //    //todayHighlight: true,
+    //    //toggleActive: true,
+    //    //todayBtn: true
+    //});
 </script>
 <script>
-    $("#PeriodTo").bootstrapDP({
-        format: "dd-M-yyyy",
-        forceParse: true,
-        autoclose: true,
-        todayHighlight: true,
-        toggleActive: true,
-        todayBtn: true
-    });
+    //$("#PeriodTo").bootstrapDP({
+    //    //format: "dd-M-yyyy",
+    //    //forceParse: true,
+    //    //autoclose: true,
+    //    //todayHighlight: true,
+    //    //toggleActive: true,
+    //    //todayBtn: true
+    //});
 </script>

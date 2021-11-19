@@ -2,7 +2,9 @@
 using MyCortex.Notification.Models;
 using MyCortex.Repositories.EmailAlert;
 using MyCortex.Repositories.Template;
+using MyCortex.Repositories.Uesr;
 using MyCortex.User.Model;
+using MyCortexDB;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +28,7 @@ namespace MyCortexService
 
         static readonly SendEmailRepository emailrepository = new SendEmailRepository();
         static readonly AlertEventRepository alertrepository = new AlertEventRepository();
-        
+        static readonly UserRepository userrepository = new UserRepository();
 
         public MycortexService()
         {
@@ -40,6 +42,12 @@ namespace MyCortexService
             timer.Interval = 60000; //number in milisecinds     // 60000 = one minute
             timer.Enabled = true;
         }
+
+        public void onDebug()
+        {
+            OnStart(null);
+        }
+
         private void OnElapsedTime(object source, ElapsedEventArgs e)
         {
             WriteToFile("Service started at " + DateTime.Now);
@@ -50,6 +58,7 @@ namespace MyCortexService
 
                 AlertEvents AlertEventReturn = new AlertEvents();
                 IList<EmailListModel> EmailList;
+                Int64 Id = 0, Institution_Id, Patient_Id;
 
                 // to execute the service daily once at the day start(at 12AM)
                 var dateAndTime = DateTime.Now;
@@ -113,8 +122,8 @@ namespace MyCortexService
                             Event_Code = "COMP_MEDIUM";
                         else if (modobj.LowCount > 0)
                             Event_Code = "COMP_LOW";
-                        if(Event_Code!="")
-                        { 
+                        if (Event_Code != "")
+                        {
                             EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
                             // send email & notification
                             AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Patient_Id, (long)modobj.Institution_Id, EmailList);
@@ -137,12 +146,12 @@ namespace MyCortexService
                     executedTimeNow = timeNow.ToString("dd/MM/yyyy HH:mm");
                     WriteToFile("appt " + executedTimeNow);
                     WriteToFile("modobj.Remainder_SentTime " + modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"));
-                    if (executedTimeNow==modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"))
-                    { 
+                    if (executedTimeNow == modobj.Remainder_SentTime.ToString("dd/MM/yyyy HH:mm"))
+                    {
                         // get email list
                         if (modobj.Event_Code == "PAT_APPOINTMENT_REMINDER")
                         {
-                            Event_Code = modobj.Event_Code; 
+                            Event_Code = modobj.Event_Code;
                             EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Patient_Id);
                         }
                         else
@@ -151,7 +160,7 @@ namespace MyCortexService
                             EmailList = alertrepository.UserSpecificEmailList((long)modobj.Institution_Id, modobj.Doctor_Id);
                         }
 
-                       WriteToFile("PAT_APPOINTMENT_REMINDER");
+                        WriteToFile("PAT_APPOINTMENT_REMINDER");
                         // send email & notification
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, modobj.Appointment_Id, (long)modobj.Institution_Id, EmailList);
                         WriteToFile("PAT_APPOINTMENT_REMINDER check mail status");
@@ -160,6 +169,145 @@ namespace MyCortexService
                     }
                 }
 
+                // TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION
+                // Start
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@type", "Get_Mail"));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION", param);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        Id = Convert.ToInt64(dt.Rows[0]["id"].ToString());
+                        Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
+                        Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
+                        PatientHealthDataModel phm = new PatientHealthDataModel();
+                        phm = userrepository.PatientHealthData_AlertNotification_List(Id);
+                        if (phm != null)
+                        {
+                            if (phm.HighCount > 0)
+                                Event_Code = "DIAG_HIGH";
+                            else if (phm.MediumCount > 0)
+                                Event_Code = "DIAG_MEDIUM";
+                            else if (phm.LowCount > 0)
+                                Event_Code = "DIAG_LOW";
+
+                            if (phm.HighCount > 0 || phm.MediumCount > 0 || phm.LowCount > 0)
+                            {
+                                EmailList = AlertEventReturn.Diagnostic_Compliance_AlertEvent((long)Patient_Id, (long)Institution_Id);
+
+                                AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, Id, (long)Institution_Id, EmailList);
+                            }
+                        }
+
+                        {
+                            Event_Code = "NEWDATA_CAPTURE";
+
+                            EmailList = AlertEventReturn.NewDataCapturedEvent((long)Patient_Id, (long)Institution_Id);
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, Patient_Id, (long)Institution_Id, EmailList);
+
+                            Event_Code = "TARGET_DAILY";
+                            TargetAchived_AlertEventModel tarobj = new TargetAchived_AlertEventModel();
+                            tarobj = AlertEventReturn.AlertEvent_TargetAchievedDaily_List((long)Institution_Id, (long)Patient_Id);
+
+                            if (tarobj != null)
+                                AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, Patient_Id, (long)Institution_Id, EmailList);
+                        }
+
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@type", "Update_Mail_Notification"));
+                        param1.Add(new DataParameter("@id", Id));
+                        dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION", param1);
+                    }
+                    catch(Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_LIFESTYLEDATA_FOR_EMAIL_NOTIFICATION", param1);
+                        }
+                    }
+                }
+                // End
+
+                // TBLPATIENT_APPOINTMENTS Creation
+                // Start
+
+                List<DataParameter> appoint_param = new List<DataParameter>();
+                appoint_param.Add(new DataParameter("@type", "Get_Mail"));
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_EMAIL_NOTIFICATION", appoint_param);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        Id = Convert.ToInt64(dt.Rows[0]["id"].ToString());
+                        Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
+                        Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
+
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_CREATION", Id, (long)Institution_Id, EmailList);
+
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@type", "Update_Mail_Notification"));
+                        param1.Add(new DataParameter("@id", Id));
+                        dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_EMAIL_NOTIFICATION", param1);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_EMAIL_NOTIFICATION", param1);
+                        }
+                    }
+                }
+
+                // End
+
+                // TBLPATIENT_APPOINTMENTS Cancel
+                // Start
+
+                List<DataParameter> appoint_can_param = new List<DataParameter>();
+                appoint_can_param.Add(new DataParameter("@type", "Get_Mail"));
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_CANCEL_EMAIL_NOTIFICATION]", appoint_can_param);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        Id = Convert.ToInt64(dt.Rows[0]["id"].ToString());
+                        Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
+                        Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
+
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_CANCEL", Id, (long)Institution_Id, EmailList);
+
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@type", "Update_Mail_Notification"));
+                        param1.Add(new DataParameter("@id", Id));
+                        dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_CANCEL_EMAIL_NOTIFICATION]", param1);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_FOR_CANCEL_EMAIL_NOTIFICATION]", param1);
+                        }
+                    }
+                }
+
+                // End
             }
             catch (Exception ex)
             {

@@ -1,0 +1,120 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+    });
+</script>
+<ul class="secondaryMenu">
+    <li>
+        <a href="Home/Index#/ParameterSettings">Standard Parameter</a>
+    </li>
+    <li>
+        <a href="Home/Index#/ChatSetting/2">Chat</a>
+    </li>
+    <li><a href="Home/Index#/Password_Policy">Password Policy</a></li>
+    <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
+    <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList">Alerts</a></li>
+    <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
+    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
+    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
+    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
+    <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
+    <li><a href="Home/Index#/LanguageSettings" data-menu="Settings">Language</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/GateWaySettings" data-menu="Settings">GateWay</a></li>
+</ul>
+
+<div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+    <div></div>
+    <div></div>
+</div>
+
+<div>
+    <h1 class="page-title">GateWay</h1>
+    <div class="panel panel-default">
+        <form class="panel-body" role="form">
+            <div class="overlay" show-on-load>
+                <div id="loading-img"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Select Gateway</label>
+                        <div class="modernSearch">
+                            <select class="" data-style="form-control" ng-model="selectedGatewaySettings" ng-change="GatewaySettingsList()" data-live-search="true" data-selectpicker data-collection-name="GatewaySettingsList">
+                                <option value="0" selected>Select</option>
+                                <option value="1">Payment</option>
+                                <option value="2">Insurance</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div id="payment" class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Select {{selectedGatewayText}}</label>
+                        <div class="modernSearch">
+                            <select class="" data-style="form-control" ng-model="selectedGateway" ng-change="FilterGatewaySettingsList()" data-live-search="true" data-selectpicker data-collection-name="InstitutionGatewayList">
+                                <option value="" selected>Select</option>
+                                <option ng-repeat="item1 in InstitutionGatewayList" value="{{item1.Id}}">
+                                    {{item1.PaymentGatewayName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="GatewayDefaultSave()" ng-disabled="false" id="save1"
+                            title="Click to Save as default language">
+                        Save as Default
+                    </button>
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="GatewaySettingsEdit()"
+                            title="Click to Edit">
+                        Edit
+                    </button>
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" ng-disabled="false" title="Click to Save" ng-if="IsEdit==true"
+                            ng-click="GatewaySettings_Edit()">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true" ng-click="GatewaySettingsCancel()"
+                            title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <table st-table="rowCollectionGatewaySettings" style="width: 100%" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
+        <colgroup>
+            <col span="1" style="width:16%" />
+            <col span="1" style="width:37%" />
+        </colgroup>
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="20" rowspan="1" st-sort="">Gateway Key</th>
+                <th st-ratio="40" rowspan="1" st-sort="">Gateway Value</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-if="rowCollectionGatewaySettings.length==0">
+                <td colspan="15" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in rowCollectionGatewaySettings">
+                <td style="text-align: left">
+                    {{row.GatewayKey}}
+                </td>
+                <td style="text-align: left">
+                    <input type="text" class="form-control" style="max-width:100% !important"
+                           ng-model="GatewayText[row.Id]" placeholder="" ng-if="IsEdit==true">
+                    <span ng-if="IsEdit==false">{{row.GatewayValue}}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br />
+</div>

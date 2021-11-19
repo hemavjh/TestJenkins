@@ -24,7 +24,6 @@
             /* Should be removed. Only for demonstration */
             margin-left: 5px;
             margin-bottom: 5px;
-
         }
 
 
@@ -32,7 +31,6 @@
         .rowMargin {
             margin-right: 5px !important;
             margin-bottom: 5px !important;
-
         }
 
         /* Clear floats after the columns */
@@ -47,18 +45,24 @@
             border-radius: 20px;
         }
 
-        .toggle.ios .toggle-handle {
-            border-radius: 20px;
-        }
+            .toggle.ios .toggle-handle {
+                border-radius: 20px;
+            }
     </style>
     <script>
         $(function () {
             $('#toggle-one').bootstrapToggle();
         })
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
 </head>
 <ul class="secondaryMenu">
-    <li><a class="secondaryMenuActive" href="Home/Index#/ICD10Master">ICD 10</a>
+    <li><a class="secondaryMenuActive" href="Home/Index#/ICD10Master" data-menu="Master">ICD 10</a>
     </li>
     <li><a href="Home/Index#/DrugDBMaster">Drug DB</a>
     </li>
@@ -221,11 +225,11 @@
                                             <label>Active From</label>
                                         </td>
                                         <td>
-                                            <div class="col-xs-11 input-group date" id="Div1">
-                                                <input type="text" class="form-control" ng-model="BirthDate"
-                                                    ng-init="BirthDate=''" style="width:152px" ng-required="true">
-                                                <span class="input-group-addon"><i
-                                                        class="glyphicon glyphicon-th"></i></span>
+                                            <div class="col-xs-11 input-group date">
+                                                <input type="date" class="form-control" ng-model="BirthDate"
+                                                    ng-init="BirthDate=''" style="width:165px">
+                                                <!--<span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-th"></i></span>-->
                                             </div>
                                         </td>
                                     </tr>
@@ -234,11 +238,11 @@
                                             <label>Deactive From</label>
                                         </td>
                                         <td>
-                                            <div class="col-xs-11 input-group date" id="Div1">
-                                                <input type="text" class="form-control" ng-model="BirthDate"
-                                                    ng-init="BirthDate=''" style="width:152px" ng-required="true">
-                                                <span class="input-group-addon"><i
-                                                        class="glyphicon glyphicon-th"></i></span>
+                                            <div class="col-xs-11 input-group date">
+                                                <input type="date" class="form-control" ng-model="BirthDate"
+                                                    ng-init="BirthDate=''" style="width:165px" ng-required="true">
+                                                <!--<span class="input-group-addon"><i
+                                                        class="glyphicon glyphicon-th"></i></span>-->
                                             </div>
                                         </td>
                                     </tr>

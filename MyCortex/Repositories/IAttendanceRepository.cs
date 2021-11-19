@@ -12,10 +12,11 @@ namespace MyCortex.Repositories
         IList<AttendanceModel> UserType_List(long InstituteId);
         long AttendanceDetails_InsertUpdate(Guid Login_Session_Id,List<AttendanceModel> insobj);
         IList<AttendanceModel> Attendance_List(int? IsActive, long Institution_Id, Guid Login_Session_Id);
-        AttendanceModel Attendance_View(long Id, Guid Login_Session_Id);
+        AttendanceModel Attendance_View(long Id, Guid Login_Session_Id, long institution_id);
         IList<AttendanceModel> Attendance_InActive(AttendanceModel noteobj);
         IList<AttendanceModel> Attendance_Active(AttendanceModel noteobj);
+        IList<ClinicalUser_List> Clinician_UserList(long? Institution_Id);
 
-        
+
     }
 }
