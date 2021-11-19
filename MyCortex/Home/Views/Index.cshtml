@@ -1,3 +1,1497 @@
+<script>
+    var List = jQuery.parseJSON('@Html.Action("LoginDetails", "Home")');
+    var CountList = jQuery.parseJSON('@Html.Action("GetUnread_Notification_Count", "Home")');
+    var ChronicList = jQuery.parseJSON('@Html.Action("ChronicList", "Home")');
+    var element = "";
+    var Chronic = [];
+    var Chronic_Name = "";
+    $(document).ready(function () {
+        User_id = window.localStorage['UserTypeId'];
+
+        $('.menuList button').removeClass('activeButton');
+
+        document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + CountList[0];
+        var NotificationCount = document.getElementById('notificationCount');
+        NotificationCount.textContent = CountList[0];
+        if (CountList[1] == 1 || CountList[1] == 3) {
+            document.getElementById("mydiv").style.display = "none";
+        }
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#Brain').on('click', function () {
+            var x = document.getElementById("ChronicIcon_Brain");
+            if (x.style.display === "none" && $('#ChronicIcon_Brain .LetFont1').length !== 0) {
+                x.style.display = "block";
+                $('#ChronicIcon_Bone').hide();
+                $('#ChronicIcon_Lungs').hide();
+                $('#ChronicIcon_Ribbon').hide();
+                $('#ChronicIcon_Heart').hide();
+                $('#ChronicIcon_Kidney').hide();
+                $('#ChronicIcon_BPS').hide();
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Bone').on('click', function () {
+            var x = document.getElementById("ChronicIcon_Bone");
+            if (x.style.display === "none" && $('#ChronicIcon_Bone .LetFont1').length !== 0) {
+                x.style.display = "block";
+                $('#ChronicIcon_Brain').hide();
+                $('#ChronicIcon_Lungs').hide();
+                $('#ChronicIcon_Ribbon').hide();
+                $('#ChronicIcon_Heart').hide();
+                $('#ChronicIcon_Kidney').hide();
+                $('#ChronicIcon_BPS').hide();
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Lungs').on('click', function () {
+            var x = document.getElementById("ChronicIcon_Lungs");
+            if (x.style.display === "none" && $('#ChronicIcon_Lungs .LetFont1').length !== 0) {
+                x.style.display = "block";
+                $('#ChronicIcon_Brain').hide();
+                $('#ChronicIcon_Bone').hide();
+                $('#ChronicIcon_Ribbon').hide();
+                $('#ChronicIcon_Heart').hide();
+                $('#ChronicIcon_Kidney').hide();
+                $('#ChronicIcon_BPS').hide();
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Ribbon').on('click', function () {
+            var x = document.getElementById("ChronicIcon_Ribbon");
+            if (x.style.display === "none" && $('#ChronicIcon_Ribbon .LetFont1').length !== 0) {
+                x.style.display = "block";
+                $('#ChronicIcon_Brain').hide();
+                $('#ChronicIcon_Bone').hide();
+                $('#ChronicIcon_Lungs').hide();
+                $('#ChronicIcon_Heart').hide();
+                $('#ChronicIcon_Kidney').hide();
+                $('#ChronicIcon_BPS').hide();
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Diabetes').on('click', function () {
+            var x = document.getElementById("ChronicIcon_BPS");
+            if (x.style.display === "none" && $('#ChronicIcon_BPS .LetFont1').length !== 0) {
+                x.style.display = "block";
+                $('#ChronicIcon_Bone').hide();
+                $('#ChronicIcon_Lungs').hide();
+                $('#ChronicIcon_Ribbon').hide();
+                $('#ChronicIcon_Heart').hide();
+                $('#ChronicIcon_Kidney').hide();
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Heart').on('click', function () {
+            var x = document.getElementById("ChronicIcon_Heart");
+            if (x.style.display === "none" && $('#ChronicIcon_Heart .LetFont1').length !== 0) {
+                x.style.display = "block";
+                $('#ChronicIcon_Brain').hide();
+                $('#ChronicIcon_Bone').hide();
+                $('#ChronicIcon_Lungs').hide();
+                $('#ChronicIcon_Ribbon').hide();
+                $('#ChronicIcon_Kidney').hide();
+                $('#ChronicIcon_BPS').hide();
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+        $('#Kidney').on('click', function () {
+            var x = document.getElementById("ChronicIcon_Kidney");
+            if (x.style.display === "none" && $('#ChronicIcon_Kidney .LetFont1').length !== 0) {
+                x.style.display = "block";
+                $('#ChronicIcon_Brain').hide();
+                $('#ChronicIcon_Bone').hide();
+                $('#ChronicIcon_Lungs').hide();
+                $('#ChronicIcon_Ribbon').hide();
+                $('#ChronicIcon_Heart').hide();
+                $('#ChronicIcon_BPS').hide();
+            } else {
+                x.style.display = "none";
+            }
+        });
+
+
+
+        $('#logout').on('click',function () {
+            sessionStorage.clear();
+        });
+        $('#logoutalldevice').on('click',function () {
+            sessionStorage.clear();
+        });
+
+    });
+</script>
+<style>
+
+
+    .resizable .resizers .resizer {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%; /*magic to turn square into circle*/
+        /*background: white;*/
+        border: 3px solid #4286f4;
+        position: absolute;
+    }
+
+    .resizers .resizer.top-left {
+        left: -5px;
+        top: -5px;
+        cursor: nwse-resize; /*resizer cursor*/
+    }
+</style>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Shared/Views/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html ng-app="EmpApp">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MyCortex</title>
+    <link href="@Url.Content("~/CSS/angular-ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/CSS/jquery.mCustomScrollbar.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/bootstrap-multiselect.css?v1.0")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/bootstrap-toggle.min.css?v1.0")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/chat.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/sweetalert2.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/jquery.datetimepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Css/intlTelInput.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/intlTelInput.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/intlTelInput-jquery.js")" type="text/javascript"></script>
+    <link href="~/Css/toaster.css?v1.0.0" rel="stylesheet" type="text/css" />
+    <script src="~/scripts/angular.js?v1.0.0"></script>
+    <script src="~/scripts/app/toaster.js?v1.0.0"></script>
+    <script src="@Url.Content("~/scripts/angular-ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/ui-bootstrap.js?v1.0")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/ui-bootstrap-tpls.js?v1.0")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/app.js?v1.18")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/app/controller.js?v2.1.42")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/pageSelect.directive.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/smart-table.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.marquee.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.mCustomScrollbar.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/moment.min.js")"></script>
+    <script src="@Url.Content("~/scripts/Bootstrap-multiselect.js")"></script>
+    <script src="@Url.Content("~/scripts/bootstrap-toggle.min.js")"></script>
+    <script src="@Url.Content("~/scripts/highcharts-ng.js?v1.0")"></script>
+    <script src="@Url.Content("~/scripts/highcharts.js?v1.1")"></script>
+    <script src="@Url.Content("~/scripts/highcharts-more.js?v1.0")"></script>
+    <script src="@Url.Content("~/scripts/highchart.solid-gauge.js")"></script>
+    <script src="@Url.Content("~/Scripts/angular-sanitize.js")"></script>
+    <script src="@Url.Content("~/scripts/jquery.playSound.js")"></script>
+    <script src="@Url.Content("~/scripts/messaging/CometChat.js?v1.1")"></script>
+    <script src="@Url.Content("~/scripts/messaging/chatService.js?v1.10")"></script>
+    <script src="@Url.Content("~/scripts/Chatscripts.js?v1.0")"></script>
+    <script src="@Url.Content("~/scripts/sweetalert2.min.js?v1.0")"></script>
+    <script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery-proper-slider.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/mixer.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.datetimepicker.js")" type="text/javascript"></script>
+    <script src="http://skyblueenglish.co.uk/wp-content/plugins/fancybox-for-wordpress/fancybox/jquery.fancybox.js?ver=1.3.4" type="text/javascript"></script>
+    <link rel="manifest" href="manifest.json" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-messaging.js"></script>
+    <script src="firebase-messaging-sw.js?v1.2"></script>
+    <script src="@Url.Content("~/scripts/messaging/notification.js?v1.1")"></script>
+</head>
+<body class="" id="idbody">
+    <div class="container" style="max-width: 1530px;">
+        <div class="row">
+            <div class="themeHeader">
+                <div class="mythemeLogo">
+                    @*<img src="images/MyCortexLogo.JPG">*@
+                    <img src="" id="InstLogo" onclick="ImageClick()">
+                    <div class="mythemeMenu">
+                        @*@{ var counter = 1;}*@
+                        @foreach (var menu in Model)
+                        {
+                            if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
+                            {
+                                <div class="menuList">
+                                    <button id="@menu.Menu_Name" onclick="location.href = '@menu.Menu_URL'"
+                                            type="button" aria-expanded="false">
+                                        @menu.Menu_Name
+                                    </button>
+                                </div>
+                            }
+                            else if ((@menu.Menu_Level == 1) && (@menu.HasChild == 0))
+                            {
+                                <div class="menuList">
+                                    <button id="@menu.Menu_Name" onclick="location.href = '@menu.Menu_URL'"
+                                            type="button" aria-expanded="false">
+                                        @menu.Menu_Name
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+                                if ((@menu.Menu_Level == 1) && (@menu.HasChild == 1))
+                                {
+                                    <div class="dropdown app_menu">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                                                aria-expanded="false">
+                                            @menu.Menu_Name
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu customDropdown">
+                                            @foreach (var submenu in Model)
+                                            {
+                                                if (@submenu.Parent_Id == @menu.Menu_Id)
+                                                {
+                                                    <li class="customDropdownlast-child" onclick="location.href='@submenu.Menu_URL'" style="padding: 4px 16px !important;">@submenu.Menu_Name</li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            }
+                            //counter++;
+                        }
+                    </div>
+                </div>
+                <div class="themeLogo" id="divPatientType" style="display: none; margin-left: 20px;">
+                    <img src="images/Premium.svg" id="imgPatientType">
+                </div>
+                <div class="themeRight">
+                    <div id="User_id" class="patientShortInfo">
+                        <div id="patient_profile" class="patientHeaderProfile" style="display: none;">
+                            <p id="fullname" style="margin-left: -68px;margin-left: -220px;margin-bottom: -52px;padding-bottom: 10px;">{{fullname}}</p>
+                            <i style="margin-bottom: -54px;padding-bottom: 10px;" class="fas fa-chevron-down"></i>
+                            <div class="patientHeaderProfileDetails" style="display:none">
+                                <div>
+                                    <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
+                                    <p onclick=" ViewProfile()">
+                                        <span>USER TYPE</span>
+                                        <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
+                                        <i class="far fa-id-badge" style="color:#4285f4"></i>
+                                    </p>
+                                    <p onclick=" ViewProfile()">
+                                        <span>National Id</span>
+                                        <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
+                                        <i class="far fa-address-card" style="color:#ea4335"></i>
+                                    </p>
+                                    <p onclick=" ViewProfile()">
+                                        <span>Phone</span>
+                                        <span id="MOBILE_NO">+{{MOBILE_NO}}</span>
+                                        <i class="fas fa-mobile-alt" style="color:#fbbc05"></i>
+                                    </p>
+                                    <p onclick=" ViewProfile()">
+                                        <span>DOB</span>
+                                        <span id="DOB">{{DOB}}</span>
+                                        <i class="far fa-calendar-alt" style="color:#34a853"></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="KnownGroup" class="tinyiconsonefull" style="display:none">
+                            <span id="Protocol" onclick="openProtocol()"><img style="cursor: pointer" src="images/image003.png" /></span>
+                            <span id="Groups" onclick="PatientGroupList()"><img style="cursor: pointer" src="images/image002.png" /></span>
+                            <span onclick="Allergies()" id="Allergy">
+                                <i class="fa fa-virus" id="IconAllergy" style="font-size: 23px;color:DarkOrange;cursor: pointer;"></i>
+                            </span>
+                        </div>
+
+                        <div id="BrainGroup" class="chronictIcon" style="display:none">
+                            <p>
+                                <span id="Gender"> {{Gender}}</span> , <span id="Age">{{Age}} </span> Years <i></i>
+                            </p>
+
+                            <div class="tinyiconsfull">
+                                <span id="Brain"><img src="images/image004.png" /></span>
+                                <span id="Bone"><img src="images/image005.png" /></span>
+                                <span id="Lungs"><img src="images/image006.png" /></span>
+                                <span id="Ribbon"><img src="images/image007.png" /></span>
+                                <span id="Diabetes"><img src="images/image008.png" /></span>
+                                <span id="Heart"><img src="images/image009.png" /></span>
+                                <span id="Kidney"><img src="images/image0010.png" /></span>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Brain" style="display:none;right:437px" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content" style="width:119%">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Brain Group</h6>
+                                        <ul style="padding: 5px; list-style: none;">
+                                            <li id="Alzheimer">
+                                            </li>
+                                            <li id="Epilepsy">
+                                            </li>
+                                            <li id="Parkinson_Disease">
+                                            </li>
+                                            <li id="Sclerosis">
+                                            </li>
+                                            <li id="Stroke">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Bone" style="display:none;right:437px" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content" style="width:119%">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Bone Group</h6>
+                                        <ul style="padding: 5px; list-style: none;">
+                                            <li id="Arthritis">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Ribbon" style="display:none;right:437px;" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content" style="width:119%">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Ribbon Group</h6>
+                                        <ul style="padding: 5px; list-style: none;">
+                                            <li id="Cancer">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_BPS" style="display:none;right:437px" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content" style="width:119%">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Diabetes Group</h6>
+                                        <ul style="padding: 5px; list-style: none;">
+                                            <li id="sugarblood">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="ChronicIcon_Lungs" style="display:none;right:437px" class="messages">
+                            <div style="width: 107%">
+                                <div class="modal-content" style="width:119%">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Lung Group</h6>
+                                        <ul style="padding: 2px; list-style: none;">
+                                            <li id="Pulmonary_Disease">
+                                            </li>
+                                            <li id="Lung_Disease">
+                                            </li>
+                                            <li id="Asthma">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Heart" style="display:none;right:437px" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content" style="width:119%">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Heart Group</h6>
+                                        <ul style="padding: 3px; list-style: none;">
+                                            <li id="Heart_Disease">
+                                            </li>
+                                            <li id="Hypertension">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ChronicIcon_Kidney" style="display:none;right:437px" class="messages">
+                            <div style="width: 100%">
+                                <div class="modal-content" style="width:119%">
+                                    <div class="LetsFont">
+                                        <h6 class="letter">Diabetes Group</h6>
+                                        <ul style="padding: 5px; list-style: none;">
+                                            <li id="Kidney_Disease">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="#" title="Monitoring Protocol" style="display:none"><i class="fas fa-cog" aria-hidden="true"></i></a>
+                        <a href="#" title="Groups" style="display:none"><i class="fas fa-user-friends" aria-hidden="true"></i></a>
+                        <a href="#" title="Unknown Allergies" style="display:none"><i class="fas fa-virus" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div id="mydiv" class="notificationOnline">
+                        <i class="fas fa-bell" id="UnreadCountIcon" data-placement="left" onclick="location.href = 'Home/Index#/NotificationView'"></i>
+                        <i class="fas fa-video"></i>
+                        <span id="notificationCount">{{notificationCount}}</span>
+
+                    </div>
+                    <div>
+                        <span id="usernamespan">Admin</span><br />
+                        <span id="Show_UserType">Admin</span>
+                    </div>
+                    <div class="dropdown profile_menu">
+                        <button class="btn btn-primary dropdown-toggle noBind" type="button" data-toggle="dropdown"
+                                aria-expanded="false">
+                            <img src="images/male.png" id="profileIcon" class="themeProfile"
+                                 data-toggle="tooltip" data-placement="left">
+                        </button>
+                        <ul class="dropdown-menu customDropdown logoutDrop">
+                            <li class="customDropdownlast-child" onclick="location.href = 'Home/Index#/ChangePassword/2'"
+                                style="padding: 5px 20px !important;">Change Password</li>
+                            <li id="logout" class="customDropdownlast-child" onclick="location.href='@Url.Action("LoginOut", "Home" )'"
+                                style="padding: 5px 20px !important;">
+                                Log Out
+
+                            </li>
+                            <li id="logoutalldevice" class="customDropdownlast-child" onclick="location.href='@Url.Action("LoginOutAllDevice", "Home" )'"
+                                style="padding: 5px 20px !important;">
+                                Log Out From All Device
+
+                            </li>
+                            @*<li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
+                                onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>*@
+                            <li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
+                                onclick="openNav()" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 bodyClick" id="DataToggle" ng-controller="ParentController">
+                <div class="DataContainer" ng-view>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a onclick="openChatWindow();" class="float ng-scope" id="btnopenchat" target="_blank" style="display:none">
+        <i class="fa fa-comments my-float"></i>
+    </a>
+    <div class="chatBox chatBoxBig resizable" id="chatBox" style="display:none">
+        <div class='resizers'>
+            <div class='resizer top-left'></div>
+            <div class='resizer top-right'></div>
+            <div class='resizer bottom-left'></div>
+            <div class='resizer bottom-right'></div>
+        </div>
+        <input id="loggedInUID" type="hidden" />
+        <input id="chatUserUID" type="hidden" value="" />
+        <input id="callSessionID" type="hidden" />
+        <form id="message-form">
+            <div class="chatHeader">
+                <span id="chatBoxOpener"><i class="fas fa-arrow-down"></i></span>
+                <img class="chatProfile" src="../../Images/male.png" alt="Profile">
+                <h1 id="h1user">
+                    <br />
+                    <span></span>
+                </h1>
+                <a class="callIcon" id="showchatIcon" onclick="showchatOnCall()">
+                    <i class="far fa-comment-alt"></i>
+                </a>
+                @*<a href="#" class="callIcon" id="deleteGroup" title="Delete Group" style="display:none"><i class="fas fa-trash-alt"></i></a>*@
+                <a href="#" class="callIcon" id="addGroup" title="Create Group"><i class="fas fa-users"></i></a>
+                <a href="#" class="callIcon" id="addressBook" title="Show or hide contact book">
+                    <i class="fas fa-address-book"></i>
+                </a>
+                @*<a href="#" class="callIcon" id="notifications">
+                        <i class="fas fa-bell"></i>
+                    </a>*@
+                <a class="callIcon" onclick="audioCallUser()">
+                    <i class="fas fa-phone-alt"></i>
+                </a>
+                <a class="videoIcon" onclick="videoCallUser()">
+                    <i class="fas fa-video"></i>
+                </a>
+            </div>
+            <div class="chatBody contactList groupsList" id="groupsList" style="display: none;">
+                <div class="lds-ripple" id="groupcreateLoader" style="display: none;"><div></div><div></div></div>
+                <div class="searchHolder">
+                    <input type="text" class="contactSearch" style="width: 75%;" id="groupname" placeholder="Group Name">
+                    <button type="button" class="btn  btn-save ml-5" id="btnCreateGroup">
+                        Create
+                    </button>
+                </div>
+                <ul id="group-user" class="group-user"></ul>
+            </div>
+            <div class="chatBody callBox" id="call-page" style="display:none">
+                <!--<p>Today</p>-->
+                <h2 id="callinitiatorname"><span></span></h2>
+                <a id="call-accept" class="call" onclick="callAccept()">
+                    @*<img src="~/Images/callaccept.png" style="height:40px;width:40px"/>*@
+                    <i class="fa fa-phone-alt" aria-hidden="true"></i>
+                </a>
+                <a id="call-reject" class="call endCall" onclick="callReject()">
+                    <img src="~/Images/callreject.jpg" style="height:40px;width:40px" />
+                    @*<i class="fa fa-phone-alt" aria-hidden="true"></i>*@
+                </a>
+            </div>
+            <div class="chatBody contactList chatBodyHalf" id="add-book">
+                <div class="searchHolder">
+                    <input type="text" class="contactSearch" id="contactSearch" placeholder="Search Contact" onKeyup="searchContact_onKeyPress()">
+                </div>
+                @*<ul id="group-user">
+                    </ul>*@
+                <div class="lds-ripple" id="chatLoader_add" style="display: none;"><div></div><div></div></div>
+                <ul id="address-user"></ul>
+            </div>
+            @*onscroll='alert("Scroll Called");'*@
+            @*           <div class="chatBody" id="notificationList" style="display:none">
+                    <ul class="notificationList">
+                        <li>
+                            <h1>Prasanth</h1>
+                            <p>Yesterday,06.30 pm <i class="fas fa-phone-alt"></i></p>
+                        </li>
+                        <li>
+                            <h1>Prasanth</h1>
+                            <p>Yesterday,06.30 pm <i class="fas fa-video"></i></p>
+                        </li>
+                    </ul>
+                </div>*@
+            <div class="chatBody chatBodyHalf resizable" id="msg-page" style="display:block">
+                <div class="lds-ripple" id="chatLoader" style="display: none;"><div></div><div></div></div>
+                <ul id="group-message-holder"></ul>
+            </div>
+            <div class="chatFooter" id="msg-footer">
+                <input id='filechat' type='file' style="display:none" onchange="handleFiles(this.files)" />
+                <a class="chatAttachment" onclick="openChatAttachmentDialog()" id="btnfilechat"><i class="fas fa-paperclip"></i></a>
+                <input type="text" id="input-text" placeholder="Type your message..."
+                       onKeyPress="sendChatonKeyPress(event)">
+                <a onclick="sendChatMessage()"><i class="fas fa-chevron-circle-right"></i></a>
+            </div>
+        </form>
+    </div>
+    <div id="ChronicModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 25%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="ChronicModalclose();">&times;</button>
+                    <h4 class="modal-title">Chronic Conditions</h4>
+                </div>
+                <div class="modal-body ">
+                    <ul id="Chronic_Condition">
+                        @*<li> {{row.ChronicCondition}}</li>*@
+                        <!--<li ng-repeat="row in Chronic_Condition">{{row.ChronicCondition}}</li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="clearancesfull">
+            <div class="nosrow"> Color Setting </div>
+            <div class="clearances">
+                <div id="colorSetting">
+                    <div class="modal-body ">
+                        <div class="row">
+                            <div class="col-sm-12 colorSettings">
+                                <div class="colorGroup">
+                                    <h1>Title Color</h1>
+                                    <input type="color" id="title" name="title" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Sub-Title Color</h1>
+                                    <input type="color" id="subTitle" name="subTitle" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Header Background Color</h1>
+                                    <input type="color" id="headerBg" name="headerBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Header Text Color</h1>
+                                    <input type="color" id="headerText" name="headerText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Header Background Color</h1>
+                                    <input type="color" id="TableHeaderBg" name="TableHeaderBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Header Text Color</h1>
+                                    <input type="color" id="TableHeaderText" name="TableHeaderText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Background Color</h1>
+                                    <input type="color" id="TableAlternateRowBg" name="TableAlternateRowBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Text Color</h1>
+                                    <input type="color" id="TableAlternateRowText" name="TableAlternateRowText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Hover Background Color</h1>
+                                    <input type="color" id="TableRowHoverBg" name="TableRowHoverBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Table Alternate Row Hover Text Color</h1>
+                                    <input type="color" id="TableRowHoverText" name="TableRowHoverText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Link Text</h1>
+                                    <input type="color" id="linkText" name="linkText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Background Color</h1>
+                                    <input type="color" id="positiveBtnBg" name="positiveBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Border Color</h1>
+                                    <input type="color" id="positiveBtnBorder" name="positiveBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Text Color</h1>
+                                    <input type="color" id="positiveBtnText" name="positiveBtnText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>PostPositiveive Action Button Hover Background Color</h1>
+                                    <input type="color" id="positiveHoverBtnBg" name="positiveHoverBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Hover Border Color</h1>
+                                    <input type="color" id="positiveHoverBtnBorder" name="positiveHoverBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Positive Action Button Hover Text Color</h1>
+                                    <input type="color" id="positiveHoverBtnText" name="positiveHoverBtnText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Background Color</h1>
+                                    <input type="color" id="negativeBtnBg" name="negativeBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Border Color</h1>
+                                    <input type="color" id="negativeBtnBorder" name="negativeBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Text Color</h1>
+                                    <input type="color" id="negativeBtnText" name="negativeBtnText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Hover Background Color</h1>
+                                    <input type="color" id="negativeHoverBtnBg" name="negativeHoverBtnBg" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Hover Border Color</h1>
+                                    <input type="color" id="negativeHoverBtnBorder" name="negativeHoverBtnBorder" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Negative Action Button Hover Text Color</h1>
+                                    <input type="color" id="negativeHoverBtnText" name="negativeHoverBtnText" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Primary</h1>
+                                    <input type="color" id="primary" name="primary" />
+                                </div>
+                                <div class="colorGroup">
+                                    <h1>Secondary</h1>
+                                    <input type="color" id="secondary" name="secondary" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="colpr-footer">
+                    <button type="button" class="theme-btny-1 mr-8" onclick="saveSettings();">Save Settings</button>
+                    <button type="button" class="theme-btnz-1 mr-8" onclick="restoreSettings();">Restore Default</button>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <div id="colorSetting" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="removeStyles();">&times;</button>
+                    <h4 class="modal-title">Color Setting</h4>
+                </div>
+                <div class="modal-body ">
+                    <div class="row">
+                        <div class="col-sm-3 colorSettings">
+                            <div class="colorGroup">
+                                <h1>Title Color</h1>
+                                <input type="color" id="title" name="title" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Sub-Title Color</h1>
+                                <input type="color" id="subTitle" name="subTitle" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Header Background Color</h1>
+                                <input type="color" id="headerBg" name="headerBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Header Text Color</h1>
+                                <input type="color" id="headerText" name="headerText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Table Header Background Color</h1>
+                                <input type="color" id="TableHeaderBg" name="TableHeaderBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Table Header Text Color</h1>
+                                <input type="color" id="TableHeaderText" name="TableHeaderText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Table Alternate Row Background Color</h1>
+                                <input type="color" id="TableAlternateRowBg" name="TableAlternateRowBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Table Alternate Row Text Color</h1>
+                                <input type="color" id="TableAlternateRowText" name="TableAlternateRowText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Table Alternate Row Hover Background Color</h1>
+                                <input type="color" id="TableRowHoverBg" name="TableRowHoverBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Table Alternate Row Hover Text Color</h1>
+                                <input type="color" id="TableRowHoverText" name="TableRowHoverText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Link Text</h1>
+                                <input type="color" id="linkText" name="linkText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Positive Action Button Background Color</h1>
+                                <input type="color" id="positiveBtnBg" name="positiveBtnBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Positive Action Button Border Color</h1>
+                                <input type="color" id="positiveBtnBorder" name="positiveBtnBorder" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Positive Action Button Text Color</h1>
+                                <input type="color" id="positiveBtnText" name="positiveBtnText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>PostPositiveive Action Button Hover Background Color</h1>
+                                <input type="color" id="positiveHoverBtnBg" name="positiveHoverBtnBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Positive Action Button Hover Border Color</h1>
+                                <input type="color" id="positiveHoverBtnBorder" name="positiveHoverBtnBorder" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Positive Action Button Hover Text Color</h1>
+                                <input type="color" id="positiveHoverBtnText" name="positiveHoverBtnText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Negative Action Button Background Color</h1>
+                                <input type="color" id="negativeBtnBg" name="negativeBtnBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Negative Action Button Border Color</h1>
+                                <input type="color" id="negativeBtnBorder" name="negativeBtnBorder" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Negative Action Button Text Color</h1>
+                                <input type="color" id="negativeBtnText" name="negativeBtnText" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Negative Action Button Hover Background Color</h1>
+                                <input type="color" id="negativeHoverBtnBg" name="negativeHoverBtnBg" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Negative Action Button Hover Border Color</h1>
+                                <input type="color" id="negativeHoverBtnBorder" name="negativeHoverBtnBorder" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Negative Action Button Hover Text Color</h1>
+                                <input type="color" id="negativeHoverBtnText" name="negativeHoverBtnText" />
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="frameController">
+                                <iframe id="frameController"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="theme-btn-1 mr-10" onclick="saveSettings();">Save Settings</button>
+                    <button type="button" class="theme-btn-1 mr-10" onclick="restoreSettings();">Restore Default</button>
+                    <button type="button" class="theme-btn-2" onclick="removeStyles();">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="menuListid" name="menuListid" value="" style="display:none;">
+</body>
+</html>
+<script type="text/javascript">
+
+    let saved = false;
+    // let baseUrl = $("base").first().attr("href");
+    let removeStyles = () => {
+
+        if (!saved) {
+            if (confirm("Settings not yet saved do you want to close")) {
+                //$('#colorSetting').modal('hide');
+                document.getElementById("mySidenav").style.width = "0";
+                //alert('after close again make api to get new values');
+                applyStyle();
+                saved = false;
+            }
+        }
+        else {
+            //$('#colorSetting').modal('hide');
+            document.getElementById("mySidenav").style.width = "0";
+            applyStyle();
+            saved = false;
+        }
+    };
+    let getAPIObj = {
+        primary: "#002269",
+        secondary: "#555",
+        headerBg: "#002269",
+        headerText: "#fff",
+        TableHeaderBg: "#35a9e4",
+        TableHeaderText: "#fff",
+        TableAlternateRowBg: "#7a8ddb1a",
+        TableAlternateRowText: "#333",
+        TableRowHoverBg: "#efefef",
+        TableRowHoverText: "#333",
+        linkText: "337ab7",
+        positiveBtnBg: "#35a9e4",
+        positiveBtnBorder: "transparent",
+        positiveBtnText: "#fff",
+        positiveHoverBtnBg: "transparent",
+        positiveHoverBtnBorder: "#35a9e4",
+        positiveHoverBtnText: "#35a9e4",
+        negativeBtnBg: "#35a9e4",
+        negativeBtnBorder: "transparent",
+        negativeBtnText: "#fff",
+        negativeHoverBtnBg: "#fff",
+        negativeHoverBtnBorder: "#35a9e4",
+        negativeHoverBtnText: "#000",
+        title: "#032b5c",
+        subTitle: "#032b5c"
+
+    };
+
+    let defaultValueObj = {
+        primary: "#002269",
+        secondary: "#555",
+        headerBg: "#002269",
+        headerText: "#fff",
+        TableHeaderBg: "#35a9e4",
+        TableHeaderText: "#fff",
+        TableAlternateRowBg: "#7a8ddb1a",
+        TableAlternateRowText: "#333",
+        TableRowHoverBg: "#efefef",
+        TableRowHoverText: "#333",
+        linkText: "337ab7",
+        positiveBtnBg: "#35a9e4",
+        positiveBtnBorder: "transparent",
+        positiveBtnText: "#fff",
+        positiveHoverBtnBg: "transparent",
+        positiveHoverBtnBorder: "#35a9e4",
+        positiveHoverBtnText: "#35a9e4",
+        negativeBtnBg: "#35a9e4",
+        negativeBtnBorder: "transparent",
+        negativeBtnText: "#fff",
+        negativeHoverBtnBg: "#fff",
+        negativeHoverBtnBorder: "#35a9e4",
+        negativeHoverBtnText: "#000",
+        title: "#032b5c",
+        subTitle: "#032b5c"
+    };
+
+    let applyStyle = () => {
+        //alert('use this method when user logged in first time and use response object instead of getAPIObj')
+        let InstitutionId = (@HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString());
+        $.get(baseUrl + "api/ColorPreference/List?UserId=" + InstitutionId, function (data) {
+            if (data["Status"] && data["ColorPreferences"]) {
+                getAPIObj["primary"] = data["ColorPreferences"]["Primary"];
+                getAPIObj["secondary"] = data["ColorPreferences"]["Secondary"];
+                getAPIObj["headerBg"] = data["ColorPreferences"]["HeaderBg"];
+                getAPIObj["headerText"] = data["ColorPreferences"]["HeaderText"];
+                getAPIObj["TableHeaderBg"] = data["ColorPreferences"]["TableHeaderBg"];
+                getAPIObj["TableHeaderText"] = data["ColorPreferences"]["TableHeaderText"];
+                getAPIObj["TableAlternateRowBg"] = data["ColorPreferences"]["TableAlternateRowBg"];
+                getAPIObj["TableAlternateRowText"] = data["ColorPreferences"]["TableAlternateRowText"];
+                getAPIObj["TableRowHoverBg"] = data["ColorPreferences"]["TableRowHoverBg"];
+                getAPIObj["TableRowHoverText"] = data["ColorPreferences"]["TableRowHoverText"];
+                getAPIObj["linkText"] = data["ColorPreferences"]["LinkText"];
+                getAPIObj["positiveBtnBg"] = data["ColorPreferences"]["PositiveBtnBg"];
+                getAPIObj["positiveBtnBorder"] = data["ColorPreferences"]["PositiveBtnBorder"];
+                getAPIObj["positiveBtnText"] = data["ColorPreferences"]["PositiveBtnText"];
+                getAPIObj["positiveHoverBtnBg"] = data["ColorPreferences"]["PositiveHoverBtnBg"];
+                getAPIObj["positiveHoverBtnBorder"] = data["ColorPreferences"]["PositiveHoverBtnBorder"];
+                getAPIObj["positiveHoverBtnText"] = data["ColorPreferences"]["PositiveHoverBtnText"];
+                getAPIObj["negativeBtnBg"] = data["ColorPreferences"]["NegativeBtnBg"];
+                getAPIObj["negativeBtnBorder"] = data["ColorPreferences"]["NegativeBtnBorder"];
+                getAPIObj["negativeBtnText"] = data["ColorPreferences"]["NegativeBtnText"];
+                getAPIObj["negativeHoverBtnBg"] = data["ColorPreferences"]["NegativeHoverBtnBg"];
+                getAPIObj["negativeHoverBtnBorder"] = data["ColorPreferences"]["NegativeHoverBtnBorder"];
+                getAPIObj["negativeHoverBtnText"] = data["ColorPreferences"]["NegativeHoverBtnText"];
+                getAPIObj["title"] = data["ColorPreferences"]["Title"];
+                getAPIObj["subTitle"] = data["ColorPreferences"]["SubTitle"];
+            } else {
+                getAPIObj["primary"] = defaultValueObj["Primary"];
+                getAPIObj["secondary"] = defaultValueObj["secondary"];
+                getAPIObj["headerBg"] = defaultValueObj["HeaderBg"];
+                getAPIObj["headerText"] = defaultValueObj["HeaderText"];
+                getAPIObj["TableHeaderBg"] = defaultValueObj["TableHeaderBg"];
+                getAPIObj["TableHeaderText"] = defaultValueObj["TableHeaderText"];
+                getAPIObj["TableAlternateRowBg"] = defaultValueObj["TableAlternateRowBg"];
+                getAPIObj["TableAlternateRowText"] = defaultValueObj["TableAlternateRowText"];
+                getAPIObj["TableRowHoverBg"] = defaultValueObj["TableRowHoverBg"];
+                getAPIObj["TableRowHoverText"] = defaultValueObj["TableRowHoverText"];
+                getAPIObj["linkText"] = defaultValueObj["LinkText"];
+                getAPIObj["positiveBtnBg"] = defaultValueObj["PositiveBtnBg"];
+                getAPIObj["positiveBtnBorder"] = defaultValueObj["PositiveBtnBorder"];
+                getAPIObj["positiveBtnText"] = defaultValueObj["PositiveBtnText"];
+                getAPIObj["positiveHoverBtnBg"] = defaultValueObj["PositiveHoverBtnBg"];
+                getAPIObj["positiveHoverBtnBorder"] = defaultValueObj["PositiveHoverBtnBorder"];
+                getAPIObj["positiveHoverBtnText"] = defaultValueObj["PositiveHoverBtnText"];
+                getAPIObj["negativeBtnBg"] = defaultValueObj["NegativeBtnBg"];
+                getAPIObj["negativeBtnBorder"] = defaultValueObj["NegativeBtnBorder"];
+                getAPIObj["negativeBtnText"] = defaultValueObj["NegativeBtnText"];
+                getAPIObj["negativeHoverBtnBg"] = defaultValueObj["NegativeHoverBtnBg"];
+                getAPIObj["negativeHoverBtnBorder"] = defaultValueObj["NegativeHoverBtnBorder"];
+                getAPIObj["negativeHoverBtnText"] = defaultValueObj["NegativeHoverBtnText"];
+                getAPIObj["title"] = defaultValueObj["Title"];
+                getAPIObj["subTitle"] = defaultValueObj["SubTitle"];
+
+            }
+            console.log("applyStyle:" + getAPIObj)
+            for (key in getAPIObj) {
+
+                if (getAPIObj[key] != null && getAPIObj[key] != "") {
+                    $(`#${key}`).val(getAPIObj[key]);
+                    document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);
+                }
+
+            }
+            //console.log(data)
+            //alert(data["ColorPreferences"]["Primary"]);
+        });
+
+    }
+    applyStyle();
+    let saveSettings = () => {
+        let saveAPIObj = {
+            UserId: @HttpContext.Current.Session["UserId"].ToString(),
+            InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString(),
+            Primary: $('#primary').val() == '#000000' ? "#002269" : $('#primary').val(),
+            Secondary: $('#secondary').val() == '#000000' ? "#555" : $('#secondary').val(),
+            headerBg: $('#headerBg').val() == '#000000' ? "#002269" : $('#headerBg').val(),
+            headerText: $('#headerText').val() == '#000000' ? "#fff" : $('#headerText').val(),
+            TableHeaderBg: $('#TableHeaderBg').val() == '#000000' ? "#35a9e4" : $('#TableHeaderBg').val(),
+            TableHeaderText: $('#TableHeaderText').val() == '#000000' ? "#fff" : $('#TableHeaderText').val(),
+            TableAlternateRowBg: $('#TableAlternateRowBg').val() == '#000000' ? "#7a8ddb1a" : $('#TableAlternateRowBg').val(),
+            TableAlternateRowText: $('#TableAlternateRowText').val() == '#000000' ? "#333" : $('#TableAlternateRowText').val(),
+            TableRowHoverBg: $('#TableRowHoverBg').val() == '#000000' ? "#efefef" : $('#TableRowHoverBg').val(),
+            TableRowHoverText: $('#TableRowHoverText').val() == '#000000' ? "#333" : $('#TableRowHoverText').val(),
+            linkText: $('#linkText').val() == '#000000' ? "337ab7" : $('#linkText').val(),
+            positiveBtnBg: $('#positiveBtnBg').val() == '#000000' ? "#35a9e4" : $('#positiveBtnBg').val(),
+            positiveBtnBorder: $('#positiveBtnBorder').val() == '#000000' ? "transparent" : $('#positiveBtnBorder').val(),
+            positiveBtnText: $('#positiveBtnText').val() == '#000000' ? "#fff" : $('#positiveBtnText').val(),
+            positiveHoverBtnBg: $('#positiveHoverBtnBg').val() == '#000000' ? "transparent" : $('#positiveHoverBtnBg').val(),
+            positiveHoverBtnBorder: $('#positiveHoverBtnBorder').val() == '#000000' ? "#35a9e4" : $('#positiveHoverBtnBorder').val(),
+            positiveHoverBtnText: $('#positiveHoverBtnText').val() == '#000000' ? "#35a9e4" : $('#positiveHoverBtnText').val(),
+            negativeBtnBg: $('#negativeBtnBg').val() == '#000000' ? "#35a9e4" : $('#negativeBtnBg').val(),
+            negativeBtnBorder: $('#negativeBtnBorder').val() == '#000000' ? "transparent" : $('#negativeBtnBorder').val(),
+            negativeBtnText: $('#negativeBtnText').val() == '#000000' ? "#fff" : $('#negativeBtnText').val(),
+            negativeHoverBtnBg: $('#negativeHoverBtnBg').val() == '#000000' ? "#fff" : $('#negativeHoverBtnBg').val(),
+            negativeHoverBtnBorder: $('#negativeHoverBtnBorder').val() == '#000000' ? "#35a9e4" : $('#negativeHoverBtnBorder').val(),
+            negativeHoverBtnText: $('#negativeHoverBtnText').val() == '#000000' ? "#000" : $('#negativeHoverBtnText').val(),
+            title: $('#title').val() == '#000000' ? "#032b5c" : $('#title').val(),
+            subTitle: $('#subTitle').val() == '#000000' ? "#032b5c" : $('#subTitle').val()
+        }
+        console.log("saveStyle:" + saveAPIObj);
+        $.post(baseUrl + "api/ColorPreference/Save", saveAPIObj, function (data, status) {
+            if (data["Status"]) {
+                saved = true;
+                removeStyles();
+                alert(data.Message);
+            }
+        });
+        //alert('use this method and saveAPIObj for saving value in DB ');
+
+    };
+    let restoreSettings = () => {
+        if (confirm("Click Ok Button to Restore Color Settings. If not Please click close button!")) {
+            let restoreAPIObj = {
+                UserId: @HttpContext.Current.Session["UserId"].ToString(),
+                InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString(),
+                Primary: defaultValueObj["primary"],
+                Secondary: defaultValueObj["secondary"],
+                headerBg: defaultValueObj["headerBg"],
+                headerText: defaultValueObj["headerText"],
+                TableHeaderBg: defaultValueObj["TableHeaderBg"],
+                TableHeaderText: defaultValueObj["TableHeaderText"],
+                TableAlternateRowBg: defaultValueObj["TableAlternateRowBg"],
+                TableAlternateRowText: defaultValueObj["TableAlternateRowText"],
+                TableRowHoverBg: defaultValueObj["TableRowHoverBg"],
+                TableRowHoverText: defaultValueObj["TableRowHoverText"],
+                linkText: defaultValueObj["linkText"],
+                positiveBtnBg: defaultValueObj["positiveBtnBg"],
+                positiveBtnBorder: defaultValueObj["positiveBtnBorder"],
+                positiveBtnText: defaultValueObj["positiveBtnText"],
+                positiveHoverBtnBg: defaultValueObj["positiveHoverBtnBg"],
+                positiveHoverBtnBorder: defaultValueObj["positiveHoverBtnBorder"],
+                positiveHoverBtnText: defaultValueObj["positiveHoverBtnText"],
+                negativeBtnBg: defaultValueObj["negativeBtnBg"],
+                negativeBtnBorder: defaultValueObj["negativeBtnBorder"],
+                negativeBtnText: defaultValueObj["negativeBtnText"],
+                negativeHoverBtnBg: defaultValueObj["negativeHoverBtnBg"],
+                negativeHoverBtnBorder: defaultValueObj["negativeHoverBtnBorder"],
+                negativeHoverBtnText: defaultValueObj["negativeHoverBtnText"],
+                title: defaultValueObj["title"],
+                subTitle: defaultValueObj["subTitle"]
+            }
+            console.log("restoreStyle:" + restoreAPIObj);
+            $.post(baseUrl + "api/ColorPreference/Save", restoreAPIObj, function (data, status) {
+                console.log("restoreStyleresponse:" + data);
+                if (data["Status"]) {
+                    saved = true;
+                    removeStyles();
+                }
+            });
+            //$('#colorSetting').modal('hide');
+            //alert('after close again make api to get new values');
+            //applyStyle();
+            //saved = false;
+        }
+
+    };
+
+    (function ($) {
+        //$('.frameController iframe').attr('src', location.href);
+        $('.colorGroup input[type="color"]').change(function () {
+
+            document.documentElement.style.setProperty(`--${$(this).attr('id')}`, $(this).val());
+            document.getElementById('frameController').contentWindow.document.documentElement.style.setProperty(`--${$(this).attr('id')}`, $(this).val());
+        });
+
+
+
+        /*$( "#chatBox" ).resizable({
+            ghost: true,
+            handles: "n, e, s, w",
+            minHeight:430,
+            stop:function(){
+                let totalHeight = $('#chatBox').outerHeight() - 72;
+                $('.chatBody').height(totalHeight);
+                $('.group-user').height(totalHeight - 40)
+
+            }
+        });*/
+
+        $('.patientHeaderProfile:not(.patientHeaderProfileDetails)').hover(function () {
+            $('.patientHeaderProfileDetails').slideToggle();
+        })
+        $('#deleteGroup').click(function (e) {
+            e.preventDefault();
+            chatService.deleteGroupDetails();
+        });
+
+        $('#addGroup').click(function (e) {
+            e.preventDefault();
+
+            if ($("#addressBook").hasClass("aqua") == true) {
+
+                $('.chatBody').toggleClass('chatBodyHalf');
+                $('.contactList').toggle();
+                $('#groupsList').hide();
+                $('#addressBook').toggleClass('aqua');
+                $('.chatBox').toggleClass('chatBoxBig')
+            }
+
+            if ($("#addGroup").hasClass("aqua") == false) {
+                $('.chatBody').hide();
+                $('#groupsList').show();
+                $('.chatBox').removeClass('chatBoxBig')
+                $('#addGroup').toggleClass('aqua');
+
+                chatService.groupaddressbookDetails();
+            }
+            else {
+                $('.chatBody').show();
+                $('#groupsList').hide();
+                $('.chatBox').addClass('chatBoxBig')
+                $('#addGroup').toggleClass('aqua');
+                $('#call-page').hide();
+                chatService.getaddressbookDetails($('#contactSearch').val());
+            }
+        })
+        $(window).on("load", function () {
+
+            $('#chatBox').attr("style", "display:none");
+            $('#btnopenchat').hide();
+            $("#showchatIcon").hide();
+            if (window.localStorage['UserTypeId'] != "1" && window.localStorage['UserTypeId'] != "3") {
+                utilService.initializeChat();
+            }
+
+            // create group option for Care Giver and Care Coordinator
+            if (window.localStorage['UserTypeId'] != "5" && window.localStorage['UserTypeId'] != "6") {
+                $('#addGroup').hide();
+            }
+        });
+
+    })(jQuery);
+
+    $('#addressBook').click(function (e) {
+        e.preventDefault()
+
+        if ($("#addGroup").hasClass("aqua") == true) {
+            $('.chatBody').show();
+            $('#groupsList').hide();
+            $('.chatBox').addClass('chatBoxBig')
+            $('#addGroup').toggleClass('aqua');
+            $('#call-page').hide();
+        }
+        $('.chatBody').toggleClass('chatBodyHalf');
+        $('.contactList').toggle();
+        $('#groupsList').hide();
+        $('#addressBook').toggleClass('aqua');
+
+        $("#call-page").attr("style", "display:none");
+        $('.chatBox').toggleClass('chatBoxBig')
+        chatService.scrollToBottom();
+    });
+
+    $('#btnCreateGroup').click(function (e) {
+        e.preventDefault()
+        if ($("#groupname").val() == "") {
+            alert("Please enter Group name");
+            return false;
+        }
+        $("#groupcreateLoader").attr("style", "display:block")
+        chatService.createGroup($("#groupname").val());
+        $("#groupcreateLoader").attr("style", "display:none")
+    });
+
+    function openChatWindow() {
+        if (window.localStorage['UserTypeId'] != "1" && window.localStorage['UserTypeId'] != "3") {
+            chatService.openChatfromOtherPage();
+        }
+        else {
+            $('#chatBox').attr("style", "display:none");
+            $('#btnopenchat').attr("style", "display:none");
+        }
+    }
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "290px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+    function openColorSettingsWindow() {
+        $('#colorSetting').modal('show');
+    }
+    function ViewProfile() {
+        Id = window.localStorage['SelectedPatientId'];
+
+        if (User_id == 2) {
+            window.location.href = baseUrl + "/Home/Index#/PatientView/" + Id + "/1/3";
+        } else {
+            window.location.href = baseUrl + "/Home/Index#/PatientView/" + Id + "/5/3";
+        }
+    }
+
+    function openProtocol() {
+        angular.element('#PatientMonitoringProtocolModal').modal('show');
+    }
+
+    function PatientGroupList() {
+        angular.element('#PatientGroupListModal').modal('show');
+    }
+
+    function Allergies() {
+        angular.element('#PatientAllergyListModal').modal('show');
+    }
+
+    function ImageClick() {
+        Id = window.localStorage['SelectedPatientId'];
+        if (User_id == "1") {
+            window.location.href = baseUrl + "/Home/Index#/Institution";
+        }
+        else if (User_id == "3") {
+            window.location.href = baseUrl + "/Home/Index#/InstitutionSubscriptionHospitalAdmin_view";
+        }
+        else if (User_id == "2") {
+            window.location.href = baseUrl + "/Home/Index#/PatientVitals/0/1";
+
+        }
+        else if (User_id == "4") {
+            window.location.href = baseUrl + "/Home/Index#/Thirtydays_appointments";
+        }
+        else if (User_id == "5") {
+            window.location.href = baseUrl + "/Home/Index#/CareGiverAssignedPatients";
+        }
+        else if (User_id == "6") {
+            window.location.href = baseUrl + "/Home/Index#/Carecoordinator/1";
+        }
+        else if (User_id == "7") {
+            window.location.href = baseUrl + "/Home/Index#/TodaysAppoint_ments";
+        }
+    }
+    function searchContact_onKeyPress() {
+        $('#address-user > li:not(:contains(' + $('#contactSearch').val() + '))').hide();
+        $('#address-user > li:contains(' + $('#contactSearch').val() + ')').show();
+
+        /*var listItems = $("#address-user li");
+        listItems.each(function (idx, li) {
+            var product = $(li);
+            console.log(product[0].innerHTML.toLowerCase().contains($('#contactSearch').val().toLowerCase()));
+            // and the rest of your code
+        });*/
+
+    }
+    function ChronicModalclose() {
+        $('#ChronicModal').modal('hide');
+    }
+    $('#chronic').click(function () {
+        $('#ChronicModal').modal('show');
+    });
+    $('#chatBoxOpener').click(function () {
+        $('.chatBox').toggleClass('chatBoxClose');
+        if ($('#chatBox').hasClass('chatBoxClose') == true) {
+
+            $('#chatBox').attr('style', 'height:430px;width:630px;bottom: -430px !important;');
+            //$('#chatBox').attr('style', 'height:430px;width:630px;bottom: -' + $('#chatBox').outerHeight(true) + 'px !important;');
+        }
+        else {
+            $('#chatBox').attr('style', 'display: block;height:430px;width:630px');
+        }
+
+        let totalHeight = $('#chatBox').outerHeight() - 72;
+        $('.chatBody').height(totalHeight);
+        $('.group-user').height(totalHeight - 72)
+
+        $('#address-user').height(totalHeight - 40);
+
+        $(this).find('i').toggleClass('fa-arrow-up');
+        $(this).find('i').toggleClass('fa-arrow-down');
+    })
+    // chat window
+    function chatarrowclick() {
+        $('.chatBox').toggleClass('chatBoxClose');
+        $('#chatBoxOpener').find('i').toggleClass('fa-arrow-up');
+        $('#chatBoxOpener').find('i').toggleClass('fa-arrow-down');
+    }
+    function openChatAttachmentDialog() {
+        document.getElementById('filechat').click();
+    }
+    function handleFiles() {
+        chatService.sendMediaMessage();
+        //chatService.getaddressbookDetails($('#contactSearch').val());
+    }
+    function sendChatonKeyPress(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode == 13) {
+            sendChatMessage()
+            //chatService.getaddressbookDetails($('#contactSearch').val());
+        }
+        else {
+            if (evt.target.value === "")
+                chatService.endTypeingNot();
+            else
+                chatService.startTypeingNot();
+        }
+    }
+    function sendChatMessage() {
+        //chatService.createGroup();
+        chatService.sendMessage();
+        //chatService.getaddressbookDetails($('#contactSearch').val());
+        if(window.localStorage['UserTypeId'] != 2)
+            window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+    }
+    function audioCallUser() {
+
+        if ($("#addressBook").hasClass("aqua") == true) {
+            $('.chatBody').toggleClass('chatBodyHalf');
+            $('.contactList').toggle();
+            $('#groupsList').hide();
+            $('#addressBook').toggleClass('aqua');
+            $('.chatBox').toggleClass('chatBoxBig');
+        }
+
+        chatService.initiateCall();
+        if(window.localStorage['UserTypeId'] != 2)
+            window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+    }
+    function videoCallUser() {
+        chatService.initiateVideCall();
+        if(window.localStorage['UserTypeId'] != 2)
+            window.location = '/Home/Index#/PatientVitals/' + window.COMETCHAT_TO_USER + '/' + window.localStorage['UserTypeId'];
+    }
+    function openUserChat(userType, viewUser, userValidity)
+    {
+
+        chatService.fetchMessages(userType, viewUser.toString());
+        if (userValidity == "false") {
+            $('#linkcallIcon').hide();
+            $('#linkvideoIcon').hide();
+            $('#input-text').prop('disabled', true);
+            $("#btnfilechat").attr("style", "display:none")
+        }
+        else {
+            $('#linkcallIcon').show();
+            $('#linkvideoIcon').show();
+            $('#input-text').prop('disabled', false);
+            $("#btnfilechat").attr("style", "display:block")
+        }
+    }
+
+    function callAccept() {
+        chatService.callAccept();
+    }
+    function callReject() {
+        chatService.callReject();
+    }
+    function showchatOnCall() {
+        $('.contactList').toggle();
+        $('#groupsList').hide();
+        $('#addressBook').hide();
+        if ($("#showchatIcon").hasClass("aqua") == false) {
+            $("#call-page").attr("style", "display:none")
+            $('#showchatIcon').toggleClass('aqua');
+            $("#msg-page").attr("style", "display:block")
+        }
+        else {
+            $("#call-page").attr("style", "display:flex")
+            $('#showchatIcon').toggleClass('aqua');
+            $("#msg-page").attr("style", "display:none")
+        }
+
+    }
+
+
+    function makeResizableDiv(div) {
+        // default size = 680 * 430
+        const element = document.querySelector(div);
+        const resizers = document.querySelectorAll(div + ' .resizer')
+        const minimum_size = 20;
+        let original_width = 0;
+        let original_height = 0;
+        let original_x = 0;
+        let original_y = 0;
+        let original_mouse_x = 0;
+        let original_mouse_y = 0;
+        for (let i = 0; i < resizers.length; i++) {
+            const currentResizer = resizers[i];
+            currentResizer.addEventListener('mousedown', function (e) {
+                e.preventDefault()
+                original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
+                original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
+                original_x = element.getBoundingClientRect().left;
+                original_y = element.getBoundingClientRect().top;
+                original_mouse_x = e.pageX;
+                original_mouse_y = e.pageY;
+                window.addEventListener('mousemove', resize)
+                window.addEventListener('mouseup', stopResize)
+            })
+
+            function resize(e) {
+                // restrict when minimizing the chat window
+                if (e.pageX > original_mouse_x && original_width - (e.pageX - original_mouse_x) < 680)
+                    return false;
+                if (e.pageY > original_mouse_y && original_height - (e.pageY - original_mouse_y) < 430)
+                    return false;
+
+                // restrict when maximizing the chat window
+                if (e.pageX < original_mouse_x && original_width - (e.pageX - original_mouse_x) > 1000)
+                    return false;
+                if (e.pageY < original_mouse_y && original_height - (e.pageY - original_mouse_y) > 550)
+                    return false;
+
+                if (currentResizer.classList.contains('bottom-right')) {
+                    const width = original_width + (e.pageX - original_mouse_x);
+                    const height = original_height + (e.pageY - original_mouse_y)
+                    if (width > minimum_size) {
+                        element.style.width = width + 'px'
+                    }
+                    if (height > minimum_size) {
+                        element.style.height = height + 'px'
+                    }
+                }
+                else if (currentResizer.classList.contains('bottom-left')) {
+                    const height = original_height + (e.pageY - original_mouse_y)
+                    const width = original_width - (e.pageX - original_mouse_x)
+                    if (height > minimum_size) {
+                        element.style.height = height + 'px'
+                    }
+                    if (width > minimum_size) {
+                        element.style.width = width + 'px'
+                        element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+                    }
+                }
+                else if (currentResizer.classList.contains('top-right')) {
+                    const width = original_width + (e.pageX - original_mouse_x)
+                    const height = original_height - (e.pageY - original_mouse_y)
+                    if (width > minimum_size) {
+                        element.style.width = width + 'px'
+                    }
+                    if (height > minimum_size) {
+                        element.style.height = height + 'px'
+                        element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                    }
+                }
+                else {
+                    const width = original_width - (e.pageX - original_mouse_x)
+                    const height = original_height - (e.pageY - original_mouse_y)
+                    if (width > minimum_size) {
+                        element.style.width = width + 'px'
+                        element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+                    }
+                    if (height > minimum_size) {
+                        element.style.height = height + 'px'
+                        element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+                    }
+                }
+                let totalHeight = $('#chatBox').outerHeight() - 72;
+                $('.chatBody').height(totalHeight);
+                $('.group-user').height(totalHeight - 72)
+
+                $('#address-user').height(totalHeight - 40);
+
+            }
+
+            function stopResize() {
+                window.removeEventListener('mousemove', resize)
+            }
+        }
+    }
+
+    makeResizableDiv('.resizable')
+
+=======
 ﻿<script>
     var List = jQuery.parseJSON('@Html.Action("LoginDetails", "Home")');
     var CountList = jQuery.parseJSON('@Html.Action("GetUnread_Notification_Count", "Home")');
@@ -985,7 +2479,10 @@
             console.log("applyStyle:" + getAPIObj)
             for (key in getAPIObj) {
 
-                if (getAPIObj[key] != null && getAPIObj[key] != "") {                    $(`#${key}`).val(getAPIObj[key]);                    document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);                }
+                if (getAPIObj[key] != null && getAPIObj[key] != "") {
+                    $(`#${key}`).val(getAPIObj[key]);
+                    document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);
+                }
 
             }
             //console.log(data)
@@ -1484,5 +2981,4 @@
     }
 
     makeResizableDiv('.resizable')
-
 </script>

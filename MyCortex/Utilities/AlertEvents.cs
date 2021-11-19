@@ -139,6 +139,69 @@ namespace MyCortex.Notification
                 return 0;
             }
         }
+
+        public int Generate_SMTPEmail_Notification_For_ChangePwd(string url, long EntityId, long Institution_Id, IList<EmailListModel> EmailList)
+        {
+            try
+            {
+                IList<AlertEventModel> EventTemplatemodel = new List<AlertEventModel>();
+                var AlertModel = new AlertEventModel();
+                AlertModel.TempBody = url;
+                AlertModel.TempSubject = "Change Password";
+                AlertModel.TemplateType_Id = 1;
+                AlertModel.Template_Id = -1;
+                AlertModel.TemplateFor = 1; // 1 FOR Email
+                AlertModel.UserId = EntityId;
+                AlertModel.Institution_Id = Institution_Id;
+                EventTemplatemodel.Add(AlertModel);
+
+                //Get FromEmailId
+                EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                emailModel = emailrepository.EmailConfiguration_View((long)Institution_Id);
+
+                AlertEventResultModel AlertEventResultList = new AlertEventResultModel();
+                AlertEventResultList.AlertEventTemplateList = EventTemplatemodel;
+                AlertEventResultList.AlertEventEmailList = EmailList;
+
+
+                SendAlert_Email_Notification_For_ChangePwd(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+        public void SendAlert_Email_Notification_For_ChangePwd(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType)
+        {
+            foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
+            {
+                SendEmailModel model = new SendEmailModel();
+                model.Id = 0;
+                model.Institution_Id = Institution_Id;
+                model.Template_Id = alert.Template_Id;
+                model.UserId = alertList.AlertEventEmailList[0].UserId;
+                model.Email_Body = alert.TempBody;
+                model.Email_Subject = alert.TempSubject;
+                model.Created_By = alertList.AlertEventEmailList[0].UserId;
+
+                if (alert.TemplateType_Id == 1)
+                {
+                    if (alert.FromEmail_Id != null || emailModel.Sender_Email_Id != null)
+                    {
+                        if (emailType == 2)
+                        {
+                            SendGridApiManager mail = new SendGridApiManager();
+                            var res = mail.SendComposedSMTPEmail_For_ChangePwd(emailModel, alert, alertList.AlertEventEmailList);
+
+                        }
+
+                    }
+                }
+            }
+        }
+
         public IList<EmailListModel> UserCreateEvent(long Entity_Id, long Institution_Id)
         {
             IList<EmailListModel> EmailListModel;

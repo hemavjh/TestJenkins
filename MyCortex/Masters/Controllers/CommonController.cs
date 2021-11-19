@@ -700,7 +700,7 @@ namespace MyCortex.Masters.Controllers
         /// to get password policy configuration of a institution
         /// </summary>          
         /// <returns>password policy configuration of a institution</returns>
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public PasswordPolicyModel PasswordPolicyDetails_View(long Institution_Id)
         {
@@ -781,7 +781,7 @@ namespace MyCortex.Masters.Controllers
         /// to get password policy configuration of a institution
         /// </summary>          
         /// <returns>password policy configuration of a institution</returns>
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public PasswordPolicyModel PasswordPolicy_View(long Institution_Id)
         {

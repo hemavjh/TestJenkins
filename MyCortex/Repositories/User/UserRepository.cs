@@ -3626,13 +3626,14 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Remarks"></param>
         /// <param name="Created_By"></param>
         /// <returns>inserted/updated Patient other data document</returns>
-        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By,int Is_Appointment=0, string Filetype="")
+        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id,long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By,int Is_Appointment=0, string Filetype="")
         {
             List<DataParameter> param = new List<DataParameter>();
             //DataEncryption encrypt = new DataEncryption();
 
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@Patient_Id", Patient_Id));
+            param.Add(new DataParameter("@Appointment_Id", Appointment_Id));
             param.Add(new DataParameter("@DocumentName", DocumentName));
             param.Add(new DataParameter("@FileName", FileName));
             param.Add(new DataParameter("@DocumentBlobData", (fileData)));
@@ -3649,6 +3650,7 @@ namespace MyCortex.Repositories.Uesr
                                              {
                                                  Id = p.Field<long>("Id"),
                                                  Patient_Id = p.Field<long>("PATIENT_ID"),
+                                                 Appointment_Id = p.Field<long>("APPOINTMENT_ID"),
                                                  DocumentName = p.Field<string>("DOCUMENT_NAME"),
                                                  FileName = p.Field<string>("FILE_NAME"),
                                                  IsActive = p.Field<int>("ISACTIVE"),

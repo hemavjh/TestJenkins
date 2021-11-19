@@ -11,6 +11,7 @@ namespace MyCortex.User.Model
         public long Id { get; set; }
         public int RowNumber { get; set; }
         public long Patient_Id { get; set; }
+        public long Appointment_Id { get; set; }
         public string FileName { get; set; }
         public string DocumentName { get; set; }
         public string Remarks { get; set; }

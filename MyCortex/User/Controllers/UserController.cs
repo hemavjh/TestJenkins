@@ -285,8 +285,16 @@ namespace MyCortex.User.Controller
                 //{
                 //    FormulaforFullName = modelLF_Formula[0].ConfigValue;
                 //}
+
+                IList<EmailListModel> user_email = new List<EmailListModel>();
+                EmailListModel mail = new EmailListModel();
+                mail.EmailId = userObj.EMAILID;
+                mail.EmailType_Flag = 1;  // dont change
+                mail.UserId = 0;
+
                 string Replaced_FullName = "[L][F]";
                 Replaced_FullName = FormulaforFullName.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
+                mail.UserName = Replaced_FullName;
                 userObj.FullName = EncryptPassword.Encrypt(Replaced_FullName);
                 userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
                 userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
@@ -396,6 +404,23 @@ namespace MyCortex.User.Controller
                 model.Error_Code = "";
                 model.UserDetails = ModelData;
                 model.Message = messagestr;// "User created successfully";
+
+                mail.UserId = (long)ModelData.Id;
+                user_email.Add(mail);
+                DateTime dateTime = DateTime.UtcNow.Date.AddDays(7);
+                AlertEvents AlertEventReturn_CP = new AlertEvents();
+                string userid = ModelData.Id.ToString();
+                string text = (Convert.ToInt64(dateTime.ToString("dd-MM-yyyy").Replace("-", "")) * 3).ToString();
+                //c# encrrption
+                var encryptString = EncryptPassword.Encrypt(userid);
+                string turl = HttpContext.Current.Request.Url.Host.ToString();
+                string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + userObj.PASSWORD;
+                // below alert for change password
+                if (userid != "0")
+                {
+                    AlertEventReturn_CP.Generate_SMTPEmail_Notification_For_ChangePwd(url, ModelData.Id, (long)userObj.INSTITUTION_ID, user_email);
+                }
+
                 // create cometchat user only in insert
                 if (ModelData.flag == 2)
                 {
@@ -3490,7 +3515,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "")
+        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "", long Appointment_Id=0)
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
@@ -3516,13 +3541,13 @@ namespace MyCortex.User.Controller
                                 using (var binaryReader = new BinaryReader(postedFile.InputStream))
                                 {
                                     fileData = binaryReader.ReadBytes(postedFile.ContentLength);
-                                    if (FileName == "")
+                                    if (FileName == "" || FileName== null)
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
                                     }
                                     else
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
                                     }
                                     model.DocumentDetails = ModelData;
                                 }
