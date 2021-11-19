@@ -1693,8 +1693,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
         $scope.Expiry_Date = "";
-        $scope.SelectedPayor = [];
-        $scope.SelectedPlan = [];	
+        $scope.SelectedPayor = "";
+        $scope.SelectedPlan = "";	
         $scope.EditPayorId = [];
         $scope.EditPlanId = [];
         $scope.DoctorInstitutionList = [];
@@ -2212,8 +2212,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Policy_Number = "";
             $scope.Reference_ID = "";
             $scope.ExpiryDate = "";
-            $scope.SelectedPayor = [];
-            $scope.SelectedPlan = [];	
+            $scope.SelectedPayor = "";
+            $scope.SelectedPlan = "";	
         }
 
 
@@ -2522,7 +2522,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     if (id != null && id != 0) {
                         //$('#PLANID').val(id);
                         setTimeout(function () {
-                            $('#PLANID').val(id);
+                            $('#SelectedPlan').val(id);
                         }, 5000);
                     }
                 });
@@ -3461,7 +3461,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
         }
         $scope.Admin_View = function (MenuType) { 
-            
             $scope.ChronicConditionList = [];
             $("#chatLoaderPV").show();
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
@@ -3469,6 +3468,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
                 $scope.ChronicConditionList = data;
+            });
+            $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
+                $scope.GenderList = data;
             });
 
                 $scope.loadCount = 3;
@@ -3733,22 +3735,23 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                     $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
                                         '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
                                             $scope.PayorMasterList = data1;
-                                            $scope.SelectedPayor = [];
+                                            $scope.SelectedPayor = "";
                                             if (data.PayorId != null && data.PayorId != "") {
                                                 $scope.EditPayorId = data.PayorId;
                                                 //$scope.SelectedPayor.push($scope.EditPayorId);
                                                 $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + data.PayorId).success(function (data) {
                                                     $scope.PayorBasedPlanList = data;
-                                                    $scope.SelectedPlan = [];
-                                                    $scope.EditPlanId = [];
-                                                    $scope.EditPlanId = data[0].Id;
-                                                    $scope.PlanName = data[0].PlanName;
-                                                    //$scope.SelectedPlan.push($scope.EditPlanId);
-                                                    setTimeout(function () {
-                                                        $scope.SelectedPayor = $scope.EditPayorId.toString();
-                                                        $scope.SelectedPlan = $scope.EditPlanId.toString();
-                                                    }, 5000);
-                                                    //}
+                                                    if (data.length != 0) {
+                                                        //$scope.SelectedPlan = "";
+                                                        $scope.EditPlanId = "";
+                                                        $scope.EditPlanId = data[0].Id.toString();
+                                                        $scope.PlanName = data[0].PlanName;
+                                                        //$scope.SelectedPlan.push($scope.EditPlanId);
+                                                        setTimeout(function () {
+                                                            $scope.SelectedPayor = $scope.EditPayorId;
+                                                            $scope.SelectedPlan = $scope.EditPlanId;
+                                                        }, 10000);
+                                                    }
                                                 });
                                             }
                                         });                                     
@@ -4124,7 +4127,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
-			                //MNR_NO: $scope.MNR_No,
+                            //MNR_NO: $scope.MNR_No,
                             NATIONALID: $scope.NationalId,
                             SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
                             DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
@@ -4171,7 +4174,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             appleUserID: $scope.appleUserID,
                             PatientId: $scope.PATIENT_ID,
                             MrnPrefix: $scope.PrefixMRN,
-                            USER_ID: $window.localStorage['UserId'],
+                            User_Id: $window.localStorage['UserId'],
                             Memberid: $scope.Member_ID,
                             PolicyNumber: $scope.Policy_Number,
                             RefernceId: $scope.Reference_ID,
@@ -4222,6 +4225,21 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             TAB_PIN: "",
                             TAB_PHOTO: "",
                             TAB_FINGERPRINT: "",
+                            Approval_flag: "0",
+                            flag: "0",
+                            CREATED_DT: "",
+                            TimeZone_Id: "0",
+                            LoginTime: "",
+                            ISACTIVE: "1",  //Default 1 
+                            IsActive: "1",
+                            Appointment_Module_Id: "0",
+                            Group_Id: "0",
+                            Protocol_Id: "0",
+                            Unitgroup_preference: "0",
+                            Language_preference: "0",
+                            Payment_preference: "0",
+                            Insurance_Preference: "0",
+                            Modified_By: "0",
                             //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
@@ -4271,7 +4289,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             BLOODGROUP_ID: $scope.BloodGroupId == 0 ? null : $scope.BloodGroupId,
                             PATIENTNO: $scope.PatientNo,
                             INSURANCEID: $scope.InsuranceId,
-			                //MNR_NO: $scope.MNR_No,
+                            //MNR_NO: $scope.MNR_No,
                             NATIONALID: $scope.NationalId,
                             SMOKER: $scope.Smoker == 0 ? null : $scope.Smoker,
                             DIABETIC: $scope.Diabetic == 0 ? null : $scope.Diabetic,
@@ -4318,7 +4336,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             appleUserID: $scope.appleUserID,
                             PatientId: $scope.PATIENT_ID,
                             MrnPrefix: $scope.PrefixMRN,
-                            USER_ID: $window.localStorage['UserId'],
+                            User_Id: $window.localStorage['UserId'],
                             Memberid: $scope.Member_ID,
                             PolicyNumber: $scope.Policy_Number,
                             RefernceId: $scope.Reference_ID,
@@ -4369,6 +4387,21 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             TAB_PIN: "",
                             TAB_PHOTO: "",
                             TAB_FINGERPRINT: "",
+                            Approval_flag: "0",
+                            flag: "0",
+                            CREATED_DT: "",
+                            TimeZone_Id: "0",
+                            LoginTime: "",
+                            ISACTIVE: "1",  //Default 1 
+                            IsActive: "1",
+                            Appointment_Module_Id: "0",
+                            Group_Id: "0",
+                            Protocol_Id: "0",
+                            Unitgroup_preference: "0",
+                            Language_preference: "0",
+                            Payment_preference: "0",
+                            Insurance_Preference: "0",
+                            Modified_By: "0",
                             //FullNameFormula: $scope.FullNameFormula,
                             //InstitutionList: [{ "InstitutionName": "" }],
                             //LanguageList: [{ "Name": "" }]
@@ -5101,16 +5134,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.LanguageList = ch9;
             }
             if ($scope.SelectedPayor.length == 1) {
-                $scope.SelectedPayor = [];
+                $scope.SelectedPayor = "";
                 $scope.SelectedPayor = $scope.SelectedPayor[0];
             } else {
-                $scope.SelectPayor = [];
+                $scope.SelectPayor = "";
             }
             if ($scope.SelectedPlan.length == 1) {
-                $scope.SelectedPlan = [];
+                $scope.SelectedPlan = "";
                 $scope.SelectedPlan = $scope.SelectedPlan[0];
             } else {
-                $scope.SelectedPlan = [];
+                $scope.SelectedPlan = "";
             }
         }
 
