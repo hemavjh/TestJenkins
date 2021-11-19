@@ -1182,7 +1182,7 @@
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in PayorMasterList"
-                                                    ng-selected="SelectPayor==sel.Id" value="{{sel.Id}}">
+                                                    ng-selected="SelectedPayor==sel.Id" value="{{sel.Id}}">
                                                 {{sel.PayorName}}
                                             </option>
                                         </select>
@@ -1193,7 +1193,7 @@
                                                 ng-required="true" ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
                                             <option ng-repeat="sel in PayorBasedPlanList"
-                                                    ng-selected="PlanId==sel.Id" value="{{sel.Id}}">
+                                                    ng-selected="SelectedPlan==sel.Id" value="{{sel.Id}}">
                                                 {{sel.PlanName}}
                                             </option>
                                         </select>

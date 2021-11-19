@@ -1693,8 +1693,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
         $scope.Expiry_Date = "";
-        $scope.SelectedPayor = "";
-        $scope.SelectedPlan = "";	
+        $scope.SelectedPayor = "0";
+        $scope.SelectedPlan = "0";	
         $scope.EditPayorId = [];
         $scope.EditPlanId = [];
         $scope.DoctorInstitutionList = [];
@@ -2212,8 +2212,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Policy_Number = "";
             $scope.Reference_ID = "";
             $scope.ExpiryDate = "";
-            $scope.SelectedPayor = "";
-            $scope.SelectedPlan = "";	
+            $scope.SelectedPayor = "0";
+            $scope.SelectedPlan = "0";	
         }
 
 
@@ -2325,7 +2325,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.tab1 = $scope.tab1 + 1;
             });
 
-            
+            $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + 1 + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + 1 + '&EndRowNumber=' + 30).success(function (data) {
+                $scope.PayorMasterList = data;
+            });
 
             $scope.ConfigCode = "MRN_PREFIX";
             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
@@ -2393,11 +2395,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
 
-                    $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                            $scope.PayorMasterList = data;
-                            $scope.tab1 = $scope.tab1 + 1;
-                        });
+                    //$http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
+                    //    '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                    //        $scope.PayorMasterList = data;
+                    //        $scope.tab1 = $scope.tab1 + 1;
+                    //    });
                 });
             }
 
@@ -2506,26 +2508,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
         }
         $scope.PayorBased_PlanFunction = function (id) {
-            $scope.PayorBasedPlanList = [];
-            if ($scope.loadCount != 0) {
-                $scope.loadCount = 0;
-            }
-            if ($scope.SelectedPayor.length == 1) {
-                var SelectedPayor = $scope.SelectedPayor[0];
-            }
-            else {
-                SelectedPayor = $scope.SelectedPayor;
-            }
-            if ($scope.loadCount == 0) {
-                $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + SelectedPayor).success(function (data) {
+            if ($scope.SelectedPayor != "0") {
+                $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + $scope.SelectedPayor).success(function (data) {
                     $scope.PayorBasedPlanList = data;
-                    if (id != null && id != 0) {
-                        //$('#PLANID').val(id);
-                        setTimeout(function () {
-                            $('#SelectedPlan').val(id);
-                        }, 5000);
-                    }
                 });
+            } else {
+                $scope.PayorBasedPlanList = [];
             }
         }
 
@@ -3601,7 +3589,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.resumedoc = data.FILE_NAME;
                                 $scope.File_FullPath = data.FILE_FULLPATH;
                                 $scope.Upload_FileName = data.UPLOAD_FILENAME;
-                                $scope.GenderId = data.GENDER_ID.toString();
+                                //$scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                                 $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
@@ -3661,6 +3649,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.NationalId = data.NATIONALID;
                                 $scope.EthnicGroup = data.EthnicGroup;
                                 $scope.ViewGender = data.GENDER_NAME;
+                                $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.ViewNationality = data.Nationality;
                                 $scope.ViewUserName = data.UserName;
                                 $scope.ViewGroupName = data.GroupName;
@@ -3735,7 +3724,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                     $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
                                         '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
                                             $scope.PayorMasterList = data1;
-                                            $scope.SelectedPayor = "";
+                                            //$scope.SelectedPayor = "";
                                             if (data.PayorId != null && data.PayorId != "") {
                                                 $scope.EditPayorId = data.PayorId;
                                                 //$scope.SelectedPayor.push($scope.EditPayorId);
@@ -3750,11 +3739,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                                         setTimeout(function () {
                                                             $scope.SelectedPayor = $scope.EditPayorId;
                                                             $scope.SelectedPlan = $scope.EditPlanId;
-                                                        }, 10000);
+                                                        }, 5000);
                                                     }
                                                 });
                                             }
-                                        });                                     
+                                        });                                      
                                 });
 
                                 methodcnt = methodcnt - 1;
@@ -5133,18 +5122,18 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 ch9 = [{ "Name": "" }]
                 $scope.LanguageList = ch9;
             }
-            if ($scope.SelectedPayor.length == 1) {
-                $scope.SelectedPayor = "";
-                $scope.SelectedPayor = $scope.SelectedPayor[0];
-            } else {
-                $scope.SelectPayor = "";
-            }
-            if ($scope.SelectedPlan.length == 1) {
-                $scope.SelectedPlan = "";
-                $scope.SelectedPlan = $scope.SelectedPlan[0];
-            } else {
-                $scope.SelectedPlan = "";
-            }
+            //if ($scope.SelectedPayor.length == 1) {
+            //    $scope.SelectedPayor = "";
+            //    $scope.SelectedPayor = $scope.SelectedPayor[0];
+            //} else {
+            //    $scope.SelectPayor = "";
+            //}
+            //if ($scope.SelectedPlan.length == 1) {
+            //    $scope.SelectedPlan = "";
+            //    $scope.SelectedPlan = $scope.SelectedPlan[0];
+            //} else {
+            //    $scope.SelectedPlan = "";
+            //}
         }
 
         $scope.ResetPatientFilter = function () {
