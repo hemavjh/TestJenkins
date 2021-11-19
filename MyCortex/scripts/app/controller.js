@@ -3589,7 +3589,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.resumedoc = data.FILE_NAME;
                                 $scope.File_FullPath = data.FILE_FULLPATH;
                                 $scope.Upload_FileName = data.UPLOAD_FILENAME;
-                                //$scope.GenderId = data.GENDER_ID.toString();
+                                $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                                 $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
@@ -3649,7 +3649,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.NationalId = data.NATIONALID;
                                 $scope.EthnicGroup = data.EthnicGroup;
                                 $scope.ViewGender = data.GENDER_NAME;
-                                $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.ViewNationality = data.Nationality;
                                 $scope.ViewUserName = data.UserName;
                                 $scope.ViewGroupName = data.GroupName;
@@ -3714,6 +3713,9 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.ConfigCode = "PATIENTPAGE_COUNT";
                                 $scope.ISact = 1;
                                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                                setTimeout(function () {
+                                    $scope.GenderId = data.GENDER_ID.toString();
+                                }, 5000);
                                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
                                     if (data1.length != 0) {
                                         $scope.page_size = data1[0].ConfigValue;
