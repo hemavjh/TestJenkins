@@ -13657,7 +13657,7 @@ MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http'
             if ($window.localStorage['UserTypeId'] == 3) {
                 $("#chatLoaderPV").show();
                 // $scope.UnitGroupType = UnitGroupType;
-                $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
+                $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=' + $scope.UnitGroupType + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
                     $scope.UnitMasterList = data;
                     $http.get(baseUrl + '/api/ParameterSettings/ProtocolParameterMasterList/').success(function (data1) {
                         $scope.ProtocolParametersList = data1;
@@ -15917,7 +15917,7 @@ MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http
                 $scope.DurationTypeList = data;
             });
 
-            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=1').success(function (data) {
+            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=0&Unitgroup_Type=1&Institution_Id=' + $scope.InstituteId).success(function (data) {
                 $scope.UnitTypeList = data;
             });
 
