@@ -829,6 +829,14 @@
                                 <h1>Negative Action Button Hover Text Color</h1>
                                 <input type="color" id="negativeHoverBtnText" name="negativeHoverBtnText" />
                             </div>
+                            <div class="colorGroup">
+                                <h1>Primary</h1>
+                                <input type="color" id="primary" name="primary" />
+                            </div>
+                            <div class="colorGroup">
+                                <h1>Secondary</h1>
+                                <input type="color" id="secondary" name="secondary" />
+                            </div>
                         </div>
                         <div class="col-sm-9">
                             <div class="frameController">
@@ -958,37 +966,37 @@
                 getAPIObj["title"] = data["ColorPreferences"]["Title"];
                 getAPIObj["subTitle"] = data["ColorPreferences"]["SubTitle"];
             } else {
-                getAPIObj["primary"] = defaultValueObj["Primary"];
+                getAPIObj["primary"] = defaultValueObj["primary"];
                 getAPIObj["secondary"] = defaultValueObj["secondary"];
-                getAPIObj["headerBg"] = defaultValueObj["HeaderBg"];
-                getAPIObj["headerText"] = defaultValueObj["HeaderText"];
+                getAPIObj["headerBg"] = defaultValueObj["headerBg"];
+                getAPIObj["headerText"] = defaultValueObj["headerText"];
                 getAPIObj["TableHeaderBg"] = defaultValueObj["TableHeaderBg"];
                 getAPIObj["TableHeaderText"] = defaultValueObj["TableHeaderText"];
                 getAPIObj["TableAlternateRowBg"] = defaultValueObj["TableAlternateRowBg"];
                 getAPIObj["TableAlternateRowText"] = defaultValueObj["TableAlternateRowText"];
                 getAPIObj["TableRowHoverBg"] = defaultValueObj["TableRowHoverBg"];
                 getAPIObj["TableRowHoverText"] = defaultValueObj["TableRowHoverText"];
-                getAPIObj["linkText"] = defaultValueObj["LinkText"];
-                getAPIObj["positiveBtnBg"] = defaultValueObj["PositiveBtnBg"];
-                getAPIObj["positiveBtnBorder"] = defaultValueObj["PositiveBtnBorder"];
-                getAPIObj["positiveBtnText"] = defaultValueObj["PositiveBtnText"];
-                getAPIObj["positiveHoverBtnBg"] = defaultValueObj["PositiveHoverBtnBg"];
-                getAPIObj["positiveHoverBtnBorder"] = defaultValueObj["PositiveHoverBtnBorder"];
-                getAPIObj["positiveHoverBtnText"] = defaultValueObj["PositiveHoverBtnText"];
-                getAPIObj["negativeBtnBg"] = defaultValueObj["NegativeBtnBg"];
-                getAPIObj["negativeBtnBorder"] = defaultValueObj["NegativeBtnBorder"];
-                getAPIObj["negativeBtnText"] = defaultValueObj["NegativeBtnText"];
-                getAPIObj["negativeHoverBtnBg"] = defaultValueObj["NegativeHoverBtnBg"];
-                getAPIObj["negativeHoverBtnBorder"] = defaultValueObj["NegativeHoverBtnBorder"];
-                getAPIObj["negativeHoverBtnText"] = defaultValueObj["NegativeHoverBtnText"];
-                getAPIObj["title"] = defaultValueObj["Title"];
-                getAPIObj["subTitle"] = defaultValueObj["SubTitle"];
+                getAPIObj["linkText"] = defaultValueObj["linkText"];
+                getAPIObj["positiveBtnBg"] = defaultValueObj["positiveBtnBg"];
+                getAPIObj["positiveBtnBorder"] = defaultValueObj["positiveBtnBorder"];
+                getAPIObj["positiveBtnText"] = defaultValueObj["positiveBtnText"];
+                getAPIObj["positiveHoverBtnBg"] = defaultValueObj["positiveHoverBtnBg"];
+                getAPIObj["positiveHoverBtnBorder"] = defaultValueObj["positiveHoverBtnBorder"];
+                getAPIObj["positiveHoverBtnText"] = defaultValueObj["positiveHoverBtnText"];
+                getAPIObj["negativeBtnBg"] = defaultValueObj["negativeBtnBg"];
+                getAPIObj["negativeBtnBorder"] = defaultValueObj["negativeBtnBorder"];
+                getAPIObj["negativeBtnText"] = defaultValueObj["negativeBtnText"];
+                getAPIObj["negativeHoverBtnBg"] = defaultValueObj["negativeHoverBtnBg"];
+                getAPIObj["negativeHoverBtnBorder"] = defaultValueObj["negativeHoverBtnBorder"];
+                getAPIObj["negativeHoverBtnText"] = defaultValueObj["negativeHoverBtnText"];
+                getAPIObj["title"] = defaultValueObj["title"];
+                getAPIObj["subTitle"] = defaultValueObj["subTitle"];
 
             }
             console.log("applyStyle:" + getAPIObj)
             for (key in getAPIObj) {
 
-                if (getAPIObj[key] != null && getAPIObj[key] != "") {
+                if (getAPIObj[key] != null && getAPIObj[key] != "" && getAPIObj[key] != undefined) {
                     $(`#${key}`).val(getAPIObj[key]);
                     document.documentElement.style.setProperty(`--${key}`, getAPIObj[key]);
                 }
