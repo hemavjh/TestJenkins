@@ -68,7 +68,7 @@
             }
         });
     </script>
-    <script>
+    <!--<script>
         var input = document.querySelector("#txtPhone");
         var inputPhoneNo = window.intlTelInput(input, {
             formatOnDisplay: true,
@@ -97,7 +97,7 @@
 
             //inputPhoneNo.setCountry("us");
         }
-    </script>
+    </script>-->
 </head>
 <style>
     .toggle {
@@ -479,18 +479,6 @@
                                                        ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <label>
-                                                    Phone No.<sup><font class="mandatory-field">*</font></sup>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <input type="tel" class="form-control" id="txtPhone" ng-model="PhoneNo"
-                                                       ng-required="true" onblur="txtPhoneChange()" />
-                                            </td>
-                                        </tr>
-
                                     </table>
                                 </form>
                             </div>
