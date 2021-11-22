@@ -682,7 +682,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                         toastr.success(data.Message, "success");
                     }
                     else if (data.ReturnFlag == "0") {
-                        toastr.error(data.Message, "Warning");
+                        toastr.info(data.Message, "info");
                     }
                     $('#btnsave1').attr("disabled", false);
                     $('#btnsave2').attr("disabled", false);
@@ -4399,13 +4399,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                         }
                     }
                     $http.post(baseUrl + '/api/User/User_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                        alert(data.Message);
-                        /*if (data.ReturnFlag == 0) {
-                            toastr.error(data.Message, "warning");
+                        /*alert(data.Message);*/
+                        if (data.ReturnFlag == 0) {
+                            toastr.info(data.Message, "info");
                         }
                         else if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
-                        }*/
+                        }
                         $('#btnsave').attr("disabled", false);
                         $('#btnsave1').attr("disabled", false);
                         $('#btnsave2').attr("disabled", false);
@@ -7648,7 +7648,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
                                 $http.post(baseUrl + '/api/PatientAppointments/PatientAppointment_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, objectSave).success(function (data) {
-                                    alert(data.Message);
+                                    //alert(data.Message);
+                                    if (data.ReturnFlag == 1) {
+                                        toastr.success(data.Message, "success");
+                                    }
+                                    else if (data.ReturnFlag == 0) {
+                                        toastr.info(data.Message, "info");
+                                    }
                                     $('#shown').attr("disabled", false);
                                     if (data.ReturnFlag == 1) {
                                         $scope.Id = "0";
@@ -7761,7 +7767,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 }
                                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                                 $http.post(baseUrl + '/api/PatientAppointments/AppointmentReSchedule_InsertUpdate?Login_Session_Id=' + $scope.LoginSessionId, objectReshedule).success(function (data) {
-                                    alert(data.Message);
+                                    //alert(data.Message);
+                                    if (data.ReturnFlag == 1) {
+                                        toastr.success(data.Message, "success");
+                                    }
+                                    else if (data.ReturnFlag == 0) {
+                                        toastr.info(data.Message, "info");
+                                    }
                                     if (data.ReturnFlag == 1) {
                                         $scope.Id = "0";
                                         var fd = new FormData();
@@ -11630,7 +11642,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         toastr.success(data.Message, "success");
                     }
                     else if (data.ReturnFlag == 0) {
-                        toastr.error(data.Message, "warning");
+                        toastr.info(data.Message, "info");
                     }
                     $('#save1').attr("disabled", false);
                     if (data.ReturnFlag == "2") {
@@ -20374,8 +20386,11 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
             }
             $scope.clearAllNotification = function () {
                 if ($scope.UserNotificationList_Filter.length !== 0) {
+                    $('#clear').attr("disabled", true);
                     $http.get(baseUrl + '/api/SendEmail/ClearNotification_Update/?User_Id=' + $scope.User_Id).success(function (data) {
-                        alert("Cleared All Notifications!");
+                        //alert("Cleared All Notifications!");
+                        toastr.info("Cleared All Notifications!", "info");
+                        $('#clear').attr("disabled", false);
                         $scope.emptydata = "";
                         if ($scope.emptydata == "") {
                             $scope.UserNotificationList_Filter.length = 0;
