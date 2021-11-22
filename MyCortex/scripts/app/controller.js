@@ -18517,8 +18517,8 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
 
 
 /* THIS IS FOR EMPLOYEE EMAIL CONFIGURATION CONTROLLER FUNCTION */
-MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
 
         // Declaration and initialization of Scope Variables.
@@ -18623,7 +18623,8 @@ MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http
                 };
                 $('#save').attr("disabled", true);
                 $http.post(baseUrl + '/api/EmailConfiguration/EmailConfiguration_AddEdit/', obj).success(function (data) {
-                    alert("Email setup saved successfully");
+                    //alert("Email setup saved successfully");
+                    toastr.success("Email setup saved successfully", "success");
                     $('#save').attr("disabled", false);
                     $scope.EmailConfiguration_ViewEdit();
                     //$scope.ClearFields();
@@ -19736,7 +19737,8 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
 
             if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
-                alert("Please select Period From");
+                //alert("Please select Period From");
+                toastr.warning("Please select Period From", "warning");
                 
                 return false;
             }
@@ -19745,7 +19747,8 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             //    return false;
             //}
             if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
-                alert("Please select Period To");
+                //alert("Please select Period To");
+                toastr.warning("Please select Period To", "warning");
                 return false;
             }
             //else if (isDate($scope.Period_To) == false) {
@@ -21201,8 +21204,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
     }
 ]);
 
-MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
+MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
 
         //List Page Pagination.
         if ($window.localStorage['UserTypeId'] == 3) {
@@ -21260,7 +21263,8 @@ MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', 
                 angular.element('#AppointmentSlotModal').modal('show');
             }
             else {
-                alert("Inactive record cannot be edited");
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
             }
         };
         /* 
@@ -21299,11 +21303,13 @@ MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', 
            */
         $scope.AppoinmentSlotAddEdit_Validations = function () {
             if (typeof ($scope.SelectedDoctor) == "undefined" || $scope.SelectedDoctor == "0" && $scope.Id == 0) {
-                alert("Please select Doctor");
+                //alert("Please select Doctor");
+                toastr.warning("Please select Doctor", "warning");
                 return false;
             }
             if (typeof ($scope.SelectedDoctor1) == "undefined" || $scope.SelectedDoctor1 == "0" && $scope.Id > 0) {
-                alert("Please select Doctor");
+                //alert("Please select Doctor");
+                toastr.warning("Please select Doctor", "warning");
                 return false;
             }
             //else if (typeof ($scope.Appoinment_Hours) == "undefined" || $scope.Appoinment_Hours == "") {
@@ -21311,15 +21317,18 @@ MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', 
             //    return false;
             //}
             else if (typeof ($scope.Appoinment_Minutes) == "undefined" || $scope.Appoinment_Minutes == "") {
-                alert("Please enter New Appointment Minutes");
+                //alert("Please enter New Appointment Minutes");
+                toastr.warning("Please enter New Appointment Minutes","warning");
                 return false;
             }
             else if (typeof ($scope.FollowUp_Appoinment) == "undefined" || $scope.FollowUp_Appoinment == "") {
-                alert("Please enter Followup Appointment");
+                //alert("Please enter Followup Appointment");
+                toastr.warning("Please enter Followup Appointment", "warning");
                 return false;
             }
             else if (typeof ($scope.SlotInterval) == "undefined" || $scope.SlotInterval == "") {
-                alert("Please enter Slot Interval");
+                //alert("Please enter Slot Interval");
+                toastr.warning("Please enter Slot Interval", "warning");
                 return false;
             }
             return true;
@@ -21583,7 +21592,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 angular.element('#AppointmentSlotModal').modal('show');
             }
             else {
-                alert("Inactive record cannot be edited");
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
             }
         };
 
@@ -21639,17 +21649,20 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
             $scope.ShiftToDate = moment($scope.ShiftToDate).format('DD-MMM-YYYY');
 
             if ($scope.ShiftName == "") {
-                alert("Please enter Shift");
+                //alert("Please enter Shift");
+                toastr.warning("Please enter Shift","warning");
                 return false;
             }
             else if ((ParseDate($scope.ShiftFromDate) < ParseDate(today))) {
-                alert("Shift Timing From Date Can Be Booked Only For Future");
+                //alert("Shift Timing From Date Can Be Booked Only For Future");
+                toastr.warning("Shift Timing From Date Can Be Booked Only For Future", "warning");
                 $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                 $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
                 return false;
             }  
             else if ((ParseDate($scope.ShiftToDate) < ParseDate(today))) {
-                alert("Shift Timing ToDate Can Be Booked Only For Future");
+                //alert("Shift Timing ToDate Can Be Booked Only For Future");
+                toastr.warning("Shift Timing ToDate Can Be Booked Only For Future", "warning");
                 $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                 $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
                 return false;
@@ -21659,12 +21672,14 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 if (moment($scope.ShiftFromDate + " " + $scope.ShiftFromTime) > moment($scope.ShiftToDate + " " + $scope.ShiftEndTime)) {
                     if (($scope.ShiftFromDate !== null) && ($scope.ShiftToDate !== null)) {
                         if ((ParseDate($scope.ShiftToDate) < ParseDate($scope.ShiftFromDate))) {
-                            alert("From Date Should not be greater than To Date");
+                            //alert("From Date Should not be greater than To Date");
+                            toastr.warning("From Date Should not be greater than To Date", "warning");
                             $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                             $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
                             return false;
                         }
-                        alert("Shift From Time should not be greater than Shift To Time");
+                        //alert("Shift From Time should not be greater than Shift To Time");
+                        toastr.warning("Shift From Time should not be greater than Shift To Time", "warning");
                         $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                         $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
                         return false;
@@ -21673,20 +21688,24 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 }
             }
             else if ($scope.ShiftFromTime == "") {
-                alert("Please select Shift From time");
+                //alert("Please select Shift From time");
+                toastr.warning("Please select Shift From time", "warning");
                 return false;
             }
             else if ($scope.ShiftEndTime == "") {
-                alert("Please select Shift To time");
+                //alert("Please select Shift To time");
+                toastr.warning("Please select Shift To time", "warning");
                 return false;
             }
 
             else if (typeof ($scope.ShiftFromDate) == "undefined" || $scope.ShiftFromDate == 0) {
-                alert("Please select From Date");
+                //alert("Please select From Date");
+                toastr.warning("Please select From Date", "warning");
                 return false;
             }
             else if (typeof ($scope.ShiftToDate) == "undefined" || $scope.ShiftToDate == 0) {
-                alert("Please select To Date");
+                //alert("Please select To Date");
+                toastr.warning("Please select To Date", "warning");
                 return false;
             }
             $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
@@ -21707,7 +21726,13 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                     ShiftToDate: moment($scope.ShiftToDate).format('DD-MMM-YYYY'),
                 };
                 $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
                     $scope.ShiftTimingList();
                     $scope.ClearShiftTimingPopUp();
                 }).error(function (data) {
@@ -21826,7 +21851,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 }
 
                 $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_InActive/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    toastr.success(data.Message, "success");
                     $scope.ShiftTimingList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Shift Slot" + data;
@@ -21849,7 +21875,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 + '&Institution_Id=' + $window.localStorage['InstitutionId']
             ).success(function (data) {
                 if (data.returnval == 1) {
-                    alert("Activate Shift Slot is already created, Please check");
+                    //alert("Activate Shift Slot is already created, Please check");
+                    toastr.info("Activate Shift Slot is already created, Please check", "info");
                 }
                 else {
                     var Ins = confirm("Do you like to activate the selected Shift Slot?");
@@ -21861,7 +21888,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                         }
 
                         $http.post(baseUrl + '/api/ShiftTmings/ShiftTimings_Active/', obj).success(function (data) {
-                            alert(data.Message);
+                            //alert(data.Message);
+                            toastr.success(data.Message, "success");
                             $scope.ShiftTimingList();
                         }).error(function (data) {
                             $scope.error = "An error has occurred while deleting Shift Slot" + data;
@@ -21872,7 +21900,8 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
         }
 
         $scope.ErrorFunction = function () {
-            alert("Inactive record cannot be edited");
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
         }
 
     }
@@ -22280,7 +22309,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $scope.TimeSlot32 = angular.copy($scope.TimeSlot38);
                     }
                     else {
-                        alert('Please Enter Proper Shift FromTime And ToTime !');
+                        //alert('Please Enter Proper Shift FromTime And ToTime !');
+                        toastr.info("Please Enter Proper Shift FromTime And ToTime !", "info");
                         $('#Shift1Select').prop('checked', false);
                         return false;
                     }
@@ -22309,7 +22339,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             if (checked == true) {
                 if (($scope.TimeSlot3 == 0 && $scope.TimeSlot4 == 0) && ($scope.TimeSlot9 == 0 && $scope.TimeSlot10 == 0) && ($scope.TimeSlot15 == 0 && $scope.TimeSlot16 == 0) && ($scope.TimeSlot21 == 0 && $scope.TimeSlot22 == 0) &&
                     ($scope.TimeSlot27 == 0 && $scope.TimeSlot28 == 0) && ($scope.TimeSlot33 == 0 && $scope.TimeSlot34 == 0) && ($scope.TimeSlot39 == 0 && $scope.TimeSlot40 == 0)) {
-                    alert('Please Enter Any One Shift !');
+                    //alert('Please Enter Any One Shift !');
+                    toastr.warning("Please Enter Any One Shift !", "warning");
                     $('#Shift2Select').prop('checked', false);
                 }
                 else {
@@ -22788,7 +22819,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                         $scope.TimeSlot54 = angular.copy($scope.TimeSlot56);
                     }
                     else {
-                        alert('Please Enter Proper Shift FromTime And ToTime !');
+                        //alert('Please Enter Proper Shift FromTime And ToTime !');
+                        toastr.info("Please Enter Proper Shift FromTime And ToTime !", "info");
                         $('#Shift4Select').prop('checked', false);
                         return false;
                     }
@@ -23137,19 +23169,22 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     }
                     var y = $scope.SelectedDays[i].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
                     if (y.length === 4 && $scope.SelectedDays[i].exist == 1) {
-                        alert('Please Enter any one time slot for ' + dateName + '');
+                        //alert('Please Enter any one time slot for ' + dateName + '');
+                        toastr.warning('Please Enter any one time slot for ' + dateName + '',"warning");
                         chk2 = 1;
                         break;
                     }
                     y = $scope.SelectedDays[i].TimeSlot.filter(x => x.TimeSlotFromTime !== null && x.TimeSlotToTime === null);
                     if (y.length > 0) {
-                        alert('Please Enter To time slot for ' + dateName + '');
+                        //alert('Please Enter To time slot for ' + dateName + '');
+                        toastr.warning('Please Enter To time slot for ' + dateName + '',"warning");
                         chk2 = 1;
                         break;
                     }
                     y = $scope.SelectedDays[i].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime !== null);
                     if (y.length > 0) {
-                        alert('Please Enter From time slot for ' + dateName + '');
+                        //alert('Please Enter From time slot for ' + dateName + '');
+                        toastr.warning('Please Enter From time slot for ' + dateName + '',"warning");
                         chk2 = 1;
                         break;
                     }
@@ -23279,7 +23314,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($('#SundayId').prop('disabled') == false) {
                     angular.forEach(value.TimeSlot, function (value1, index1) {
                         if (ParseDate(value1.TimeSlotFromTime) > ParseDate(value1.TimeSlotToTime)) {
-                            alert('Sunday Slot FromTime Can Be Less Than To Time!');
+                            //alert('Sunday Slot FromTime Can Be Less Than To Time!');
+                            toastr.warning("Sunday Slot FromTime Can Be Less Than To Time!", "warning");
                             return false;
                         }
                     });
@@ -23287,7 +23323,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($('#MondayId').prop('disabled') == false) {
                     angular.forEach(value.TimeSlot, function (value1, index1) {
                         if (ParseDate(value1.TimeSlotFromTime) > ParseDate(value1.TimeSlotToTime)) {
-                            alert('Monday Slot FromTime Can Be Less Than To Time!');
+                            //alert('Monday Slot FromTime Can Be Less Than To Time!');
+                            toastr.warning("Monday Slot FromTime Can Be Less Than To Time!", "warning");
                             return false;
                         }
                     });
@@ -23295,7 +23332,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($('#TuesdayId').prop('disabled') == false) {
                     angular.forEach(value.TimeSlot, function (value1, index1) {
                         if (ParseDate(value1.TimeSlotFromTime) > ParseDate(value1.TimeSlotToTime)) {
-                            alert('TuesDay Slot FromTime Can Be Less Than To Time!');
+                            //alert('TuesDay Slot FromTime Can Be Less Than To Time!');
+                            toastr.warning("TuesDay Slot FromTime Can Be Less Than To Time!", "warning");
                             return false;
                         }
                     });
@@ -23303,7 +23341,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($('#WednesdayId').prop('disabled') == false) {
                     angular.forEach(value.TimeSlot, function (value1, index1) {
                         if (ParseDate(value1.TimeSlotFromTime) > ParseDate(value1.TimeSlotToTime)) {
-                            alert('WednesDay Slot FromTime Can Be Less Than To Time!');
+                            //alert('WednesDay Slot FromTime Can Be Less Than To Time!');
+                            toastr.warning("WednesDay Slot FromTime Can Be Less Than To Time!", "warning");
                             return false;
                         }
                     });
@@ -23311,7 +23350,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($('#ThursdayId').prop('disabled') == false) {
                     angular.forEach(value.TimeSlot, function (value1, index1) {
                         if (ParseDate(value1.TimeSlotFromTime) > ParseDate(value1.TimeSlotToTime)) {
-                            alert('ThursDay Slot FromTime Can Be Less Than To Time!');
+                            //alert('ThursDay Slot FromTime Can Be Less Than To Time!');
+                            toastr.warning("ThursDay Slot FromTime Can Be Less Than To Time!", "warning");
                             return false;
                         }
                     });
@@ -23319,7 +23359,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($('#FridayId').prop('disabled') == false) {
                     angular.forEach(value.TimeSlot, function (value1, index1) {
                         if (ParseDate(value1.TimeSlotFromTime) > ParseDate(value1.TimeSlotToTime)) {
-                            alert('Friday Slot FromTime Can Be Less Than To Time!');
+                            //alert('Friday Slot FromTime Can Be Less Than To Time!');
+                            toastr.warning("Friday Slot FromTime Can Be Less Than To Time!", "warning");
                             return false;
                         }
                     });
@@ -23327,7 +23368,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($('#SaturdayId').prop('disabled') == false) {
                     angular.forEach(value.TimeSlot, function (value1, index1) {
                         if (ParseDate(value1.TimeSlotFromTime) > ParseDate(value1.TimeSlotToTime)) {
-                            alert('Saturday Slot FromTime Can Be Less Than To Time!');
+                            //alert('Saturday Slot FromTime Can Be Less Than To Time!');
+                            toastr.warning("Saturday Slot FromTime Can Be Less Than To Time!", "warning");
                             return false;
                         }
                     });
@@ -23519,7 +23561,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     });
                 }
                 if (data == null) {
-                    alert('Please Check OrgSettings, Default Working Days Is Empty!');
+                    //alert('Please Check OrgSettings, Default Working Days Is Empty!');
+                    toastr.info("Please Check OrgSettings, Default Working Days Is Empty!", "info");
                     return false;
                 }
             });
@@ -23741,11 +23784,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.ToDate = moment($scope.ToDate).format('DD-MMM-YYYY');
 
             if (($scope.Doctor_Id.length == 0) && $scope.Id == 0) {
-                alert("Please select Doctor");
+                //alert("Please select Doctor");
+                toastr.warning("Please select Doctor","warning");
                 return false;
             }
             if (typeof ($scope.Doctor_Id1) == "undefined" || $scope.Doctor_Id1 == "0" && $scope.Id > 0) {
-                alert("Please select Doctor");
+                //alert("Please select Doctor");
+                toastr.warning("Please select Doctor", "warning");
                 return false;
             }
             //else if ($scope.SundayShift.length == 0) {
@@ -23777,28 +23822,33 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             //    return false;
             //}
             else if (typeof ($scope.FromDate) == "undefined" || $scope.FromDate == null) {
-                alert("Please select From Date");
+                //alert("Please select From Date");
+                toastr.warning("Please select From Date", "warning");
                 return false;
             }
             else if (typeof ($scope.ToDate) == "undefined" || $scope.ToDate == null) {
-                alert("Please select To Date");
+                //alert("Please select To Date");
+                toastr.warning("Please select To Date", "warning");
                 return false;
             }
             else if ((ParseDate($scope.FromDate) < ParseDate(today)))  {
-                alert("FromDate Can Be Booked Only For Past");
+                //alert("FromDate Can Be Booked Only For Past");
+                toastr.warning("FromDate Can Be Booked Only For Past", "warning");
                 $scope.FromDate = DateFormatEdit($scope.FromDate);
                 $scope.ToDate = DateFormatEdit($scope.ToDate);
                 return false;
             }
             else if ((ParseDate($scope.ToDate) < ParseDate(today))) {
-                alert("To Date Can Be Booked Only For Past");
+                //alert("To Date Can Be Booked Only For Past");
+                toastr.warning("To Date Can Be Booked Only For Past", "warning");
                 $scope.FromDate = DateFormatEdit($scope.FromDate);
                 $scope.ToDate = DateFormatEdit($scope.ToDate);
                 return false;
             }
             if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
                 if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
-                    alert("From Date should not be greater than To Date");
+                   //alert("From Date should not be greater than To Date");
+                    toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.FromDate = DateFormatEdit($scope.FromDate);
                     $scope.ToDate = DateFormatEdit($scope.ToDate);
                     return false;
@@ -24667,7 +24717,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     Modified_By: $window.localStorage['UserId']
                 }
                 $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Delete/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    toastr.success(data.Message, "success");
                     $scope.DoctorShiftListGo();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
@@ -25719,7 +25770,8 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
             };
             $scope.WebConfigurationDetails.push(obj)
             $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, $scope.WebConfigurationDetails).success(function (data) {
-                alert(data.Message);
+                //alert(data.Message);
+                toastr.success(data.Message, "success");
                 $scope.WebConfigurationList();
                 $scope.ClearWebConfigurationPopUp();
                 $scope.searchqueryWebConfiguration = "";
@@ -25791,7 +25843,8 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 }
 
                 $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_InActive/', obj).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    toastr.success(data.Message, "success");
                     $scope.WebConfigurationList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Holiday" + data;
@@ -25818,7 +25871,8 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
                 }
 
                 $http.post(baseUrl + '/api/WebConfiguration/WebConfiguration_Active/', obj).success(function (data) {
-                    alert(data.Message);
+                    ///alert(data.Message);
+                    toastr.success(data.Message, "success");
                     $scope.WebConfigurationList();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while Activating WebConfiguration" + data;
@@ -25964,7 +26018,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                 }
                 else {
                     $("#chatLoaderPV").hide();
-                    alert("Error occurred.");
+                    //alert("Error occurred.");
+                    toastr.error("Error occurred.", "warning");
                 }
             })
         }
