@@ -13532,8 +13532,8 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
 
 ]);
 /* THIS IS FOR PARAMETER SETTINGS CONTROLLER FUNCTION */
-MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $timeout) {
+MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $timeout, toastr) {
         $scope.Id = 0;
         $scope.User_Id = 0;
         $scope.Units_ID = [];
@@ -24718,7 +24718,13 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 }
                 $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Delete/', obj).success(function (data) {
                     //alert(data.Message);
-                    toastr.success(data.Message, "success");
+                    if (data.ReturnFlag == 2) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
+                    
                     $scope.DoctorShiftListGo();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
@@ -25438,6 +25444,9 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                         //alert(data.Message);
                         if (data.ReturnFlag == 1) {
                             toastr.success(data.Message, "success");
+                        }
+                        else if (data.ReturnFlag == 0) {
+                            toastr.info(data.Message, "info");
                         }
                         $('#btnsave').attr("disabled", false);
                         $scope.AttendanceList();

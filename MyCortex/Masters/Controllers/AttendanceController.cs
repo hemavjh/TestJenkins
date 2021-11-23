@@ -113,7 +113,7 @@ namespace MyCortex.Masters.Controllers
                 if ((retflag == 1) == true)
                 {
                     messagestr = "From Date and To Date already exists for this Doctor ,  cannot be Duplicated";
-                    model.ReturnFlag = 1;
+                    model.ReturnFlag = 0;
                 } 
                 else if ((retflag == 2) == true)
                 {
