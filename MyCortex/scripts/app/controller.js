@@ -2345,8 +2345,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
                     $scope.NationalityListTemp = [];
                     $scope.NationalityListTemp = data;
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.NationalityListTemp.splice(0, 0, obj);
+                    /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.NationalityListTemp.splice(0, 0, obj);*/
                     $scope.NationalityList = angular.copy($scope.NationalityListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
@@ -2354,16 +2354,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
                     $scope.MaritalStatusListTemp = [];
                     $scope.MaritalStatusListTemp = data;
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.MaritalStatusListTemp.splice(0, 0, obj);
+                   /* var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.MaritalStatusListTemp.splice(0, 0, obj);*/
                     $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
                 $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
                     $scope.EthnicGroupListTemp = [];
                     $scope.EthnicGroupListTemp = data;
-                    var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.EthnicGroupListTemp.splice(0, 0, obj);
+                   /* var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.EthnicGroupListTemp.splice(0, 0, obj);*/
                     $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
@@ -2371,8 +2371,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     /*$scope.BloodGroupList = data;*/
                     $scope.BloodGroupListTemp = [];
                     $scope.BloodGroupListTemp = data;
-                    var obj = { "Id": 0, "BloodGroup_Name": "Select", "IsActive": 1 };
-                    $scope.BloodGroupListTemp.splice(0, 0, obj);
+                   /* var obj = { "Id": 0, "BloodGroup_Name": "Select", "IsActive": 1 };
+                    $scope.BloodGroupListTemp.splice(0, 0, obj);*/
                     $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
@@ -2444,7 +2444,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.NationalityList = data;
                 });
                 //$http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                //    $scope.EthnicGroupList = data;
+                 //    $scope.EthnicGroupList = data;
                 //});
                 //$http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
                 //    $scope.MaritalStatusList = data;
@@ -3717,7 +3717,12 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
                                 setTimeout(function () {
                                     $scope.GenderId = data.GENDER_ID.toString();
-                                }, 5000);
+                                    $scope.NationalityId = data.NATIONALITY_ID.toString();
+                                    $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                                    $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                                    $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                                }, 10000);
+                                
                                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
                                     if (data1.length != 0) {
                                         $scope.page_size = data1[0].ConfigValue;
