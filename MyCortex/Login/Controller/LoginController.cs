@@ -876,12 +876,12 @@ namespace MyCortex.Login.Controller
                     if (_logger.IsInfoEnabled)
                         _logger.Info("Controller");
                     DataEncryption EncryptPassword = new DataEncryption();
-                    Int64 userid = Convert.ToInt64(EncryptPassword.Decrypt(loginMod.Status));
+                    Int64 userid = Convert.ToInt64(loginMod.Status) / 4;
                     if (userid > 0)
                     {
                         loginMod.UserId = userid;
                         loginMod.NewPassword = EncryptPassword.Encrypt(loginMod.NewPassword);
-                        //loginMod.Password = EncryptPassword.Encrypt(loginMod.Password);
+                        loginMod.Password = loginMod.Password.Replace("@", "/");
                         flag = repository.ChangePassword(loginMod.UserId, loginMod.NewPassword, loginMod.Password, loginMod.NewPassword, loginMod.UserId, loginMod.InstitutionId, loginMod.LoginType);
                         if (flag > 0)
                         {

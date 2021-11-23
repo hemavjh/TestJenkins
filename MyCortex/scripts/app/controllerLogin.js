@@ -1537,7 +1537,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         
         $scope.CancelPopup = function () {
             if (confirm('Are you sure?')) {
-                window.location.href = baseUrl + "/login";
+                window.location.href = baseUrl + "/#/login";
             }
         }
         /*
@@ -1572,7 +1572,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                         if (data.ReturnFlag == "1") {
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
-                            window.location.href = baseUrl + "/Home/Index#/home";
+                            window.location.href = baseUrl + "/#/login";
                         }
                     }).error(function (data) {
                         $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;
@@ -1852,18 +1852,18 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
         /**Change Password Popup function**/
         angular.element('#ChangepasswordpopupModal').modal('show');
-        $('#ChangepasswordpopupModal').on('hide.bs.modal', function () {
-            //window.location.href = baseUrl + "/Home/Index#/home";
-            var res = $rootScope.previousPage.split("/");
-            if (res[res.length - 2].toLowerCase() == "changepassword") {
-                window.location.href = baseUrl + "/Home/Index#/home";
-            }
-            else {
-                window.location.href = $rootScope.previousPage;
-            }
+        //$('#ChangepasswordpopupModal').on('hide.bs.modal', function () {
+        //    //window.location.href = baseUrl + "/Home/Index#/home";
+        //    var res = $rootScope.previousPage.split("/");
+        //    if (res[res.length - 2].toLowerCase() == "changepassword") {
+        //        window.location.href = baseUrl + "/Home/Index#/home";
+        //    }
+        //    else {
+        //        window.location.href = $rootScope.previousPage;
+        //    }
 
-            //$PreviousState.goToLastState();
-        })
+        //    //$PreviousState.goToLastState();
+        //})
 
         /**Cancel Change Password Popup function**/
         $scope.CancelChangePasswordPopup = function () {

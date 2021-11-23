@@ -412,9 +412,10 @@ namespace MyCortex.User.Controller
                 string userid = ModelData.Id.ToString();
                 string text = (Convert.ToInt64(dateTime.ToString("dd-MM-yyyy").Replace("-", "")) * 3).ToString();
                 //c# encrrption
-                var encryptString = EncryptPassword.Encrypt(userid);
+                var encryptString = Convert.ToInt64(userid) * 4;
                 string turl = HttpContext.Current.Request.Url.Host.ToString();
-                string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + userObj.PASSWORD;
+                string pwd = userObj.PASSWORD.Replace("/", "@");
+                string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + pwd;
                 // below alert for change password
                 if (userid != "0")
                 {
