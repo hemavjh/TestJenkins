@@ -317,6 +317,82 @@ namespace MyCortexService
                 dt = ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM", li);
 
                 // END
+
+                // TBLAPPOINTMENT_PAYMENT_STATUS FOR SUCCESS
+                // Start
+
+                List<DataParameter> paym_succ = new List<DataParameter>();
+                paym_succ.Add(new DataParameter("@type", "Get_Payment_Success_Mail"));
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", paym_succ);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        Id = Convert.ToInt64(dt.Rows[0]["id"].ToString());
+                        Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
+                        Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
+
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINT_PAYMENT_SUCCESS", Id, (long)Institution_Id, EmailList);
+
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@type", "Update_Payment_Success_Notification"));
+                        param1.Add(new DataParameter("@id", Id));
+                        dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Failed_Payment_Success_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
+                        }
+                    }
+                }
+
+                // End
+
+                // TBLAPPOINTMENT_PAYMENT_STATUS FOR FAILURE
+                // Start
+
+                List<DataParameter> paym_fail = new List<DataParameter>();
+                paym_fail.Add(new DataParameter("@type", "Get_Payment_Failure_Mail"));
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", paym_fail);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        Id = Convert.ToInt64(dt.Rows[0]["id"].ToString());
+                        Institution_Id = Convert.ToInt64(dt.Rows[0]["INSTITUTION_ID"].ToString());
+                        Patient_Id = Convert.ToInt64(dt.Rows[0]["PATIENT_ID"].ToString());
+
+                        EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+
+                        AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINT_PAYMENT_FAILURE", Id, (long)Institution_Id, EmailList);
+
+                        List<DataParameter> param1 = new List<DataParameter>();
+                        param1.Add(new DataParameter("@type", "Update_Payment_Failure_Notification"));
+                        param1.Add(new DataParameter("@id", Id));
+                        dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Failed_Payment_Failure_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLAPPOINTMENT_PAYMENT_STATUS_FOR_EMAIL_NOTIFICATION]", param1);
+                        }
+                    }
+                }
+
+                // End
             }
             catch (Exception ex)
             {
