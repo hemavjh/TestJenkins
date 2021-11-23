@@ -308,6 +308,15 @@ namespace MyCortexService
                 }
 
                 // End
+
+                // APPointments RESET by System
+                // Start
+
+                List<DataParameter> li = new List<DataParameter>();
+                li.Add(new DataParameter("@INST", 1));
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].RESET_APPOINTMENTS_BY_SYSTEM", li);
+
+                // END
             }
             catch (Exception ex)
             {
