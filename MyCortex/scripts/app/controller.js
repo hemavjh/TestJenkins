@@ -3574,6 +3574,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.Employee_No = data.EMPLOYEMENTNO;
                                 $scope.EmailId = data.EMAILID;
                                 $scope.MobileNo = data.MOBILE_NO;
+                                inputPhoneNo.setNumber($scope.MobileNo);
                                 $scope.ViewDepartmentName = data.Department_Name;
                                 $scope.ViewInstitutionName = data.InstitutionName;
                                 $scope.Photo = data.Photo;
@@ -3992,6 +3993,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         };
         $scope.AdminDefaultConfiguration = 0;
         $scope.AdminInstitutionCreation = function () {
+            $scope.MobileNo = document.getElementById("txthdFullNumber").value;
             $scope.AdminDefaultConfiguration = 1;
             $scope.User_InsertUpdate();
         }

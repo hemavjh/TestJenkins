@@ -286,6 +286,7 @@
     <Content Include="Css\images\ui-icons_777777_256x240.png" />
     <Content Include="Css\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Css\intlTelInput.css" />
     <Content Include="Css\jquery-ui.css" />
     <Content Include="Css\jquery.datetimepicker.css" />
     <Content Include="Css\jquery.mCustomScrollbar.css" />
@@ -756,6 +757,8 @@
     <Content Include="scripts\Chatscripts.js" />
     <Content Include="scripts\croppie.js" />
     <Content Include="scripts\croppie.min.js" />
+    <Content Include="scripts\intlTelInput-jquery.js" />
+    <Content Include="scripts\intlTelInput.js" />
     <Content Include="scripts\jquery-proper-slider.js" />
     <Content Include="scripts\jquery-ui.min.js" />
     <Content Include="scripts\jquery.datetimepicker.js" />
@@ -1440,6 +1443,7 @@
     <Content Include="scripts\ui-bootstrap-tpls.min.js" />
     <Content Include="scripts\ui-bootstrap.js" />
     <Content Include="scripts\uicalendar.js" />
+    <Content Include="scripts\utils.js" />
     <Content Include="Shared\Views\_Layout.cshtml" />
     <Content Include="Template\Views\AlertConfiguration.html" />
     <Content Include="Template\Views\Messaging.html">
