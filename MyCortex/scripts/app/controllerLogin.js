@@ -1143,7 +1143,12 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $scope.InstituteId = $routeParams.Id;
         $scope.OldPassword = $routeParams.pwd;
         $scope.PageParameter = 1;
-        $scope.cur = parseInt((new Date().getDate()).toString() + (new Date().getMonth() + 1).toString() + (new Date().getFullYear()).toString());
+        //$scope.cur = parseInt((new Date().getDate()).toString() + (new Date().getMonth() + 1).toString() + (new Date().getFullYear()).toString());
+        $scope.cur = new Date().getTime();
+        var no = $scope.fix.toString();
+        var len = no.length;
+        var tim = new Date(parseInt(no.substr(len - 4, 4)), parseInt(no.substr(len - 6, 2)), parseInt(no.substr(len - 8, 2))).getTime();
+        $scope.fix = tim;
         if ($scope.fix >= $scope.cur) {
             $scope.PageParameter = 2; // dont change it
         } else {
