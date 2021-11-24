@@ -5564,8 +5564,8 @@
                                         <i class="arrow-icon fas fa-caret-right"></i>
                                     </span>
                                 </div>
-                                <div class="flex justify-center">
-                                    <select class="col-sm-6" ng-model="TimeZoneID" ng-change="ddltimezonechange()">
+                                <div class="flex justify-center" style="width: 1338px;padding-left: 124px;padding-right: 516px;">
+                                    <select class="col-sm-6" ng-model="TimeZoneID" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList" ng-change="ddltimezonechange()">
                                         <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
                                     </select>
                                 </div>
