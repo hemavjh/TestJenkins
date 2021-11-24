@@ -26328,7 +26328,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false); 
-            
+            $scope.IsEdit = false;
             $scope.AddUserParameters = [{
                 'Id': 0,
                 'UserId': 0,
@@ -26477,6 +26477,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $("#MyHomeDeviceTable *").attr("disabled", "disabled").off('click');
             $('.myhomedropdown *').attr("disabled", "disabled").off('click'); 
             $scope.showSave = false;
+            $scope.IsEdit = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('disable');
             var $sel3 = $('#tabdeviceview');
@@ -26606,6 +26607,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image3').prop('disabled', false);
             $('#Image3').prop('title', 'Click to Delete');
             $scope.showSave = true;
+            $scope.IsEdit = true;
             $scope.ViewMyTab();
             angular.element('#TabAddModal').modal('show');
         }
@@ -26621,11 +26623,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 toastr.warning("Please enter Tab Name", "warning");
                 return false;
             }
-            else if (typeof ($scope.RefId) == "undefined" || $scope.RefId == "") {
-                //alert("Please enter Ref Id");
-                toastr.warning("Please enter Ref Id", "warning");
-                return false;
-            }
+            //else if (typeof ($scope.RefId) == "undefined" || $scope.RefId == "") {
+            //    //alert("Please enter Ref Id");
+            //    toastr.warning("Please enter Ref Id", "warning");
+            //    return false;
+            //}
             /*else if (typeof ($scope.Category_ID) == "undefined" || $scope.Category_ID == "0") {
                 alert("Please select Category");
                 return false;

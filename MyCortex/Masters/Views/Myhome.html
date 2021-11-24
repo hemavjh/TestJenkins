@@ -165,17 +165,17 @@
                                                                ng-init="TabName=''" ng-required="true" onkeypress="ParticularSpec(event)"
                                                                placeholder="" ng-maxlength="40" maxlength="40" />
                                                     </div>
-                                                    <div class="inputGroups">
+                                                    <div class="inputGroups" ng-show="IsEdit==true">
                                                         <label>
                                                             REF ID<sup>
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup>
                                                         </label>
+                                                        <input type="text" class="form-control" id="refidtabview" name="RefId" ng-model="RefId"
+                                                               ng-init="RefId=''" ng-required="true" placeholder="" ng-maxlength="50"
+                                                               maxlength="50" disabled />
+                                                        <!--maxlength="50" ng-disabled="Pat_UserTypeId==2" disabled />-->
 
-                                                        <div>
-                                                            <input type="text" class="form-control" id="refidtab" name="RefId" ng-model="RefId"
-                                                                   ng-init="RefId=''" ng-required="true" placeholder="" ng-maxlength="20" maxlength="20" />
-                                                        </div>
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>
@@ -374,7 +374,7 @@
                                                                ng-init="TabName=''" ng-required="true" onkeypress="ParticularSpec(event)"
                                                                placeholder="" ng-maxlength="40" maxlength="40" />
                                                     </div>
-                                                    <div class="inputGroups">
+                                                    <!--<div class="inputGroups">
                                                         <label>
                                                             REF ID<sup>
                                                                 <font class='mandatory-field'>*</font>
@@ -385,6 +385,18 @@
                                                             <input type="text" class="form-control" id="refidtabview" disabled="disabled" name="RefId" ng-model="RefId"
                                                                    ng-init="RefId=''" ng-required="true" placeholder="" ng-maxlength="20" maxlength="20" />
                                                         </div>
+                                                    </div>-->
+                                                    <div class="inputGroups" ng-show="IsEdit==true">
+                                                        <label>
+                                                            REF ID<sup>
+                                                                <font class='mandatory-field'>*</font>
+                                                            </sup>
+                                                        </label>
+                                                        <input type="text" class="form-control" id="refidtabview" name="RefId" ng-model="RefId"
+                                                               ng-init="RefId=''" ng-required="true" placeholder="" ng-maxlength="50"
+                                                               maxlength="50" disabled />
+                                                        <!--maxlength="50" ng-disabled="Pat_UserTypeId==2" disabled />-->
+
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>
