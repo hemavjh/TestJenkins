@@ -6749,6 +6749,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.VitalsParameterList_Data = [];
         $scope.LabParameterList_Data = [];
         $scope.ParameterId = "0";
+        $scope.BookNewSettings = false;
         $scope.getParameterList = function () {
             $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/User/GroupParameterNameList/?Patient_Id=' + $scope.SelectedPatientId + '&UnitGroupType_Id=' + $scope.unitgrouptype).success(function (data) {
@@ -7393,8 +7394,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             $scope.UserTypeId = $window.localStorage['UserTypeId'];
                             if ($scope.bookcc == $scope.UserTypeId || $scope.bookCg == $scope.UserTypeId || $scope.bookCl == $scope.UserTypeId || $scope.bookSc == $scope.UserTypeId || $scope.bookpa == $scope.UserTypeId) {
                                 document.getElementById("BookNew").disabled = false;
+                                $scope.BookNewSettings = true;
                             } else {
                                 document.getElementById("BookNew").disabled = true;
+                                $scope.BookNewSettings = false;
                             }
                         }
                         if (data == null) {
