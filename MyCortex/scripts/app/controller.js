@@ -3574,7 +3574,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.Employee_No = data.EMPLOYEMENTNO;
                                 $scope.EmailId = data.EMAILID;
                                 $scope.MobileNo = data.MOBILE_NO;
-                                inputPhoneNo.setNumber($scope.MobileNo);
+                                //inputPhoneNo.setNumber($scope.MobileNo);
                                 $scope.ViewDepartmentName = data.Department_Name;
                                 $scope.ViewInstitutionName = data.InstitutionName;
                                 $scope.Photo = data.Photo;
@@ -3722,6 +3722,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                     $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
                                     $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                                     $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                                    $scope.UserTypeId = data.UserType_Id.toString();
+                                    $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 }, 10000);
                                 
                                 $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
@@ -3812,6 +3814,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 //$scope.State_onChange();
                                 $('#patientrowid').prop('disabled', true);     
                                 $("#chatLoaderPV").hide();
+                                inputPhoneNo.setNumber($scope.MobileNo);
                             });
                         } else {
                             window.location.href = baseUrl + "/Home/LoginIndex";
