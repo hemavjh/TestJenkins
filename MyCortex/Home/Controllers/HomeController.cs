@@ -855,9 +855,9 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/",
+                notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
@@ -974,7 +974,7 @@ namespace MyCortex.Home.Controllers
             string baseUrl = HttpContext.Request.Url.Authority;
             try
             {
-                redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
+                redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
@@ -1015,7 +1015,7 @@ namespace MyCortex.Home.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/RefundNotify/",
+                    notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/RefundNotify/",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
