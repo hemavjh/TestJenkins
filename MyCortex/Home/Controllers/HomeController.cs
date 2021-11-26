@@ -770,6 +770,7 @@ namespace MyCortex.Home.Controllers
             Stream req = Request.InputStream;
             req.Seek(0, System.IO.SeekOrigin.Begin);
             string json = new StreamReader(req).ReadToEnd();
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             dynamic data = JsonConvert.DeserializeObject(json);
 
             string OrderNumber = data.acquireOrder.orderNo;
@@ -780,7 +781,6 @@ namespace MyCortex.Home.Controllers
             string notifyId = data.notify_id;
             long notifyTimeStamp = data.notify_timestamp;
             //string data1 = data.toString();
-            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
             return Content("SUCCESS");
         }
@@ -792,6 +792,7 @@ namespace MyCortex.Home.Controllers
             Stream req = Request.InputStream;
             req.Seek(0, System.IO.SeekOrigin.Begin);
             string json = new StreamReader(req).ReadToEnd();
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             dynamic data = JsonConvert.DeserializeObject(json);
 
             string OrderNumber = data.refundOrder.orderNo;
@@ -803,7 +804,6 @@ namespace MyCortex.Home.Controllers
             string notifyId = data.notify_id;
             long notifyTimeStamp = data.notify_timestamp;
             //string data1 = data.toString();
-            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             retid = patientAppointmentsRepository.PaymentRefundStatusInfo_Insert(merchantOrderNumber, originMerchantOrderNo, amount, OrderNumber, status, notifyId, notifyTimeStamp);
             return Content("SUCCESS");
         }
@@ -855,9 +855,9 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/Notify/",
+                notifyUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
@@ -974,7 +974,7 @@ namespace MyCortex.Home.Controllers
             string baseUrl = HttpContext.Request.Url.Authority;
             try
             {
-                redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
+                redirectUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/Index#/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
@@ -1015,7 +1015,7 @@ namespace MyCortex.Home.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/RefundNotify/",
+                    notifyUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/RefundNotify/",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
