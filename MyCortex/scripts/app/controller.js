@@ -7634,7 +7634,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             $scope.BackToDoc = function () {
                 $scope.showMainBox = true;
-            }
+                    }
+            $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
+                $scope.DocumentTypeList = data;
+            })
             $scope.SavePatientAppointment = function () {
                 if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
                     //alert('Please select Appointment Date')
@@ -7708,7 +7711,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                                             //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
 
-                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id +  '&Id=' + $scope.Id + '&FileName=' + '&DocumentName=""'+ '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id + '&Id=' + $scope.Id + '&FileName=' + '&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
                                                 fddata,
                                                 {
                                                     transformRequest: angular.identity,
@@ -7826,7 +7830,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                                             //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
 
-                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id +  '&Id=' + $scope.Id + '&FileName='+'&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id + '&Id=' + $scope.Id + '&FileName=' + '&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
                                                 fddata,
                                                 {
                                                     transformRequest: angular.identity,
@@ -12581,11 +12586,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.OtherData_ClearPopup = function () {
             $scope.Patient_OtherData = [{
                 'OtherData_Id': 0,
+                'DocumentDate': new Date(),
+                'DocumentType': '',
                 'resumedoc': $scope.resumedoc,
                 'DocumentName': '',
                 'Remarks': '',
             }];
             $scope.Remarks = "";
+            $scope.DocumentDate = new Date();
+            $scope.DocumentType = "";
             $scope.DocumentName = "";
             $scope.EditFileName = "";
             $scope.Editresumedoc = "";
@@ -12593,7 +12602,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.Patient_OtherData = [];
         $scope.Patient_OtherData = [{
             'OtherData_Id': 0,
+            'DocumentDate': new Date(),
             'resumedoc': $scope.resumedoc,
+            'DocumentType': '',
             'DocumentName': '',
             'Remarks': '',
         }];
@@ -12604,6 +12615,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 {
                     'OtherData_Id': 0,
                     'resumedoc': $scope.resumedoc,
+                    'DocumentDate': new Date(),
+                    'DocumentType': '',
                     'DocumentName': '',
                     'Remarks': '',
                 }
@@ -12615,6 +12628,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'resumedoc': $scope.resumedoc,
                     'DocumentName': '',
                     'Remarks': '',
+                    'DocumentDate': new Date(),
+                    'DocumentType': '',
                 }];
             };
         };
@@ -12712,7 +12727,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             return true;
         }
-
+        function convert(str) {
+            var date = new Date(str),
+                mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                day = ("0" + date.getDate()).slice(-2);
+            return [date.getFullYear(), mnth, day].join("-");
+        }
         $scope.Patient_OtherData_InsertUpdate = function () {
             if ($scope.Patient_OtherData_Insert_Validations() == true) {
                 $('#other_Datasave').attr("disabled", true);
@@ -12724,6 +12744,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.Patient_Id = $scope.SelectedPatientId,
                         $scope.FileName = value.CertificateFileName,
                         $scope.DocumentName = value.DocumentName,
+                        $scope.DocumentType = value.DocumentType,
+                        $scope.DocumentDate = convert(value.DocumentDate),
                         $scope.Remarks = value.Remarks,
                         $scope.Created_By = $window.localStorage['UserId'];
                     $scope.Modified_By = $window.localStorage['UserId'];
@@ -12741,8 +12763,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     calling the api method for read the file path
                     and saving the image uploaded in the local server.
                     */
-                    
-                    $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + value.CertificateFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By,
+                    $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                    $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + value.CertificateFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By + '&DocumentDate=' + $scope.DocumentDate + '&DocumentType=' + $scope.DocumentType,
                         fd,
                         {
                             transformRequest: angular.identity,
@@ -12813,7 +12835,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             return true;
         }
-
+        
         $scope.CertificateValue = 0;
         $scope.CertificateUplaodSelected = function () {
             $scope.CertificateValue = 1;
@@ -12850,7 +12872,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 calling the api method for read the file path
                 and saving the image uploaded in the local server.
                 */
-                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By,
+                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By + '&DocumentDate=' + convert($scope.DocumentDate) + '&DocumentType=' + $scope.DocumentType,
                     fd,
                     {
                         transformRequest: angular.identity,
@@ -12985,7 +13008,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.OtherData_Id = data.Id;
                 $scope.FileName = data.FileName;
                 $scope.EditFileName = data.FileName;
-
+                $scope.DocumentDate = new Date(data.DocumentDate);
+                $scope.DocumentType = data.DocumentType;
                 $scope.DocumentName = data.DocumentName;
                 $scope.Remarks = data.Remarks;
             });

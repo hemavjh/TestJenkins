@@ -89,6 +89,24 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public IList<DocumentTypeModel> DocumentTypeList()
+        {
+            IList<DocumentTypeModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.DocumentTypeList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Getting list of business user types
         /// </summary>          
@@ -3516,7 +3534,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "", long Appointment_Id=0)
+        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, Guid Login_Session_Id, long Id, string FileName, string DocumentName,  string Remarks, long Created_By, DateTime? DocumentDate= null, int Is_Appointment = 0, string Filetype = "", long Appointment_Id=0,string DocumentType = "" )
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
@@ -3528,8 +3546,10 @@ namespace MyCortex.User.Controller
                 string returnPath = "";
                 byte[] fileData = null;
                 var docfiles = new List<string>();
+                DateTime DocumentDates = new DateTime();
                 try
                 {
+                    
                     //if (fileName != null)
                     {
                         var httpRequest = HttpContext.Current.Request;
@@ -3544,11 +3564,11 @@ namespace MyCortex.User.Controller
                                     fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                                     if (FileName == "" || FileName== null)
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment, postedFile.ContentType, DocumentType);
                                     }
                                     else
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment, postedFile.ContentType, DocumentType);
                                     }
                                     model.DocumentDetails = ModelData;
                                 }
@@ -3559,6 +3579,8 @@ namespace MyCortex.User.Controller
                         }
                         else
                         {
+                            ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment,"", DocumentType);
+                            model.DocumentDetails = ModelData;
                             result = Request.CreateResponse(HttpStatusCode.OK);
                         }
                     }

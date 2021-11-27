@@ -24,11 +24,17 @@ namespace MyCortex.User.Model
         public int IsActive { get; set; }
         public string PatientName { get; set; }
         public string Created_Name { get; set; }
+        public string DocumentType { get; set; }
         public DateTime Created_Date { get; set; }
+        public DateTime? DocumentDate { get; set; }
         public long Modified_By { get; set; }
         public long Institution_Id { get; set; }
     }
-
+    public class DocumentTypeModel
+    {
+        public long Id { get; set; }
+        public string DocumentType { get; set; }
+    }
     public class DocumentReturnModel
     {
         public string Status { get; set; }

@@ -1123,7 +1123,7 @@
                                 </li>
                                 <li>
                                     <a ng-class="{'themeTabActive boldtxtt':currentTab=='8'}" ng-click="currentTab='8';CancelLiveData();OthersListData(currentTab);">
-                                        Others
+                                        Documents
                                     </a>
                                 </li>
                                 <li ng-show="UserTypeId==2 || UserTypeId==4 || UserTypeId==7 || UserTypeId==5 || UserTypeId==6 ">
@@ -2064,6 +2064,8 @@
                                                                 <th st-ratio="20">File</th>
                                                                 <th st-ratio="20">Created By</th>
                                                                 <th st-ratio="20">Created On</th>
+                                                                <th st-ratio="20">Document Date</th>
+                                                                <th st-ratio="20">Document Type</th>
                                                                 <th st-ratio="20">Action</th>
                                                             </tr>
 
@@ -2097,6 +2099,10 @@
                                                                     <div class="textwrap">{{row.Created_Name}}</div>
                                                                 </td>
                                                                 <td style="text-align: left">{{row.Created_Date| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
+                                                                <td style="text-align: left">{{row.DocumentDate| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
+                                                                <td style="text-align: left">
+                                                                    <div class="textwrap">{{row.DocumentType}}</div>
+                                                                </td>
                                                                 <td style="text-align: center" st-ratio="10">
 
                                                                     <a href="javascript:" ng-click="Patient_OtherData_ViewModal(row.Id)" title="View">
@@ -2950,7 +2956,7 @@
             </div>
         </div>
         <div id="PatientVitalsCreateModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 50%">
+            <div class="modal-dialog" style="width: 65%">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -4456,12 +4462,12 @@
     </div>
 
     <div id="Patient_OtherData_AddModal" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style="width: 60%">
+        <div class="modal-dialog" style="width: 70%">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Other Data</h4>
+                    <h4 class="modal-title">Documents</h4>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -4471,6 +4477,8 @@
 
                                 <th width="7%">#</th>
                                 <th width="15%">Document Name</th>
+                                <th width="15%">Documentdate</th>
+                                <th width="15%">Document Type</th>
                                 <th width="30%">Upload Files</th>
                                 <th width="20%">Remarks</th>
                                 <th width="5%">Action</th>
@@ -4485,6 +4493,14 @@
                                 <td style="text-align: left">
                                     <input type="text" class="form-control" ng-model="row.DocumentName" maxlength="100"
                                            ng-maxlength="100" />
+                                </td>
+                                <td style="text-align: left">
+                                    <input id="datee" ng-model="row.DocumentDate" type="date" class="form-control date" placeholder="">
+                                </td>
+                                <td>
+                                    <select class="form-control"  ng-model="row.DocumentType"
+                                              ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
+                                             style="width: 150px;"></select>
                                 </td>
                                 <td style="text-align: left">
                                     <input type="file" id="OtherDataDocumment{{$index}}" fileread="row.resumedoc"
@@ -4561,7 +4577,7 @@
                     <button type="button" class="close" data-dismiss="modal" title="">
                         &times;
                     </button>
-                    <h4 class="modal-title">Other Data</h4>
+                    <h4 class="modal-title">Documents</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" role="form" style="font-size: small">
@@ -4573,6 +4589,26 @@
                                 <td>
                                     <span>
                                         <div class="textwrap">{{DocumentName}}</div>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" valign="top">
+                                    <label>Document Date</label>
+                                </td>
+                                <td>
+                                    <span>
+                                        <div class="textwrap">{{DocumentDate| date :'dd-MMM-yyyy hh:mm:ss a'}}</div>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" valign="top">
+                                    <label>Document Type</label>
+                                </td>
+                                <td>
+                                    <span>
+                                        <div class="textwrap">{{DocumentType}}</div>
                                     </span>
                                 </td>
                             </tr>
@@ -4617,7 +4653,7 @@
                     <button type="button" class="close" data-dismiss="modal" title="">
                         &times;
                     </button>
-                    <h4 class="modal-title">Other Data</h4>
+                    <h4 class="modal-title">Document</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" role="form" style="font-size: small">
@@ -4631,6 +4667,24 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td width="30%" valign="top">
+                                    <label>Document Date</label>
+                                </td>
+                                <td>
+                                    <input id="datee" ng-model="DocumentDate" type="date" class="form-control date" placeholder="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="30%" valign="top">
+                                    <label>Document Type</label>
+                                </td>
+                                <td>
+                                    <select class="form-control" ng-model="DocumentType"
+                                            ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
+                                            style="width: 150px;"></select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td valign="top">
                                     <label>File Name</label>
                                 </td>
@@ -4641,7 +4695,7 @@
                                            style="height: 0px !important; display: none;" />
 
                                     <!--<button type="button" class="btn  btn-autosize" id="EditDocLogo">
-                                    Upload File</button>-->
+            Upload File</button>-->
                                     <a ng-href="{{Resume}}" target="_blank"><div class="textwrap">{{EditFileName}}</div></a>
 
                                     <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-start;">

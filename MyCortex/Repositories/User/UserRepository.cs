@@ -78,6 +78,29 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+
+        public IList<DocumentTypeModel> DocumentTypeList()
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DOCUMENTTYPE_SP_LIST");
+                List<DocumentTypeModel> lst = (from p in dt.AsEnumerable()
+                                             select new DocumentTypeModel()
+                                             {
+                                                 Id = p.Field<long>("Id"),
+                                                 DocumentType = p.Field<string>("DOCUMENTTYPE")
+                                             }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Getting list of business user types
         /// </summary>          
@@ -3626,7 +3649,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Remarks"></param>
         /// <param name="Created_By"></param>
         /// <returns>inserted/updated Patient other data document</returns>
-        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id,long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By,int Is_Appointment=0, string Filetype="")
+        public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, Guid Login_Session_Id,long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By, DateTime? DocumentDates, int Is_Appointment = 0, string Filetype = "", string DocumentType="")
         {
             List<DataParameter> param = new List<DataParameter>();
             //DataEncryption encrypt = new DataEncryption();
@@ -3641,6 +3664,10 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Created_By", Created_By));
             param.Add(new DataParameter("@Is_Appoinment", Is_Appointment));
             param.Add(new DataParameter("@FileType", Filetype));
+            param.Add(new DataParameter("@DocumentType", DocumentType));
+            param.Add(new DataParameter("@DocumentDate", DocumentDates));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_OTHERDATA_INSERTUPDATE]", param);
             DataEncryption DecryptFields = new DataEncryption();
@@ -3662,6 +3689,8 @@ namespace MyCortex.Repositories.Uesr
                                                  Filetype = p.Field<string>("FILETYPE"),
                                                  flag = p.Field<int>("flag"),
                                                  Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                 DocumentType= p.Field<string>("DOCUMENT_TYPE"),
+                                                 DocumentDate= p.Field<DateTime?>("DOCUMENT_DATE")
                                              }).FirstOrDefault();
 
             return insert;
@@ -3693,7 +3722,9 @@ namespace MyCortex.Repositories.Uesr
                                                    Created_By = p.Field<long>("CREATED_BY"),
                                                    Created_Name = p.Field<string>("Created_Name"),
                                                    PatientName = p.Field<string>("PatientName"),
-                                                   Remarks = p.Field<string>("Remarks")
+                                                   Remarks = p.Field<string>("Remarks"),
+                                                   DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
+                                                   DocumentType = p.Field<string>("DOCUMENT_TYPE")
                                                }).FirstOrDefault();
                 return View;
             }
@@ -3765,7 +3796,9 @@ namespace MyCortex.Repositories.Uesr
                                                         Created_Name = DecryptFields.Decrypt(p.Field<string>("Created_Name")),
                                                         PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
                                                         Remarks = p.Field<string>("Remarks"),
-                                                        Created_Date = p.Field<DateTime>("Created_dt")
+                                                        Created_Date = p.Field<DateTime>("Created_dt"),
+                                                        DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
+                                                        DocumentType = p.Field<string>("DOCUMENT_TYPE")
                                                     }).ToList();
                 return lst;
             }
