@@ -40,9 +40,12 @@ namespace MyCortex.Admin.Controllers
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
             int retid = patientAppointmentsRepository.PaymentStatus_Update(Appointment_Id, "Payment Initiated", merchantOrderNumber);
             string baseUrl = HttpContext.Current.Request.Url.Authority;
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl);
+            baseUrl = HttpContext.Current.Request.Url.Host.ToString();
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl);
             PaySceneParams paySceneParams = new PaySceneParams
             {
-                redirectUrl = "https://" + HttpContext.Current.Request.Url.Host.ToString() + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
             };
 
             if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
@@ -90,7 +93,7 @@ namespace MyCortex.Admin.Controllers
                 },
                 paySceneCode = payCode,
                 paySceneParams = paySceneParams,
-                notifyUrl = "https://" + HttpContext.Current.Request.Url.Host.ToString() + "/Home/Notify/"
+                notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/Notify/"
             };
             DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
 

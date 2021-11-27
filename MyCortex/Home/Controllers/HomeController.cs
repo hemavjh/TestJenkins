@@ -842,6 +842,8 @@ namespace MyCortex.Home.Controllers
 
             RsaHelper rsaHelper = new RsaHelper();
             //Console.OutputEncoding = System.Text.Encoding.Default;
+            string json = Request.Url.GetLeftPart(UriPartial.Authority);
+            int retid1 = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
             BizContent bizContent = new BizContent
             {
@@ -855,9 +857,9 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl =  "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/Notify/",
+                notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
@@ -974,7 +976,7 @@ namespace MyCortex.Home.Controllers
             string baseUrl = HttpContext.Request.Url.Authority;
             try
             {
-                redirectUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/Index#/PatientVitals/0/1";
+                redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
@@ -1015,7 +1017,7 @@ namespace MyCortex.Home.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = Request.Url.GetLeftPart(UriPartial.Authority) + "/Home/RefundNotify/",
+                    notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/RefundNotify/",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
