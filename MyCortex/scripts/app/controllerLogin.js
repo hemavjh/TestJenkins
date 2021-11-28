@@ -464,6 +464,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 $scope.UserId = data.UserId;
                 $scope.UserTypeId = data.UserTypeId;
                 $scope.InstitutionId = data.InstitutionId;
+                $window.localStorage['User_Mobile_No'] = data.UserDetails.MOBILE_NO;
                 $window.localStorage['UserId'] = $scope.UserId;
                 $window.sessionStorage['UserId'] = $scope.UserId;
                 $window.localStorage['Auth_Session_Id'] = 1;

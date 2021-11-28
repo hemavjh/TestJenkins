@@ -9360,9 +9360,30 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             angular.element('#PatientVitalsCreateModal').modal('show');
         }
 
+        $scope.smsResponse = [];
+        $scope.smsUrl = "";
+        $scope.smsUserName = "";
+        $scope.smsApiId = "";
+        $scope.smsDestination = "";
+        $scope.smsSource = "";
+        $scope.smsText = "";
+        $scope.SendSMS = function () {
+            $scope.smsUrl = "https://txt.speroinfotech.ae/API/SendSMS?";
+            $scope.smsUserName = "MyHealth";
+            $scope.smsApiId = "Kv2n09u8";
+            //$scope.smsDestination = "971552433557"; //Mobile Number
+            $scope.smsDestination = $window.localStorage['User_Mobile_No']; //Mobile Number
+            $scope.smsSource = "Medspero"; // AD-Medspero // Header Text
+            $scope.smsText = "Test";
+            $http.get($scope.smsUrl + 'username=' + $scope.smsUserName + '&apiId=' + $scope.smsApiId + '&json=True&destination=' + $scope.smsDestination + '&source=' + $scope.smsSource + '&text=' + $scope.smsText).success(function (data) {
+                $scope.smsResponse = data;
+            });
+        }
+
         $scope.ShowAppointmentBookingPopUp = function () {
             //document.getElementById("main-box").style = "";
             //document.getElementById("box").style = "display:none";
+            //$scope.SendSMS();
             $scope.showMainBox = true;
             $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                 //$scope.NewAppointment = data.NewAppointmentDuration;
