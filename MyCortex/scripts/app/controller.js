@@ -7882,8 +7882,50 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                         $scope.AppoiFromTime = [];
                                         $scope.AppoiToTime = [];
                                         $scope.IsNew = 1;
-                                        $scope.OldAppointmentID = null;
+                                        var objectCancel = {
+                                            "Id": $scope.OldAppointmentID,
+                                            "CancelledBy_Id": $window.localStorage['UserId'],
+                                            "Cancel_Remarks": "Test",
+                                            "ReasonTypeId": "1",
+                                            "SESSION_ID": $scope.LoginSessionId
+                                        }
+                                        $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
+                                            //alert(data.Message);
+                                            if (data.ReturnFlag == 1) {
+                                                toastr.success(data.Message, "success");
+                                            }
+                                            else if (data.ReturnFlag == 0) {
+                                                toastr.info(data.Message, "info");
+                                            }
+                                            if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                                $scope.refundAppointmentId = data.AppointmentDetails.Id;
+                                                $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
+                                                $scope.refundAmount = data.AppointmentDetails.Amount;
+                                                $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
+                                                $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
+
+                                                //setTimeout(function () { document.getElementById('but_paybyrefund').click(); }, 100);
+
+                                                var obj = {
+                                                    refundAppointmentId: data.AppointmentDetails.Id,
+                                                    refundMerchantOrderNo: data.AppointmentDetails.MerchantOrderNo,
+                                                    refundAmount: data.AppointmentDetails.Amount,
+                                                    refundOrderNo: data.AppointmentDetails.OrderNo,
+                                                    refundInstitutionId: data.AppointmentDetails.Institution_Id
+                                                };
+
+                                                $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
+                                                    console.log(data);
+                                                    $scope.$broadcast("appointment_list");
+                                                }).error(function (data) { console.log(data); });
+
+                                            }
+                                            if (data.ReturnFlag == 1) {
+                                                $scope.$broadcast("appointment_list");
+                                            }
+                                        });
                                         if ($scope.AppointmoduleID1 == 2) {
+                                            $scope.OldAppointmentID = null;
                                             setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
                                         } else {
                                             $scope.$broadcast("appointment_list");
@@ -7964,16 +8006,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                             $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
                                 console.log(data);
-                                $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                                    $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
-                                });
+                                $scope.$broadcast("appointment_list");
                             }).error(function (data) { console.log(data); });
 
                         }
                         if (data.ReturnFlag == 1) {
-                            $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                                $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
-                            });
+                            $scope.$broadcast("appointment_list");
                         }
                     });
                 }
