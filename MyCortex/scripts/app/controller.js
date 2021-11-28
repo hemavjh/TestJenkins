@@ -7827,7 +7827,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                         var imgBlobfile;
                                         var itemIndexLogo = -1;
                                         var itemIndexdoc = -1;
-                                        
+                                        $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
                                         if ($scope.appdocfilename !== "") {
                                             console.log($scope.appdocfile)
                                             imgBlob = $scope.dataURItoBlob($scope.appdocfile);
@@ -7920,16 +7920,16 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                                 }).error(function (data) { console.log(data); });
 
                                             }
-                                            if (data.ReturnFlag == 1) {
+                                            //if (data.ReturnFlag == 1) {
+                                            //    $scope.$broadcast("appointment_list");
+                                            //}
+                                            if ($scope.AppointmoduleID1 == 2) {
+                                                $scope.OldAppointmentID = null;
+                                                setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                            } else {
                                                 $scope.$broadcast("appointment_list");
                                             }
                                         });
-                                        if ($scope.AppointmoduleID1 == 2) {
-                                            $scope.OldAppointmentID = null;
-                                            setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
-                                        } else {
-                                            $scope.$broadcast("appointment_list");
-                                        }
                                     }
 
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
