@@ -4401,5 +4401,33 @@ namespace MyCortex.Repositories.Uesr
             return insert;
         }
 
+        public IList<CometChat_User> GetCometChatUserList(long InstitutionId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            DataEncryption DecryptFields = new DataEncryption();
+            param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_COMETCHAT_USERLIST", param);
+                List<CometChat_User> lst = (from p in dt.AsEnumerable()
+                                            select new CometChat_User()
+                                            {
+                                                Id = p.Field<long>("ID"),
+                                                FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
+                                                FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                DepartmentId = p.Field<long>("DEPARTMENT_ID"),
+                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                UserTypeId = p.Field<long>("USERTYPE_ID"),
+                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
     }
 }

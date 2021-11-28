@@ -5928,6 +5928,18 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
             //$scope.ClearInstitutionPopup();
         };
 
+        $scope.DeleteCometChatUsers = function () {
+            $http.get(baseUrl + 'api/User/GetCometChatUserList?InstitutionId=' + $scope.InstituteId).success(function (data) {
+                if (data.length > 0) {
+                    angular.forEach(data, function (item, modIndex) {
+                        alert(item.Id);
+                    });
+                }
+            }).error(function (data) {
+                alert(data);
+            });
+        };
+
         $scope.InstitueConfiguration = function () {
             if (confirm("Are you sure you want to Run this Configuration Settings?")) {
                 $("#runConfig").text('Processing(0%)....');
