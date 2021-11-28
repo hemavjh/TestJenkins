@@ -69,6 +69,10 @@
                             title="Click to Edit">
                         Edit
                     </button>
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==false" ng-click="LanguageExport()"
+                            title="Click to Download">
+                        Export to Excel
+                    </button>
                     <button type="button" class="theme-btn-1 mr-10 mt-20" id="save" title="Click to Save" ng-if="IsEdit==true" ng-disabled="false"
                             ng-click="LanguageSettings_AddEdit()">
                         Save
@@ -82,7 +86,7 @@
 
         </form>
     </div>
-    <table st-table="rowCollectionLanguageSettings" style="width: 100%" st-safe-src="rowCollectionLanguageSettings" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
+    <table id="language_table" st-table="rowCollectionLanguageSettings" style="width: 100%" st-safe-src="rowCollectionLanguageSettings" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
         <colgroup>
             <col span="1" style="width:16%" />
             <col span="1" style="width:37%" />
