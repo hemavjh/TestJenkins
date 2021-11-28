@@ -5929,15 +5929,43 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
         };
 
         $scope.DeleteCometChatUsers = function () {
-            $http.get(baseUrl + 'api/User/GetCometChatUserList?InstitutionId=' + $scope.InstituteId).success(function (data) {
-                if (data.length > 0) {
-                    angular.forEach(data, function (item, modIndex) {
-                        alert(item.Id);
-                    });
-                }
-            }).error(function (data) {
-                alert(data);
-            });
+            if (confirm("Are you sure you want to Run this Settings?")) {
+                $("#runCometchat").text('Processing(0%)....');
+                $("#runCometchat").addClass('disabled');
+                let isComplete = false;
+                $http.get(baseUrl + 'api/User/GetCometChatUserList?InstitutionId=' + $scope.InstituteId).success(function (data) {
+                    if (data.length > 0) {
+                        var usercount = data.length;
+                        angular.forEach(data, function (item, modIndex) {
+                            alert('Intial' + modIndex);
+                            $http.get(baseUrl + 'api/User/DeleteCometchat_User?Id=' + item.Id + '&Institution=' + $scope.InstituteId).success(function (data) {
+                                var obj = {
+                                    Id: item.Id,
+                                    FullName: item.FullName,
+                                    EMAILID: item.EmailId
+                                };
+                                $http.post(baseUrl + 'api/User/CreateCometchat_User?Institution=' + $scope.InstituteId, obj).success(function (data) {
+                                    if (parseInt(usercount) - 1 === modIndex) {
+                                        isComplete = true;
+                                        $("#runCometchat").text('CometChat User Configuration');
+                                        $("#runCometchat").removeClass('disabled');
+                                    }
+                                    else {
+                                        if (!isComplete) {
+                                            var percentage = (modIndex / usercount) * 100;
+                                            $("#runCometchat").text('Processing(' + percentage + '%)....');
+                                        }
+                                    }
+                                }).error(function (data) {
+
+                                });
+                            }).error(function (data) {
+                            });
+                        });
+                    }
+                }).error(function (data) {
+                });
+            }
         };
 
         $scope.InstitueConfiguration = function () {

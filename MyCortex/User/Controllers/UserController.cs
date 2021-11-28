@@ -662,7 +662,13 @@ namespace MyCortex.User.Controller
         public int DeleteCometchat_User(long Id, long Institution)
         {
             int result = deleteCometChatUser(Id, Institution);
+            return result;
+        }
 
+        [HttpPost]
+        public int CreateCometchat_User([FromBody] UserModel usrObj, long Institution, int isCreate = 0)
+        {
+            int result = createCometChatUser(usrObj, Institution, isCreate);
             return result;
         }
         /// <summary>
@@ -4380,6 +4386,24 @@ namespace MyCortex.User.Controller
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public IList<CometChat_User> GetCometChatUserList(long InstitutionId)
+        {
+            IList<CometChat_User> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetCometChatUserList(InstitutionId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
             }
         }
 
