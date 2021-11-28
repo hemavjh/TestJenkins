@@ -81,6 +81,8 @@
                             title="Click to Cancel">
                         Cancel
                     </button>
+                    <input type="file" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true" ngf-select="SelectFile($file)" />
+                    <input type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true" value="Upload" ng-click="Upload()" />
                 </div>
             </div>
 

@@ -4,7 +4,8 @@ var EmpApp = angular.module('EmpApp', [
     'AllyControllers',
     'ngSanitize',
     'ngIdle',
-    'toastr'
+    'toastr',
+    'ngFileUpload'
 ]);
 
 
