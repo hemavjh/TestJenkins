@@ -611,6 +611,60 @@ namespace MyCortex.User.Controller
                 return 0;
             }
         }
+
+        public int deleteCometChatUser(long Id, long Institution)
+        {
+
+            DataEncryption EncryptPassword = new DataEncryption();
+            IList<AppConfigurationModel> App_Id;
+            //IList<AppConfigurationModel> App_Key;
+            IList<AppConfigurationModel> Api_key;
+
+            string AppId = "COMETCHAT_APPID";
+            //string Appkey = "COMETCHAT_APPKEY";
+            string ApiKey = "COMETCHAT_APIKEY";
+            long InstitutionId = Institution;
+            App_Id = commonrepository.AppConfigurationDetails(AppId, InstitutionId);
+            //App_Key = commonrepository.AppConfigurationDetails(Appkey, InstitutionId);
+            Api_key = commonrepository.AppConfigurationDetails(ApiKey, InstitutionId);
+            try
+            {
+                // Ignore certificate warnings
+                ServicePointManager.ServerCertificateValidationCallback =
+                     new RemoteCertificateValidationCallback(delegate { return true; });
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+
+                string url = "https://api-eu.cometchat.io/v2/users/" + Id;
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "DELETE";
+
+                httpWebRequest.Headers.Add("appId", App_Id[0].ConfigValue);
+                httpWebRequest.Headers.Add("apiKey", Api_key[0].ConfigValue);
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = "{\"permanent\":true}";
+                    //string json = "{\"metadata\":\"{Email:" + usrObj.EMAILID + ", Id:" + usrObj.Id.ToString() + "}\"}";
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
+        [HttpGet]
+        public int DeleteCometchat_User(long Id, long Institution)
+        {
+            int result = deleteCometChatUser(Id, Institution);
+
+            return result;
+        }
         /// <summary>
         /// to get User basic details of a User Id 
         /// </summary>
