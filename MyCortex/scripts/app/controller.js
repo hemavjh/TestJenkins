@@ -7827,7 +7827,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                         var imgBlobfile;
                                         var itemIndexLogo = -1;
                                         var itemIndexdoc = -1;
-                                        $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
+                                        $scope.paymentappointmentId = data.PatientAppointmentList[0].NewAppointmentId;
                                         if ($scope.appdocfilename !== "") {
                                             console.log($scope.appdocfile)
                                             imgBlob = $scope.dataURItoBlob($scope.appdocfile);
