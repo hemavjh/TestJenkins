@@ -7815,7 +7815,55 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                                                 });
                                         }
-                                        
+                                        else {
+                                            $("#appoint_waveLoader").hide();
+                                            $scope.files = [];
+                                            angular.element('#BookAppointmentModal').modal('hide');
+                                            //document.getElementById("main-box").style = "";
+                                            //document.getElementById("box").style = "display:none";
+                                            $scope.showMainBox = true;
+                                            document.getElementById("show").disabled = true;
+                                            document.getElementById("DocDetails").hidden = true;
+                                            $scope.SelectedSpeciality = "";
+                                            $scope.AppoimDate = "";
+                                            $scope.TimeZoneID = "";
+                                            $scope.DoctorID = [];
+                                            $scope.DoctorListWithTimeZone = [];
+                                            $scope.DeptIDAsSTR = [];
+                                            $scope.DoctorDetailList = [];
+                                            $scope.newScheduledDates = [];
+                                            $scope.newAppoiTimeSlot = [];
+                                            $scope.newScheduledDatesSplit = [];
+                                            //$scope.AppoiDate = [];
+                                            $scope.AppoiFromTime = [];
+                                            $scope.AppoiToTime = [];
+                                            $scope.IsNew = 1;
+                                            $scope.OldAppointmentID = null;
+                                            if ($scope.AppointmoduleID1 == 2) {
+                                                $scope.paymentappointmentId = data.PatientAppointmentList[0].Id;
+                                                //var post = $http({
+                                                //    method: "POST",
+                                                //    url: baseUrl + "/Home/CreatePayByCheckoutSession/",
+                                                //    dataType: 'json',
+                                                //    data: { appointmentId: $scope.paymentappointmentId },
+                                                //    headers: { "Content-Type": "application/json" }
+                                                //});
+                                                //post.success(function (data, status) {
+                                                //    alert("Hello: " + data.Name + " .\nCurrent Date and Time: " + data.DateTime);
+                                                //});
+
+                                                //post.error(function (data, status) {
+                                                //    alert(data.Message);
+                                                //});
+                                                //$http.post(baseUrl + '/Home/CreatePayByCheckoutSession?appointmentId=' + data.PatientAppointmentList[0].Id).success(function (data) {
+
+                                                //});
+                                                setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
+                                            } else {
+                                                $scope.$broadcast("appointment_list");
+                                            }
+                                            $scope.appdocfilename = "";
+                                        }
                                     }
 
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
