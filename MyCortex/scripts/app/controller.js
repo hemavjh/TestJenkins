@@ -26267,10 +26267,10 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                         reader.readAsArrayBuffer($scope.SelectedFile);
                     }
                 } else {
-                    $window.alert("This browser does not support HTML5.");
+                    toastr.error("This browser does not support HTML5.", "warning");
                 }
             } else {
-                $window.alert("Please upload a valid Excel file.");
+                toastr.error("Please upload a valid Excel file.", "warning");
             }
         };
 
