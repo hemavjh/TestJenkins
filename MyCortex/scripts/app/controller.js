@@ -6790,6 +6790,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         // $scope.ParamGroup_Id=2;    
         $scope.GroupParameterNameList = [];
         $scope.VitalsParameterList_Data = [];
+        $scope.ParameterMappingList = [];
         $scope.LabParameterList_Data = [];
         $scope.ParameterId = "0";
         $scope.BookNewSettings = false;
@@ -6800,6 +6801,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.Tick = true;
                 $scope.GroupParameterNameList = data;
 
+            });
+        }
+
+        $scope.getParameterMappingList = function (row) {
+            $scope.ParameterId = row.ParameterId;
+            $scope.UnitGroupType = row.UnitGroupType;
+            $http.get(baseUrl + '/api/ParameterSettings/ParameterMappingList/?Parameter_Id=' + $scope.ParameterId + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Unitgroup_Type=' + $scope.UnitGroupType).success(function (data) {
+                $scope.ParameterMappingList = data;
             });
         }
 
