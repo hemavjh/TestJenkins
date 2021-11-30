@@ -1009,6 +1009,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Chroniccg = false;
         $scope.Chroniccl = false;
         $scope.Chronicsc = false;
+        $scope.Hcp_Pat = false;
 
         $scope.InstitutionViewList = [];
         $scope.IsActive = true;
@@ -1029,6 +1030,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.Id = 0;
             $scope.Institution_Id = "0";
             $scope.TimeZone_Id = "0";
+            $scope.Hcp_Pat = false;
             $scope.ClearInstitutionSubscriptionPopup();
             $('#btnsave').attr("disabled", false);
             $('#btnsave1').attr("disabled", false);
@@ -1042,6 +1044,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             if (ActiveFlag == "1") {
                 $scope.ClearInstitutionSubscriptionPopup();
                 $scope.Id = InsSubId;
+                $scope.Hcp_Pat = true;
                 $scope.InstitutionSubscriptionDetails_View();
                 $('#btnsave').attr("disabled", false);
                 angular.element('#InstitutionSubscriptionCreateModal').modal('show');
@@ -1427,6 +1430,10 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
                     $scope.Chronicsc = data.ChronicSc;
+                    $scope.Created_No_Of_Patient = data.Created_No_Of_Patient;
+                    $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
+                    $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
+                    $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
 
                     angular.forEach($scope.InstitutiontypeList, function (item, modIndex) {
 
@@ -1513,6 +1520,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Chroniccg = false;
         $scope.Chroniccl = false;
         $scope.Chronicsc = false;
+        $scope.Hcp_Pat = false;
+        $scope.Created_No_Of_Patient = "";
+        $scope.Created_No_Of_HealthCareProf = "";
+        $scope.Remaining_No_Of_Patient = "";
+        $scope.Remaining_No_Of_HealthCareProf = "";
 
     }
     $scope.InstitutionSubscription_Delete = function () {
@@ -2588,6 +2600,10 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.BusineessUseremptydata = [];
                     $scope.BusinessUserList = [];
                     $scope.BusinessUserList = data;
+                    $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
+                        $scope.Health_Care_Professionals = data.Health_Care_Professionals;
+                    });
                     $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
                     if ($scope.BusinessUserFilter.length > 0) {
                         $scope.BusinessUserflag = 1;
@@ -2642,6 +2658,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
                     $scope.Input_Type = 1;
                     $scope.SearchEncryptedQuery = $scope.searchquery;
+                    $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
+                        $scope.Patients = data.No_Of_Patients;
+                        //$scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
+                    });
                     var obj = {
                         InputType: $scope.Input_Type,
                         DecryptInput: $scope.SearchEncryptedQuery
@@ -6248,6 +6269,10 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
                     $scope.Chronicsc = data.ChronicSc;
+                    $scope.Created_No_Of_Patient = data.Created_No_Of_Patient;
+                    $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
+                    $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
+                    $scope.Remaining_No_Of_HealthCareProf = data.Remaining_No_Of_HealthCareProf;
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data2) {
                         $scope.TimeZoneList = data2;
                         for (i in data2) {

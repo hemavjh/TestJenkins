@@ -52,6 +52,11 @@ namespace MyCortex.Admin.Models
         public bool ChronicCl { get; set; }
 
         public bool ChronicSc { get; set; }
+
+        public int Created_No_Of_Patient { get; set; }
+        public int Created_No_Of_HealthCareProf { get; set; }
+        public int Remaining_No_Of_Patient { get; set; }
+        public int Remaining_No_Of_HealthCareProf { get; set; }
     }
 
   
