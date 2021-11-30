@@ -26274,6 +26274,12 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             })
         }
 
+        $scope.SampleLanguageExport = function () {
+            $("#language_excel_format").table2excel({
+                filename: "sample.xls"
+            });
+        }
+
         $scope.LanguageExport = function () {
             $("#language_table").table2excel({
                 filename: "Languages.xls"

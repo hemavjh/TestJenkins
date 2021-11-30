@@ -50,8 +50,8 @@
                     <div class="inputGroups">
                         <label>Select Language</label>
                         <div class="modernSearch">
-                            <select class="" data-style="form-control"  ng-model="selectedLanguage" data-live-search="true"
-                                data-selectpicker data-collection-name="InstitutionLanguageList"
+                            <select class="" data-style="form-control" ng-model="selectedLanguage" data-live-search="true"
+                                    data-selectpicker data-collection-name="InstitutionLanguageList"
                                     ng-change="FilterLanguageSettingsList()">
                                 <option ng-repeat="item1 in InstitutionLanguageList" value="{{item1.Id}}">
                                     {{item1.LanguageName}}
@@ -81,12 +81,52 @@
                             title="Click to Cancel">
                         Cancel
                     </button>
+                    <button type="button" class="theme-btn-1 mr-10 mt-20" ng-if="IsEdit==true" ng-click="SampleLanguageExport()"
+                            title="Click to Download">
+                        Sample Excel Format
+                    </button>
                     <input type="file" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true" ngf-select="SelectFile($file)" />
                     <input type="button" class="theme-btn-2 mr-10 mt-20" ng-if="IsEdit==true" value="Upload" ng-click="Upload()" />
                 </div>
             </div>
 
         </form>
+        <table id="language_excel_format" st-table="rowCollectionLanguageSettings" style="width: 100%" st-safe-src="rowCollectionLanguageSettings" cellpadding="2" cellspacing="2" border="0" class="table themeTable hidden">
+            <colgroup>
+                <col span="1" style="width:16%">
+                <col span="1" style="width:37%">
+                <col span="1" style="width:37%">
+            </colgroup>
+            <thead>
+                <tr style="text-align: center">
+                    <th st-ratio="20" rowspan="1" st-sort="" style="width: 20%;">ID</th>
+                    <th st-ratio="20" rowspan="1" st-sort="" style="width: 20%;">LANGUAGE_KEY</th>
+                    <th st-ratio="40" rowspan="1" st-sort="" style="width: 40%;">LANGUAGE_TEXT</th>
+                    <th st-ratio="40" rowspan="1" st-sort="" style="width: 40%;">LANGUAGE_DEFAULT</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>0</td>
+                    <td>uploadtext</td>
+                    <td>Upload</td>
+                    <td>Upload</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>gotoappointments</td>
+                    <td>Go to My Appointments</td>
+                    <td>Go to My Appointments</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>reasons</td>
+                    <td>Reasons</td>
+                    <td>Reasons</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <table id="language_table" st-table="rowCollectionLanguageSettings" style="width: 100%" st-safe-src="rowCollectionLanguageSettings" cellpadding="2" cellspacing="2" border="0" class="table themeTable">
         <colgroup>
