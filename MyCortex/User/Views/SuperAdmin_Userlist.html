@@ -103,9 +103,14 @@
             //alert(countryCode);
             //alert(iso2);
 
+            var number = document.getElementById("txtMobile").value;
+            //alert(number);
+            //alert(countryCode +"-" + number);
+
             document.getElementById("txthdCountryiso2").value = iso2;
             document.getElementById("txthdCountryCode").value = countryCode;
-            document.getElementById("txthdFullNumber").value = PhoneNumber;
+            //document.getElementById("txthdFullNumber").value = PhoneNumber;
+            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
 
             //var txtiso2 = document.getElementById("txthdCountryiso2").value;
             //alert(txt);
@@ -119,7 +124,7 @@
                     document.getElementById("txthdFullNumber").value = "";
                 }
                 else {
-                    document.getElementById("txthdFullNumber").value = PhoneNumber;
+                    document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
                 }
             }
 

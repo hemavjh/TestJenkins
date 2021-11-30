@@ -1548,6 +1548,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Employee_No = "";
         $scope.EmailId = "";
         $scope.MobileNo = "";
+        $scope.MobileNo_CC = "";
         $scope.DepartmentId = "0";
         $scope.UserTypeId = "0";
         $scope.GenderId = "0";
@@ -2115,6 +2116,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Employee_No = "";
             $scope.EmailId = "";
             $scope.MobileNo = "";
+            $scope.MobileNo_CC = "";
             $scope.DepartmentId = "0";
             $scope.UserTypeId = "0";
             $scope.GenderId = "0";
@@ -3573,8 +3575,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 $scope.LastName = data.LastName;
                                 $scope.Employee_No = data.EMPLOYEMENTNO;
                                 $scope.EmailId = data.EMAILID;
-                                $scope.MobileNo = data.MOBILE_NO;
-                                //inputPhoneNo.setNumber($scope.MobileNo);
+                                var mobilenoFields = data.MOBILE_NO.split('~');
+                                var countrycode = mobilenoFields[0];
+                                var mNumber = mobilenoFields[1];
+                                var mNumberCC = countrycode + mNumber;
+                                //$scope.MobileNo = data.MOBILE_NO;
+                                $scope.MobileNo = typeof (mNumber) == "undefined" ? data.MOBILE_NO : mNumber;
+                                //inputPhoneNo.setNumber(mNumberCC);
                                 $scope.ViewDepartmentName = data.Department_Name;
                                 $scope.ViewInstitutionName = data.InstitutionName;
                                 $scope.Photo = data.Photo;
@@ -3814,7 +3821,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                                 //$scope.State_onChange();
                                 $('#patientrowid').prop('disabled', true);     
                                 $("#chatLoaderPV").hide();
-                                inputPhoneNo.setNumber($scope.MobileNo);
+                                inputPhoneNo.setNumber(mNumberCC);
                             });
                         } else {
                             window.location.href = baseUrl + "/Home/LoginIndex";
@@ -3996,7 +4003,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         };
         $scope.AdminDefaultConfiguration = 0;
         $scope.AdminInstitutionCreation = function () {
-            $scope.MobileNo = document.getElementById("txthdFullNumber").value;
+            $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
             $scope.AdminDefaultConfiguration = 1;
             $scope.User_InsertUpdate();
         }
@@ -4096,7 +4103,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             EMPLOYEMENTNO: $scope.Employee_No,
                             DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
                             EMAILID: $scope.EmailId,
-                            MOBILE_NO: $scope.MobileNo,
+                            MOBILE_NO: $scope.MobileNo_CC,
                             FileName: $scope.FileName,
                             Photo_Fullpath: $scope.PhotoFullpath,
                             NationalPhotoFullpath: $scope.NationalPhotoFullpath,
@@ -4258,7 +4265,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             EMPLOYEMENTNO: $scope.Employee_No,
                             DEPARTMENT_ID: $scope.DepartmentId == 0 ? null : $scope.DepartmentId,
                             EMAILID: $scope.EmailId,
-                            MOBILE_NO: $scope.MobileNo,
+                            MOBILE_NO: $scope.MobileNo_CC,
                             FileName: $scope.FileName,
                             Photo_Fullpath: $scope.PhotoFullpath,
                             NationalPhotoFullpath: $scope.NationalPhotoFullpath,
