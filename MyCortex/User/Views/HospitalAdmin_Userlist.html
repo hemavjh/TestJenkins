@@ -113,7 +113,7 @@
         <form class="form-horizontal" role="form">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="inputGroups">
                             <label>Search</label>
                             <div class="modernSearch">
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <div class="inputGroups">
                             <label>Active</label>
                             <div>
@@ -132,7 +132,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
+                        <div class="inputGroups">
+                            <label>Remaind No.Of HelathCareProfessionals / Total No.of HelathCareProfessionals: </label>
+                            <span style=" margin-left: 226px; font-weight: bold;"> {{Remaining_No_Of_HealthCareProf}} / {{Health_Care_Professionals}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="AddUserPopUP();ClearPopUp();InstitutionBased_CountryStateList()"
                                class="theme-btn-1 pull-right mt-15" title='Add New User'>Add New</a>

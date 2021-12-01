@@ -146,7 +146,7 @@ namespace MyCortex.Repositories.Login
                                       Language_preference = p.Field<int?>("LANGUAGE_PREFERENCE") ?? 0,
                                       Payment_preference = p.Field<long?>("PAYMENT_PREFERENCE") ?? 0,
                                       Insurance_Preference = p.Field<long?>("INSURANCE_PREFERENCE") ?? 0,
-
+                                      Approval_flag = p.Field<int?>("APPROVAL_FLAG"),
                                   },
                               }).FirstOrDefault();
             if (lst.UserDetails.DOB_Encrypt != "")

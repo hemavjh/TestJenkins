@@ -343,7 +343,11 @@ namespace MyCortex.Repositories.Admin
                                                     Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                     Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
                                                     TimeZone_ID = p.IsNull("TIMEZONE_ID") ? 0 : p.Field<int>("TIMEZONE_ID"),
-                                                    Appointment_Module_Id = p.IsNull("APPOINTMENT_MODULE_ID") ? 0 : p.Field<int>("APPOINTMENT_MODULE_ID")
+                                                    Appointment_Module_Id = p.IsNull("APPOINTMENT_MODULE_ID") ? 0 : p.Field<int>("APPOINTMENT_MODULE_ID"),
+                                                    Created_No_Of_Patient = p.Field<int>("CREATED_NO_OF_PAT"),
+                                                    Created_No_Of_HealthCareProf = p.Field<int>("CREATED_NO_OF_HCP"),
+                                                    Remaining_No_Of_Patient = p.Field<int>("REMAIND_NO_OF_PAT"),
+                                                    Remaining_No_Of_HealthCareProf = p.Field<int>("REMAIND_NO_OF_HCP"),
                                                     //SubscriptionId = p.Field<int>("SubScription_Id"),
                                                 }).FirstOrDefault();
             //ViewId = INS.Id;
@@ -386,6 +390,11 @@ namespace MyCortex.Repositories.Admin
                                                            No_Of_Patients = p.Field<int>("NOOF_PATIENT"),
                                                            Contract_PeriodTo = p.Field<DateTime>("CONTRACT_PERIODTO"),
                                                            Subscription_Type = p.Field<int>("SUBSCRIPTION_TYPE"),
+                                                           Created_No_Of_Patient = p.Field<int>("CREATED_NO_OF_PAT"),
+                                                           Created_No_Of_HealthCareProf = p.Field<int>("CREATED_NO_OF_HCP"),
+                                                           Remaining_No_Of_Patient = p.Field<int>("REMAIND_NO_OF_PAT"),
+                                                           Remaining_No_Of_HealthCareProf = p.Field<int>("REMAIND_NO_OF_HCP"),
+
                                                        }).ToList();
             return list;
         }

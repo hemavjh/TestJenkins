@@ -117,7 +117,7 @@ namespace MyCortex.Login.Controller
                         return Request.CreateResponse(HttpStatusCode.BadRequest, model);
                     }
                 }
-                
+
                 if (repository.CheckExpiryDate())
                 {
                     model.Status = "False";
@@ -199,6 +199,13 @@ namespace MyCortex.Login.Controller
                         languagekey = "selectedlanguagenotinyoursubscription";
                         model.Status = "False";
                     }
+                    else if ((model.data == 13) == true)
+                    {
+                        model.ReturnFlag = 1;
+                        messagestr = "Waiting for approval";
+                        model.Status = "False";
+                    }
+
                     //model.UserDetails = ModelData;
                     model.Message = messagestr;// "User created successfully";
                     model.LanguageKey = languagekey;
@@ -242,7 +249,7 @@ namespace MyCortex.Login.Controller
         }
 
 
-        
+
         /// <summary>
         /// Build version details
         /// </summary>
@@ -566,10 +573,11 @@ namespace MyCortex.Login.Controller
             string generatedpwd = "";
             string messagestr = "";
             string productname = "MyCortex";
-            if(InstanceNameId == 1)
+            if (InstanceNameId == 1)
             {
                 productname = "MyHealth - Reset Password";
-            }else  if(InstanceNameId == 2)
+            }
+            else if (InstanceNameId == 2)
             {
                 productname = "STC MyCortex - Reset Password";
             }
@@ -610,7 +618,7 @@ namespace MyCortex.Login.Controller
 
                     //NewPassword = Encrypt(NewPassword);
                     //ReenterPassword = Encrypt(ReenterPassword);
-                    
+
                     string NewPassword = EncryptPassword.Encrypt(generatedpwd);
                     long UserId = 0;
                     model = repository.ResetPassword(UserId, NewPassword, NewPassword, InstitutionId, UserId, EncryptPassword.Encrypt(EmailId));
