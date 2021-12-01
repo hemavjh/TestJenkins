@@ -12935,7 +12935,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var date = new Date(str),
                 mnth = ("0" + (date.getMonth() + 1)).slice(-2),
                 day = ("0" + date.getDate()).slice(-2);
-            return [date.getFullYear(), mnth, day].join("-");
+            return [date.getFullYear(), mnth, day].join("-") + ' ' + [date.getHours(), date.getMinutes(), date.getSeconds()].join(':');
         }
         $scope.Patient_OtherData_InsertUpdate = function () {
             if ($scope.Patient_OtherData_Insert_Validations() == true) {
@@ -13171,6 +13171,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     return angular.lowercase(value.DocumentName).match(searchstring) ||
                         angular.lowercase(value.FileName).match(searchstring) ||
                         angular.lowercase(value.Created_Name).match(searchstring) ||
+                        angular.lowercase(value.DocumentType).match(searchstring) ||
                         angular.lowercase(value.Created_Date).match(searchstring);
                 });
                 if ($scope.OtherData_ListData.length > 0) {

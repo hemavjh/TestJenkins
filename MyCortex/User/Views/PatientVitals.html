@@ -4503,9 +4503,13 @@
                                     <input id="datee" ng-model="row.DocumentDate" type="date" class="form-control date" placeholder="">
                                 </td>
                                 <td>
-                                    <select class="form-control"  ng-model="row.DocumentType"
-                                              ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
-                                             style="width: 150px;"></select>
+                                   
+                                    <select ng-model="row.DocumentType" data-live-search="true" data-selectpicker data-collection-name="DocumentTypeList"
+                                            class="form-control" data-style="form-control" 
+                                            ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
+                                            style="width: 150px;">
+                                        <option value="">Select</option>
+                                    </select>
                                 </td>
                                 <td style="text-align: left">
                                     <input type="file" id="OtherDataDocumment{{$index}}" fileread="row.resumedoc"
