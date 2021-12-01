@@ -464,6 +464,7 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 $scope.UserId = data.UserId;
                 $scope.UserTypeId = data.UserTypeId;
                 $scope.InstitutionId = data.InstitutionId;
+                $window.localStorage['User_Mobile_No'] = data.UserDetails.MOBILE_NO;
                 $window.localStorage['UserId'] = $scope.UserId;
                 $window.sessionStorage['UserId'] = $scope.UserId;
                 $window.localStorage['Auth_Session_Id'] = 1;
@@ -582,6 +583,10 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
         else if (data == "9") {
             $scope.errorlist = "Username and/or Password are not active, please verify";
             toastr.error("Username and/or Password are not active, please verify", "Warning");
+        }
+        else if (data == "13") {
+            $scope.errorlist = "Waiting for approval";
+            toastr.error("Waiting for approval", "Warning");
         }
         else {
             $scope.errorlist = "Username and/or Password are not matching, please verify";
@@ -1143,7 +1148,12 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         $scope.InstituteId = $routeParams.Id;
         $scope.OldPassword = $routeParams.pwd;
         $scope.PageParameter = 1;
-        $scope.cur = parseInt((new Date().getDate()).toString() + (new Date().getMonth() + 1).toString() + (new Date().getFullYear()).toString());
+        //$scope.cur = parseInt((new Date().getDate()).toString() + (new Date().getMonth() + 1).toString() + (new Date().getFullYear()).toString());
+        $scope.cur = new Date().getTime();
+        var no = $scope.fix.toString();
+        var len = no.length;
+        var tim = new Date(parseInt(no.substr(len - 4, 4)), parseInt(no.substr(len - 6, 2)), parseInt(no.substr(len - 8, 2))).getTime();
+        $scope.fix = tim;
         if ($scope.fix >= $scope.cur) {
             $scope.PageParameter = 2; // dont change it
         } else {
@@ -1537,7 +1547,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         
         $scope.CancelPopup = function () {
             if (confirm('Are you sure?')) {
-                window.location.href = baseUrl + "/login";
+                window.location.href = baseUrl + "/#/login";
             }
         }
         /*
@@ -1572,7 +1582,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                         if (data.ReturnFlag == "1") {
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
-                            window.location.href = baseUrl + "/Home/Index#/home";
+                            window.location.href = baseUrl + "/#/login";
                         }
                     }).error(function (data) {
                         $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;
@@ -1852,18 +1862,18 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
         /**Change Password Popup function**/
         angular.element('#ChangepasswordpopupModal').modal('show');
-        $('#ChangepasswordpopupModal').on('hide.bs.modal', function () {
-            //window.location.href = baseUrl + "/Home/Index#/home";
-            var res = $rootScope.previousPage.split("/");
-            if (res[res.length - 2].toLowerCase() == "changepassword") {
-                window.location.href = baseUrl + "/Home/Index#/home";
-            }
-            else {
-                window.location.href = $rootScope.previousPage;
-            }
+        //$('#ChangepasswordpopupModal').on('hide.bs.modal', function () {
+        //    //window.location.href = baseUrl + "/Home/Index#/home";
+        //    var res = $rootScope.previousPage.split("/");
+        //    if (res[res.length - 2].toLowerCase() == "changepassword") {
+        //        window.location.href = baseUrl + "/Home/Index#/home";
+        //    }
+        //    else {
+        //        window.location.href = $rootScope.previousPage;
+        //    }
 
-            //$PreviousState.goToLastState();
-        })
+        //    //$PreviousState.goToLastState();
+        //})
 
         /**Cancel Change Password Popup function**/
         $scope.CancelChangePasswordPopup = function () {

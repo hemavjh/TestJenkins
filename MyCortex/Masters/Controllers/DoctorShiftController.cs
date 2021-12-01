@@ -11,7 +11,7 @@ using System.Web;
 using System.IO;
 using System.Web.Http;
 using Newtonsoft.Json;
-using MyCortex.Masters.Models;
+/*using MyCortex.Masters.Models;*/
 using MyCortex.Provider;
 
 namespace MyCortex.Masters.Controllers
@@ -230,7 +230,7 @@ namespace MyCortex.Masters.Controllers
                 if (ModelData.Any(item => item.flag == 2) == true)
                 {
                     messagestr = "doctor Shift cannot be deactivated";
-                    model.ReturnFlag = 2;
+                    model.ReturnFlag = 0;
                 }
                 model.DoctorShift = ModelData;
                 model.Message = messagestr;

@@ -69,33 +69,66 @@
         });
     </script>
     <script>
-        var input = document.querySelector("#txtPhone");
+        var input = document.querySelector("#txtMobile");
         var inputPhoneNo = window.intlTelInput(input, {
             formatOnDisplay: true,
+            separateDialCode: true,
             geoIpLookup: function (callback) {
                 $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
                     var countryCode = (resp && resp.country) ? resp.country : "";
                     callback(countryCode);
                 });
             },
-            preferredCountries: ["in"],
+            //preferredCountries: ["in"],
             utilsScript: "scripts/utils.js",
         });
 
+        //inputPhoneNo.setNumber("+91 98765 43210");
+
         function txtPhoneChange() {
+            //alert("event fired");
             //var phoneNo = document.getElementById("txtPhone");
+
+            //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+            //alert(txtiso2);
+            //inputPhoneNo.setCountry(txtiso2);
+
             const PhoneNumber = inputPhoneNo.getNumber();
+            //alert(PhoneNumber);
+
+            var countryData = inputPhoneNo.getSelectedCountryData();
+            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+            var iso2 = countryData.iso2;
+            countryCode = "+" + countryCode;
+            //alert(countryCode);
+            //alert(iso2);
+
+            var number = document.getElementById("txtMobile").value;
+            //alert(number);
+            //alert(countryCode +"-" + number);
+
+            document.getElementById("txthdCountryiso2").value = iso2;
+            document.getElementById("txthdCountryCode").value = countryCode;
+            //document.getElementById("txthdFullNumber").value = PhoneNumber;
+            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+
+            //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+            //alert(txt);
 
             if (PhoneNumber != "") {
                 var isValidNum = inputPhoneNo.isValidNumber();
                 //alert(isValidNum);
                 if (!isValidNum) {
-                    //toastr.error("Phone Number Invalid", "error");
+                    //toastr.error("Phone Number Invalid", "warning");
                     alert("Phone number invalid");
+                    document.getElementById("txthdFullNumber").value = "";
+                }
+                else {
+                    document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
                 }
             }
 
-            //inputPhoneNo.setCountry("us");
+            //inputPhoneNo.setCountry(txtiso2);
         }
     </script>
 </head>
@@ -112,7 +145,10 @@
     $(function () {
         $('#toggle-one').bootstrapToggle();
     })
-</script>--> 
+</script>-->
+<input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
+<input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
+<input type="text" hidden="hidden" id="txthdFullNumber" />
 <ul class="secondaryMenu" ng-show="LoginType == 3">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
     <li>
@@ -126,7 +162,7 @@
     </li>
     <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3"  data-menu="Home">Hospital Admin</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_UserList/3" data-menu="Home">Hospital Admin</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
 
@@ -188,7 +224,7 @@
     </thead>
     <tbody>
         <tr ng-if="flag==0 && rowCollectionFilter.length==0">
-            <td colspan="8" style="text-align: center">
+            <td colspan="10" style="text-align: center">
                 {{SearchMsg}}
             </td>
         </tr>
@@ -216,12 +252,12 @@
                 {{row.EMAILID}}
             </td>
             <!--<td ng-show="row.IsActive==1">
-        <span class="dotActive"></span>
-    </td>
-    <td ng-show="row.IsActive==0">
+                <span class="dotActive"></span>
+            </td>
+            <td ng-show="row.IsActive==0">
 
-        <span class="dotInActive"></span>
-    </td>-->
+                <span class="dotInActive"></span>
+            </td>-->
             <td style="text-align: left">
                 {{row.LoginTime| date :'dd-MMM-yyyy hh:mm a'}}
             </td>
@@ -318,10 +354,10 @@
                                                         </div>
 
                                                         <!--<div class="uploadIconContainer">
-                        <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
-                            <u>Clear</u>
-                        </a>
-                    </div>-->
+                                                            <a href="javascript:" ng-click="Adminimageclear();" title="Clear">
+                                                                <u>Clear</u>
+                                                            </a>
+                                                        </div>-->
                                                         <div style="margin-top: 15px;">
                                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="Adminimageclear();"
                                                                title="Clear">
@@ -338,11 +374,11 @@
                                                     </div>
                                                 </div>
                                                 <!--<div class="uploadIconContainer">
-                <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
-                    <i class="fa fa-upload"></i>
-                </label>
-                <span>Upload Photo</span>
-            </div>-->
+                                                    <label for="UserLogo" class="uploadIconBtn" title="Click to Upload Photo">
+                                                        <i class="fa fa-upload"></i>
+                                                    </label>
+                                                    <span>Upload Photo</span>
+                                                </div>-->
                                             </td>
                                             <td width="17%">
                                                 <label valign="top" ng-show="LoginType == 1">
@@ -425,7 +461,7 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!--<tr>
                                             <td width="15%">
                                                 <label valign="top">
                                                     Department
@@ -441,7 +477,7 @@
                                                     </option>
                                                 </select>
                                             </td>
-                                        </tr>
+                                        </tr>-->
                                         <tr ng-show="Id>0">
                                             <td>
                                                 <label>Short Name</label>
@@ -474,23 +510,15 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control" id="Text6" name="FirstName"
-                                                       ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true" placeholder=""
-                                                       ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />
+                                                <!--<input type="text" class="form-control" id="Text6" name="FirstName"
+                                                ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true" placeholder=""
+                                                ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />-->
+                                                <!--<input type="text" class="form-control" id="txtMobile" name="FirstName"
+                                                ng-model="MobileNo" ng-init="MobileNo=''" onblur="txtPhoneChange()" ng-required="true" />-->
+                                                <input type="text" class="form-control" id="txtMobile" name="tel"
+                                                       ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <label>
-                                                    Phone No.<sup><font class="mandatory-field">*</font></sup>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <input type="tel" class="form-control" id="txtPhone" ng-model="PhoneNo"
-                                                       ng-required="true" onblur="txtPhoneChange()" />
-                                            </td>
-                                        </tr>
-
                                     </table>
                                 </form>
                             </div>

@@ -770,6 +770,7 @@ namespace MyCortex.Home.Controllers
             Stream req = Request.InputStream;
             req.Seek(0, System.IO.SeekOrigin.Begin);
             string json = new StreamReader(req).ReadToEnd();
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             dynamic data = JsonConvert.DeserializeObject(json);
 
             string OrderNumber = data.acquireOrder.orderNo;
@@ -780,32 +781,45 @@ namespace MyCortex.Home.Controllers
             string notifyId = data.notify_id;
             long notifyTimeStamp = data.notify_timestamp;
             //string data1 = data.toString();
-            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             retid = patientAppointmentsRepository.PaymentStatusInfo_Insert(merchantOrderNumber, amount, OrderNumber, status, requestTime, notifyId, notifyTimeStamp);
             return Content("SUCCESS");
         }
 
         [HttpPost]
-        public ActionResult RefundNotify()
+        public ActionResult RefundNotify(long id, string merchantorderno)
         {
-            int retid = 0;
-            Stream req = Request.InputStream;
-            req.Seek(0, System.IO.SeekOrigin.Begin);
-            string json = new StreamReader(req).ReadToEnd();
-            dynamic data = JsonConvert.DeserializeObject(json);
+            try
+            {
+                int retid = 0;
+                Stream req = Request.InputStream;
+                req.Seek(0, System.IO.SeekOrigin.Begin);
+                string json = new StreamReader(req).ReadToEnd();
+                retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
+                dynamic data = JsonConvert.DeserializeObject(json);
 
-            string OrderNumber = data.refundOrder.orderNo;
-            string merchantOrderNumber = data.refundOrder.refundMerchantOrderNo;
-            string originMerchantOrderNo = data.refundOrder.originMerchantOrderNo;
-            string amount = data.refundOrder.amount.amount;
-            string status = data.refundOrder.status;
-            //long requestTime = data.acquireOrder.requestTime;
-            string notifyId = data.notify_id;
-            long notifyTimeStamp = data.notify_timestamp;
-            //string data1 = data.toString();
-            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
-            retid = patientAppointmentsRepository.PaymentRefundStatusInfo_Insert(merchantOrderNumber, originMerchantOrderNo, amount, OrderNumber, status, notifyId, notifyTimeStamp);
-            return Content("SUCCESS");
+                //string OrderNumber = data.refundOrder.orderNo;
+                //string merchantOrderNumber = data.refundOrder.refundMerchantOrderNo;
+                //string originMerchantOrderNo = data.refundOrder.originMerchantOrderNo;
+                //string amount = data.refundOrder.amount.amount;
+                //string status = data.refundOrder.status;
+                ////long requestTime = data.acquireOrder.requestTime;
+                //string notifyId = data.notify_id;
+                //long notifyTimeStamp = data.notify_timestamp;
+                ////string data1 = data.toString();
+                //retid = patientAppointmentsRepository.PaymentRefundStatusInfo_Insert(merchantOrderNumber, originMerchantOrderNo, amount, OrderNumber, status, notifyId, notifyTimeStamp);
+                string status = data.refundOrder.status;
+                if (status == "REFUNDED_SETTLED")
+                {
+                    long refundAppointmentId = id;
+                    string refundMerchantOrderNo = merchantorderno;
+                    retid = patientAppointmentsRepository.PaymentStatus_Update(refundAppointmentId, "Refund Settled", refundMerchantOrderNo);
+                }
+                return Content("SUCCESS");
+            }
+            catch(Exception ex)
+            {
+                return Content("Error");
+            }
         }
 
         [HttpPost]
@@ -842,6 +856,8 @@ namespace MyCortex.Home.Controllers
 
             RsaHelper rsaHelper = new RsaHelper();
             //Console.OutputEncoding = System.Text.Encoding.Default;
+            string json = Request.Url.GetLeftPart(UriPartial.Authority);
+            int retid1 = patientAppointmentsRepository.PaymentProvider_Notity_Log(json);
             PayByCreateOrderRequest payByCreateReq = new PayByCreateOrderRequest();
             BizContent bizContent = new BizContent
             {
@@ -855,9 +871,9 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl =  "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/Notify/",
+                notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
@@ -974,7 +990,7 @@ namespace MyCortex.Home.Controllers
             string baseUrl = HttpContext.Request.Url.Authority;
             try
             {
-                redirectUrl = "https://mycortexdev.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
+                redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
@@ -1015,7 +1031,7 @@ namespace MyCortex.Home.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://mycortexdev.vjhsoftware.in/Home/RefundNotify/",
+                    notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/RefundNotify?id="+ refundAppointmentId + "&merchantorderno="+ refundMerchantOrderNo +"",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;

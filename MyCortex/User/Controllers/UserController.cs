@@ -89,6 +89,24 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public IList<DocumentTypeModel> DocumentTypeList()
+        {
+            IList<DocumentTypeModel> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.DocumentTypeList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>      
         /// Getting list of business user types
         /// </summary>          
@@ -412,9 +430,10 @@ namespace MyCortex.User.Controller
                 string userid = ModelData.Id.ToString();
                 string text = (Convert.ToInt64(dateTime.ToString("dd-MM-yyyy").Replace("-", "")) * 3).ToString();
                 //c# encrrption
-                var encryptString = EncryptPassword.Encrypt(userid);
+                var encryptString = Convert.ToInt64(userid) * 4;
                 string turl = HttpContext.Current.Request.Url.Host.ToString();
-                string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + userObj.PASSWORD;
+                string pwd = userObj.PASSWORD.Replace("/", "@");
+                string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + pwd;
                 // below alert for change password
                 if (userid != "0")
                 {
@@ -591,6 +610,66 @@ namespace MyCortex.User.Controller
                 _logger.Error(ex.Message, ex);
                 return 0;
             }
+        }
+
+        public int deleteCometChatUser(long Id, long Institution)
+        {
+
+            DataEncryption EncryptPassword = new DataEncryption();
+            IList<AppConfigurationModel> App_Id;
+            //IList<AppConfigurationModel> App_Key;
+            IList<AppConfigurationModel> Api_key;
+
+            string AppId = "COMETCHAT_APPID";
+            //string Appkey = "COMETCHAT_APPKEY";
+            string ApiKey = "COMETCHAT_APIKEY";
+            long InstitutionId = Institution;
+            App_Id = commonrepository.AppConfigurationDetails(AppId, InstitutionId);
+            //App_Key = commonrepository.AppConfigurationDetails(Appkey, InstitutionId);
+            Api_key = commonrepository.AppConfigurationDetails(ApiKey, InstitutionId);
+            try
+            {
+                // Ignore certificate warnings
+                ServicePointManager.ServerCertificateValidationCallback =
+                     new RemoteCertificateValidationCallback(delegate { return true; });
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+
+                string url = "https://api-eu.cometchat.io/v2/users/" + Id;
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "DELETE";
+
+                httpWebRequest.Headers.Add("appId", App_Id[0].ConfigValue);
+                httpWebRequest.Headers.Add("apiKey", Api_key[0].ConfigValue);
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = "{\"permanent\":true}";
+                    //string json = "{\"metadata\":\"{Email:" + usrObj.EMAILID + ", Id:" + usrObj.Id.ToString() + "}\"}";
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return 0;
+            }
+        }
+
+        [HttpGet]
+        public int DeleteCometchat_User(long Id, long Institution)
+        {
+            int result = deleteCometChatUser(Id, Institution);
+            return result;
+        }
+
+        [HttpPost]
+        public int CreateCometchat_User([FromBody] UserModel usrObj, long Institution, int isCreate = 0)
+        {
+            int result = createCometChatUser(usrObj, Institution, isCreate);
+            return result;
         }
         /// <summary>
         /// to get User basic details of a User Id 
@@ -3515,7 +3594,7 @@ namespace MyCortex.User.Controller
         /// <returns>inserted/updated Patient other data document</returns>
         [HttpPost]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, long Id, string FileName, string DocumentName, string Remarks, long Created_By, int Is_Appointment = 0, string Filetype = "", long Appointment_Id=0)
+        public HttpResponseMessage Patient_OtherData_InsertUpdate(long Patient_Id, Guid Login_Session_Id, long Id, string FileName, string DocumentName,  string Remarks, long Created_By, DateTime? DocumentDate= null, int Is_Appointment = 0, string Filetype = "", long Appointment_Id=0,string DocumentType = "" )
         {
             Patient_OtherDataModel ModelData = new Patient_OtherDataModel();
             DocumentReturnModel model = new DocumentReturnModel();
@@ -3527,8 +3606,10 @@ namespace MyCortex.User.Controller
                 string returnPath = "";
                 byte[] fileData = null;
                 var docfiles = new List<string>();
+                DateTime DocumentDates = new DateTime();
                 try
                 {
+                    
                     //if (fileName != null)
                     {
                         var httpRequest = HttpContext.Current.Request;
@@ -3543,11 +3624,11 @@ namespace MyCortex.User.Controller
                                     fileData = binaryReader.ReadBytes(postedFile.ContentLength);
                                     if (FileName == "" || FileName== null)
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, postedFile.FileName, postedFile.FileName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment, postedFile.ContentType, DocumentType);
                                     }
                                     else
                                     {
-                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, Is_Appointment, postedFile.ContentType);
+                                        ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment, postedFile.ContentType, DocumentType);
                                     }
                                     model.DocumentDetails = ModelData;
                                 }
@@ -3558,6 +3639,8 @@ namespace MyCortex.User.Controller
                         }
                         else
                         {
+                            ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment,"", DocumentType);
+                            model.DocumentDetails = ModelData;
                             result = Request.CreateResponse(HttpStatusCode.OK);
                         }
                     }
@@ -4303,6 +4386,24 @@ namespace MyCortex.User.Controller
                 model.ReturnFlag = 0;
                 model.UserDetails = ModelData;
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
+
+        [HttpGet]
+        public IList<CometChat_User> GetCometChatUserList(long InstitutionId)
+        {
+            IList<CometChat_User> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetCometChatUserList(InstitutionId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
             }
         }
 

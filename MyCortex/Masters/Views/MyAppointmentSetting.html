@@ -107,8 +107,8 @@
         </div>
         <div class="col-sm-6 flex justify-end p-0">
             <div class="flex align-items-center">
-                <div class="flex justify-end">
-                    <select class="form-control" data-style="form-control" id="TimeZone" style="width:400px;" ng-model="SelectedTimeZone"
+                <div class="flex justify-end" style="width: 425px;">
+                    <select class="form-control" data-style="form-control" id="TimeZone" ng-model="SelectedTimeZone" data-live-search="true" data-selectpicker data-collection-name="TimeZoneList"
                             ng-options="item1.TimeZoneDisplayName as item1.TimeZoneDisplayName for item1 in TimeZoneList">
                         <option value="">Select TimeZone</option>
                     </select>
@@ -174,9 +174,9 @@
         </div>
         <div class="col-sm-6 flex justify-end p-0">
             <div class="flex align-items-center m-right-1">
-                <div class="flex justify-end">
-                    <select class="form-control" data-style="form-control" id="Defaultholiday" style="width:400px;" ng-model="SelectedDefaultholiday" ng-options="item1.ID as item1.Name for item1 in DefaultHolidayList">
-                        <option value="">Select List of Holidays</option> 
+                <div class="flex justify-end" style="width: 400px;">
+                    <select class="form-control" data-style="form-control" id="Defaultholiday" data-live-search="true" data-selectpicker data-collection-name="DefaultHolidayList" ng-model="SelectedDefaultholiday" ng-options="item1.ID as item1.Name for item1 in DefaultHolidayList">
+                        <option value="">Select List of Holidays</option>
                     </select>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="24" height="24" x="0" y="0" viewBox="0 0 515.555 515.555" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path xmlns="http://www.w3.org/2000/svg" d="m303.347 18.875c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 212.209c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /><path xmlns="http://www.w3.org/2000/svg" d="m303.347 405.541c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0" fill="#cecece" data-original="#000000" style="" class="" /></g></svg>

@@ -199,10 +199,32 @@
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
         $('#Report').addClass('activeButton');
-        document.getElementById("datetimepicker_mask").style.display = "block"; 
+        document.getElementById("datetimepicker_mask").style.display = "block";
         document.getElementById("datetimepicker").style.display = "block";
     });
 </script>
+<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#datetimepicker').attr('max', maxDate);
+        $('#datetimepicker_mask').attr('max', maxDate);
+
+        document.getElementById("datetimepicker").value = maxDate;
+        document.getElementById("datetimepicker_mask").value = maxDate;
+    });
+</script>
+
 <h1 class="page-title">Audit Report</h1>
 
 
@@ -250,7 +272,9 @@
                     <label>Period From<font class='mandatory-field'>*</font></label>
                     <div id="Div13">
                         <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_From">-->
+                        <!--<input type="text" ej-datetimepicker ng-init="Period_From=''" ng-model="Period_From" class="form-control date" id="datetimepicker" ng-required="true"><br><br>-->
                         <input type="text" ej-datetimepicker  ng-init="Period_From=''" ng-model="Period_From" class="form-control date" id="datetimepicker" ng-required="true"><br><br>
+                        <!--<input type="text" uib-datepicker-popup ng-model="Period_From" ng-model-options="{timezone: 'utc'}" class="form-control date" id="datetimepicker">--> <br><br>
                     </div>
                 </div>
             </div>
@@ -261,32 +285,32 @@
                         <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_To">-->
                         <input type="text" ej-datetimepicker  ng-init="Period_To=''" ng-model="Period_To" class="form-control date" id="datetimepicker_mask" ng-required="true"><br><br>
                         <!--<span class="input-group-addon">
-                    <i class="glyphicon glyphicon-th"></i>
-                </span>-->
+                            <i class="glyphicon glyphicon-th"></i>
+                        </span>-->
                     </div>
                 </div>
             </div>
 
             <!--<div class="col-sm-4">
-        <div class="inputGroups">
-            <label>Period From Time<font class='mandatory-field'>*</font></label>
-            <div class="input-group bootstrap-timepicker timepicker">
-                <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodFromTime"
-                       ng-init="PeriodFromTime=''">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-            </div>
-        </div>
-    </div>-->
+                <div class="inputGroups">
+                    <label>Period From Time<font class='mandatory-field'>*</font></label>
+                    <div class="input-group bootstrap-timepicker timepicker">
+                        <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodFromTime"
+                               ng-init="PeriodFromTime=''">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>
+            </div>-->
             <!--<div class="col-sm-4">
-        <div class="inputGroups">
-            <label>Period To Time<font class='mandatory-field'>*</font></label>
-            <div class="input-group bootstrap-timepicker timepicker">
-                <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodToTime"
-                       ng-init="PeriodToTime=''">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-            </div>
-        </div>
-    </div>-->
+                <div class="inputGroups">
+                    <label>Period To Time<font class='mandatory-field'>*</font></label>
+                    <div class="input-group bootstrap-timepicker timepicker">
+                        <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodToTime"
+                               ng-init="PeriodToTime=''">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>
+            </div>-->
 
             <div class="col-sm-4">
                 <div class="inputGroups">

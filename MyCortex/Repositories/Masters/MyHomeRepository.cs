@@ -77,6 +77,29 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@OS", insobj.OS));
             param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));
             param.Add(new DataParameter("@VENDOR", ""));
+
+            if (insobj.ID == 0)
+            {
+                _logger.Info("BEFORE TABREFID_AUTOCREATIION_SP");
+                List<DataParameter> param_2 = new List<DataParameter>();
+                param_2.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
+                param_2.Add(new DataParameter("@USER_ID", insobj.CreatedBy));
+                //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+                //param_2.Add(new DataParameter("@MRNPREFIX", insobj.MrnPrefix));
+                _logger.Info(serializer.Serialize(param_2.Select(x => new { x.ParameterName, x.Value })));
+                DataTable dt_2 = ClsDataBase.GetDataTable("[MYCORTEX].[TABREFID_AUTOCREATIION_SP]", param_2);
+                _logger.Info("TABREFID_AUTOCREATIION_SP");
+                TabListModel RefId = (from p in dt_2.AsEnumerable()
+                                             select new TabListModel()
+                                             {
+                                                 RefId = p.Field<string>("TABREFID"),
+                                             }).FirstOrDefault();
+                //DataEncryption EncryptRerId = new DataEncryption();
+                //insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
+                //insobj.RefId = EncryptRerId.Encrypt(RefId.RefId);
+                param.Add(new DataParameter("@REF_ID", RefId.RefId));
+            }
+
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

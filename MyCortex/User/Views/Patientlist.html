@@ -35,7 +35,7 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="inputGroups">
                         <label>
                             Search
@@ -68,7 +68,13 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <div class="inputGroups">
+                        <label>Remaind No.Of Patient / Total No.of Patients: </label>
+                        <span style="margin-left: 120px; font-weight: bold;"> {{Remaining_No_Of_Patient}} / {{Patients}}</span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
                     <div class="inputGroups">
                         <a href="javascript:" ng-click="AddPatientPopup()" class="theme-btn-1 pull-right mt-15 btn-autosize pull-right ml-10">
                             Add New
@@ -246,7 +252,7 @@
         </thead>
         <tbody>
             <tr ng-if="Patientemptydata.length==0">
-                <td colspan="9" style="text-align: center">
+                <td colspan="10" style="text-align: center">
                     {{SearchMsg}}
                 </td>
             </tr>

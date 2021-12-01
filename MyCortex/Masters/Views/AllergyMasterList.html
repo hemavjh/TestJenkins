@@ -67,9 +67,12 @@
     </thead>
     <tbody>
         <tr ng-if="AllergyMasterList.length==0">
-            <td colspan="8" style="text-align: center">
-                No Data Available
+            <td colspan="4" class="textalign">
+                {{SearchMsg}}
             </td>
+            <!--<td colspan="4" style="text-align: center">
+        No Data Available
+    </td>-->
         </tr>
         <tr ng-repeat="row in AllergyMasteremptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
