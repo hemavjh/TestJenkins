@@ -1747,6 +1747,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
+            $scope.DepartmentId = "165";
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
             $("#UserLogo").val('');
