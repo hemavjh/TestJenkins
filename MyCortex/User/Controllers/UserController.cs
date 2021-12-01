@@ -437,7 +437,8 @@ namespace MyCortex.User.Controller
                 // below alert for change password
                 if (userid != "0")
                 {
-                    AlertEventReturn_CP.Generate_SMTPEmail_Notification_For_ChangePwd(url, ModelData.Id, (long)userObj.INSTITUTION_ID, user_email);
+                    //AlertEventReturn_CP.Generate_SMTPEmail_Notification_For_ChangePwd(url, ModelData.Id, (long)userObj.INSTITUTION_ID, user_email);
+                    bool ret = repository.UserChangePwdURL(ModelData.Id, url);
                 }
 
                 // create cometchat user only in insert
