@@ -203,6 +203,27 @@
         document.getElementById("datetimepickerholiday_From").style.display = "block";
     });
 </script>
+<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#datetimepickerholiday_To').attr('max', maxDate);
+        $('#datetimepickerholiday_From').attr('max', maxDate);
+
+        document.getElementById("datetimepickerholiday_To").value = maxDate;
+        document.getElementById("datetimepickerholiday_From").value = maxDate;
+    });
+</script>
 <ul class="secondaryMenu">
     <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
     <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>-->

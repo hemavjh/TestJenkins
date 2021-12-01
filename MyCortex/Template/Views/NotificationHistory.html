@@ -1,18 +1,44 @@
-﻿  <script>
-        $(document).ready(function () {
-            $('.activeButton').removeClass('activeButton');
-            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
-            $(element).addClass('activeButton');
-        });
-    </script>
+﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+        $(element).addClass('activeButton');
+    });
+</script>
+<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        //alert(maxDate);
+        $('#Period_From').attr('max', maxDate);
+        $('#Period_To').attr('max', maxDate);
+
+        document.getElementById("Period_From").value = maxDate;
+        document.getElementById("Period_To").value = maxDate;
+    });
+</script>
+
 <ul class="secondaryMenu">
-    <li><a href="Home/Index#/Notification/2">Notification Template</a>
+    <li>
+        <a href="Home/Index#/Notification/2">Notification Template</a>
     </li>
-    <li><a href="Home/Index#/NotificationSend/2">Send Notification</a>
+    <li>
+        <a href="Home/Index#/NotificationSend/2">Send Notification</a>
     </li>
-    <li><a href="Home/Index#/NotificationUndelivered/2">Resend Notification</a>
+    <li>
+        <a href="Home/Index#/NotificationUndelivered/2">Resend Notification</a>
     </li>
-    <li><a class="secondaryMenuActive" href="Home/Index#/NotificationHistory/2" data-menu="Bulk Notification">Notification History</a>
+    <li>
+        <a class="secondaryMenuActive" href="Home/Index#/NotificationHistory/2" data-menu="Bulk Notification">Notification History</a>
     </li>
 </ul>
 <h1 class="page-title">Notification History</h1>
@@ -31,7 +57,7 @@
                     <label>Search</label>
                     <div class="modernSearch">
                         <input type="text" ng-model="searchquerylist" ng-change="filterEmailHistoryList()"
-                            placeholder="" style="width: 200px" />
+                               placeholder="" style="width: 200px" />
                         <i class="fa fa-search"></i>
                     </div>
                 </div>
@@ -39,14 +65,14 @@
             <div class="col-sm-2">
                 <div class="inputGroups">
                     <label>Period From</label>
-                    <input type="date" class="form-control" ng-model="Period_From"
-                        ng-init="Period_From=''">
+                    <input id="Period_From" type="date" class="form-control" ng-model="Period_From"
+                           ng-init="Period_From=''">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="inputGroups">
                     <label>Period To</label>
-                    <input type="date" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
+                    <input id="Period_To" type="date" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
                 </div>
             </div>
             <div class="col-sm-2">
@@ -64,8 +90,8 @@
                     <label for="More">Advance Filter</label>
 
                     <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link" href="#collapseMore"
-                        ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageingHistoryDropdownList()"
-                        title="Click for Advance search">
+                       ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageingHistoryDropdownList()"
+                       title="Click for Advance search">
                         <sub ng-show="currentTab=='1' ">
                             <i class="fa fa-filter" aria-hidden="true"></i>
                         </sub>
@@ -74,7 +100,9 @@
                         </sub>
                     </a>
                     <button type="button" class="theme-btn-1 pull-right ml-10" ng-click="EmailHistoryDetailslist()"
-                        title="Click to Search">Go</button>
+                            title="Click to Search">
+                        Go
+                    </button>
                 </div>
             </div>
         </div>
@@ -91,30 +119,32 @@
                 <div class="inputGroups">
                     <label for="Patient ID">Patient ID</label>
                     <input type="text" class="form-control" ng-model="Filter_PatientNo" maxlength="50"
-                        ng-maxlength="100">
+                           ng-maxlength="100">
                 </div>
                 <div class="inputGroups">
                     <label>Nationality</label>
                     <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
-                            value="{{sel.Id}}">{{sel.Name}}
+                                value="{{sel.Id}}">
+                            {{sel.Name}}
                         </option>
                     </select>
                 </div>
                 <div class="inputGroups">
                     <label>Home Phone Number</label>
                     <input type="text" class="form-control" id="Text13" ng-model="filter_HomePhoneNo" maxlength="50"
-                        ng-maxlength="50" placeholder="">
+                           ng-maxlength="50" placeholder="">
                 </div>
                 <div class="inputGroups">
                     <label>Country</label>
                     <select class="form-control" data-style="form-control" data-live-search="true"
-                        id="countryselectpicker" data-selectpicker data-collection-name="CountryNameList"
-                        ng-model="filter_CountryId" ng-change="Filter_Country_onChange();">
+                            id="countryselectpicker" data-selectpicker data-collection-name="CountryNameList"
+                            ng-model="filter_CountryId" ng-change="Filter_Country_onChange();">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in CountryNameList" ng-required="true" value="{{sel.Id}}">
-                            {{sel.CountryName}}</option>
+                            {{sel.CountryName}}
+                        </option>
                     </select>
                 </div>
                 <div class="inputGroups">
@@ -122,7 +152,9 @@
                     <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-model="filter_BloodGroupId" id="Select19" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in BloodGroupList" ng-selected="filter_BloodGroupId==sel.Id"
-                            value="{{sel.Id}}">{{sel.BloodGroup_Name}}</option>
+                                value="{{sel.Id}}">
+                            {{sel.BloodGroup_Name}}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -130,27 +162,28 @@
                 <div class="inputGroups">
                     <label for="Insurance ID">Insurance ID</label>
                     <input type="text" class="form-control" ng-model="filter_InsuranceId" maxlength="50"
-                        ng-maxlength="100">
+                           ng-maxlength="100">
                 </div>
                 <div class="inputGroups">
                     <label>Ethnic Group</label>
                     <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList" ng-model="filter_EthinicGroupId" id="Select20" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in EthnicGroupList" ng-selected="filter_EthinicGroupId==sel.Id"
-                            value="{{sel.Id}}">{{sel.Name}}
+                                value="{{sel.Id}}">
+                            {{sel.Name}}
                         </option>
                     </select>
                 </div>
                 <div class="inputGroups">
                     <label for="Email">Email</label>
                     <input type="text" class="form-control" ng-model="filter_Email" maxlength="100"
-                        ng-maxlength="100" />
+                           ng-maxlength="100" />
                 </div>
                 <div class="inputGroups">
                     <label>State</label>
                     <select class="form-control" data-style="form-control" id="stateselectpicker"
-                        data-live-search="true" data-selectpicker data-collection-name="StateNameList"
-                        ng-model="filter_StataId" ng-change="Filter_State_onChange()">
+                            data-live-search="true" data-selectpicker data-collection-name="StateNameList"
+                            ng-model="filter_StataId" ng-change="Filter_State_onChange()">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in StateNameList" ng-required="true" value="{{sel.Id}}">
                             {{sel.StateName}}
@@ -161,8 +194,8 @@
                 <div class="inputGroups">
                     <label>Group</label>
                     <select ng-model="filter_GroupId" multiple="multiple"
-                        ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
-                        style="width: 230px;">
+                            ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
+                            style="width: 230px;">
                     </select>
                 </div>
             </div>
@@ -172,30 +205,34 @@
                     <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="Filter_GenderId" id="Select16" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id" value="{{sel.Id}}">
-                            {{sel.Gender_Name}}</option>
+                            {{sel.Gender_Name}}
+                        </option>
                     </select>
                 </div>
                 <div class="inputGroups">
                     <label>Mobile No.</label>
                     <input type="text" class="form-control" id="Text11" ng-model="filter_MOBILE_NO"
-                        ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
+                           ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
                 </div>
                 <div class="inputGroups">
                     <label>Marital Status</label>
                     <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-model="filter_MaritalStatus" id="Select18" ng-required="true">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in MaritalStatusList" ng-selected="filter_MaritalStatus==sel.Id"
-                            value="{{sel.Id}}">{{sel.Name}}
+                                value="{{sel.Id}}">
+                            {{sel.Name}}
                         </option>
                     </select>
                 </div>
                 <div class="inputGroups">
                     <label>City</label>
                     <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker
-                        data-collection-name="CityNameList" ng-model="filter_CityId">
+                            data-collection-name="CityNameList" ng-model="filter_CityId">
                         <option value="0">Select</option>
                         <option ng-repeat="sel in CityNameList | filter : {StateId : filter_StataId} "
-                            ng-required="true" value="{{sel.Id}}">{{sel.LocationName}}</option>
+                                ng-required="true" value="{{sel.Id}}">
+                            {{sel.LocationName}}
+                        </option>
                     </select>
                 </div>
                 <div class="inputGroups">
@@ -205,13 +242,13 @@
                 </div>
             </div>
         </div>
-     
+
     </div>
 </div>
 
 
 <table st-table="Emailemptydata" style="width: 100%" st-safe-src="EmailrowCollectionFilter" st-search="query"
-    class="table themeTable">
+       class="table themeTable">
     <thead>
         <tr style="text-align: center">
             <th width="5%">#</th>
@@ -256,7 +293,8 @@
             </td>
             <td style="text-align: left">
                 <div class="textwrap">
-                    {{row.Email_Status==1? 'Delivered' : row.Email_Status==2 ?'Undelivered' :''}}</div>
+                    {{row.Email_Status==1? 'Delivered' : row.Email_Status==2 ?'Undelivered' :''}}
+                </div>
             </td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.Email_Error_Reason}}</div>
@@ -267,7 +305,7 @@
         <tr>
             <td colspan="15" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                    st-template="Masters/Views/pagination.custom.html"></div>
+                     st-template="Masters/Views/pagination.custom.html"></div>
             </td>
         </tr>
     </tfoot>

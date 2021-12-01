@@ -22,6 +22,9 @@
         //alert(maxDate);
         $('#ToDate').attr('min', maxDate);
         $('#FromDate').attr('min', maxDate);
+
+        document.getElementById("FromDate").value = maxDate;
+        document.getElementById("ToDate").value = maxDate;
     });
 </script>
 
@@ -311,7 +314,7 @@
                                                                 <font class='mandatory-field'>*</font>
                                                             </sup>
                                                         </label>
-                                                        <input id="FromDate" class="form-control" ng-change="onDateRange()" type="date" ng-model="FromDate" ng-init="FromDate=''" />
+                                                        <input id="FromDate" class="form-control" ng-change="onDateRange()" type="date" ng-model="FromDate" ng-init="FromDate=''"/>
                                                     </div>
 
                                                 </div>
