@@ -174,6 +174,7 @@ namespace MyCortex.User.Controllers
                 _logger.Error(ex.Message, ex);
                 model.Status = "False";
                 model.Message = "Error in get TabID";
+                model.Message = "Error in get TabID";
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
@@ -467,10 +468,8 @@ namespace MyCortex.User.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage AddDeviceInsertUpdate([FromBody] TabDevicesModel obj)
         {
-
             IList<TabDevicesModel> ModelData = new List<TabDevicesModel>();
             TabDeviceListReturnModels model = new TabDeviceListReturnModels();
-
 
             string messagestr = "";
             try
@@ -506,7 +505,16 @@ namespace MyCortex.User.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, model);
             }
         }
-
+       /* [Authorize]
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public TabDevicesModel Get_Device_id(long DeviceId)
+        {
+            TabDevicesModel model = new TabDevicesModel();
+            model = repository.Get_Device_Id(DeviceId);
+            return model;
+        }
+       */
         [Authorize]
         [HttpGet]
         [CheckSessionOutFilter]

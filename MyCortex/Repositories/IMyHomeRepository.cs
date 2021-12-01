@@ -24,6 +24,7 @@ namespace MyCortex.Repositories
         IList<TabDevicesModel> Get_DeviceNameList(int? IsActive);
         IList<TabDevicesModel> Device_InsertUpdate(TabDevicesModel obj);
         TabDevicesModel Device_ListView(long id);
+        /*TabDevicesModel Get_Device_Id(long DeviceId);*/
         void Device_List_Delete(int Id);
         IList<TabDashBoardAlertDetails> Get_ParameterValue(long patientId, long userTypeId, Guid login_Session_Id);
     }
