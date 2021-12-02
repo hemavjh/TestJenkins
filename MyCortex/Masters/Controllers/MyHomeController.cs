@@ -382,6 +382,46 @@ namespace MyCortex.User.Controllers
              
         }
 
+        [Authorize]
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public HttpResponseMessage TabDashboardDetail(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
+        {
+            TabUserDashBordDetails ModelData = new TabUserDashBordDetails();
+            TabUserListReturnModels model = new TabUserListReturnModels();
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.GetDashBoardListDetail(InstitutionId, UserId, TabId, Login_Session_Id);
+                if (ModelData.Flag == 1)
+                {
+
+                    messagestr = "Get From DashBoardList Information";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Flag == 2)
+                {
+                    messagestr = "DashBoardList Information are empty";
+                    model.ReturnFlag = 0;
+                }
+
+                model.TabDashBoardList = ModelData;
+                model.Message = messagestr;
+                model.Status = "True";
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                model.Status = "False";
+                model.Message = "Error in DashBoard Tab Users";
+                model.TabDashBoardList = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+
+        }
+
         [HttpGet]
         [CheckSessionOutFilter]
         public HttpResponseMessage TabDashboardAlertsDetails(long PatientId, long UserTypeId, Guid Login_Session_Id)
