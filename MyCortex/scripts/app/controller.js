@@ -5965,7 +5965,6 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     if (data.length > 0) {
                         var usercount = data.length;
                         angular.forEach(data, function (item, modIndex) {
-                            alert('Intial' + modIndex);
                             $http.get(baseUrl + 'api/User/DeleteCometchat_User?Id=' + item.Id + '&Institution=' + $scope.InstituteId).success(function (data) {
                                 var obj = {
                                     Id: item.Id,
