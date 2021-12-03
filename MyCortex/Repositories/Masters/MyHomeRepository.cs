@@ -490,56 +490,7 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public  TabUserDashBordDetails  GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
-        {
-            DataEncryption DecryptFields = new DataEncryption();
-            DataEncryption decrypt = new DataEncryption();
-            List<DataParameter> param = new List<DataParameter>();
-            string DeviceType = "TAB";
-            
-            param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
-            param.Add(new DataParameter("@USERID",UserId));
-            param.Add(new DataParameter("@TABID",TabId));
-            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
-            try
-            {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TABDASHBOARDUSERDETAILS]", param);  
-                
-                TabUserDashBordDetails  lst = (from p in dt.AsEnumerable()
-                                            select new TabUserDashBordDetails()
-                                            {  
-                                                UserId = p.Field<long>("UserId"),
-                                                UnreadCount = p.Field<int>("UnreadCount"),
-                                                TabId = p.Field<long>("TabId"),
-                                                UserTypeId = p.Field<long>("UserTypeId"),
-                                                InstitutionId =p.Field<long>("InstitutionId"),
-                                                DeviceType = DeviceType,  
-                                                Flag = p.Field<int>("Flag"),
-
-                                                UserDetails = new TabDeviceUserDetails()
-                                                {
-                                                    UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
-                                                    PhotoLobThumb =p.IsNull("PhotoThump") ? null : decrypt.DecryptFile(p.Field<byte[]>("PhotoThump"))
-                                                }, 
-                                            }).FirstOrDefault();
-                if (lst != null)
-                {
-                    lst.TabParameterList = GroupParameterNameList(lst.InstitutionId, lst.UserId);
-                    lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
-                    lst.TabAppointmentList = PatientAppoinmentsList(lst.UserId, Login_Session_Id);
-                    lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
-                }
-
-                return lst;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message, ex);
-                return null;
-            }
-        }
-
-        public TabUserDashBordDetails GetDashBoardListDetail(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
+        public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
         {
             DataEncryption DecryptFields = new DataEncryption();
             DataEncryption decrypt = new DataEncryption();
@@ -574,9 +525,9 @@ namespace MyCortex.Repositories.Masters
                 if (lst != null)
                 {
                     lst.TabParameterList = GroupParameterNameLists(lst.InstitutionId, lst.UserId);
-                    /*lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
+                    lst.TabAlertsList = Get_ParameterValue(lst.UserId, lst.UserTypeId, Login_Session_Id);
                     lst.TabAppointmentList = PatientAppoinmentsList(lst.UserId, Login_Session_Id);
-                    lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);*/
+                    lst.TabMedicationList = MedicationView(lst.UserId, Login_Session_Id);
                 }
 
                 return lst;
@@ -641,71 +592,6 @@ namespace MyCortex.Repositories.Masters
             }
         }
 
-        public IList<TabDeviceParameterList> GroupParameterNameList(long InstitutionId, long Patient_Id)
-        {
-            List<DataParameter> param = new List<DataParameter>();
-            try
-            {
-                param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
-                param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
-                DataSet ds = ClsDataBase.GetDataSet("[MYCORTEX].[INSTITUTIONGROUPBASED_SP_PARAMETER_TABDASHBOARD]", param);
-                TabDeviceParameterList paramlist = new TabDeviceParameterList();
-                List<TabDeviceParameterList> lst = new List<TabDeviceParameterList>();
-                if (ds.Tables.Count > 0)
-                {
-                    for (int i = 0; i < ds.Tables.Count; i++)
-                    {
-                        List<TabDeviceParameterValues> list = (from p in ds.Tables[i].AsEnumerable()
-                                select new TabDeviceParameterValues()
-                                {
-                                    ActivityDate = p.Field<DateTime>("ACTIVITY_DATE"),
-                                    CreatedDateTime = p.Field<DateTime>("CREATED_DT"),
-                                    ParameterId = p.Field<long>("PARAMETER_ID"),
-                                    ParameterGroupId = p.Field<long>("PARAMETER_GROUPID"),
-                                    ParameterValue = p.Field<decimal>("PARAMETER_VALUE"),
-                                    ParameterName = p.Field<string>("PARAMETER_NAME"),
-                                    UomId = p.Field<long>("UNIT_ID"),
-                                    UomName = p.Field<string>("UNIT_NAME"),
-                                    HighCount = p.Field<int>("HighCount"),
-                                    MediumCount = p.Field<int>("MediumCount"),
-                                    LowCount = p.Field<int>("LowCount"),
-                                }).ToList();
-                        if (i == 0)
-                        {
-                            paramlist.Parameter1 = list;
-                        } else if (i == 1)
-                        {
-                            paramlist.Parameter2 = list;
-                        }
-                        else if (i == 2)
-                        {
-                            paramlist.Parameter3 = list;
-                        }
-                        else if (i == 3)
-                        {
-                            paramlist.Parameter4 = list;
-                        }
-                        else if (i == 4)
-                        {
-                            paramlist.Parameter5 = list;
-                        }
-                        else if (i == 5)
-                        {
-                            paramlist.Parameter6 = list;
-                        }
-                    }
-                }
-                
-                lst.Add(paramlist);
-                return lst;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message, ex);
-                return null;
-            }
-        }
-
         public IList<TabDeviceParameterList> GroupParameterNameLists(long InstitutionId, long Patient_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
@@ -735,30 +621,7 @@ namespace MyCortex.Repositories.Masters
                                                                    MediumCount = p.Field<int>("MediumCount"),
                                                                    LowCount = p.Field<int>("LowCount"),
                                                                }).ToList();
-                        if (i == 0)
-                        {
-                            paramlist.Parameter1 = list;
-                        }
-                        else if (i == 1)
-                        {
-                            paramlist.Parameter2 = list;
-                        }
-                        else if (i == 2)
-                        {
-                            paramlist.Parameter3 = list;
-                        }
-                        else if (i == 3)
-                        {
-                            paramlist.Parameter4 = list;
-                        }
-                        else if (i == 4)
-                        {
-                            paramlist.Parameter5 = list;
-                        }
-                        else if (i == 5)
-                        {
-                            paramlist.Parameter6 = list;
-                        }
+                        paramlist.ParameterList = list;
                     }
                 }
 
