@@ -585,7 +585,6 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             toastr.error("Username and/or Password are not active, please verify", "Warning");
         }
         else if (data == "13") {
-            $scope.errorlist = "Waiting for approval";
             toastr.error("Waiting for approval", "Warning");
         }
         else {
