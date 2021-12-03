@@ -486,7 +486,7 @@ namespace MyCortex.User.Controller
                     }
                     else if (userObj.UserType_Id == 3)
                     {
-                        Event_Code = "INS_CREATION";
+                        Event_Code = "ADMIN_USER_CREATION";
                     }
                     else if (userObj.ApprovalFlag != "0" && userObj.UserType_Id == 2)
                     {
