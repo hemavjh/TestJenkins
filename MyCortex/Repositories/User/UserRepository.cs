@@ -743,6 +743,29 @@ namespace MyCortex.Repositories.Uesr
             return insert;
         }
 
+        public bool UserChangePwdURL(long Id, string url)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@Url", url));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SET_CHANGEPWD_URL", param);
+            if (dt.Rows.Count > 0)
+            {
+                if (dt.Rows[0]["ID"].ToString() == "1")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>      
         /// Getting user list of a institution
         /// </summary>          

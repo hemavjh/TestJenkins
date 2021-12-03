@@ -1759,7 +1759,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
-            $scope.DepartmentId = "165";
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
             $("#UserLogo").val('');
@@ -5978,7 +5977,6 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     if (data.length > 0) {
                         var usercount = data.length;
                         angular.forEach(data, function (item, modIndex) {
-                            alert('Intial' + modIndex);
                             $http.get(baseUrl + 'api/User/DeleteCometchat_User?Id=' + item.Id + '&Institution=' + $scope.InstituteId).success(function (data) {
                                 var obj = {
                                     Id: item.Id,
@@ -26627,6 +26625,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + 2 + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
             $scope.UserLists = data;
         });
+
+        $scope.onCategoryChange = function () {
+            $scope.DeviceId = $scope.DeviceName;
+        }
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
             $scope.currentTab = "1";
@@ -27437,7 +27439,10 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 }
             });
             angular.forEach($scope.AllDeviceNameList, function (value, index) {
-                if (value.ID == $scope.DeviceName) {
+               /* if (value.ID == $scope.DeviceName) {
+                    $scope.DeviceName = value.DeviceName
+                }*/
+                if (value.DeviceId == $scope.DeviceName) {
                     $scope.DeviceName = value.DeviceName
                 }
             });

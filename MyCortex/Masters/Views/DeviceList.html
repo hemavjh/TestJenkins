@@ -2,7 +2,7 @@
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
         var element = document.getElementById($('.secondaryMenuActive').data('menu'));
-        $(element).addClass('activeButton');
+        $(element).addClass('activeButton');        
     });
 </script>
 <ul class="secondaryMenu">
@@ -149,23 +149,15 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
 
-                    <div class="inputGroups">
-                        <label>DeviceId<sup>
-                            <font class='mandatory-field'>*</font></sup>
-                        </label>
-                        <input type="text" class="form-control" id="DeviceId"
-                               ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="50"
-                               maxlength="50" placeholder="" onkeypress="">
-                    </div>
 
                     <!--<div class="inputGroups">
-                        <label>Device Name<sup>
-                            <font class='mandatory-field'>*</font></sup>
-                        </label>
-                        <input type="text" class="form-control" id="DeviceName"
-                               ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="50"
-                               maxlength="50" placeholder="" onkeypress="">
-                    </div>-->
+        <label>Device Name<sup>
+            <font class='mandatory-field'>*</font></sup>
+        </label>
+        <input type="text" class="form-control" id="DeviceName"
+               ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="50"
+               maxlength="50" placeholder="" onkeypress="">
+    </div>-->
                     <div class="inputGroups">
                         <label>
                             Device Name<sup>
@@ -173,15 +165,26 @@
                             </sup>
                         </label>
                         <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDeviceNameList" id="DeviceName" ng-model="DeviceName"
-                                ng-options="item2.ID as item2.DeviceName for item2 in AllDeviceNameList">
+                                ng-options="item2.DeviceId as item2.DeviceName for item2 in AllDeviceNameList" ng-change="onCategoryChange();">
                             <option value="">Select</option>
                         </select>
-
+                    </div>
+                    <div class="inputGroups">
+                        <label>
+                            DeviceId<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
+                        <input type="text" class="form-control" id="DeviceId"
+                               ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="50"
+                               maxlength="50" placeholder="" onkeypress="" disabled >
                     </div>
 
                     <div class="inputGroups">
-                        <label>DeviceType<sup>
-                            <font class='mandatory-field'>*</font></sup>
+                        <label>
+                            DeviceType<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
                         </label>
                         <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDevice" id="DeviceType" ng-model="DeviceType"
                                 ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
@@ -191,8 +194,10 @@
                     </div>
 
                     <div class="inputGroups">
-                        <label>Device Make<sup>
-                            <font class='mandatory-field'>*</font></sup>
+                        <label>
+                            Device Make<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
                         </label>
                         <input type="text" class="form-control" id="DeviceMake"
                                ng-model="DeviceMake" ng-init="DeviceMake=''" ng-maxlength="50"
@@ -200,8 +205,10 @@
                     </div>
 
                     <div class="inputGroups">
-                        <label>Device Model<sup>
-                            <font class='mandatory-field'>*</font></sup>
+                        <label>
+                            Device Model<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
                         </label>
                         <input type="text" class="form-control" id="DeviceModel"
                                ng-model="DeviceModel" ng-init="DeviceModel=''" ng-maxlength="50"
@@ -209,28 +216,31 @@
                     </div>
 
                     <!--<div class="inputGroups">
-                        <label>Parameter</label>
-                        <select ng-model="Parameter_Id" class="form-control"
-                                ng-options="item.Id as item.Name for item in ParameterTypeList">
-                            <option ng-repeat="" ng-selected="" ng-required="true"
-                                    value="{{sel.Id}}">
-                                Select
-                            </option>
-                        </select>
+        <label>Parameter</label>
+        <select ng-model="Parameter_Id" class="form-control"
+                ng-options="item.Id as item.Name for item in ParameterTypeList">
+            <option ng-repeat="" ng-selected="" ng-required="true"
+                    value="{{sel.Id}}">
+                Select
+            </option>
+        </select>
 
-                    </div>-->
+    </div>-->
                     <div class="inputGroups">
-                        <label>Parameter<sup>
-                            <font class='mandatory-field'>*</font></sup></label>
+                        <label>
+                            Parameter<sup>
+                                <font class='mandatory-field'>*</font>
+                            </sup>
+                        </label>
                         <select ng-model="SelectedParamter" multiple="multiple" id="Parameter"
                                 ng-options="item.Id as item.Name for item in ParameterTypeList"
                                 multiselect-dropdown></select>
                         <!--<select class="form-control" style="width:300px;">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
-                                    value="{{sel.ID}}">
-                                {{sel.DeviceName}}
-                            </option>-->
+            <option value="0">Select</option>
+            <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
+                    value="{{sel.ID}}">
+                {{sel.DeviceName}}
+            </option>-->
                         <!--</select>-->
                     </div>
 
@@ -243,4 +253,8 @@
         </div>
     </div>
 </div>
+<script>
+   
+</script>
+
 

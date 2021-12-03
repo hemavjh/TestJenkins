@@ -89,7 +89,7 @@
                                 <label>City</label>
                                 <span>{{City}}</span>
                             </div>
-                            <div class="inputGroups">
+                            <!--<div class="inputGroups">
 
                                 <label>Created No.of Patient</label>
                                 <span>{{Created_No_Of_Patient}}</span>
@@ -98,18 +98,22 @@
 
                                 <label>Created No.of HCP</label>
                                 <span>{{Created_No_Of_HealthCareProf}}</span>
-                            </div>
+                            </div>-->
                             <div class="inputGroups"></div>
 
                         </div>
                         <div class="col-sm-4">
                             <div class="inputGroups">
-                                <label>No.of Health Care Professionals</label>
-                                <span> {{Health_Care_Professionals}}</span>
+                                <span><label>Used   /    No.of Health Care Professionals      /       Remained</label></span>
+                                <span style="margin-left: 19px; font-weight: bold;"> {{Created_No_Of_HealthCareProf}}</span> / 
+                                <span style="margin-left: 73px; font-weight: bold;">{{Health_Care_Professionals}}</span>   
+                                <span style="margin-left: 104px; font-weight: bold;">/ {{Remaining_No_Of_HealthCareProf}}</span>
                             </div>
                             <div class="inputGroups">
-                                <label>No.of Patients</label>
-                                <span>{{Patients}}</span>
+                                <span><label>Used   /    No.of Patient      /       Remained</label></span>
+                                <span style="margin-left: 11px; font-weight: bold;"> {{Created_No_Of_Patient}}</span> /
+                                <span style="margin-left: 31px; font-weight: bold;">{{Patients}}</span>
+                                <span style="margin-left: 28px; font-weight: bold;">/ {{Remaining_No_Of_Patient}}</span>
                             </div>
                             <div class="inputGroups">
                                 <label>Contract Period </label>
@@ -132,14 +136,14 @@
                                     <input type="checkbox" class="input-checkbox" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc" disabled="disabled">SC
                                 </span>
                             </div>
-                            <div class="inputGroups">
+                            <!--<div class="inputGroups">
                                 <label>Remaind No.Of Patient</label>
                                 <span> {{Remaining_No_Of_Patient}}</span>
                             </div>
                             <div class="inputGroups">
                                 <label>Remaind No.Of HCP</label>
                                 <span> {{Remaining_No_Of_HealthCareProf}}</span>
-                            </div>
+                            </div>-->
                             <!--<div class="inputGroups">
                                <label>Type</label>
                                {{Subscription_Type==1 ? "Standard" : "Premium"}}
