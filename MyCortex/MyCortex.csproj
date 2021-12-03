@@ -1464,6 +1464,7 @@
     <Content Include="Template\Views\Templatelist.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Template\Views\TemplatelistSMS.html" />
     <Content Include="underconstruction.html" />
     <Content Include="User\Views\AllPatientList.html" />
     <Content Include="Masters\Views\Myhome.html" />
