@@ -162,6 +162,72 @@
         $('#Date_Birth').attr('max', maxDate);
     });
 </script>
+<script>
+    var input = document.querySelector("#txtMobile");
+    var inputPhoneNo = window.intlTelInput(input, {
+        formatOnDisplay: true,
+        separateDialCode: true,
+        geoIpLookup: function (callback) {
+            $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        //preferredCountries: ["in"],
+        utilsScript: "scripts/utils.js",
+    });
+
+    //inputPhoneNo.setNumber("+91 98765 43210");
+
+    function txtPhoneChange() {
+        //alert("event fired");
+        //var phoneNo = document.getElementById("txtPhone");
+
+        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+        //alert(txtiso2);
+        //inputPhoneNo.setCountry(txtiso2);
+
+        const PhoneNumber = inputPhoneNo.getNumber();
+        //alert(PhoneNumber);
+
+        var countryData = inputPhoneNo.getSelectedCountryData();
+        var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+        var iso2 = countryData.iso2;
+        countryCode = "+" + countryCode;
+        //alert(countryCode);
+        //alert(iso2);
+
+        var number = document.getElementById("txtMobile").value;
+        //alert(number);
+        //alert(countryCode +"-" + number);
+
+        document.getElementById("txthdCountryiso2").value = iso2;
+        document.getElementById("txthdCountryCode").value = countryCode;
+        //document.getElementById("txthdFullNumber").value = PhoneNumber;
+        document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+
+        //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+        //alert(txt);
+
+        if (PhoneNumber != "") {
+            var isValidNum = inputPhoneNo.isValidNumber();
+            //alert(isValidNum);
+            if (!isValidNum) {
+                //toastr.error("Phone Number Invalid", "warning");
+                alert("Phone number invalid");
+                document.getElementById("txthdFullNumber").value = "";
+            }
+            else {
+                document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+            }
+        }
+
+        //inputPhoneNo.setCountry(txtiso2);
+    }
+</script>
+<input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
+<input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
+<input type="text" hidden="hidden" id="txthdFullNumber" />
 <div class="row"
      ng-init="Patientcreatefunction();InstitutionBased_CountryStateList();Admin_View(3);PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
     <div class="col-md-12">
@@ -260,13 +326,13 @@
 
                                 </div>
                                 <!--<div class="inputGroups">
-                <label valign="top">Patient ID</label>
-                <span>{{PatientNo}}</span>
-        </div>
-        <div class="inputGroups">
-                <label>Short Name</label>
-                <span>{{Createdby_ShortName}}</span>
-        </div>-->
+                                        <label valign="top">Patient ID</label>
+                                        <span>{{PatientNo}}</span>
+                                </div>
+                                <div class="inputGroups">
+                                        <label>Short Name</label>
+                                        <span>{{Createdby_ShortName}}</span>
+                                </div>-->
                                 <div class="inputGroups">
                                     <label>
                                         National ID<sup>
@@ -323,9 +389,11 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input type="text" class="form-control" id="Text6" name="MobileNo"
-                                           ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true" placeholder=""
-                                           ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />
+                                    <!--<input type="text" class="form-control" id="Text6" name="MobileNo"
+                                    ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true" placeholder=""
+                                    ng-maxlength="20" maxlength="20" onkeypress="OnlySpecCharNum(event)" />-->
+                                    <input type="text" class="form-control" id="txtMobile" name="tel"
+                                           ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
                                 </div>
                                 <div class="inputGroups">
                                     <label>Group</label>
@@ -426,47 +494,47 @@
                                                style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
                                                ng-click="NationalityPhotoUplaodSelected()" />
 
-                                            <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
-                                                <img id="item-img-output1" style=" width: 200px; height: 200px;" class="responsiveProfileImage1" src="{{uploadme1}}" />
-                                            </div>
-                                            <div style="margin-top: 15px;">
-                                                <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
-                                                   title="Clear" ng-hide="Pat_UserTypeId==2">
-                                                    Clear
-                                                </a>
-                                                <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
-                                                    <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
-                                                        <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
-                                                        <span>Upload National Photo</span>
-                                                    </label>
+                                        <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
+                                            <img id="item-img-output1" style=" width: 200px; height: 200px;" class="responsiveProfileImage1" src="{{uploadme1}}" />
+                                        </div>
+                                        <div style="margin-top: 15px;">
+                                            <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
+                                               title="Clear" ng-hide="Pat_UserTypeId==2">
+                                                Clear
+                                            </a>
+                                            <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                                <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
+                                                    <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
+                                                    <span>Upload National Photo</span>
+                                                </label>
 
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="modal" tabindex="-1" role="dialog" id="insertimageModal1">
-                                            <div class="modal-dialog" role="document" style="min-width: 700px">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Crop Image</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-md-12 text-center">
-                                                                <div id="image_demo1"></div>
-                                                            </div>
+                                    </div>
+                                    <div class="modal" tabindex="-1" role="dialog" id="insertimageModal1">
+                                        <div class="modal-dialog" role="document" style="min-width: 700px">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Crop Image</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div id="image_demo1"></div>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary crop_images">Crop and Save</button>
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary crop_images">Crop and Save</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
 
                         </div>
@@ -487,7 +555,7 @@
                                             data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-required="true"
                                             ng-disabled="Pat_UserTypeId==2">
                                         <option value="0">Select</option>
-                                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id" 
+                                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id"
                                                 value="{{sel.Id}}">
                                             {{sel.Name}}
                                         </option>
@@ -534,8 +602,8 @@
                                     <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
-            <i class="glyphicon glyphicon-th"></i>
-        </span>-->
+                                        <i class="glyphicon glyphicon-th"></i>
+                                    </span>-->
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -861,11 +929,11 @@
                                                     </td>
                                                     <td style="text-align: center">
                                                         <!-- <input type="image"
-                                            src="../../Images/deleteNewIcon.png"
-                                            title='Click to delete'
-                                            ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
-                                            ng-model="row.selectedMedicine"
-                                            style="width: 20px;" id="Image3" />-->
+                                                        src="../../Images/deleteNewIcon.png"
+                                                        title='Click to delete'
+                                                        ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
+                                                        ng-model="row.selectedMedicine"
+                                                        style="width: 20px;" id="Image3" />-->
 
                                                     </td>
                                                 </tr>
@@ -887,11 +955,11 @@
                                                     </td>
                                                     <td style="text-align: center">
                                                         <!-- <input type="image"
-                                            src="../../Images/deleteNewIcon.png"
-                                            title='Click to delete'
-                                            ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
-                                            ng-model="row.selectedMedicine"
-                                            style="width: 20px;" id="Image3" />-->
+                                                        src="../../Images/deleteNewIcon.png"
+                                                        title='Click to delete'
+                                                        ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
+                                                        ng-model="row.selectedMedicine"
+                                                        style="width: 20px;" id="Image3" />-->
 
                                                     </td>
                                                 </tr>
@@ -913,11 +981,11 @@
                                                     </td>
                                                     <td style="text-align: center">
                                                         <!-- <input type="image"
-                                            src="../../Images/deleteNewIcon.png"
-                                            title='Click to delete'
-                                            ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
-                                            ng-model="row.selectedMedicine"
-                                            style="width: 20px;" id="Image3" />-->
+                                                        src="../../Images/deleteNewIcon.png"
+                                                        title='Click to delete'
+                                                        ng-click="RemoveMedicalHistory_Item(row.Id, $index)"
+                                                        ng-model="row.selectedMedicine"
+                                                        style="width: 20px;" id="Image3" />-->
 
                                                     </td>
                                                 </tr>
@@ -1172,9 +1240,9 @@
                                         <input max="2099-12-31" type="date" id="Expiry_Date" class="form-control" ng-model="ExpiryDate" ng-init="ExpiryDate=''"
                                                style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                         <!--<input type="text" class="form-control" id="Text8"
-                   ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"
-                   maxlength="100" ng-maxlength="100" placeholder=""
-                   onkeypress="ParticularSpec(event)" ng-disabled="Pat_UserTypeId==2">-->
+                                        ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"
+                                        maxlength="100" ng-maxlength="100" placeholder=""
+                                        onkeypress="ParticularSpec(event)" ng-disabled="Pat_UserTypeId==2">-->
                                     </div>
                                     <div class="inputGroups">
                                         <label>Payor Name</label>

@@ -80,13 +80,79 @@
             $('#Date_Birth').attr('max', maxDate);
         });
     </script>
-      <script>
+    <script>
         $(document).ready(function () {
             $('.activeButton').removeClass('activeButton');
             $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
         });
     </script>
+    <script>
+        var input = document.querySelector("#txtMobile");
+        var inputPhoneNo = window.intlTelInput(input, {
+            formatOnDisplay: true,
+            separateDialCode: true,
+            geoIpLookup: function (callback) {
+                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            //preferredCountries: ["in"],
+            utilsScript: "scripts/utils.js",
+        });
+
+        //inputPhoneNo.setNumber("+91 98765 43210");
+
+        function txtPhoneChange() {
+            //alert("event fired");
+            //var phoneNo = document.getElementById("txtPhone");
+
+            //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+            //alert(txtiso2);
+            //inputPhoneNo.setCountry(txtiso2);
+
+            const PhoneNumber = inputPhoneNo.getNumber();
+            //alert(PhoneNumber);
+
+            var countryData = inputPhoneNo.getSelectedCountryData();
+            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+            var iso2 = countryData.iso2;
+            countryCode = "+" + countryCode;
+            //alert(countryCode);
+            //alert(iso2);
+
+            var number = document.getElementById("txtMobile").value;
+            //alert(number);
+            //alert(countryCode +"-" + number);
+
+            document.getElementById("txthdCountryiso2").value = iso2;
+            document.getElementById("txthdCountryCode").value = countryCode;
+            //document.getElementById("txthdFullNumber").value = PhoneNumber;
+            document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+
+            //var txtiso2 = document.getElementById("txthdCountryiso2").value;
+            //alert(txt);
+
+            if (PhoneNumber != "") {
+                var isValidNum = inputPhoneNo.isValidNumber();
+                //alert(isValidNum);
+                if (!isValidNum) {
+                    //toastr.error("Phone Number Invalid", "warning");
+                    alert("Phone number invalid");
+                    document.getElementById("txthdFullNumber").value = "";
+                }
+                else {
+                    document.getElementById("txthdFullNumber").value = countryCode + "~" + number;
+                }
+            }
+
+            //inputPhoneNo.setCountry(txtiso2);
+        }
+    </script>
 </head>
+<input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
+<input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
+<input type="text" hidden="hidden" id="txthdFullNumber" />
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
     <li>
@@ -203,6 +269,7 @@
             <td style="text-align: left">
                 {{row.UserName}}
             </td>
+            le
             <td style="text-align: left" title="{{row.GroupName}}">
                 <div class="textwrap">
                     {{
@@ -407,7 +474,7 @@
                                                                 </option>
                                                             </select>
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <div class="col-sm-4">
 
@@ -450,10 +517,12 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <input type="text" class="form-control" id="Text6" name="MobileNo"
-                                                                   ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true"
-                                                                   placeholder="" ng-maxlength="20" maxlength="20"
-                                                                   onkeypress="OnlySpecCharNum(event)" />
+                                                            <!--<input type="text" class="form-control" id="Text6" name="MobileNo"
+                                                            ng-model="MobileNo" ng-init="MobileNo=''" ng-required="true"
+                                                            placeholder="" ng-maxlength="20" maxlength="20"
+                                                            onkeypress="OnlySpecCharNum(event)" />-->
+                                                            <input type="text" class="form-control" id="txtMobile" name="tel"
+                                                                   ng-model="MobileNo" ng-required="true" onblur="txtPhoneChange()" />
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>
@@ -620,7 +689,7 @@
                                                             <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">
                                                             <!--</div>-->
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -958,7 +1027,7 @@
                                                     <div class="inputGroups">
                                                         <label valign="top">RowId</label>
                                                         <span id="hosadminrowid">{{Id}}</span>
-                                                    
+
                                                     </div>
                                                 </div>
                                             </div>
