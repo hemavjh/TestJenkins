@@ -26292,7 +26292,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             $scope.SelectedFile = file;
         };
         $scope.Upload = function () {
-            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+            var regex = /^(.*)+(.xls|.xlsx)$/;
             if (regex.test($scope.SelectedFile.name.toLowerCase())) {
                 if (typeof (FileReader) != "undefined") {
                     $scope.rowCollectionLanguageSettings = [];
