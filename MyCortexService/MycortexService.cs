@@ -393,6 +393,46 @@ namespace MyCortexService
                 }
 
                 // End
+
+                // Patient Appointment Reminder Notification
+                // Start
+
+                List<DataParameter> appoint_rem = new List<DataParameter>();
+                appoint_param.Add(new DataParameter("@type", "Get_Mail"));
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", appoint_rem);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            Id = Convert.ToInt64(dt.Rows[i]["id"].ToString());
+                            Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
+                            Patient_Id = Convert.ToInt64(dt.Rows[i]["PATIENT_ID"].ToString());
+
+                            EmailList = AlertEventReturn.Patient_AppointmentCreation_AlertEvent((long)Id, (long)Institution_Id);
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
+
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Update_Mail_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
+                        }
+                    }
+                }
+
+                // End
             }
             catch (Exception ex)
             {
