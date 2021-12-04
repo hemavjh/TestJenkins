@@ -11035,10 +11035,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var Active_To = "";
 
             angular.forEach($scope.AddICD10List, function (value, index) {
-                value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
-                Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
-                value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
-                Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                if (value.Active_From != false && value.Active_From != "" && value.Active_To != false && value.Active_To != "") {
+                    value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                    Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                    value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                    Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                    value.Active_From = DateFormatEdit(value.Active_From);
+                    value.Active_To = DateFormatEdit(value.Active_To);
+                }
 
                 if (value.Code_ID == 0 || value.Code_ID == "") {
                     validationMsg = validationMsg + "Please select ICD Code";
@@ -11046,28 +11050,28 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     return false;
                 }
 
-                if ((value.Active_From) == "") {
-                    validationMsg = validationMsg + "Please select Active From Date";
-                    validateflag = false;
-                    return false;
-                }
+                //if ((value.Active_From) == "") {
+                //    validationMsg = validationMsg + "Please select Active From Date";
+                //    validateflag = false;
+                //    return false;
+                //}
                 /*if ((value.Active_To) == "") {
                     validationMsg = validationMsg + "Please select Active To Date";
                     validateflag = false;
                     return false;
                 }*/
-                if ((value.Active_From !== null) && (value.Active_To !== null)) {
-                    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
-                        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
-                        value.Active_From = DateFormatEdit(value.Active_From);
-                        value.Active_To = DateFormatEdit(value.Active_To);
-                        validateflag = false;
-                        return false;
-                    }
-                }
+                //if ((value.Active_From !== null) && (value.Active_To !== null)) {
+                //    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
+                //        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
+                //        value.Active_From = DateFormatEdit(value.Active_From);
+                //        value.Active_To = DateFormatEdit(value.Active_To);
+                //        validateflag = false;
+                //        return false;
+                //    }
+                //}
 
-                value.Active_From = DateFormatEdit(value.Active_From);
-                value.Active_To = DateFormatEdit(value.Active_To);
+                //value.Active_From = DateFormatEdit(value.Active_From);
+                //value.Active_To = DateFormatEdit(value.Active_To);
 
             });
 
