@@ -5,6 +5,16 @@ if (baseUrl == "/") {
     baseUrl = "";
 }
 
+var DatetimepickerdtToday = new Date();
+var Datetimepickermonth = DatetimepickerdtToday.getMonth() + 1;
+var Datetimepickerday = DatetimepickerdtToday.getDate();
+var Datetimepickeryear = DatetimepickerdtToday.getFullYear();
+if (Datetimepickermonth < 10)
+    Datetimepickermonth = '0' + Datetimepickermonth.toString();
+if (Datetimepickerday < 10)
+    Datetimepickerday = '0' + Datetimepickerday.toString();
+var DatetimepickermaxDate = Datetimepickeryear + '-' + Datetimepickermonth + '-' + Datetimepickerday;
+
 MyCortexControllers.factory('rememberMe', function () {
     function fetchValue(name) {
         var gCookieVal = document.cookie.split("; ");
@@ -1525,7 +1535,9 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Created_No_Of_HealthCareProf = "";
         $scope.Remaining_No_Of_Patient = "";
         $scope.Remaining_No_Of_HealthCareProf = "";
-
+        
+        $scope.Contract_Period_From = new Date(DatetimepickermaxDate);
+        $scope.Contract_Period_To = new Date(DatetimepickermaxDate);
     }
     $scope.InstitutionSubscription_Delete = function () {
         //alert("Subscription cannot be activated / deactivated")
@@ -1747,7 +1759,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
-            $scope.DepartmentId = "165";
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
             $("#UserLogo").val('');
@@ -5966,7 +5977,6 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
                     if (data.length > 0) {
                         var usercount = data.length;
                         angular.forEach(data, function (item, modIndex) {
-                            alert('Intial' + modIndex);
                             $http.get(baseUrl + 'api/User/DeleteCometchat_User?Id=' + item.Id + '&Institution=' + $scope.InstituteId).success(function (data) {
                                 var obj = {
                                     Id: item.Id,
@@ -9581,6 +9591,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 else {
                     angular.element('#BookAppointmentModal').modal('show');
                 }
+                $scope.AppoimDate = new Date(DatetimepickermaxDate);
             });
         }
         $scope.ShowStripePopup = function () {
@@ -11275,6 +11286,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.ICD10CodeList = [];
             $scope.ICD10CodeListsFilter = [];
             $scope.selectedICD10Row = "";
+
+            $scope.Active_From = new Date(DatetimepickermaxDate);
+            $scope.Active_To = new Date(DatetimepickermaxDate);
         }
 
         /*THIS IS FOR DELETE FUNCTION */
@@ -12017,7 +12031,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             });
         }
         $scope.PatientMedicationCreateModalClear = function () {
-
             $scope.AddMedicationDetails = [{
                 'Id': 0,
                 'DrugId': 0,
@@ -12030,7 +12043,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 'RouteId': 0,
                 'StartDate': '',
                 'EndDate': ''
-
             }];
         }
         $scope.CancelEditMedicationPopUp = function () {
@@ -12503,6 +12515,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.OnSetDate = "";
             $scope.Remarks = "";
             $scope.SelectedAllergyReaction = "";
+            $scope.OnSetDate = new Date(DatetimepickermaxDate);
         }
 
 

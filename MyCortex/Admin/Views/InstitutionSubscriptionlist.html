@@ -1,10 +1,29 @@
 ﻿<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        $('#Contract_Period_From').attr('max', maxDate);
+        $('#Contract_Period_To').attr('max', maxDate);
+
+        document.getElementById("Contract_Period_From").value = maxDate;
+        document.getElementById("Contract_Period_To").value = maxDate;
+    });
+</script>
+<script>
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
         $('#Subscription').addClass('activeButton');
     });
 </script>
-
 <h1 class="page-title">Subscription</h1>
 <div ng-init="InstitutionSubscriptionDetailsListTemplate()">
     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -107,7 +126,7 @@
     <div class="modal-dialog" style="width: 75%">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close" >&times;</button>
+                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">&times;</button>
 
                 <h1 class="modal-title">Subscription</h1>
             </div>
@@ -224,14 +243,14 @@
                                                                 <td>
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
-                                                                        <input type="date" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                                                        <input type="date" id="Contract_Period_From" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
                                                                                ng-model="Contract_Period_From" ng-init="Contract_Period_From=''" style="width:165px" ng-required="true">
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
-                                                                        <input type="date" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
+                                                                        <input type="date" id="Contract_Period_To" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
                                                                                ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:165px" ng-required="true">
                                                                     </div>
                                                                 </td>
@@ -362,7 +381,8 @@
                         </div>
                         <div class="modal-footer" style="text-align:center;">
                             <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save" ng-click="Institution_SubscriptionAddEdit()" ng-hide="EditInstSub == 0">
-                                        Save</button>
+                                Save
+                            </button>
                             <button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Save and Add Admin"
                                     ng-click="AndSubscription_AndAdmin()" ng-hide="EditInstSub == 1">
                                 Save and Add Admin
@@ -382,7 +402,7 @@
     <div class="modal-dialog" style="width: 70%">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close" >&times;</button>
+                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">&times;</button>
 
                 <h1 class="modal-title">Subscription</h1>
             </div>
