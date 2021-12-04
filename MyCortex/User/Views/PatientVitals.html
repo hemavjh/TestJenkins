@@ -4507,7 +4507,7 @@
                                     <select ng-model="row.DocumentType" data-live-search="true" data-selectpicker data-collection-name="DocumentTypeList"
                                             class="form-control" data-style="form-control" 
                                             ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
-                                            style="width: 150px;">
+                                            style="width: 160px;">
                                         <option value="">Select</option>
                                     </select>
                                 </td>
@@ -4688,9 +4688,13 @@
                                     <label>Document Type</label>
                                 </td>
                                 <td>
-                                    <select class="form-control" ng-model="DocumentType"
+                                    <select ng-model="DocumentType" data-live-search="true" data-selectpicker data-collection-name="DocumentTypeList"
+                                            class="form-control" data-style="form-control"
                                             ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
-                                            style="width: 150px;"></select>
+                                            style="width: 160px;">
+                                        <option value="">Select</option>
+                                    </select>
+
                                 </td>
                             </tr>
                             <tr>
