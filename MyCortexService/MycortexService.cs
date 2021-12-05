@@ -58,7 +58,7 @@ namespace MyCortexService
 
                 AlertEvents AlertEventReturn = new AlertEvents();
                 IList<EmailListModel> EmailList;
-                Int64 Id = 0, Institution_Id, Patient_Id;
+                Int64 Id = 0, Institution_Id, Patient_Id, Doctor_Id;
 
                 // to execute the service daily once at the day start(at 12AM)
                 var dateAndTime = DateTime.Now;
@@ -394,7 +394,7 @@ namespace MyCortexService
 
                 // End
 
-                // Patient Appointment Reminder Notification
+                // Appointment Reminder Notification for Patient
                 // Start
 
                 List<DataParameter> appoint_rem = new List<DataParameter>();
@@ -428,6 +428,47 @@ namespace MyCortexService
                             param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
                             param1.Add(new DataParameter("@id", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
+                        }
+                    }
+                }
+
+                // End
+
+
+                // Appointment Reminder Notification for Doctor
+                // Start
+
+                List<DataParameter> appoint_doc = new List<DataParameter>();
+                appoint_param.Add(new DataParameter("@type", "Get_Mail"));
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", appoint_doc);
+                if (dt.Rows.Count > 0)
+                {
+                    try
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            Id = Convert.ToInt64(dt.Rows[i]["id"].ToString());
+                            Institution_Id = Convert.ToInt64(dt.Rows[i]["INSTITUTION_ID"].ToString());
+                            Doctor_Id = Convert.ToInt64(dt.Rows[i]["DOCTOR_ID"].ToString());
+
+                            EmailList = alertrepository.UserSpecificEmailList((long)Institution_Id, Doctor_Id);
+
+                            AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
+
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Update_Mail_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Id != 0)
+                        {
+                            List<DataParameter> param1 = new List<DataParameter>();
+                            param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
+                            param1.Add(new DataParameter("@id", Id));
+                            dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
                     }
                 }
