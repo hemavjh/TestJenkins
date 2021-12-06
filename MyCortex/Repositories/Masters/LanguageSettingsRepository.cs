@@ -69,6 +69,9 @@ namespace MyCortex.Repositories.Masters
                         param.Add(new DataParameter("@ID", item.ID));
                         param.Add(new DataParameter("@INSTITUTION_ID", item.INSTITUTION_ID));
                         param.Add(new DataParameter("@LANGUAGE_TEXT", item.LANGUAGE_TEXT));
+                        param.Add(new DataParameter("@LANGUAGE_DEFAULT", item.LANGUAGE_DEFAULT));
+                        param.Add(new DataParameter("@LANGUAGE_ID", item.LANGUAGE_ID));
+                        param.Add(new DataParameter("@LANGUAGE_KEY", item.LANGUAGE_KEY));
                         param.Add(new DataParameter("@CREATED_BY", HttpContext.Current.Session["UserId"]));
                         retid = ClsDataBase.Insert("[MYCORTEX].[TBLLANGUAGE_TEXT_SP_UPDATE]", param, true);
                     }
