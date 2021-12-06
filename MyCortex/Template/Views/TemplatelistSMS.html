@@ -18,7 +18,7 @@
 </script>
 <ul class="secondaryMenu">
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/EmailTemplate/1" data-menu="Bulk SMS">SMS Template</a>
+        <a class="secondaryMenuActive" href="Home/Index#/SMSTemplate/1" data-menu="Bulk SMS">SMS Template</a>
     </li>
     <li>
         <a href="Home/Index#/MessagingSend/1">Send SMS</a>
@@ -33,120 +33,121 @@
 <h1 class="page-title">SMS Template</h1>
 
 
-<div ng-init="EmailTemplatelist()">
-    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
-        <div></div>
-        <div></div>
-    </div>
-    <div class="panel panel-default" id="DMid">
-        <form class="panel-body" role="form">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="inputGroups">
-                        <label>Search</label>
-                        <div class="modernSearch">
-                            <input type="text" ng-model="searchquery" ng-change="fliterTemplateList()" placeholder=""
-                                   style="width: 200px" />
-                            <i class="fa fa-search"></i>
+<!--<div ng-init="SMSTemplatelist()">-->
+ <div ng-init="">
+        <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="panel panel-default" id="DMid">
+            <form class="panel-body" role="form">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Search</label>
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchquery" ng-change="fliterTemplateList()" placeholder=""
+                                       style="width: 200px" />
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label for="Active">Active</label>
+                            <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="EmailTemplatelist();"
+                                   title="Active / All">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <a href="javascript:" ng-click="AddSMSTemplatePopUP();ClearPopup()"
+                               class="theme-btn-1 pull-right mt-15" title="Click to Add Template">Add New</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="inputGroups">
-                        <label for="Active">Active</label>
-                        <input toggle-checkbox ng-model="IsActive" type="checkbox" ng-change="EmailTemplatelist();"
-                               title="Active / All">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="inputGroups">
-                        <a href="javascript:" ng-click="AddEmailTemplatePopUP();ClearPopup()"
-                           class="theme-btn-1 pull-right mt-15" title="Click to Add Template">Add New</a>
-                    </div>
-                </div>
-            </div>
 
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
-       class="table themeTable">
-    <thead>
-        <tr style="text-align: center">
-            <th st-ratio="5">#</th>
-            <!--<th st-ratio="15" st-sort="Institution_Name">Institution Name</th>-->
-            <th st-ratio="15" st-sort="TemplateName">Template Name</th>
-            <th st-ratio="15" st-sort="EmailSubject">Email Subject</th>
-            <th st-ratio="42" st-sort="EmailTemplate">Email Template </th>
-            <th st-ratio="8">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-if="rowCollectionFilter.length==0">
-            <td colspan="9" style="text-align: center">
-                No Data Available
-            </td>
-        </tr>
-        <tr ng-repeat="row in emptydata">
-            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            <!--<td style="text-align: left"><div class="textwrap">{{row.Institution_Name}}</div></td>-->
-            <td style="text-align: left">
-                <div class="textwrap">{{row.TemplateName}}</div>
-            </td>
-            <td style="text-align: left">
-                {{row.EmailSubject}}
-            </td>
-            <td style="text-align: left">
-                <div>
-                    <p ng-bind-html="row.EmailTemplate.length>150?row.EmailTemplate.substring(0,150)+'...' : row.EmailTemplate">
-                    </p>
-                </div>
-            </td>
-            <td style="text-align: center">
+    <table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter" st-search="query"
+           class="table themeTable">
+        <thead>
+            <tr style="text-align: center">
+                <th st-ratio="5">#</th>
+                <!--<th st-ratio="15" st-sort="Institution_Name">Institution Name</th>-->
+                <th st-ratio="15" st-sort="TemplateName">Template Name</th>
+                <th st-ratio="15" st-sort="EmailSubject">Email Subject</th>
+                <th st-ratio="42" st-sort="EmailTemplate">Email Template </th>
+                <th st-ratio="8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="rowCollectionFilter.length==0">
+                <td colspan="9" style="text-align: center">
+                    No Data Available
+                </td>
+            </tr>
+            <tr ng-repeat="row in emptydata">
+                <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+                <!--<td style="text-align: left"><div class="textwrap">{{row.Institution_Name}}</div></td>-->
+                <td style="text-align: left">
+                    <div class="textwrap">{{row.TemplateName}}</div>
+                </td>
+                <td style="text-align: left">
+                    {{row.EmailSubject}}
+                </td>
+                <td style="text-align: left">
+                    <div>
+                        <p ng-bind-html="row.EmailTemplate.length>150?row.EmailTemplate.substring(0,150)+'...' : row.EmailTemplate">
+                        </p>
+                    </div>
+                </td>
+                <td style="text-align: center">
 
-                <a href="javascript:" ng-click="ViewEmailTemplatePopUP(row.Id)" title="View">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </a>
-
-                <a href="javascript:" ng-click="row.IsActive == 0 ||  EditEmailTemplate(row.Id)" title="Edit">
-                    <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
-                        <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                    <a href="javascript:" ng-click="ViewEmailTemplatePopUP(row.Id)" title="View">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
-                        <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
 
-                        <a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
-                            <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                    <a href="javascript:" ng-click="row.IsActive == 0 ||  EditEmailTemplate(row.Id)" title="Edit">
+                        <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                        <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                            <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
                         </a>
-                    </a>
-            </td>
-        </tr>
-    </tbody>
-    <tfoot ng-show="rowCollectionFilter.length >10">
-        <tr>
-            <td colspan="9" class="text-center">
-                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
-                     st-template="Masters/Views/pagination.custom.html"></div>
-            </td>
-        </tr>
-    </tfoot>
-</table>
+                        <a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
+                            <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
+                            <a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
+                                <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                            </a>
+                        </a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="rowCollectionFilter.length >10">
+            <tr>
+                <td colspan="9" class="text-center">
+                    <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                         st-template="Masters/Views/pagination.custom.html"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 
 </div>
 
 
 <!--Add&Edit Modal-->
-<div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+<div id="SMSTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width:90%">
-        <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
+        <div class="modal-content" ng-init="SMSTemplatelist();TempMappinglist()">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close"
                         ng-click="CancelPopup()">
                     &times;
                 </button>
-                <h4 class="modal-title">Email Template</h4>
+                <h4 class="modal-title">SMS Template</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
@@ -166,19 +167,19 @@
                         <div class="col-sm-8">
                             <div class="inputGroups">
                                 <label>
-                                    Email Subject<sup>
+                                    SMS Subject<sup>
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <input type="text" class="form-control" id="Text3" name="EmailSubject"
-                                       ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
+                                <input type="text" class="form-control" id="Text3" name="SMSSubject"
+                                       ng-model="SMSSubject" ng-init="SMSSubject=''" placeholder="" ng-maxlength="100"
                                        maxlength="100" onkeypress="" />
                             </div>
                         </div>
                         <div class="col-sm-8">
                             <div class="inputGroups">
                                 <label>
-                                    Email Template<sup>
+                                    SMS Template<sup>
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
@@ -204,7 +205,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="EmailTemplateAddEdit()"
+                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="SMSTemplateAddEdit()"
                         title="Click to Save">
                     Save
                 </button>

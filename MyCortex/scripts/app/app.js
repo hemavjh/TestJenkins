@@ -192,6 +192,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Template/Views/Templatelist.html',
         controller: 'EmailTemplateController'
     }).
+        when('/SMSTemplate/:PageParameter', {
+            templateUrl: baseUrl + 'Template/Views/TemplatelistSMS.html',
+            controller: 'SMSTemplateController'
+        }).
     when('/MessagingSend/:PageParameter', {
         templateUrl: baseUrl + 'Template/Views/Messaging.html',
         controller: 'SendEmailController'
