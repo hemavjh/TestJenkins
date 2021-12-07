@@ -26273,6 +26273,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                     INSTITUTION_ID: $window.localStorage['InstitutionId'],
                     LANGUAGE_ID: parseInt($scope.selectedLanguage),
                     LANGUAGE_TEXT: $scope.LanguageText[value.ID],
+                    LANGUAGE_KEY: $scope.rowCollectionLanguageSettings[index].LANGUAGE_KEY,
+                    LANGUAGE_DEFAULT: $scope.rowCollectionLanguageSettings[index].LANGUAGE_DEFAULT
                 }
                 $('#save').attr("disabled", true);
                 $scope.LanguageSettingsDetails.push(obj);
