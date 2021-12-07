@@ -9611,6 +9611,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.AddVitalParameters = [{
             'Id': 0,
             'ParameterId': 0,
+            'Units_ID': 0,
             'UOM_Name': '',
             'ParameterValue': '',
             'IsActive': 1
@@ -9622,6 +9623,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 var obj = {
                     'Id': 0,
                     'ParameterId': 0,
+                    'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
                     'IsActive': 1
@@ -9632,6 +9634,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.AddVitalParameters = [{
                     'Id': 0,
                     'ParameterId': 0,
+                    'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
                     'IsActive': 1
@@ -9647,6 +9650,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AddVitalParameters = [{
                         'Id': 0,
                         'ParameterId': 0,
+                        'Units_ID': 0,
                         'UOM_Name': '',
                         'ParameterValue': '',
                         'IsActive': 1
@@ -9664,6 +9668,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             angular.forEach($scope.AddVitalParameters, function (value1, index1) {
                 if (value1.ParameterId != '' || value1.ParameterId > 0) {
                     paramExist = 1;
+                }
+                if (value1.Units_Id != '' || value1.Units_Id > 0) {
+                    unitIdExist = 1;
                 }
                 var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: value1.ParameterId }, true)[0]
                 if (checkobj != null) {
@@ -9706,6 +9713,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else if (paramExist == 0) {
                 //alert('Please enter Parameter details to Save');
                 toastr.warning("Please enter Parameter details to Save", "warning");
+                return false;
+            }
+            else if (unitIdExist == 0) {
+                //alert('Please enter Unit details to Save');
+                toastr.warning("Please enter Unit details to Save", "warning");
                 return false;
             }
             return true;
