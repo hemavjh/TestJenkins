@@ -1,0 +1,231 @@
+﻿<head>
+    <style type="text/css">
+        input[type='file'] {
+            opacity: 0;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        });
+    </script>
+    <script>
+        $('#btnLogo').click(function () {
+            $("#UserLogo").trigger('click');
+        });
+
+        $(document).ready(function () {
+            var image = $('#UserLogo').val();
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                url: image,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'rectangle' //rectangle
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                },
+                points: {
+                    topLeftX: 0,
+                    topLeftY: 0,
+                    bottomRightX: 0,
+                    bottomRightY: 0
+                }
+            });
+
+            $('#UserLogo').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function () {
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#insertimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function (event) {
+                $image_crop.croppie('result', {
+                    type: 'base64',
+                    format: 'jpeg',
+                    //type: 'canvas',
+                    size: 'viewport'
+                    //size: {width: 150, height: 200}
+                }).then(function (response) {
+                    $('#item-img-output').attr('src', response);
+                    $('#insertimageModal').modal('hide');
+                });
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                $('#Admin').addClass('activeButton');
+            }
+        });
+    </script>
+    <script>
+        var input = document.querySelector("#txtMobile");
+        var inputPhoneNo = window.intlTelInput(input, {
+            formatOnDisplay: true,
+            separateDialCode: true,
+            geoIpLookup: function (callback) {
+                $.get("http://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    callback(countryCode);
+                });
+            },
+            //preferredCountries: ["in"],
+            utilsScript: "scripts/utils.js",
+        });
+
+        //inputPhoneNo.setNumber("+91 98765 43210");
+
+
+    </script>
+</head>
+<style>
+    .toggle {
+        border-radius: 20px;
+    }
+
+        .toggle.ios .toggle-handle {
+            border-radius: 20px;
+        }
+</style>
+<!--<script>
+    $(function () {
+        $('#toggle-one').bootstrapToggle();
+    })
+</script>-->
+<input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
+<input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
+<input type="text" hidden="hidden" id="txthdFullNumber" />
+<ul class="secondaryMenu">
+    <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
+    <li>
+        <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
+    </li>
+    <li>
+        <a href="Home/Index#/HospitalAdmin_UserList/2">
+            Clinical
+            User
+        </a>
+    </li>
+    <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
+    <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
+    <li><a href="Home/Index#/Admin_UserList/3" data-menu="Home">Hospital Admin</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Admin_Userslog_List">Users Log</a></li>
+    <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
+</ul>
+
+<h1 class="page-title">Users Log</h1>
+<div ng-init="User_Log_List();">
+    <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
+    <div class="panel panel-default" id="Div1">
+        <form class="form-horizontal" role="form">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="inputGroups">
+                            <label>Search</label>
+                            <div class="modernSearch">
+                                <input type="text" ng-model="searchquery" ng-change="filterListUserLog()"
+                                       placeholder="" />
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>                                        
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table st-table="emptydata" style="width: 100%" st-safe-src="rowCollectionFilter"
+       class="table themeTable">
+    <thead>
+        <tr style="text-align: center">
+            <th st-ratio="3">#</th>
+            <th st-ratio="14" st-sort="FULLNAME">User</th>
+            <th st-ratio="15" st-sort="LOGINTIME">Login Time</th>
+            <th st-ratio="10" st-sort="LOGOUTTIME">Logout Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="flag==0 && rowCollectionFilter.length==0">
+            <td colspan="10" style="text-align: center">
+                {{SearchMsg}}
+            </td>
+        </tr>
+        <tr ng-repeat="row in emptydata">
+            <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
+            
+            <td style="text-align: left">
+                {{row.FULLNAME}}
+            </td>
+            
+            <td style="text-align: left">
+                {{row.LOGINTIME| date :'dd-MMM-yyyy hh:mm a'}}
+            </td>
+            <td style="text-align: left;word-break: break-all;">
+                <div class="textwrap">{{row.LOGOUTTIME| date :'dd-MMM-yyyy hh:mm a'}}</div>
+            </td>            
+        </tr>
+    </tbody>
+    <tfoot ng-show="UserDetailsList.length >10">
+        <tr>
+            <td colspan="10" class="text-center">
+                <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
+                     st-template="Masters/Views/pagination.custom.html"></div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<br />
+<br />
+<br />
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#Text2").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text2').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text2').val(dataFull);
+            });
+
+        });
+
+        $("#Text1").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text1').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text1').val(dataFull);
+            });
+        });
+
+        $("#Text4").bind('paste', function () {
+            setTimeout(function () {
+                var text = $('#Text4').val();
+                var dataFull = text.replace(/[^\w\s]/gi, '');
+                var dataFull = dataFull.replace(/[0-9]/g, '');
+                $('#Text4').val(dataFull);
+            });
+        });
+    });
+</script>

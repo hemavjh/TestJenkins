@@ -377,6 +377,70 @@ MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$rou
 
     }
 ]);
+MyCortexControllers.controller("UsersLogController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub', 'toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
+        $scope.CreatedBy = $window.localStorage['UserId'];
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.rowCollectionFilter = [];
+
+        //List Page Pagination.
+        $scope.current_page = 1;
+        $scope.page_size = $window.localStorage['Pagesize'];
+        $scope.rembemberCurrentPage = function (p) {
+            $scope.current_page = p
+        }
+
+        $scope.User_Log_List = function (MenuType) {
+            // if ($window.localStorage['UserTypeId'] == 1 || $window.localStorage['UserTypeId'] == 3) {
+            $("#chatLoaderPV").show();
+            $scope.MenuTypeId = MenuType;
+            //$scope.ActiveStatus = $scope.IsActive == true ? 1 : 0;
+            $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.INSTITUTION_ID + "&login_session_id=" + $scope.LoginSessionId).success(function (data) {
+                $scope.emptydata = [];
+                $scope.UserDetailsList = [];
+                $scope.UserDetailsList = data;
+                $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
+
+                if ($scope.rowCollectionFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                }
+                $("#chatLoaderPV").hide();
+                $scope.SearchMsg = "No Data Available";
+            });
+            /*} else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }*/
+        }
+        /* Filter the User Log list function.*/
+        $scope.filterListUserLog = function () {
+            //$scope.ResultListFiltered = [];
+            var searchstring = angular.lowercase($scope.searchquery);
+            if ($scope.searchquery == "") {
+                $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
+            }
+            else {
+                $scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {
+                    //$window.alert(value.FULLNAME);
+                    return angular.lowercase(value.FULLNAME).match(searchstring) ||
+                        angular.lowercase($filter('date')(value.LOGINTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring) ||
+                        angular.lowercase($filter('date')(value.LOGOUTTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring);
+                });
+                if ($scope.rowCollectionFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                }
+                // $window.alert("alert");
+            }
+        };
+
+    }
+]);
+
 /* THIS IS FOR INSTITUTION CONTROLLER FUNCTION */
 MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub','toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {

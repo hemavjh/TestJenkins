@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MyCortex.Admin.Models
+{
+    public class AdminUsersLogModel
+    {
+        public AdminUsersLogModel()
+        {
+
+        }
+
+        public long? ID { get; set; }
+        public long? USERID { get; set; }
+        public DateTime? LOGINTIME { get; set; }
+        public DateTime? LOGOUTTIME { get; set; }
+        public int ATTEMPT_COUNT { get; set; }
+        public string FLAG { get; set; }
+        public int BALANCE_ATTEMPT { get; set; }
+        public string DEVICE_TYPE { get; set; }
+        public string DEVICE_REFERENCE { get; set; }
+        public DateTime CREATED_DT { get; set; }
+        public int SESSION_ID { get; set; }
+        public string LOGIN_COUNTRY { get; set; }
+        public string LOGIN_CITY { get; set; }
+        public string IPADDRESS { get; set; }
+        public long? INSTITUTION_ID { get; set; }
+        public string FULLNAME { get; set; }
+    }
+}
