@@ -1451,6 +1451,7 @@
     <Content Include="scripts\uicalendar.js" />
     <Content Include="scripts\utils.js" />
     <Content Include="scripts\xlsx.full.min.js" />
+    <Content Include="scripts\xlsx.full.min.new.js" />
     <Content Include="Shared\Views\_Layout.cshtml" />
     <Content Include="Template\Views\AlertConfiguration.html" />
     <Content Include="Template\Views\Messaging.html">
