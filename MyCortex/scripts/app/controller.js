@@ -11034,22 +11034,20 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var Active_From = "";
             var Active_To = "";
 
-            angular.forEach($scope.AddICD10List, function (value, index) {
-                if (value.Active_From != false && value.Active_From != "" && value.Active_To != false && value.Active_To != "") {
-                    value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
-                    Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
-                    value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
-                    Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
-                    value.Active_From = DateFormatEdit(value.Active_From);
-                    value.Active_To = DateFormatEdit(value.Active_To);
-                }
-
-                if (value.Code_ID == 0 || value.Code_ID == "") {
-                    validationMsg = validationMsg + "Please select ICD Code";
-                    validateflag = false;
-                    return false;
-                }
-
+            if (value.Active_From != false && value.Active_From != null && value.Active_To != false && value.Active_To != null) {
+                value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                value.Active_From = DateFormatEdit(value.Active_From);
+                value.Active_To = DateFormatEdit(value.Active_To);
+            }
+            if (value.Active_To == false || value.Active_To == null || value.Active_To == undefined) {
+                value.Active_To = "";
+            }
+            if (value.Active_From == false || value.Active_From == null || value.Active_From == undefined) {
+                value.Active_From = "";
+            }
                 //if ((value.Active_From) == "") {
                 //    validationMsg = validationMsg + "Please select Active From Date";
                 //    validateflag = false;
