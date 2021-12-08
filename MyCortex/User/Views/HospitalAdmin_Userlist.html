@@ -58,6 +58,14 @@
 
         });
 
+        function departmentChange() {
+            var deptId = document.getElementById('Select1').value;
+            if (deptId != "") {
+                $('#Select1').find(".btn-group bootstrap-select form-control ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid ng-valid-required ng-dirty ng-valid-parse dropup")
+                    .removeClass('ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid ng-valid-required ng-dirty ng-valid-parse dropup');
+            }
+        }
+
     </script>
     <script>
         $('#doclogo').click(function () {
@@ -269,7 +277,6 @@
             <td style="text-align: left">
                 {{row.UserName}}
             </td>
-            le
             <td style="text-align: left" title="{{row.GroupName}}">
                 <div class="textwrap">
                     {{
@@ -293,7 +300,7 @@
 
                     </a>
                 </a>
-                <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
+                <a href="javascript:;" ng-click="getPosition($event);UserDetails_InActive(row.Id)" title="Active">
                     <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
 
                     <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
@@ -414,7 +421,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div id="Basic1" ng-init="getBase64Image()">
                             <div>
-                                <form class="form-horizontal" role="form">
+                                <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="User_InsertUpdate()">
 
                                     <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
                                         <div id="collapse1" class="panel-collapse">
@@ -428,13 +435,13 @@
                                                                 </sup>
                                                             </label>
                                                             <input type="text" class="form-control" id="Text1" ng-model="FirstName"
-                                                                   ng-init="FirstName=''" ng-required="true" ng-maxlength="100"
-                                                                   maxlength="100" onkeypress="ParticularSpec(event)" />
+                                                                   ng-init="FirstName=''" ng-required="true" ng-maxlength="100" name="FirstName"
+                                                                   maxlength="100" onkeypress="ParticularSpec(event)" required />
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label valign="top">Middle Name</label>
                                                             <input type="text" class="form-control" id="Text2" ng-model="MiddleName"
-                                                                   ng-init="MiddleName=''" ng-required="true" ng-maxlength="100"
+                                                                   ng-init="MiddleName=''" ng-maxlength="100"
                                                                    maxlength="100" onkeypress="ParticularSpec(event)" />
                                                         </div>
                                                         <div class="inputGroups">
@@ -484,11 +491,19 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" ng-model="DepartmentId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="DepartmentList"
-                                                                    ng-required="true">
+                                                            <!--<select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="DepartmentList"
+                                                                    ng-required="true" required>
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="sel in DepartmentList"
                                                                         ng-selected="DepartmentId==sel.Id" value="{{sel.Id}}">
+                                                                    {{sel.Department_Name}}
+                                                                </option>
+                                                            </select>-->
+                                                            <select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1" onchange="departmentChange()"
+                                                                    ng-required="true" data-live-search="true" data-selectpicker data-collection-name="DepartmentList" required>
+                                                                <option value="" selected="selected">Select</option>
+                                                                <option ng-repeat="sel in DepartmentList"
+                                                                        value="{{sel.Id}}">
                                                                     {{sel.Department_Name}}
                                                                 </option>
                                                             </select>
@@ -639,7 +654,7 @@
                                                             </label>
                                                             <input type="text" class="form-control" id="Health_License"
                                                                    ng-model="Health_License" ng-init="Health_License=''"
-                                                                   maxlength="100" ng-maxlength="100">
+                                                                   maxlength="100" ng-maxlength="100" required>
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>
@@ -686,7 +701,8 @@
                                                         <div class="inputGroups">
                                                             <label for="email">DOB<sup><font class="mandatory-field">*</font></sup></label>
                                                             <!--<div class="date">-->
-                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">
+                                                            <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">-->
+                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" required ng-model="DOB" ng-init="DOB=''">
                                                             <!--</div>-->
                                                         </div>
 
@@ -847,7 +863,10 @@
                 </div>
             </div>
             <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
+                <!--<button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
+                    Save
+                </button>-->
+                <button type="submit" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="submitted= true;" title="Click to Save">
                     Save
                 </button>
                 <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
@@ -1024,6 +1043,7 @@
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
                                                     </div>
+                                                    la
                                                     <div class="inputGroups">
                                                         <label valign="top">RowId</label>
                                                         <span id="hosadminrowid">{{Id}}</span>
@@ -1127,6 +1147,17 @@
         </div>
     </div>
 </div>
+<!--<div ng-show="alertConfrimationVisible" id="alertConfrim" style="top:50%; left:50%; margin:0; transform: translate(-50%, -50%);">
+    <center>
+        <div class="alert {{alertType}} alert-dismissible" role="alert">
+            {{alertConfrimationMessage}}<br />
+            <div style="padding:10px">
+                <button type="button" id="alertbtn1" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn1Click()" ng-show="alertbtn1Show">{{btn1Text}}</button>
+                <button type="button" id="alertbtn2" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn2Click()" ng-show="alertbtn2Show">{{btn2Text}}</button>
+            </div>
+        </div>
+    </center>
+</div>-->
 <script>
     //$("#DOB").bootstrapDP({
     //    format: "dd-M-yyyy",

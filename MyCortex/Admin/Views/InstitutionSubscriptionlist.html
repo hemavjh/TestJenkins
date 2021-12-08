@@ -11,9 +11,6 @@
             day = '0' + day.toString();
 
         var maxDate = year + '-' + month + '-' + day;
-        $('#Contract_Period_From').attr('max', maxDate);
-        $('#Contract_Period_To').attr('max', maxDate);
-
         document.getElementById("Contract_Period_From").value = maxDate;
         document.getElementById("Contract_Period_To").value = maxDate;
     });

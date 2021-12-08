@@ -2986,9 +2986,9 @@
                                         </select>
                                     </td>
                                     <td style="text-align: left">
-                                        <select ng-model="ParameterId" data-live-search="true" data-selectpicker data-collection-name="ParameterMappingList"
+                                        <select ng-model="row.Units_Id" data-live-search="true" data-selectpicker data-collection-name="ParameterMappingList"
                                                 class="form-control" data-style="form-control"
-                                                ng-options="item1.Id as item1.Units_with_Group_Name for item1 in ParameterMappingList">
+                                                ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in ParameterMappingList">
                                             <option value="">Select</option>
                                         </select>
                                        <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
