@@ -279,7 +279,8 @@
                     <div class="textwrap">{{row.MNR_NO}}</div>
                 </td>
                 <td style="text-align: left">
-                    {{row.MOBILE_NO}}
+                    <!--{{row.MOBILE_NO}}-->
+                    {{splitMobileNumber(row.MOBILE_NO,1)}}
                 </td>
                 <td style="text-align: left">
                     {{row.EMAILID}}

@@ -2721,6 +2721,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
         }
 
+        $scope.splitMobileNumber = function (string, nb) {
+            var array = string.split('~');
+            var cc = array[0];
+            var number = array[1];
+            var mNumber = typeof (number) == "undefined" ? string : number;
+            //return array[nb];
+            return mNumber;
+        }
+
         /* Filter the master list function.*/
         $scope.filterInstitutionList = function () {
             $scope.ResultListFiltered = [];
@@ -4036,11 +4045,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         };
         $scope.AdminDefaultConfiguration = 0;
         $scope.AdminInstitutionCreation = function () {
-            $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
             $scope.AdminDefaultConfiguration = 1;
             $scope.User_InsertUpdate();
         }
         $scope.User_InsertUpdate = function () {
+            $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
             //$scope.ConfigCode = "MRN_PREFIX";
             //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
@@ -26320,7 +26329,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
             $scope.SelectedFile = file;
         };
         $scope.Upload = function () {
-            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+            var regex = /^(.*)+(.xls|.xlsx)$/;
             if (regex.test($scope.SelectedFile.name.toLowerCase())) {
                 if (typeof (FileReader) != "undefined") {
                     $scope.rowCollectionLanguageSettings = [];
