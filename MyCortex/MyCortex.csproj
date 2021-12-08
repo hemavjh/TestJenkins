@@ -1334,6 +1334,7 @@
     <Compile Include="Repositories\IProtocolRepository.cs" />
     <Compile Include="Repositories\ISendEmailRepository.cs" />
     <Compile Include="Repositories\IShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\ISMSTemplateRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IColorPreferenceRepository.cs" />
     <Compile Include="Repositories\IWebConfigurationRepository.cs" />
@@ -1355,6 +1356,7 @@
     <Compile Include="Repositories\Masters\PayorMasterRepository.cs" />
     <Compile Include="Repositories\Masters\PlanMasterRepository.cs" />
     <Compile Include="Repositories\Masters\ShiftTimingsRepository.cs" />
+    <Compile Include="Repositories\Template\SMSTemplateRepository.cs" />
     <Compile Include="Repositories\User\ColorPreferenceRepository.cs" />
     <Compile Include="Repositories\Masters\WebConfigurationRepository.cs" />
     <Compile Include="Repositories\Menu\CommonMenuRepository.cs" />
@@ -1377,10 +1379,12 @@
     <Compile Include="Template\Controllers\EmailAlertConfigController.cs" />
     <Compile Include="Template\Controllers\EmailTemplateController.cs" />
     <Compile Include="Template\Controllers\SendEmailController.cs" />
+    <Compile Include="Template\Controllers\SMSTemplateController.cs" />
     <Compile Include="Template\Models\EmailAlertmodel.cs" />
     <Compile Include="Template\Models\EmailHistoryListModel.cs" />
     <Compile Include="Template\Models\EmailTemplateTagModel.cs" />
     <Compile Include="Template\Models\SendEmailModel.cs" />
+    <Compile Include="Template\Models\SMSTemplateTagModel.cs" />
     <Compile Include="User\Controllers\AllPatientListController.cs" />
     <Compile Include="Masters\Controllers\MyHomeController.cs" />
     <Compile Include="User\Controllers\AppoinmentSlotController.cs" />

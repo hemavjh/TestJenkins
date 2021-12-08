@@ -48,3 +48,51 @@
   background: yellow;
 }
 
+/*Show red border if kept the input empty after touching*/
+/*.ng-touched.ng-invalid-required {
+    border-color: red;
+}*/
+/* Show red border when stuff has been typed in, but its invalid */
+/*.ng-dirty.ng-invalid {
+    border-color: red;
+}*/
+/*Show normal border color when typed in for the first time*/
+/*.ng-untouched.ng-invalid {
+    border-color: #ccc;
+}
+
+.ng-submitted input.ng-invalid {
+    border-color: red;
+}
+
+.ng-submitted select.ng-invalid{
+    border-color:red;
+}
+
+.submitted .ng-invalid {
+    border: 1px solid red;
+}
+
+.submitted input.ng-invalid{
+    border-color: red;  
+}
+
+.submitted select.ng-invalid{
+    border-color:red;
+}
+
+input.submitted.ng-invalid {
+    border: 1px solid #f00;
+}*/
+
+.submitted .ng-invalid {
+    border: 1px solid red;
+}
+
+input.ng-invalid select.ng-invalid {
+    border: 1px solid red;
+}
+
+.ng-select.ng-invalid.ng-touched .ng-select-container {
+    border-color: red;
+}

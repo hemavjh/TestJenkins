@@ -9611,6 +9611,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.AddVitalParameters = [{
             'Id': 0,
             'ParameterId': 0,
+            'Units_ID': 0,
             'UOM_Name': '',
             'ParameterValue': '',
             'IsActive': 1
@@ -9622,6 +9623,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 var obj = {
                     'Id': 0,
                     'ParameterId': 0,
+                    'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
                     'IsActive': 1
@@ -9632,6 +9634,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.AddVitalParameters = [{
                     'Id': 0,
                     'ParameterId': 0,
+                    'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
                     'IsActive': 1
@@ -9647,6 +9650,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AddVitalParameters = [{
                         'Id': 0,
                         'ParameterId': 0,
+                        'Units_ID': 0,
                         'UOM_Name': '',
                         'ParameterValue': '',
                         'IsActive': 1
@@ -9664,6 +9668,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             angular.forEach($scope.AddVitalParameters, function (value1, index1) {
                 if (value1.ParameterId != '' || value1.ParameterId > 0) {
                     paramExist = 1;
+                }
+                if (value1.Units_Id != '' || value1.Units_Id > 0) {
+                    unitIdExist = 1;
                 }
                 var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: value1.ParameterId }, true)[0]
                 if (checkobj != null) {
@@ -9706,6 +9713,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else if (paramExist == 0) {
                 //alert('Please enter Parameter details to Save');
                 toastr.warning("Please enter Parameter details to Save", "warning");
+                return false;
+            }
+            else if (unitIdExist == 0) {
+                //alert('Please enter Unit details to Save');
+                toastr.warning("Please enter Unit details to Save", "warning");
                 return false;
             }
             return true;
@@ -11597,7 +11609,6 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 }];
             }
             $scope.DrugcodeSearchPopup($scope.AddMedicationDetails.length - 1);
-
             setTimeout(function () {
                 $scope.calenderSet1($scope.AddMedicationDetails.length);
             }, 1000);
@@ -12054,9 +12065,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 'FrequencyId': 0,
                 'NoOfDays': '',
                 'RouteId': 0,
-                'StartDate': '',
+                'StartDate': new Date(),
                 'EndDate': ''
             }];
+
+            $scope.start_Date = new Date();
+            $scope.StartDate = new Date();
         }
         $scope.CancelEditMedicationPopUp = function () {
             $scope.PatientMedicationCreateModalClear();
@@ -26263,6 +26277,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                     INSTITUTION_ID: $window.localStorage['InstitutionId'],
                     LANGUAGE_ID: parseInt($scope.selectedLanguage),
                     LANGUAGE_TEXT: $scope.LanguageText[value.ID],
+                    LANGUAGE_KEY: $scope.rowCollectionLanguageSettings[index].LANGUAGE_KEY,
+                    LANGUAGE_DEFAULT: $scope.rowCollectionLanguageSettings[index].LANGUAGE_DEFAULT
                 }
                 $('#save').attr("disabled", true);
                 $scope.LanguageSettingsDetails.push(obj);
@@ -27542,6 +27558,351 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
     }
 ]);
+
+
+
+
+MyCortexControllers.controller("SMSTemplateController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
+        $scope.PageParameter = $routeParams.PageParameter;
+        $scope.Id = "0";
+        $scope.DuplicateId = "0";
+        $scope.flag = 0;
+        $scope.IsActive = true;
+        $scope.TemplateName = "";
+        /*List Page Pagination*/
+        $scope.listdata = [];
+        $scope.current_page = 1;
+        $scope.page_size = $window.localStorage['Pagesize'];
+        $scope.rembemberCurrentPage = function (p) {
+            $scope.current_page = p
+        }
+        $scope.Patient_Id = $window.localStorage['UserId'];
+        $scope.InstituteId = $window.localStorage['InstitutionId'];
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
+        $scope.TemplateTagList = [];
+        if ($window.localStorage['UserTypeId'] == 3) {
+            $http.get(baseUrl + '/api/EmailTemplate/TemplateTag_List/?Id=' + $scope.InstituteId).success(function (data) {
+                $scope.TemplateTagList = data;
+            });
+        } else {
+            window.location.href = baseUrl + "/Home/LoginIndex";
+        }
+
+        $scope.TemplateTagMappingList = [];
+        $scope.TempMappinglist = function () {
+            if ($scope.PageParameter == 1) {
+                $scope.Type = "1"; //For Email
+            }
+            else if ($scope.PageParameter == 2) {
+                $scope.Type = "2";//For Notification
+            }
+            $http.get(baseUrl + '/api/SMSTemplate/SMSTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+                $scope.TemplateTagMappingList = data;
+            });
+        };
+
+        /* THIS IS FOR VALIDATION CONTROL */
+        $scope.Validationcontrols = function () {
+            if ($scope.PageParameter == 1) {
+                $scope.Template = (CKEDITOR.instances.editor1.getData());
+            }
+            if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
+                toastr.warning("Please enter Template Name", "warning");
+                return false;
+            }
+
+            else if (typeof ($scope.SMSSubject) == "undefined" || $scope.SMSSubject == "") {
+                if ($scope.PageParameter == 1)
+                    toastr.warning("Please enter SMS Subject", "warning");
+                else
+                    warning("Please enter Notification Title", "warning");
+
+                return false;
+            }
+            else if (typeof ($scope.Template) == "undefined" || $scope.Template == "") {
+                if ($scope.PageParameter == 1)
+                    toastr.warning("Please enter SMS Template", "warning");
+                else
+                    toastr.warning("Please enter Notification Message", "warning");
+
+                return false;
+            }
+            return true;
+        };
+
+        /* Array initialization */
+        $scope.SMSTemplateTaglist = [];
+        $scope.SMSTemplateTaglist = [{
+            'Id': 0,
+            'Institution_Id': 0,
+            'SMS_TemplateId': '',
+            'TagName': '',
+            'Institution_Name': '',
+            'IsActive': 0,
+            'Created_By': ''
+        }];
+
+        $scope.SMSTemplateTagDetails = [];
+
+        /* THIS IS FOR ADD/EDIT FUNCTION */
+        $scope.SMSTemplateAddEdit = function () {
+            if ($scope.Validationcontrols() == true) {
+
+                var TemplateChildList = [],
+
+                    rxp = /{([^}]+)}/g,
+
+                    TagName = $scope.Template,
+
+                    arr;
+                while (arr = rxp.exec(TagName)) {
+                    TemplateChildList.push({
+                        'TempName': arr[1]
+                    });
+                }
+
+                angular.forEach(TemplateChildList, function (value, index) {
+
+                    angular.forEach($scope.SMSTemplateTaglist, function (Selected, index) {
+
+                        var obj = {
+                            Id: Selected.Id,
+                            Institution_Id: $scope.InstituteId,
+                            SMS_TemplateId: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
+                            TagName: value.TempName,
+                            IsActive: Selected.IsActive,
+                            Created_By: $scope.Patient_Id
+                        }
+                        $scope.SMSTemplateTagDetails.push(obj);
+                    });
+                });
+
+                var obj = {
+                    Id: $scope.Id,
+                    Institution_Id: $scope.InstituteId,
+                    TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
+                    //Type_Id: $scope.Type,
+                    SMSSubject: $scope.SMSSubject,
+                    SMSTemplate: $scope.Template,
+                    ModifiedUser_Id: $scope.Patient_Id,
+                    Created_By: $scope.Patient_Id,
+                    SMSTemplateTagList: $scope.SMSTemplateTagDetails,
+                    TemplateName: $scope.TemplateName
+                }
+                $("#chatLoaderPV").show();
+                $('#btnsave').attr("disabled", true);
+                $http.post(baseUrl + '/api/SMSTemplate/SMSTemplateTag_AddEdit/', obj).success(function (data) {
+                    toastr.success(data.Message, "success");
+                    $("#chatLoaderPV").hide();
+                    $('#btnsave').attr("disabled", false);
+                    if (data.ReturnFlag == 1) {
+                        $scope.ClearPopup();
+                        $scope.EmailTemplatelist();
+                    }
+                    $("#chatLoaderPV").hide();
+                    angular.element('#SMSTemplateModal').modal('hide');
+                })
+            }
+        }
+
+        /* THIS IS FOR LIST PROCEDURE */
+        $scope.emptydata = [];
+        $scope.rowCollection = [];
+        $scope.flag = 0;
+        $scope.rowCollectionFilter = [];
+
+        $scope.SMSTemplatelist = function () {
+            if ($window.localStorage['UserTypeId'] == 3) {
+                $("#chatLoaderPV").show();
+                $scope.ISact = 1;       // default active
+
+                if ($scope.IsActive == true) {
+                    $scope.ISact = 1  //active
+                }
+                else if ($scope.IsActive == false) {
+                    $scope.ISact = 0 //all
+                }
+                $http.get(baseUrl + '/api/SMSTemplate/SMSTemplateTag_List/?Id=' + $scope.InstituteId + '&IsActive=' + $scope.ISact + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
+                    $scope.emptydata = [];
+                    $scope.rowCollection = [];
+                    $scope.rowCollection = data;
+                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) {
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                })
+            } else {
+                window.location.href = baseUrl + "/Home/LoginIndex";
+            }
+        };
+
+        $scope.searchquery = "";
+        /* FILTER THE LIST FUNCTION.*/
+        $scope.fliterTemplateList = function () {
+            $scope.ResultListFiltered = [];
+            var searchstring = angular.lowercase($scope.searchquery);
+            if ($scope.searchquery == "") {
+                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+            }
+            else {
+                $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
+                    return angular.lowercase(value.Institution_Name).match(searchstring) ||
+                        angular.lowercase(value.TemplateName).match(searchstring) ||
+                        angular.lowercase(value.EmailSubject).match(searchstring) ||
+                        angular.lowercase(value.EmailTemplate).match(searchstring);
+                });
+            }
+        }
+
+        /* THIS IS FOR VIEW FUNCTION */
+        $scope.ViewEmailTempalte = function () {
+            $("#chatLoaderPV").show();
+            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                $scope.Id = $routeParams.Id;
+                $scope.DuplicatesId = $routeParams.Id;
+            }
+
+            $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateDetails_View/?Id=' + $scope.Id).success(function (data) {
+
+                $scope.DuplicatesId = data.Id;
+                $scope.Institution_Id = data.Institution_Id;
+                $scope.Institution_Name = data.Institution_Name;
+                $scope.TemplateType_Id = data.TemplateType_Id;
+                $scope.TemplateName = data.TemplateName;
+                $scope.EmailSubject = data.EmailSubject;
+                $scope.Template = data.EmailTemplate;
+                $scope.Type = data.Type_Id.toString();
+                $scope.ViewType_Name = data.Type_Name;
+                $scope.TemplateTagMappingList = data.EmailTemplateTagList;
+                if ($scope.TemplateType_Id == 1) {
+                    $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
+                }
+                $scope.TempMappinglist();
+                $("#chatLoaderPV").hide();
+            });
+        }
+
+        $scope.DeleteEmailTempalte = function (DId) {
+            $scope.Id = DId;
+            $scope.EmailTempalte_Delete();
+        };
+        /*THIS IS FOR DELETE FUNCTION */
+        $scope.EmailTempalte_Delete = function () {
+
+            var del = confirm("Do you like to deactivate the selected Template?");
+            if (del == true) {
+                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
+                    //alert("Template has been deactivated Successfully");
+                    toastr.success("Template has been deactivated Successfully", "success");
+                    $scope.EmailTemplatelist();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
+                });
+            }
+        };
+
+        /* THIS IS FOR ACTIVE FUNCTION*/
+        $scope.ActiveEmailTempalte = function (PId) {
+            $scope.Id = PId;
+            $scope.EmailTempalte_Active();
+        };
+
+        /* 
+            Calling the api method to activate the details of Email Template
+            matching the specified Email Template Id,
+            and redirected to the list page.
+           */
+        $scope.EmailTempalte_Active = function () {
+
+            var Ins = confirm("Do you like to activate the selected Template?");
+            if (Ins == true) {
+                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Active/?Id=' + $scope.Id).success(function (data) {
+                    //alert("Selected Template has been activated successfully");
+                    toastr.success("Selected Template has been activated successfully", "success");
+                    $scope.EmailTemplatelist();
+                }).error(function (data) {
+                    $scope.error = "An error has occured while deleting ICD 1O records" + data;
+                });
+            }
+        };
+
+        $scope.Active_ErrorFunction = function () {
+            //alert("Inactive Template cannot be edited");
+            toastr.info("Inactive Template cannot be edited", "info");
+        };
+
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.ErrorFunction = function () {
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
+        }
+
+        /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
+        $scope.AddSMSTemplatePopUP = function () {
+            angular.element('#SMSTemplateModal').modal('show');
+            $('#btnsave').attr("disabled", false);
+            $scope.ClearPopup();
+        }
+
+        /* THIS IS OPENING POP WINDOW FORM VIEW */
+        $scope.ViewEmailTemplatePopUP = function (CatId) {
+            $scope.Id = CatId;
+            $scope.ViewEmailTempalte();
+            angular.element('#EmailTemplateViewModal').modal('show');
+        }
+
+        /* THIS IS OPENING POP WINDOW FORM EDIT */
+        $scope.EditEmailTemplate = function (CatId) {
+            $scope.Id = CatId;
+            $scope.ViewEmailTempalte();
+            angular.element('#EmailTemplateModal').modal('show');
+            $('#btnsave').attr("disabled", false);
+        }
+
+        /* THIS IS CANCEL POPUP FUNCTION */
+        $scope.CancelPopUP = function () {
+            angular.element('#SMSTemplateModal').modal('hide')
+        }
+
+        /* THIS IS CANCEL VIEW POPUP FUNCTION*/
+        $scope.CancelViewPopup = function () {
+            angular.element('#EmailTemplateViewModal').modal('hide')
+        }
+
+        /* THIS IS CLEAR POPUP FUNCTION */
+        $scope.ClearPopup = function () {
+            $scope.Id = "0";
+            $scope.Institution_Id = "0";
+            $scope.Institution_Name = "";
+            $scope.TemplateType_Id = "0";
+            $scope.TemplateName = "";
+            $scope.EmailSubject = "";
+            $scope.EmailTemplate = "";
+            $scope.Type = "0";
+            $scope.Template = "";
+            if ($scope.PageParameter == 1) {
+                $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
+            }
+        }
+
+        /* THIS IS OPENING POP WINDOW FORM LIST */
+        $scope.ListICD10PopUP = function (EmailTemplateCatId) {
+            if ($routeParams.Id == 0) {
+                $scope.rowCollection = [];
+            }
+            $scope.Id = CatId;
+            $scope.EmailTemplateList();
+        }
+    }
+]);
+
 
 angular.module("angular-bootstrap-select", [])
     .directive("selectpicker",

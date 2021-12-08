@@ -215,11 +215,7 @@
         if (day < 10)
             day = '0' + day.toString();
 
-        var maxDate = year + '-' + month + '-' + day;
-        //alert(maxDate);
-        $('#datetimepicker').attr('max', maxDate);
-        $('#datetimepicker_mask').attr('max', maxDate);
-
+        var maxDate = month + '-' + day + '-' + year;
         document.getElementById("datetimepicker").value = maxDate;
         document.getElementById("datetimepicker_mask").value = maxDate;
     });
