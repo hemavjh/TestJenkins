@@ -20033,20 +20033,20 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 toastr.warning("14 days only allowed to filter", "warning");
                 return false;
             }
-            if ((ParseDate($scope.Period_From) < ParseDate(today))) {
-                //alert("FromDate Can Be Booked Only For Past");
-                toastr.warning("FromDate Can Be Booked Only For Past", "warning");
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_From);
-                return false;
-            }
-            if ((ParseDate($scope.Period_To) < ParseDate(today))) {
-                //alert("To Date Can Be Booked Only For Past");
-                toastr.warning("To Date Can Be Booked Only For Past", "warning");
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_From);
-                return false;
-            }
+            //if ((ParseDate($scope.Period_From) < ParseDate(today))) {
+            //    //alert("FromDate Can Be Booked Only For Past");
+            //    toastr.warning("FromDate Can Be Booked Only For Past", "warning");
+            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
+            //    return false;
+            //}
+            //if ((ParseDate($scope.Period_To) < ParseDate(today))) {
+            //    //alert("To Date Can Be Booked Only For Past");
+            //    toastr.warning("To Date Can Be Booked Only For Past", "warning");
+            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
+            //    return false;
+            //}
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     //alert("From Date should not be greater than To Date");
