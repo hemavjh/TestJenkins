@@ -11083,7 +11083,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 //value.Active_From = DateFormatEdit(value.Active_From);
                 //value.Active_To = DateFormatEdit(value.Active_To);
 
-            });
+            //});
 
             var TSDuplicate = 0;
             var Duplicateparameter = '';
