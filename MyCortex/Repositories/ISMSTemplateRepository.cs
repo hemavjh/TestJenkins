@@ -11,7 +11,7 @@ namespace MyCortex.Repositories
         //long SMSTemplateDesign_AddEdit(SMSTemplateDesignModel obj);
         //SMSTemplateDesignModel SMSTemplateDetails_View(long Id);
 
-        //IList<SMSTemplateDesignModel> SMSTemplateTag_AddEdit(SMSTemplateDesignModel obj);
+        IList<SMSTemplateDesignModel> SMSTemplateTag_AddEdit(SMSTemplateDesignModel obj);
 
         //IList<SMSTemplateTagModel> SMSTemplateTag_View(long Id);
 

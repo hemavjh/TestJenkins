@@ -33,10 +33,56 @@ namespace MyCortex.Template.Controllers
         /// <param name="obj">details of SMS Template </param>      
         /// <returns>template details of the Inserted/Updated record</returns>
 
-        //public HttpResponseMessage SMSTemplateTag_AddEdit([FromBody] SMSTemplateDesignModel obj) 
-        //{
-        
-        //}
+        public HttpResponseMessage SMSTemplateTag_AddEdit([FromBody] SMSTemplateDesignModel obj)
+        {
+            IList<SMSTemplateDesignModel> ModelData = new List<SMSTemplateDesignModel>();
+            SMSTemplateReturnListModels model = new SMSTemplateReturnListModels();
+            if (!ModelState.IsValid)
+            {
+                model.Status = "False";
+                model.Message = "Invalid data";
+                model.SMSTempData = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+
+            }
+
+            string messagestr = "";
+            try
+            {
+                ModelData = repository.SMSTemplateTag_AddEdit(obj);
+
+                if (ModelData.Any(item => item.flag == 2) == true)
+                {
+                    messagestr = "Template created successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                else if (ModelData.Any(item => item.flag == 3) == true)
+                {
+                    messagestr = "Template updated successfully";
+                    model.ReturnFlag = 1;
+                    model.Status = "True";
+                }
+                else if (ModelData.Any(item => item.flag == 1) == true)
+                {
+                    messagestr = "Template updated successfully";
+                    model.ReturnFlag = 0;
+                    model.Status = "False";
+                }
+                model.SMSTempData = ModelData;
+                model.Message = messagestr;// "User created successfully";
+
+                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                model.Status = "False";
+                model.Message = ex.Message;
+                model.SMSTempData = ModelData;
+                return Request.CreateResponse(HttpStatusCode.BadRequest, model);
+            }
+        }
 
 
         /// <summary>

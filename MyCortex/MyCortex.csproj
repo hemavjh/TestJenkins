@@ -1465,6 +1465,7 @@
     <Content Include="Template\Views\NotificationSend.html" />
     <Content Include="Template\Views\NotificationUndelivered.html" />
     <Content Include="Template\Views\NotificationView.html" />
+    <Content Include="Template\Views\SMSMessaging.html" />
     <Content Include="Template\Views\Templatelist.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
