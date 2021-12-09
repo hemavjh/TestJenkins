@@ -58,13 +58,41 @@
 
         });
 
-        function departmentChange() {
-            var deptId = document.getElementById('Select1').value;
-            if (deptId != "") {
-                $('#Select1').find(".btn-group bootstrap-select form-control ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid ng-valid-required ng-dirty ng-valid-parse dropup")
-                    .removeClass('ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid ng-valid-required ng-dirty ng-valid-parse dropup');
-            }
-        }
+        //function departmentChange() {
+        //    var deptId = document.getElementById('Select1').value;
+        //    if (deptId != "0") {
+        //        $('#divDepartment').removeClass("ng-invalid");
+        //        $('#divDepartment').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divDepartment').removeClass("ng-valid");
+        //        $('#divDepartment').addClass("ng-invalid");
+        //    }
+        //}
+
+        //function genderChange() {
+        //    var genderId = document.getElementById('Select3').value;
+        //    if (genderId != "0") {
+        //        $('#divGender').removeClass("ng-invalid");
+        //        $('#divGender').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divGender').removeClass("ng-valid");
+        //        $('#divGender').addClass("ng-invalid");
+        //    }
+        //}
+
+        //function UserTypeChange() {
+        //    var userType = document.getElementById('Select2').value;
+        //    if (userType != "0") {
+        //        $('#divUserType').removeClass("ng-invalid");
+        //        $('#divUserType').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divUserType').removeClass("ng-valid");
+        //        $('#divUserType').addClass("ng-invalid");
+        //    }
+        //}
 
     </script>
     <script>
@@ -382,46 +410,47 @@
 <div id="UserModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">
-                    &times;
-                </button>
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="User_InsertUpdate()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">
+                        &times;
+                    </button>
 
-                <h4 class="modal-title">Clinical User</h4>
-            </div>
-            <div class="modal-body p-0">
+                    <h4 class="modal-title">Clinical User</h4>
+                </div>
+                <div class="modal-body p-0">
 
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <ul class="themeTabs">
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
-                                    <i class="far fa-file"></i>Basic Info
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
-                                    <i class="far fa-file-alt"></i>Additional Info
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3'">
-                                    <i class="fas fa-map-marker-alt"></i>Address Info
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4'">
-                                    <i class="fa fa-graduation-cap"></i>Qualification Info
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="themeTabs">
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
+                                        <i class="far fa-file"></i>Basic Info
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
+                                        <i class="far fa-file-alt"></i>Additional Info
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3'">
+                                        <i class="fas fa-map-marker-alt"></i>Address Info
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4'">
+                                        <i class="fa fa-graduation-cap"></i>Qualification Info
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
 
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div id="Basic1" ng-init="getBase64Image()">
-                            <div>
-                                <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="User_InsertUpdate()">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div id="Basic1" ng-init="getBase64Image()">
+                                <div>
+
 
                                     <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
                                         <div id="collapse1" class="panel-collapse">
@@ -472,14 +501,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList"
-                                                                    ng-required="true" ng-change="getBase64Image()">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in GenderList"
-                                                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Gender_Name}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divGender" class="ng-invalid" style="border-radius:4px;" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList"
+                                                                        ng-change="getBase64Image();genderChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in GenderList"
+                                                                            ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+                                                                        {{sel.Gender_Name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -491,22 +522,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <!--<select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="DepartmentList"
-                                                                    ng-required="true" required>
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in DepartmentList"
-                                                                        ng-selected="DepartmentId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Department_Name}}
-                                                                </option>
-                                                            </select>-->
-                                                            <select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1" onchange="departmentChange()"
-                                                                    ng-required="true" data-live-search="true" data-selectpicker data-collection-name="DepartmentList" required>
-                                                                <option value="" selected="selected">Select</option>
-                                                                <option ng-repeat="sel in DepartmentList"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.Department_Name}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divDepartment" class="ng-invalid" style="border-radius:4px;" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1"
+                                                                        data-live-search="true" data-selectpicker data-collection-name="DepartmentList" ng-change="departmentChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in DepartmentList"
+                                                                            value="{{sel.Id}}" ng-selected="DepartmentId==sel.Id">
+                                                                        {{sel.Department_Name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups" ng-show="Id>0">
                                                             <label>User No.</label>
@@ -545,14 +570,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
-                                                                    ng-required="true" ng-change="getBase64Image();ClearGroup()">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in UserTypeList"
-                                                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.UserName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divUserType" class="ng-invalid" style="border-radius:4px;" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
+                                                                        ng-change="getBase64Image();ClearGroup();UserTypeChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in UserTypeList"
+                                                                            ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
+                                                                        {{sel.UserName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups" ng-hide="UserTypeId==7">
                                                             <label>Group</label>
@@ -636,12 +663,12 @@
                                     </div>
                                     <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <!--<div class="panel-heading containeralign">
-                                                        <h4 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#accordion"
-                                                                href="#collapse2">
-                                                                Additional Info</a>
-                                                        </h4>
-                                                    </div>-->
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                    href="#collapse2">
+                                                    Additional Info</a>
+                                            </h4>
+                                        </div>-->
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row">
@@ -662,14 +689,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true" data-selectpicker data-collection-name="NationalityList"
-                                                                    ng-required="true">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in NationalityList"
-                                                                        ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Name}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divNationality" class="ng-invalid" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true" 
+                                                                        data-selectpicker data-collection-name="NationalityList" ng-change="nationalityChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in NationalityList"
+                                                                            ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
+                                                                        {{sel.Name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>Home Phone Number</label>
@@ -741,16 +770,18 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" data-live-search="true"
-                                                                    id="countryselectpicker" data-selectpicker
-                                                                    data-collection-name="CountryNameList" ng-model="CountryId"
-                                                                    ng-change="CountryBased_StateFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in CountryNameList" ng-required="true"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.CountryName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divCountry" class="ng-invalid" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" data-live-search="true"
+                                                                        id="countryselectpicker" data-selectpicker
+                                                                        data-collection-name="CountryNameList" ng-model="CountryId"
+                                                                        ng-change="CountryBased_StateFunction();countryChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in CountryNameList"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.CountryName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>
@@ -758,14 +789,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in LocationName_List "
-                                                                        ng-required="true" value="{{sel.Id}}">
-                                                                    {{sel.LocationName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divCity" class="ng-invalid" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" id="SelectCity" ng-change="cityChange();" data-live-search="true"
+                                                                        data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in LocationName_List"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.LocationName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -791,16 +824,18 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" id="stateselectpicker"
-                                                                    data-live-search="true" data-selectpicker
-                                                                    data-collection-name="StateName_List" ng-model="StateId"
-                                                                    ng-change="StateBased_CityFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in StateName_List" ng-required="true"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.StateName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divState" class="ng-invalid" ng-required="true">
+                                                                <select class=form-control" data-style="form-control" id="stateselectpicker"
+                                                                        data-live-search="true" data-selectpicker
+                                                                        data-collection-name="StateName_List" ng-model="StateId"
+                                                                        ng-change="StateBased_CityFunction();stateChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in StateName_List"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.StateName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -855,24 +890,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
 
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer" style="text-align: center;">
-                <!--<button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
-                    Save
-                </button>-->
-                <button type="submit" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="submitted= true;" title="Click to Save">
-                    Save
-                </button>
-                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
-                    Cancel
-                </button>
-            </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <!--<button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
+                        Save
+                    </button>-->
+                    <button type="submit" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="submitted= true;" title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
