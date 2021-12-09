@@ -11,10 +11,8 @@
             day = '0' + day.toString();
 
         var maxDate = year + '-' + month + '-' + day;
-        //alert(maxDate);
-        $('#Period_From').attr('max', maxDate);
-        $('#Period_To').attr('max', maxDate);
-
+        //$('#Period_From').attr('max', maxDate);
+        //$('#Period_To').attr('max', maxDate);
         document.getElementById("Period_From").value = maxDate;
         document.getElementById("Period_To").value = maxDate;
     });

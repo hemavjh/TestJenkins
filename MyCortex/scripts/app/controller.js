@@ -19749,6 +19749,24 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                 });
             }
         }
+
+        $scope.GenerateSMSTemplate = function (GetId, MobileNO) {
+            if (typeof ($scope.Template_Id) == "undefined" || $scope.Template_Id == "0") {
+                toastr.warning("Please select Template", "warning");
+                return false;
+            }
+            else {
+                angular.element('#Template_PreviewModel').modal('show');
+                $scope.PrimaryKeyId = GetId;
+                $http.post(baseUrl + '/api/SendEmail/GenerateTemplate/?Id=' + $scope.PrimaryKeyId + '&Template_Id=' + $scope.Template_Id + '&Institution_Id=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
+                    $scope.Generated_TemplateList = data;
+                    $scope.EmailSubject = $scope.Generated_TemplateList.Email_Subject;
+                    $scope.Generated_Template = $scope.Generated_TemplateList.Email_Body;
+                    $scope.MobileNO = MobileNO;
+                });
+            }
+        }
+
         /* Get the List of User Type */
         if ($window.localStorage['UserTypeId'] == 3) {
             $http.get(baseUrl + '/api/SendEmail/Email_UserTypeList/').success(function (data) {
@@ -19842,7 +19860,9 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                 $("#chatLoaderPV").show();
                 var msgtype = "email";
                 if ($scope.PageParameter == "2")
-                    msgtype = "notification"
+                    msgtype = "notification";
+                else if ($scope.PageParameter == "3")
+                    msgtype = "sms";
                 var msg = confirm("Do you like to send " + msgtype + " for selected users?");
                 if (msg == true) {
                     $scope.SelectedUserList = [];
@@ -19896,7 +19916,7 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.currentTab = "1";
         $scope.Id = "0";
-        $scope.IsActive = true;
+        $scope.IsActive = 1;
         $scope.Filter_GenderId = "0";
         $scope.filter_NationalityId = "0";
         $scope.filter_EthinicGroupId = "0";
@@ -20044,20 +20064,20 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 toastr.warning("14 days only allowed to filter", "warning");
                 return false;
             }
-            if ((ParseDate($scope.Period_From) < ParseDate(today))) {
-                //alert("FromDate Can Be Booked Only For Past");
-                toastr.warning("FromDate Can Be Booked Only For Past", "warning");
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_From);
-                return false;
-            }
-            if ((ParseDate($scope.Period_To) < ParseDate(today))) {
-                //alert("To Date Can Be Booked Only For Past");
-                toastr.warning("To Date Can Be Booked Only For Past", "warning");
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_From);
-                return false;
-            }
+            //if ((ParseDate($scope.Period_From) < ParseDate(today))) {
+            //    //alert("FromDate Can Be Booked Only For Past");
+            //    toastr.warning("FromDate Can Be Booked Only For Past", "warning");
+            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
+            //    return false;
+            //}
+            //if ((ParseDate($scope.Period_To) < ParseDate(today))) {
+            //    //alert("To Date Can Be Booked Only For Past");
+            //    toastr.warning("To Date Can Be Booked Only For Past", "warning");
+            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
+            //    return false;
+            //}
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     //alert("From Date should not be greater than To Date");
@@ -20081,8 +20101,14 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 if ($scope.FilterValidation() == true) {
                     $("#chatLoaderPV").show();
                     $scope.Email_Stauts = "2";
+                    $scope.Period_From = document.getElementById("Period_From").value;
+                    $scope.Period_To = document.getElementById("Period_To").value;
+
+                    $scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
+                    $scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
+
                     $http.get(baseUrl + '/api/SendEmail/EmailHistory_List/?Id=' + $scope.Id + '&Period_From=' + $scope.Period_From + '&Period_To=' + $scope.Period_To + '&Email_Stauts=' + $scope.Email_Stauts
-                        + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId']
+                        + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.IsActive + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId']
                         + '&TemplateType_Id=' + $scope.PageParameter + '&Login_Session_Id=' + $scope.LoginSessionId
                     ).success(function (data) {
                         $scope.Emailemptydata = [];
