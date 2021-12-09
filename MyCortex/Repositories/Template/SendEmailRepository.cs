@@ -137,6 +137,7 @@ namespace MyCortex.Repositories.Template
                                                  Id = p.Field<long>("ID"),
                                                  UserName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
                                                  EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                 MobileNO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")), 
                                                  UserType = p.Field<string>("UserType"),
                                                  IsActive = p.Field<int>("ISACTIVE")
                                              }).ToList();

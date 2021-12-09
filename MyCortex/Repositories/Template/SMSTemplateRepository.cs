@@ -28,68 +28,68 @@ namespace MyCortex.Repositories.Template
 
         /// <summary>
         /// SMS Template --> SMS Template  Details --> Add/Edit Page
-        /// to Insert/Update the entered SMS Template  Information
+        /// to Insert/Update the entered SMS Template Information
         /// When Id = 0 it is Insert, Id >0 it is Update
         /// </summary>
-        /// <param name="obj">details of SMS Template </param>      
+        /// <param name = "obj" > details of SMS Template</param>      
         /// <returns>template details of the Inserted/Updated record</returns>
-        //public IList<SMSTemplateDesignModel> SMSTemplateTag_AddEdit(SMSTemplateDesignModel obj)
-        //{
-        //    long InsSubModId;
-        //    List<DataParameter> param = new List<DataParameter>();
-        //    param.Add(new DataParameter("@ID", obj.Id));
-        //    param.Add(new DataParameter("@INSITUTION_ID", obj.Institution_Id));
-        //    param.Add(new DataParameter("@TEMPLATETYPE_ID", obj.TemplateType_Id));
-        //    // param.Add(new DataParameter("@TYPE_ID", obj.Type_Id));
-        //    param.Add(new DataParameter("@SMSSUBJECT", obj.SMSSubject));
-        //    param.Add(new DataParameter("@SMSTEMPLATE", obj.SMSTemplate));
-        //    param.Add(new DataParameter("@MODIFIEDUSERID", obj.ModifiedUser_Id));
-        //    param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
-        //    param.Add(new DataParameter("@TemplateName", obj.TemplateName));
-        //    //param.Add(new DataParameter("@CREATEDBY_ID", HttpContext.Current.Session["BYID"]));
-        //    _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
-        //    try
-        //    {
-        //        // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
-        //        DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLSMSTEMPLATE_SP_INSERT", param);
+        public IList<SMSTemplateDesignModel> SMSTemplateTag_AddEdit(SMSTemplateDesignModel obj)
+        {
+            long InsSubModId;
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@ID", obj.Id));
+            param.Add(new DataParameter("@INSITUTION_ID", obj.Institution_Id));
+            param.Add(new DataParameter("@TEMPLATETYPE_ID", obj.TemplateType_Id));
+            // param.Add(new DataParameter("@TYPE_ID", obj.Type_Id));
+            param.Add(new DataParameter("@SMSSUBJECT", obj.SMSSubject));
+            param.Add(new DataParameter("@SMSTEMPLATE", obj.SMSTemplate));
+            param.Add(new DataParameter("@MODIFIEDUSERID", obj.ModifiedUser_Id));
+            param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
+            param.Add(new DataParameter("@TemplateName", obj.TemplateName));
+            //param.Add(new DataParameter("@CREATEDBY_ID", HttpContext.Current.Session["BYID"]));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                // InsSubId = ClsDataBase.Insert("INS_SUb_EX", param, true);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].TBLSMSTEMPLATE_SP_INSERT", param);
 
-        //        DataRow dr = dt.Rows[0];
-        //        var InsertId = (dr["Id"].ToString());
-        //        IList<SMSTemplateDesignModel> INS = (from p in dt.AsEnumerable()
-        //                                               select
-        //                                               new SMSTemplateDesignModel()
-        //                                               {
-        //                                                   Id = p.Field<long>("Id"),
-        //                                                   Institution_Id = p.Field<long>("INSTITUTION_ID"),
-        //                                                   TemplateType_Id = p.Field<long>("TEMPLATETYPE_ID"),
-        //                                                   TemplateName = p.Field<string>("TEMPLATENAME"),
-        //                                                   SMSSubject = p.Field<string>("SMSSUBJECT"),
-        //                                                   SMSTemplate = p.Field<string>("SMSTEMPLATE"),
-        //                                                       //ModifiedUser_Id = p.Field<long>("MODIFIEDUSERID"),
-        //                                                       Created_By = p.Field<long>("CREATED_BY"),
-        //                                                   flag = p.Field<int>("flag"),
-        //                                                       //SubscriptionId = p.Field<int>("SubScription_Id"),
-        //                                                   }).ToList();
+                DataRow dr = dt.Rows[0];
+                var InsertId = (dr["Id"].ToString());
+                IList<SMSTemplateDesignModel> INS = (from p in dt.AsEnumerable()
+                                                     select
+                                                     new SMSTemplateDesignModel()
+                                                     {
+                                                         Id = p.Field<long>("Id"),
+                                                         Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                         TemplateType_Id = p.Field<long>("TEMPLATETYPE_ID"),
+                                                         TemplateName = p.Field<string>("TEMPLATENAME"),
+                                                         SMSSubject = p.Field<string>("SMSSUBJECT"),
+                                                         SMSTemplate = p.Field<string>("SMSTEMPLATE"),
+                                                           //ModifiedUser_Id = p.Field<long>("MODIFIEDUSERID"),
+                                                           Created_By = p.Field<long>("CREATED_BY"),
+                                                         flag = p.Field<int>("flag"),
+                                                           //SubscriptionId = p.Field<int>("SubScription_Id"),
+                                                       }).ToList();
 
-        //        foreach (SMSTemplateTagModel item in obj.SMSTemplateTagList)
-        //        {
-        //            List<DataParameter> param1 = new List<DataParameter>();
-        //            param1.Add(new DataParameter("@Id", item.Id));
-        //            param1.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
-        //            param1.Add(new DataParameter("@SMS_TEMPLATEID", InsertId));
-        //            param1.Add(new DataParameter("@TAGNAME", item.TagName));
-        //            param1.Add(new DataParameter("@MODIFIEDUSERID", item.ModifiedUser_Id));
-        //            param1.Add(new DataParameter("@CREATED_BY", item.Created_By));
-        //            InsSubModId = ClsDataBase.Insert("[MYCORTEX].TBLSMSTEMPLATETAG_SP_INSERT", param1, true);
-        //        }
-        //        return INS;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex.Message, ex);
-        //        return null;
-        //    }
-        //}
+                foreach (SMSTemplateTagModel item in obj.SMSTemplateTagList)
+                {
+                    List<DataParameter> param1 = new List<DataParameter>();
+                    param1.Add(new DataParameter("@Id", item.Id));
+                    param1.Add(new DataParameter("@INSTITUTION_ID", item.Institution_Id));
+                    param1.Add(new DataParameter("@SMS_TEMPLATEID", InsertId));
+                    param1.Add(new DataParameter("@TAGNAME", item.TagName));
+                    param1.Add(new DataParameter("@MODIFIEDUSERID", item.ModifiedUser_Id));
+                    param1.Add(new DataParameter("@CREATED_BY", item.Created_By));
+                    InsSubModId = ClsDataBase.Insert("[MYCORTEX].TBLSMSTEMPLATETAG_SP_INSERT", param1, true);
+                }
+                return INS;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
 
 
         /// <summary>

@@ -192,10 +192,6 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Template/Views/Templatelist.html',
         controller: 'EmailTemplateController'
     }).
-        when('/SMSTemplate/:PageParameter', {
-            templateUrl: baseUrl + 'Template/Views/TemplatelistSMS.html',
-            controller: 'SMSTemplateController'
-        }).
     when('/MessagingSend/:PageParameter', {
         templateUrl: baseUrl + 'Template/Views/Messaging.html',
         controller: 'SendEmailController'
@@ -207,6 +203,18 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     when('/EncryptDecryptlist', {
         templateUrl: baseUrl + 'Admin/Views/EncryptDecrypt.html',
         controller: 'CommonController'
+    }).
+    when('/SMSTemplate/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/TemplatelistSMS.html',
+        controller: 'EmailTemplateController'
+    }).
+    when('/SMSSend/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/SMSMessaging.html',
+        controller: 'SendEmailController'
+    }).
+    when('/SMSUndeliver/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/SMSUndelivered.html',
+        controller: 'EmailUndeliveredController'
     }).
     when('/NotificationView', {
         templateUrl: baseUrl + 'Template/Views/NotificationView.html',
