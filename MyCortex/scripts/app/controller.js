@@ -26531,15 +26531,17 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         }
 
         $scope.SampleLanguageExport = function () {
-            $("#language_excel_format").table2excel({
-                filename: "sample.xls"
-            });
+            var data = document.getElementById('language_excel_format');
+            var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+            XLSX.write(file, { bookType: 'xlsx', bookSST: true, type: 'base64' });
+            XLSX.writeFile(file, 'sample.xlsx');
         }
 
         $scope.LanguageExport = function () {
-            $("#language_table").table2excel({
-                filename: "Languages.xls"
-            });
+            var data = document.getElementById('language_table');
+            var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+            XLSX.write(file, { bookType: 'xlsx', bookSST: true, type: 'base64' });
+            XLSX.writeFile(file, 'language.xlsx');
         }
 
         $scope.SelectFile = function (file) {
