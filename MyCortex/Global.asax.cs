@@ -25,7 +25,7 @@ namespace MyCortex
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
+            GlobalConfiguration.Configure(config => { config.Filters.Add(new LogFilterAttribute()); });
         }
         void Session_Start(object sender, EventArgs e)
         {
