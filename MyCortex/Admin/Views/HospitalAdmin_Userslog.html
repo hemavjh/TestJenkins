@@ -138,6 +138,27 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="inputGroups">
+                            <label>User Name</label>
+                            <div class="modernSearch">
+                                <!--Userdetailsdatalist-->
+                                <!--<select id="CCCG" ng-model="SelectedCCCG" data-style="form-control" data-live-search="true"
+                                                ng-options="item3.Id as item3.FullName for item3 in CCCG_DetailsList"
+                                                style="width: 220px;"></select>-->
+                                <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="CCCG_DetailsList" id="CCCG" ng-model="SelectedCCCG"
+                                        ng-options="item3.Id as item3.FullName for item3 in CCCG_DetailsList" ng-change="SearchByUserID();">
+                                    <option value="">Select</option>
+                                </select>
+                                <!--<select class="" data-style="form-control" ng-model="searchUserId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="Userlist"
+            ng-required="true" ng-change="SearchByUserID()">
+        <option value="0">Select</option>
+        <option ng-repeat="sel in Userlist"
+                ng-selected="searchUserId==sel.Id" value="{{sel.Id}}">
+            {{sel.FullName}}
+        </option>
+    </select>-->
+                            </div>
+                        </div>
+                        <div class="inputGroups">
                             <label>Search</label>
                             <div class="modernSearch">
                                 <input type="text" ng-model="searchquery" ng-change="filterListUserLog()"

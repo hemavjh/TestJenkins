@@ -31,4 +31,13 @@ namespace MyCortex.Admin.Models
         public long? INSTITUTION_ID { get; set; }
         public string FULLNAME { get; set; }
     }
+    public class All_UserList
+    {
+        public long Id { get; set; }
+        public string FirstName { get; set; }
+        public string FullName { get; set; }
+        public long DepartmentId { get; set; }
+        public string EmailId { get; set; }
+        public long UserTypeId { get; set; }
+    }
 }

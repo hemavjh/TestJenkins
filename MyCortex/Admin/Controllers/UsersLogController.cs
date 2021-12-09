@@ -29,11 +29,28 @@ namespace MyCortex.Admin.Controllers
         /// <param name="login_session_id">LOGIN SESSION ID</param>
         /// <returns></returns>
         [HttpGet]
-        public IList<AdminUsersLogModel> Admin_Userslog_List(long? Institution_Id, Guid login_session_id)
+        public IList<AdminUsersLogModel> Admin_Userslog_List(long? Institution_Id, Guid login_session_id,long? User_Id)
         {
             IList<AdminUsersLogModel> model;
-            model = repository.Admin_Userslog_List(Institution_Id, login_session_id);
+            model = repository.Admin_Userslog_List(Institution_Id, login_session_id,User_Id);
             return model;
+        }
+        [HttpGet]
+        public IList<All_UserList> GetAll_UserLists(long InstitutionId)
+        {
+            IList<All_UserList> model;
+            try
+            {
+                if (_logger.IsInfoEnabled)
+                    _logger.Info("Controller");
+                model = repository.GetAll_UserLists(InstitutionId);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
         }
     }
 }

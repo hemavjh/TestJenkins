@@ -469,7 +469,6 @@ namespace MyCortexDB
         /// <returns>Number of rows affected.</returns>
         public static int Update(string sql)
         {
-
             using (DbConnection connection = factory.CreateConnection())
             {
                 connection.ConnectionString = ClsDataBase.GetConnectionString();
