@@ -328,7 +328,7 @@
 
                     </a>
                 </a>
-                <a href="javascript:;" ng-click="getPosition($event);UserDetails_InActive(row.Id)" title="Active">
+                <a href="javascript:;" ng-click="UserDetails_InActive(row.Id)" title="Active">
                     <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
 
                     <a href="javascript:" ng-click="UserDetails_Active(row.Id)" title="Inactive">
@@ -501,7 +501,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <div id="divGender" class="ng-invalid" style="border-radius:4px;" ng-required="true">
+                                                            <div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">
                                                                 <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList"
                                                                         ng-change="getBase64Image();genderChange();">
                                                                     <option value="0">Select</option>
@@ -522,7 +522,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <div id="divDepartment" class="ng-invalid" style="border-radius:4px;" ng-required="true">
+                                                            <div id="divDepartment" class="ng-invalid ddlValidationBorder" ng-required="true">
                                                                 <select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1"
                                                                         data-live-search="true" data-selectpicker data-collection-name="DepartmentList" ng-change="departmentChange();">
                                                                     <option value="0">Select</option>
@@ -570,7 +570,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <div id="divUserType" class="ng-invalid" style="border-radius:4px;" ng-required="true">
+                                                            <div id="divUserType" class="ng-invalid ddlValidationBorder" ng-required="true">
                                                                 <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
                                                                         ng-change="getBase64Image();ClearGroup();UserTypeChange();">
                                                                     <option value="0">Select</option>
@@ -689,8 +689,8 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <div id="divNationality" class="ng-invalid" ng-required="true">
-                                                                <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true" 
+                                                            <div id="divNationality" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true"
                                                                         data-selectpicker data-collection-name="NationalityList" ng-change="nationalityChange();">
                                                                     <option value="0">Select</option>
                                                                     <option ng-repeat="sel in NationalityList"
@@ -731,7 +731,7 @@
                                                             <label for="email">DOB<sup><font class="mandatory-field">*</font></sup></label>
                                                             <!--<div class="date">-->
                                                             <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">-->
-                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" required ng-model="DOB" ng-init="DOB=''">
+                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''">
                                                             <!--</div>-->
                                                         </div>
 
@@ -770,7 +770,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <div id="divCountry" class="ng-invalid" ng-required="true">
+                                                            <div id="divCountry" class="ng-invalid ddlValidationBorder" ng-required="true">
                                                                 <select class="form-control" data-style="form-control" data-live-search="true"
                                                                         id="countryselectpicker" data-selectpicker
                                                                         data-collection-name="CountryNameList" ng-model="CountryId"
@@ -789,7 +789,7 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <div id="divCity" class="ng-invalid" ng-required="true">
+                                                            <div id="divCity" class="ng-invalid ddlValidationBorder" ng-required="true">
                                                                 <select class="form-control" data-style="form-control" id="SelectCity" ng-change="cityChange();" data-live-search="true"
                                                                         data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
                                                                     <option value="0">Select</option>
@@ -805,11 +805,9 @@
                                                         <div class="inputGroups">
 
                                                             <label>Street Address</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="Text15"
-                                                                       ng-model="Address2" ng-init="Address2=''" maxlength="50"
-                                                                       ng-maxlength="50" placeholder="">
+                                                            <input type="text" class="form-control" id="Text15"
+                                                                   ng-model="Address2" ng-init="Address2=''" maxlength="50"
+                                                                   ng-maxlength="50" placeholder="">
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>Postel/Zip Code</label>
@@ -824,8 +822,8 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <div id="divState" class="ng-invalid" ng-required="true">
-                                                                <select class=form-control" data-style="form-control" id="stateselectpicker"
+                                                            <div id="divState" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" id="stateselectpicker"
                                                                         data-live-search="true" data-selectpicker
                                                                         data-collection-name="StateName_List" ng-model="StateId"
                                                                         ng-change="StateBased_CityFunction();stateChange();">
@@ -866,7 +864,7 @@
                                                                    name="Resume" title="Click to Upload File" ng-click="CertificateUplaodSelected()"
                                                                    style="height: 0px !important" accept="application/pdf,application/excel,application/excel" />
                                                             <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
-                                                            <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items: left!important; justify-content: flex-start;">
+                                                            <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items:left!important; justify-content: flex-start;">
                                                                 <label for="EditDocument" class="uploadIconBtn" style="display:initial;" title="Click to Upload File">
                                                                     <i class="fa fa-upload" aria-hidden="true"></i>
                                                                 </label>
@@ -901,7 +899,7 @@
                     <!--<button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
                         Save
                     </button>-->
-                    <button type="submit" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="submitted= true;" title="Click to Save">
+                    <button type="submit" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="checkTab();submitted= true;" title="Click to Save">
                         Save
                     </button>
                     <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
@@ -1073,7 +1071,9 @@
                                                         <span>{{Institution}}</span>
                                                     </div>
                                                     <div class="inputGroups">
-                                                        <label>Date of Birth</label>
+                                                        <label>
+Date of Birth
+                                                        </label>
                                                         <span>
                                                             {{DOB |date:"dd-MMM-yyyy"}}
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
@@ -1178,11 +1178,15 @@
             <div class="modal-footer" style="text-align: center;">
                 <button type="button" class="btn  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
                     Cancel
+                    bu
                 </button>
             </div>
         </div>
     </div>
+    </
+    g-
 </div>
+
 <!--<div ng-show="alertConfrimationVisible" id="alertConfrim" style="top:50%; left:50%; margin:0; transform: translate(-50%, -50%);">
     <center>
         <div class="alert {{alertType}} alert-dismissible" role="alert">
