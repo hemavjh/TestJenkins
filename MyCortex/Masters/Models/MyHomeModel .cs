@@ -293,12 +293,7 @@ namespace MyCortex.Masters.Models
     }
     public class TabDeviceParameterList
     {
-        public IList<TabDeviceParameterValues> Parameter1 { get; set; }
-        public IList<TabDeviceParameterValues> Parameter2 { get; set; }
-        public IList<TabDeviceParameterValues> Parameter3 { get; set; }
-        public IList<TabDeviceParameterValues> Parameter4 { get; set; }
-        public IList<TabDeviceParameterValues> Parameter5 { get; set; }
-        public IList<TabDeviceParameterValues> Parameter6 { get; set; }
+        public IList<TabDeviceParameterValues> ParameterList { get; set; }
     }
     public class TabDeviceParameterValues
     {
