@@ -530,7 +530,6 @@
     <Content Include="scripts\app\app.js" />
     <Content Include="scripts\app\controller.js" />
     <Content Include="scripts\app\controllerLogin.js" />
-    <Content Include="scripts\app\sweetalert.min.js" />
     <Content Include="scripts\app\toaster.js" />
     <Content Include="scripts\bootstrap-datepicker.js" />
     <Content Include="scripts\Bootstrap-multiselect.js" />

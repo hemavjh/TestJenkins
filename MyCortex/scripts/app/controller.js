@@ -4032,42 +4032,78 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
             $scope.Id = GetId;
 
-            swal("Do you like to deactivate the selected User?", {
-                className: 'alert-danger',
-                buttons: {
-                    Ok: {
-                        text: "Ok",
-                        value: "Ok",
-                    },
-                    cancel: "Cancel",
-                },
+            Swal.fire({
+                title: 'Do you like to deactivate the selected User?',
+                html:'',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                        $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
+                        if (data.Status == "True") {
+                            //alert(data.Message);
+                            toastr.success(data.Message, "success");
+                            if ($scope.MenuTypeId == 1)
+                                $scope.User_Admin_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 2)
+                                $scope.BusinessUser_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 3)
+                                $scope.Patient_List($scope.MenuTypeId);
+                        }
+                        else {
+                            //alert(data.Message);
+                            toastr.info(data.Message, "info");
+                        }
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting User Details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
             })
-                .then((value) => {
-                    switch (value) {
-                        case "Ok":
-                            $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
-                                if (data.Status == "True") {
-                                    //alert(data.Message);
-                                    toastr.success(data.Message, "success");
-                                    if ($scope.MenuTypeId == 1)
-                                        $scope.User_Admin_List($scope.MenuTypeId);
-                                    else if ($scope.MenuTypeId == 2)
-                                        $scope.BusinessUser_List($scope.MenuTypeId);
-                                    else if ($scope.MenuTypeId == 3)
-                                        $scope.Patient_List($scope.MenuTypeId);
-                                }
-                                else {
-                                    //alert(data.Message);
-                                    toastr.info(data.Message, "info");
-                                }
-                            }).error(function (data) {
-                                $scope.error = "An error has occurred while deleting User Details" + data;
-                            });
-                            break;
-                        default:
-                            //swal("Got away safely!");
-                    }
-                });
+
+            //Swal.fire("Do you like to deactivate the selected User?", {
+            //    className: 'alert-danger',
+            //    buttons: {
+            //        Ok: {
+            //            text: "Ok",
+            //            value: "Ok",
+            //        },
+            //        cancel: {
+            //            text: "Cancel",
+            //            value: "Cancel",
+            //        },
+            //    },
+            //})
+            //    .then((value) => {
+            //        switch (value) {
+            //            case "Ok":
+            //                $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
+            //                    if (data.Status == "True") {
+            //                        //alert(data.Message);
+            //                        toastr.success(data.Message, "success");
+            //                        if ($scope.MenuTypeId == 1)
+            //                            $scope.User_Admin_List($scope.MenuTypeId);
+            //                        else if ($scope.MenuTypeId == 2)
+            //                            $scope.BusinessUser_List($scope.MenuTypeId);
+            //                        else if ($scope.MenuTypeId == 3)
+            //                            $scope.Patient_List($scope.MenuTypeId);
+            //                    }
+            //                    else {
+            //                        //alert(data.Message);
+            //                        toastr.info(data.Message, "info");
+            //                    }
+            //                }).error(function (data) {
+            //                    $scope.error = "An error has occurred while deleting User Details" + data;
+            //                });
+            //                break;
+            //            default:
+            //                //swal("Got away safely!");
+            //        }
+            //    });
 
             //var del = confirm("Do you like to deactivate the selected User?");
             //if (del == true) {
@@ -4095,42 +4131,38 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Id = GetId;
 
 
-            swal("Do you like to activate the selected User?", {
-                className: 'alert-success',
-                buttons: {
-                    Ok: {
-                        text: "Ok",
-                        value: "Ok",
-                    },
-                    cancel: "Cancel",
-                },
+            Swal.fire({
+                title: 'Do you like to activate the selected User?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                        $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
+                        if (data.Status == "True") {
+                            //alert("User Details has been activated Successfully");
+                            toastr.success("User Details has been activated Successfully", "success");
+                            if ($scope.MenuTypeId == 1)
+                                $scope.User_Admin_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 2)
+                                $scope.BusinessUser_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 3)
+                                $scope.Patient_List($scope.MenuTypeId);
+                        }
+                        else {
+                            //alert(data.Message);
+                            toastr.info(data.Message, "info");
+                        }
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting User Details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
             })
-                .then((value) => {
-                    switch (value) {
-                        case "Ok":
-                            $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
-                                if (data.Status == "True") {
-                                    //alert("User Details has been activated Successfully");
-                                    toastr.success("User Details has been activated Successfully", "success");
-                                    if ($scope.MenuTypeId == 1)
-                                        $scope.User_Admin_List($scope.MenuTypeId);
-                                    else if ($scope.MenuTypeId == 2)
-                                        $scope.BusinessUser_List($scope.MenuTypeId);
-                                    else if ($scope.MenuTypeId == 3)
-                                        $scope.Patient_List($scope.MenuTypeId);
-                                }
-                                else {
-                                    //alert(data.Message);
-                                    toastr.info(data.Message, "info");
-                                }
-                            }).error(function (data) {
-                                $scope.error = "An error has occurred while deleting User Details" + data;
-                            });
-                            break;
-                        default:
-                        //swal("Got away safely!");
-                    }
-                });
 
             //var del = confirm("Do you like to activate the selected User?");
             //if (del == true) {
@@ -27263,44 +27295,40 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
         $scope.MyHomeDelete = function (Delete_Id, rowIndex) {
 
-            swal("Do you like to delete this My Home Id Details?", {
-                className: 'alert-danger',
-                buttons: {
-                    Ok: {
-                        text: "Ok",
-                        value: "Ok",
-                    },
-                    cancel: "Cancel",
-                },
-            })
-                .then((value) => {
-                    switch (value) {
-                        case "Ok":
-                            var Previous_MyHomeItem = [];
-                            if ($scope.Id == 0) {
-                                angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
-                                    if (index != rowIndex)
-                                        Previous_MyHomeItem.push(selectedPre);
-                                });
-                                $scope.AddUserParameters = Previous_MyHomeItem;
-                            } else if ($scope.Id > 0) {
-                                angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
-                                    if (selectedPre.ID == Delete_Id) {
-                                        selectedPre.IsActive = false;
-                                    }
-                                });
-                                if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
-                                    $scope.MyHomeflag = 1;
-                                }
-                                else {
-                                    $scope.MyHomeflag = 0;
-                                }
+            Swal.fire({
+                title: 'Do you like to delete this My Home Id Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var Previous_MyHomeItem = [];
+                    if ($scope.Id == 0) {
+                        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                            if (index != rowIndex)
+                                Previous_MyHomeItem.push(selectedPre);
+                        });
+                        $scope.AddUserParameters = Previous_MyHomeItem;
+                    } else if ($scope.Id > 0) {
+                        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                            if (selectedPre.ID == Delete_Id) {
+                                selectedPre.IsActive = false;
                             }
-                            break;
-                        default:
-                        //swal("Got away safely!");
+                        });
+                        if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
+                            $scope.MyHomeflag = 1;
+                        }
+                        else {
+                            $scope.MyHomeflag = 0;
+                        }
                     }
-                });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
 
             //var del = confirm("Do you like to delete this My Home Id Details?");
             //if (del == true) {
