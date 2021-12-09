@@ -3192,6 +3192,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
+                    $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
                     $scope.currentTab = 2;
                     return false;
                 }
@@ -3349,6 +3350,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
+                    $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
                     $scope.currentTab = 2;
                     return false;
                 }
@@ -4251,6 +4253,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         }
         $scope.User_InsertUpdate = function () {
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(document.getElementById("Expiry_Date").value, "dd-MMM-yyyy"));
+            $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
             //$scope.ConfigCode = "MRN_PREFIX";
             //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
@@ -11247,6 +11251,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var Active_From = "";
             var Active_To = "";
 
+        angular.forEach($scope.AddICD10List, function (value, index) {
             if (value.Active_From != false && value.Active_From != null && value.Active_To != false && value.Active_To != null) {
                 value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
                 Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
@@ -11271,20 +11276,20 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     validateflag = false;
                     return false;
                 }*/
-                //if ((value.Active_From !== null) && (value.Active_To !== null)) {
-                //    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
-                //        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
-                //        value.Active_From = DateFormatEdit(value.Active_From);
-                //        value.Active_To = DateFormatEdit(value.Active_To);
-                //        validateflag = false;
-                //        return false;
-                //    }
-                //}
+                if ((value.Active_From !== null) && (value.Active_To !== null)) {
+                    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
+                        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
+                        value.Active_From = DateFormatEdit(value.Active_From);
+                        value.Active_To = DateFormatEdit(value.Active_To);
+                        validateflag = false;
+                        return false;
+                    }
+                }
 
                 //value.Active_From = DateFormatEdit(value.Active_From);
                 //value.Active_To = DateFormatEdit(value.Active_To);
 
-            //});
+        });
 
             var TSDuplicate = 0;
             var Duplicateparameter = '';
