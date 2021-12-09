@@ -29,7 +29,7 @@ namespace MyCortex
             {
                 SessionID = (String)HttpContext.Current.Session["Login_Session_Id"];
             }
-            var tempHttpContextCurrent = HttpContext.Current;
+            //var tempHttpContextCurrent = HttpContext.Current;
             if (request.Content != null)
             {
                 requestBody = await request.Content.ReadAsStringAsync();
@@ -41,7 +41,7 @@ namespace MyCortex
             {
                 responseBody = await result.Content.ReadAsStringAsync();
             }
-            HttpContext.Current = tempHttpContextCurrent;
+            //HttpContext.Current = tempHttpContextCurrent;
             Repositories.LogHandler.LogHandlerRepository repository = new Repositories.LogHandler.LogHandlerRepository();
 
             try

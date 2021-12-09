@@ -20,7 +20,7 @@ namespace MyCortex
 
             EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "GET, POST, PUT, DELETE, OPTIONS");
             config.EnableCors(cors);
-            config.MessageHandlers.Add(new MyCortexLogHandler());
+            //config.MessageHandlers.Add(new MyCortexLogHandler());
 
             // Web API configuration and services
             //config.EnableCors();
