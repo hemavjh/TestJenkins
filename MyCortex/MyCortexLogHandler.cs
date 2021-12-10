@@ -101,7 +101,12 @@ namespace MyCortex
 
             if (filterContext.Request.Content != null)
             {
-                requestBody = filterContext.Request.Content.ReadAsStringAsync().Result.ToString();
+                var reqStream = filterContext.Request.Content.ReadAsStreamAsync().Result;
+                reqStream.Position = 0;
+                using (var reader = new System.IO.StreamReader(reqStream))
+                {
+                    requestBody = reader.ReadToEnd();
+                }
             }
 
             if (filterContext.Response.Content != null)
