@@ -398,7 +398,15 @@ MyCortexControllers.controller("UsersLogController", ['$scope', '$http', '$route
             $scope.CCCG_DetailsList = [];           
             $http.get(baseUrl + 'api/UsersLog/GetAll_UserLists/?InstitutionId='+ $scope.InstituteId).success(function (data) {
                 $scope.CCCG_DetailsList = data;
-            });           
+            });
+            if ($scope.rowCollectionFilter.length > 0) {
+                $scope.flag = 1;
+            }
+            else {
+                $scope.flag = 0;
+                $scope.SearchMsg = "No Data Available";
+            }
+           // $("#chatLoaderPV").hide();
         }
         //select on Change load -userslist
         $scope.SearchByUserID = function () {
