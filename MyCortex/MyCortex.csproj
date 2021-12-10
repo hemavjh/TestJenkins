@@ -246,6 +246,7 @@
     <Content Include="Admin\Views\DoctorProfile.html" />
     <Content Include="Admin\Views\EncryptDecrypt.html" />
     <Content Include="Admin\Views\ForgotPassword.html" />
+    <Content Include="Admin\Views\HospitalAdmin_Userslog.html" />
     <Content Include="Admin\Views\ICD10Master.html" />
     <Content Include="Admin\Views\InstitutionDetails.html" />
     <Content Include="Admin\Views\Institutionlist.html" />
@@ -1209,6 +1210,7 @@
     <Compile Include="Admin\Controllers\InstitutionSubscriptionController.cs" />
     <Compile Include="Admin\Controllers\PayByController.cs" />
     <Compile Include="Admin\Controllers\ProtocolController.cs" />
+    <Compile Include="Admin\Controllers\UsersLogController.cs" />
     <Compile Include="Admin\Models\DurationModel.cs" />
     <Compile Include="Admin\Models\InstitutionModel.cs" />
     <Compile Include="Admin\Models\InstitutionSubscriptionModel.cs" />
@@ -1217,6 +1219,7 @@
     <Compile Include="Admin\Models\MonitoringProtocolModel.cs" />
     <Compile Include="Admin\Models\PaymentGatewayMaster.cs" />
     <Compile Include="Admin\Models\ProtocolModel.cs" />
+    <Compile Include="Admin\Models\AdminUsersLogModel.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -1300,6 +1303,7 @@
     <Compile Include="Repositories\Admin\InstitutionRepository.cs" />
     <Compile Include="Repositories\Admin\InstitutionSubscriptionRepository.cs" />
     <Compile Include="Repositories\Admin\ProtocolRepository.cs" />
+    <Compile Include="Repositories\Admin\UsersLogRepository.cs" />
     <Compile Include="Repositories\IAlertEventRepository.cs" />
     <Compile Include="Repositories\IAllPatientRepository.cs" />
     <Compile Include="Repositories\IGatewaySettingsRepository.cs" />
@@ -1338,6 +1342,7 @@
     <Compile Include="Repositories\ISMSTemplateRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\IColorPreferenceRepository.cs" />
+    <Compile Include="Repositories\IUsersLogRepository.cs" />
     <Compile Include="Repositories\IWebConfigurationRepository.cs" />
     <Compile Include="Repositories\LogHandler\LogHandlerRepository.cs" />
     <Compile Include="Repositories\Login\LoginRepository.cs" />
@@ -1692,6 +1697,8 @@
     <Folder Include="Admin\Views\PlanMasterModel\" />
     <Folder Include="Admin\Views\PlanMasterRepository\" />
     <Folder Include="Admin\Views\PlanMaster\" />
+    <Folder Include="Admin\Views\userlog\" />
+    <Folder Include="Admin\Views\UsersLog\" />
     <Folder Include="Admin\Views\WebConfiguration\" />
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
