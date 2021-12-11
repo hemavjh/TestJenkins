@@ -391,18 +391,18 @@ MyCortexControllers.controller("UsersLogController", ['$scope', '$http', '$route
         $scope.rembemberCurrentPage = function (p) {
             $scope.current_page = p
         }
-        
+
         // load users list
         $scope.User_Log_List = function () {
             $("#chatLoaderPV").show();
-            $scope.CCCG_DetailsList = [];           
-            $http.get(baseUrl + 'api/UsersLog/GetAll_UserLists/?InstitutionId='+ $scope.InstituteId).success(function (data) {
+            $scope.CCCG_DetailsList = [];
+            $http.get(baseUrl + 'api/UsersLog/GetAll_UserLists/?InstitutionId=' + $scope.InstituteId).success(function (data) {
                 $scope.CCCG_DetailsList = data;
-            });           
+            });
         }
         //select on Change load -userslist
         $scope.SearchByUserID = function () {
-            $("#chatLoaderPV").show();            
+            $("#chatLoaderPV").show();
             $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.InstituteId + "&login_session_id=" + $scope.LoginSessionId + "&User_Id=" + $scope.SelectedCCCG).success(function (data) {
                 $scope.emptydata = [];
                 $scope.UserDetailsList = [];
@@ -415,18 +415,18 @@ MyCortexControllers.controller("UsersLogController", ['$scope', '$http', '$route
                     $scope.flag = 0;
                     $scope.SearchMsg = "No Data Available";
                 }
-                $("#chatLoaderPV").hide();                
+                $("#chatLoaderPV").hide();
             });
         }
         /* Filter the User Log list function.*/
-        $scope.filterListUserLog = function () {            
+        $scope.filterListUserLog = function () {
             var searchstring = angular.lowercase($scope.searchquery);
             if ($scope.searchquery == "") {
                 $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
             }
-            else {                
-                $scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {                     
-                 return angular.lowercase(value.FULLNAME).match(searchstring) ||
+            else {
+                $scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {
+                    return angular.lowercase(value.FULLNAME).match(searchstring) ||
                         angular.lowercase($filter('date')(value.LOGINTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring) ||
                         angular.lowercase($filter('date')(value.LOGOUTTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring);
                 });
@@ -434,7 +434,7 @@ MyCortexControllers.controller("UsersLogController", ['$scope', '$http', '$route
                     $scope.flag = 1;
                 } else {
                     $scope.flag = 0;
-                }                
+                }
             }
         };
     }
@@ -491,6 +491,10 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         $scope.PhotoValue = 0;
 
         $scope.AddInstitutionpopup = function () {
+            $('#divInsCountry').addClass("ng-invalid");
+            $('#divInsState').addClass("ng-invalid");
+            $('#divInsCity').addClass("ng-invalid");
+            $scope.submitted = false;
             $scope.Id = 0;
             $scope.loadCount = 0;
             $scope.InstitutionClear();
@@ -675,7 +679,52 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         $scope.Institution_AddEdit_AndSubscription = function () {
             $scope.InstitutionAndSubscription = 1;
             $scope.Institution_AddEdit();
+        }
 
+        $scope.Institution_AddAndEdit = function () {
+            var activeButton = document.activeElement.id;
+            if (activeButton == "btnsave2" && $scope.editInstbutton == 0) {
+                $scope.Institution_AddEdit_AndSubscription();
+            }
+            else if (activeButton == "btnsave1" && $scope.editInstbutton == 1) {
+                $scope.Institution_AddEdit();
+            }
+        }
+
+        $scope.insCountryChange = function () {
+            var country = document.getElementById('countryselectpicker').value;
+            if (country != "0") {
+                $('#divInsCountry').removeClass("ng-invalid");
+                $('#divInsCountry').addClass("ng-valid");
+            }
+            else {
+                $('#divInsCountry').removeClass("ng-valid");
+                $('#divInsCountry').addClass("ng-invalid");
+            }
+        }
+
+        $scope.insStateChange = function () {
+            var state = document.getElementById('stateselectpicker').value;
+            if (state != "0") {
+                $('#divInsState').removeClass("ng-invalid");
+                $('#divInsState').addClass("ng-valid");
+            }
+            else {
+                $('#divInsState').removeClass("ng-valid");
+                $('#divInsState').addClass("ng-invalid");
+            }
+        }
+
+        $scope.insCityChange = function () {
+            var city = document.getElementById('cityselectpicker').value;
+            if (city != "0") {
+                $('#divInsCity').removeClass("ng-invalid");
+                $('#divInsCity').addClass("ng-valid");
+            }
+            else {
+                $('#divInsCity').removeClass("ng-valid");
+                $('#divInsCity').addClass("ng-invalid");
+            }
         }
 
         /*on click Save calling the insert update function for Institution
@@ -940,17 +989,46 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                 $scope.CountryFlag = true;
                 //$scope.Country_onChange();
 
+                if ($scope.CountryId != "0") {
+                    $('#divInsCountry').removeClass("ng-invalid");
+                    $('#divInsCountry').addClass("ng-valid");
+                }
+                else {
+                    $('#divInsCountry').removeClass("ng-valid");
+                    $('#divInsCountry').addClass("ng-invalid");
+                }
+
                 // $scope.CountryBased_StateFunction();
                 $scope.ViewCountryName = data.CountryName;
                 $scope.StateNameId = data.StateId.toString();
                 $scope.StateDuplicateId = $scope.StateNameId;
                 $scope.StateFlag = true;
+
+                if ($scope.StateNameId != "0") {
+                    $('#divInsState').removeClass("ng-invalid");
+                    $('#divInsState').addClass("ng-valid");
+                }
+                else {
+                    $('#divInsState').removeClass("ng-valid");
+                    $('#divInsState').addClass("ng-invalid");
+                }
+
                 //  $scope.StateBased_CityFunction();
                 // $scope.State_onChange();
                 $scope.ViewStateName = data.StateName;
                 $scope.LocationNameId = data.CityId.toString();
                 $scope.LocationDuplicateId = $scope.LocationNameId;
                 $scope.CityFlag = true;
+
+                if ($scope.LocationNameId != "0") {
+                    $('#divInsCity').removeClass("ng-invalid");
+                    $('#divInsCity').addClass("ng-valid");
+                }
+                else {
+                    $('#divInsCity').removeClass("ng-valid");
+                    $('#divInsCity').addClass("ng-invalid");
+                }
+
                 if ($scope.DropDownListValue == 1) {
                     $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
                         $scope.CountryNameList = data;
@@ -958,6 +1036,14 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                             $scope.CountryId = $scope.CountryDuplicateId;
                             $scope.CountryFlag = false;
                             $scope.loadCount = $scope.loadCount - 1;
+                            if ($scope.CountryId != "0") {
+                                $('#divInsCountry').removeClass("ng-invalid");
+                                $('#divInsCountry').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divInsCountry').removeClass("ng-valid");
+                                $('#divInsCountry').addClass("ng-invalid");
+                            }
                         }
                     });
                     $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.CountryId.toString()).success(function (data) {
@@ -966,6 +1052,14 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                             $scope.StateNameId = $scope.StateDuplicateId;
                             $scope.StateFlag = false;
                             $scope.loadCount = $scope.loadCount - 1;
+                            if ($scope.StateNameId != "0") {
+                                $('#divInsState').removeClass("ng-invalid");
+                                $('#divInsState').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divInsState').removeClass("ng-valid");
+                                $('#divInsState').addClass("ng-invalid");
+                            }
                         }
                     });
                     $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.CountryId.toString() + '&StateId=' + data.StateId.toString()).success(function (data) {
@@ -975,6 +1069,14 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                             $scope.LocationNameId = $scope.LocationDuplicateId;
                             $scope.CityFlag = false;
                             $scope.loadCount = $scope.loadCount - 1;
+                            if ($scope.LocationNameId != "0") {
+                                $('#divInsCity').removeClass("ng-invalid");
+                                $('#divInsCity').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divInsCity').removeClass("ng-valid");
+                                $('#divInsCity').addClass("ng-invalid");
+                            }
                         }
                     });
                 }
@@ -1100,6 +1202,11 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         }*/
 
         $scope.AddIntstitutionSubPopup = function () {
+            $('#divInssInstitute').addClass("ng-invalid");
+            $('#divInssTimeZone').addClass("ng-invalid");
+            $('#divInssChronicEdit').addClass("ng-invalid");
+            $('#divInssApModule').addClass("ng-invalid");
+            $scope.submitted = false;
             $scope.Id = 0;
             $scope.Institution_Id = "0";
             $scope.TimeZone_Id = "0";
@@ -1214,6 +1321,76 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.SubscriptionAndAdmin = 1;
             $scope.Institution_SubscriptionAddEdit();
         }
+
+        $scope.Institution_SubscriptionAddAndEdit = function () {
+            var activeButton = document.activeElement.id;
+            if (activeButton == "btnsave1" && $scope.EditInstSub == 0) {
+                $scope.AndSubscription_AndAdmin();
+            }
+            else if (activeButton == "btnsave" && $scope.EditInstSub == 1) {
+                $scope.Institution_SubscriptionAddEdit();
+            }
+        }
+
+        $scope.insSubInstituteChange = function () {
+            var ins = document.getElementById('insselectpicker').value;
+            if (ins != "0") {
+                $('#divInssInstitute').removeClass("ng-invalid");
+                $('#divInssInstitute').addClass("ng-valid");
+            }
+            else {
+                $('#divInssInstitute').removeClass("ng-valid");
+                $('#divInssInstitute').addClass("ng-invalid");
+            }
+        }
+
+        $scope.insSubTimeZoneChange = function () {
+            var tz = document.getElementById('TimeZoneID').value;
+            if (tz != "0") {
+                $('#divInssTimeZone').removeClass("ng-invalid");
+                $('#divInssTimeZone').addClass("ng-valid");
+            }
+            else {
+                $('#divInssTimeZone').removeClass("ng-valid");
+                $('#divInssTimeZone').addClass("ng-invalid");
+            }
+        }
+
+        $scope.insSubTypeChange = function () {
+            if ($scope.Subscription_Type == "1" || $scope.Subscription_Type == "2") {
+                $('#divInssType').removeClass("ng-invalid");
+                $('#divInssType').addClass("ng-valid");
+            }
+            else {
+                $('#divInssType').removeClass("ng-valid");
+                $('#divInssType').addClass("ng-invalid");
+            }
+        }
+
+        $scope.insSubChronicChange = function () {
+            //alert($scope.Chroniccc);
+            if ($scope.Chroniccc == false && $scope.Chroniccg == false && $scope.Chroniccl == false && $scope.Chronicsc == false) {
+                $('#divInssChronicEdit').removeClass("ng-valid");
+                $('#divInssChronicEdit').addClass("ng-invalid");
+            }
+            else {
+                $('#divInssChronicEdit').removeClass("ng-invalid");
+                $('#divInssChronicEdit').addClass("ng-valid");
+            }
+        }
+
+        $scope.insSubAppointmentModuleChange = function () {
+            var am = document.getElementById('AppointmentModuleID').value;
+            if (am != "0") {
+                $('#divInssApModule').removeClass("ng-invalid");
+                $('#divInssApModule').addClass("ng-valid");
+            }
+            else {
+                $('#divInssApModule').removeClass("ng-valid");
+                $('#divInssApModule').addClass("ng-invalid");
+            }
+        }
+
         /* Validating the create page mandatory fields
         checking mandatory for the follwing fields
         Health Care Professionals,Patients,Contract Period From,Contract Period To
@@ -1478,6 +1655,14 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.InstitutionInsurnceList = data.ChildInsuranceList;
                     $scope.InstitutionPaymentList = data.ChildPaymentList;
                     $scope.Institution_Id = data.Institution_Id.toString();
+                    if ($scope.Institution_Id != "0") {
+                        $('#divInssInstitute').removeClass("ng-invalid");
+                        $('#divInssInstitute').addClass("ng-valid");
+                    }
+                    else {
+                        $('#divInssInstitute').removeClass("ng-valid");
+                        $('#divInssInstitute').addClass("ng-invalid");
+                    }
                     $scope.ViewInstitution_Name = data.Institution.Institution_Name;
                     $scope.Email = data.Institution.Email;
                     $scope.Address1 = data.Institution.Institution_Address1;
@@ -1503,6 +1688,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
                     $scope.Chronicsc = data.ChronicSc;
+                    $scope.insSubChronicChange();
                     $scope.Created_No_Of_Patient = data.Created_No_Of_Patient;
                     $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
                     $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;
@@ -1589,24 +1775,24 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             $scope.InstitutionAddInsuranceList = [];
             $scope.InstitutionAddPaymentList = [];
 
-        $scope.Chroniccc = false;
-        $scope.Chroniccg = false;
-        $scope.Chroniccl = false;
-        $scope.Chronicsc = false;
-        $scope.Hcp_Pat = false;
-        $scope.Created_No_Of_Patient = "";
-        $scope.Created_No_Of_HealthCareProf = "";
-        $scope.Remaining_No_Of_Patient = "";
-        $scope.Remaining_No_Of_HealthCareProf = "";
+            $scope.Chroniccc = false;
+            $scope.Chroniccg = false;
+            $scope.Chroniccl = false;
+            $scope.Chronicsc = false;
+            $scope.Hcp_Pat = false;
+            $scope.Created_No_Of_Patient = "";
+            $scope.Created_No_Of_HealthCareProf = "";
+            $scope.Remaining_No_Of_Patient = "";
+            $scope.Remaining_No_Of_HealthCareProf = "";
 
-    }
-    $scope.InstitutionSubscription_Delete = function () {
-        //alert("Subscription cannot be activated / deactivated")
-        toastr.info("Subscription cannot be activated / deactivated", "info");
-    };
-    if ($scope.serviceData > 0) {
-        $scope.AddIntstitutionSubPopup();
-    }
+        }
+        $scope.InstitutionSubscription_Delete = function () {
+            //alert("Subscription cannot be activated / deactivated")
+            toastr.info("Subscription cannot be activated / deactivated", "info");
+        };
+        if ($scope.serviceData > 0) {
+            $scope.AddIntstitutionSubPopup();
+        }
 
     }
 ]);
@@ -4096,15 +4282,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
             Swal.fire({
                 title: 'Do you like to deactivate the selected User?',
-                html:'',
+                html: '',
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: 'Yes',
                 denyButtonText: 'No',
+                showCloseButton: true,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                        $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
                         if (data.Status == "True") {
                             //alert(data.Message);
                             toastr.success(data.Message, "success");
@@ -4126,46 +4313,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
             })
-
-            //Swal.fire("Do you like to deactivate the selected User?", {
-            //    className: 'alert-danger',
-            //    buttons: {
-            //        Ok: {
-            //            text: "Ok",
-            //            value: "Ok",
-            //        },
-            //        cancel: {
-            //            text: "Cancel",
-            //            value: "Cancel",
-            //        },
-            //    },
-            //})
-            //    .then((value) => {
-            //        switch (value) {
-            //            case "Ok":
-            //                $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
-            //                    if (data.Status == "True") {
-            //                        //alert(data.Message);
-            //                        toastr.success(data.Message, "success");
-            //                        if ($scope.MenuTypeId == 1)
-            //                            $scope.User_Admin_List($scope.MenuTypeId);
-            //                        else if ($scope.MenuTypeId == 2)
-            //                            $scope.BusinessUser_List($scope.MenuTypeId);
-            //                        else if ($scope.MenuTypeId == 3)
-            //                            $scope.Patient_List($scope.MenuTypeId);
-            //                    }
-            //                    else {
-            //                        //alert(data.Message);
-            //                        toastr.info(data.Message, "info");
-            //                    }
-            //                }).error(function (data) {
-            //                    $scope.error = "An error has occurred while deleting User Details" + data;
-            //                });
-            //                break;
-            //            default:
-            //                //swal("Got away safely!");
-            //        }
-            //    });
 
             //var del = confirm("Do you like to deactivate the selected User?");
             //if (del == true) {
@@ -4192,7 +4339,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.UserDetails_Active = function (GetId) {
             $scope.Id = GetId;
 
-
             Swal.fire({
                 title: 'Do you like to activate the selected User?',
                 html: '',
@@ -4200,10 +4346,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 showCancelButton: false,
                 confirmButtonText: 'Yes',
                 denyButtonText: 'No',
+                showCloseButton: true,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                        $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
+                    $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
                         if (data.Status == "True") {
                             //alert("User Details has been activated Successfully");
                             toastr.success("User Details has been activated Successfully", "success");
@@ -11355,28 +11502,28 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             if (value.Active_From == false || value.Active_From == null || value.Active_From == undefined) {
                 value.Active_From = "";
             }
-                //if ((value.Active_From) == "") {
-                //    validationMsg = validationMsg + "Please select Active From Date";
-                //    validateflag = false;
-                //    return false;
-                //}
-                /*if ((value.Active_To) == "") {
-                    validationMsg = validationMsg + "Please select Active To Date";
-                    validateflag = false;
-                    return false;
-                }*/
-                //if ((value.Active_From !== null) && (value.Active_To !== null)) {
-                //    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
-                //        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
-                //        value.Active_From = DateFormatEdit(value.Active_From);
-                //        value.Active_To = DateFormatEdit(value.Active_To);
-                //        validateflag = false;
-                //        return false;
-                //    }
-                //}
+            //if ((value.Active_From) == "") {
+            //    validationMsg = validationMsg + "Please select Active From Date";
+            //    validateflag = false;
+            //    return false;
+            //}
+            /*if ((value.Active_To) == "") {
+                validationMsg = validationMsg + "Please select Active To Date";
+                validateflag = false;
+                return false;
+            }*/
+            //if ((value.Active_From !== null) && (value.Active_To !== null)) {
+            //    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
+            //        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
+            //        value.Active_From = DateFormatEdit(value.Active_From);
+            //        value.Active_To = DateFormatEdit(value.Active_To);
+            //        validateflag = false;
+            //        return false;
+            //    }
+            //}
 
-                //value.Active_From = DateFormatEdit(value.Active_From);
-                //value.Active_To = DateFormatEdit(value.Active_To);
+            //value.Active_From = DateFormatEdit(value.Active_From);
+            //value.Active_To = DateFormatEdit(value.Active_To);
 
             //});
 
@@ -19312,7 +19459,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
             else if (typeof ($scope.EmailSubject) == "undefined" || $scope.EmailSubject == "") {
                 if ($scope.PageParameter == 1)
                     //alert("Please enter Email Subject");
-                     toastr.warning("Please enter Email Subject", "warning");
+                    toastr.warning("Please enter Email Subject", "warning");
                 else
                     //alert("Please enter Notification Title");
                     warning("Please enter Notification Title", "warning");
@@ -27364,6 +27511,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 showCancelButton: false,
                 confirmButtonText: 'Yes',
                 denyButtonText: 'No',
+                showCloseButton: true,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
