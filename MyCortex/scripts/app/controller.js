@@ -156,7 +156,7 @@ MyCortexControllers.directive("fileread", [
                     }
                     if (changeEvent.target.files.length !== 0) {
                         reader.readAsDataURL(changeEvent.target.files[0]);
-                    } 
+                    }
                 });
             }
         }
@@ -334,7 +334,7 @@ MyCortexControllers.controller("homeController", ['$scope', '$http', '$routePara
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
 MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService) {
-        
+
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.page_size = 0;
         $scope.ConfigCode = "PAGINATION";
@@ -377,8 +377,71 @@ MyCortexControllers.controller("GooglehomeController", ['$scope', '$http', '$rou
 
     }
 ]);
+MyCortexControllers.controller("UsersLogController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub', 'toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
+        $scope.CreatedBy = $window.localStorage['UserId'];
+        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+        $scope.InstituteId = $window.localStorage['InstitutionId'];
+        $scope.rowCollectionFilter = [];
+        $scope.MenuTypeId = 0;
+
+        //List Page Pagination.
+        $scope.current_page = 1;
+        $scope.page_size = $window.localStorage['Pagesize'];
+        $scope.rembemberCurrentPage = function (p) {
+            $scope.current_page = p
+        }
+        
+        // load users list
+        $scope.User_Log_List = function () {
+            $("#chatLoaderPV").show();
+            $scope.CCCG_DetailsList = [];           
+            $http.get(baseUrl + 'api/UsersLog/GetAll_UserLists/?InstitutionId='+ $scope.InstituteId).success(function (data) {
+                $scope.CCCG_DetailsList = data;
+            });           
+        }
+        //select on Change load -userslist
+        $scope.SearchByUserID = function () {
+            $("#chatLoaderPV").show();            
+            $http.get(baseUrl + '/api/UsersLog/Admin_Userslog_List/?Institution_Id=' + $scope.InstituteId + "&login_session_id=" + $scope.LoginSessionId + "&User_Id=" + $scope.SelectedCCCG).success(function (data) {
+                $scope.emptydata = [];
+                $scope.UserDetailsList = [];
+                $scope.UserDetailsList = data;
+                $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
+                if ($scope.rowCollectionFilter.length > 0) {
+                    $scope.flag = 1;
+                }
+                else {
+                    $scope.flag = 0;
+                    $scope.SearchMsg = "No Data Available";
+                }
+                $("#chatLoaderPV").hide();                
+            });
+        }
+        /* Filter the User Log list function.*/
+        $scope.filterListUserLog = function () {            
+            var searchstring = angular.lowercase($scope.searchquery);
+            if ($scope.searchquery == "") {
+                $scope.rowCollectionFilter = angular.copy($scope.UserDetailsList);
+            }
+            else {                
+                $scope.rowCollectionFilter = $ff($scope.UserDetailsList, function (value) {                     
+                 return angular.lowercase(value.FULLNAME).match(searchstring) ||
+                        angular.lowercase($filter('date')(value.LOGINTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring) ||
+                        angular.lowercase($filter('date')(value.LOGOUTTIME, "dd-MMM-yyyy hh:mm a")).match(searchstring);
+                });
+                if ($scope.rowCollectionFilter.length > 0) {
+                    $scope.flag = 1;
+                } else {
+                    $scope.flag = 0;
+                }                
+            }
+        };
+    }
+]);
+
 /* THIS IS FOR INSTITUTION CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub','toastr',
+MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
         $scope.CreatedBy = $window.localStorage['UserId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
@@ -787,7 +850,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
         }
         $scope.PhotoUplaodSelected = function () {
             $scope.PhotoValue = 1;
-            
+
         };
         $scope.NationalityPhotoUplaodSelected = function () {
             $scope.PhotoValue1 = 1;
@@ -840,7 +903,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
                     $scope.error = "AN error has occured while Listing the records!" + data;
                 })
             } else {
-                window.location.href = baseUrl + "/Home/LoginIndex"; 
+                window.location.href = baseUrl + "/Home/LoginIndex";
             }
         };
 
@@ -997,7 +1060,7 @@ MyCortexControllers.controller("InstitutionController", ['$scope', '$http', '$ro
 ]);
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
-MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub','toastr',
+MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'InstSub', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, InstSub, toastr) {
 
         //Declaration and initialization of Scope Variables.
@@ -1306,7 +1369,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
                     if (data.ReturnFlag == 0) {
                         toastr.error(data.Message, "Warning");
                     }
-                    else if (data.ReturnFlag==1) {
+                    else if (data.ReturnFlag == 1) {
                         toastr.success(data.Message, "success");
                     }
                     $('#btnsave').attr("disabled", false);
@@ -1499,32 +1562,32 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             }
         };
 
-//This is for clear the contents in the Page
-    $scope.ClearInstitutionSubscriptionPopup = function () {
-        $scope.Health_Care_Professionals = "";
-        $scope.Patients = "";
-        $scope.Contract_Period_From = "";
-        $scope.Contract_Period_To = "";
-        $scope.Subscription_Type = "1";
-        $scope.InstitutionModule_List = [];
-        $scope.InstitutionAddList = [];
-        $scope.InstitutionAddLanguageList = [];
-        $scope.Institution_Id = "0";
+        //This is for clear the contents in the Page
+        $scope.ClearInstitutionSubscriptionPopup = function () {
+            $scope.Health_Care_Professionals = "";
+            $scope.Patients = "";
+            $scope.Contract_Period_From = "";
+            $scope.Contract_Period_To = "";
+            $scope.Subscription_Type = "1";
+            $scope.InstitutionModule_List = [];
+            $scope.InstitutionAddList = [];
+            $scope.InstitutionAddLanguageList = [];
+            $scope.Institution_Id = "0";
 
-        $scope.Email = "";
-        $scope.Address1 = "";
-        $scope.Address2 = "";
-        $scope.Address3 = "";
-        $scope.ZipCode = "";
-        $scope.Country = "";
-        $scope.State = "";
-        $scope.City = "";
-        $scope.TimeZone_ID = "0";
-        $scope.TimeZoneId = "0";
-        $scope.AppointmentModule_Id = "0";
-        $scope.AppointmentModuleId = "0";
-        $scope.InstitutionAddInsuranceList = [];
-        $scope.InstitutionAddPaymentList = [];
+            $scope.Email = "";
+            $scope.Address1 = "";
+            $scope.Address2 = "";
+            $scope.Address3 = "";
+            $scope.ZipCode = "";
+            $scope.Country = "";
+            $scope.State = "";
+            $scope.City = "";
+            $scope.TimeZone_ID = "0";
+            $scope.TimeZoneId = "0";
+            $scope.AppointmentModule_Id = "0";
+            $scope.AppointmentModuleId = "0";
+            $scope.InstitutionAddInsuranceList = [];
+            $scope.InstitutionAddPaymentList = [];
 
         $scope.Chroniccc = false;
         $scope.Chroniccg = false;
@@ -1535,9 +1598,7 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.Created_No_Of_HealthCareProf = "";
         $scope.Remaining_No_Of_Patient = "";
         $scope.Remaining_No_Of_HealthCareProf = "";
-        
-        $scope.Contract_Period_From = new Date(DatetimepickermaxDate);
-        $scope.Contract_Period_To = new Date(DatetimepickermaxDate);
+
     }
     $scope.InstitutionSubscription_Delete = function () {
         //alert("Subscription cannot be activated / deactivated")
@@ -1547,12 +1608,21 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         $scope.AddIntstitutionSubPopup();
     }
 
-        }
-    ]);
+    }
+]);
 
 // This is for User controller functions/ /
-MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub','toastr',
-    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub,toastr) {
+MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub', 'toastr',
+    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub, toastr) {
+        //$scope.alertConfrimationVisible = false;
+        //$scope.alertType = "alert-danger";
+        //$scope.alertConfrimationMessage = "Do you like to deactivate the selected User?";
+        //$scope.btn1Type = "btn-success";
+        //$scope.btn2Type = "btn-danger";
+        //$scope.btn1Text = "Ok";
+        //$scope.btn2Text = "Cancel";
+        //$scope.alertbtn1Show = true;
+        //$scope.alertbtn2Show = true;
         $scope.SearchMsg = "No Data Available";
         $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
@@ -1563,7 +1633,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.StateDuplicateId = "0";
         $scope.LocationDuplicateId = "0";
         $scope.Id = "0";
-        $scope.rowId ="0"
+        $scope.rowId = "0"
         $scope.UserType = "0";
         $scope.InstitutionId = "0";
         $scope.FirstName = "";
@@ -1721,7 +1791,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         $scope.Reference_ID = "";
         $scope.Expiry_Date = "";
         $scope.SelectedPayor = "0";
-        $scope.SelectedPlan = "0";	
+        $scope.SelectedPlan = "0";
         $scope.EditPayorId = [];
         $scope.EditPlanId = [];
         $scope.DoctorInstitutionList = [];
@@ -1755,10 +1825,108 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.SelectedGroup = "0";
         }
 
+        $scope.genderChange = function () {
+            var genderId = document.getElementById('Select3').value;
+            if (genderId != "0") {
+                $('#divGender').removeClass("ng-invalid");
+                $('#divGender').addClass("ng-valid");
+            }
+            else {
+                $('#divGender').removeClass("ng-valid");
+                $('#divGender').addClass("ng-invalid");
+            }
+        }
+
+        $scope.departmentChange = function () {
+            var deptId = document.getElementById('Select1').value;
+            if (deptId != "0") {
+                $('#divDepartment').removeClass("ng-invalid");
+                $('#divDepartment').addClass("ng-valid");
+            }
+            else {
+                $('#divDepartment').removeClass("ng-valid");
+                $('#divDepartment').addClass("ng-invalid");
+            }
+        }
+
+        $scope.UserTypeChange = function () {
+            var userType = document.getElementById('Select2').value;
+            if (userType != "0") {
+                $('#divUserType').removeClass("ng-invalid");
+                $('#divUserType').addClass("ng-valid");
+            }
+            else {
+                $('#divUserType').removeClass("ng-valid");
+                $('#divUserType').addClass("ng-invalid");
+            }
+        }
+
+        $scope.nationalityChange = function () {
+            var nationality = document.getElementById('Select5').value;
+            if (nationality != "0") {
+                $('#divNationality').removeClass("ng-invalid");
+                $('#divNationality').addClass("ng-valid");
+            }
+            else {
+                $('#divNationality').removeClass("ng-valid");
+                $('#divNationality').addClass("ng-invalid");
+            }
+        }
+
+        $scope.countryChange = function () {
+            var country = document.getElementById('countryselectpicker').value;
+            if (country != "0") {
+                $('#divCountry').removeClass("ng-invalid");
+                $('#divCountry').addClass("ng-valid");
+            }
+            else {
+                $('#divCountry').removeClass("ng-valid");
+                $('#divCountry').addClass("ng-invalid");
+            }
+        }
+
+        $scope.cityChange = function () {
+            var city = document.getElementById('SelectCity').value;
+            if (city != "0") {
+                $('#divCity').removeClass("ng-invalid");
+                $('#divCity').addClass("ng-valid");
+            }
+            else {
+                $('#divCity').removeClass("ng-valid");
+                $('#divCity').addClass("ng-invalid");
+            }
+        }
+
+        $scope.stateChange = function () {
+            var state = document.getElementById('stateselectpicker').value;
+            if (state != "0") {
+                $('#divState').removeClass("ng-invalid");
+                $('#divState').addClass("ng-valid");
+            }
+            else {
+                $('#divState').removeClass("ng-valid");
+                $('#divState').addClass("ng-invalid");
+            }
+        }
+
         $scope.TabClick = false;
+
+        $scope.checkTab = function () {
+            if ($scope.FirstName != "" && $scope.LastName != "" && $scope.Employee_No != ""
+                && $scope.GenderId != "" && $scope.DepartmentId != "" && $scope.EmailId != ""
+                && $scope.MobileNo != "") {
+                $scope.currentTab = 2;
+            }
+            else if ($scope.Health_License != "" && $scope.NationalityId != "" && $scope.DOB != "") {
+                $scope.currentTab = 3;
+            }
+            else
+                $scope.currentTab = 1;
+        }
 
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
+            $scope.submitted = false;
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
             $("#UserLogo").val('');
@@ -1781,7 +1949,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             $scope.status = 1;
             $('[data-id="selectpicker"]').prop('disabled', false);
-            $scope.SuperAdminDropdownsList(); 
+            $scope.SuperAdminDropdownsList();
             angular.element('#UserModal').modal('show');
         }
 
@@ -1794,16 +1962,35 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.loadCount = $scope.loadCount - 1;
             $scope.CountryId = $scope.InsCountryId;
 
+            var cId = $scope.CountryId;
+            if (cId != "0") {
+                $('#divCountry').removeClass("ng-invalid");
+                $('#divCountry').addClass("ng-valid");
+            }
+
             $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + $scope.InsCountryId).success(function (data) {
                 $scope.StateName_List = data;
                 $scope.StateId = $scope.InsStateId;
                 $scope.loadCount = $scope.loadCount - 1;
+
+                var sId = $scope.StateId;
+                if (sId != "0") {
+                    $('#divState').removeClass("ng-invalid");
+                    $('#divState').addClass("ng-valid");
+                }
+
             });
             $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + $scope.InsCountryId + '&StateId=' + $scope.InsStateId).success(function (data) {
                 //$scope.LocationName_List =data ;    
                 $scope.LocationName_List = data;
                 $scope.CityId = $scope.InsCityId;
                 $scope.loadCount = $scope.loadCount - 1;
+
+                var cId = $scope.CityId;
+                if (cId != "0") {
+                    $('#divCity').removeClass("ng-invalid");
+                    $('#divCity').addClass("ng-valid");
+                }
             });
 
             //$scope.StateBased_CityFunction();
@@ -1864,7 +2051,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             $scope.AppConfigurationProfileImageList();
             $scope.Admin_View($scope.MenuTypeId);
-            $scope.currentTab = "1"; 
+            $scope.currentTab = "1";
             angular.element('#UserModal').modal('show');
             $('#spradminrowid').prop('disabled', true);
             $('#hosadminrowid').prop('disabled', true);
@@ -1890,7 +2077,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
             else if ($scope.PageParameter == 5) {
                 // User Profile Patient Vitals
-                    $location.path("/PatientVitals/" + $scope.Id + "/4");
+                $location.path("/PatientVitals/" + $scope.Id + "/4");
             }
             else if ($scope.PageParameter == 6) {
                 // Diagostic Alert
@@ -1996,14 +2183,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
 
                 var picPath = "../../Images/others.png";
-                if (typeof($scope.Gender_Name) != "undefined")
-                if ($scope.GenderId == feMaleId) {
-                    picPath = "../../Images/Patient_Female.png";
-                }
-                else if ($scope.GenderId == maleId) {
-                    picPath = "../../Images/Patient_Male.png";
-                }
-                
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath = "../../Images/Patient_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath = "../../Images/Patient_Male.png";
+                    }
+
 
                 if (photoview == false) {
                     var request = new XMLHttpRequest();
@@ -2084,7 +2271,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $location.path("/PatientCreate/" + "2" + "/" + "3");
-         }
+        }
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
                 $scope.InstitutionSubscriptionLicensecheck(3);
@@ -2127,7 +2314,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.AppConfigurationProfileImageList();
             //$scope.Admin_View($scope.MenuTypeId);
             $location.path("/PatientEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
-             
+
         }
 
         $scope.ClearPopUp = function () {
@@ -2241,7 +2428,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.Reference_ID = "";
             $scope.ExpiryDate = "";
             $scope.SelectedPayor = "0";
-            $scope.SelectedPlan = "0";	
+            $scope.SelectedPlan = "0";
         }
 
 
@@ -2288,7 +2475,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
             }
         }
-
 
         $scope.Businesstab1 = 0;
         $scope.BusinessUserDropdownList = function () {
@@ -2380,16 +2566,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
                     $scope.MaritalStatusListTemp = [];
                     $scope.MaritalStatusListTemp = data;
-                   /* var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.MaritalStatusListTemp.splice(0, 0, obj);*/
+                    /* var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                     $scope.MaritalStatusListTemp.splice(0, 0, obj);*/
                     $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
                 $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
                     $scope.EthnicGroupListTemp = [];
                     $scope.EthnicGroupListTemp = data;
-                   /* var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.EthnicGroupListTemp.splice(0, 0, obj);*/
+                    /* var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                     $scope.EthnicGroupListTemp.splice(0, 0, obj);*/
                     $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
@@ -2397,8 +2583,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     /*$scope.BloodGroupList = data;*/
                     $scope.BloodGroupListTemp = [];
                     $scope.BloodGroupListTemp = data;
-                   /* var obj = { "Id": 0, "BloodGroup_Name": "Select", "IsActive": 1 };
-                    $scope.BloodGroupListTemp.splice(0, 0, obj);*/
+                    /* var obj = { "Id": 0, "BloodGroup_Name": "Select", "IsActive": 1 };
+                     $scope.BloodGroupListTemp.splice(0, 0, obj);*/
                     $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                 });
@@ -2470,7 +2656,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $scope.NationalityList = data;
                 });
                 //$http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
-                 //    $scope.EthnicGroupList = data;
+                //    $scope.EthnicGroupList = data;
                 //});
                 //$http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
                 //    $scope.MaritalStatusList = data;
@@ -2797,18 +2983,18 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 + '&INSURANCEID=' + $scope.filter_InsuranceId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&MOBILE_NO=' +
                 $scope.filter_MOBILE_NO + '&EMAILID=' + $scope.filter_Email + '&FIRSTNAME=' + $scope.Filter_FirstName + '&LASTNAME=' + $scope.Filter_LastName + '&MRNNO=' + $scope.Filter_MRN + '&StartRowNumber=' + $scope.PageStart +
                 '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                if (data.length == 0) {
-                    $scope.SearchMsg = "No Data Available";
-                }
-                $scope.Patientemptydata = [];
-                $scope.PatientList = [];
-                $scope.PatientList = data;
-                $scope.Patientemptydata = data;
-                if ($scope.PatientList.length > 0) {
-                    $scope.PatientCount = $scope.PatientList[0].TotalRecord;
-                    $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
-                }
-            });
+                    if (data.length == 0) {
+                        $scope.SearchMsg = "No Data Available";
+                    }
+                    $scope.Patientemptydata = [];
+                    $scope.PatientList = [];
+                    $scope.PatientList = data;
+                    $scope.Patientemptydata = data;
+                    if ($scope.PatientList.length > 0) {
+                        $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                        $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                    }
+                });
         }
 
         //getallpatientlist();
@@ -3167,7 +3353,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     return false;
                 }
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
-                   //alert("Please enter Email");
+                    //alert("Please enter Email");
                     toastr.warning("Please enter Email", "warning");
                     $scope.currentTab = 1;
                     return false;
@@ -3497,7 +3683,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 });
             }
         }
-        $scope.Admin_View = function (MenuType) { 
+        $scope.Admin_View = function (MenuType) {
             $scope.ChronicConditionList = [];
             $("#chatLoaderPV").show();
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
@@ -3510,376 +3696,376 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.GenderList = data;
             });
 
-                $scope.loadCount = 3;
-                $("#chatLoaderPV").show();
-                photoview = true;
-                photoview1 = true;
-                photoview2 = true;
-                var methodcnt = 2;
-                var methodcnt1 = 2;
-                var methodcnt2 = 2;
-                $scope.MenuTypeId = MenuType;
-                if (MenuType == 3) {
-                    if ($routeParams.Id != undefined && $routeParams.Id > 0) {
-                        $scope.Id = $routeParams.Id;
-                        $scope.DuplicatesId = $routeParams.Id;
-                    }
+            $scope.loadCount = 3;
+            $("#chatLoaderPV").show();
+            photoview = true;
+            photoview1 = true;
+            photoview2 = true;
+            var methodcnt = 2;
+            var methodcnt1 = 2;
+            var methodcnt2 = 2;
+            $scope.MenuTypeId = MenuType;
+            if (MenuType == 3) {
+                if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                    $scope.Id = $routeParams.Id;
+                    $scope.DuplicatesId = $routeParams.Id;
                 }
-                $scope.EditSelectedGroup = [];
-                $scope.EditPayorId = [];
-                $scope.EditPlanId = [];
-                $scope.SelectedGroup = [];
-                $scope.EditSelectedInstitution = [];
-                $scope.SelectedInstitution = [];
-                $scope.EditSelectedLanguage = [];
-                $scope.SelectedLanguage = [];
-                $scope.EditSelectedChronicondition = [];
-                $scope.SelectedChronicCondition = [];
+            }
+            $scope.EditSelectedGroup = [];
+            $scope.EditPayorId = [];
+            $scope.EditPlanId = [];
+            $scope.SelectedGroup = [];
+            $scope.EditSelectedInstitution = [];
+            $scope.SelectedInstitution = [];
+            $scope.EditSelectedLanguage = [];
+            $scope.SelectedLanguage = [];
+            $scope.EditSelectedChronicondition = [];
+            $scope.SelectedChronicCondition = [];
             $scope.SelectedChronicConditionEdit = [];
             $scope.EditChronicOption = 0;
-                if ($scope.Id > 0) {
-                    $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.Id).success(function (data1) {
-                        methodcnt = methodcnt - 1;
-                        if (methodcnt == 0)
-                            $scope.uploadview = true;
-                        if (data1.PhotoBlob != null) {
-                            $scope.uploadme = 'data:image/png;base64,' + data1.PhotoBlob;
+            if ($scope.Id > 0) {
+                $http.get(baseUrl + '/api/User/UserDetails_GetPhoto/?Id=' + $scope.Id).success(function (data1) {
+                    methodcnt = methodcnt - 1;
+                    if (methodcnt == 0)
+                        $scope.uploadview = true;
+                    if (data1.PhotoBlob != null) {
+                        $scope.uploadme = 'data:image/png;base64,' + data1.PhotoBlob;
 
-                        }
-                        else {
-                            $scope.uploadme = null;
-                        }
-                    });
-
-                    if ($scope.LoginType == 2) {
-                        $http.get(baseUrl + '/api/User/UserDetails_GetCertificate/?Id=' + $scope.Id).success(function (data) {
-                            if (data.CertificateBlob != null) {
-                                $scope.Editresumedoc = 'data:image/png;base64,' + data.CertificateBlob;
-                            }
-                            else {
-                                $scope.Editresumedoc = null;
-                            }
-                        })
                     }
+                    else {
+                        $scope.uploadme = null;
+                    }
+                });
 
-                    $http.get(baseUrl + '/api/User/UserDetails_GetNationalPhoto/?Id=' + $scope.Id).success(function (data) {
-                        methodcnt1 = methodcnt1 - 1;
-                        if (methodcnt1 == 0)
-                            $scope.Nationaluploadview = true;
-                        if (data.NationalPhotoBlob != null) {
-                            $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
-
+                if ($scope.LoginType == 2) {
+                    $http.get(baseUrl + '/api/User/UserDetails_GetCertificate/?Id=' + $scope.Id).success(function (data) {
+                        if (data.CertificateBlob != null) {
+                            $scope.Editresumedoc = 'data:image/png;base64,' + data.CertificateBlob;
                         }
                         else {
-                            $scope.uploadme1 = null;
+                            $scope.Editresumedoc = null;
                         }
-                    });
-                    $http.get(baseUrl + '/api/User/UserDetails_GetInsurancePhoto/?Id=' + $scope.Id).success(function (data) {
-                        methodcnt2 = methodcnt2 - 1;
-                        if (methodcnt2 == 0)
-                            $scope.Insuranceuploadview = true;
-                        if (data.InsurancePhotoBlob != null) {
-                            $scope.uploadme2 = 'data:image/png;base64,' + data.InsurancePhotoBlob;
+                    })
+                }
 
-                        }
-                        else {
-                            $scope.uploadme2 = null;
-                        }
-                    });
-                    $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                        $scope.Chroniccc = data.ChronicCc;
-                        $scope.Chroniccg = data.ChronicCg;
-                        $scope.Chroniccl = data.ChronicCl;
-                        $scope.Chronicsc = data.ChronicSc;
-                        if ($window.localStorage['UserTypeId'] == 6 & $scope.Chroniccc == true) {
-                            $scope.EditChronicOption = 1;
-                        }
-                        if ($window.localStorage['UserTypeId'] == 5 & $scope.Chroniccg == true) {
-                            $scope.EditChronicOption = 1;
-                        }
-                        if ($window.localStorage['UserTypeId'] == 4 & $scope.Chroniccl == true) {
-                            $scope.EditChronicOption = 1;
-                        }
-                        if ($window.localStorage['UserTypeId'] == 7 & $scope.Chronicsc == true) {
-                            $scope.EditChronicOption = 1;
-                        }
-                    });
+                $http.get(baseUrl + '/api/User/UserDetails_GetNationalPhoto/?Id=' + $scope.Id).success(function (data) {
+                    methodcnt1 = methodcnt1 - 1;
+                    if (methodcnt1 == 0)
+                        $scope.Nationaluploadview = true;
+                    if (data.NationalPhotoBlob != null) {
+                        $scope.uploadme1 = 'data:image/png;base64,' + data.NationalPhotoBlob;
 
-                    $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.Id).success(function (data) {
-                        $("#chatLoaderPV").hide();
-                        var PatientInstituteId = data[0].Institution_Id;
-                         
-                        if ($window.localStorage['UserTypeId'] == 1 || PatientInstituteId == $window.localStorage['InstitutionId']) {
-                            $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                                $scope.Id = data.Id; 
-                                $scope.rowId = data.Id;
-                                $scope.InstitutionId = data.INSTITUTION_ID.toString();
-                                $scope.DepartmentId = data.DEPARTMENT_ID.toString();
-                                $scope.FirstName = data.FirstName;
-                                $scope.MiddleName = data.MiddleName;
-                                $scope.LastName = data.LastName;
-                                $scope.Employee_No = data.EMPLOYEMENTNO;
-                                $scope.EmailId = data.EMAILID;
-                                var mobilenoFields = data.MOBILE_NO.split('~');
-                                var countrycode = mobilenoFields[0];
-                                var mNumber = mobilenoFields[1];
-                                var mNumberCC = countrycode + mNumber;
-                                //$scope.MobileNo = data.MOBILE_NO;
-                                $scope.MobileNo = typeof (mNumber) == "undefined" ? data.MOBILE_NO : mNumber;
-                                //inputPhoneNo.setNumber(mNumberCC);
-                                $scope.ViewDepartmentName = data.Department_Name;
-                                $scope.ViewInstitutionName = data.InstitutionName;
-                                $scope.Photo = data.Photo;
-                                $scope.UserLogo = data.Photo;
-                                //$scope.uploadme = data.Photo;
-                                $scope.FileName = data.FileName;
-                                $scope.PhotoFullpath = data.Photo_Fullpath;
-                                $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
-                                $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
-                                $scope.UserTypeId = data.UserType_Id.toString();
-                                $scope.Health_License = data.HEALTH_LICENSE;
-                                $scope.File_Name = data.FILE_NAME;
-                                $scope.CertificateFileName = data.FILE_NAME;
-                                $scope.Resume = data.FILE_NAME;
-                                $scope.resumedoc = data.FILE_NAME;
-                                $scope.File_FullPath = data.FILE_FULLPATH;
-                                $scope.Upload_FileName = data.UPLOAD_FILENAME;
+                    }
+                    else {
+                        $scope.uploadme1 = null;
+                    }
+                });
+                $http.get(baseUrl + '/api/User/UserDetails_GetInsurancePhoto/?Id=' + $scope.Id).success(function (data) {
+                    methodcnt2 = methodcnt2 - 1;
+                    if (methodcnt2 == 0)
+                        $scope.Insuranceuploadview = true;
+                    if (data.InsurancePhotoBlob != null) {
+                        $scope.uploadme2 = 'data:image/png;base64,' + data.InsurancePhotoBlob;
+
+                    }
+                    else {
+                        $scope.uploadme2 = null;
+                    }
+                });
+                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.Chroniccc = data.ChronicCc;
+                    $scope.Chroniccg = data.ChronicCg;
+                    $scope.Chroniccl = data.ChronicCl;
+                    $scope.Chronicsc = data.ChronicSc;
+                    if ($window.localStorage['UserTypeId'] == 6 & $scope.Chroniccc == true) {
+                        $scope.EditChronicOption = 1;
+                    }
+                    if ($window.localStorage['UserTypeId'] == 5 & $scope.Chroniccg == true) {
+                        $scope.EditChronicOption = 1;
+                    }
+                    if ($window.localStorage['UserTypeId'] == 4 & $scope.Chroniccl == true) {
+                        $scope.EditChronicOption = 1;
+                    }
+                    if ($window.localStorage['UserTypeId'] == 7 & $scope.Chronicsc == true) {
+                        $scope.EditChronicOption = 1;
+                    }
+                });
+
+                $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.Id).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    var PatientInstituteId = data[0].Institution_Id;
+
+                    if ($window.localStorage['UserTypeId'] == 1 || PatientInstituteId == $window.localStorage['InstitutionId']) {
+                        $http.get(baseUrl + '/api/User/UserDetails_View/Id?=' + $scope.Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                            $scope.Id = data.Id;
+                            $scope.rowId = data.Id;
+                            $scope.InstitutionId = data.INSTITUTION_ID.toString();
+                            $scope.DepartmentId = data.DEPARTMENT_ID.toString();
+                            $scope.FirstName = data.FirstName;
+                            $scope.MiddleName = data.MiddleName;
+                            $scope.LastName = data.LastName;
+                            $scope.Employee_No = data.EMPLOYEMENTNO;
+                            $scope.EmailId = data.EMAILID;
+                            var mobilenoFields = data.MOBILE_NO.split('~');
+                            var countrycode = mobilenoFields[0];
+                            var mNumber = mobilenoFields[1];
+                            var mNumberCC = countrycode + mNumber;
+                            //$scope.MobileNo = data.MOBILE_NO;
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? data.MOBILE_NO : mNumber;
+                            //inputPhoneNo.setNumber(mNumberCC);
+                            $scope.ViewDepartmentName = data.Department_Name;
+                            $scope.ViewInstitutionName = data.InstitutionName;
+                            $scope.Photo = data.Photo;
+                            $scope.UserLogo = data.Photo;
+                            //$scope.uploadme = data.Photo;
+                            $scope.FileName = data.FileName;
+                            $scope.PhotoFullpath = data.Photo_Fullpath;
+                            $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
+                            $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
+                            $scope.UserTypeId = data.UserType_Id.toString();
+                            $scope.Health_License = data.HEALTH_LICENSE;
+                            $scope.File_Name = data.FILE_NAME;
+                            $scope.CertificateFileName = data.FILE_NAME;
+                            $scope.Resume = data.FILE_NAME;
+                            $scope.resumedoc = data.FILE_NAME;
+                            $scope.File_FullPath = data.FILE_FULLPATH;
+                            $scope.Upload_FileName = data.UPLOAD_FILENAME;
+                            $scope.GenderId = data.GENDER_ID.toString();
+                            $scope.NationalityId = data.NATIONALITY_ID.toString();
+                            $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                            $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                            $scope.HomeAreaCode = data.HOME_AREACODE;
+                            $scope.Home_PhoneNo = data.HOME_PHONENO;
+                            $scope.MobileAreaCode = data.MOBIL_AREACODE;
+                            $scope.PostalZipCode = data.POSTEL_ZIPCODE;
+                            $scope.EMR_Avalability = data.EMR_AVAILABILITY;
+                            $scope.Address1 = data.ADDRESS1;
+                            $scope.Address2 = data.ADDRESS2;
+                            $scope.Address3 = data.ADDRESS3;
+                            $scope.CountryId = data.COUNTRY_ID.toString();
+                            $scope.StateId = data.STATE_ID.toString();
+                            $scope.CityId = data.CITY_ID.toString();
+
+                            $scope.CountryDuplicateId = $scope.CountryId;
+                            $scope.CountryFlag = true;
+                            $scope.StateDuplicateId = $scope.StateId;
+                            $scope.StateFlag = true;
+                            $scope.LocationDuplicateId = $scope.CityId;
+                            $scope.CityFlag = true;
+                            if ($scope.DropDownListValue == 4) {
+
+                                $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
+                                    $scope.CountryNameList = data;
+                                    if ($scope.CountryFlag == true) {
+                                        $scope.CountryId = $scope.CountryDuplicateId;
+                                        $scope.CountryFlag = false;
+                                        $scope.loadCount = $scope.loadCount - 1;
+                                    }
+                                });
+                                $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.COUNTRY_ID.toString()).success(function (data) {
+                                    $scope.StateName_List = data;
+                                    if ($scope.StateFlag == true) {
+                                        $scope.StateId = $scope.StateDuplicateId;
+                                        $scope.StateFlag = false;
+                                        $scope.loadCount = $scope.loadCount - 1;
+                                    }
+                                });
+                                $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.COUNTRY_ID.toString() + '&StateId=' + data.STATE_ID.toString()).success(function (data) {
+                                    //$scope.LocationName_List =data ;    
+                                    $scope.LocationName_List = data;
+                                    if ($scope.CityFlag == true) {
+                                        $scope.CityId = $scope.LocationDuplicateId;
+                                        $scope.CityFlag = false;
+                                        $scope.loadCount = $scope.loadCount - 1;
+                                    }
+                                });
+                            }
+                            $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                            $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                            $scope.PatientNo = data.PATIENTNO;
+                            $scope.Createdby_ShortName = data.Createdby_ShortName;
+                            $scope.InsuranceId = data.INSURANCEID;
+                            $scope.MNR_No = data.MNR_NO;
+                            $scope.DropDownListValue = 3;
+                            $scope.NationalId = data.NATIONALID;
+                            $scope.EthnicGroup = data.EthnicGroup;
+                            $scope.ViewGender = data.GENDER_NAME;
+                            $scope.ViewNationality = data.Nationality;
+                            $scope.ViewUserName = data.UserName;
+                            $scope.ViewGroupName = data.GroupName;
+                            $scope.ViewCountryName = data.COUNTRY_NAME;
+                            $scope.ViewStateName = data.StateName;
+                            $scope.ViewLocationName = data.LocationName;
+                            $scope.Institution = data.Institution;
+                            $scope.LanguageKnown = data.LanguageKnown;
+                            $scope.MaritalStatus = data.MaritalStatus;
+                            $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
+                            $scope.RelationShipName = data.RelationShipName;
+                            $scope.DietDescribe = data.DietDescribe;
+                            $scope.AlergySubstance = data.AlergySubstance;
+                            $scope.ChronicCondition = data.ChronicCondition;
+                            $scope.EXCERCISE_SCHEDULE = data.EXCERCISE_SCHEDULE;
+                            $scope.SMOKESUBSTANCE = data.SMOKESUBSTANCE;
+                            $scope.ALCOHALSUBSTANCE = data.ALCOHALSUBSTANCE;
+                            $scope.CAFFEINATED_BEVERAGES = data.CAFFEINATED_BEVERAGES;
+                            $scope.DIETDESCRIBE_ID = data.DIETDESCRIBE_ID.toString();
+                            $scope.EXCERCISE_SCHEDULEID = data.EXCERCISE_SCHEDULEID.toString();
+                            $scope.ALERGYSUBSTANCE_ID = data.ALERGYSUBSTANCE_ID.toString();
+                            $scope.SMOKESUBSTANCE_ID = data.SMOKESUBSTANCE_ID.toString();
+                            $scope.ALCOHALSUBSTANCE_ID = data.ALCOHALSUBSTANCE_ID.toString();
+                            $scope.CAFFEINATED_BEVERAGESID = data.CAFFEINATED_BEVERAGESID.toString();
+                            $scope.EMERG_CONT_RELATIONSHIP_ID = data.EMERG_CONT_RELATIONSHIP_ID.toString();
+                            $scope.CURRENTLY_TAKEMEDICINE = data.CURRENTLY_TAKEMEDICINE;
+                            $scope.PAST_MEDICALHISTORY = data.PAST_MEDICALHISTORY;
+                            $scope.FAMILYHEALTH_PROBLEMHISTORY = data.FAMILYHEALTH_PROBLEMHISTORY;
+                            $scope.VACCINATIONS = data.VACCINATIONS;
+                            $scope.EXCERCISE_TEXT = data.EXCERCISE_TEXT;
+                            $scope.ALERGYSUBSTANCE_TEXT = data.ALERGYSUBSTANCE_TEXT;
+                            $scope.SMOKESUBSTANCE_TEXT = data.SMOKESUBSTANCE_TEXT;
+                            $scope.ALCOHALSUBSTANCE_TEXT = data.ALCOHALSUBSTANCE_TEXT;
+                            $scope.CAFFEINATEDBEVERAGES_TEXT = data.CAFFEINATEDBEVERAGES_TEXT;
+                            $scope.EMERG_CONT_FIRSTNAME = data.EMERG_CONT_FIRSTNAME;
+                            $scope.EMERG_CONT_MIDDLENAME = data.EMERG_CONT_MIDDLENAME;
+                            $scope.EMERG_CONT_LASTNAME = data.EMERG_CONT_LASTNAME;
+                            $scope.Emergency_MobileNo = data.Emergency_MobileNo;
+                            $scope.Google_EmailId = data.GOOGLE_EMAILID;
+                            $scope.FB_EmailId = data.FB_EMAILID;
+                            $scope.appleUserID = data.appleUserID;
+                            $scope.Patient_Type = data.Patient_Type;
+                            $scope.PATIENT_ID = data.PatientId;
+                            $scope.Diabetic = data.DIABETIC.toString();
+                            $scope.HyperTension = data.HYPERTENSION.toString();
+                            $scope.Cholestrol = data.CHOLESTEROL.toString();
+
+                            $scope.ViewDiabetic = data.Diabetic_Option;
+                            $scope.ViewCholestrol = data.Cholesterol_Option;
+                            $scope.ViewHyperTension = data.HyperTension_Option;
+
+                            $scope.AddMedicines = data.AddMedicines;
+                            $scope.AddMedicalHistory = data.AddMedicalHistory;
+                            $scope.AddHealthProblem = data.AddHealthProblem;
+                            $scope.ApprovalFlag = data.Approval_flag;
+                            $scope.PayorName = data.PayorName;
+                            $scope.PlanName = data.PlanName;
+                            $scope.Member_ID = data.Memberid;
+                            $scope.Policy_Number = data.PolicyNumber;
+                            $scope.Reference_ID = data.RefernceId;
+                            $scope.ExpiryDate = DateFormatEdit($filter('date')(data.ExpiryDate, "dd-MMM-yyyy"));
+                            $scope.ConfigCode = "PATIENTPAGE_COUNT";
+                            $scope.ISact = 1;
+                            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                            setTimeout(function () {
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
-                                $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                                $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
-                                $scope.HomeAreaCode = data.HOME_AREACODE;
-                                $scope.Home_PhoneNo = data.HOME_PHONENO;
-                                $scope.MobileAreaCode = data.MOBIL_AREACODE;
-                                $scope.PostalZipCode = data.POSTEL_ZIPCODE;
-                                $scope.EMR_Avalability = data.EMR_AVAILABILITY;
-                                $scope.Address1 = data.ADDRESS1;
-                                $scope.Address2 = data.ADDRESS2;
-                                $scope.Address3 = data.ADDRESS3;
-                                $scope.CountryId = data.COUNTRY_ID.toString();
-                                $scope.StateId = data.STATE_ID.toString();
-                                $scope.CityId = data.CITY_ID.toString();
-
-                                $scope.CountryDuplicateId = $scope.CountryId;
-                                $scope.CountryFlag = true;
-                                $scope.StateDuplicateId = $scope.StateId;
-                                $scope.StateFlag = true;
-                                $scope.LocationDuplicateId = $scope.CityId;
-                                $scope.CityFlag = true;
-                                if ($scope.DropDownListValue == 4) {
-
-                                    $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
-                                        $scope.CountryNameList = data;
-                                        if ($scope.CountryFlag == true) {
-                                            $scope.CountryId = $scope.CountryDuplicateId;
-                                            $scope.CountryFlag = false;
-                                            $scope.loadCount = $scope.loadCount - 1;
-                                        }
-                                    });
-                                    $http.get(baseUrl + '/api/Common/Get_StateList/?CountryId=' + data.COUNTRY_ID.toString()).success(function (data) {
-                                        $scope.StateName_List = data;
-                                        if ($scope.StateFlag == true) {
-                                            $scope.StateId = $scope.StateDuplicateId;
-                                            $scope.StateFlag = false;
-                                            $scope.loadCount = $scope.loadCount - 1;
-                                        }
-                                    });
-                                    $http.get(baseUrl + '/api/Common/Get_LocationList/?CountryId=' + data.COUNTRY_ID.toString() + '&StateId=' + data.STATE_ID.toString()).success(function (data) {
-                                        //$scope.LocationName_List =data ;    
-                                        $scope.LocationName_List = data;
-                                        if ($scope.CityFlag == true) {
-                                            $scope.CityId = $scope.LocationDuplicateId;
-                                            $scope.CityFlag = false;
-                                            $scope.loadCount = $scope.loadCount - 1;
-                                        }
-                                    });
-                                }
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                                $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
-                                $scope.PatientNo = data.PATIENTNO;
-                                $scope.Createdby_ShortName = data.Createdby_ShortName;
-                                $scope.InsuranceId = data.INSURANCEID;
-                                $scope.MNR_No = data.MNR_NO;
-                                $scope.DropDownListValue = 3;
-                                $scope.NationalId = data.NATIONALID;
-                                $scope.EthnicGroup = data.EthnicGroup;
-                                $scope.ViewGender = data.GENDER_NAME;
-                                $scope.ViewNationality = data.Nationality;
-                                $scope.ViewUserName = data.UserName;
-                                $scope.ViewGroupName = data.GroupName;
-                                $scope.ViewCountryName = data.COUNTRY_NAME;
-                                $scope.ViewStateName = data.StateName;
-                                $scope.ViewLocationName = data.LocationName;
-                                $scope.Institution = data.Institution;
-                                $scope.LanguageKnown = data.LanguageKnown;
-                                $scope.MaritalStatus = data.MaritalStatus;
-                                $scope.ViewBloodGroup = data.BLOODGROUP_NAME;
-                                $scope.RelationShipName = data.RelationShipName;
-                                $scope.DietDescribe = data.DietDescribe;
-                                $scope.AlergySubstance = data.AlergySubstance;
-                                $scope.ChronicCondition = data.ChronicCondition;
-                                $scope.EXCERCISE_SCHEDULE = data.EXCERCISE_SCHEDULE;
-                                $scope.SMOKESUBSTANCE = data.SMOKESUBSTANCE;
-                                $scope.ALCOHALSUBSTANCE = data.ALCOHALSUBSTANCE;
-                                $scope.CAFFEINATED_BEVERAGES = data.CAFFEINATED_BEVERAGES;
-                                $scope.DIETDESCRIBE_ID = data.DIETDESCRIBE_ID.toString();
-                                $scope.EXCERCISE_SCHEDULEID = data.EXCERCISE_SCHEDULEID.toString();
-                                $scope.ALERGYSUBSTANCE_ID = data.ALERGYSUBSTANCE_ID.toString();
-                                $scope.SMOKESUBSTANCE_ID = data.SMOKESUBSTANCE_ID.toString();
-                                $scope.ALCOHALSUBSTANCE_ID = data.ALCOHALSUBSTANCE_ID.toString();
-                                $scope.CAFFEINATED_BEVERAGESID = data.CAFFEINATED_BEVERAGESID.toString();
-                                $scope.EMERG_CONT_RELATIONSHIP_ID = data.EMERG_CONT_RELATIONSHIP_ID.toString();
-                                $scope.CURRENTLY_TAKEMEDICINE = data.CURRENTLY_TAKEMEDICINE;
-                                $scope.PAST_MEDICALHISTORY = data.PAST_MEDICALHISTORY;
-                                $scope.FAMILYHEALTH_PROBLEMHISTORY = data.FAMILYHEALTH_PROBLEMHISTORY;
-                                $scope.VACCINATIONS = data.VACCINATIONS;
-                                $scope.EXCERCISE_TEXT = data.EXCERCISE_TEXT;
-                                $scope.ALERGYSUBSTANCE_TEXT = data.ALERGYSUBSTANCE_TEXT;
-                                $scope.SMOKESUBSTANCE_TEXT = data.SMOKESUBSTANCE_TEXT;
-                                $scope.ALCOHALSUBSTANCE_TEXT = data.ALCOHALSUBSTANCE_TEXT;
-                                $scope.CAFFEINATEDBEVERAGES_TEXT = data.CAFFEINATEDBEVERAGES_TEXT;
-                                $scope.EMERG_CONT_FIRSTNAME = data.EMERG_CONT_FIRSTNAME;
-                                $scope.EMERG_CONT_MIDDLENAME = data.EMERG_CONT_MIDDLENAME;
-                                $scope.EMERG_CONT_LASTNAME = data.EMERG_CONT_LASTNAME;
-                                $scope.Emergency_MobileNo = data.Emergency_MobileNo;
-                                $scope.Google_EmailId = data.GOOGLE_EMAILID;
-                                $scope.FB_EmailId = data.FB_EMAILID;
-                                $scope.appleUserID = data.appleUserID;
-                                $scope.Patient_Type = data.Patient_Type;
-                                $scope.PATIENT_ID = data.PatientId;
-                                $scope.Diabetic = data.DIABETIC.toString();
-                                $scope.HyperTension = data.HYPERTENSION.toString();
-                                $scope.Cholestrol = data.CHOLESTEROL.toString();
+                                $scope.UserTypeId = data.UserType_Id.toString();
+                                $scope.NationalityId = data.NATIONALITY_ID.toString();
+                            }, 10000);
 
-                                $scope.ViewDiabetic = data.Diabetic_Option;
-                                $scope.ViewCholestrol = data.Cholesterol_Option;
-                                $scope.ViewHyperTension = data.HyperTension_Option;
-
-                                $scope.AddMedicines = data.AddMedicines;
-                                $scope.AddMedicalHistory = data.AddMedicalHistory;
-                                $scope.AddHealthProblem = data.AddHealthProblem;
-                                $scope.ApprovalFlag = data.Approval_flag;
-                                $scope.PayorName = data.PayorName;
-                                $scope.PlanName = data.PlanName;
-                                $scope.Member_ID = data.Memberid;
-                                $scope.Policy_Number = data.PolicyNumber;
-                                $scope.Reference_ID = data.RefernceId;
-                                $scope.ExpiryDate = DateFormatEdit($filter('date')(data.ExpiryDate, "dd-MMM-yyyy"));
-                                $scope.ConfigCode = "PATIENTPAGE_COUNT";
-                                $scope.ISact = 1;
-                                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                                setTimeout(function () {
-                                    $scope.GenderId = data.GENDER_ID.toString();
-                                    $scope.NationalityId = data.NATIONALITY_ID.toString();
-                                    $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                                    $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                                    $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
-                                    $scope.UserTypeId = data.UserType_Id.toString();
-                                    $scope.NationalityId = data.NATIONALITY_ID.toString();
-                                }, 10000);
-                                
-                                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-                                    if (data1.length != 0) {
-                                        $scope.page_size = data1[0].ConfigValue;
-                                    }
-                                    //$scope.page_size = data1[0].ConfigValue;
-                                    $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
-                                    $scope.PageEnd = $scope.current_page * $scope.page_size;
-                                    $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
-                                        '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
-                                            $scope.PayorMasterList = data1;
-                                            //$scope.SelectedPayor = "";
-                                            if (data.PayorId != null && data.PayorId != "") {
-                                                $scope.EditPayorId = data.PayorId;
-                                                //$scope.SelectedPayor.push($scope.EditPayorId);
-                                                $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + data.PayorId).success(function (data) {
-                                                    $scope.PayorBasedPlanList = data;
-                                                    if (data.length != 0) {
-                                                        //$scope.SelectedPlan = "";
-                                                        $scope.EditPlanId = "";
-                                                        $scope.EditPlanId = data[0].Id.toString();
-                                                        $scope.PlanName = data[0].PlanName;
-                                                        //$scope.SelectedPlan.push($scope.EditPlanId);
-                                                        setTimeout(function () {
-                                                            $scope.SelectedPayor = $scope.EditPayorId;
-                                                            $scope.SelectedPlan = $scope.EditPlanId;
-                                                        }, 5000);
-                                                    }
-                                                });
-                                            }
-                                        });                                      
-                                });
-
-                                methodcnt = methodcnt - 1;
-                                if (methodcnt == 0)
-                                    $scope.uploadview = true;
-
-                                methodcnt1 = methodcnt1 - 1;
-                                if (methodcnt1 == 0)
-                                    $scope.Nationaluploadview = true;
-
-                                methodcnt2 = methodcnt2 - 1;
-                                if (methodcnt2 == 0)
-                                    $scope.Insuranceuploadview = true;
-
-                                if ($scope.UserTypeId == 2) {
-                                    if ($scope.AddMedicines.length > 0) {
-                                        $scope.CurrentMedicineflag = 1;
-                                    }
-                                    else {
-                                        $scope.CurrentMedicineflag = 0;
-                                    }
-                                    if ($scope.AddMedicalHistory.length > 0) {
-                                        $scope.PastMedicineflag = 1;
-                                    }
-                                    else {
-                                        $scope.PastMedicineflag = 0;
-                                    }
-
-                                    if ($scope.AddHealthProblem.length > 0) {
-                                        $scope.MedicalHistoryflag = 1;
-                                    }
-                                    else {
-                                        $scope.MedicalHistoryflag = 0;
-                                    }
+                            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
+                                if (data1.length != 0) {
+                                    $scope.page_size = data1[0].ConfigValue;
                                 }
-                                angular.forEach(data.SelectedGroupList, function (value, index) {
-                                    $scope.EditSelectedGroup.push(value.Group_Id);
-                                    $scope.SelectedGroup = $scope.EditSelectedGroup;
-                                });
-                                angular.forEach(data.SelectedInstitutionList, function (value, index) {
-                                    $scope.EditSelectedInstitution.push(value.Institution_Id);
-                                    $scope.SelectedInstitution = $scope.EditSelectedInstitution;
-                                });
-                                angular.forEach(data.SelectedLanguageList, function (value, index) {
-                                    $scope.EditSelectedLanguage.push(value.Language_Id);
-                                    $scope.SelectedLanguage = $scope.EditSelectedLanguage;
-                                });
-                                angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
-                                    $scope.EditSelectedChronicondition.push(value.Chronic_Id);
-                                    $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
-                                    $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
-                                });
-                                //$scope.CountryBased_StateFunction();
-                                //$scope.StateBased_CityFunction();
-                                //$scope.Country_onChange();
-                                //$scope.State_onChange();
-                                $('#patientrowid').prop('disabled', true);     
-                                $("#chatLoaderPV").hide();
-                                inputPhoneNo.setNumber(mNumberCC);
+                                //$scope.page_size = data1[0].ConfigValue;
+                                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+                                $scope.PageEnd = $scope.current_page * $scope.page_size;
+                                $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.SelectedInstitutionId + '&StartRowNumber=' + $scope.PageStart +
+                                    '&EndRowNumber=' + $scope.PageEnd).success(function (data1) {
+                                        $scope.PayorMasterList = data1;
+                                        //$scope.SelectedPayor = "";
+                                        if (data.PayorId != null && data.PayorId != "") {
+                                            $scope.EditPayorId = data.PayorId;
+                                            //$scope.SelectedPayor.push($scope.EditPayorId);
+                                            $http.get(baseUrl + '/api/PlanMaster/PayorBasedPlan/?Id=' + data.PayorId).success(function (data) {
+                                                $scope.PayorBasedPlanList = data;
+                                                if (data.length != 0) {
+                                                    //$scope.SelectedPlan = "";
+                                                    $scope.EditPlanId = "";
+                                                    $scope.EditPlanId = data[0].Id.toString();
+                                                    $scope.PlanName = data[0].PlanName;
+                                                    //$scope.SelectedPlan.push($scope.EditPlanId);
+                                                    setTimeout(function () {
+                                                        $scope.SelectedPayor = $scope.EditPayorId;
+                                                        $scope.SelectedPlan = $scope.EditPlanId;
+                                                    }, 5000);
+                                                }
+                                            });
+                                        }
+                                    });
                             });
-                        } else {
-                            window.location.href = baseUrl + "/Home/LoginIndex";
-                        }
-                    });
-                }
-                else {
-                    $("#chatLoaderPV").hide();
-                    photoview = false;
-                    photoview1 = false;
-                    photoview2 = false;
-                }
-             
+
+                            methodcnt = methodcnt - 1;
+                            if (methodcnt == 0)
+                                $scope.uploadview = true;
+
+                            methodcnt1 = methodcnt1 - 1;
+                            if (methodcnt1 == 0)
+                                $scope.Nationaluploadview = true;
+
+                            methodcnt2 = methodcnt2 - 1;
+                            if (methodcnt2 == 0)
+                                $scope.Insuranceuploadview = true;
+
+                            if ($scope.UserTypeId == 2) {
+                                if ($scope.AddMedicines.length > 0) {
+                                    $scope.CurrentMedicineflag = 1;
+                                }
+                                else {
+                                    $scope.CurrentMedicineflag = 0;
+                                }
+                                if ($scope.AddMedicalHistory.length > 0) {
+                                    $scope.PastMedicineflag = 1;
+                                }
+                                else {
+                                    $scope.PastMedicineflag = 0;
+                                }
+
+                                if ($scope.AddHealthProblem.length > 0) {
+                                    $scope.MedicalHistoryflag = 1;
+                                }
+                                else {
+                                    $scope.MedicalHistoryflag = 0;
+                                }
+                            }
+                            angular.forEach(data.SelectedGroupList, function (value, index) {
+                                $scope.EditSelectedGroup.push(value.Group_Id);
+                                $scope.SelectedGroup = $scope.EditSelectedGroup;
+                            });
+                            angular.forEach(data.SelectedInstitutionList, function (value, index) {
+                                $scope.EditSelectedInstitution.push(value.Institution_Id);
+                                $scope.SelectedInstitution = $scope.EditSelectedInstitution;
+                            });
+                            angular.forEach(data.SelectedLanguageList, function (value, index) {
+                                $scope.EditSelectedLanguage.push(value.Language_Id);
+                                $scope.SelectedLanguage = $scope.EditSelectedLanguage;
+                            });
+                            angular.forEach(data.SelectedChronicConnditionList, function (value, index) {
+                                $scope.EditSelectedChronicondition.push(value.Chronic_Id);
+                                $scope.SelectedChronicCondition = $scope.EditSelectedChronicondition;
+                                $scope.SelectedChronicConditionEdit = $scope.EditSelectedChronicondition;
+                            });
+                            //$scope.CountryBased_StateFunction();
+                            //$scope.StateBased_CityFunction();
+                            //$scope.Country_onChange();
+                            //$scope.State_onChange();
+                            $('#patientrowid').prop('disabled', true);
+                            $("#chatLoaderPV").hide();
+                            inputPhoneNo.setNumber(mNumberCC);
+                        });
+                    } else {
+                        window.location.href = baseUrl + "/Home/LoginIndex";
+                    }
+                });
+            }
+            else {
+                $("#chatLoaderPV").hide();
+                photoview = false;
+                photoview1 = false;
+                photoview2 = false;
+            }
+
         }
 
         $scope.PhotoUplaodSelected = function () {
@@ -3910,51 +4096,160 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             }
 
             $scope.Id = GetId;
-            var del = confirm("Do you like to deactivate the selected User?");
-            if (del == true) {
-                $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
-                    if (data.Status == "True") {
-                        //alert(data.Message);
-                        toastr.success(data.Message, "success");
-                        if ($scope.MenuTypeId == 1)
-                            $scope.User_Admin_List($scope.MenuTypeId);
-                        else if ($scope.MenuTypeId == 2)
-                            $scope.BusinessUser_List($scope.MenuTypeId);
-                        else if ($scope.MenuTypeId == 3)
-                            $scope.Patient_List($scope.MenuTypeId);
-                    }
-                    else {
-                        //alert(data.Message);
-                        toastr.info(data.Message, "info");
-                    }
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting User Details" + data;
-                });
-            }
+
+            Swal.fire({
+                title: 'Do you like to deactivate the selected User?',
+                html:'',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                        $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
+                        if (data.Status == "True") {
+                            //alert(data.Message);
+                            toastr.success(data.Message, "success");
+                            if ($scope.MenuTypeId == 1)
+                                $scope.User_Admin_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 2)
+                                $scope.BusinessUser_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 3)
+                                $scope.Patient_List($scope.MenuTypeId);
+                        }
+                        else {
+                            //alert(data.Message);
+                            toastr.info(data.Message, "info");
+                        }
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting User Details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+
+            //Swal.fire("Do you like to deactivate the selected User?", {
+            //    className: 'alert-danger',
+            //    buttons: {
+            //        Ok: {
+            //            text: "Ok",
+            //            value: "Ok",
+            //        },
+            //        cancel: {
+            //            text: "Cancel",
+            //            value: "Cancel",
+            //        },
+            //    },
+            //})
+            //    .then((value) => {
+            //        switch (value) {
+            //            case "Ok":
+            //                $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
+            //                    if (data.Status == "True") {
+            //                        //alert(data.Message);
+            //                        toastr.success(data.Message, "success");
+            //                        if ($scope.MenuTypeId == 1)
+            //                            $scope.User_Admin_List($scope.MenuTypeId);
+            //                        else if ($scope.MenuTypeId == 2)
+            //                            $scope.BusinessUser_List($scope.MenuTypeId);
+            //                        else if ($scope.MenuTypeId == 3)
+            //                            $scope.Patient_List($scope.MenuTypeId);
+            //                    }
+            //                    else {
+            //                        //alert(data.Message);
+            //                        toastr.info(data.Message, "info");
+            //                    }
+            //                }).error(function (data) {
+            //                    $scope.error = "An error has occurred while deleting User Details" + data;
+            //                });
+            //                break;
+            //            default:
+            //                //swal("Got away safely!");
+            //        }
+            //    });
+
+            //var del = confirm("Do you like to deactivate the selected User?");
+            //if (del == true) {
+            //    $http.get(baseUrl + '/api/User/UserDetails_InActive/?Id=' + $scope.Id).success(function (data) {
+            //        if (data.Status == "True") {
+            //            //alert(data.Message);
+            //            toastr.success(data.Message, "success");
+            //            if ($scope.MenuTypeId == 1)
+            //                $scope.User_Admin_List($scope.MenuTypeId);
+            //            else if ($scope.MenuTypeId == 2)
+            //                $scope.BusinessUser_List($scope.MenuTypeId);
+            //            else if ($scope.MenuTypeId == 3)
+            //                $scope.Patient_List($scope.MenuTypeId);
+            //        }
+            //        else {
+            //            //alert(data.Message);
+            //            toastr.info(data.Message, "info");
+            //        }
+            //    }).error(function (data) {
+            //        $scope.error = "An error has occurred while deleting User Details" + data;
+            //    });
+            //}
         };
         $scope.UserDetails_Active = function (GetId) {
             $scope.Id = GetId;
-            var del = confirm("Do you like to activate the selected User?");
-            if (del == true) {
-                $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
-                    if (data.Status == "True") {
-                        //alert("User Details has been activated Successfully");
-                        toastr.success("User Details has been activated Successfully", "success");
-                        if ($scope.MenuTypeId == 1)
-                            $scope.User_Admin_List($scope.MenuTypeId);
-                        else if ($scope.MenuTypeId == 2)
-                            $scope.BusinessUser_List($scope.MenuTypeId);
-                        else if ($scope.MenuTypeId == 3)
-                            $scope.Patient_List($scope.MenuTypeId);
-                    }
-                    else {
-                        //alert(data.Message);
-                        toastr.info(data.Message, "info");
-                    }
-                }).error(function (data) {
-                    $scope.error = "An error has occurred while deleting User Details" + data;
-                });
-            }
+
+
+            Swal.fire({
+                title: 'Do you like to activate the selected User?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                        $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
+                        if (data.Status == "True") {
+                            //alert("User Details has been activated Successfully");
+                            toastr.success("User Details has been activated Successfully", "success");
+                            if ($scope.MenuTypeId == 1)
+                                $scope.User_Admin_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 2)
+                                $scope.BusinessUser_List($scope.MenuTypeId);
+                            else if ($scope.MenuTypeId == 3)
+                                $scope.Patient_List($scope.MenuTypeId);
+                        }
+                        else {
+                            //alert(data.Message);
+                            toastr.info(data.Message, "info");
+                        }
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting User Details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+
+            //var del = confirm("Do you like to activate the selected User?");
+            //if (del == true) {
+            //    $http.get(baseUrl + '/api/User/UserDetails_Active/?Id=' + $scope.Id).success(function (data) {
+            //        if (data.Status == "True") {
+            //            //alert("User Details has been activated Successfully");
+            //            toastr.success("User Details has been activated Successfully", "success");
+            //            if ($scope.MenuTypeId == 1)
+            //                $scope.User_Admin_List($scope.MenuTypeId);
+            //            else if ($scope.MenuTypeId == 2)
+            //                $scope.BusinessUser_List($scope.MenuTypeId);
+            //            else if ($scope.MenuTypeId == 3)
+            //                $scope.Patient_List($scope.MenuTypeId);
+            //        }
+            //        else {
+            //            //alert(data.Message);
+            //            toastr.info(data.Message, "info");
+            //        }
+            //    }).error(function (data) {
+            //        $scope.error = "An error has occurred while deleting User Details" + data;
+            //    });
+            //}
         };
         // Add row concept
         $scope.AddMedicines = [{
@@ -4682,7 +4977,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstitutionCreatedID).success(function (data) {
             }).error(function (data) {
                 //alert("Error In Step 16");
-                toastr.error("Error In Step 16", "warning"); 
+                toastr.error("Error In Step 16", "warning");
             });
         };
 
@@ -4860,29 +5155,29 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     if (NationalitemIndexLogo != -1) {
                         fd1.append('file', NationalimgBlob);
 
-                    /*	
-                    calling the api method for read the file path 	
-                    and saving the image uploaded in the local server. 	
-                    */
-                    $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
-                        fd1,
-                        {
-                            transformRequest: angular.identity,
-                            headers: {
-                                'Content-Type': undefined
-                            }
-                        }
-                    )
-                        .success(function (response) {
-                            if ($scope.NationalPhotoFilename == "") {
-                                $scope.NationalLogo = "";
-                            }
-                            else if (NationalitemIndexLogo > -1) {
-                                if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
-                                    $scope.NationalLogo = response[NationalitemIndexLogo];
+                        /*	
+                        calling the api method for read the file path 	
+                        and saving the image uploaded in the local server. 	
+                        */
+                        $http.post(baseUrl + '/api/User/AttachNationalPhoto/?Id=' + userid + '&Photo=' + $scope.PhotoValue1 + '&CREATED_BY=' + $window.localStorage['UserId'],
+                            fd1,
+                            {
+                                transformRequest: angular.identity,
+                                headers: {
+                                    'Content-Type': undefined
                                 }
                             }
-                        });
+                        )
+                            .success(function (response) {
+                                if ($scope.NationalPhotoFilename == "") {
+                                    $scope.NationalLogo = "";
+                                }
+                                else if (NationalitemIndexLogo > -1) {
+                                    if ($scope.NationalPhotoFilename != "" && response[NationalitemIndexLogo] != "") {
+                                        $scope.NationalLogo = response[NationalitemIndexLogo];
+                                    }
+                                }
+                            });
                     }
                 }
             }
@@ -5608,8 +5903,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
 
 /* THIS IS FOR INSTITUTION SUBSCRIPTION HOSPITAL ADMIN FUNCTION*/
-MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff,toastr) {
+MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         //List Page Pagination.
         $scope.current_page = 1;
         $scope.page_size = $window.localStorage['Pagesize'];
@@ -5766,7 +6061,7 @@ MyCortexControllers.controller("InstitutionHospitalAdminController", ['$scope', 
         $scope.InstitutionAddEdit_Validations = function () {
             if (typeof ($scope.Institution_Name) == "undefined" || $scope.Institution_Name == "") {
                 //alert("Please enter Institution Name");
-                toastr.warning("Please enter Institution Name","warning");
+                toastr.warning("Please enter Institution Name", "warning");
                 return false;
             }
             else if (typeof ($scope.INSTITUTION_SHORTNAME) == "undefined" || $scope.INSTITUTION_SHORTNAME == "") {
@@ -6378,7 +6673,7 @@ MyCortexControllers.controller("InstitutionSubscriptionHospitalAdminController",
     }
 ]);
 
-MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.AllergyMasterflag = 0;
@@ -6497,7 +6792,7 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                                 $scope.AllergyMasterList = [];
                                 $scope.AllergyCount = 0;
                             }
-                            
+
                             $scope.AllergyTypeList = [];
                             $http.get(baseUrl + 'api/MasterAllergy/MasterAllergyTypeList/?institution_id=' + $scope.Institution_Id).success(function (data) {
                                 $("#chatloaderpv").hide();
@@ -6566,9 +6861,9 @@ MyCortexControllers.controller("AllergyMasterList", ['$scope', '$http', '$filter
                 $scope.AllergyTypeDuplicateId = $scope.AllergyTypeId;
                 $scope.AllergenId = data.AllergenId.toString();
                 $scope.AllergenDuplicateId = $scope.AllergenId;
-               /* if ($scope.AllergyDropDown == 2) {
-                    $scope.AllegenBasedType($scope.AllergyTypeId);
-                }*/
+                /* if ($scope.AllergyDropDown == 2) {
+                     $scope.AllegenBasedType($scope.AllergyTypeId);
+                 }*/
                 $scope.ViewAllergyType = data.AllergyTypeName;
                 $scope.AllergenName = data.AllergenName;
                 $scope.ViewAllegenName = data.AllergenName;
@@ -6750,11 +7045,11 @@ MyCortexControllers.controller("PatientAppointmentListController", ['$scope', '$
                 $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
             });
         }
-        $scope.$on("appointment_list", intial_loading); 
+        $scope.$on("appointment_list", intial_loading);
     }
 ]);
 
-MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval','toastr',
+MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$sce', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$interval', 'toastr',
     function ($scope, $sce, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $interval, toastr) {
         if (chatService.checkCall($routeParams.Id)) {
             //alert('You cannot switch patient during call.')
@@ -6840,7 +7135,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $scope.current_PatientAllergyPages = p;
             $scope.current_others = p;
         }
-         
+
         $scope.showMainBox = true;
         // $scope.ParamGroup_Id=2;    
         $scope.GroupParameterNameList = [];
@@ -7125,7 +7420,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
         $scope.appdocfile = ''
         $scope.appdocfilename = ''
-        $scope.fileexceed=""
+        $scope.fileexceed = ""
         $scope.filetype = ''
         $scope.files = [];
         $scope.appdocfileChange = function (e, index) {
@@ -7139,7 +7434,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.filetype = e.files[0].type;
                 $scope.files.push(e.files[0])
             }
-            
+
         }
 
         $scope.UnitGroupPreference = function () {
@@ -7397,93 +7692,93 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     if ($scope.UserTypeId != 2) {
                         $scope.chattingWith = data.FullName;
                     }
-            //patientAppointmentList();
-            //function patientAppointmentList() {
-            //    $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            //        $scope.UpComingAppointmentDetails = [];
-            //        $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
-            //        compareAppointmentDates();
-            //    });
-            //}
-            //$scope.calcNewYear;
-            //function compareAppointmentDates() {
-            //    $scope.calcNewYear = setInterval(checkdates(), 1000);
-            //}
-            //function checkdates() {
-            //    var AppoinList = $scope.UpComingAppointmentDetails;
-            //    for (i = 0; i < AppoinList.length; i++) {
-            //        var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime));
-            //        var enddate1 = moment(new Date());
-            //        var diff1 = Math.abs(enddate1 - startdate1);
-            //        //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
-            //        //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
-            //        //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
-            //        //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
-            //        var CallRemain1 = Math.floor(diff1 / (60 * 1000));
-            //        $scope.CallButton1 = CallRemain1;
-            //        var date_future = new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime);
-            //        var date_now = new Date();
+                    //patientAppointmentList();
+                    //function patientAppointmentList() {
+                    //    $http.get(baseUrl + '/api/User/PatientAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    //        $scope.UpComingAppointmentDetails = [];
+                    //        $scope.UpComingAppointmentDetails = data.PatientAppointmentList;
+                    //        compareAppointmentDates();
+                    //    });
+                    //}
+                    //$scope.calcNewYear;
+                    //function compareAppointmentDates() {
+                    //    $scope.calcNewYear = setInterval(checkdates(), 1000);
+                    //}
+                    //function checkdates() {
+                    //    var AppoinList = $scope.UpComingAppointmentDetails;
+                    //    for (i = 0; i < AppoinList.length; i++) {
+                    //        var startdate1 = moment(new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime));
+                    //        var enddate1 = moment(new Date());
+                    //        var diff1 = Math.abs(enddate1 - startdate1);
+                    //        //var days1 = Math.floor(diff1 / (60 * 60 * 24 * 1000));
+                    //        //var hours1 = Math.floor(diff1 / (60 * 60 * 1000)) - (days1 * 24);
+                    //        //var minutes1 = Math.floor(diff1 / (60 * 1000)) - ((days1 * 24 * 60) + (hours1 * 60));
+                    //        //var seconds1 = Math.floor(diff1 / 1000) - ((days1 * 24 * 60 * 60) + (hours1 * 60 * 60) + (minutes1 * 60));
+                    //        var CallRemain1 = Math.floor(diff1 / (60 * 1000));
+                    //        $scope.CallButton1 = CallRemain1;
+                    //        var date_future = new Date($scope.UpComingAppointmentDetails[i].Appointment_FromTime);
+                    //        var date_now = new Date();
 
-            //        var seconds = Math.floor((date_future - (date_now)) / 1000);
-            //        var minutes = Math.floor(seconds / 60);
-            //        var hours = Math.floor(minutes / 60);
-            //        var days = Math.floor(hours / 24);
-            //        if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+                    //        var seconds = Math.floor((date_future - (date_now)) / 1000);
+                    //        var minutes = Math.floor(seconds / 60);
+                    //        var hours = Math.floor(minutes / 60);
+                    //        var days = Math.floor(hours / 24);
+                    //        if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
 
-            //        }
-            //        hours = hours - (days * 24);
-            //        minutes = minutes - (days * 24 * 60) - (hours * 60);
-            //        seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
-            //        var timeDiffString1 = "";
-            //        if (days != 0) {
-            //            timeDiffString1 = timeDiffString1 + days + ' day ';
-            //        }
-            //        if (hours != 0) {
-            //            timeDiffString1 = timeDiffString1 + hours + ' hr ';
-            //        }
-            //        if (minutes != 0) {
-            //            timeDiffString1 = timeDiffString1 + minutes + ' min ';
-            //        }
-            //        if (seconds != 0) {
-            //            timeDiffString1 = timeDiffString1 + seconds + ' sec';
-            //        }
-            //        AppoinList[i].TimeDifference = timeDiffString1;
-            //        AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
-            //    }
-            //    if ($scope.UpComingAppointmentDetails != null) {
-            //        $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
-            //    }
-            //    $scope.UpComingAppointmentDetails = AppoinList;
-            //    $scope.$apply();
-            //}
-            //if ($scope.userTypeId == 5) {
-            //    CG_PatientAppointment_List();
-            //}
-            //function CG_PatientAppointment_List() {
-            //    $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            //        $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
-            //        if ($scope.UpComingWaitingAppointmentDetails != null) {
-            //            $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
-            //        }
-            //    });
-            //}
-            //$http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-            //    $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
-            //    $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
-            //});
-            $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
-                $scope.DepartmentList = data;
-            });
-            $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                $scope.TimeZoneList = data;
-            });
-            $scope.bookcc = 0;
-            $scope.bookCg = 0;
-            $scope.bookCl = 0;
-            $scope.bookSc = 0;
-            $scope.bookpa = 0;
-            var current_date = new Date().getFullYear() + '-' + (((new Date().getMonth() + 1).toString().length > 1) ? ((new Date().getMonth() + 1).toString()) : '0' + (new Date().getMonth() + 1).toString()) + '-' + (((new Date().getDate()).toString().length > 1) ? ((new Date().getDate()).toString()) : '0' + (new Date().getDate()).toString());
-            angular.element(document.getElementById('datee')).attr('min', current_date);
+                    //        }
+                    //        hours = hours - (days * 24);
+                    //        minutes = minutes - (days * 24 * 60) - (hours * 60);
+                    //        seconds = seconds - (days * 24 * 60 * 60) - (hours * 60 * 60) - (minutes * 60);
+                    //        var timeDiffString1 = "";
+                    //        if (days != 0) {
+                    //            timeDiffString1 = timeDiffString1 + days + ' day ';
+                    //        }
+                    //        if (hours != 0) {
+                    //            timeDiffString1 = timeDiffString1 + hours + ' hr ';
+                    //        }
+                    //        if (minutes != 0) {
+                    //            timeDiffString1 = timeDiffString1 + minutes + ' min ';
+                    //        }
+                    //        if (seconds != 0) {
+                    //            timeDiffString1 = timeDiffString1 + seconds + ' sec';
+                    //        }
+                    //        AppoinList[i].TimeDifference = timeDiffString1;
+                    //        AppoinList[i]['RemainingTimeInMinutes'] = CallRemain1;
+                    //    }
+                    //    if ($scope.UpComingAppointmentDetails != null) {
+                    //        $scope.UpComingAppointmentCount = $scope.UpComingAppointmentDetails.length;
+                    //    }
+                    //    $scope.UpComingAppointmentDetails = AppoinList;
+                    //    $scope.$apply();
+                    //}
+                    //if ($scope.userTypeId == 5) {
+                    //    CG_PatientAppointment_List();
+                    //}
+                    //function CG_PatientAppointment_List() {
+                    //    $http.get(baseUrl + '/api/User/CG_PatientAppointmentList/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    //        $scope.UpComingWaitingAppointmentDetails = data.PatientAppointmentList;
+                    //        if ($scope.UpComingWaitingAppointmentDetails != null) {
+                    //            $scope.UpComingWaitingAppointmentCount = $scope.UpComingWaitingAppointmentDetails.length;
+                    //        }
+                    //    });
+                    //}
+                    //$http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    //    $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
+                    //    $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
+                    //});
+                    $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+                        $scope.DepartmentList = data;
+                    });
+                    $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                        $scope.TimeZoneList = data;
+                    });
+                    $scope.bookcc = 0;
+                    $scope.bookCg = 0;
+                    $scope.bookCl = 0;
+                    $scope.bookSc = 0;
+                    $scope.bookpa = 0;
+                    var current_date = new Date().getFullYear() + '-' + (((new Date().getMonth() + 1).toString().length > 1) ? ((new Date().getMonth() + 1).toString()) : '0' + (new Date().getMonth() + 1).toString()) + '-' + (((new Date().getDate()).toString().length > 1) ? ((new Date().getDate()).toString()) : '0' + (new Date().getDate()).toString());
+                    angular.element(document.getElementById('datee')).attr('min', current_date);
                     $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                         if (data != null) {
                             if (data.IsCc) { $scope.bookcc = 6; }
@@ -7512,141 +7807,141 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             toastr.info("Please Check OrgSettings, Appointment User Is Empty!", "info");
                             return false;
                         }
-            });
-            $scope.SearchAvailibleDoctorsList = function () {
-                $scope.DoctorListWithTimeZone = [];
-                document.getElementById("show").disabled = true;
-                if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
-                    //alert('Please select Speciality')
-                    toastr.warning("Please select Speciality", "warning");
-                } else if ($scope.AppoimDate == undefined || $scope.AppoimDate == null || $scope.AppoimDate == "") {
-                    //alert('Please select Date')
-                    toastr.warning("Please select Date", "warning");
-                }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
+                    });
+                    $scope.SearchAvailibleDoctorsList = function () {
+                        $scope.DoctorListWithTimeZone = [];
+                        document.getElementById("show").disabled = true;
+                        if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
+                            //alert('Please select Speciality')
+                            toastr.warning("Please select Speciality", "warning");
+                        } else if ($scope.AppoimDate == undefined || $scope.AppoimDate == null || $scope.AppoimDate == "") {
+                            //alert('Please select Date')
+                            toastr.warning("Please select Date", "warning");
+                        }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 }*/ else {
-                    $("#appoint_waveLoader").show();
-                    var DeptID = $scope.DeptIDAsSTR;
-                    var AppDate = $scope.AppoimDate;
-                    var res = convert(AppDate);
-                    $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                    $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-                    $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + DeptID + '&InstitutionId=' + $scope.SelectedInstitutionId + '&Date=' + res + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                        $("#appoint_waveLoader").hide();
-                        $scope.DoctorListWithTimeZone = data;
-                    }).error(function (data) { $("#appoint_waveLoader").hide(); });
-                }
-                
-            }
-            $scope.DeptIDStr = function () {
-                $scope.DeptIDAsSTR = [];
-                angular.forEach($scope.SelectedSpeciality, function (value, key) {
-                    var obj = value.toString();
-                    $scope.DeptIDAsSTR.push(obj);
-                });
-            }
-            $scope.ViewDoctorBio = function (Doctor_Id) {
-                angular.element('#DoctorBioModal').modal('show');
-                $scope.DoctorID = Doctor_Id;
-                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.DoctorDetailList = data;
-                })
-            }
-            $scope.DoctorDetailList = [];
-            $scope.idSelectedVote = null;
-            $scope.GetDoctorDetails = function (list) {
-                $("#chatLoaderPV").show();
-                $scope.DoctorID = [];
-                document.getElementById("DocDetails").hidden = false;
-                document.getElementById("show").disabled = false;
-                $scope.idSelectedVote = list;
-                $scope.DoctorID = list.Doctor_Id;
-                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.DoctorDetailList = data;
-                    $("#chatLoaderPV").hide();
-                    $scope.AppointmoduleID = data.Appointment_Module_Id;
-                    $scope.AppointmoduleID1 = data.Appointment_Module_Id;
-                    $scope.paymentdepartmentId = data.DEPARTMENT_ID;
-                    $scope.paymentInstitutionId = data.INSTITUTION_ID;
-                    $scope.TimeZoneID = data.TimeZone_Id.toString();
-                    if (data.Appointment_Module_Id == 2) {
-                        setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
-                    }
-                    else if (data.Appointment_Module_Id == 3) {
-                        setTimeout(function () { document.getElementById('Radio2').click(); }, 5000);
-                    }
-                })
-            }
-            function convert(str) {
-                var date = new Date(str),
-                    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-                    day = ("0" + date.getDate()).slice(-2);
-                return [date.getFullYear(), mnth, day].join("-");
-            }
-            $scope.newAppoinmentDates = function () {
-                if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
-                    //alert('Please select Doctor')
-                    toastr.warning("Please select Doctor", "warning");
-                } else {
-                    //alert(Intl.DateTimeFormat().resolvedOptions().timeZone);
-                    //var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
-                    //for (i = 0; i <= $scope.TimeZoneList.length - 1; i++) {
-                    //    if ($scope.TimeZoneList[i].TimeZoneName == timezone) {
-                    //        $scope.TimeZoneID = $scope.TimeZoneList[i].TimeZoneId.toString();
-                    //    }
-                    //}
-                    $scope.newScheduledDates = [];
-                    $scope.DataNotAvailible = 0;
-                    $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                    //document.getElementById("main-box").style = "display:none";
-                    //document.getElementById("box").style = "";
-                    $scope.showMainBox = false;
-                    TimeSlot();
-                    $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                        $scope.newScheduledDates = data;
-                        var dattas = data.ScheduledDaysList;
-                        var AppDate = $scope.AppoimDate;
-                        var ApppDate = AppDate.getTime();
-                        for (i = 0; i <= dattas.length - 1; i++) {
-                            var today = dattas[i].Date;
-                            var toToday = new Date(today);
-                            var ApppoDate = toToday.getTime();
-                            if (ApppDate == ApppoDate) {
-                                $scope.a = i - 2;
-                                $scope.b = i + 3;
-                                if ($scope.a == -1 || $scope.a == -2) {
-                                    $scope.a = 0;
-                                    $scope.b = 5;
-                                } else if ($scope.b >= dattas.length - 1) {
-                                    $scope.a = dattas.length - 5;
-                                    $scope.b = dattas.length;
-                                } else {
-                                    $scope.a = i - 2;
-                                    $scope.b = i + 3;
-                                }
-                                workingDate();
-                                $scope.idSelectedSchedule = dattas[i];
-                                var list = dattas[i];
-                                var day = list.Day;
-                                var month = list.Month;
-                                var Datee = new Date(list.Date);
-                                var year = Datee.getFullYear();
-                                var AppoiDate = (day + "-" + month + "-" + year)
-                                $scope.AppoiDate = AppoiDate;
-                                break;
-                            } else {
-                                $scope.a = 0;
-                                $scope.b = 5;
-                                workingDate();
-                            }
+                            $("#appoint_waveLoader").show();
+                            var DeptID = $scope.DeptIDAsSTR;
+                            var AppDate = $scope.AppoimDate;
+                            var res = convert(AppDate);
+                            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                            $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                            $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + DeptID + '&InstitutionId=' + $scope.SelectedInstitutionId + '&Date=' + res + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                                $("#appoint_waveLoader").hide();
+                                $scope.DoctorListWithTimeZone = data;
+                            }).error(function (data) { $("#appoint_waveLoader").hide(); });
                         }
-                        
-                    })
-                }
-            }
-            $scope.IsNew = 1;
+
+                    }
+                    $scope.DeptIDStr = function () {
+                        $scope.DeptIDAsSTR = [];
+                        angular.forEach($scope.SelectedSpeciality, function (value, key) {
+                            var obj = value.toString();
+                            $scope.DeptIDAsSTR.push(obj);
+                        });
+                    }
+                    $scope.ViewDoctorBio = function (Doctor_Id) {
+                        angular.element('#DoctorBioModal').modal('show');
+                        $scope.DoctorID = Doctor_Id;
+                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                        $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                            $scope.DoctorDetailList = data;
+                        })
+                    }
+                    $scope.DoctorDetailList = [];
+                    $scope.idSelectedVote = null;
+                    $scope.GetDoctorDetails = function (list) {
+                        $("#chatLoaderPV").show();
+                        $scope.DoctorID = [];
+                        document.getElementById("DocDetails").hidden = false;
+                        document.getElementById("show").disabled = false;
+                        $scope.idSelectedVote = list;
+                        $scope.DoctorID = list.Doctor_Id;
+                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                        $http.get(baseUrl + '/api/User/UserDetails_View?Id=' + $scope.DoctorID + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                            $scope.DoctorDetailList = data;
+                            $("#chatLoaderPV").hide();
+                            $scope.AppointmoduleID = data.Appointment_Module_Id;
+                            $scope.AppointmoduleID1 = data.Appointment_Module_Id;
+                            $scope.paymentdepartmentId = data.DEPARTMENT_ID;
+                            $scope.paymentInstitutionId = data.INSTITUTION_ID;
+                            $scope.TimeZoneID = data.TimeZone_Id.toString();
+                            if (data.Appointment_Module_Id == 2) {
+                                setTimeout(function () { document.getElementById('Radio1').click(); }, 5000);
+                            }
+                            else if (data.Appointment_Module_Id == 3) {
+                                setTimeout(function () { document.getElementById('Radio2').click(); }, 5000);
+                            }
+                        })
+                    }
+                    function convert(str) {
+                        var date = new Date(str),
+                            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                            day = ("0" + date.getDate()).slice(-2);
+                        return [date.getFullYear(), mnth, day].join("-");
+                    }
+                    $scope.newAppoinmentDates = function () {
+                        if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
+                            //alert('Please select Doctor')
+                            toastr.warning("Please select Doctor", "warning");
+                        } else {
+                            //alert(Intl.DateTimeFormat().resolvedOptions().timeZone);
+                            //var timezone = new Date().toLocaleDateString(undefined, { day: '2-digit', timeZoneName: 'long' }).substring(4);
+                            //for (i = 0; i <= $scope.TimeZoneList.length - 1; i++) {
+                            //    if ($scope.TimeZoneList[i].TimeZoneName == timezone) {
+                            //        $scope.TimeZoneID = $scope.TimeZoneList[i].TimeZoneId.toString();
+                            //    }
+                            //}
+                            $scope.newScheduledDates = [];
+                            $scope.DataNotAvailible = 0;
+                            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                            //document.getElementById("main-box").style = "display:none";
+                            //document.getElementById("box").style = "";
+                            $scope.showMainBox = false;
+                            TimeSlot();
+                            $http.get(baseUrl + '/api/PatientAppointments/GetScheduledDates/?&Login_Session_Id=' + $scope.LoginSessionId + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                                $scope.newScheduledDates = data;
+                                var dattas = data.ScheduledDaysList;
+                                var AppDate = $scope.AppoimDate;
+                                var ApppDate = AppDate.getTime();
+                                for (i = 0; i <= dattas.length - 1; i++) {
+                                    var today = dattas[i].Date;
+                                    var toToday = new Date(today);
+                                    var ApppoDate = toToday.getTime();
+                                    if (ApppDate == ApppoDate) {
+                                        $scope.a = i - 2;
+                                        $scope.b = i + 3;
+                                        if ($scope.a == -1 || $scope.a == -2) {
+                                            $scope.a = 0;
+                                            $scope.b = 5;
+                                        } else if ($scope.b >= dattas.length - 1) {
+                                            $scope.a = dattas.length - 5;
+                                            $scope.b = dattas.length;
+                                        } else {
+                                            $scope.a = i - 2;
+                                            $scope.b = i + 3;
+                                        }
+                                        workingDate();
+                                        $scope.idSelectedSchedule = dattas[i];
+                                        var list = dattas[i];
+                                        var day = list.Day;
+                                        var month = list.Month;
+                                        var Datee = new Date(list.Date);
+                                        var year = Datee.getFullYear();
+                                        var AppoiDate = (day + "-" + month + "-" + year)
+                                        $scope.AppoiDate = AppoiDate;
+                                        break;
+                                    } else {
+                                        $scope.a = 0;
+                                        $scope.b = 5;
+                                        workingDate();
+                                    }
+                                }
+
+                            })
+                        }
+                    }
+                    $scope.IsNew = 1;
                     function TimeSlotChange(AppoiDate) {
                         $scope.AppoimDate = AppoiDate;
                         TimeSlot();
@@ -7718,53 +8013,53 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.AppoiDate = AppoiDate;
                         TimeSlotChange(AppoiDate);
                     }
-            $scope.idSelectedAppoi = null;
-            $scope.AppoiFromTime = [];
-            $scope.AppoiToTime = [];
-            $scope.ClickAppointment = function (list) {
-                $scope.idSelectedAppoi = list;
-                //var AppointmentFrom = list.AppointmentFromDateTime;
-                //var AppointmentTo = list.AppointmentToDateTime;
-                //var From = AppointmentFrom.split('T')[1];
-                //var To = AppointmentTo.split('T')[1];
-                //$scope.AppoiFromTime = From.slice(0, 5);
-                //$scope.AppoiToTime = To.slice(0, 5);
-                $scope.AppoiFromTime = list.AppointmentFromDateTime;
-                $scope.AppoiToTime = list.AppointmentToDateTime;
+                    $scope.idSelectedAppoi = null;
+                    $scope.AppoiFromTime = [];
+                    $scope.AppoiToTime = [];
+                    $scope.ClickAppointment = function (list) {
+                        $scope.idSelectedAppoi = list;
+                        //var AppointmentFrom = list.AppointmentFromDateTime;
+                        //var AppointmentTo = list.AppointmentToDateTime;
+                        //var From = AppointmentFrom.split('T')[1];
+                        //var To = AppointmentTo.split('T')[1];
+                        //$scope.AppoiFromTime = From.slice(0, 5);
+                        //$scope.AppoiToTime = To.slice(0, 5);
+                        $scope.AppoiFromTime = list.AppointmentFromDateTime;
+                        $scope.AppoiToTime = list.AppointmentToDateTime;
 
-            }
-            $scope.setappoint_type = function(type) {
-                $scope.AppointmoduleID1 = type;
-            }
-            $scope.BackToDoc = function () {
-                $scope.showMainBox = true;
                     }
-            $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
-                $scope.DocumentTypeList = data;
-            })
-            $scope.SavePatientAppointment = function () {
-                if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
-                    //alert('Please select Appointment Date')
-                    toastr.warning("Please select Appointment Date", "warning");
-                } else if ($scope.AppoiFromTime == undefined || $scope.AppoiFromTime == null || $scope.AppoiFromTime == "") {
-                    //alert('Please select Appointment Time')
-                    toastr.warning("Please select Appointment Time", "warning");
-                } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
-                    //alert('Please select Appointment Time')
-                    toastr.warning("Please select Appointment Time", "warning");
-                }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
+                    $scope.setappoint_type = function (type) {
+                        $scope.AppointmoduleID1 = type;
+                    }
+                    $scope.BackToDoc = function () {
+                        $scope.showMainBox = true;
+                    }
+                    $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
+                        $scope.DocumentTypeList = data;
+                    })
+                    $scope.SavePatientAppointment = function () {
+                        if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
+                            //alert('Please select Appointment Date')
+                            toastr.warning("Please select Appointment Date", "warning");
+                        } else if ($scope.AppoiFromTime == undefined || $scope.AppoiFromTime == null || $scope.AppoiFromTime == "") {
+                            //alert('Please select Appointment Time')
+                            toastr.warning("Please select Appointment Time", "warning");
+                        } else if ($scope.AppoiToTime == undefined || $scope.AppoiToTime == null || $scope.AppoiToTime == "") {
+                            //alert('Please select Appointment Time')
+                            toastr.warning("Please select Appointment Time", "warning");
+                        }/* else if ($scope.TimeZoneID == undefined || $scope.TimeZoneID == null || $scope.TimeZoneID == "") {
                     alert('Please select TimeZone')
                 } */else {
-                    var Appointment_Module = 1;
-                    if ($scope.AppointmoduleID1 === 2) {
-                        Appointment_Module = 2;
-                    }
-                    if ($scope.AppointmoduleID1 === 3) {
-                        Appointment_Module = 3;
-                    }
-                    $("#appoint_waveLoader").show();
+                            var Appointment_Module = 1;
+                            if ($scope.AppointmoduleID1 === 2) {
+                                Appointment_Module = 2;
+                            }
+                            if ($scope.AppointmoduleID1 === 3) {
+                                Appointment_Module = 3;
+                            }
+                            $("#appoint_waveLoader").show();
 
-                    
+
                             if ($scope.OldAppointmentID == null) {
                                 var objectSave = {
                                     "Institution_Id": $scope.SelectedInstitutionId,
@@ -8076,120 +8371,120 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 }).error(function (data) { $("#appoint_waveLoader").hide(); });;
                             }
 
-                        
-                   
 
-                }
-            }
-            $scope.CancelMyAppointment = function () {
-                angular.element('#BookAppointmentModal').modal('hide');
-                //document.getElementById("main-box").style = "";
-                //document.getElementById("box").style = "display:none";
-                $scope.showMainBox = true;
-                document.getElementById("show").disabled = true;
-                document.getElementById("DocDetails").hidden = true;
-                $scope.SelectedSpeciality = "";
-                $scope.AppoimDate = "";
-                $scope.TimeZoneID = "";
-                $scope.DoctorID = [];
-                $scope.DoctorListWithTimeZone = [];
-                $scope.DeptIDAsSTR = [];
-                $scope.DoctorDetailList = [];
-                $scope.newScheduledDates = [];
-                $scope.newAppoiTimeSlot = [];
-                $scope.newScheduledDatesSplit = [];
-                $scope.AppoiDate = [];
-                $scope.AppoiFromTime = [];
-                $scope.AppoiToTime = [];
-                $scope.IsNew = 1;
-            }
-            $scope.OldAppointmentID =null ;
-            $scope.RescheduleDocAppointment = function (Row) {
-                $scope.OldAppointmentID = Row.Id;
-                angular.element('#BookAppointmentModal').modal('show');
-            }
-            $scope.CancelDocAppointment = function (Row) {
-                $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                $("#chatLoaderPV").show();
-                //console.log(Row);
-                var objectCancel = {
-                    "Id": Row.Id,
-                    "CancelledBy_Id": $window.localStorage['UserId'],
-                    "Cancel_Remarks": "Test",
-                    "ReasonTypeId": "1",
-                    "SESSION_ID": $scope.LoginSessionId
-                }
-                if (confirm("Confirm to cancel appointment")) {
-                    $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
-                        //alert(data.Message);
-                        if (data.ReturnFlag == 1) {
-                            toastr.success(data.Message, "success");
-                        }
-                        else if (data.ReturnFlag == 0) {
-                            toastr.info(data.Message, "info");
-                        }
-                        if (data.AppointmentDetails.PaymentStatusId == 3) {
-                            $scope.refundAppointmentId = data.AppointmentDetails.Id;
-                            $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
-                            $scope.refundAmount = data.AppointmentDetails.Amount;
-                            $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
-                            $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
 
-                            //setTimeout(function () { document.getElementById('but_paybyrefund').click(); }, 100);
-
-                            var obj = {
-                                refundAppointmentId: data.AppointmentDetails.Id,
-                                refundMerchantOrderNo: data.AppointmentDetails.MerchantOrderNo,
-                                refundAmount: data.AppointmentDetails.Amount,
-                                refundOrderNo: data.AppointmentDetails.OrderNo,
-                                refundInstitutionId: data.AppointmentDetails.Institution_Id
-                            };
-
-                            $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
-                                console.log(data);
-                                $scope.$broadcast("appointment_list");
-                            }).error(function (data) { console.log(data); });
 
                         }
-                        if (data.ReturnFlag == 1) {
-                            $scope.$broadcast("appointment_list");
-                        }
-                    });
-                }
-                $("#chatLoaderPV").hide();
-            }
-            $scope.ConfirmAppointment = function (Row) {
-                if (confirm("Confirm to appointment")) {
-                    $("#chatLoaderPV").show();
-                    var obj = {
-                        "Id": Row.Id,
-                        "SESSION_ID": $window.localStorage['Login_Session_Id'],
-                        "Institution_Id": $window.localStorage['InstitutionId'],
-                        "user_id": $window.localStorage['UserId']
                     }
-                    $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
-                        $("#chatLoaderPV").hide();
-                        if (data.ReturnFlag == 1) {
-                            CG_PatientAppointment_List();
-                            alert(data.Message);
-                        } else {
-                            alert(data.Message);
+                    $scope.CancelMyAppointment = function () {
+                        angular.element('#BookAppointmentModal').modal('hide');
+                        //document.getElementById("main-box").style = "";
+                        //document.getElementById("box").style = "display:none";
+                        $scope.showMainBox = true;
+                        document.getElementById("show").disabled = true;
+                        document.getElementById("DocDetails").hidden = true;
+                        $scope.SelectedSpeciality = "";
+                        $scope.AppoimDate = "";
+                        $scope.TimeZoneID = "";
+                        $scope.DoctorID = [];
+                        $scope.DoctorListWithTimeZone = [];
+                        $scope.DeptIDAsSTR = [];
+                        $scope.DoctorDetailList = [];
+                        $scope.newScheduledDates = [];
+                        $scope.newAppoiTimeSlot = [];
+                        $scope.newScheduledDatesSplit = [];
+                        $scope.AppoiDate = [];
+                        $scope.AppoiFromTime = [];
+                        $scope.AppoiToTime = [];
+                        $scope.IsNew = 1;
+                    }
+                    $scope.OldAppointmentID = null;
+                    $scope.RescheduleDocAppointment = function (Row) {
+                        $scope.OldAppointmentID = Row.Id;
+                        angular.element('#BookAppointmentModal').modal('show');
+                    }
+                    $scope.CancelDocAppointment = function (Row) {
+                        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+                        $("#chatLoaderPV").show();
+                        //console.log(Row);
+                        var objectCancel = {
+                            "Id": Row.Id,
+                            "CancelledBy_Id": $window.localStorage['UserId'],
+                            "Cancel_Remarks": "Test",
+                            "ReasonTypeId": "1",
+                            "SESSION_ID": $scope.LoginSessionId
                         }
-                    });
-                }
-            }
+                        if (confirm("Confirm to cancel appointment")) {
+                            $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
+                                //alert(data.Message);
+                                if (data.ReturnFlag == 1) {
+                                    toastr.success(data.Message, "success");
+                                }
+                                else if (data.ReturnFlag == 0) {
+                                    toastr.info(data.Message, "info");
+                                }
+                                if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                    $scope.refundAppointmentId = data.AppointmentDetails.Id;
+                                    $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
+                                    $scope.refundAmount = data.AppointmentDetails.Amount;
+                                    $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
+                                    $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
+
+                                    //setTimeout(function () { document.getElementById('but_paybyrefund').click(); }, 100);
+
+                                    var obj = {
+                                        refundAppointmentId: data.AppointmentDetails.Id,
+                                        refundMerchantOrderNo: data.AppointmentDetails.MerchantOrderNo,
+                                        refundAmount: data.AppointmentDetails.Amount,
+                                        refundOrderNo: data.AppointmentDetails.OrderNo,
+                                        refundInstitutionId: data.AppointmentDetails.Institution_Id
+                                    };
+
+                                    $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
+                                        console.log(data);
+                                        $scope.$broadcast("appointment_list");
+                                    }).error(function (data) { console.log(data); });
+
+                                }
+                                if (data.ReturnFlag == 1) {
+                                    $scope.$broadcast("appointment_list");
+                                }
+                            });
+                        }
+                        $("#chatLoaderPV").hide();
+                    }
+                    $scope.ConfirmAppointment = function (Row) {
+                        if (confirm("Confirm to appointment")) {
+                            $("#chatLoaderPV").show();
+                            var obj = {
+                                "Id": Row.Id,
+                                "SESSION_ID": $window.localStorage['Login_Session_Id'],
+                                "Institution_Id": $window.localStorage['InstitutionId'],
+                                "user_id": $window.localStorage['UserId']
+                            }
+                            $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
+                                $("#chatLoaderPV").hide();
+                                if (data.ReturnFlag == 1) {
+                                    CG_PatientAppointment_List();
+                                    alert(data.Message);
+                                } else {
+                                    alert(data.Message);
+                                }
+                            });
+                        }
+                    }
                     $scope.AppointmentPayment = function (Row) {
                         $scope.paymentappointmentId = Row.Id;
                         $scope.paymentdepartmentId = Row.DoctorDepartmentId;
                         $scope.paymentInstitutionId = Row.Institution_Id;
                         setTimeout(function () { document.getElementById('but_payby').click(); }, 100);
                     }
-        });
+                });
             } else {
                 window.location.href = baseUrl + "/Home/LoginIndex";
             }
         }
-        
+
 
 
         $scope.myMeetingURL = '';
@@ -8200,7 +8495,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             {
                 name: "conference38",
                 username: "appsAdmin",
-                key : "ab3049da9a0cd8d6e8b7c62586752472"
+                key: "ab3049da9a0cd8d6e8b7c62586752472"
             }
 
             $http.post('https://mymeeting.mycortex.ca/apps/apiservice/api/getconferencedetails', obj).success(function (data) {
@@ -8252,7 +8547,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     angular.element('#ViewMyMeetingModal').modal('show');
                     // window.open(url);
                 }
-               
+
             }).error(function (data) {
                 $scope.error = "Error: " + data;
             });
@@ -8359,7 +8654,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                             $scope.PageEnd = 0;
                         }
                         $http.get(baseUrl + '/api/User/PatientHealthDataDetails_List/?Patient_Id=' + $scope.SelectedPatientId + '&OptionType_Id=' + $scope.Type_Id + '&Group_Id=' + $scope.ParamGroup_Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&UnitsGroupType=' + $scope.unitgrouptype + '&StartRowNumber=' + $scope.PageStart +
-                            '&EndRowNumber=' + $scope.PageEnd + '&Active='+$scope.Active).success(function (data) {
+                            '&EndRowNumber=' + $scope.PageEnd + '&Active=' + $scope.Active).success(function (data) {
                                 $("#chatLoaderPV").hide();
                                 $scope.SearchMsg = "No Data Available";
                                 // only active items for Chart
@@ -8431,8 +8726,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                         else {
                                             $scope.flag = 0;
                                         }
-                                    } 
-                                    $scope.patientvitals_pages = Math.ceil(($scope.PatientHealthCount) / ($scope.page_size));    
+                                    }
+                                    $scope.patientvitals_pages = Math.ceil(($scope.PatientHealthCount) / ($scope.page_size));
                                 }
                             })
                     }).error(function (data) {
@@ -8472,7 +8767,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 // if inactive - filter all
                 $scope.Active = -1 //all  
                 //$scope.GeneralFunction($scope.ParamGroup_Id, 2);
-                 $scope.GeneralFunction($scope.ParamGroup_Id, 2);
+                $scope.GeneralFunction($scope.ParamGroup_Id, 2);
                 //$scope.emptydataVitalLab = [];
                 //$scope.emptydataVitalLab = $scope.PatientHealthDataChartList;
                 //$scope.PatientHealthCount = $scope.emptydataVitalLab[0].TotalRecord;
@@ -8816,83 +9111,83 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         /**
                      * In the chart render event, add icons on top of the circular shapes
                      */
-                function renderIcons() {
+        function renderIcons() {
 
-                    // Move icon
-                    if (!this.series[0].icon) {
-                        this.series[0].icon = this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
-                            .attr({
-                                stroke: '#303030',
-                                'stroke-linecap': 'round',
-                                'stroke-linejoin': 'round',
-                                'stroke-width': 2,
-                                zIndex: 10
-                            })
-                            .add(this.series[2].group);
-                    }
-                    this.series[0].icon.translate(
-                        this.chartWidth / 2 - 10,
-                        this.plotHeight / 2 - this.series[0].points[0].shapeArgs.innerR -
-                        (this.series[0].points[0].shapeArgs.r - this.series[0].points[0].shapeArgs.innerR) / 2
-                    );
+            // Move icon
+            if (!this.series[0].icon) {
+                this.series[0].icon = this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
+                    .attr({
+                        stroke: '#303030',
+                        'stroke-linecap': 'round',
+                        'stroke-linejoin': 'round',
+                        'stroke-width': 2,
+                        zIndex: 10
+                    })
+                    .add(this.series[2].group);
+            }
+            this.series[0].icon.translate(
+                this.chartWidth / 2 - 10,
+                this.plotHeight / 2 - this.series[0].points[0].shapeArgs.innerR -
+                (this.series[0].points[0].shapeArgs.r - this.series[0].points[0].shapeArgs.innerR) / 2
+            );
 
-                    // Exercise icon
-                    if (!this.series[1].icon) {
-                        this.series[1].icon = this.renderer.path(
-                            ['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8]
-                        )
-                            .attr({
-                                stroke: '#ffffff',
-                                'stroke-linecap': 'round',
-                                'stroke-linejoin': 'round',
-                                'stroke-width': 2,
-                                zIndex: 10
-                            })
-                            .add(this.series[2].group);
-                    }
-                    this.series[1].icon.translate(
-                        this.chartWidth / 2 - 10,
-                        this.plotHeight / 2 - this.series[1].points[0].shapeArgs.innerR -
-                        (this.series[1].points[0].shapeArgs.r - this.series[1].points[0].shapeArgs.innerR) / 2
-                    );
+            // Exercise icon
+            if (!this.series[1].icon) {
+                this.series[1].icon = this.renderer.path(
+                    ['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8]
+                )
+                    .attr({
+                        stroke: '#ffffff',
+                        'stroke-linecap': 'round',
+                        'stroke-linejoin': 'round',
+                        'stroke-width': 2,
+                        zIndex: 10
+                    })
+                    .add(this.series[2].group);
+            }
+            this.series[1].icon.translate(
+                this.chartWidth / 2 - 10,
+                this.plotHeight / 2 - this.series[1].points[0].shapeArgs.innerR -
+                (this.series[1].points[0].shapeArgs.r - this.series[1].points[0].shapeArgs.innerR) / 2
+            );
 
-                    // Stand icon
-                    if (!this.series[2].icon) {
-                        this.series[2].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
-                            .attr({
-                                stroke: '#303030',
-                                'stroke-linecap': 'round',
-                                'stroke-linejoin': 'round',
-                                'stroke-width': 2,
-                                zIndex: 10
-                            })
-                            .add(this.series[2].group);
-                    }
+            // Stand icon
+            if (!this.series[2].icon) {
+                this.series[2].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
+                    .attr({
+                        stroke: '#303030',
+                        'stroke-linecap': 'round',
+                        'stroke-linejoin': 'round',
+                        'stroke-width': 2,
+                        zIndex: 10
+                    })
+                    .add(this.series[2].group);
+            }
 
-                    this.series[2].icon.translate(
-                        this.chartWidth / 2 - 10,
-                        this.plotHeight / 2 - this.series[2].points[0].shapeArgs.innerR -
-                        (this.series[2].points[0].shapeArgs.r - this.series[2].points[0].shapeArgs.innerR) / 2
-                    );
-                    /*sleep icon*/
-                    if (!this.series[3].icon) {
-                        this.series[3].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
-                            .attr({
-                                stroke: '#303030',
-                                'stroke-linecap': 'round',
-                                'stroke-linejoin': 'round',
-                                'stroke-width': 2,
-                                zIndex: 10
-                            })
-                            .add(this.series[3].group);
-                    }
+            this.series[2].icon.translate(
+                this.chartWidth / 2 - 10,
+                this.plotHeight / 2 - this.series[2].points[0].shapeArgs.innerR -
+                (this.series[2].points[0].shapeArgs.r - this.series[2].points[0].shapeArgs.innerR) / 2
+            );
+            /*sleep icon*/
+            if (!this.series[3].icon) {
+                this.series[3].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
+                    .attr({
+                        stroke: '#303030',
+                        'stroke-linecap': 'round',
+                        'stroke-linejoin': 'round',
+                        'stroke-width': 2,
+                        zIndex: 10
+                    })
+                    .add(this.series[3].group);
+            }
 
-                    this.series[3].icon.translate(
-                        this.chartWidth / 2 - 10,
-                        this.plotHeight / 2 - this.series[3].points[0].shapeArgs.innerR -
-                        (this.series[3].points[0].shapeArgs.r - this.series[3].points[0].shapeArgs.innerR) / 2
-                    );
-                }
+            this.series[3].icon.translate(
+                this.chartWidth / 2 - 10,
+                this.plotHeight / 2 - this.series[3].points[0].shapeArgs.innerR -
+                (this.series[3].points[0].shapeArgs.r - this.series[3].points[0].shapeArgs.innerR) / 2
+            );
+        }
 
         $scope.GoalDataDateBasedDeatailsList = [];
         $scope.HealthDataDateBasedDeatailsList = [];
@@ -9068,7 +9363,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         colorIndex = 1;
                 })
 
-                
+
 
                 $('#DemoChart').highcharts({
                     chart: {
@@ -9126,15 +9421,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                 .setOpacity(0.3)
                                 .get(),
                             borderWidth: 0
-                            },
-                            {// Track for sleep
-                                outerRadius: '37%',
-                                innerRadius: '13%',
-                                backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
-                                    .setOpacity(0.3)
-                                    .get(),
-                                borderWidth: 0
-                            }]
+                        },
+                        {// Track for sleep
+                            outerRadius: '37%',
+                            innerRadius: '13%',
+                            backgroundColor: Highcharts.color(Highcharts.getOptions().colors[3])
+                                .setOpacity(0.3)
+                                .get(),
+                            borderWidth: 0
+                        }]
                     },
 
                     yAxis: {
@@ -9156,40 +9451,40 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     },
 
                     series: [{
-                            name: 'Steps',
-                            data: [{
-                                color: Highcharts.getOptions().colors[0],
-                                radius: '112%',
-                                innerRadius: '88%',
-                                y: $scope.ActualStepCountList[0]["data"][0].y
-                            }]
-                        },
-                        {
-                            name: 'Calories',
-                            data: [{
-                                color: Highcharts.getOptions().colors[1],
-                                radius: '87%',
-                                innerRadius: '63%',
-                                y: $scope.ActualCaloriesExpandedList[0]["data"][0].y
-                            }]
-                        }, {
-                            name: 'Workout',
-                            data: [{
-                                color: Highcharts.getOptions().colors[2],
-                                radius: '62%',
-                                innerRadius: '38%',
-                                y: $scope.ActualDistanceCoveredList[0]["data"][0].y
-                            }]
-                        },
-                        {
-                            name: 'Sleep',
-                            data: [{
-                                color: Highcharts.getOptions().colors[3],
-                                radius: '37%',
-                                innerRadius: '13%',
-                                y: $scope.ActualSleepingList[0]["data"][0].y
-                            }]
+                        name: 'Steps',
+                        data: [{
+                            color: Highcharts.getOptions().colors[0],
+                            radius: '112%',
+                            innerRadius: '88%',
+                            y: $scope.ActualStepCountList[0]["data"][0].y
                         }]
+                    },
+                    {
+                        name: 'Calories',
+                        data: [{
+                            color: Highcharts.getOptions().colors[1],
+                            radius: '87%',
+                            innerRadius: '63%',
+                            y: $scope.ActualCaloriesExpandedList[0]["data"][0].y
+                        }]
+                    }, {
+                        name: 'Workout',
+                        data: [{
+                            color: Highcharts.getOptions().colors[2],
+                            radius: '62%',
+                            innerRadius: '38%',
+                            y: $scope.ActualDistanceCoveredList[0]["data"][0].y
+                        }]
+                    },
+                    {
+                        name: 'Sleep',
+                        data: [{
+                            color: Highcharts.getOptions().colors[3],
+                            radius: '37%',
+                            innerRadius: '13%',
+                            y: $scope.ActualSleepingList[0]["data"][0].y
+                        }]
+                    }]
                 });
                 $('#Step_Count').highcharts({
                     chart: {
@@ -9470,7 +9765,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.appointmentDoctorId = $scope.PatientData.Doctor_Id;
                     $scope.AppointmentTime = $scope.PatientData.Appointment_FromTime;
                     $scope.Appointmentdate = DateFormatEdit(moment($scope.PatientData.Appointment_Date).format('DD-MMM-YYYY'));
-	                //$scope.AppointmentDate = DateFormatEdit(Declare);
+                    //$scope.AppointmentDate = DateFormatEdit(Declare);
                     $scope.PhotoBlob = $scope.PatientData.PhotoBlob;
                     $scope.ViewGenderName = $scope.PatientData.ViewGenderName;
                     $window.localStorage['selectedDoctor'] = $scope.appointmentDoctorId;
@@ -9554,9 +9849,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     }
                     $scope.TimeDifference = timeDiffString;
                 }
-                    $scope.PhotoBlob = $scope.PatientData.PhotoBlob;
-                    $scope.ViewGenderName = $scope.PatientData.ViewGenderName;
-                    $scope.Appointment_Id = $scope.PatientData.Id;
+                $scope.PhotoBlob = $scope.PatientData.PhotoBlob;
+                $scope.ViewGenderName = $scope.PatientData.ViewGenderName;
+                $scope.Appointment_Id = $scope.PatientData.Id;
             }
             if ($scope.UserTypeId == 4 || $scope.UserTypeId == 7) {
                 $scope.chattingWith = $scope.DoctorName;
@@ -9615,6 +9910,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         $scope.AddVitalParameters = [{
             'Id': 0,
             'ParameterId': 0,
+            'Units_ID': 0,
             'UOM_Name': '',
             'ParameterValue': '',
             'IsActive': 1
@@ -9626,6 +9922,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 var obj = {
                     'Id': 0,
                     'ParameterId': 0,
+                    'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
                     'IsActive': 1
@@ -9636,6 +9933,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.AddVitalParameters = [{
                     'Id': 0,
                     'ParameterId': 0,
+                    'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
                     'IsActive': 1
@@ -9651,6 +9949,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AddVitalParameters = [{
                         'Id': 0,
                         'ParameterId': 0,
+                        'Units_ID': 0,
                         'UOM_Name': '',
                         'ParameterValue': '',
                         'IsActive': 1
@@ -9668,6 +9967,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             angular.forEach($scope.AddVitalParameters, function (value1, index1) {
                 if (value1.ParameterId != '' || value1.ParameterId > 0) {
                     paramExist = 1;
+                }
+                if (value1.Units_Id != '' || value1.Units_Id > 0) {
+                    unitIdExist = 1;
                 }
                 var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: value1.ParameterId }, true)[0]
                 if (checkobj != null) {
@@ -9710,6 +10012,11 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             else if (paramExist == 0) {
                 //alert('Please enter Parameter details to Save');
                 toastr.warning("Please enter Parameter details to Save", "warning");
+                return false;
+            }
+            else if (unitIdExist == 0) {
+                //alert('Please enter Unit details to Save');
+                toastr.warning("Please enter Unit details to Save", "warning");
                 return false;
             }
             return true;
@@ -10070,7 +10377,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('#Lowcount').addClass('fa fa-bell-o mylowBell');
             $('.jinglebellmedium').addClass('active');
             $('#Medcount').removeClass('fa fa-bell-o mymediumBell');
-            $('#Medcount').addClass('fas fa-bell mymediumBell'); 
+            $('#Medcount').addClass('fas fa-bell mymediumBell');
             var x = document.getElementById("tableid");
             var i = document.getElementById("tableid_img");
             i.src = "../../Images/expand.gif"
@@ -10080,7 +10387,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('#tableid1').hide();
             $('#tableid2').hide();
             $scope.yellowcount++;
-         
+
             var MediumCountVital;
             $scope.MediumCountVitalList = [];
             if ($scope.yellowcount == 2) {
@@ -10092,7 +10399,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.MediumCountVitalList.push(value);
                     }
                 });
-                if ($scope.MediumCountVitalList.length > 0) { 
+                if ($scope.MediumCountVitalList.length > 0) {
                     $('#tableid1').show();
                     $('#tableid3').hide();
                     $('#tableid2').hide();
@@ -10126,7 +10433,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $('.jinglebellmedium').removeClass('active');
                 $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
                 $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
-                $scope.yellowcount = 1; 
+                $scope.yellowcount = 1;
                 //document.getElementById(tableid + '_img').title = 'Click to Expand';
                 //count = $scope.yellowcount - 3;
 
@@ -10141,7 +10448,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebellmedium').removeClass('active');
             $('#Medcount').addClass('fa fa-bell-o mymediumBell');
             $('.jinglebellhigh').removeClass('active');
-            $('#Lowcount').addClass('fa fa-bell-o mylowBell');  
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
             $('.jinglebelllow').addClass('active');
             $('#Highcount').removeClass('fa fa-bell-o myhighBell');
             $('#Highcount').addClass('fas fa-bell myhighBell');
@@ -10154,7 +10461,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('#tableid3').hide();
             $('#tableid4').hide();
             $scope.redcount++;
-           
+
             var HighCountVital;
             $scope.HighCountVitalList = [];
             if ($scope.redcount == 2) {
@@ -10166,8 +10473,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.HighCountVitalList.push(value);
                     }
                 });
-                if ($scope.HighCountVitalList.length > 0) { 
-                    $('#tableid3').show();  
+                if ($scope.HighCountVitalList.length > 0) {
+                    $('#tableid3').show();
                     $('#tableid1').hide();
                     $('#tableid2').hide();
                     $('#tableid5').hide();
@@ -10194,7 +10501,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             } else {
 
                 //i.src = "../../Images/expand.gif"
-               
+
                 $('#tableid3').hide();
                 $('#tableid4').hide();
                 $('.jinglebelllow').removeClass('active');
@@ -10215,10 +10522,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('.jinglebelllow').removeClass('active');
             $('#Highcount').addClass('fa fa-bell-o myhighBell');
             $('.jinglebellmedium').removeClass('active');
-            $('#Medcount').addClass('fa fa-bell-o mymediumBell'); 
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
             $('.jinglebellhigh').addClass('active');
             $('#Lowcount').removeClass('fa fa-bell-o mylowBell');
-            $('#Lowcount').addClass('fas fa-bell mylowBell'); 
+            $('#Lowcount').addClass('fas fa-bell mylowBell');
             var x = document.getElementById("tableid");
             var i = document.getElementById("tableid_img");
             i.src = "../../Images/expand.gif"
@@ -10228,7 +10535,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             $('#tableid5').hide();
             $('#tableid6').hide();
             $scope.greencount++;
-            
+
             var LowCountVital;
             $scope.LowCountVitalList = [];
             if ($scope.greencount == 2) {
@@ -10240,12 +10547,12 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.LowCountVitalList.push(value);
                     }
                 });
-                if ($scope.LowCountVitalList.length > 0) { 
+                if ($scope.LowCountVitalList.length > 0) {
                     $('#tableid5').show();
-                    $('#tableid1').hide(); 
-                    $('#tableid4').hide(); 
-                    $('#tableid3').hide(); 
-                    $('#tableid2').hide(); 
+                    $('#tableid1').hide();
+                    $('#tableid4').hide();
+                    $('#tableid3').hide();
+                    $('#tableid2').hide();
                     $('#tableid6').hide();
                     return true;
                 } else {
@@ -10270,7 +10577,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             } else {
 
                 //i.src = "../../Images/expand.gif"
-                
+
                 $('#tableid5').hide();
                 $('#tableid6').hide();
                 $('.jinglebellhigh').removeClass('active');
@@ -10312,14 +10619,14 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     Institution_Id: $window.localStorage['InstitutionId'],
                 }
                 $("#chatLoaderPV").show();
-                $('#msg').attr("disabled",true);
+                $('#msg').attr("disabled", true);
                 $http.post(baseUrl + '/api/CareCoordinnator/Assign_CareGiver/', obj).success(function (data) {
                     $("#chatLoaderPV").hide();
-                     //alert(data.Message);
+                    //alert(data.Message);
                     if (data.ReturnFlag == 0) {
                         toastr.success(data.Message, "success");
                     }
-                    else if(data.ReturnFlag == 1) {
+                    else if (data.ReturnFlag == 1) {
                         toastr.info(data.Message, "info");
                     }
                     $('#msg').attr("disabled", false);
@@ -10358,7 +10665,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.CG_Remarks = "";
                         $scope.ParameterValueList = [];
                         $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=2&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                            $scope.ParameterValueList = data;  
+                            $scope.ParameterValueList = data;
                         });
                     }
                     else if (data == 2) {
@@ -11032,48 +11339,50 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
         /* This is for PatientICD10 Insert and update Validations */
         $scope.PatientICD10_InsertUpdateValidations = function () {
-            
+
             var validateflag = true;
             var validationMsg = "";
             var Active_From = "";
             var Active_To = "";
 
-            angular.forEach($scope.AddICD10List, function (value, index) {
+            if (value.Active_From != false && value.Active_From != null && value.Active_To != false && value.Active_To != null) {
                 value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
                 Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
                 value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
                 Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
-
-                if (value.Code_ID == 0 || value.Code_ID == "") {
-                    validationMsg = validationMsg + "Please select ICD Code";
-                    validateflag = false;
-                    return false;
-                }
-
-                if ((value.Active_From) == "") {
-                    validationMsg = validationMsg + "Please select Active From Date";
-                    validateflag = false;
-                    return false;
-                }
+                value.Active_From = DateFormatEdit(value.Active_From);
+                value.Active_To = DateFormatEdit(value.Active_To);
+            }
+            if (value.Active_To == false || value.Active_To == null || value.Active_To == undefined) {
+                value.Active_To = "";
+            }
+            if (value.Active_From == false || value.Active_From == null || value.Active_From == undefined) {
+                value.Active_From = "";
+            }
+                //if ((value.Active_From) == "") {
+                //    validationMsg = validationMsg + "Please select Active From Date";
+                //    validateflag = false;
+                //    return false;
+                //}
                 /*if ((value.Active_To) == "") {
                     validationMsg = validationMsg + "Please select Active To Date";
                     validateflag = false;
                     return false;
                 }*/
-                if ((value.Active_From !== null) && (value.Active_To !== null)) {
-                    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
-                        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
-                        value.Active_From = DateFormatEdit(value.Active_From);
-                        value.Active_To = DateFormatEdit(value.Active_To);
-                        validateflag = false;
-                        return false;
-                    }
-                }
+                //if ((value.Active_From !== null) && (value.Active_To !== null)) {
+                //    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
+                //        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
+                //        value.Active_From = DateFormatEdit(value.Active_From);
+                //        value.Active_To = DateFormatEdit(value.Active_To);
+                //        validateflag = false;
+                //        return false;
+                //    }
+                //}
 
-                value.Active_From = DateFormatEdit(value.Active_From);
-                value.Active_To = DateFormatEdit(value.Active_To);
+                //value.Active_From = DateFormatEdit(value.Active_From);
+                //value.Active_To = DateFormatEdit(value.Active_To);
 
-            });
+            //});
 
             var TSDuplicate = 0;
             var Duplicateparameter = '';
@@ -11166,7 +11475,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             else {
                 $scope.inputPageICD = PageNo;
-            } 
+            }
             $scope.current_pageICD = PageNo;
             $scope.PatientICD10List();
 
@@ -11195,26 +11504,26 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.SearchMsg = "No Data Available"
                 $http.get(baseUrl + 'api/User/PatientICD10_Details_List/?Patient_Id=' + $scope.SelectedPatientId + '&Isactive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
                     '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                    $("#chatLoaderPV").hide();
-                    $scope.DiagnosisICD10List = [];
-                    $scope.DiagnosisICD10List = data.MasterICD;
-                    if ($scope.DiagnosisICD10List.length > 0) {
-                        $scope.ICD10Count = $scope.DiagnosisICD10List[0].TotalRecord;
-                    } else {
-                        $scope.ICD10Count = 0
-                    }
-                    $scope.rowcollectionfiltericd10 = angular.copy($scope.DiagnosisICD10List);
-                    if ($scope.rowcollectionfiltericd10.length > 0) {
-                        $scope.flag = 1;
-                    }
-                    else {
-                        $scope.flag = 0;
-                    }
-                   $scope.PatientIcdPages = Math.ceil(($scope.ICD10Count) / ($scope.page_size));
-                }).error(function (data) {
-                    $("#chatLoaderPV").hide();
-                    $scope.error = "the error occured! " + data;
-                })
+                        $("#chatLoaderPV").hide();
+                        $scope.DiagnosisICD10List = [];
+                        $scope.DiagnosisICD10List = data.MasterICD;
+                        if ($scope.DiagnosisICD10List.length > 0) {
+                            $scope.ICD10Count = $scope.DiagnosisICD10List[0].TotalRecord;
+                        } else {
+                            $scope.ICD10Count = 0
+                        }
+                        $scope.rowcollectionfiltericd10 = angular.copy($scope.DiagnosisICD10List);
+                        if ($scope.rowcollectionfiltericd10.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+                        $scope.PatientIcdPages = Math.ceil(($scope.ICD10Count) / ($scope.page_size));
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "the error occured! " + data;
+                    })
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.error = "AN error has occured while Listing the records!" + data;
@@ -11273,9 +11582,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $scope.CategoryName = data.CategoryName;
                 $scope.ICD_Code = data.ICD_Code;
                 $scope.ICD_Description = data.Description;
-                $scope.Created_By = data.Doctor_Name; 
+                $scope.Created_By = data.Doctor_Name;
                 $scope.Active_From = DateFormatEdit(moment(data.Active_From).format('DD-MMM-YYYY'));
-                $scope.Active_To   = DateFormatEdit(moment(data.Active_To).format('DD-MMM-YYYY'));
+                $scope.Active_To = DateFormatEdit(moment(data.Active_To).format('DD-MMM-YYYY'));
                 $scope.ICD_Remarks = data.Remarks;
                 //$scope.Icd10Clear();
                 // $scope.ICD10CodeByCategory($scope.Category_ID);
@@ -11331,7 +11640,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             if (Ins == true) {
                 $http.get(baseUrl + '/api/User/PatientICD10_Details_Active/?ID=' + $scope.Id).success(function (data) {
                     //alert("Selected ICD 10 details has been activated successfully");
-                    toastr.success("Selected ICD 10 details has been activated successfully","success");
+                    toastr.success("Selected ICD 10 details has been activated successfully", "success");
                     $scope.PatientICD10List();
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting ICD1O records" + data;
@@ -11576,9 +11885,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'DrugId': "",
                     'FrequencyId': 0,
                     'RouteId': 0,
-                    ' NoOfDays': "",
-                    ' StartDate': "",
-                    'EndDate': "",
+                    'NoOfDays': "",
+                    'StartDate': new Date(DatetimepickermaxDate),
+                    'EndDate': new Date(DatetimepickermaxDate),
                     ' Created_By': 0
                 }
                 $scope.AddMedicationDetails.push(obj);
@@ -11590,14 +11899,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     'DrugId': "",
                     'FrequencyId': 0,
                     'RouteId': 0,
-                    ' NoOfDays': "",
-                    ' StartDate': "",
-                    'EndDate': "",
+                    'NoOfDays': "",
+                    'StartDate': new Date(DatetimepickermaxDate),
+                    'EndDate': new Date(DatetimepickermaxDate),
                     ' Created_By': 0
                 }];
             }
             $scope.DrugcodeSearchPopup($scope.AddMedicationDetails.length - 1);
-
             setTimeout(function () {
                 $scope.calenderSet1($scope.AddMedicationDetails.length);
             }, 1000);
@@ -11638,9 +11946,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         'DrugId': "",
                         'FrequencyId': 0,
                         'RouteId': 0,
-                        ' NoOfDays': "",
-                        ' StartDate': "",
-                        'EndDate': "",
+                        'NoOfDays': "",
+                        'StartDate': new Date(DatetimepickermaxDate),
+                        'EndDate': new Date(DatetimepickermaxDate),
                         ' Created_By': 0
                     }];
                 }
@@ -11979,26 +12287,26 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $http.get(baseUrl + 'api/User/MedicationList/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
                     '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
 
-                    $("#chatLoaderPV").hide();
-                    $scope.SearchMsg = "No Data Available";
-                    $scope.PatientMedicationEmptyData = [];
-                    $scope.PatientMedicationDataList = [];
-                    $scope.PatientMedicationListData = data.DrugDBMaster;
-                    if ($scope.PatientMedicationListData.length > 0) {
-                        $scope.PatientMedicationcount = $scope.PatientMedicationListData[0].TotalRecord;
-                    } else {
-                        $scope.PatientMedicationcount = 0
-                    }
-                    $scope.PatientMedicationListFilterData = data.DrugDBMaster;
-                    $scope.PatientMedicationDataList = angular.copy($scope.PatientMedicationListData);
-                    if ($scope.PatientMedicationDataList.length > 0) {
-                        $scope.flag = 1;
-                    }
-                    else {
-                        $scope.flag = 0;
-                    }
-                     $scope.PatientPillBoxPages = Math.ceil(($scope.PatientMedicationcount) / ($scope.page_size)); 
-                })
+                        $("#chatLoaderPV").hide();
+                        $scope.SearchMsg = "No Data Available";
+                        $scope.PatientMedicationEmptyData = [];
+                        $scope.PatientMedicationDataList = [];
+                        $scope.PatientMedicationListData = data.DrugDBMaster;
+                        if ($scope.PatientMedicationListData.length > 0) {
+                            $scope.PatientMedicationcount = $scope.PatientMedicationListData[0].TotalRecord;
+                        } else {
+                            $scope.PatientMedicationcount = 0
+                        }
+                        $scope.PatientMedicationListFilterData = data.DrugDBMaster;
+                        $scope.PatientMedicationDataList = angular.copy($scope.PatientMedicationListData);
+                        if ($scope.PatientMedicationDataList.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+                        $scope.PatientPillBoxPages = Math.ceil(($scope.PatientMedicationcount) / ($scope.page_size));
+                    })
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.error = "AN error has occured while Listing the records!" + data;
@@ -12037,7 +12345,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.RouteDuplicateId = $scope.RouteId;
                 $scope.ViewRouteName = data.RouteName,
                     $scope.StartDate = DateFormatEdit($filter('date')(data.StartDate, "dd-MMM-yyyy"));
-                    $scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
+                $scope.EndDate = DateFormatEdit($filter('date')(data.EndDate, "dd-MMM-yyyy"));
                 if ($scope.DrugDropDown == 2) {
                     $scope.DrugbasedDetails($scope.DrugId);
                 }
@@ -12054,8 +12362,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 'FrequencyId': 0,
                 'NoOfDays': '',
                 'RouteId': 0,
-                'StartDate': '',
-                'EndDate': ''
+                'StartDate': new Date(DatetimepickermaxDate),
+                'EndDate': new Date(DatetimepickermaxDate)
             }];
         }
         $scope.CancelEditMedicationPopUp = function () {
@@ -12321,7 +12629,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 else if ($scope.allergyActive == false) {
                     $scope.ISact = -1 //all
                 }
-                $http.get(baseUrl + 'api/User/PatientAllergylist/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId+ '&StartRowNumber=' + $scope.PageStart +'&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                $http.get(baseUrl + 'api/User/PatientAllergylist/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $("#chatLoaderPV").hide();
                     $scope.SearchMsg = "No Data Available";
                     $scope.PatientAllergyEmptyData = [];
@@ -12333,7 +12641,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     } else {
                         $scope.PatientAllergyCount = 0;
                     }
-                    
+
                     $scope.PatientAllergyListFilterData = data.PatientAllergyDetails;
                     $scope.PatientAllergyCountFilterData = data.PatientAllergyDetails;
                     for (i = 0; i < $scope.PatientAllergyListFilterData.length; i++) {
@@ -12478,7 +12786,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     $scope.AllergyOnsetId = data.AllergyOnsetId.toString();
                 }
                 $scope.ViewOnset = data.AllergyOnsetName,
-                $scope.OnSetDate = DateFormatEdit($filter('date')(data.OnSetDate, "dd-MMM-yyyy"));
+                    $scope.OnSetDate = DateFormatEdit($filter('date')(data.OnSetDate, "dd-MMM-yyyy"));
                 $scope.Remarks = data.Remarks;
                 $scope.ViewAllergyReactionName = data.AllergyReactionName;
                 // For Multiselect dropdown	
@@ -12668,32 +12976,32 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/User/PatientNotes_List/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ISact + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
                     '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                    $("#chatLoaderPV").hide();
-                    $scope.SearchMsg = "No Data Available";
-                    $scope.PatientNotesemptydata = [];
-                    $scope.PatientNotesrowCollection = [];
-                    //$scope.PatientNotesrowCollection = data;
-                    //$scope.NotesCount = $scope.PatientNotesrowCollection[0].TotalRecord;
-                    //$scope.NotesCountFilterData = data; 
-                    $scope.PatientNotesrowCollection = data.NotesDetails;
-                    if ($scope.PatientNotesrowCollection.length > 0) {
-                        $scope.NotesCount=$scope.PatientNotesrowCollection[0].TotalRecord;
-                    } else {
-                        $scope.NotesCount = 0;
-                    }
-                    $scope.NotesCountFilterData = data.NotesDetails;
-                    $scope.PatientNotesrowCollectionFilter = angular.copy($scope.PatientNotesrowCollection);
-                    if ($scope.PatientNotesrowCollectionFilter.length > 0) {
-                        $scope.flag = 1;
-                    }
-                    else {
-                        $scope.flag = 0;
-                    }
-                    $scope.PatientNotes_pages = Math.ceil(($scope.NotesCount) / ($scope.page_size));
-                }).error(function (data) {
-                    $("#chatLoaderPV").hide();
-                    $scope.error = "the error occured! " + data;
-                })
+                        $("#chatLoaderPV").hide();
+                        $scope.SearchMsg = "No Data Available";
+                        $scope.PatientNotesemptydata = [];
+                        $scope.PatientNotesrowCollection = [];
+                        //$scope.PatientNotesrowCollection = data;
+                        //$scope.NotesCount = $scope.PatientNotesrowCollection[0].TotalRecord;
+                        //$scope.NotesCountFilterData = data; 
+                        $scope.PatientNotesrowCollection = data.NotesDetails;
+                        if ($scope.PatientNotesrowCollection.length > 0) {
+                            $scope.NotesCount = $scope.PatientNotesrowCollection[0].TotalRecord;
+                        } else {
+                            $scope.NotesCount = 0;
+                        }
+                        $scope.NotesCountFilterData = data.NotesDetails;
+                        $scope.PatientNotesrowCollectionFilter = angular.copy($scope.PatientNotesrowCollection);
+                        if ($scope.PatientNotesrowCollectionFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
+                        $scope.PatientNotes_pages = Math.ceil(($scope.NotesCount) / ($scope.page_size));
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "the error occured! " + data;
+                    })
             }).error(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.error = "AN error has occured while Listing the records!" + data;
@@ -12783,17 +13091,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             angular.element('#Patient_OtherData_ViewModal').modal('show');
         }
 
-        
-        $scope.Patient_OtherData_Image_View = function (Id,filetype) {
+
+        $scope.Patient_OtherData_Image_View = function (Id, filetype) {
             $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                 //var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                 /*window.open(url);*/
                 let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
                 pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
-                pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.Filetype.toString()+";base64, " + data.DocumentBlobData.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
+                pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.Filetype.toString() + ";base64, " + data.DocumentBlobData.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
                 /*pdfWindow.target = '_top';*/
-                
+
             });
         }
 
@@ -13068,7 +13376,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             }
             return true;
         }
-        
+
         $scope.CertificateValue = 0;
         $scope.CertificateUplaodSelected = function () {
             $scope.CertificateValue = 1;
@@ -13168,26 +13476,26 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + 'api/User/Patient_OtherData_List/?Patient_Id=' + $scope.SelectedPatientId + '&IsActive=' + $scope.ActiveStatus + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +
                     '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
-                    $("#chatLoaderPV").hide();
-                    $scope.SearchMsg = "No Data Available";
-                    $scope.OtherDataEmptyData = [];
-                    $scope.OtherData_List = [];
-                    $scope.OtherData_List = data.DocumentDetails1; 
-                    if ($scope.OtherData_List.length > 0) {
-                        $scope.OtherDataCount = $scope.OtherData_List[0].TotalRecord;
-                    } else {
-                        $scope.OtherDataCount = 0;
-                    }
-                    $scope.OtherData_ListFilterdata = data.DocumentDetails1;
-                    $scope.OtherData_ListData = angular.copy($scope.OtherData_List);
-                    if ($scope.OtherData_ListData.length > 0) {
-                        $scope.OtherDataflag = 1;
-                    }
-                    else {
-                        $scope.OtherDataflag = 0;
-                    }
-                    $scope.Patientothers = Math.ceil(($scope.OtherDataCount) / ($scope.page_size));
-                })
+                        $("#chatLoaderPV").hide();
+                        $scope.SearchMsg = "No Data Available";
+                        $scope.OtherDataEmptyData = [];
+                        $scope.OtherData_List = [];
+                        $scope.OtherData_List = data.DocumentDetails1;
+                        if ($scope.OtherData_List.length > 0) {
+                            $scope.OtherDataCount = $scope.OtherData_List[0].TotalRecord;
+                        } else {
+                            $scope.OtherDataCount = 0;
+                        }
+                        $scope.OtherData_ListFilterdata = data.DocumentDetails1;
+                        $scope.OtherData_ListData = angular.copy($scope.OtherData_List);
+                        if ($scope.OtherData_ListData.length > 0) {
+                            $scope.OtherDataflag = 1;
+                        }
+                        else {
+                            $scope.OtherDataflag = 0;
+                        }
+                        $scope.Patientothers = Math.ceil(($scope.OtherDataCount) / ($scope.page_size));
+                    })
             })
         }
         $scope.filter_OtherData = function () {
@@ -13719,7 +14027,7 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
                             toastr.info("Appointment is only for 30 days, cannot view this date", "info");
                             $('#calendar1').fullCalendar('gotoDate', date1);
                             return false;
-                        }	
+                        }
 
                         $scope.dayClicked(date);
                     },
@@ -13804,7 +14112,7 @@ MyCortexControllers.controller("PatientAppointmentController", ['$scope', '$http
 
 ]);
 /* THIS IS FOR PARAMETER SETTINGS CONTROLLER FUNCTION */
-MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout','toastr',
+MyCortexControllers.controller("ParameterSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $timeout, toastr) {
         $scope.Id = 0;
         $scope.User_Id = 0;
@@ -14192,7 +14500,7 @@ MyCortexControllers.controller("CareCoordinatorController", ['$scope', '$http', 
         $scope.PatientFilterCopyList = [];
         $scope.PageCountArray = [];
         $scope.CareCoordinator_PatientListFunction = function (PageNumber) {
-            if ($window.localStorage['UserTypeId'] == 6) { 
+            if ($window.localStorage['UserTypeId'] == 6) {
 
                 $("#chatLoaderPV").show();
                 $scope.PatientFilterCopy = [];
@@ -14233,7 +14541,7 @@ MyCortexControllers.controller("CareCoordinatorController", ['$scope', '$http', 
                     });
                 });
             } else {
-                window.location.href = baseUrl + "/Home/LoginIndex"; 
+                window.location.href = baseUrl + "/Home/LoginIndex";
             }
 
         }
@@ -14478,7 +14786,7 @@ MyCortexControllers.controller("CareGiverAssignedPatientsController", ['$scope',
         $scope.PatientFilterCopy = [];
         $scope.PatientFilterCopyList = [];
         $scope.CareGiver_PatientListFunction = function (PageNumber) {
-            if ($window.localStorage['UserTypeId'] == 5) {  
+            if ($window.localStorage['UserTypeId'] == 5) {
 
                 $("#chatLoaderPV").show();
                 $scope.PageNumber = PageNumber;
@@ -14517,7 +14825,7 @@ MyCortexControllers.controller("CareGiverAssignedPatientsController", ['$scope',
                     });
                 });
             } else {
-                window.location.href = baseUrl + "/Home/LoginIndex"; 
+                window.location.href = baseUrl + "/Home/LoginIndex";
             }
         }
         $scope.Next_CareGiver_PatientListFunction = function (PageNumber) {
@@ -14630,7 +14938,7 @@ MyCortexControllers.controller("CareGiverAssignedPatientsController", ['$scope',
 ]);
 
 /* THIS IS FOR LOGIN CONTROLLER FUNCTION */
-MyCortexControllers.controller("ParameterController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter','toastr',
+MyCortexControllers.controller("ParameterController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, toastr) {
 
         $scope.AddParameterPopup = function () {
@@ -14658,7 +14966,7 @@ MyCortexControllers.controller("ParameterController", ['$scope', '$http', '$rout
 ]);
 
 // This is for ICD10 controller functions//    
-MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.Id = "0";
@@ -14953,7 +15261,7 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
 ]);
 
 // This is for Payor controller functions//    
-MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.Id = "0";
@@ -15266,7 +15574,7 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
 ]);
 
 // This is for Plan controller functions//    
-MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.Id = "0";
@@ -15303,9 +15611,9 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
         $scope.ConfigCode = "PATIENTPAGE_COUNT";
         $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
         $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
-        $scope.page_size = data1[0].ConfigValue;
-        $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
-        $scope.PageEnd = $scope.current_page * $scope.page_size;
+            $scope.page_size = data1[0].ConfigValue;
+            $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+            $scope.PageEnd = $scope.current_page * $scope.page_size;
             $http.get(baseUrl + '/api/PayorMaster/PayorList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                 $scope.PayorMasterList = data;
             });
@@ -15527,7 +15835,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
                 $scope.ReferCode = data.ReferCode;
                 $scope.ValidFromDate = DateFormatEdit($filter('date')(data.ValidFromDate, "dd-MMM-yyyy"));
                 $scope.ValidToDate = DateFormatEdit($filter('date')(data.ValidToDate, "dd-MMM-yyyy"));
-                
+
             });
             $("#chatLoaderPV").hide();
         }
@@ -15578,7 +15886,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 
         $scope.Active_ErrorFunction = function () {
             //alert("Inactive Payor details cannot be edited");
-            toastr.info("Inactive Payor details cannot be edited","info");
+            toastr.info("Inactive Payor details cannot be edited", "info");
         };
 
         /*calling Alert message for cannot edit inactive record function */
@@ -15683,7 +15991,7 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 ]);
 
 // This is for Drug DB controller functions//    
-MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         // Declaration and initialization of Scope Variables.
@@ -15835,14 +16143,14 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
                             if ($scope.rowCollection.length > 0) {
                                 $scope.DrugCount = $scope.rowCollection[0].TotalRecord;
                             }
-                                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                                if ($scope.rowCollectionFilter.length > 0) {
-                                    $scope.flag = 1;
-                                }
-                                else {
-                                    $scope.flag = 0;
-                                }
-                            
+                            $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                            if ($scope.rowCollectionFilter.length > 0) {
+                                $scope.flag = 1;
+                            }
+                            else {
+                                $scope.flag = 0;
+                            }
+
                             $("#chatLoaderPV").hide();
 
                             $http.get(baseUrl + '/api/DrugDBMaster/DrugStrengthList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
@@ -15993,7 +16301,7 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
             if (del == true) {
                 $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert(" Drug DB details has been deactivated Successfully");
-                    toastr.success(" Drug DB details has been deactivated Successfully","success");
+                    toastr.success(" Drug DB details has been deactivated Successfully", "success");
                     $scope.DrugDB_List();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  Drug DB details" + data;
@@ -16102,7 +16410,7 @@ MyCortexControllers.controller("ProtocolController", ['$scope', '$http', '$filte
 ]);
 
 // This is for User controller functions/ /
-MyCortexControllers.controller("PatientController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("PatientController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.Id = "0";
@@ -16123,7 +16431,7 @@ MyCortexControllers.controller("PatientController", ['$scope', '$http', '$filter
 
 
 // This is for Monitoring Protocol controller functions/ /
-MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("MonitoringProtocolController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         //List Page Pagination.
@@ -17594,7 +17902,7 @@ MyCortexControllers.controller("AllPatientListController", ['$scope', '$http', '
 ]);
 
 /* THIS IS FOR CHAT SETTINGS CONTROLLER FUNCTION */
-MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout', '$document','toastr',
+MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', '$timeout', '$document', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, $timeout, $document, toastr) {
         $scope.Id = 0;
         $scope.Flag = [];
@@ -17707,7 +18015,7 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
           in edit.html and provide an option for select and modify the chat settings and save the chat settings record
           */
         $scope.ChatSettings_AddEdit = function () {
-            
+
             $scope.SaveChatPreference();
 
             var savecnt = $scope.UserGroupList.length * 2;
@@ -17741,11 +18049,11 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                         obj.Flag = 0;
                     };
 
-                    
+
                     $http.post(baseUrl + '/api/ChatSettings/ChatSettings_AddEdit/', obj).success(function (data) {
-                       
-                        lpcnt = lpcnt + 1 
-                        if (savecnt == lpcnt) { 
+
+                        lpcnt = lpcnt + 1
+                        if (savecnt == lpcnt) {
                             //alert(data.Message);
                             toastr.success(data.Message, "success");
                             $('#save').attr("disabled", false);
@@ -17753,13 +18061,13 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
                             //$scope.loading = false;
                             //$rootScope.$broadcast('hide'); 
                             $("#chatLoaderPV").hide();
-                        } 
-                        
+                        }
+
                     })
-                   
-                }) 
-            }) 
-            
+
+                })
+            })
+
         };
 
         /*Store Chat Preference*/
@@ -17785,7 +18093,7 @@ MyCortexControllers.controller("ChatSettingsController", ['$scope', '$http', '$r
 ]);
 
 // This is for Change Password and Rest Password controller functions/ /
-MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope','toastr',
+MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, $timeout, $rootScope, toastr) {
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.Id = "0";
@@ -18202,7 +18510,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
     and display the record of selected change password when Id is greater than 0
     in edit.html and provide an option for create and modify the change password and save the change password record
     */
-        $scope.ChangePassword = function () { 
+        $scope.ChangePassword = function () {
             if ($scope.Validationcontrolspassword() == true) {
                 $("#chatLoaderPV").show();
                 $scope.changepasswordId = $window.localStorage['UserId'];
@@ -18297,10 +18605,10 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
         });
 
         /* User basic details list*/
-        $scope.Userdetailsdatalist = function () { 
+        $scope.Userdetailsdatalist = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId).success(function(data) {
-                $scope.Userlist = data; 
+            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeName + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+                $scope.Userlist = data;
                 $("#chatLoaderPV").hide();
             });
         };
@@ -18431,38 +18739,38 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
 
         //view function for password policy
         $scope.PasswordPolicyView = function () {
-             
-                $("#chatLoaderPV").show();
+
+            $("#chatLoaderPV").show();
+            //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
+            //  $scope.NewPassword = "";
+            $http.get(baseUrl + '/api/Common/PasswordPolicy_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                if (data != null) {
+                    $scope.policyExist = true;
+                    $scope.Institution_Id = data.Institution_Id;
+                    $scope.Insitution_Name = data.Insitution_Name;
+                    $scope.Minimum_Length = data.Minimum_Length;
+                    $scope.Maximum_Length = data.Maximum_Length;
+                    $scope.UpperCase_Required = data.UpperCase_Required;
+                    $scope.LowerCase_Required = data.LowerCase_Required;
+                    $scope.Numeric_Required = data.Numeric_Required;
+                    $scope.SpecialChar_Required = data.SpecialChar_Required;
+                    $scope.Without_Char = data.Without_Char;
+                    $scope.AllowExpiryDays = data.AllowExpiryDays;
+                    $scope.Expiry_Period = data.Expiry_Period;
+                    $scope.Allow_UserName = data.Allow_UserName;
+                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
+                    $scope.MaxLoginTime = data.MaxLoginTime;
+                    $scope.MaxLoginHours = data.MaxLoginHours;
+                    $scope.MaxLoginMins = data.MaxLoginMins;
+                    $scope.Created_By = data.Created_By;
+                    $scope.Remember_Password = data.Remember_Password;
+                    $scope.Created_Dt = data.Created_Dt;
+                }
+                $("#chatLoaderPV").hide();
                 //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
-                //  $scope.NewPassword = "";
-                $http.get(baseUrl + '/api/Common/PasswordPolicy_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                    if (data != null) {
-                        $scope.policyExist = true;
-                        $scope.Institution_Id = data.Institution_Id;
-                        $scope.Insitution_Name = data.Insitution_Name;
-                        $scope.Minimum_Length = data.Minimum_Length;
-                        $scope.Maximum_Length = data.Maximum_Length;
-                        $scope.UpperCase_Required = data.UpperCase_Required;
-                        $scope.LowerCase_Required = data.LowerCase_Required;
-                        $scope.Numeric_Required = data.Numeric_Required;
-                        $scope.SpecialChar_Required = data.SpecialChar_Required;
-                        $scope.Without_Char = data.Without_Char;
-                        $scope.AllowExpiryDays = data.AllowExpiryDays;
-                        $scope.Expiry_Period = data.Expiry_Period;
-                        $scope.Allow_UserName = data.Allow_UserName;
-                        $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                        $scope.MaxLoginTime = data.MaxLoginTime;
-                        $scope.MaxLoginHours = data.MaxLoginHours;
-                        $scope.MaxLoginMins = data.MaxLoginMins;
-                        $scope.Created_By = data.Created_By;
-                        $scope.Remember_Password = data.Remember_Password;
-                        $scope.Created_Dt = data.Created_Dt;
-                    }
-                    $("#chatLoaderPV").hide();
-                    //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
-                    //$scope.NewPassword = "";
-                });
-            
+                //$scope.NewPassword = "";
+            });
+
         };
 
         //view function for password policy
@@ -18544,7 +18852,7 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
     }
 ]);
 
-MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
 
         $scope.Id = "0";
@@ -18789,7 +19097,7 @@ MyCortexControllers.controller("PatientApprovalController", ['$scope', '$http', 
 
 
 /* THIS IS FOR EMPLOYEE EMAIL CONFIGURATION CONTROLLER FUNCTION */
-MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
 
@@ -18951,7 +19259,7 @@ MyCortexControllers.controller("EmailConfigurationController", ['$scope', '$http
     }
 ]);
 
-MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.Id = "0";
@@ -18986,6 +19294,9 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
             else if ($scope.PageParameter == 2) {
                 $scope.Type = "2";//For Notification
             }
+            else if ($scope.PageParameter == 3) {
+                $scope.Type = "3";//For SMS
+            }
             $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
                 $scope.TemplateTagMappingList = data;
             });
@@ -18994,6 +19305,9 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
             if ($scope.PageParameter == 1) {
+                $scope.Template = (CKEDITOR.instances.editor1.getData());
+            }
+            else if ($scope.PageParameter == 3) {
                 $scope.Template = (CKEDITOR.instances.editor1.getData());
             }
             if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
@@ -19008,7 +19322,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                      toastr.warning("Please enter Email Subject", "warning");
                 else
                     //alert("Please enter Notification Title");
-                     warning("Please enter Notification Title", "warning");
+                    warning("Please enter Notification Title", "warning");
 
                 return false;
             }
@@ -19016,10 +19330,17 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                 if ($scope.PageParameter == 1)
                     //alert("Please enter Email Template");
                     toastr.warning("Please enter Email Template", "warning");
+                else if ($scope.PageParameter == 3)
+                    toastr.warning("Please enter SMS Template", "warning");
                 else
                     //alert("Please enter Notification Message");
                     toastr.warning("Please enter Notification Message", "warning");
 
+                return false;
+            }
+            else if (typeof ($scope.EmailSubject) == "undefined" || $scope.EmailSubject == "") {
+                if ($scope.PageParameter == 3)
+                    toastr.warning("Please enter SMS Template", "warning");
                 return false;
             }
             return true;
@@ -19063,7 +19384,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                         var obj = {
                             Id: Selected.Id,
                             Institution_Id: $scope.InstituteId,
-                            Email_TemplateId: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
+                            Email_TemplateId: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : $scope.PageParameter == 3 ? '3' : '',
                             TagName: value.TempName,
                             IsActive: Selected.IsActive,
                             Created_By: $scope.Patient_Id
@@ -19075,7 +19396,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                 var obj = {
                     Id: $scope.Id,
                     Institution_Id: $scope.InstituteId,
-                    TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
+                    TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : $scope.PageParameter == 3 ? '3' : '',
                     //Type_Id: $scope.Type,
                     EmailSubject: $scope.EmailSubject,
                     EmailTemplate: $scope.Template,
@@ -19177,7 +19498,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
                 $scope.Type = data.Type_Id.toString();
                 $scope.ViewType_Name = data.Type_Name;
                 $scope.TemplateTagMappingList = data.EmailTemplateTagList;
-                if ($scope.TemplateType_Id == 1) {
+                if ($scope.TemplateType_Id == 1 || $scope.TemplateType_Id == 3) {
                     $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
                 }
                 $scope.TempMappinglist();
@@ -19299,7 +19620,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
     }
 ]);
 
-MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.PageParameter = $routeParams.PageParameter;
 
@@ -19485,6 +19806,11 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             $scope.Country_onChange();
             $scope.CityId = $scope.InsCityId;
             $scope.State_onChange();
+
+            var cId = $scope.CountryId;
+            if (cId != "0") {
+
+            }
         }
         $scope.InstitutionBased_CountryStateList = function () {
             $http.get(baseUrl + '/api/Common/CountryList/').success(function (data) {
@@ -19608,7 +19934,7 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
     }
 ]);
 
-MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.UserId = $window.localStorage['UserId'];
@@ -19741,6 +20067,24 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                 });
             }
         }
+
+        $scope.GenerateSMSTemplate = function (GetId, MobileNO) {
+            if (typeof ($scope.Template_Id) == "undefined" || $scope.Template_Id == "0") {
+                toastr.warning("Please select Template", "warning");
+                return false;
+            }
+            else {
+                angular.element('#Template_PreviewModel').modal('show');
+                $scope.PrimaryKeyId = GetId;
+                $http.post(baseUrl + '/api/SendEmail/GenerateTemplate/?Id=' + $scope.PrimaryKeyId + '&Template_Id=' + $scope.Template_Id + '&Institution_Id=' + $scope.InstitutionId + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
+                    $scope.Generated_TemplateList = data;
+                    $scope.EmailSubject = $scope.Generated_TemplateList.Email_Subject;
+                    $scope.Generated_Template = $scope.Generated_TemplateList.Email_Body;
+                    $scope.MobileNO = MobileNO;
+                });
+            }
+        }
+
         /* Get the List of User Type */
         if ($window.localStorage['UserTypeId'] == 3) {
             $http.get(baseUrl + '/api/SendEmail/Email_UserTypeList/').success(function (data) {
@@ -19753,7 +20097,7 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                 $scope.SentEmailTemplateList = data;
             });
         } else {
-             window.location.href = baseUrl + "/Home/LoginIndex"; 
+            window.location.href = baseUrl + "/Home/LoginIndex";
         }
         /* Get the list of User for Send Email */
         $scope.Get_SendEmail_UserList = function () {
@@ -19834,7 +20178,9 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                 $("#chatLoaderPV").show();
                 var msgtype = "email";
                 if ($scope.PageParameter == "2")
-                    msgtype = "notification"
+                    msgtype = "notification";
+                else if ($scope.PageParameter == "3")
+                    msgtype = "sms";
                 var msg = confirm("Do you like to send " + msgtype + " for selected users?");
                 if (msg == true) {
                     $scope.SelectedUserList = [];
@@ -19883,12 +20229,12 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
     }
 ]);
 
-MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) { 
+MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.currentTab = "1";
         $scope.Id = "0";
-        $scope.IsActive = true;
+        $scope.IsActive = 1;
         $scope.Filter_GenderId = "0";
         $scope.filter_NationalityId = "0";
         $scope.filter_EthinicGroupId = "0";
@@ -20011,7 +20357,7 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
                 //alert("Please select Period From");
                 toastr.warning("Please select Period From", "warning");
-                
+
                 return false;
             }
             //else if (isDate($scope.Period_From) == false) {
@@ -20036,20 +20382,20 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 toastr.warning("14 days only allowed to filter", "warning");
                 return false;
             }
-            if ((ParseDate($scope.Period_From) < ParseDate(today))) {
-                //alert("FromDate Can Be Booked Only For Past");
-                toastr.warning("FromDate Can Be Booked Only For Past", "warning");
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_From);
-                return false;
-            }
-            if ((ParseDate($scope.Period_To) < ParseDate(today))) {
-                //alert("To Date Can Be Booked Only For Past");
-                toastr.warning("To Date Can Be Booked Only For Past", "warning");
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_From);
-                return false;
-            }
+            //if ((ParseDate($scope.Period_From) < ParseDate(today))) {
+            //    //alert("FromDate Can Be Booked Only For Past");
+            //    toastr.warning("FromDate Can Be Booked Only For Past", "warning");
+            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
+            //    return false;
+            //}
+            //if ((ParseDate($scope.Period_To) < ParseDate(today))) {
+            //    //alert("To Date Can Be Booked Only For Past");
+            //    toastr.warning("To Date Can Be Booked Only For Past", "warning");
+            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
+            //    return false;
+            //}
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     //alert("From Date should not be greater than To Date");
@@ -20057,7 +20403,7 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                     $scope.Period_From = DateFormatEdit($scope.Period_From);
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
                     return false;
-                } 
+                }
             }
             $scope.Period_From = DateFormatEdit($scope.Period_From);
             $scope.Period_To = DateFormatEdit($scope.Period_To);
@@ -20073,8 +20419,14 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 if ($scope.FilterValidation() == true) {
                     $("#chatLoaderPV").show();
                     $scope.Email_Stauts = "2";
+                    $scope.Period_From = document.getElementById("Period_From").value;
+                    $scope.Period_To = document.getElementById("Period_To").value;
+
+                    $scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
+                    $scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
+
                     $http.get(baseUrl + '/api/SendEmail/EmailHistory_List/?Id=' + $scope.Id + '&Period_From=' + $scope.Period_From + '&Period_To=' + $scope.Period_To + '&Email_Stauts=' + $scope.Email_Stauts
-                        + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId']
+                        + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.IsActive + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId']
                         + '&TemplateType_Id=' + $scope.PageParameter + '&Login_Session_Id=' + $scope.LoginSessionId
                     ).success(function (data) {
                         $scope.Emailemptydata = [];
@@ -20281,7 +20633,7 @@ MyCortexControllers.controller("CommonController", ['$scope', '$http', '$filter'
         }
     }
 ]);
-MyCortexControllers.controller("NotificationViewController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("NotificationViewController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage['UserTypeId'] == 5 || $window.localStorage['UserTypeId'] == 2 || $window.localStorage['UserTypeId'] == 7 || $window.localStorage['UserTypeId'] == 4 || $window.localStorage['UserTypeId'] == 6) {
             $scope.User_Id = $window.localStorage['UserId'];
@@ -20294,7 +20646,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 $scope.current_page = p
             }
             $scope.changeBackColor = [];
-            $scope.NotificationUpdate = function (index1, SendEmailId, MessageSubject, MessageContent, ReadFlag) { 
+            $scope.NotificationUpdate = function (index1, SendEmailId, MessageSubject, MessageContent, ReadFlag) {
                 $scope.changeBackColor = [];
                 angular.element('#NotificationViewModel').modal('show');
                 $scope.SendEmail_Id = SendEmailId;
@@ -20305,28 +20657,28 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                         Id: $scope.SendEmail_Id,
                     }
                     $http.post(baseUrl + '/api/SendEmail/Notification_Update/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
-                         
+
                         angular.forEach($scope.UserNotificationList_Filter, function (row, index) {
                             if (index == index1)
                                 row.ReadFlag = "2";
-                            $('#id'+index1).removeClass('tdBackColor');
-                            $('#msubj'+index1).removeClass('tdBackColor');
-                            $('#mbody'+ index1).removeClass('tdBackColor');
-                            $('#msend'+ index1).removeClass('tdBackColor');
+                            $('#id' + index1).removeClass('tdBackColor');
+                            $('#msubj' + index1).removeClass('tdBackColor');
+                            $('#mbody' + index1).removeClass('tdBackColor');
+                            $('#msend' + index1).removeClass('tdBackColor');
                             $('#viewid' + index1).removeClass('tdBackColor');
-                           
-                            
-                        });  
-                    });  
+
+
+                        });
+                    });
                     $http.get(baseUrl + '/api/SendEmail/CountNotification_Update/?User_Id=' + $scope.User_Id).success(function (data) {
-                          document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + data.NotificationUnread;
+                        document.getElementById("UnreadCountIcon").title = "Unread Notifications: " + data.NotificationUnread;
                         var NotificationCount = document.getElementById('notificationCount');
                         NotificationCount.textContent = data.NotificationUnread;
-                    }); 
-                    
+                    });
+
                 }
-               
-                
+
+
             }
             $scope.UserNotificationList = [];
             $scope.flag = 0;
@@ -20347,7 +20699,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                     var NotificationCount = document.getElementById('notificationCount');
                     NotificationCount.textContent = data.NotificationUnread;
                 });
-                
+
             }
             $scope.SelectedPatientId = $window.localStorage['UserId'];
             $scope.MyAppointmentsNotification = function () {
@@ -20727,7 +21079,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
                 }
             }
             $scope.closeNotification = function () {
-                window.location.href = baseUrl + "/Home/Index#/home"; 
+                window.location.href = baseUrl + "/Home/Index#/home";
             }
             $scope.clearAllNotification = function () {
                 if ($scope.UserNotificationList_Filter.length !== 0) {
@@ -20750,7 +21102,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
             }
             $scope.CancelModel = function () {
                 angular.element('#NotificationViewModel').modal('hide');
-                 
+
             }
         } else {
             window.location.href = baseUrl + "/Home/LoginIndex";
@@ -20758,7 +21110,7 @@ MyCortexControllers.controller("NotificationViewController", ['$scope', '$http',
     }
 ]);
 /* Email Alert Configuration Controller*/
-MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
 
         $scope.currentTab = "1";
@@ -20784,12 +21136,12 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         $scope.Patient_Id = $window.localStorage['UserId'];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
-        
+
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
             if (typeof ($scope.Event) == "undefined" || $scope.Event == "0") {
                 //alert("Please select Event");
-                toastr.warning("Please select Event","warning");
+                toastr.warning("Please select Event", "warning");
                 return false;
             }
             else if (($scope.EmailTemplate == 0) && $scope.EmailFlag == true) {
@@ -20833,7 +21185,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
                 }
             }
-            
+
             return true;
         };
 
@@ -20846,14 +21198,14 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
         $scope.Eventselected = function () {
             $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
-                +'&status='+$scope.status).success(function (data) {
-                $scope.AlertListTemp = [];
-                $scope.AlertListTemp = data;
-                /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                $scope.AlertListTemp.splice(0, 0, obj);*/
-                $scope.AlertEvent = angular.copy($scope.AlertListTemp);
+                + '&status=' + $scope.status).success(function (data) {
+                    $scope.AlertListTemp = [];
+                    $scope.AlertListTemp = data;
+                    /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                    $scope.AlertListTemp.splice(0, 0, obj);*/
+                    $scope.AlertEvent = angular.copy($scope.AlertListTemp);
 
-            });
+                });
         };
         $scope.Eventselected();
         $scope.EventDurationUOM = "";
@@ -21122,12 +21474,12 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         $scope.AddEmailAlertPopUP = function () {
             angular.element('#EmailAlertModal').modal('show');
             $('#btnsave').attr("disabled", false);
-             $scope.status = 1;
-             //$scope.ClearPopup();
-             $('[data-id="select1"]').prop('disabled', false);
-             $scope.Eventselected();
-             
-        } 
+            $scope.status = 1;
+            //$scope.ClearPopup();
+            $('[data-id="select1"]').prop('disabled', false);
+            $scope.Eventselected();
+
+        }
 
         /* THIS IS OPENING POP WINDOW FORM VIEW */
         $scope.ViewEmailAlertPopUP = function (CatId) {
@@ -21139,12 +21491,12 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
         /* THIS IS OPENING POP WINDOW FORM EDIT */
         $scope.EditEmailAlert = function (CatId) {
-            $scope.Id = CatId; 
+            $scope.Id = CatId;
             $scope.EventClear();
             $scope.ViewEmailAlert();
             $scope.status = 0;
             $('[data-id="select1"]').prop('disabled', true);
-            $scope.Eventselected();  
+            $scope.Eventselected();
             angular.element('#EmailAlertModal').modal('show');
             $('#btnsave').attr("disabled", false);
         }
@@ -21173,7 +21525,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             $scope.EmailTempId = -1;
             $scope.EventCC = "";
             $scope.EventTo = "";
-            
+
         };
 
         /* THIS IS CLEAR POPUP FUNCTION */
@@ -21205,160 +21557,160 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         }
     }
 ]);
-MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter','toastr',
+MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         if ($window.localStorage['UserTypeId'] == 3) {
-        $scope.current_page = 1;
-        $scope.TotalPageAuditReport = 1;  
-        $scope.page_size = $window.localStorage['Pagesize'];
-        $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-        $scope.rembemberCurrentPage = function (p) {
-            $scope.current_page = p
-        }
+            $scope.current_page = 1;
+            $scope.TotalPageAuditReport = 1;
+            $scope.page_size = $window.localStorage['Pagesize'];
+            $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
+            $scope.rembemberCurrentPage = function (p) {
+                $scope.current_page = p
+            }
 
-        $scope.Reportflag = 0;
-        $scope.UserTypeId = "0";
-        $scope.UserNameId = "0";
-        $scope.Id = "0";
-        $scope.Usertype_listdata = [];
-        $scope.UserName_listdata = [];
-        $scope.ShortNameId = "";
+            $scope.Reportflag = 0;
+            $scope.UserTypeId = "0";
+            $scope.UserNameId = "0";
+            $scope.Id = "0";
+            $scope.Usertype_listdata = [];
+            $scope.UserName_listdata = [];
+            $scope.ShortNameId = "";
 
-        $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-        $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-        $scope.PeriodFromTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
-        $scope.PeriodToTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
+            $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.PeriodFromTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
+            $scope.PeriodToTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
 
-        $scope.InstituteId = $window.localStorage['InstitutionId'];
+            $scope.InstituteId = $window.localStorage['InstitutionId'];
 
-        $http.get(baseUrl + '/api/ReportDetails/TableShortName_List/').success(function (data) {
-            $scope.TableShortName_listdata = data;
-        });
-
-        /* User type details list*/
-        $http.get(baseUrl + '/api/Login/Usertypedetailslist/').success(function (data) {
-            $scope.Usertype_listdataTemp = [];
-            $scope.Usertype_listdataTemp = data;
-            var obj = { "Id": 0, "TypeName": "Select", "IsActive": 1 };
-            $scope.Usertype_listdataTemp.splice(0, 0, obj);
-            $scope.Usertype_listdata = angular.copy($scope.Usertype_listdataTemp);
-            $scope.UserTypeId = 0;
-        });
-
-        $scope.UserTypeBaseduserName = function () {
-            $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
-                $scope.UserName_listdataTemp = [];
-                $scope.UserName_listdataTemp = data;
-                var obj = { "Id": 0, "FullName": "Select", "IsActive": 1 };
-                $scope.UserName_listdataTemp.splice(0, 0, obj);
-                $scope.UserName_listdata = angular.copy($scope.UserName_listdataTemp);
-                $scope.UserNameId = 0;
-            });
-        }
-
-        $scope.ConfigCode = "REPORT_DATE_LIMIT";
-        $scope.ValidateDays = 90;
-        $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.InstituteId)
-            .success(function (data) {
-                if (data[0] != undefined) {
-                    $scope.ValidateDays = parseInt(data[0].ConfigValue);
-                }
-                else {
-                    $scope.ValidateDays = 90;
-                }
+            $http.get(baseUrl + '/api/ReportDetails/TableShortName_List/').success(function (data) {
+                $scope.TableShortName_listdata = data;
             });
 
-        $scope.patientReportValidation = function () {
-            if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
-                //alert("Please select User Type");
-                toastr.warning("Please select User Type", "warning");
-                return false;
-            }
-            else if (typeof ($scope.UserNameId) == "undefined" || $scope.UserNameId == "0") {
-                //alert("Please select User Name");
-                toastr.warning("Please select User Name", "warning");
-                return false;
-            }
-            else if ($scope.ShortNameId == "" || $scope.ShortNameId == "0") {
-                //alert("Please select Table Short Name");
-                toastr.warning("Please select Table Short Name", "warning");
-                return false;
-            }
-            //else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
-            //    alert("Please select Period To Time");
-            //    return false;
-            //}
-            //else if (typeof ($scope.PeriodToTime) == "undefined" || $scope.PeriodToTime  == "") {
-            //    alert("Please select Period To Time");
-            //    return false;
-            //}
+            /* User type details list*/
+            $http.get(baseUrl + '/api/Login/Usertypedetailslist/').success(function (data) {
+                $scope.Usertype_listdataTemp = [];
+                $scope.Usertype_listdataTemp = data;
+                var obj = { "Id": 0, "TypeName": "Select", "IsActive": 1 };
+                $scope.Usertype_listdataTemp.splice(0, 0, obj);
+                $scope.Usertype_listdata = angular.copy($scope.Usertype_listdataTemp);
+                $scope.UserTypeId = 0;
+            });
 
-            //else if (isDate($scope.Period_From) == false) {
-            //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
-            //    return false;
-            //}
-            //if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
-            //    alert("Please select Period To");
-            //    return false;
-            //}
-            //else if (isDate($scope.Period_To) == false) {
-            //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
-            //    return false;
-            //}
-            //var date1 = new Date($scope.Period_From);
-            var date1 = new Date($('#datetimepicker').val());
-            var date2 = new Date($('#datetimepicker_mask').val());	
-            var diffTime = Math.abs(date2 - date1);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays >= $scope.ValidateDays) {
-                //alert($scope.ValidateDays.toString() + " days only allowed Audit Report");
-                toastr.warning($scope.ValidateDays.toString() + " days only allowed Audit Report", "warning");
-                return false;
-            }
-            var retval = true;
-            if (($scope.Period_From != "") && ($scope.Period_To != "")) {
-                $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
-                $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
-
-                if ((ParseDate($scope.Period_From + " " + $scope.PeriodFromTime) > ParseDate($scope.Period_To + " " + $scope.PeriodToTime))) {
-                    //alert("From Date should not be greater than To Date");
-                    toastr.warning("From Date should not be greater than To Date", "warning");
-                    $scope.Period_From = DateFormatEdit($scope.Period_From);
-                    $scope.Period_To = DateFormatEdit($scope.Period_To);
-                    retval = false;
-                    return false;
-                }
-                $scope.Period_From = DateFormatEdit($scope.Period_From);
-                $scope.Period_To = DateFormatEdit($scope.Period_To);
-            }
-
-            return retval;
-        };
-
-        $scope.PatientReportListData = [];
-        $scope.filterReportList = function () {
-            $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchreportquery);
-            if ($scope.searchreportquery == "") {
-                $scope.PatientDetailsFilteredDataList = [];
-                $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
-
-            }
-            else {
-                $scope.PatientDetailsFilteredDataList = $ff($scope.ReportDetails_ListOrder, function (value) {
-                    return angular.lowercase(value.ShortName).match(searchstring) ||
-                        angular.lowercase(value.TableDisplayName).match(searchstring) ||
-                        angular.lowercase(value.Details).match(searchstring) ||
-                        angular.lowercase(value.ColumnOrder).match(searchstring) ||
-                        angular.lowercase(value.Action).match(searchstring) ||
-                        angular.lowercase(value.NewValue).match(searchstring) ||
-                        angular.lowercase(value.OldValue == null ? "" : value.OldValue).match(searchstring) ||
-                        angular.lowercase(($filter('date')(value.ActionDateTime, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
-
-
+            $scope.UserTypeBaseduserName = function () {
+                $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
+                    $scope.UserName_listdataTemp = [];
+                    $scope.UserName_listdataTemp = data;
+                    var obj = { "Id": 0, "FullName": "Select", "IsActive": 1 };
+                    $scope.UserName_listdataTemp.splice(0, 0, obj);
+                    $scope.UserName_listdata = angular.copy($scope.UserName_listdataTemp);
+                    $scope.UserNameId = 0;
                 });
             }
-        };
+
+            $scope.ConfigCode = "REPORT_DATE_LIMIT";
+            $scope.ValidateDays = 90;
+            $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.InstituteId)
+                .success(function (data) {
+                    if (data[0] != undefined) {
+                        $scope.ValidateDays = parseInt(data[0].ConfigValue);
+                    }
+                    else {
+                        $scope.ValidateDays = 90;
+                    }
+                });
+
+            $scope.patientReportValidation = function () {
+                if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
+                    //alert("Please select User Type");
+                    toastr.warning("Please select User Type", "warning");
+                    return false;
+                }
+                else if (typeof ($scope.UserNameId) == "undefined" || $scope.UserNameId == "0") {
+                    //alert("Please select User Name");
+                    toastr.warning("Please select User Name", "warning");
+                    return false;
+                }
+                else if ($scope.ShortNameId == "" || $scope.ShortNameId == "0") {
+                    //alert("Please select Table Short Name");
+                    toastr.warning("Please select Table Short Name", "warning");
+                    return false;
+                }
+                //else if (typeof ($scope.PeriodFromTime) == "undefined" || $scope.PeriodFromTime   == "") {
+                //    alert("Please select Period To Time");
+                //    return false;
+                //}
+                //else if (typeof ($scope.PeriodToTime) == "undefined" || $scope.PeriodToTime  == "") {
+                //    alert("Please select Period To Time");
+                //    return false;
+                //}
+
+                //else if (isDate($scope.Period_From) == false) {
+                //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
+                //    return false;
+                //}
+                //if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
+                //    alert("Please select Period To");
+                //    return false;
+                //}
+                //else if (isDate($scope.Period_To) == false) {
+                //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
+                //    return false;
+                //}
+                //var date1 = new Date($scope.Period_From);
+                var date1 = new Date($('#datetimepicker').val());
+                var date2 = new Date($('#datetimepicker_mask').val());
+                var diffTime = Math.abs(date2 - date1);
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (diffDays >= $scope.ValidateDays) {
+                    //alert($scope.ValidateDays.toString() + " days only allowed Audit Report");
+                    toastr.warning($scope.ValidateDays.toString() + " days only allowed Audit Report", "warning");
+                    return false;
+                }
+                var retval = true;
+                if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+                    $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
+                    $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
+
+                    if ((ParseDate($scope.Period_From + " " + $scope.PeriodFromTime) > ParseDate($scope.Period_To + " " + $scope.PeriodToTime))) {
+                        //alert("From Date should not be greater than To Date");
+                        toastr.warning("From Date should not be greater than To Date", "warning");
+                        $scope.Period_From = DateFormatEdit($scope.Period_From);
+                        $scope.Period_To = DateFormatEdit($scope.Period_To);
+                        retval = false;
+                        return false;
+                    }
+                    $scope.Period_From = DateFormatEdit($scope.Period_From);
+                    $scope.Period_To = DateFormatEdit($scope.Period_To);
+                }
+
+                return retval;
+            };
+
+            $scope.PatientReportListData = [];
+            $scope.filterReportList = function () {
+                $scope.ResultListFiltered = [];
+                var searchstring = angular.lowercase($scope.searchreportquery);
+                if ($scope.searchreportquery == "") {
+                    $scope.PatientDetailsFilteredDataList = [];
+                    $scope.PatientDetailsFilteredDataList = angular.copy($scope.ReportDetails_ListOrder);
+
+                }
+                else {
+                    $scope.PatientDetailsFilteredDataList = $ff($scope.ReportDetails_ListOrder, function (value) {
+                        return angular.lowercase(value.ShortName).match(searchstring) ||
+                            angular.lowercase(value.TableDisplayName).match(searchstring) ||
+                            angular.lowercase(value.Details).match(searchstring) ||
+                            angular.lowercase(value.ColumnOrder).match(searchstring) ||
+                            angular.lowercase(value.Action).match(searchstring) ||
+                            angular.lowercase(value.NewValue).match(searchstring) ||
+                            angular.lowercase(value.OldValue == null ? "" : value.OldValue).match(searchstring) ||
+                            angular.lowercase(($filter('date')(value.ActionDateTime, "dd-MMM-yyyy hh:mm:ss a"))).match(searchstring);
+
+
+                    });
+                }
+            };
             $scope.Convert24to12Timeformat = function (inputTime) {
                 var outputTime = null;
                 if (inputTime != '' && inputTime != null) {
@@ -21401,8 +21753,8 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
 
             }
 
-        $scope.ReportDetailsemptydata = [];
-        $scope.ReportPatienAudit = [];
+            $scope.ReportDetailsemptydata = [];
+            $scope.ReportPatienAudit = [];
             $scope.PatientDetailsFilteredDataList = [];
             $scope.PatientReportDetailslist = function () {
                 if ($scope.patientReportValidation() == true) {
@@ -21413,39 +21765,39 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                         $scope.page_size = data1[0].ConfigValue;
                         $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                         $scope.PageEnd = $scope.current_page * $scope.page_size;
-                        
-                        
+
+
                         //var PeriodFromTime = $scope.PeriodFromTime == "" ? null : $scope.Convert12To24Timeformat($scope.PeriodFromTime);
                         //var PeriodToTime  =  $scope.PeriodToTime == "" ? null : $scope.Convert12To24Timeformat($scope.PeriodToTime);   
-                       
+
                         var periodsplitfromdate = $('#datetimepicker').val().split(' ')[0];
-                        var periodsplittodate = $('#datetimepicker_mask').val().split(' ')[0]; 
+                        var periodsplittodate = $('#datetimepicker_mask').val().split(' ')[0];
                         var PeriodFromTime = $scope.Convert24to12Timeformat($('#datetimepicker').val().split(' ')[1]);
                         var PeriodToTime = $scope.Convert24to12Timeformat($('#datetimepicker_mask').val().split(' ')[1]);
                         var fromtime2 = PeriodFromTime;
                         var totime = PeriodToTime;
 
-                         
+
                         $http.get(baseUrl + '/api/ReportDetails/PatientReportDetails_List?' +
                             'Period_From=' + moment(periodsplitfromdate).format('YYYY-MMM-DD') +
                             '&Period_To=' + moment(periodsplittodate).format('YYYY-MMM-DD') +
-                            '&PeriodFromTime=' + fromtime2+
+                            '&PeriodFromTime=' + fromtime2 +
                             '&PeriodToTime=' + totime +
                             '&ShortNameId=' + $scope.ShortNameId +
                             '&UserNameId=' + $scope.UserNameId
                             + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber='
                             + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                                 if (data.length == 0) {
-                                    $("#chatLoaderPV").hide();  
+                                    $("#chatLoaderPV").hide();
                                     $scope.TotalPageAuditReport = 1;
                                     $scope.ReportDetailsemptydata = "";
                                     if ($scope.PatientDetailsFilteredDataList.length > 0) {
 
                                     } else {
                                         $scope.Reportflag = 0;
-                                    } 
+                                    }
                                     $scope.SearchMsg = "No Data Available";
-                                } else { 
+                                } else {
                                     $scope.ReportDetails_ListOrder = [];
                                     $scope.ReportDetails_ListOrder = data;
                                     $scope.ReportDetailsCount = $scope.ReportDetails_ListOrder[0].TotalRecord;
@@ -21466,363 +21818,363 @@ MyCortexControllers.controller("PatientReportList", ['$scope', '$http', '$filter
                         $scope.error = "AN error has occured while Listing the records!" + data;
                     })
                 }
-        }
+            }
 
-           
-    }else {
-        window.location.href = baseUrl + "/Home/LoginIndex";    
-    }
+
+        } else {
+            window.location.href = baseUrl + "/Home/LoginIndex";
+        }
 
     }
 ]);
 
-MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+MyCortexControllers.controller("AppointmentSlotController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
 
         //List Page Pagination.
         if ($window.localStorage['UserTypeId'] == 3) {
-        $scope.current_page = 1;
-        $scope.page_size = $window.localStorage['Pagesize'];
-        $scope.rembemberCurrentPage = function (p) {
-            $scope.current_page = p
-        }
-        $scope.listdata = [];
-        $scope.Institution_Name = "";
-        $scope.Doctor_Id = "0";
-        $scope.Doctor_Name = "";
-        // $scope.Appoinment_Hours = "";
-        $scope.Appoinment_Minutes = "";
-        $scope.FollowUp_Appoinment = "";
-        $scope.SlotInterval = "";
-        $scope.DuplicateId = "0";
-        $scope.flag = 0;
-        $scope.IsActive = true;
-        $scope.rowCollection = [];
-        $scope.rowCollectionFilter = [];
-        $scope.Id = 0;
-        $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
-
-        $scope.AddSlot = function () {
+            $scope.current_page = 1;
+            $scope.page_size = $window.localStorage['Pagesize'];
+            $scope.rembemberCurrentPage = function (p) {
+                $scope.current_page = p
+            }
+            $scope.listdata = [];
+            $scope.Institution_Name = "";
+            $scope.Doctor_Id = "0";
+            $scope.Doctor_Name = "";
+            // $scope.Appoinment_Hours = "";
+            $scope.Appoinment_Minutes = "";
+            $scope.FollowUp_Appoinment = "";
+            $scope.SlotInterval = "";
+            $scope.DuplicateId = "0";
+            $scope.flag = 0;
+            $scope.IsActive = true;
+            $scope.rowCollection = [];
+            $scope.rowCollectionFilter = [];
             $scope.Id = 0;
-            // $scope.AppoinmentSlotClear();
-            angular.element('#AppointmentSlotModal').modal('show');
-        }
-        $scope.CancelSlot = function () {
-            angular.element('#AppointmentSlotModal').modal('hide');
-        }
+            $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
 
-        $scope.ViewAppoinmentpopup = function () {
-            angular.element('#ViewAppoinmentSlot').modal('show');
-        }
+            $scope.AddSlot = function () {
+                $scope.Id = 0;
+                // $scope.AppoinmentSlotClear();
+                angular.element('#AppointmentSlotModal').modal('show');
+            }
+            $scope.CancelSlot = function () {
+                angular.element('#AppointmentSlotModal').modal('hide');
+            }
 
-        $scope.CancelViewAppoinmentpopup = function () {
-            angular.element('#ViewAppoinmentSlot').modal('hide');
-        }
+            $scope.ViewAppoinmentpopup = function () {
+                angular.element('#ViewAppoinmentSlot').modal('show');
+            }
 
-        /* on click view, view popup opened*/
-        $scope.ViewAppoinmentSlot = function (CatId, DoctorId) {
-            $scope.AppoinmentSlotClear();
-            $scope.Id = CatId;
-            $scope.AppoinmentSlot_View(CatId, DoctorId);
-            angular.element('#ViewAppoinmentSlot').modal('show');
-        };
-        /* on click Edit, edit popup opened*/
-        $scope.EditAppoinmentSlot = function (CatId, activeFlag, DoctorId) {
-            if (activeFlag == 1) {
+            $scope.CancelViewAppoinmentpopup = function () {
+                angular.element('#ViewAppoinmentSlot').modal('hide');
+            }
+
+            /* on click view, view popup opened*/
+            $scope.ViewAppoinmentSlot = function (CatId, DoctorId) {
                 $scope.AppoinmentSlotClear();
                 $scope.Id = CatId;
                 $scope.AppoinmentSlot_View(CatId, DoctorId);
-                angular.element('#AppointmentSlotModal').modal('show');
-            }
-            else {
-                //alert("Inactive record cannot be edited");
-                toastr.info("Inactive record cannot be edited", "info");
-            }
-        };
-        /* 
-     Calling api method for the dropdown list in the html page for the fields 
-     Doctor List
-     */
-        $scope.InstituteId = $window.localStorage['InstitutionId'];
-        $scope.DoctorList = [];
-        $scope.DoctorListActive = [];
-        $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-            $scope.DoctorList = $ff(data, { IsActive: 1 });
-            $scope.DoctorListActive = data;
-        });
-
-        $scope.searchquery = "";
-        /* Filter the master list function.*/
-        $scope.filterAppoinmentSlotList = function () {
-            $scope.ResultListFiltered = [];
-            var searchstring = angular.lowercase($scope.searchquery);
-            if (searchstring == "") {
-                $scope.rowCollectionFilter = [];
-                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-            }
-            else {
-                $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-                    return angular.lowercase(value.Doctor_Name).match(searchstring) ||
-                        angular.lowercase(value.Department_Name).match(searchstring)
-
-                });
-            }
-        }
-        /* Validating the create page mandatory fields
-           checking mandatory for the follwing fields
-           InstituionName,InstitutionPrintName,Email,CountryName,StateName,LocationName,Registrationdate
-           and showing alert message when it is null.
-           */
-        $scope.AppoinmentSlotAddEdit_Validations = function () {
-            if (typeof ($scope.SelectedDoctor) == "undefined" || $scope.SelectedDoctor == "0" && $scope.Id == 0) {
-                //alert("Please select Doctor");
-                toastr.warning("Please select Doctor", "warning");
-                return false;
-            }
-            if (typeof ($scope.SelectedDoctor1) == "undefined" || $scope.SelectedDoctor1 == "0" && $scope.Id > 0) {
-                //alert("Please select Doctor");
-                toastr.warning("Please select Doctor", "warning");
-                return false;
-            }
-            //else if (typeof ($scope.Appoinment_Hours) == "undefined" || $scope.Appoinment_Hours == "") {
-            //    alert("Please enter New Appointment Hours");
-            //    return false;
-            //}
-            else if (typeof ($scope.Appoinment_Minutes) == "undefined" || $scope.Appoinment_Minutes == "") {
-                //alert("Please enter New Appointment Minutes");
-                toastr.warning("Please enter New Appointment Minutes","warning");
-                return false;
-            }
-            else if (typeof ($scope.FollowUp_Appoinment) == "undefined" || $scope.FollowUp_Appoinment == "") {
-                //alert("Please enter Followup Appointment");
-                toastr.warning("Please enter Followup Appointment", "warning");
-                return false;
-            }
-            else if (typeof ($scope.SlotInterval) == "undefined" || $scope.SlotInterval == "") {
-                //alert("Please enter Slot Interval");
-                toastr.warning("Please enter Slot Interval", "warning");
-                return false;
-            }
-            return true;
-        }
-        $('#AppointmentSlotModal').on('hide.bs.modal', function () {
-            console.log('hide');
-            //return false;
-        })
-
-        $scope.SelectedDoctorval = function (val) {
-            if ($scope.Id == 0) {
-                if (($scope.SelectedDoctor.length) == 1) {
-                    angular.forEach($scope.DoctorList, function (Selected, index) {
-                        $scope.DepartmentName = Selected.Department_Name;
-                    });
+                angular.element('#ViewAppoinmentSlot').modal('show');
+            };
+            /* on click Edit, edit popup opened*/
+            $scope.EditAppoinmentSlot = function (CatId, activeFlag, DoctorId) {
+                if (activeFlag == 1) {
+                    $scope.AppoinmentSlotClear();
+                    $scope.Id = CatId;
+                    $scope.AppoinmentSlot_View(CatId, DoctorId);
+                    angular.element('#AppointmentSlotModal').modal('show');
                 }
                 else {
-                    $scope.DepartmentName = ""
+                    //alert("Inactive record cannot be edited");
+                    toastr.info("Inactive record cannot be edited", "info");
+                }
+            };
+            /* 
+         Calling api method for the dropdown list in the html page for the fields 
+         Doctor List
+         */
+            $scope.InstituteId = $window.localStorage['InstitutionId'];
+            $scope.DoctorList = [];
+            $scope.DoctorListActive = [];
+            $http.get(baseUrl + '/api/AppoinmentSlot/Doctors_List/?Institution_Id=' + $scope.InstituteId).success(function (data) {
+                $scope.DoctorList = $ff(data, { IsActive: 1 });
+                $scope.DoctorListActive = data;
+            });
+
+            $scope.searchquery = "";
+            /* Filter the master list function.*/
+            $scope.filterAppoinmentSlotList = function () {
+                $scope.ResultListFiltered = [];
+                var searchstring = angular.lowercase($scope.searchquery);
+                if (searchstring == "") {
+                    $scope.rowCollectionFilter = [];
+                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                }
+                else {
+                    $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
+                        return angular.lowercase(value.Doctor_Name).match(searchstring) ||
+                            angular.lowercase(value.Department_Name).match(searchstring)
+
+                    });
                 }
             }
-        }
+            /* Validating the create page mandatory fields
+               checking mandatory for the follwing fields
+               InstituionName,InstitutionPrintName,Email,CountryName,StateName,LocationName,Registrationdate
+               and showing alert message when it is null.
+               */
+            $scope.AppoinmentSlotAddEdit_Validations = function () {
+                if (typeof ($scope.SelectedDoctor) == "undefined" || $scope.SelectedDoctor == "0" && $scope.Id == 0) {
+                    //alert("Please select Doctor");
+                    toastr.warning("Please select Doctor", "warning");
+                    return false;
+                }
+                if (typeof ($scope.SelectedDoctor1) == "undefined" || $scope.SelectedDoctor1 == "0" && $scope.Id > 0) {
+                    //alert("Please select Doctor");
+                    toastr.warning("Please select Doctor", "warning");
+                    return false;
+                }
+                //else if (typeof ($scope.Appoinment_Hours) == "undefined" || $scope.Appoinment_Hours == "") {
+                //    alert("Please enter New Appointment Hours");
+                //    return false;
+                //}
+                else if (typeof ($scope.Appoinment_Minutes) == "undefined" || $scope.Appoinment_Minutes == "") {
+                    //alert("Please enter New Appointment Minutes");
+                    toastr.warning("Please enter New Appointment Minutes", "warning");
+                    return false;
+                }
+                else if (typeof ($scope.FollowUp_Appoinment) == "undefined" || $scope.FollowUp_Appoinment == "") {
+                    //alert("Please enter Followup Appointment");
+                    toastr.warning("Please enter Followup Appointment", "warning");
+                    return false;
+                }
+                else if (typeof ($scope.SlotInterval) == "undefined" || $scope.SlotInterval == "") {
+                    //alert("Please enter Slot Interval");
+                    toastr.warning("Please enter Slot Interval", "warning");
+                    return false;
+                }
+                return true;
+            }
+            $('#AppointmentSlotModal').on('hide.bs.modal', function () {
+                console.log('hide');
+                //return false;
+            })
 
-        /*on click Save calling the insert update function for Appoinment Slot
-         and check the Doctor Appoinment already exist,if exist it display alert message or its 
-         calling the insert update function*/
-        $scope.AppoinmentDetails = [];
-        $scope.SelectedDoctor = [];
-        $scope.AppoinmentSlot_AddEdit = function () {
-            $scope.DoctorListDetails = [];
-            if ($scope.AppoinmentSlotAddEdit_Validations() == true) {
-                $("#chatLoaderPV").show();
+            $scope.SelectedDoctorval = function (val) {
                 if ($scope.Id == 0) {
-                    angular.forEach($scope.SelectedDoctor, function (Selected, index) {
+                    if (($scope.SelectedDoctor.length) == 1) {
+                        angular.forEach($scope.DoctorList, function (Selected, index) {
+                            $scope.DepartmentName = Selected.Department_Name;
+                        });
+                    }
+                    else {
+                        $scope.DepartmentName = ""
+                    }
+                }
+            }
 
-                        var obj = {
+            /*on click Save calling the insert update function for Appoinment Slot
+             and check the Doctor Appoinment already exist,if exist it display alert message or its 
+             calling the insert update function*/
+            $scope.AppoinmentDetails = [];
+            $scope.SelectedDoctor = [];
+            $scope.AppoinmentSlot_AddEdit = function () {
+                $scope.DoctorListDetails = [];
+                if ($scope.AppoinmentSlotAddEdit_Validations() == true) {
+                    $("#chatLoaderPV").show();
+                    if ($scope.Id == 0) {
+                        angular.forEach($scope.SelectedDoctor, function (Selected, index) {
+
+                            var obj = {
+                                Id: $scope.Id,
+                                Institution_Id: $window.localStorage['InstitutionId'],
+                                Doctor_Id: Selected,
+                                //    Appoinment_Hours:$scope.Appoinment_Hours,
+                                Appoinment_Minutes: $scope.Appoinment_Minutes,
+                                FollowUp_Appoinment: $scope.FollowUp_Appoinment,
+                                SlotInterval: $scope.SlotInterval,
+                                Created_By: $window.localStorage['UserId'],
+                                Modified_By: $window.localStorage['UserId'],
+                            };
+                            $scope.DoctorListDetails.push(obj)
+                        });
+                    }
+                    else {
+                        var obj1 = {
                             Id: $scope.Id,
                             Institution_Id: $window.localStorage['InstitutionId'],
-                            Doctor_Id: Selected,
-                            //    Appoinment_Hours:$scope.Appoinment_Hours,
+                            Doctor_Id: $scope.SelectedDoctor1,
+                            // Appoinment_Hours:$scope.Appoinment_Hours,
                             Appoinment_Minutes: $scope.Appoinment_Minutes,
                             FollowUp_Appoinment: $scope.FollowUp_Appoinment,
                             SlotInterval: $scope.SlotInterval,
                             Created_By: $window.localStorage['UserId'],
                             Modified_By: $window.localStorage['UserId'],
                         };
-                        $scope.DoctorListDetails.push(obj)
-                    });
-                }
-                else {
-                    var obj1 = {
-                        Id: $scope.Id,
-                        Institution_Id: $window.localStorage['InstitutionId'],
-                        Doctor_Id: $scope.SelectedDoctor1,
-                        // Appoinment_Hours:$scope.Appoinment_Hours,
-                        Appoinment_Minutes: $scope.Appoinment_Minutes,
-                        FollowUp_Appoinment: $scope.FollowUp_Appoinment,
-                        SlotInterval: $scope.SlotInterval,
-                        Created_By: $window.localStorage['UserId'],
-                        Modified_By: $window.localStorage['UserId'],
-                    };
-                    $scope.DoctorListDetails.push(obj1)
-                }
-
-                $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_AddEdit/', $scope.DoctorListDetails).success(function (data) {
-                    // $("#chatLoaderPV").hide();
-                    alert(data.Message);
-                    if (data.ReturnFlag == "1") {
-                        $scope.CancelSlot();
-                        $scope.AppoinmentSlotListGo();
+                        $scope.DoctorListDetails.push(obj1)
                     }
-                    $("#chatLoaderPV").hide();
-                })
-            }
-        }
 
-        $scope.AppoinmentSlotClear = function () {
-            $scope.SelectedDoctor1 = "0";
-            $scope.SelectedDoctor = "0";
-            $scope.Doctor_Id = "0";
-            //  $scope.Appoinment_Hours="";
-            $scope.Appoinment_Minutes = "";
-            $scope.FollowUp_Appoinment = "";
-            $scope.SlotInterval = "";
-            $scope.Created_By = "";
-            $scope.Modified_By = "";
-            $scope.DepartmentName = ""
-        }
-
-        /*THIS IS FOR LIST FUNCTION*/
-        $scope.AppoinmentSlotListGo = function () {
-            $("#chatLoaderPV").show();
-            $scope.emptydata = [];
-            $scope.rowCollection = [];
-            $scope.Institution_Id = "";
-
-            $scope.ISact = 1;       // default active
-            if ($scope.IsActive == true) {
-                $scope.ISact = 1  //active
-            }
-            else if ($scope.IsActive == false) {
-                $scope.ISact = -1 //all
+                    $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_AddEdit/', $scope.DoctorListDetails).success(function (data) {
+                        // $("#chatLoaderPV").hide();
+                        alert(data.Message);
+                        if (data.ReturnFlag == "1") {
+                            $scope.CancelSlot();
+                            $scope.AppoinmentSlotListGo();
+                        }
+                        $("#chatLoaderPV").hide();
+                    })
+                }
             }
 
-            $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_List/Id?=0' + '&IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+            $scope.AppoinmentSlotClear = function () {
+                $scope.SelectedDoctor1 = "0";
+                $scope.SelectedDoctor = "0";
+                $scope.Doctor_Id = "0";
+                //  $scope.Appoinment_Hours="";
+                $scope.Appoinment_Minutes = "";
+                $scope.FollowUp_Appoinment = "";
+                $scope.SlotInterval = "";
+                $scope.Created_By = "";
+                $scope.Modified_By = "";
+                $scope.DepartmentName = ""
+            }
 
+            /*THIS IS FOR LIST FUNCTION*/
+            $scope.AppoinmentSlotListGo = function () {
+                $("#chatLoaderPV").show();
                 $scope.emptydata = [];
                 $scope.rowCollection = [];
-                $scope.rowCollection = data;
-                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                if ($scope.rowCollectionFilter.length > 0) {
-                    $scope.flag = 1;
+                $scope.Institution_Id = "";
+
+                $scope.ISact = 1;       // default active
+                if ($scope.IsActive == true) {
+                    $scope.ISact = 1  //active
                 }
-                else {
-                    $scope.flag = 0;
+                else if ($scope.IsActive == false) {
+                    $scope.ISact = -1 //all
                 }
-                $("#chatLoaderPV").hide();
-            }).error(function (data) {
-                $scope.error = "AN error has occured while Listing the records!" + data;
-            })
-        };
+
+                $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_List/Id?=0' + '&IsActive=' + $scope.ISact + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+
+                    $scope.emptydata = [];
+                    $scope.rowCollection = [];
+                    $scope.rowCollection = data;
+                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                    if ($scope.rowCollectionFilter.length > 0) {
+                        $scope.flag = 1;
+                    }
+                    else {
+                        $scope.flag = 0;
+                    }
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) {
+                    $scope.error = "AN error has occured while Listing the records!" + data;
+                })
+            };
 
 
-        $scope.EditSelectedDoctor = [];
-        $scope.EditSelectedDoctorList = [];
-        $scope.CCCG_DetailsList = [];
-        /*THIS IS FOR View FUNCTION*/
-        $scope.AppoinmentSlot_View = function (Id, DoctorId) {
-            $("#chatLoaderPV").show();
             $scope.EditSelectedDoctor = [];
-            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
-                $scope.Id = $routeParams.Id;
-                $scope.DuplicatesId = $routeParams.Id;
+            $scope.EditSelectedDoctorList = [];
+            $scope.CCCG_DetailsList = [];
+            /*THIS IS FOR View FUNCTION*/
+            $scope.AppoinmentSlot_View = function (Id, DoctorId) {
+                $("#chatLoaderPV").show();
+                $scope.EditSelectedDoctor = [];
+                if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+                    $scope.Id = $routeParams.Id;
+                    $scope.DuplicatesId = $routeParams.Id;
+                }
+
+                $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_View/?Id=' + Id).success(function (data) {
+                    $scope.Id = data.Id;
+                    $scope.DuplicatesId = data.Id;
+                    $scope.Doctor_Id = data.Doctor_Id.toString();
+                    $scope.SelectedDoctor1 = $scope.Doctor_Id;
+                    $scope.DepartmentName = data.Department_Name;
+                    $scope.Doctor_Name = data.Doctor_Name;
+                    //  $scope.Appoinment_Hours = data.Appoinment_Hours;
+                    $scope.Appoinment_Minutes = data.Appoinment_Minutes;
+                    $scope.FollowUp_Appoinment = data.FollowUp_Appoinment;
+                    $scope.SlotInterval = data.SlotInterval;
+                    //$scope.EditSelectedDoctor.push(data.Doctor_Id);
+                    //$scope.SelectedDoctor = $scope.EditSelectedDoctor;
+                    //$scope.SelectedDoctorval();
+                    $("#chatLoaderPV").hide();
+                });
+
             }
 
-            $http.get(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_View/?Id=' + Id).success(function (data) {
-                $scope.Id = data.Id;
-                $scope.DuplicatesId = data.Id;
-                $scope.Doctor_Id = data.Doctor_Id.toString();
-                $scope.SelectedDoctor1 = $scope.Doctor_Id;
-                $scope.DepartmentName = data.Department_Name;
-                $scope.Doctor_Name = data.Doctor_Name;
-                //  $scope.Appoinment_Hours = data.Appoinment_Hours;
-                $scope.Appoinment_Minutes = data.Appoinment_Minutes;
-                $scope.FollowUp_Appoinment = data.FollowUp_Appoinment;
-                $scope.SlotInterval = data.SlotInterval;
-                //$scope.EditSelectedDoctor.push(data.Doctor_Id);
-                //$scope.SelectedDoctor = $scope.EditSelectedDoctor;
-                //$scope.SelectedDoctorval();
-                $("#chatLoaderPV").hide();
-            });
-
-        }
-
-        /* 
-       Calling the api method to detele the details of the Appoinment Slot 
-       for the  Appoinment Slot Id,
-       and redirected to the list page.
-       */
-        $scope.DeleteAppoinmentSlot = function (comId) {
-            $scope.Id = comId;
-            $scope.AppoinmentSlot_Delete();
-        };
-        $scope.AppoinmentSlot_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected Appoinment Slot?");
-            if (del == true) {
-
-                var obj =
-                {
-                    Id: $scope.Id,
-                    Modified_By: $window.localStorage['UserId']
-                }
-
-                //  $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).success(function (data) {
-                $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Delete/', obj).success(function (data) {
-                    alert(data.Message);
-                    $scope.AppoinmentSlotListGo();
-                }).error(function (data) {
-                    $scope.error = "AN error has occured while deleting Institution!" + data;
-                });
+            /* 
+           Calling the api method to detele the details of the Appoinment Slot 
+           for the  Appoinment Slot Id,
+           and redirected to the list page.
+           */
+            $scope.DeleteAppoinmentSlot = function (comId) {
+                $scope.Id = comId;
+                $scope.AppoinmentSlot_Delete();
             };
-        };
+            $scope.AppoinmentSlot_Delete = function () {
+                var del = confirm("Do you like to deactivate the selected Appoinment Slot?");
+                if (del == true) {
 
-        /*'Active' the Appoinment  Slot */
-        $scope.ReInsertAppoinmentSlot = function (comId, DoctorId) {
-            $scope.Id = comId;
-            $scope.ReInsertAppoinmentSlotList(DoctorId);
-        };
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
 
-        /* 
-        Calling the api method to inactived the details of the Appoinment  Slot 
-        for the  company Id,
-        and redirected to the list page.
-        */
-        $scope.ReInsertAppoinmentSlotList = function (DoctorId) {
-            $http.get(baseUrl + '/api/AppoinmentSlot/ActivateDoctorSlot_List/?Id=' + $scope.Id
-                + '&Institution_Id=' + $window.localStorage['InstitutionId']
-                + '&Doctor_Id=' + DoctorId
-            ).success(function (data) {
-                if (data.returnval == 1) {
-                    alert("Activate Doctor Appoinment Slot is already created, Please check");
-                }
-                else {
-                    var Ins = confirm("Do you like to activate the selected Appoinment Slot?");
-                    if (Ins == true) {
-                        var obj =
-                        {
-                            Id: $scope.Id,
-                            Modified_By: $window.localStorage['UserId']
-                        }
-                        $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Active/', obj).success(function (data) {
-                            alert(data.Message);
-                            $scope.AppoinmentSlotListGo();
-                        }).error(function (data) {
-                            $scope.error = "An error has occurred while ReInsertAppoinment Slot" + data;
-                        });
-                    };
-                }
-            })
+                    //  $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).success(function (data) {
+                    $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Delete/', obj).success(function (data) {
+                        alert(data.Message);
+                        $scope.AppoinmentSlotListGo();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting Institution!" + data;
+                    });
+                };
+            };
+
+            /*'Active' the Appoinment  Slot */
+            $scope.ReInsertAppoinmentSlot = function (comId, DoctorId) {
+                $scope.Id = comId;
+                $scope.ReInsertAppoinmentSlotList(DoctorId);
+            };
+
+            /* 
+            Calling the api method to inactived the details of the Appoinment  Slot 
+            for the  company Id,
+            and redirected to the list page.
+            */
+            $scope.ReInsertAppoinmentSlotList = function (DoctorId) {
+                $http.get(baseUrl + '/api/AppoinmentSlot/ActivateDoctorSlot_List/?Id=' + $scope.Id
+                    + '&Institution_Id=' + $window.localStorage['InstitutionId']
+                    + '&Doctor_Id=' + DoctorId
+                ).success(function (data) {
+                    if (data.returnval == 1) {
+                        alert("Activate Doctor Appoinment Slot is already created, Please check");
+                    }
+                    else {
+                        var Ins = confirm("Do you like to activate the selected Appoinment Slot?");
+                        if (Ins == true) {
+                            var obj =
+                            {
+                                Id: $scope.Id,
+                                Modified_By: $window.localStorage['UserId']
+                            }
+                            $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Active/', obj).success(function (data) {
+                                alert(data.Message);
+                                $scope.AppoinmentSlotListGo();
+                            }).error(function (data) {
+                                $scope.error = "An error has occurred while ReInsertAppoinment Slot" + data;
+                            });
+                        };
+                    }
+                })
+            }
+        } else {
+            window.location.href = baseUrl + "/Home/LoginIndex";
         }
-    }else {
-        window.location.href = baseUrl + "/Home/LoginIndex";
-    }
     }
 ]);
 
@@ -21922,7 +22274,7 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
 
             if ($scope.ShiftName == "") {
                 //alert("Please enter Shift");
-                toastr.warning("Please enter Shift","warning");
+                toastr.warning("Please enter Shift", "warning");
                 return false;
             }
             else if ((ParseDate($scope.ShiftFromDate) < ParseDate(today))) {
@@ -21931,14 +22283,14 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
                 $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                 $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
                 return false;
-            }  
+            }
             else if ((ParseDate($scope.ShiftToDate) < ParseDate(today))) {
                 //alert("Shift Timing ToDate Can Be Booked Only For Future");
                 toastr.warning("Shift Timing ToDate Can Be Booked Only For Future", "warning");
                 $scope.ShiftFromDate = DateFormatEdit($scope.ShiftFromDate);
                 $scope.ShiftToDate = DateFormatEdit($scope.ShiftToDate);
                 return false;
-            } 
+            }
             else if ((typeof ($scope.ShiftFromDate) != "") && (typeof ($scope.ShiftToDate) != "")) {
 
                 if (moment($scope.ShiftFromDate + " " + $scope.ShiftFromTime) > moment($scope.ShiftToDate + " " + $scope.ShiftEndTime)) {
@@ -22180,7 +22532,7 @@ MyCortexControllers.controller("SlotTimingController", ['$scope', '$http', '$rou
 
 ]);
 
-MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
 
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
@@ -22348,7 +22700,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 }
                 else if (SelectedDepartmentId != "" || $scope.SelectedDepartment.length > 1) {
                     SelectedDepartmentId = SelectedDepartmentId + Department_Id + ',';
-                    
+
                 }
             });
             if ($scope.SelectedDepartment.length != 1) {
@@ -23442,21 +23794,21 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     var y = $scope.SelectedDays[i].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime === null);
                     if (y.length === 4 && $scope.SelectedDays[i].exist == 1) {
                         //alert('Please Enter any one time slot for ' + dateName + '');
-                        toastr.warning('Please Enter any one time slot for ' + dateName + '',"warning");
+                        toastr.warning('Please Enter any one time slot for ' + dateName + '', "warning");
                         chk2 = 1;
                         break;
                     }
                     y = $scope.SelectedDays[i].TimeSlot.filter(x => x.TimeSlotFromTime !== null && x.TimeSlotToTime === null);
                     if (y.length > 0) {
                         //alert('Please Enter To time slot for ' + dateName + '');
-                        toastr.warning('Please Enter To time slot for ' + dateName + '',"warning");
+                        toastr.warning('Please Enter To time slot for ' + dateName + '', "warning");
                         chk2 = 1;
                         break;
                     }
                     y = $scope.SelectedDays[i].TimeSlot.filter(x => x.TimeSlotFromTime === null && x.TimeSlotToTime !== null);
                     if (y.length > 0) {
                         //alert('Please Enter From time slot for ' + dateName + '');
-                        toastr.warning('Please Enter From time slot for ' + dateName + '',"warning");
+                        toastr.warning('Please Enter From time slot for ' + dateName + '', "warning");
                         chk2 = 1;
                         break;
                     }
@@ -23702,7 +24054,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             }
 
             else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0" || $scope.IntervalBt == '') {
-               //alert("Please Enter Interval Time Slot");
+                //alert("Please Enter Interval Time Slot");
                 toastr.warning("Please Enter Interval Time Slot", "warning");
                 return false;
             }
@@ -23838,7 +24190,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     return false;
                 }
             });
-            
+
         }
         $scope.TimeslotClear = function () {
             $scope.TimeSlot1 = "";
@@ -24057,7 +24409,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
             if (($scope.Doctor_Id.length == 0) && $scope.Id == 0) {
                 //alert("Please select Doctor");
-                toastr.warning("Please select Doctor","warning");
+                toastr.warning("Please select Doctor", "warning");
                 return false;
             }
             if (typeof ($scope.Doctor_Id1) == "undefined" || $scope.Doctor_Id1 == "0" && $scope.Id > 0) {
@@ -24103,7 +24455,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 toastr.warning("Please select To Date", "warning");
                 return false;
             }
-            else if ((ParseDate($scope.FromDate) < ParseDate(today)))  {
+            else if ((ParseDate($scope.FromDate) < ParseDate(today))) {
                 //alert("FromDate Can Be Booked Only For Past");
                 toastr.warning("FromDate Can Be Booked Only For Past", "warning");
                 $scope.FromDate = DateFormatEdit($scope.FromDate);
@@ -24119,7 +24471,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             }
             if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
                 if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
-                   //alert("From Date should not be greater than To Date");
+                    //alert("From Date should not be greater than To Date");
                     toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.FromDate = DateFormatEdit($scope.FromDate);
                     $scope.ToDate = DateFormatEdit($scope.ToDate);
@@ -24335,7 +24687,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $("#chatLoaderPV").show();
             $scope.currentTab = "1";
             $scope.DoctorSave = false;
-           var $sel1 = $('#department');
+            var $sel1 = $('#department');
             $sel1.multiselect('disable');
             var $sel2 = $('#Specialist');
             $sel2.multiselect('disable');
@@ -24947,25 +25299,25 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     /*document.getElementById("saveDoctorShift1").disabled = false;
                     document.getElementById("saveDoctorShift2").disabled = false;
                     document.getElementById("saveDoctorShift3").disabled = false;*/
-                    }
+                }
                 //$("#chatLoaderPV").hide();
-                    if ($scope.DoctorSave == true) {
-                        var sel1 = $('#department');
-                        sel1.multiselect('disable');
-                        var sel2 = $('#Specialist');
-                        sel2.multiselect('disable');
-                        var sel3 = $('#CCCG');
-                        sel3.multiselect('enable');
-                    }
-                    if ($scope.DoctorSave == false) {
-                        $scope.ViewShiftDoctor();
-                        var sel1 = $('#department');
-                        sel1.multiselect('disable');
-                        var sel2 = $('#Specialist');
-                        sel2.multiselect('disable');
-                        var sel3 = $('#CCCG');
-                        sel3.multiselect('disable');
-                    }
+                if ($scope.DoctorSave == true) {
+                    var sel1 = $('#department');
+                    sel1.multiselect('disable');
+                    var sel2 = $('#Specialist');
+                    sel2.multiselect('disable');
+                    var sel3 = $('#CCCG');
+                    sel3.multiselect('enable');
+                }
+                if ($scope.DoctorSave == false) {
+                    $scope.ViewShiftDoctor();
+                    var sel1 = $('#department');
+                    sel1.multiselect('disable');
+                    var sel2 = $('#Specialist');
+                    sel2.multiselect('disable');
+                    var sel3 = $('#CCCG');
+                    sel3.multiselect('disable');
+                }
             })
             $("#chatLoaderPV").hide();
         };
@@ -24996,7 +25348,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     else if (data.ReturnFlag == 0) {
                         toastr.info(data.Message, "info");
                     }
-                    
+
                     $scope.DoctorShiftListGo();
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
@@ -25044,53 +25396,53 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 }
             })
             $("#chatLoaderPV").hide();
-        } 
+        }
 
         //Appointment Settings 
-        
-            $scope.NewAppointment = "0";
-            $scope.followup = "0";
-            $scope.IntervalBt = "0";
-            $scope.CustomSlot = "0";
-            $scope.Days = "0";
-            $scope.AppointmentDay = "";
-            $scope.Minutes = "0";
-            $scope.TimeZoneList = [];
-            $scope.SelectedTimeZone = "";
-            $scope.sunday = true;
-            $scope.monday = true;
-            $scope.tuesday = true;
-            $scope.wednesday = true;
-            $scope.thursday = true;
-            $scope.friday = true;
-            $scope.saturday = true;
-            $scope.SelectDefHoliday = "0"; 
-            $scope.cc = "1";
-            $scope.cg = "1";
-            $scope.cl = "1";
-            $scope.sc = "1";
-            $scope.userpatient = "1";
-            $scope.DayLists = [];
-            $scope.HourLists = [];
-            $scope.MinuteLists = [];
-            $scope.SelectedDay = [];
-            $scope.SelectedMinute = [];
-            $scope.SelectedHour = [];
-            $scope.DefaultWorkingDays = []; 
-            $scope.SelectedDefaultholidayday = [];
-            $scope.SelectedDefaultholidayhour = [];
-            $scope.SelectedDefaultholidayMinute = [];
-            $scope.DefaultHolidayList = [];
-            $scope.DayLists = [];
-            $scope.HourLists = [];
-            $scope.MinuteLists = [];
-            $scope.BookEnable = "1";
-            $scope.confirmBook = "1";
-            $scope.AutoEnable = "1";
-            $scope.AppointmentId = "";
-            $scope.MyAppointmentRow = "-1";
-            
-            
+
+        $scope.NewAppointment = "0";
+        $scope.followup = "0";
+        $scope.IntervalBt = "0";
+        $scope.CustomSlot = "0";
+        $scope.Days = "0";
+        $scope.AppointmentDay = "";
+        $scope.Minutes = "0";
+        $scope.TimeZoneList = [];
+        $scope.SelectedTimeZone = "";
+        $scope.sunday = true;
+        $scope.monday = true;
+        $scope.tuesday = true;
+        $scope.wednesday = true;
+        $scope.thursday = true;
+        $scope.friday = true;
+        $scope.saturday = true;
+        $scope.SelectDefHoliday = "0";
+        $scope.cc = "1";
+        $scope.cg = "1";
+        $scope.cl = "1";
+        $scope.sc = "1";
+        $scope.userpatient = "1";
+        $scope.DayLists = [];
+        $scope.HourLists = [];
+        $scope.MinuteLists = [];
+        $scope.SelectedDay = [];
+        $scope.SelectedMinute = [];
+        $scope.SelectedHour = [];
+        $scope.DefaultWorkingDays = [];
+        $scope.SelectedDefaultholidayday = [];
+        $scope.SelectedDefaultholidayhour = [];
+        $scope.SelectedDefaultholidayMinute = [];
+        $scope.DefaultHolidayList = [];
+        $scope.DayLists = [];
+        $scope.HourLists = [];
+        $scope.MinuteLists = [];
+        $scope.BookEnable = "1";
+        $scope.confirmBook = "1";
+        $scope.AutoEnable = "1";
+        $scope.AppointmentId = "";
+        $scope.MyAppointmentRow = "-1";
+
+
         $scope.AddReminderParameters = [{
             'ID': $scope.AppointmentId,
             'ReminderDays': $scope.ReminderDays,
@@ -25128,12 +25480,12 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                     //alert("AppointmentSetting  has been Reset Successfully");
                     toastr.success("AppointmentSetting  has been Reset Successfully", "success");
-                        $scope.AppointmentSettings();  
+                    $scope.AppointmentSettings();
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
                 });
             }
-             
+
         }
 
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
@@ -25175,8 +25527,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
 
         $scope.AppointmentSettings = function () {
-            $("#chatLoaderPV").show();  
-            
+            $("#chatLoaderPV").show();
+
             angular.forEach($scope.TimeZoneList, function (value, index) {
                 if (value.SelectedTimeZone == $scope.SelectedTimeZone) {
                     $scope.SelectedTimeZone = value.SelectedTimeZone;
@@ -25192,7 +25544,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 $scope.thursday = false;
                 $scope.friday = false;
                 $scope.saturday = false;
-                if (data != '' && data != null && data != undefined) { 
+                if (data != '' && data != null && data != undefined) {
                     $scope.DuplicatesId = data.ID;
                     $scope.InstitutionId = data.InstitutionId;
                     $scope.MyAppConfigId = data.MyAppConfigId;
@@ -25254,44 +25606,44 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.sc = true;
                     $scope.userpatient = true;
                 }
-                
-                
-                 
+
+
+
             });
         }
 
         $scope.AppointmentSettings1 = function () {
-            $("#chatLoaderPV").show(); 
-              
-                $scope.MyAppConfigId = "";
-                $scope.NewAppointment = "";
-                $scope.followup = "";
-                $scope.IntervalBt = "";
-                $scope.AppointmentDay = "";
-                $scope.Minutest = "";
-                $scope.SelectedTimeZone = "";
-                $scope.workingdays = "";
-                $scope.SelectedDefaultholiday = "";
-                $scope.BookEnable = "1";
-                $scope.cc = true;
-                $scope.cg = true;
-                $scope.cl = true;
-                $scope.sc = true;
-                $scope.userpatient = true;
-                $scope.confirmBook = "1";
-                $scope.sunday = true;
-                $scope.monday = true;
-                $scope.tuesday = true;
-                $scope.wednesday = true;
-                $scope.thursday = true;
-                $scope.friday = true;
-                $scope.saturday = true;
-                $scope.AddReminderParameters = [];
-                $scope.AutoEnable = "1";
+            $("#chatLoaderPV").show();
+
+            $scope.MyAppConfigId = "";
+            $scope.NewAppointment = "";
+            $scope.followup = "";
+            $scope.IntervalBt = "";
+            $scope.AppointmentDay = "";
+            $scope.Minutest = "";
+            $scope.SelectedTimeZone = "";
+            $scope.workingdays = "";
+            $scope.SelectedDefaultholiday = "";
+            $scope.BookEnable = "1";
+            $scope.cc = true;
+            $scope.cg = true;
+            $scope.cl = true;
+            $scope.sc = true;
+            $scope.userpatient = true;
+            $scope.confirmBook = "1";
+            $scope.sunday = true;
+            $scope.monday = true;
+            $scope.tuesday = true;
+            $scope.wednesday = true;
+            $scope.thursday = true;
+            $scope.friday = true;
+            $scope.saturday = true;
+            $scope.AddReminderParameters = [];
+            $scope.AutoEnable = "1";
             $scope.ReduceNumberofavailableAppointmentes = "";
             $("#chatLoaderPV").hide();
 
-             
+
         }
 
 
@@ -25324,21 +25676,21 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 toastr.warning("Please Enter Minutes", "warning");
                 return false;
             }
-             
+
             return true;
         };
 
         $scope.MyAppointment_InsertUpdate = function () {
             if ($scope.ValidationcontrolsAppointment() == true) {
-                $("#chatLoaderPV").show();  
-               
+                $("#chatLoaderPV").show();
+
                 if ($("input[name='bookenable']:checked").val() == "1") {
                     $scope.BookEnable = 1;
                 } else {
                     $scope.BookEnable = 0;
                 }
 
-                
+
                 if ($("input[name='confirm']:checked").val() == "1") {
                     $scope.confirmBook = 1;
                 } else {
@@ -25381,30 +25733,30 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     $scope.userpatient = 0;
                 }
 
-               
-                
+
+
 
                 $scope.temp = '';
                 if ($("#sunday").is(":checked") == true) {
-                    $scope.temp = 'sunday'; 
+                    $scope.temp = 'sunday';
                 }
                 if ($("#monday").is(":checked") == true) {
                     if ($scope.temp != '') {
-                        $scope.temp = $scope.temp +','+'monday';
+                        $scope.temp = $scope.temp + ',' + 'monday';
                     } else {
-                        $scope.temp = 'monday'; 
+                        $scope.temp = 'monday';
                     }
                 }
                 if ($("#tuesday").is(":checked") == true) {
                     if ($scope.temp != '') {
-                        $scope.temp = $scope.temp  + ',' + 'tuesday';
+                        $scope.temp = $scope.temp + ',' + 'tuesday';
                     } else {
                         $scope.temp = 'tuesday';
-                    } 
+                    }
                 }
                 if ($("#wednesday").is(":checked") == true) {
                     if ($scope.temp != '') {
-                        $scope.temp = $scope.temp  + ',' + 'wednesday';
+                        $scope.temp = $scope.temp + ',' + 'wednesday';
                     } else {
                         $scope.temp = 'wednesday';
                     }
@@ -25412,7 +25764,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
                 if ($("#thursday").is(":checked") == true) {
                     if ($scope.temp != '') {
-                        $scope.temp = $scope.temp  + ',' + 'thursday';
+                        $scope.temp = $scope.temp + ',' + 'thursday';
                     } else {
                         $scope.temp = 'thursday';
                     }
@@ -25420,7 +25772,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
                 if ($("#friday").is(":checked") == true) {
                     if ($scope.temp != '') {
-                        $scope.temp = $scope.temp  + ',' + 'friday';
+                        $scope.temp = $scope.temp + ',' + 'friday';
                     } else {
                         $scope.temp = 'friday';
                     }
@@ -25428,7 +25780,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
 
                 if ($("#saturday").is(":checked") == true) {
                     if ($scope.temp != '') {
-                        $scope.temp = $scope.temp  + ',' + 'saturday';
+                        $scope.temp = $scope.temp + ',' + 'saturday';
                     } else {
                         $scope.temp = 'saturday';
                     }
@@ -25436,7 +25788,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                 if ($scope.temp != '') {
                     $scope.DefaultWorkingDays = $scope.temp;
                 }
-                
+
                 angular.forEach($scope.TimeZoneList, function (value, index) {
                     if (value.TimeZoneName == $scope.SelectedTimeZone) {
                         $scope.SelectedTimeZone = value.TimeZoneName;
@@ -25458,8 +25810,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
                     IsAppointmentInHolidays: $scope.BookEnable,
                     IsCc: $scope.cc,
                     IsCg: $scope.cg,
-                    IsCl: $scope.cl, 
-                    IsSc: $scope.sc, 
+                    IsCl: $scope.cl,
+                    IsSc: $scope.sc,
                     IsPatient: $scope.userpatient,
                     IsDirectAppointment: $scope.confirmBook,
                     ReminderTimeInterval: $scope.AddReminderParameters,
@@ -25486,7 +25838,7 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
     }
 ]);
 
-MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         //  $scope.InstituteId = $window.localStorage['InstitutionId'];
         //Declaration and initialization of Scope Variables.
@@ -25534,7 +25886,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 $scope.ClearAttendancePopUp();
                 $scope.Id = CatId;
                 $scope.ViewAttendanceList();
-                if ((ParseDate($scope.Today_Date) < ParseDate($scope.AttendanceTo_Date)))  {
+                if ((ParseDate($scope.Today_Date) < ParseDate($scope.AttendanceTo_Date))) {
                     angular.element('#AttendanceAddModal').modal('show');
                 }
                 else {
@@ -25636,14 +25988,14 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                 toastr.warning("Please select To Date", "warning");
                 return false;
             }
-            else if ((ParseDate($scope.AttendanceFromDate) < ParseDate(today)))  {
+            else if ((ParseDate($scope.AttendanceFromDate) < ParseDate(today))) {
                 //alert("From Date Can Be Booked Only For Future");
                 toastr.warning("From Date Can Be Booked Only For Future", "warning");
                 $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
                 $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
-            else if ((ParseDate($scope.AttendanceToDate) < ParseDate(today)))  {
+            else if ((ParseDate($scope.AttendanceToDate) < ParseDate(today))) {
                 //alert("To Date Can Be Booked Only For Future");
                 toastr.warning("To Date Can Be Booked Only For Future", "warning");
                 $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
@@ -25672,11 +26024,11 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         $scope.AttendanceAddEdit = function () {
             $scope.DoctorAttendanceDetails = [];
             if ($scope.DoctorAttendance_InsertUpdateValidations() == true) {
-                $("#chatLoaderPV").show(); 
+                $("#chatLoaderPV").show();
                 var AttendanceFromDate = $('#datetimepickerholiday_From').val().split(' ')[0];
                 var AttendanceToDate = $('#datetimepickerholiday_To').val().split(' ')[0];
                 var AttendanceFromDateTime = $('#datetimepickerholiday_From').val().split(' ')[1];
-                var AttendanceToDateTime = $('#datetimepickerholiday_To').val().split(' ')[1]; 
+                var AttendanceToDateTime = $('#datetimepickerholiday_To').val().split(' ')[1];
                 $scope.AttendanceFromDate = AttendanceFromDate;
                 $scope.AttendanceToDate = AttendanceToDate;
                 $scope.fromtime = AttendanceFromDateTime;
@@ -26163,7 +26515,7 @@ MyCortexControllers.controller("WebConfigurationController", ['$scope', '$http',
     }
 ]);
 
-MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         $scope.IsActive = true;
         $scope.Id = 0;
@@ -26266,6 +26618,8 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
                     INSTITUTION_ID: $window.localStorage['InstitutionId'],
                     LANGUAGE_ID: parseInt($scope.selectedLanguage),
                     LANGUAGE_TEXT: $scope.LanguageText[value.ID],
+                    LANGUAGE_KEY: $scope.rowCollectionLanguageSettings[index].LANGUAGE_KEY,
+                    LANGUAGE_DEFAULT: $scope.rowCollectionLanguageSettings[index].LANGUAGE_DEFAULT
                 }
                 $('#save').attr("disabled", true);
                 $scope.LanguageSettingsDetails.push(obj);
@@ -26306,15 +26660,17 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
         }
 
         $scope.SampleLanguageExport = function () {
-            $("#language_excel_format").table2excel({
-                filename: "sample.xls"
-            });
+            var data = document.getElementById('language_excel_format');
+            var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+            XLSX.write(file, { bookType: 'xlsx', bookSST: true, type: 'base64' });
+            XLSX.writeFile(file, 'sample.xlsx');
         }
 
         $scope.LanguageExport = function () {
-            $("#language_table").table2excel({
-                filename: "Languages.xls"
-            });
+            var data = document.getElementById('language_table');
+            var file = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+            XLSX.write(file, { bookType: 'xlsx', bookSST: true, type: 'base64' });
+            XLSX.writeFile(file, 'language.xlsx');
         }
 
         $scope.SelectFile = function (file) {
@@ -26374,7 +26730,7 @@ MyCortexControllers.controller("LanguageSettingsController", ['$scope', '$http',
 ]);
 
 
-MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+MyCortexControllers.controller("GateWaySettingsController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
         $scope.IsActive = true;
         $scope.Id = 0;
@@ -26590,17 +26946,18 @@ MyCortexControllers.controller("DirectVideoCallController", ['$scope', '$http', 
             };
             var CustomType = "Join Request";
             chatService.sendCustomMessage(CustomData, CustomType);
-        }    }
+        }
+    }
 ]);
 
-MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter','toastr',
+MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', 'filterFilter', 'toastr',
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff, toastr) {
-        $scope.IsActive = true; 
+        $scope.IsActive = true;
         $scope.currentTab = "1";
         $scope.TabName = "";
         $scope.RefId = "";
         $scope.Model = "";
-        $scope.OS = ""; 
+        $scope.OS = "";
         $scope.current_page = 1;
         $scope.current_MyHomepage = 1;
         $scope.total_page = 1;
@@ -26612,8 +26969,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         $scope.DevicesListid = [];
         $scope.InstitutionLanguageList = [];
         $scope.SelectedTabUser = "0";
-        $scope.SelectedDevice = "0"; 
-        $scope.SelectedTabPIN = "0";  
+        $scope.SelectedDevice = "0";
+        $scope.SelectedTabPIN = "0";
         $scope.DevicesLists = [];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
@@ -26660,11 +27017,11 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#tabname').prop('disabled', false);
             $('#refidtab').prop('disabled', false);
             $('#modeltab').prop('disabled', false);
-            $('#ostab').prop('disabled', false); 
+            $('#ostab').prop('disabled', false);
             $('#pintab').prop('disabled', false);
             $('#Image2').prop('disabled', false);
             $('#Image2').prop('title', 'Click to Delete');
-            $('#tabdevice').prop('disabled', false); 
+            $('#tabdevice').prop('disabled', false);
             $scope.IsEdit = false;
             $scope.AddUserParameters = [{
                 'Id': 0,
@@ -26679,7 +27036,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }];
             $scope.showSave = true;
             var $sel2 = $('#tabdevice');
-            $sel2.multiselect('enable'); 
+            $sel2.multiselect('enable');
             angular.element('#TabAddModal').modal('show');
         }
         $scope.ClearPopUp = function () {
@@ -26687,29 +27044,29 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.RefId = "";
             $scope.Model = "";
             $scope.OS = "";
-            $scope.Id = "0"; 
+            $scope.Id = "0";
             $scope.SelectedDevice = "0";
             $scope.InstitutionId = "";
             $scope.CancelPopup();
-        } 
-       
+        }
+
         $scope.CancelTabPopUP = function () {
             $scope.Id = 0;
             // $scope.AppoinmentSlotClear();
             angular.element('#TabAddModal').modal('hide');
             angular.element('#TabViewModal').modal('hide');
-           
+
         }
         $scope.CancelPopup = function () {
             angular.element('#TabAddModal').modal('hide');
         }
         $scope.Cancel_MYTAB = function () {
             $scope.currentTab = "1";
-            $location.path("/Hive"); 
+            $location.path("/Hive");
             $scope.ClearPopUp();
         }
 
-        $scope.Cancel_MYTABView = function () { 
+        $scope.Cancel_MYTABView = function () {
             angular.element('#TabViewModal').modal('hide');
         }
 
@@ -26747,7 +27104,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.ISact = 0 //all
                 }
 
-                $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart +'&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                $http.get(baseUrl + '/api/MyHome/Tab_List/?IsActive=' + $scope.ISact + '&Institution_Id=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $scope.LoginSessionId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data != null && data !== undefined) {
                         $scope.emptydataTab = [];
@@ -26768,15 +27125,15 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                         }
                     }
                     $scope.total_MyHomepage = Math.ceil(($scope.TabDataCount) / ($scope.page_size));
-                   
+
 
                 }).error(function (data) {
                     $scope.error = "AN error has occured while Listing the records!" + data;
                 })
             })
-              
+
         }
-    
+
         $scope.searchquery = "";
         /* FILTER THE  MyHome  LIST FUNCTION.*/
         $scope.filterTabList = function () {
@@ -26790,7 +27147,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     return angular.lowercase(value.RefId).match(searchstring) ||
                         angular.lowercase(value.TabName).match(searchstring) ||
                         angular.lowercase(value.OS).match(searchstring) ||
-                        angular.lowercase(value.Model).match(searchstring) 
+                        angular.lowercase(value.Model).match(searchstring)
                 });
                 $scope.total_MyHomepage = Math.ceil(($scope.rowCollectionTabFilter) / ($scope.page_size));
             }
@@ -26803,24 +27160,24 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#tabname').prop('disabled', true);
             $('#refidtab').prop('disabled', true);
             $('#modeltab').prop('disabled', true);
-            $('#ostab').prop('disabled', true); 
+            $('#ostab').prop('disabled', true);
             $('#pintab').prop('disabled', true);
             $('#Image2').prop('disabled', true);
             $('#Image2').prop('title', 'Disable the Delete Icon');
-            $('#tabdevice').prop('disabled', true); 
-            $('#tabdevice3').prop('disabled', true); 
+            $('#tabdevice').prop('disabled', true);
+            $('#tabdevice3').prop('disabled', true);
             $('#MyHomeUserList *').attr('disabled', 'disabled');
             $("#MyHomeUserTable *").attr("disabled", "disabled").off('click');
             $("#MyHomeDeviceTable *").attr("disabled", "disabled").off('click');
-            $('.myhomedropdown *').attr("disabled", "disabled").off('click'); 
+            $('.myhomedropdown *').attr("disabled", "disabled").off('click');
             $scope.showSave = false;
             $scope.IsEdit = true;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('disable');
             var $sel3 = $('#tabdeviceview');
             $sel3.multiselect('disable');
-            $scope.ViewMyTab(); 
-            angular.element('#TabViewModal').modal('show'); 
+            $scope.ViewMyTab();
+            angular.element('#TabViewModal').modal('show');
         }
         /* THIS IS CANCEL VIEW POPUP FUNCTION  */
         $scope.CancelViewPopup = function () {
@@ -26828,8 +27185,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         }
 
         /* THIS IS FOR VIEW PROCEDURE */
-        $scope.ViewMyTab = function () { 
-            $("#chatLoaderPV").show(); 
+        $scope.ViewMyTab = function () {
+            $("#chatLoaderPV").show();
             $scope.SelectedDevice = [];
             $scope.EditSelectedDevice = [];
             $scope.SelectedTabUser = [];
@@ -26840,13 +27197,13 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 $scope.Id = $routeParams.Id;
                 $scope.DuplicatesId = $routeParams.Id;
             }
-            
+
             $http.get(baseUrl + '/api/MyHome/Tab_ListView/?Id=' + $scope.Id).success(function (data) {
                 $("#chatLoaderPV").hide();
                 $scope.DuplicatesId = data.Id;
                 $scope.TabName = data.TabName;
                 $scope.RefId = data.RefId;
-                $scope.Model = data.Model; 
+                $scope.Model = data.Model;
                 $scope.OS = data.OS;
                 $scope.AddUserParameters = data.UserList;
                 angular.forEach(data.UserList, function (value, index) {
@@ -26870,7 +27227,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     $scope.EditSelectedDevice.push(value.Id);
                     $scope.SelectedDevice = $scope.EditSelectedDevice;
                 });*/
-              
+
                 //$scope.UserPinValidation($scope.SelectedTabPIN);
             });
         }
@@ -26936,7 +27293,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
             $('#MyHomeUserList *').removeAttr("disabled");
-            $("#MyHomeUserTable *").removeAttr("disabled"); 
+            $("#MyHomeUserTable *").removeAttr("disabled");
             $('.myhomedropdown').removeAttr("disabled");
             $('#MyHomeDeviceList *').removeAttr("disabled");
             $("#MyHomeDeviceTable *").removeAttr("disabled");
@@ -26948,7 +27305,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.ViewMyTab();
             angular.element('#TabAddModal').modal('show');
         }
-        
+
         $scope.ErrorFunction = function () {
             //alert("Inactive record cannot be edited");
             toastr.info("Inactive record cannot be edited", "info");
@@ -26971,9 +27328,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             }*/
             return true;
         };
-         
-        
-        
+
+
+
         $scope.MyHomeRow = "-1";
         // Add row concept for Patient Vital Parameters
         $scope.AddUserParameters = [{
@@ -27006,29 +27363,65 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
         };
 
         $scope.MyHomeDelete = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete this My Home Id Details?");
-            if (del == true) {
-                var Previous_MyHomeItem = [];
-                if ($scope.Id == 0) {
-                    angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
-                        if (index != rowIndex)
-                            Previous_MyHomeItem.push(selectedPre);
-                    });
-                    $scope.AddUserParameters = Previous_MyHomeItem;
-                } else if ($scope.Id > 0) {
-                    angular.forEach($scope.AddUserParameters, function (selectedPre, index) { 
-                        if (selectedPre.ID == Delete_Id) {
-                            selectedPre.IsActive = false;
+
+            Swal.fire({
+                title: 'Do you like to delete this My Home Id Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var Previous_MyHomeItem = [];
+                    if ($scope.Id == 0) {
+                        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                            if (index != rowIndex)
+                                Previous_MyHomeItem.push(selectedPre);
+                        });
+                        $scope.AddUserParameters = Previous_MyHomeItem;
+                    } else if ($scope.Id > 0) {
+                        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+                            if (selectedPre.ID == Delete_Id) {
+                                selectedPre.IsActive = false;
+                            }
+                        });
+                        if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
+                            $scope.MyHomeflag = 1;
                         }
-                    });
-                    if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
-                        $scope.MyHomeflag = 1;
+                        else {
+                            $scope.MyHomeflag = 0;
+                        }
                     }
-                    else {
-                        $scope.MyHomeflag = 0;
-                    }
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
                 }
-            }
+            })
+
+            //var del = confirm("Do you like to delete this My Home Id Details?");
+            //if (del == true) {
+            //    var Previous_MyHomeItem = [];
+            //    if ($scope.Id == 0) {
+            //        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+            //            if (index != rowIndex)
+            //                Previous_MyHomeItem.push(selectedPre);
+            //        });
+            //        $scope.AddUserParameters = Previous_MyHomeItem;
+            //    } else if ($scope.Id > 0) {
+            //        angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
+            //            if (selectedPre.ID == Delete_Id) {
+            //                selectedPre.IsActive = false;
+            //            }
+            //        });
+            //        if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
+            //            $scope.MyHomeflag = 1;
+            //        }
+            //        else {
+            //            $scope.MyHomeflag = 0;
+            //        }
+            //    }
+            //}
         };
 
         $scope.MyDeviceRow = "-1";
@@ -27079,8 +27472,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 }
             }
         };
-        
-         
+
+
         $scope.MYTAB_InsertUpdate_validation = function () {
             var TSDuplicate = 0;
             var UserEmpty = 0;
@@ -27139,8 +27532,8 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
             return true;
         }
-      
-        $scope.MYTAB_InsertUpdate = function () { 
+
+        $scope.MYTAB_InsertUpdate = function () {
             if ($scope.Validationcontrols() == true) {
                 if ($scope.MYTAB_InsertUpdate_validation() == true) {
                     $("#chatLoaderPV").show();
@@ -27160,7 +27553,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                     });
 
                     $scope.UserDeviceDetails_List = [];
-                    angular.forEach($ff($scope.AddDeviceParameters, { IsActive: true }),  function (value, index) {
+                    angular.forEach($ff($scope.AddDeviceParameters, { IsActive: true }), function (value, index) {
                         var obj = {
                             Id: 0,
                             DeviceId: value.Id
@@ -27272,14 +27665,14 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             $scope.AllDeviceNameList = [];
             //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
             $scope.AllDevice = [
-            {
-                ID: 1,
-                DeviceTypeName: "Wearable"
-            },
-            {
-                ID: 2,
-                DeviceTypeName: "Medical Device"
-            }
+                {
+                    ID: 1,
+                    DeviceTypeName: "Wearable"
+                },
+                {
+                    ID: 2,
+                    DeviceTypeName: "Medical Device"
+                }
             ];
             //});
             $http.get(baseUrl + '/api/MyHome/DeviceName_List/?IsActive=' + 1).success(function (data1) {
@@ -27438,9 +27831,9 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
             angular.element('#DeviceAddModal').modal('hide');
         }
 
-    $scope.Device_InsertUpdate = function () {
-        if ($scope.DeviceValidationcontrols() == true) {
-            //if ($scope.Device_InsertUpdate_validation() == true) {
+        $scope.Device_InsertUpdate = function () {
+            if ($scope.DeviceValidationcontrols() == true) {
+                //if ($scope.Device_InsertUpdate_validation() == true) {
                 $("#chatLoaderPV").show();
                 //var filteredObj = $ff($scope.AddUserParameters, function (value) {
                 //    return value.ID != '';
@@ -27448,64 +27841,64 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 //var DevicesListid = $ff($scope.DevicesLists, function (value) {
                 //    return value.ID != '';
                 //});
-            //var devicetypechange = $scope.DeviceType.toString();
-            angular.forEach($scope.AllDevice, function (value, index) {
-                if (value.ID == $scope.DeviceType) {
-                    $scope.DeviceType = value.DeviceTypeName
-                }
-            });
-            angular.forEach($scope.AllDeviceNameList, function (value, index) {
-               /* if (value.ID == $scope.DeviceName) {
-                    $scope.DeviceName = value.DeviceName
-                }*/
-                if (value.DeviceId == $scope.DeviceName) {
-                    $scope.DeviceName = value.DeviceName
-                }
-            });
+                //var devicetypechange = $scope.DeviceType.toString();
+                angular.forEach($scope.AllDevice, function (value, index) {
+                    if (value.ID == $scope.DeviceType) {
+                        $scope.DeviceType = value.DeviceTypeName
+                    }
+                });
+                angular.forEach($scope.AllDeviceNameList, function (value, index) {
+                    /* if (value.ID == $scope.DeviceName) {
+                         $scope.DeviceName = value.DeviceName
+                     }*/
+                    if (value.DeviceId == $scope.DeviceName) {
+                        $scope.DeviceName = value.DeviceName
+                    }
+                });
 
-            $scope.ParameterDetails_List = [];
-            angular.forEach($scope.SelectedParamter, function (value, index) {
+                $scope.ParameterDetails_List = [];
+                angular.forEach($scope.SelectedParamter, function (value, index) {
+                    var obj = {
+                        //ID: 0,
+                        Id: value,
+                        IsActive: 1
+                    }
+                    $scope.ParameterDetails_List.push(obj);
+                });
+
                 var obj = {
-                    //ID: 0,
-                    Id: value,
-                    IsActive: 1
-                }
-                $scope.ParameterDetails_List.push(obj);
-            });
+                    ID: $scope.Id,
+                    InstitutionId: $window.localStorage['InstitutionId'],
+                    DeviceId: $scope.DeviceId,
+                    DeviceName: $scope.DeviceName,
+                    DeviceType: $scope.DeviceType,
+                    Make: $scope.DeviceMake,
+                    ModelNumber: $scope.DeviceModel,
+                    ParameterList: $scope.ParameterTypeList,
+                    SelectedDeviceParameterList: $scope.ParameterDetails_List,
+                    CreatedBy: $window.localStorage['UserId'],
+                };
+                $('#btnsave').attr("disabled", true);
+                $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
+                    $("#chatLoaderPV").hide();
+                    //alert(data.Message);
+                    if (data.ReturnFlag == 1) {
+                        toastr.success(data.Message, "success");
+                    }
+                    else if (data.ReturnFlag == 0) {
+                        toastr.info(data.Message, "info");
+                    }
+                    $('#btnsave').attr("disabled", false);
+                    $scope.DeviceList();
+                    $scope.CancelDeviceList();
 
-            var obj = {
-                ID: $scope.Id,
-                InstitutionId: $window.localStorage['InstitutionId'],
-                DeviceId: $scope.DeviceId,
-                DeviceName: $scope.DeviceName,
-                DeviceType: $scope.DeviceType,
-                Make: $scope.DeviceMake,
-                ModelNumber: $scope.DeviceModel,
-                ParameterList: $scope.ParameterTypeList,
-                SelectedDeviceParameterList: $scope.ParameterDetails_List,
-                CreatedBy: $window.localStorage['UserId'],
-            };
-            $('#btnsave').attr("disabled", true);
-            $http.post(baseUrl + '/api/MyHome/AddDeviceInsertUpdate/', obj).success(function (data) {
-                $("#chatLoaderPV").hide();
-                //alert(data.Message);
-                if (data.ReturnFlag == 1) {
-                    toastr.success(data.Message, "success");
-                }
-                else if (data.ReturnFlag == 0) {
-                    toastr.info(data.Message, "info");
-                }
-                $('#btnsave').attr("disabled", false);
-                $scope.DeviceList();
-                $scope.CancelDeviceList();
+                }).error(function (data) {
+                    $scope.error = "An error has occurred while Addeing Device" + data;
+                });
 
-            }).error(function (data) {
-                $scope.error = "An error has occurred while Addeing Device" + data;
-            });
-
-            //}
+                //}
+            }
         }
-    }
 
         /* THIS IS FOR DEVICE ADD EDIT VALIDATION CONTROL */
         $scope.DeviceValidationcontrols = function () {
@@ -27514,7 +27907,7 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
                 toastr.warning("Please enter Device Id", "warning");
                 return false;
             }
-            else if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null ) {
+            else if (typeof ($scope.DeviceName) == "undefined" || $scope.DeviceName == "" || $scope.DeviceName == null) {
                 //alert("Please Select Device Name");
                 toastr.warning("Please enter Device Id", "warning");
                 return false;
@@ -27545,6 +27938,351 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
     }
 ]);
+
+
+
+
+//MyCortexControllers.controller("SMSTemplateController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
+//    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
+//        $scope.PageParameter = $routeParams.PageParameter;
+//        $scope.Id = "0";
+//        $scope.DuplicateId = "0";
+//        $scope.flag = 0;
+//        $scope.IsActive = true;
+//        $scope.TemplateName = "";
+//        /*List Page Pagination*/
+//        $scope.listdata = [];
+//        $scope.current_page = 1;
+//        $scope.page_size = $window.localStorage['Pagesize'];
+//        $scope.rembemberCurrentPage = function (p) {
+//            $scope.current_page = p
+//        }
+//        $scope.Patient_Id = $window.localStorage['UserId'];
+//        $scope.InstituteId = $window.localStorage['InstitutionId'];
+//        $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
+//        $scope.TemplateTagList = [];
+//        if ($window.localStorage['UserTypeId'] == 3) {
+//            $http.get(baseUrl + '/api/EmailTemplate/TemplateTag_List/?Id=' + $scope.InstituteId).success(function (data) {
+//                $scope.TemplateTagList = data;
+//            });
+//        } else {
+//            window.location.href = baseUrl + "/Home/LoginIndex";
+//        }
+
+//        $scope.TemplateTagMappingList = [];
+//        $scope.TempMappinglist = function () {
+//            if ($scope.PageParameter == 1) {
+//                $scope.Type = "1"; //For Email
+//            }
+//            else if ($scope.PageParameter == 2) {
+//                $scope.Type = "2";//For Notification
+//            }
+//            $http.get(baseUrl + '/api/SMSTemplate/SMSTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+//                $scope.TemplateTagMappingList = data;
+//            });
+//        };
+
+//        /* THIS IS FOR VALIDATION CONTROL */
+//        $scope.Validationcontrols = function () {
+//            if ($scope.PageParameter == 1) {
+//                $scope.Template = (CKEDITOR.instances.editor1.getData());
+//            }
+//            if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
+//                toastr.warning("Please enter Template Name", "warning");
+//                return false;
+//            }
+
+//            else if (typeof ($scope.SMSSubject) == "undefined" || $scope.SMSSubject == "") {
+//                if ($scope.PageParameter == 1)
+//                    toastr.warning("Please enter SMS Subject", "warning");
+//                else
+//                    warning("Please enter Notification Title", "warning");
+
+//                return false;
+//            }
+//            else if (typeof ($scope.Template) == "undefined" || $scope.Template == "") {
+//                if ($scope.PageParameter == 1)
+//                    toastr.warning("Please enter SMS Template", "warning");
+//                else
+//                    toastr.warning("Please enter Notification Message", "warning");
+
+//                return false;
+//            }
+//            return true;
+//        };
+
+//        /* Array initialization */
+//        $scope.SMSTemplateTaglist = [];
+//        $scope.SMSTemplateTaglist = [{
+//            'Id': 0,
+//            'Institution_Id': 0,
+//            'SMS_TemplateId': '',
+//            'TagName': '',
+//            'Institution_Name': '',
+//            'IsActive': 0,
+//            'Created_By': ''
+//        }];
+
+//        $scope.SMSTemplateTagDetails = [];
+
+//        /* THIS IS FOR ADD/EDIT FUNCTION */
+//        $scope.SMSTemplateAddEdit = function () {
+//            if ($scope.Validationcontrols() == true) {
+
+//                var TemplateChildList = [],
+
+//                    rxp = /{([^}]+)}/g,
+
+//                    TagName = $scope.Template,
+
+//                    arr;
+//                while (arr = rxp.exec(TagName)) {
+//                    TemplateChildList.push({
+//                        'TempName': arr[1]
+//                    });
+//                }
+
+//                angular.forEach(TemplateChildList, function (value, index) {
+
+//                    angular.forEach($scope.SMSTemplateTaglist, function (Selected, index) {
+
+//                        var obj = {
+//                            Id: Selected.Id,
+//                            Institution_Id: $scope.InstituteId,
+//                            SMS_TemplateId: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
+//                            TagName: value.TempName,
+//                            IsActive: Selected.IsActive,
+//                            Created_By: $scope.Patient_Id
+//                        }
+//                        $scope.SMSTemplateTagDetails.push(obj);
+//                    });
+//                });
+
+//                var obj = {
+//                    Id: $scope.Id,
+//                    Institution_Id: $scope.InstituteId,
+//                    TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
+//                    //Type_Id: $scope.Type,
+//                    SMSSubject: $scope.SMSSubject,
+//                    SMSTemplate: $scope.Template,
+//                    ModifiedUser_Id: $scope.Patient_Id,
+//                    Created_By: $scope.Patient_Id,
+//                    SMSTemplateTagList: $scope.SMSTemplateTagDetails,
+//                    TemplateName: $scope.TemplateName
+//                }
+//                $("#chatLoaderPV").show();
+//                $('#btnsave').attr("disabled", true);
+//                $http.post(baseUrl + '/api/SMSTemplate/SMSTemplateTag_AddEdit/', obj).success(function (data) {
+//                    toastr.success(data.Message, "success");
+//                    $("#chatLoaderPV").hide();
+//                    $('#btnsave').attr("disabled", false);
+//                    if (data.ReturnFlag == 1) {
+//                        $scope.ClearPopup();
+//                        $scope.EmailTemplatelist();
+//                    }
+//                    $("#chatLoaderPV").hide();
+//                    angular.element('#SMSTemplateModal').modal('hide');
+//                })
+//            }
+//        }
+
+//        /* THIS IS FOR LIST PROCEDURE */
+//        $scope.emptydata = [];
+//        $scope.rowCollection = [];
+//        $scope.flag = 0;
+//        $scope.rowCollectionFilter = [];
+
+//        $scope.SMSTemplatelist = function () {
+//            if ($window.localStorage['UserTypeId'] == 3) {
+//                /*$("#chatLoaderPV").show();*/
+//                $scope.ISact = 1;       // default active
+
+//                if ($scope.IsActive == true) {
+//                    $scope.ISact = 1  //active
+//                }
+//                else if ($scope.IsActive == false) {
+//                    $scope.ISact = 0 //all
+//                }
+//                $http.get(baseUrl + '/api/SMSTemplate/SMSTemplateTag_List/?Id=' + $scope.InstituteId + '&IsActive=' + $scope.ISact + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
+//                    $scope.emptydata = [];
+//                    $scope.rowCollection = [];
+//                    $scope.rowCollection = data;
+//                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+//                    if ($scope.rowCollectionFilter.length > 0) {
+//                        $scope.flag = 1;
+//                    }
+//                    else {
+//                        $scope.flag = 0;
+//                    }
+//                    $("#chatLoaderPV").hide();
+//                }).error(function (data) {
+//                    $scope.error = "AN error has occured while Listing the records!" + data;
+//                })
+//            } else {
+//                window.location.href = baseUrl + "/Home/LoginIndex";
+//            }
+//        };
+
+//        $scope.searchquery = "";
+//        /* FILTER THE LIST FUNCTION.*/
+//        $scope.fliterTemplateList = function () {
+//            $scope.ResultListFiltered = [];
+//            var searchstring = angular.lowercase($scope.searchquery);
+//            if ($scope.searchquery == "") {
+//                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+//            }
+//            else {
+//                $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
+//                    return angular.lowercase(value.Institution_Name).match(searchstring) ||
+//                        angular.lowercase(value.TemplateName).match(searchstring) ||
+//                        angular.lowercase(value.EmailSubject).match(searchstring) ||
+//                        angular.lowercase(value.EmailTemplate).match(searchstring);
+//                });
+//            }
+//        }
+
+//        /* THIS IS FOR VIEW FUNCTION */
+//        $scope.ViewEmailTempalte = function () {
+//            $("#chatLoaderPV").show();
+//            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
+//                $scope.Id = $routeParams.Id;
+//                $scope.DuplicatesId = $routeParams.Id;
+//            }
+
+//            $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateDetails_View/?Id=' + $scope.Id).success(function (data) {
+
+//                $scope.DuplicatesId = data.Id;
+//                $scope.Institution_Id = data.Institution_Id;
+//                $scope.Institution_Name = data.Institution_Name;
+//                $scope.TemplateType_Id = data.TemplateType_Id;
+//                $scope.TemplateName = data.TemplateName;
+//                $scope.EmailSubject = data.EmailSubject;
+//                $scope.Template = data.EmailTemplate;
+//                $scope.Type = data.Type_Id.toString();
+//                $scope.ViewType_Name = data.Type_Name;
+//                $scope.TemplateTagMappingList = data.EmailTemplateTagList;
+//                if ($scope.TemplateType_Id == 1) {
+//                    $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
+//                }
+//                $scope.TempMappinglist();
+//                $("#chatLoaderPV").hide();
+//            });
+//        }
+
+//        $scope.DeleteEmailTempalte = function (DId) {
+//            $scope.Id = DId;
+//            $scope.EmailTempalte_Delete();
+//        };
+//        /*THIS IS FOR DELETE FUNCTION */
+//        $scope.EmailTempalte_Delete = function () {
+
+//            var del = confirm("Do you like to deactivate the selected Template?");
+//            if (del == true) {
+//                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
+//                    //alert("Template has been deactivated Successfully");
+//                    toastr.success("Template has been deactivated Successfully", "success");
+//                    $scope.EmailTemplatelist();
+//                }).error(function (data) {
+//                    $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
+//                });
+//            }
+//        };
+
+//        /* THIS IS FOR ACTIVE FUNCTION*/
+//        $scope.ActiveEmailTempalte = function (PId) {
+//            $scope.Id = PId;
+//            $scope.EmailTempalte_Active();
+//        };
+
+//        /* 
+//            Calling the api method to activate the details of Email Template
+//            matching the specified Email Template Id,
+//            and redirected to the list page.
+//           */
+//        $scope.EmailTempalte_Active = function () {
+
+//            var Ins = confirm("Do you like to activate the selected Template?");
+//            if (Ins == true) {
+//                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Active/?Id=' + $scope.Id).success(function (data) {
+//                    //alert("Selected Template has been activated successfully");
+//                    toastr.success("Selected Template has been activated successfully", "success");
+//                    $scope.EmailTemplatelist();
+//                }).error(function (data) {
+//                    $scope.error = "An error has occured while deleting ICD 1O records" + data;
+//                });
+//            }
+//        };
+
+//        $scope.Active_ErrorFunction = function () {
+//            //alert("Inactive Template cannot be edited");
+//            toastr.info("Inactive Template cannot be edited", "info");
+//        };
+
+//        /*calling Alert message for cannot edit inactive record function */
+//        $scope.ErrorFunction = function () {
+//            //alert("Inactive record cannot be edited");
+//            toastr.info("Inactive record cannot be edited", "info");
+//        }
+
+//        ///* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
+//        //$scope.AddSMSTemplatePopUP = function () {
+//        //    angular.element('#SMSTemplateModal').modal('show');
+//        //    $('#btnsave').attr("disabled", false);
+//        //    $scope.ClearPopup();
+//        //}
+
+//        /* THIS IS OPENING POP WINDOW FORM VIEW */
+//        $scope.ViewEmailTemplatePopUP = function (CatId) {
+//            $scope.Id = CatId;
+//            $scope.ViewEmailTempalte();
+//            angular.element('#EmailTemplateViewModal').modal('show');
+//        }
+
+//        /* THIS IS OPENING POP WINDOW FORM EDIT */
+//        $scope.EditEmailTemplate = function (CatId) {
+//            $scope.Id = CatId;
+//            $scope.ViewEmailTempalte();
+//            angular.element('#EmailTemplateModal').modal('show');
+//            $('#btnsave').attr("disabled", false);
+//        }
+
+//        /* THIS IS CANCEL POPUP FUNCTION */
+//        $scope.CancelPopUP = function () {
+//            angular.element('#SMSTemplateModal').modal('hide')
+//        }
+
+//        /* THIS IS CANCEL VIEW POPUP FUNCTION*/
+//        $scope.CancelViewPopup = function () {
+//            angular.element('#EmailTemplateViewModal').modal('hide')
+//        }
+
+//        /* THIS IS CLEAR POPUP FUNCTION */
+//        $scope.ClearPopup = function () {
+//            $scope.Id = "0";
+//            $scope.Institution_Id = "0";
+//            $scope.Institution_Name = "";
+//            $scope.TemplateType_Id = "0";
+//            $scope.TemplateName = "";
+//            $scope.EmailSubject = "";
+//            $scope.EmailTemplate = "";
+//            $scope.Type = "0";
+//            $scope.Template = "";
+//            if ($scope.PageParameter == 1) {
+//                $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
+//            }
+//        }
+
+//        /* THIS IS OPENING POP WINDOW FORM LIST */
+//        $scope.ListICD10PopUP = function (EmailTemplateCatId) {
+//            if ($routeParams.Id == 0) {
+//                $scope.rowCollection = [];
+//            }
+//            $scope.Id = CatId;
+//            $scope.EmailTemplateList();
+//        }
+//    }
+//]);
+
 
 angular.module("angular-bootstrap-select", [])
     .directive("selectpicker",

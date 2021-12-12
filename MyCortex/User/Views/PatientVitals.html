@@ -2986,9 +2986,9 @@
                                         </select>
                                     </td>
                                     <td style="text-align: left">
-                                        <select ng-model="ParameterId" data-live-search="true" data-selectpicker data-collection-name="ParameterMappingList"
+                                        <select ng-model="row.Units_Id" data-live-search="true" data-selectpicker data-collection-name="ParameterMappingList"
                                                 class="form-control" data-style="form-control"
-                                                ng-options="item1.Id as item1.Units_with_Group_Name for item1 in ParameterMappingList">
+                                                ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in ParameterMappingList">
                                             <option value="">Select</option>
                                         </select>
                                        <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
@@ -3521,14 +3521,14 @@
 
                                     <td>
                                         <div class="col-md-10 input-group date">
-                                            <input type="date" id="start_Date" max="2099-12-31" class="form-control" ng-model="row.StartDate" ng-init="row.StartDate=''"
+                                            <input type="date" id="start_Date" max="2099-12-31" class="form-control" ng-model="row.StartDate" 
                                                    style="width: 165px">
                                             <!--<span class="input-group-addon">
                                                 <i class="glyphicon glyphicon-th"></i>
                                             </span>-->
                                         </div>
                                         <div class="col-md-10 input-group date">
-                                            <input type="date" id="End_Date" max="2099-12-31" class="form-control" ng-model="row.EndDate" ng-init="row.EndDate=''"
+                                            <input type="date" id="End_Date" max="2099-12-31" class="form-control" ng-model="row.EndDate"
                                                    style="width: 165px">
                                             <!--<span class="input-group-addon">
                                                 <i class="glyphicon glyphicon-th"></i>

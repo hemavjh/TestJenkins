@@ -72,7 +72,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@ID", insobj.ID));
             param.Add(new DataParameter("@INSTITUTION_ID", insobj.InstitutionId));
             param.Add(new DataParameter("@TAB_NAME", insobj.TabName));
-            param.Add(new DataParameter("@REF_ID", insobj.RefId));
+            //param.Add(new DataParameter("@REF_ID", insobj.RefId));
             param.Add(new DataParameter("@MODEL", insobj.Model)); 
             param.Add(new DataParameter("@OS", insobj.OS));
             param.Add(new DataParameter("@CREATED_BY", insobj.CreatedBy));

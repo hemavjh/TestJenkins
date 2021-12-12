@@ -21,6 +21,7 @@ namespace MyCortex.Template.Models
         public int IsActive { get; set; }
         public long Created_By { get; set; }
         public string EmailId { get; set; }
+        public string MobileNO { get; set; }
         public string UserType { get; set; }
         public DateTime Send_Date { get; set; }
     }

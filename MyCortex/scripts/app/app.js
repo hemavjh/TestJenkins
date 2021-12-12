@@ -204,6 +204,18 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Admin/Views/EncryptDecrypt.html',
         controller: 'CommonController'
     }).
+    when('/SMSTemplate/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/TemplatelistSMS.html',
+        controller: 'EmailTemplateController'
+    }).
+    when('/SMSSend/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/SMSMessaging.html',
+        controller: 'SendEmailController'
+    }).
+    when('/SMSUndeliver/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/SMSUndelivered.html',
+        controller: 'EmailUndeliveredController'
+    }).
     when('/NotificationView', {
         templateUrl: baseUrl + 'Template/Views/NotificationView.html',
         controller: 'NotificationViewController'
@@ -331,7 +343,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         when('/DeviceList', {
             templateUrl: baseUrl + 'Masters/Views/DeviceList.html',
             controller: 'MyHomeController'
-        }). 
+        }).
+        when('/Admin_Userslog_List', {
+            templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Userslog.html',
+            controller: 'UsersLogController'
+        }).
     otherwise({
         redirectTo: '/Googlehome'
     });

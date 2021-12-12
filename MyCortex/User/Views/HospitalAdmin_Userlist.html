@@ -58,6 +58,42 @@
 
         });
 
+        //function departmentChange() {
+        //    var deptId = document.getElementById('Select1').value;
+        //    if (deptId != "0") {
+        //        $('#divDepartment').removeClass("ng-invalid");
+        //        $('#divDepartment').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divDepartment').removeClass("ng-valid");
+        //        $('#divDepartment').addClass("ng-invalid");
+        //    }
+        //}
+
+        //function genderChange() {
+        //    var genderId = document.getElementById('Select3').value;
+        //    if (genderId != "0") {
+        //        $('#divGender').removeClass("ng-invalid");
+        //        $('#divGender').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divGender').removeClass("ng-valid");
+        //        $('#divGender').addClass("ng-invalid");
+        //    }
+        //}
+
+        //function UserTypeChange() {
+        //    var userType = document.getElementById('Select2').value;
+        //    if (userType != "0") {
+        //        $('#divUserType').removeClass("ng-invalid");
+        //        $('#divUserType').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divUserType').removeClass("ng-valid");
+        //        $('#divUserType').addClass("ng-invalid");
+        //    }
+        //}
+
     </script>
     <script>
         $('#doclogo').click(function () {
@@ -167,9 +203,9 @@
     <li><a href="Home/Index#/PatientList/3">All Patient</a></li>
     <li><a href="Home/Index#/PatientApproval">Patient Approval</a></li>
     <li><a href="Home/Index#/Admin_UserList/3">Hospital Admin</a></li>
+    <li><a href="Home/Index#/Admin_Userslog_List">Users Log</a></li>
     <!--<li><a href="Home/Index#/PatientList">Patient</a></li>-->
 </ul>
-
 
 <h1 class="page-title">Clinical User</h1>
 
@@ -269,7 +305,6 @@
             <td style="text-align: left">
                 {{row.UserName}}
             </td>
-            le
             <td style="text-align: left" title="{{row.GroupName}}">
                 <div class="textwrap">
                     {{
@@ -375,46 +410,47 @@
 <div id="UserModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">
-                    &times;
-                </button>
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="User_InsertUpdate()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close">
+                        &times;
+                    </button>
 
-                <h4 class="modal-title">Clinical User</h4>
-            </div>
-            <div class="modal-body p-0">
+                    <h4 class="modal-title">Clinical User</h4>
+                </div>
+                <div class="modal-body p-0">
 
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <ul class="themeTabs">
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
-                                    <i class="far fa-file"></i>Basic Info
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
-                                    <i class="far fa-file-alt"></i>Additional Info
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3'">
-                                    <i class="fas fa-map-marker-alt"></i>Address Info
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4'">
-                                    <i class="fa fa-graduation-cap"></i>Qualification Info
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="themeTabs">
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
+                                        <i class="far fa-file"></i>Basic Info
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
+                                        <i class="far fa-file-alt"></i>Additional Info
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3'">
+                                        <i class="fas fa-map-marker-alt"></i>Address Info
+                                    </a>
+                                </li>
+                                <li>
+                                    <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4'">
+                                        <i class="fa fa-graduation-cap"></i>Qualification Info
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
 
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div id="Basic1" ng-init="getBase64Image()">
-                            <div>
-                                <form class="form-horizontal" role="form">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div id="Basic1" ng-init="getBase64Image()">
+                                <div>
+
 
                                     <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
                                         <div id="collapse1" class="panel-collapse">
@@ -428,13 +464,13 @@
                                                                 </sup>
                                                             </label>
                                                             <input type="text" class="form-control" id="Text1" ng-model="FirstName"
-                                                                   ng-init="FirstName=''" ng-required="true" ng-maxlength="100"
-                                                                   maxlength="100" onkeypress="ParticularSpec(event)" />
+                                                                   ng-init="FirstName=''" ng-required="true" ng-maxlength="100" name="FirstName"
+                                                                   maxlength="100" onkeypress="ParticularSpec(event)" required />
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label valign="top">Middle Name</label>
                                                             <input type="text" class="form-control" id="Text2" ng-model="MiddleName"
-                                                                   ng-init="MiddleName=''" ng-required="true" ng-maxlength="100"
+                                                                   ng-init="MiddleName=''" ng-maxlength="100"
                                                                    maxlength="100" onkeypress="ParticularSpec(event)" />
                                                         </div>
                                                         <div class="inputGroups">
@@ -465,14 +501,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList"
-                                                                    ng-required="true" ng-change="getBase64Image()">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in GenderList"
-                                                                        ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Gender_Name}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList"
+                                                                        ng-change="getBase64Image();genderChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in GenderList"
+                                                                            ng-selected="GenderId==sel.Id" value="{{sel.Id}}">
+                                                                        {{sel.Gender_Name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -484,14 +522,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" ng-model="DepartmentId" id="Select1" data-live-search="true" data-selectpicker data-collection-name="DepartmentList"
-                                                                    ng-required="true">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in DepartmentList"
-                                                                        ng-selected="DepartmentId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Department_Name}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divDepartment" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="DepartmentId" id="Select1"
+                                                                        data-live-search="true" data-selectpicker data-collection-name="DepartmentList" ng-change="departmentChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in DepartmentList"
+                                                                            value="{{sel.Id}}" ng-selected="DepartmentId==sel.Id">
+                                                                        {{sel.Department_Name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups" ng-show="Id>0">
                                                             <label>User No.</label>
@@ -530,14 +570,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
-                                                                    ng-required="true" ng-change="getBase64Image();ClearGroup()">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in UserTypeList"
-                                                                        ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.UserName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divUserType" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="UserTypeId" id="Select2" data-live-search="true" data-selectpicker data-collection-name="UserTypeList"
+                                                                        ng-change="getBase64Image();ClearGroup();UserTypeChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in UserTypeList"
+                                                                            ng-selected="UserTypeId==sel.Id" value="{{sel.Id}}">
+                                                                        {{sel.UserName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups" ng-hide="UserTypeId==7">
                                                             <label>Group</label>
@@ -621,12 +663,12 @@
                                     </div>
                                     <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <!--<div class="panel-heading containeralign">
-                                                        <h4 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#accordion"
-                                                                href="#collapse2">
-                                                                Additional Info</a>
-                                                        </h4>
-                                                    </div>-->
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion"
+                                                    href="#collapse2">
+                                                    Additional Info</a>
+                                            </h4>
+                                        </div>-->
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row">
@@ -639,7 +681,7 @@
                                                             </label>
                                                             <input type="text" class="form-control" id="Health_License"
                                                                    ng-model="Health_License" ng-init="Health_License=''"
-                                                                   maxlength="100" ng-maxlength="100">
+                                                                   maxlength="100" ng-maxlength="100" required>
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>
@@ -647,14 +689,16 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true" data-selectpicker data-collection-name="NationalityList"
-                                                                    ng-required="true">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in NationalityList"
-                                                                        ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
-                                                                    {{sel.Name}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divNationality" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5" data-live-search="true"
+                                                                        data-selectpicker data-collection-name="NationalityList" ng-change="nationalityChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in NationalityList"
+                                                                            ng-selected="NationalityId==sel.Id" value="{{sel.Id}}">
+                                                                        {{sel.Name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>Home Phone Number</label>
@@ -686,7 +730,8 @@
                                                         <div class="inputGroups">
                                                             <label for="email">DOB<sup><font class="mandatory-field">*</font></sup></label>
                                                             <!--<div class="date">-->
-                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">
+                                                            <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">-->
+                                                            <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''">
                                                             <!--</div>-->
                                                         </div>
 
@@ -725,16 +770,18 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" data-live-search="true"
-                                                                    id="countryselectpicker" data-selectpicker
-                                                                    data-collection-name="CountryNameList" ng-model="CountryId"
-                                                                    ng-change="CountryBased_StateFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in CountryNameList" ng-required="true"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.CountryName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divCountry" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" data-live-search="true"
+                                                                        id="countryselectpicker" data-selectpicker
+                                                                        data-collection-name="CountryNameList" ng-model="CountryId"
+                                                                        ng-change="CountryBased_StateFunction();countryChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in CountryNameList"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.CountryName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>
@@ -742,25 +789,25 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in LocationName_List "
-                                                                        ng-required="true" value="{{sel.Id}}">
-                                                                    {{sel.LocationName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divCity" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" id="SelectCity" ng-change="cityChange();" data-live-search="true"
+                                                                        data-selectpicker data-collection-name="LocationName_List" ng-model="CityId">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in LocationName_List"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.LocationName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="inputGroups">
 
                                                             <label>Street Address</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="Text15"
-                                                                       ng-model="Address2" ng-init="Address2=''" maxlength="50"
-                                                                       ng-maxlength="50" placeholder="">
+                                                            <input type="text" class="form-control" id="Text15"
+                                                                   ng-model="Address2" ng-init="Address2=''" maxlength="50"
+                                                                   ng-maxlength="50" placeholder="">
                                                         </div>
                                                         <div class="inputGroups">
                                                             <label>Postel/Zip Code</label>
@@ -775,16 +822,18 @@
                                                                     <font class='mandatory-field'>*</font>
                                                                 </sup>
                                                             </label>
-                                                            <select class="" data-style="form-control" id="stateselectpicker"
-                                                                    data-live-search="true" data-selectpicker
-                                                                    data-collection-name="StateName_List" ng-model="StateId"
-                                                                    ng-change="StateBased_CityFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in StateName_List" ng-required="true"
-                                                                        value="{{sel.Id}}">
-                                                                    {{sel.StateName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divState" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" id="stateselectpicker"
+                                                                        data-live-search="true" data-selectpicker
+                                                                        data-collection-name="StateName_List" ng-model="StateId"
+                                                                        ng-change="StateBased_CityFunction();stateChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in StateName_List"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.StateName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -815,7 +864,7 @@
                                                                    name="Resume" title="Click to Upload File" ng-click="CertificateUplaodSelected()"
                                                                    style="height: 0px !important" accept="application/pdf,application/excel,application/excel" />
                                                             <a href="home/GetPatient_UserDocument?Id={{Id}}" target="_blank">{{CertificateFileName}}</a>
-                                                            <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items: left!important; justify-content: flex-start;">
+                                                            <div class="uploadIconContainer theme-btn-1 mr-10" style="align-items:left!important; justify-content: flex-start;">
                                                                 <label for="EditDocument" class="uploadIconBtn" style="display:initial;" title="Click to Upload File">
                                                                     <i class="fa fa-upload" aria-hidden="true"></i>
                                                                 </label>
@@ -839,21 +888,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
 
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
-                    Save
-                </button>
-                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
-                    Cancel
-                </button>
-            </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <!--<button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="User_InsertUpdate()" title="Click to Save">
+                        Save
+                    </button>-->
+                    <button type="submit" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-click="checkTab();submitted= true;" title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -1018,12 +1071,15 @@
                                                         <span>{{Institution}}</span>
                                                     </div>
                                                     <div class="inputGroups">
-                                                        <label>Date of Birth</label>
+                                                        <label>
+Date of Birth
+                                                        </label>
                                                         <span>
                                                             {{DOB |date:"dd-MMM-yyyy"}}
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
                                                     </div>
+                                                    la
                                                     <div class="inputGroups">
                                                         <label valign="top">RowId</label>
                                                         <span id="hosadminrowid">{{Id}}</span>
@@ -1122,11 +1178,26 @@
             <div class="modal-footer" style="text-align: center;">
                 <button type="button" class="btn  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
                     Cancel
+                    bu
                 </button>
             </div>
         </div>
     </div>
+    </
+    g-
 </div>
+
+<!--<div ng-show="alertConfrimationVisible" id="alertConfrim" style="top:50%; left:50%; margin:0; transform: translate(-50%, -50%);">
+    <center>
+        <div class="alert {{alertType}} alert-dismissible" role="alert">
+            {{alertConfrimationMessage}}<br />
+            <div style="padding:10px">
+                <button type="button" id="alertbtn1" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn1Click()" ng-show="alertbtn1Show">{{btn1Text}}</button>
+                <button type="button" id="alertbtn2" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn2Click()" ng-show="alertbtn2Show">{{btn2Text}}</button>
+            </div>
+        </div>
+    </center>
+</div>-->
 <script>
     //$("#DOB").bootstrapDP({
     //    format: "dd-M-yyyy",
