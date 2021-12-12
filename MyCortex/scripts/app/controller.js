@@ -1260,6 +1260,16 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
             //$scope.InstitutiondetailsListTemp.push(obj);
             $scope.InstitutiondetailsList = angular.copy($scope.InstitutiondetailsListTemp);
             $scope.Institution_Id = $scope.serviceData.toString();
+
+            if ($scope.Institution_Id != "0") {
+                $('#divInssInstitute').removeClass("ng-invalid");
+                $('#divInssInstitute').addClass("ng-valid");
+            }
+            else {
+                $('#divInssInstitute').removeClass("ng-valid");
+                $('#divInssInstitute').addClass("ng-invalid");
+            }
+
             $scope.InstituteGetDetails();
 
         })
@@ -2112,6 +2122,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
+            $('#divInstitution').addClass("ng-invalid");
             $scope.submitted = false;
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
@@ -2462,6 +2473,19 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
                 $scope.InstitutionSubscriptionLicensecheck(3);
         }
+
+        $scope.adminInsChange = function () {
+            var ins = document.getElementById('selectpicker').value;
+            if (ins != "0") {
+                $('#divInstitution').removeClass("ng-invalid");
+                $('#divInstitution').addClass("ng-valid");
+            }
+            else {
+                $('#divInstitution').removeClass("ng-valid");
+                $('#divInstitution').addClass("ng-invalid");
+            }
+        }
+
         $scope.InstitutionSubscriptionLicensecheck = function (UserTypeId) {
             if (UserTypeId == 3) {
                 var obj = {
@@ -2650,6 +2674,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     //$scope.InstitutiondetailsListTemp.push(obj);
                     $scope.InstitutionList = angular.copy($scope.InstitutiondetailsListTemp);
                     $scope.InstitutionId = $scope.AdminFlowdata.toString();
+
+                    if ($scope.InstitutionId != "0") {
+                        $('#divInstitution').removeClass("ng-invalid");
+                        $('#divInstitution').addClass("ng-valid");
+                    }
+                    else {
+                        $('#divInstitution').removeClass("ng-valid");
+                        $('#divInstitution').addClass("ng-invalid");
+                    }
+
                 });
                 $http.get(baseUrl + '/api/Common/GenderList/').success(
                     function (data) {
@@ -3983,6 +4017,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             $scope.Id = data.Id;
                             $scope.rowId = data.Id;
                             $scope.InstitutionId = data.INSTITUTION_ID.toString();
+                            if ($scope.InstitutionId != "0") {
+                                $('#divInstitution').removeClass("ng-invalid");
+                                $('#divInstitution').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divInstitution').removeClass("ng-valid");
+                                $('#divInstitution').addClass("ng-invalid");
+                            }
+
                             $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                             $scope.FirstName = data.FirstName;
                             $scope.MiddleName = data.MiddleName;

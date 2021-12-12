@@ -145,7 +145,7 @@
                                                         data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
                                                         ng-change="InstituteGetDetails();insSubInstituteChange();">
                                                     <!--<option value="0">Select</option>-->
-                                                    <option ng-repeat="sel in InstitutiondetailsList" ng-required="true" value="{{sel.Id}}">{{sel.Name}}</option>
+                                                    <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                 </select>
                                             </div>
                                         </td>
