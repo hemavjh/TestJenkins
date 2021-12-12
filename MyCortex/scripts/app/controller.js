@@ -2906,10 +2906,13 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         };
 
         /* Read file name for the  Photo and file */
-        $scope.EditdocfileChange = function () {
+        /*$scope.Editfile=[]*/
+        $scope.EditdocfileChange = function (e) {
             if ($('#EditDocument')[0].files[0] != undefined) {
                 $scope.CertificateFileName = $('#EditDocument')[0].files[0]['name'];
             }
+            //$scope.Editfile = []
+            //$scope.Editfile.push(e.files[0])
         }
 
         /*This is for getting a file url for uploading the url into the database*/
@@ -7772,7 +7775,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                     "AppointmentToTime": $scope.AppoiToTime,
                                     "TimeZone_Id": $scope.TimeZoneID,
                                     "Appointment_Type": "1",
-                                    "ReasonForVisit": "Test",
+                                    "ReasonForVisit": document.getElementById("TextArea1").value,
                                     "Status": 1,
                                     "Created_By": $window.localStorage['UserId'],
                                     "Page_Type": 0,
@@ -7826,6 +7829,7 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                                     $("#appoint_waveLoader").hide();
                                                     $scope.files = [];
                                                     angular.element('#BookAppointmentModal').modal('hide');
+                                                    document.getElementById("TextArea1").value = "";
                                                     //document.getElementById("main-box").style = "";
                                                     //document.getElementById("box").style = "display:none";
                                                     $scope.showMainBox = true;
@@ -12868,11 +12872,13 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             if (row != undefined)
                 row.CertificateFileName = e.files[0]['name'];
         }
-
-        $scope.EditdocfileChange = function () {
+        $scope.Editfile=[]
+        $scope.EditdocfileChange = function (e) {
             if ($('#EditDocument')[0].files[0] != undefined) {
                 $scope.EditFileName = $('#EditDocument')[0].files[0]['name'];
             }
+            $scope.Editfile = []
+            $scope.Editfile.push(e.files[0])
         }
 
         /*This is for getting a file url for uploading the url into the database*/
@@ -13084,17 +13090,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
 
                 if ($('#EditDocument')[0].files[0] != undefined) {
                     CertificateFileName = $('#EditDocument')[0].files[0]['name'];
-                    imgBlob = $scope.dataURItoBlob($scope.Editresumedoc);
-                    if (itemIndexLogo == -1) {
-                        itemIndexfile = 0;
-                    }
-                    else {
-                        itemIndexfile = 1;
-                    }
+                    //imgBlob = $scope.dataURItoBlob($scope.Editresumedoc);
+                    //if (itemIndexLogo == -1) {
+                    //    itemIndexfile = 0;
+                    //}
+                    //else {
+                    //    itemIndexfile = 1;
+                    //}
                 }
-                if (itemIndexLogo != -1) {
-                    fd.append('file', imgBlob);
-                }
+                /*if (itemIndexLogo != -1) {*/
+                console.log($scope.Editfile[0])
+                fd.append('file', $scope.Editfile[0]);
+                //}
                 /*
                 calling the api method for read the file path
                 and saving the image uploaded in the local server.
