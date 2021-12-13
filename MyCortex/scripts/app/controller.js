@@ -19951,17 +19951,6 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
-
-            var date1 = new Date($scope.Period_From);
-            var date2 = new Date($scope.Period_To);
-            var diffTime = Math.abs(date2 - date1);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays >= $scope.ValidateDays) {
-                //alert($scope.ValidateDays + '  ' + "days only allowed to filter");
-                toastr.warning($scope.ValidateDays + '  ' + "days only allowed to filter", "warning");
-                return false;
-            }
-
             /*var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
@@ -19998,7 +19987,15 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                     return false;
                 }
             }
-
+            var date1 = new Date($scope.Period_From);
+            var date2 = new Date($scope.Period_To);
+            var diffTime = Math.abs(date2 - date1);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays >= $scope.ValidateDays) {
+                //alert($scope.ValidateDays + '  ' + "days only allowed to filter");
+                toastr.warning($scope.ValidateDays + '  ' + "days only allowed to filter", "warning");
+                return false;
+            }
             $scope.Period_From = DateFormatEdit($scope.Period_From);
             $scope.Period_To = DateFormatEdit($scope.Period_To);
             return retval;
@@ -20577,15 +20574,6 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
-            var date1 = new Date($scope.Period_From);
-            var date2 = new Date($scope.Period_To);
-            var diffTime = Math.abs(date2 - date1);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays >= 14) {
-                //alert("14 days only allowed to filter");
-                toastr.warning("14 days only allowed to filter", "warning");
-                return false;
-            }
             //if ((ParseDate($scope.Period_From) < ParseDate(today))) {
             //    //alert("FromDate Can Be Booked Only For Past");
             //    toastr.warning("FromDate Can Be Booked Only For Past", "warning");
@@ -20608,6 +20596,15 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
                     return false;
                 }
+            }
+            var date1 = new Date($scope.Period_From);
+            var date2 = new Date($scope.Period_To);
+            var diffTime = Math.abs(date2 - date1);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays >= 14) {
+                //alert("14 days only allowed to filter");
+                toastr.warning("14 days only allowed to filter", "warning");
+                return false;
             }
             $scope.Period_From = DateFormatEdit($scope.Period_From);
             $scope.Period_To = DateFormatEdit($scope.Period_To);
