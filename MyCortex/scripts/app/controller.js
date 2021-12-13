@@ -11560,28 +11560,28 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             if (value.Active_To == false || value.Active_To == null || value.Active_To == undefined) {
                 value.Active_To = "";
             }
-            if (value.Active_From == false || value.Active_From == null || value.Active_From == undefined) {
-                value.Active_From = "";
+            //if (value.Active_From == false || value.Active_From == null || value.Active_From == undefined) {
+            //    value.Active_From = "";
+            //}
+            if ((value.Active_From) == "" || (value.Active_From) == undefined || (value.Active_From) == null || (value.Active_From) == false) {
+                validationMsg = validationMsg + "Please select Active From Date";
+                validateflag = false;
+                return false;
             }
-                //if ((value.Active_From) == "") {
-                //    validationMsg = validationMsg + "Please select Active From Date";
-                //    validateflag = false;
-                //    return false;
-                //}
-                /*if ((value.Active_To) == "") {
-                    validationMsg = validationMsg + "Please select Active To Date";
+            /*if ((value.Active_To) == "") {
+                validationMsg = validationMsg + "Please select Active To Date";
+                validateflag = false;
+                return false;
+            }*/
+            if ((value.Active_From !== null) && (value.Active_To !== null)) {
+                if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
+                    validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
+                    value.Active_From = DateFormatEdit(value.Active_From);
+                    value.Active_To = DateFormatEdit(value.Active_To);
                     validateflag = false;
                     return false;
-                }*/
-                if ((value.Active_From !== null) && (value.Active_To !== null)) {
-                    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
-                        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
-                        value.Active_From = DateFormatEdit(value.Active_From);
-                        value.Active_To = DateFormatEdit(value.Active_To);
-                        validateflag = false;
-                        return false;
-                    }
                 }
+            }
 
             //value.Active_From = DateFormatEdit(value.Active_From);
             //value.Active_To = DateFormatEdit(value.Active_To);
