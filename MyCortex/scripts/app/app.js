@@ -5,7 +5,8 @@ var EmpApp = angular.module('EmpApp', [
     'ngSanitize',
     'ngIdle',
     'toastr',
-    'ngFileUpload'
+    'ngFileUpload',
+    'AllergyMasterList'
 ]);
 
 
