@@ -11257,11 +11257,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     value.Active_To = DateFormatEdit(value.Active_To);
                 }
 
-                if (value.Code_ID == 0 || value.Code_ID == "") {
-                    validationMsg = validationMsg + "Please select ICD Code";
-                    validateflag = false;
-                    return false;
+                if (value.Active_To == false || value.Active_To == null || value.Active_To == undefined) {
+                    value.Active_To = "";
                 }
+                if (value.Active_From == false || value.Active_From == null || value.Active_From == undefined) {
+                    value.Active_From = "";
+                }
+
+                //if (value.Code_ID == 0 || value.Code_ID == "") {
+                //    validationMsg = validationMsg + "Please select ICD Code";
+                //    validateflag = false;
+                //    return false;
+                //}
 
                 //if ((value.Active_From) == "") {
                 //    validationMsg = validationMsg + "Please select Active From Date";
@@ -11273,15 +11280,15 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                     validateflag = false;
                     return false;
                 }*/
-                //if ((value.Active_From !== null) && (value.Active_To !== null)) {
-                //    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
-                //        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
-                //        value.Active_From = DateFormatEdit(value.Active_From);
-                //        value.Active_To = DateFormatEdit(value.Active_To);
-                //        validateflag = false;
-                //        return false;
-                //    }
-                //}
+                if ((value.Active_From !== null) && (value.Active_To !== null)) {
+                    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
+                        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
+                        value.Active_From = DateFormatEdit(value.Active_From);
+                        value.Active_To = DateFormatEdit(value.Active_To);
+                        validateflag = false;
+                        return false;
+                    }
+                }
 
                 //value.Active_From = DateFormatEdit(value.Active_From);
                 //value.Active_To = DateFormatEdit(value.Active_To);
@@ -19629,7 +19636,7 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             var today = moment(new Date()).format('DD-MMM-YYYY');
             $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
             $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
-
+            
             if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
                 //alert("Please select Period From");
                 toastr.warning("Please select Period From", "warning");
@@ -19689,8 +19696,8 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     //alert("From Date should not be greater than To Date");
                     toastr.warning("From Date should not be greater than To Date", "warning");
-                    $scope.Period_From = DateFormatEdit($scope.Period_From);
-                    $scope.Period_To = DateFormatEdit($scope.Period_To);
+                    //$scope.Period_From = DateFormatEdit($scope.Period_From);
+                    //$scope.Period_To = DateFormatEdit($scope.Period_To);
                     retval = false;
                     return false;
                 }
@@ -19825,6 +19832,12 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
         $scope.EmailBody_ViewModel = function (EmailId, EmailSubject, EmailBody) {
             angular.element('#EmailBody_ViewModel').modal('show');
             $scope.EmailId = EmailId;
+            $scope.EmailSubject = EmailSubject;
+            $scope.Generated_Template = EmailBody;
+        }
+        $scope.SMSBody_ViewModel = function (MobileNO, EmailSubject, EmailBody) {
+            angular.element('#EmailBody_ViewModel').modal('show');
+            $scope.MobileNO = MobileNO;
             $scope.EmailSubject = EmailSubject;
             $scope.Generated_Template = EmailBody;
         }
@@ -20472,6 +20485,23 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             $scope.EmailId = EmailId;
         }
 
+        $scope.UndeliveredSMS_EditModel = function (EmailTemplate, MobileNO, EmailSubject, SendEmail_Id, UserId) {
+            angular.element('#EditModal').modal('show');
+            $('#btnsave').attr("disabled", false);
+            $('#send').attr("disabled", false);
+            $scope.SendEmail_Id = SendEmail_Id;
+            $scope.EmailSubject = EmailSubject;
+            $scope.Generated_Template = EmailTemplate;
+            $scope.PrimaryKeyId = UserId;
+            if ($scope.PageParameter == 2) {
+                $scope.EditEmail_Body = EmailTemplate;
+            }
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+                $scope.Generated_Template = CKEDITOR.instances.editor1.setData($scope.Generated_Template);
+            }
+            $scope.MobileNO = MobileNO;
+        }
+
         $scope.UndeliveredEmail_Edit = function () {
             $("#chatLoaderPV").show();
             $('#save').attr("disabled", true);
@@ -21060,8 +21090,12 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                 toastr.warning("Please select Web Template", "warning");
                 return false;
             }
+            else if (($scope.SMSTemplate == 0) && $scope.SMSFlag == true) {
+                toastr.warning("Please select SMS Template", "warning");
+                return false;
+            }
 
-            if (($scope.EmailFlag == false) && ($scope.AppFlag == false) && ($scope.WebFlag == false)) {
+            if (($scope.EmailFlag == false) && ($scope.AppFlag == false) && ($scope.WebFlag == false) && ($scope.SMSFlag == false)) {
                 //alert("Please select Email or App or Web for alert");
                 toastr.warning("Please select Email or App or Web for alert", "warning");
                 return false;
@@ -21096,6 +21130,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
         $scope.EmailTempalteTypeList = [];
         $scope.AppTempalteTypeList = [];
         $scope.TempalteTypeList = [];
+        $scope.SMSTempalteTypeList = [];
 
         $scope.Eventselected = function () {
             $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
@@ -21173,6 +21208,17 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
 
 
 
+        /* SMS Flag List Function*/
+        $scope.SMSselectlist = function () {
+            $scope.SMSTempId = 3;
+            $http.get(baseUrl + '/api/EmailAlertConfig/Template_List/?Institution_Id=' + $scope.InstituteId + '&TemplateType_Id=' + $scope.SMSTempId).success(function (data) {
+                $scope.SMSTempalteTypeListTemp = [];
+                $scope.SMSTempalteTypeListTemp = data;
+                $scope.SMSTempalteTypeList = angular.copy($scope.SMSTempalteTypeListTemp);
+            });
+        }
+        $scope.SMSselectlist();
+
         $scope.EmailTemplate = "0";
         $scope.AppTemplate = "0";
         $scope.WebTemplate = "0";
@@ -21187,9 +21233,11 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                     EmailFlag: $scope.EmailFlag,
                     AppFlag: $scope.AppFlag,
                     WebFlag: $scope.WebFlag,
+                    SMSFlag: $scope.SMSFlag,
                     EmailTemplate_Id: $scope.EmailTemplate == 0 ? null : $scope.EmailTemplate,
                     AppTemplate_Id: $scope.AppTemplate == 0 ? null : $scope.AppTemplate,
                     WebTemplate_Id: $scope.WebTemplate == 0 ? null : $scope.WebTemplate,
+                    SMSTemplate_Id: $scope.SMSTemplate == 0 ? null : $scope.SMSTemplate,
                     AlertDays: $scope.AlertDays,
                     ModifiedUser_Id: $scope.Patient_Id,
                     Created_By: $scope.Patient_Id
@@ -21228,8 +21276,11 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                     $scope.ISact = 1  //active
                 }
                 else if ($scope.IsActive == false) {
-                    $scope.ISact = -1 //all
+                    $scope.ISact = 0 //deactive
                 }
+                //else if ($scope.IsActive == false) {
+                //    $scope.ISact = -1 //all
+                //}
                 $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_List/?Id=' + $scope.InstituteId + '&IsActive=' + $scope.ISact).success(function (data) {
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
@@ -21287,6 +21338,7 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                 $scope.EmailFlag = data.EmailFlag;
                 $scope.AppFlag = data.AppFlag;
                 $scope.WebFlag = data.WebFlag;
+                $scope.SMSFlag = data.SMSFlag;
                 if (data.EmailTemplate_Id != null) {
                     $scope.EmailTemplate = data.EmailTemplate_Id.toString();
                     $scope.EmailTempId = 1;
@@ -21297,11 +21349,16 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
                     $scope.AppTempId = 2;
                     $scope.ViewAppTemplateName = data.AppTemplate;
                 }
-
                 if (data.WebTemplate_Id != null) {
                     $scope.WebTemplate = data.WebTemplate_Id.toString();
                     $scope.WebTempId = 2;
                     $scope.ViewWebTemplateName = data.WebTemplate;
+                }
+
+                if (data.SMSTemplate_Id != null) {
+                    $scope.SMSTemplate = data.SMSTemplate_Id.toString();
+                    $scope.SMSTempId = 3;
+                    $scope.ViewSMSTemplateName = data.SMSTemplate;
                 }
 
                 $scope.AlertDays = data.AlertDays == null ? "" : data.AlertDays;
@@ -21426,7 +21483,9 @@ MyCortexControllers.controller("EmailAlertlistController", ['$scope', '$http', '
             $scope.EmailTempId = -1;
             $scope.EventCC = "";
             $scope.EventTo = "";
-
+            $scope.SMSFlag = 0;
+            $scope.SMSTemplate = "0";
+            $scope.SMSTempId = -1;
         };
 
         /* THIS IS CLEAR POPUP FUNCTION */
@@ -27843,351 +27902,6 @@ MyCortexControllers.controller("MyHomeController", ['$scope', '$http', '$routePa
 
     }
 ]);
-
-
-
-
-//MyCortexControllers.controller("SMSTemplateController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
-//    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
-//        $scope.PageParameter = $routeParams.PageParameter;
-//        $scope.Id = "0";
-//        $scope.DuplicateId = "0";
-//        $scope.flag = 0;
-//        $scope.IsActive = true;
-//        $scope.TemplateName = "";
-//        /*List Page Pagination*/
-//        $scope.listdata = [];
-//        $scope.current_page = 1;
-//        $scope.page_size = $window.localStorage['Pagesize'];
-//        $scope.rembemberCurrentPage = function (p) {
-//            $scope.current_page = p
-//        }
-//        $scope.Patient_Id = $window.localStorage['UserId'];
-//        $scope.InstituteId = $window.localStorage['InstitutionId'];
-//        $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
-//        $scope.TemplateTagList = [];
-//        if ($window.localStorage['UserTypeId'] == 3) {
-//            $http.get(baseUrl + '/api/EmailTemplate/TemplateTag_List/?Id=' + $scope.InstituteId).success(function (data) {
-//                $scope.TemplateTagList = data;
-//            });
-//        } else {
-//            window.location.href = baseUrl + "/Home/LoginIndex";
-//        }
-
-//        $scope.TemplateTagMappingList = [];
-//        $scope.TempMappinglist = function () {
-//            if ($scope.PageParameter == 1) {
-//                $scope.Type = "1"; //For Email
-//            }
-//            else if ($scope.PageParameter == 2) {
-//                $scope.Type = "2";//For Notification
-//            }
-//            $http.get(baseUrl + '/api/SMSTemplate/SMSTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
-//                $scope.TemplateTagMappingList = data;
-//            });
-//        };
-
-//        /* THIS IS FOR VALIDATION CONTROL */
-//        $scope.Validationcontrols = function () {
-//            if ($scope.PageParameter == 1) {
-//                $scope.Template = (CKEDITOR.instances.editor1.getData());
-//            }
-//            if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
-//                toastr.warning("Please enter Template Name", "warning");
-//                return false;
-//            }
-
-//            else if (typeof ($scope.SMSSubject) == "undefined" || $scope.SMSSubject == "") {
-//                if ($scope.PageParameter == 1)
-//                    toastr.warning("Please enter SMS Subject", "warning");
-//                else
-//                    warning("Please enter Notification Title", "warning");
-
-//                return false;
-//            }
-//            else if (typeof ($scope.Template) == "undefined" || $scope.Template == "") {
-//                if ($scope.PageParameter == 1)
-//                    toastr.warning("Please enter SMS Template", "warning");
-//                else
-//                    toastr.warning("Please enter Notification Message", "warning");
-
-//                return false;
-//            }
-//            return true;
-//        };
-
-//        /* Array initialization */
-//        $scope.SMSTemplateTaglist = [];
-//        $scope.SMSTemplateTaglist = [{
-//            'Id': 0,
-//            'Institution_Id': 0,
-//            'SMS_TemplateId': '',
-//            'TagName': '',
-//            'Institution_Name': '',
-//            'IsActive': 0,
-//            'Created_By': ''
-//        }];
-
-//        $scope.SMSTemplateTagDetails = [];
-
-//        /* THIS IS FOR ADD/EDIT FUNCTION */
-//        $scope.SMSTemplateAddEdit = function () {
-//            if ($scope.Validationcontrols() == true) {
-
-//                var TemplateChildList = [],
-
-//                    rxp = /{([^}]+)}/g,
-
-//                    TagName = $scope.Template,
-
-//                    arr;
-//                while (arr = rxp.exec(TagName)) {
-//                    TemplateChildList.push({
-//                        'TempName': arr[1]
-//                    });
-//                }
-
-//                angular.forEach(TemplateChildList, function (value, index) {
-
-//                    angular.forEach($scope.SMSTemplateTaglist, function (Selected, index) {
-
-//                        var obj = {
-//                            Id: Selected.Id,
-//                            Institution_Id: $scope.InstituteId,
-//                            SMS_TemplateId: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
-//                            TagName: value.TempName,
-//                            IsActive: Selected.IsActive,
-//                            Created_By: $scope.Patient_Id
-//                        }
-//                        $scope.SMSTemplateTagDetails.push(obj);
-//                    });
-//                });
-
-//                var obj = {
-//                    Id: $scope.Id,
-//                    Institution_Id: $scope.InstituteId,
-//                    TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : '',
-//                    //Type_Id: $scope.Type,
-//                    SMSSubject: $scope.SMSSubject,
-//                    SMSTemplate: $scope.Template,
-//                    ModifiedUser_Id: $scope.Patient_Id,
-//                    Created_By: $scope.Patient_Id,
-//                    SMSTemplateTagList: $scope.SMSTemplateTagDetails,
-//                    TemplateName: $scope.TemplateName
-//                }
-//                $("#chatLoaderPV").show();
-//                $('#btnsave').attr("disabled", true);
-//                $http.post(baseUrl + '/api/SMSTemplate/SMSTemplateTag_AddEdit/', obj).success(function (data) {
-//                    toastr.success(data.Message, "success");
-//                    $("#chatLoaderPV").hide();
-//                    $('#btnsave').attr("disabled", false);
-//                    if (data.ReturnFlag == 1) {
-//                        $scope.ClearPopup();
-//                        $scope.EmailTemplatelist();
-//                    }
-//                    $("#chatLoaderPV").hide();
-//                    angular.element('#SMSTemplateModal').modal('hide');
-//                })
-//            }
-//        }
-
-//        /* THIS IS FOR LIST PROCEDURE */
-//        $scope.emptydata = [];
-//        $scope.rowCollection = [];
-//        $scope.flag = 0;
-//        $scope.rowCollectionFilter = [];
-
-//        $scope.SMSTemplatelist = function () {
-//            if ($window.localStorage['UserTypeId'] == 3) {
-//                /*$("#chatLoaderPV").show();*/
-//                $scope.ISact = 1;       // default active
-
-//                if ($scope.IsActive == true) {
-//                    $scope.ISact = 1  //active
-//                }
-//                else if ($scope.IsActive == false) {
-//                    $scope.ISact = 0 //all
-//                }
-//                $http.get(baseUrl + '/api/SMSTemplate/SMSTemplateTag_List/?Id=' + $scope.InstituteId + '&IsActive=' + $scope.ISact + '&TemplateType_Id=' + $scope.PageParameter).success(function (data) {
-//                    $scope.emptydata = [];
-//                    $scope.rowCollection = [];
-//                    $scope.rowCollection = data;
-//                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-//                    if ($scope.rowCollectionFilter.length > 0) {
-//                        $scope.flag = 1;
-//                    }
-//                    else {
-//                        $scope.flag = 0;
-//                    }
-//                    $("#chatLoaderPV").hide();
-//                }).error(function (data) {
-//                    $scope.error = "AN error has occured while Listing the records!" + data;
-//                })
-//            } else {
-//                window.location.href = baseUrl + "/Home/LoginIndex";
-//            }
-//        };
-
-//        $scope.searchquery = "";
-//        /* FILTER THE LIST FUNCTION.*/
-//        $scope.fliterTemplateList = function () {
-//            $scope.ResultListFiltered = [];
-//            var searchstring = angular.lowercase($scope.searchquery);
-//            if ($scope.searchquery == "") {
-//                $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-//            }
-//            else {
-//                $scope.rowCollectionFilter = $ff($scope.rowCollection, function (value) {
-//                    return angular.lowercase(value.Institution_Name).match(searchstring) ||
-//                        angular.lowercase(value.TemplateName).match(searchstring) ||
-//                        angular.lowercase(value.EmailSubject).match(searchstring) ||
-//                        angular.lowercase(value.EmailTemplate).match(searchstring);
-//                });
-//            }
-//        }
-
-//        /* THIS IS FOR VIEW FUNCTION */
-//        $scope.ViewEmailTempalte = function () {
-//            $("#chatLoaderPV").show();
-//            if ($routeParams.Id != undefined && $routeParams.Id > 0) {
-//                $scope.Id = $routeParams.Id;
-//                $scope.DuplicatesId = $routeParams.Id;
-//            }
-
-//            $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateDetails_View/?Id=' + $scope.Id).success(function (data) {
-
-//                $scope.DuplicatesId = data.Id;
-//                $scope.Institution_Id = data.Institution_Id;
-//                $scope.Institution_Name = data.Institution_Name;
-//                $scope.TemplateType_Id = data.TemplateType_Id;
-//                $scope.TemplateName = data.TemplateName;
-//                $scope.EmailSubject = data.EmailSubject;
-//                $scope.Template = data.EmailTemplate;
-//                $scope.Type = data.Type_Id.toString();
-//                $scope.ViewType_Name = data.Type_Name;
-//                $scope.TemplateTagMappingList = data.EmailTemplateTagList;
-//                if ($scope.TemplateType_Id == 1) {
-//                    $scope.ViewTemplate = CKEDITOR.instances.editor1.setData($scope.Template);
-//                }
-//                $scope.TempMappinglist();
-//                $("#chatLoaderPV").hide();
-//            });
-//        }
-
-//        $scope.DeleteEmailTempalte = function (DId) {
-//            $scope.Id = DId;
-//            $scope.EmailTempalte_Delete();
-//        };
-//        /*THIS IS FOR DELETE FUNCTION */
-//        $scope.EmailTempalte_Delete = function () {
-
-//            var del = confirm("Do you like to deactivate the selected Template?");
-//            if (del == true) {
-//                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
-//                    //alert("Template has been deactivated Successfully");
-//                    toastr.success("Template has been deactivated Successfully", "success");
-//                    $scope.EmailTemplatelist();
-//                }).error(function (data) {
-//                    $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
-//                });
-//            }
-//        };
-
-//        /* THIS IS FOR ACTIVE FUNCTION*/
-//        $scope.ActiveEmailTempalte = function (PId) {
-//            $scope.Id = PId;
-//            $scope.EmailTempalte_Active();
-//        };
-
-//        /* 
-//            Calling the api method to activate the details of Email Template
-//            matching the specified Email Template Id,
-//            and redirected to the list page.
-//           */
-//        $scope.EmailTempalte_Active = function () {
-
-//            var Ins = confirm("Do you like to activate the selected Template?");
-//            if (Ins == true) {
-//                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Active/?Id=' + $scope.Id).success(function (data) {
-//                    //alert("Selected Template has been activated successfully");
-//                    toastr.success("Selected Template has been activated successfully", "success");
-//                    $scope.EmailTemplatelist();
-//                }).error(function (data) {
-//                    $scope.error = "An error has occured while deleting ICD 1O records" + data;
-//                });
-//            }
-//        };
-
-//        $scope.Active_ErrorFunction = function () {
-//            //alert("Inactive Template cannot be edited");
-//            toastr.info("Inactive Template cannot be edited", "info");
-//        };
-
-//        /*calling Alert message for cannot edit inactive record function */
-//        $scope.ErrorFunction = function () {
-//            //alert("Inactive record cannot be edited");
-//            toastr.info("Inactive record cannot be edited", "info");
-//        }
-
-//        ///* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
-//        //$scope.AddSMSTemplatePopUP = function () {
-//        //    angular.element('#SMSTemplateModal').modal('show');
-//        //    $('#btnsave').attr("disabled", false);
-//        //    $scope.ClearPopup();
-//        //}
-
-//        /* THIS IS OPENING POP WINDOW FORM VIEW */
-//        $scope.ViewEmailTemplatePopUP = function (CatId) {
-//            $scope.Id = CatId;
-//            $scope.ViewEmailTempalte();
-//            angular.element('#EmailTemplateViewModal').modal('show');
-//        }
-
-//        /* THIS IS OPENING POP WINDOW FORM EDIT */
-//        $scope.EditEmailTemplate = function (CatId) {
-//            $scope.Id = CatId;
-//            $scope.ViewEmailTempalte();
-//            angular.element('#EmailTemplateModal').modal('show');
-//            $('#btnsave').attr("disabled", false);
-//        }
-
-//        /* THIS IS CANCEL POPUP FUNCTION */
-//        $scope.CancelPopUP = function () {
-//            angular.element('#SMSTemplateModal').modal('hide')
-//        }
-
-//        /* THIS IS CANCEL VIEW POPUP FUNCTION*/
-//        $scope.CancelViewPopup = function () {
-//            angular.element('#EmailTemplateViewModal').modal('hide')
-//        }
-
-//        /* THIS IS CLEAR POPUP FUNCTION */
-//        $scope.ClearPopup = function () {
-//            $scope.Id = "0";
-//            $scope.Institution_Id = "0";
-//            $scope.Institution_Name = "";
-//            $scope.TemplateType_Id = "0";
-//            $scope.TemplateName = "";
-//            $scope.EmailSubject = "";
-//            $scope.EmailTemplate = "";
-//            $scope.Type = "0";
-//            $scope.Template = "";
-//            if ($scope.PageParameter == 1) {
-//                $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
-//            }
-//        }
-
-//        /* THIS IS OPENING POP WINDOW FORM LIST */
-//        $scope.ListICD10PopUP = function (EmailTemplateCatId) {
-//            if ($routeParams.Id == 0) {
-//                $scope.rowCollection = [];
-//            }
-//            $scope.Id = CatId;
-//            $scope.EmailTemplateList();
-//        }
-//    }
-//]);
-
 
 angular.module("angular-bootstrap-select", [])
     .directive("selectpicker",

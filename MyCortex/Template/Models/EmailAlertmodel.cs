@@ -15,9 +15,11 @@ namespace MyCortex.EmailAlert.Models
         public bool EmailFlag { get; set; }
         public bool AppFlag { get; set; }
         public bool WebFlag { get; set; }
+        public bool SMSFlag { get; set; }
         public long? EmailTemplate_Id { get; set; }
         public long? AppTemplate_Id { get; set; }
         public long? WebTemplate_Id { get; set; }
+        public long? SMSTemplate_Id { get; set; }
         public decimal? AlertDays { get; set; }
         public long ModifiedUser_Id { get; set; }
         public int IsActive { get; set; }
@@ -34,6 +36,7 @@ namespace MyCortex.EmailAlert.Models
         public int Flag { get; set; }
         public string EventTo { get; set; }
         public string EventCC { get; set; }
+        public string SMSTemplate { get; set; }
         public IList<EmailAlertDetailsmodel> AlertDetails { get; set; }
     }
     public class EmailAlertmodelReturnModels
