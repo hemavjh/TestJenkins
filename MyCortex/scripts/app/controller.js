@@ -8829,6 +8829,17 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
         }
         $scope.GeneralFunction = function (ParamGroup_Id, ChartORData) {
             $("#chatLoaderPV").show();
+
+            $scope.emptydataVitalLab = [];
+
+            var currentgroupId = $scope.ParamGroup_Id;
+
+            if ($scope.emptydataVitalLab.length == '0' && currentgroupId != $scope.inputcurrentgrpid) {
+                $scope.current_page = 1;
+                $scope.inputPageNo = $scope.current_page;
+            }
+            $scope.PatientHealthCount = 1;
+
             $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.SelectedPatientId).success(function (data) {
                 $("#chatLoaderPV").hide();
                 var PatientInstituteId = data[0].Institution_Id;
@@ -8908,6 +8919,9 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                     //$scope.vitalsFilterAllItem();
                                     $scope.emptydataVitalLab = [];
                                     $scope.emptydataVitalLab = $scope.PatientHealthDataChartList;
+                                    if ($scope.emptydataVitalLab.length != 0) {
+                                        $scope.inputcurrentgrpid = currentgroupId;
+                                    }
                                     $scope.PatientHealthCount = $scope.emptydataVitalLab[0].TotalRecord;
                                     if ($scope.VitalsIsActive == true) {
                                         $scope.PatientHealthDataTableList = $scope.filterExcludeBMI(($filter('orderBy')(angular.copy($ff($scope.emptydataVitalLab, { IsActive: 1 }, true)), 'Id', true)));
