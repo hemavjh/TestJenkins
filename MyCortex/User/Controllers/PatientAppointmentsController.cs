@@ -281,6 +281,22 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
+        public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
+        {
+            try
+            {
+                IList<AppointmentPaymentHistory> model;
+                model = repository.AppointmentPaymentHistory(appointmentId, Login_Session_Id, Institution_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        [HttpGet]
         public IList<PatientAppointmentsModel> DepartmentwiseDoctorList(string DepartmentIds,long InstitutionId,DateTime Date)
         {
             try
