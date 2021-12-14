@@ -15418,6 +15418,7 @@ MyCortexControllers.controller("ICD10Controller", ['$scope', '$http', '$filter',
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddICD10PopUP = function () {
+            $scope.submitted = false;
             angular.element('#ICD10Modal').modal('show');
             $("#btnsave").attr("disabled", false);
             $scope.ClearPopup();
@@ -15568,8 +15569,11 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
             }
         };
 
+
+
         /* THIS IS FOR ADD/EDIT PROCEDURE */
         $scope.PayorAddEdit = function () {
+            
             if ($scope.Validationcontrols() == true) {
                 $("#chatLoaderPV").show();
                 var obj = {
@@ -15712,6 +15716,7 @@ MyCortexControllers.controller("PayorMasterController", ['$scope', '$http', '$fi
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddPayorPopUP = function () {
+            $scope.submitted = false;
             $scope.Id = 0;
             $scope.PayorSave = true;
             $('#btnsave').attr("disabled", false);
@@ -15937,6 +15942,46 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
             }
         };
 
+
+        $scope.PayorNameChange = function () {
+
+            var PayorNameChangeId = document.getElementById('SelectedPayor').value;
+            if (PayorNameChangeId != "0") {
+                $('#divPayorNameChange').removeClass("ng-invalid");
+                $('#divPayorNameChange').addClass("ng-valid");
+            }
+            else {
+                $('#divPayorNameChange').removeClass("ng-valid");
+                $('#divPayorNameChange').addClass("ng-invalid");
+            }
+        }
+
+        $scope.ValidFromDateChange = function () {
+
+            var ValidFromDateChangeId = document.getElementById('ValidFromDate').value;
+            if (ValidFromDateChangeId != "0") {
+                $('#divValidFromDateChange').removeClass("ng-invalid");
+                $('#divValidFromDateChange').addClass("ng-valid");
+            }
+            else {
+                $('#divValidFromDateChange').removeClass("ng-valid");
+                $('#divValidFromDateChange').addClass("ng-invalid");
+            }
+        }
+
+        $scope.ValidToDateChange = function () {
+
+            var ValidToDateChangeId = document.getElementById('ValidToDate').value;
+            if (ValidToDateChangeId != "0") {
+                $('#divValidToDateChange').removeClass("ng-invalid");
+                $('#divValidToDateChange').addClass("ng-valid");
+            }
+            else {
+                $('#divValidToDateChange').removeClass("ng-valid");
+                $('#divValidToDateChange').addClass("ng-invalid");
+            }
+        }
+
         /* THIS IS FOR ADD/EDIT PROCEDURE */
         $scope.PlanAddEdit = function () {
             if ($scope.Validationcontrols() == true) {
@@ -16100,6 +16145,10 @@ MyCortexControllers.controller("PlanMasterController", ['$scope', '$http', '$fil
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddPlanPopUP = function () {
+            $('#divPayorNameChange').addClass("ng-invalid");
+            $('#divValidFromDateChange').addClass("ng-invalid");
+            $('#divValidToDateChange').addClass("ng-invalid");
+            $scope.submitted = false;
             $scope.Id = 0;
             $scope.PlanSave = true;
             var sel1 = $('#SelectedPayor');
@@ -16251,7 +16300,31 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
             return true;
         };
 
+        $scope.StrengthChange = function () {
+            
+            var StrengthId = document.getElementById('selectpicker').value;
+            if (StrengthId != "0") {
+                $('#divStrength').removeClass("ng-invalid");
+                $('#divStrength').addClass("ng-valid");
+            }
+            else {
+                $('#divStrength').removeClass("ng-valid");
+                $('#divStrength').addClass("ng-invalid");
+            }
+        }
 
+        $scope.DosageFromChange = function () {
+            
+            var DosageFromId = document.getElementById('select1').value;
+            if (DosageFromId != "0") {
+                $('#divDosageFrom').removeClass("ng-invalid");
+                $('#divDosageFrom').addClass("ng-valid");
+            }
+            else {
+                $('#divDosageFrom').removeClass("ng-valid");
+                $('#divDosageFrom').addClass("ng-invalid");
+            }
+        }
         /*
         Calling api method for the dropdown list in the html page for the fields
         Strength, DosageForm, DosageTime & Administration
@@ -16454,6 +16527,9 @@ MyCortexControllers.controller("DrugDBController", ['$scope', '$http', '$filter'
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddDrugDBPopUP = function () {
+            $('#divStrength').addClass("ng-invalid");
+            $('#divDosageFrom').addClass("ng-invalid");
+            $scope.submitted = false;
             $scope.ClearPopup();
             angular.element('#DrugDBModal').modal('show');
             $("#btnsave").attr("disabled", false);
@@ -19765,6 +19841,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailTemplatePopUP = function () {
+            $scope =S
             angular.element('#EmailTemplateModal').modal('show');
             $('#btnsave').attr("disabled", false);
             $scope.ClearPopup();
