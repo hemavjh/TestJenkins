@@ -1416,6 +1416,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         and showing alert message when it is null.
         */
         $scope.Institution_SubscriptionAddEditValidations = function () {
+            $scope.Contract_Period_From = DateFormatEdit($filter('date')(document.getElementById("Contract_Period_From").value, "dd-MMM-yyyy"));
+            $scope.Contract_Period_To = DateFormatEdit($filter('date')(document.getElementById("Contract_Period_To").value, "dd-MMM-yyyy"));
             if (typeof ($scope.Institution_Id) == "undefined" || $scope.Institution_Id == "0") {
                 //alert("Please select Institution");
                 toastr.warning("Please select Institution", "warning");
@@ -3465,6 +3467,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
             }
             if ($scope.MenuTypeId == 2) {
+                $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
                 if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
                     //alert("Please select Type of User");
                     toastr.warning("Please select Type of User", "warning");
@@ -3547,6 +3550,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
             }
             if ($scope.MenuTypeId == 3) {
+                $scope.ExpiryDate = DateFormatEdit($filter('date')(document.getElementById("Expiry_Date").value, "dd-MMM-yyyy"));
+                $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
                 if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
                     //alert("Please enter First Name");
                     toastr.warning("Please enter First Name", "warning");
@@ -4549,8 +4554,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         }
         $scope.User_InsertUpdate = function () {
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
-            $scope.ExpiryDate = DateFormatEdit($filter('date')(document.getElementById("Expiry_Date").value, "dd-MMM-yyyy"));
-            $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
             //$scope.ConfigCode = "MRN_PREFIX";
             //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
