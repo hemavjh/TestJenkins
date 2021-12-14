@@ -8393,8 +8393,10 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                                         }
                                         else {
                                             $("#appoint_waveLoader").hide();
-                                            $scope.files = [];
+                                            
                                             angular.element('#BookAppointmentModal').modal('hide');
+                                            $scope.files = [];
+                                            document.getElementById("TextArea1").value = "";
                                             //document.getElementById("main-box").style = "";
                                             //document.getElementById("box").style = "display:none";
                                             $scope.showMainBox = true;
@@ -8613,6 +8615,8 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                         $scope.AppoiFromTime = [];
                         $scope.AppoiToTime = [];
                         $scope.IsNew = 1;
+                        $scope.files = [];
+                        document.getElementById("TextArea1").value = "";
                     }
                     $scope.OldAppointmentID = null;
                     $scope.RescheduleDocAppointment = function (Row) {
@@ -13440,9 +13444,18 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
                 var AMitem = 0;
                 angular.forEach($scope.Patient_OtherData, function (value, index) {
                     if ((value.DocumentName == null) || (value.DocumentName == undefined) || (value.DocumentName == "")) {
-                        AMitem = 1;
+                        toastr.warning("Please enter Document Name", "warning");
+                        return false;
                     }
-
+                    if ((value.DocumentType == null) || (value.DocumentType == undefined) || (value.DocumentType == "")) {
+                        toastr.warning("Please select Document Type", "warning");
+                        return false;
+                    }
+                    
+                    if ((value.CertificateFileName == null) || (value.CertificateFileName == undefined) || (value.CertificateFileName == "")) {
+                        toastr.warning("Please select a file", "warning");
+                        return false;
+                    }
                     $scope.filetype = value.CertificateFileName.split(".");
                     var fileExtenstion = "";
                     if ($scope.filetype.length > 0) {
