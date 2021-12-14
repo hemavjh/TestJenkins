@@ -1416,6 +1416,8 @@ MyCortexControllers.controller("InstitutionSubscriptionController", ['$scope', '
         and showing alert message when it is null.
         */
         $scope.Institution_SubscriptionAddEditValidations = function () {
+            $scope.Contract_Period_From = DateFormatEdit($filter('date')(document.getElementById("Contract_Period_From").value, "dd-MMM-yyyy"));
+            $scope.Contract_Period_To = DateFormatEdit($filter('date')(document.getElementById("Contract_Period_To").value, "dd-MMM-yyyy"));
             if (typeof ($scope.Institution_Id) == "undefined" || $scope.Institution_Id == "0") {
                 //alert("Please select Institution");
                 toastr.warning("Please select Institution", "warning");
@@ -3465,6 +3467,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
             }
             if ($scope.MenuTypeId == 2) {
+                $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
                 if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
                     //alert("Please select Type of User");
                     toastr.warning("Please select Type of User", "warning");
@@ -3547,6 +3550,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 }
             }
             if ($scope.MenuTypeId == 3) {
+                $scope.ExpiryDate = DateFormatEdit($filter('date')(document.getElementById("Expiry_Date").value, "dd-MMM-yyyy"));
+                $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
                 if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
                     //alert("Please enter First Name");
                     toastr.warning("Please enter First Name", "warning");
@@ -4549,8 +4554,6 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
         }
         $scope.User_InsertUpdate = function () {
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
-            $scope.ExpiryDate = DateFormatEdit($filter('date')(document.getElementById("Expiry_Date").value, "dd-MMM-yyyy"));
-            $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
             //$scope.ConfigCode = "MRN_PREFIX";
             //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
             //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
@@ -11579,38 +11582,37 @@ MyCortexControllers.controller("UserHealthDataDetailsController", ['$scope', '$s
             var Active_From = "";
             var Active_To = "";
 
-            angular.forEach($scope.AddICD10List, function (value, index) {
-                if (value.Active_From != false && value.Active_From != "" && value.Active_To != false && value.Active_To != "") {
-                    value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
-                    Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
-                    value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
-                    Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+        angular.forEach($scope.AddICD10List, function (value, index) {
+            if (value.Active_From != false && value.Active_From != null && value.Active_To != false && value.Active_To != null) {
+                value.Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                Active_From = moment(value.Active_From).format('DD-MMM-YYYY');
+                value.Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                Active_To = moment(value.Active_To).format('DD-MMM-YYYY');
+                value.Active_From = DateFormatEdit(value.Active_From);
+                value.Active_To = DateFormatEdit(value.Active_To);
+            }
+            if (value.Code_ID == 0 || value.Code_ID == "") {
+                validationMsg = validationMsg + "Please select ICD Code";
+                validateflag = false;
+                return false;
+            }
+            if (value.Active_To == false || value.Active_To == null || value.Active_To == undefined) {
+                value.Active_To = "";
+            }
+            if ((value.Active_From) == "" || (value.Active_From) == undefined || (value.Active_From) == null || (value.Active_From) == false) {
+                validationMsg = validationMsg + "Please select Active From Date";
+                validateflag = false;
+                return false;
+            }
+            if ((value.Active_From !== null) && (value.Active_To !== null)) {
+                if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
+                    validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
                     value.Active_From = DateFormatEdit(value.Active_From);
                     value.Active_To = DateFormatEdit(value.Active_To);
-                }
-
-                if (value.Code_ID == 0 || value.Code_ID == "") {
-                    validationMsg = validationMsg + "Please select ICD Code";
                     validateflag = false;
                     return false;
                 }
-                if (value.Active_To == false || value.Active_To == null || value.Active_To == undefined) {
-                    value.Active_To = "";
-                }
-                if ((value.Active_From) == "" || (value.Active_From) == undefined || (value.Active_From) == null || (value.Active_From) == false) {
-                    validationMsg = validationMsg + "Please select Active From Date";
-                    validateflag = false;
-                    return false;
-                }
-                if ((value.Active_From !== null) && (value.Active_To !== null)) {
-                    if ((ParseDate(value.Active_To) < ParseDate(value.Active_From))) {
-                        validationMsg = validationMsg + "Active From Date should not be greater than Active To Date";
-                        value.Active_From = DateFormatEdit(value.Active_From);
-                        value.Active_To = DateFormatEdit(value.Active_To);
-                        validateflag = false;
-                        return false;
-                    }
-                }
+            }
 
             //value.Active_From = DateFormatEdit(value.Active_From);
             //value.Active_To = DateFormatEdit(value.Active_To);
@@ -20066,17 +20068,6 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
-
-            var date1 = new Date($scope.Period_From);
-            var date2 = new Date($scope.Period_To);
-            var diffTime = Math.abs(date2 - date1);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays >= $scope.ValidateDays) {
-                //alert($scope.ValidateDays + '  ' + "days only allowed to filter");
-                toastr.warning($scope.ValidateDays + '  ' + "days only allowed to filter", "warning");
-                return false;
-            }
-
             /*var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
@@ -20113,7 +20104,15 @@ MyCortexControllers.controller("EmailHistoryController", ['$scope', '$http', '$f
                     return false;
                 }
             }
-
+            var date1 = new Date($scope.Period_From);
+            var date2 = new Date($scope.Period_To);
+            var diffTime = Math.abs(date2 - date1);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays >= $scope.ValidateDays) {
+                //alert($scope.ValidateDays + '  ' + "days only allowed to filter");
+                toastr.warning($scope.ValidateDays + '  ' + "days only allowed to filter", "warning");
+                return false;
+            }
             $scope.Period_From = DateFormatEdit($scope.Period_From);
             $scope.Period_To = DateFormatEdit($scope.Period_To);
             return retval;
@@ -20698,15 +20697,6 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
-            var date1 = new Date($scope.Period_From);
-            var date2 = new Date($scope.Period_To);
-            var diffTime = Math.abs(date2 - date1);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays >= 14) {
-                //alert("14 days only allowed to filter");
-                toastr.warning("14 days only allowed to filter", "warning");
-                return false;
-            }
             //if ((ParseDate($scope.Period_From) < ParseDate(today))) {
             //    //alert("FromDate Can Be Booked Only For Past");
             //    toastr.warning("FromDate Can Be Booked Only For Past", "warning");
@@ -20729,6 +20719,15 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
                     return false;
                 }
+            }
+            var date1 = new Date($scope.Period_From);
+            var date2 = new Date($scope.Period_To);
+            var diffTime = Math.abs(date2 - date1);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays >= 14) {
+                //alert("14 days only allowed to filter");
+                toastr.warning("14 days only allowed to filter", "warning");
+                return false;
             }
             $scope.Period_From = DateFormatEdit($scope.Period_From);
             $scope.Period_To = DateFormatEdit($scope.Period_To);
