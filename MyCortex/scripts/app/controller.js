@@ -23057,6 +23057,11 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $('#saveDoctorShift1').attr("disabled", false);
             $('#saveDoctorShift2').attr("disabled", false);
             $('#saveDoctorShift3').attr("disabled", false);
+            if (($scope.FromDate == "" || $scope.FromDate == null || $scope.FromDate == false) || ($scope.ToDate == "" || $scope.ToDate == null || $scope.ToDate == false)) {
+                $scope.FromDate = DateFormatEdit($filter('date')(document.getElementById("FromDate").value, "dd-MMM-yyyy"));
+                $scope.ToDate = DateFormatEdit($filter('date')(document.getElementById("ToDate").value, "dd-MMM-yyyy"));
+            }
+            $scope.onDateRange();
             angular.element('#DoctorShiftModal').modal('show');
             $("#chatLoaderPV").hide();
         }
@@ -24375,6 +24380,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
         /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
         $scope.ValidationcontrolsDoctorShift = function () {
             var today = moment(new Date()).format('DD-MMM-YYYY');
+            $scope.FromDate = DateFormatEdit($filter('date')(document.getElementById("FromDate").value, "dd-MMM-yyyy"));
+            $scope.ToDate = DateFormatEdit($filter('date')(document.getElementById("ToDate").value, "dd-MMM-yyyy"));
             $scope.FromDate = moment($scope.FromDate).format('DD-MMM-YYYY');
             $scope.ToDate = moment($scope.ToDate).format('DD-MMM-YYYY');
 
@@ -24621,6 +24628,8 @@ MyCortexControllers.controller("DoctorShiftController", ['$scope', '$http', '$ro
             $scope.TimeSlot56 = "";
         }
         $scope.onDateRange = function () {
+            $scope.FromDate = DateFormatEdit($filter('date')(document.getElementById("FromDate").value, "dd-MMM-yyyy"));
+            $scope.ToDate = DateFormatEdit($filter('date')(document.getElementById("ToDate").value, "dd-MMM-yyyy"));
             if ((typeof $scope.FromDate) != undefined && $scope.FromDate != "" && (typeof ($scope.ToDate) != undefined && $scope.ToDate != 0)) {
                 $("#chatLoaderPV").show();
                 $scope.SelectedDays = dateRange($scope.FromDate, $scope.ToDate);
@@ -26235,9 +26244,15 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         /* on click Add New, Add popup opened*/
         $scope.AddAttendance = function () {
             $scope.DoctorName = "";
+            var FromdtAppo = "";
+            var TodtAppo = "";
             $scope.AttendanceFromDate = "";
             $scope.AttendanceToDate = "";
             $scope.Remarks = "";
+            FromdtAppo = moment($filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+            $scope.AttendanceFromDate = FromdtAppo["_i"]
+            TodtAppo = moment($filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+            $scope.AttendanceToDate = TodtAppo["_i"]
             angular.element('#AttendanceAddModal').modal('show');
             $('#btnsave').attr("disabled", false);
         }
@@ -26339,23 +26354,29 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
            */
         $scope.DoctorAttendance_InsertUpdateValidations = function () {
             var today = moment(new Date()).format('DD-MMM-YYYY');
-            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY');
-            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY');
+            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
 
             if ($scope.SelectedAttendance == "" || $scope.SelectedAttendance == undefined) {
                 //alert("Please select User");
                 toastr.warning("Please select User", "warning");
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
 
             else if (typeof ($scope.AttendanceFromDate) == "undefined" || $scope.AttendanceFromDate == 0) {
                 //alert("Please select From Date");
                 toastr.warning("Please select From Date", "warning");
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
             else if (typeof ($scope.AttendanceToDate) == "undefined" || $scope.AttendanceToDate == 0) {
                 //alert("Please select To Date");
                 toastr.warning("Please select To Date", "warning");
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
             else if ((ParseDate($scope.AttendanceFromDate) < ParseDate(today))) {
@@ -26378,7 +26399,7 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
                     //alert("From Date Should not be greater than To Date");
                     toastr.warning("From Date Should not be greater than To Date", "warning");
                     $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
-                    $scope.AttendanceToDate = Dmoment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
+                    $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                     return false;
                 }
             }
@@ -26393,6 +26414,8 @@ MyCortexControllers.controller("AttendanceDetailsController", ['$scope', '$http'
         $scope.DoctorAttendanceDetails = [];
         $scope.AttendanceAddEdit = function () {
             $scope.DoctorAttendanceDetails = [];
+            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
             if ($scope.DoctorAttendance_InsertUpdateValidations() == true) {
                 $("#chatLoaderPV").show();
                 var AttendanceFromDate = $('#datetimepickerholiday_From').val().split(' ')[0];
