@@ -48,12 +48,15 @@ namespace MyCortex.Repositories.EmailAlert
                                                     EmailFlag = p.Field<bool>("EMAILFLAG"),
                                                     AppFlag = p.Field<bool>("APPFLAG"),
                                                     WebFlag = p.Field<bool>("WEBFLAG"),
+                                                    SMSFlag = p.Field<bool>("SMSFLAG"),
                                                     EmailTemplate_Id = p.Field<long?>("EMAILTEMPLATE_ID"),
                                                     EmailTemplate = p.Field<string>("EMAILTEMPLATENAME"),
                                                     AppTemplate_Id = p.Field<long?>("APPTEMPLATE_ID"),
                                                     AppTemplate = p.Field<string>("APPTEMPLATENAME"),
                                                     WebTemplate_Id = p.Field<long?>("WEBTEMPLATE_ID"),
                                                     WebTemplate = p.Field<string>("WEBTEMPLATENAME"),
+                                                    SMSTemplate_Id = p.Field<long?>("SMSTEMPLATE_ID"),
+                                                    SMSTemplate = p.Field<string>("SMSTEMPLATENAME"),
                                                     AlertDays = p.Field<decimal?>("ALERTDAYS"),
                                                 }).FirstOrDefault();
              //   INS.EmailTemplateTagList = EmailTemplateTag_View(INS.Id);
@@ -83,9 +86,11 @@ namespace MyCortex.Repositories.EmailAlert
             param.Add(new DataParameter("@EMAILFLAG", obj.EmailFlag));
             param.Add(new DataParameter("@APPFLAG", obj.AppFlag));
             param.Add(new DataParameter("@WEBFLAG", obj.WebFlag));
+            param.Add(new DataParameter("@SMSFLAG", obj.SMSFlag));
             param.Add(new DataParameter("@EMAILTEMPLATE_ID", obj.EmailTemplate_Id));
             param.Add(new DataParameter("@APPTEMPLATE_ID", obj.AppTemplate_Id));
             param.Add(new DataParameter("@WEBTEMPLATE_ID", obj.WebTemplate_Id));
+            param.Add(new DataParameter("@SMSTEMPLATE_ID", obj.SMSTemplate_Id));
             param.Add(new DataParameter("@ALERTDAYS", obj.AlertDays));
             param.Add(new DataParameter("@MODIFIEDUSERID", obj.ModifiedUser_Id));
             param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
@@ -152,12 +157,15 @@ namespace MyCortex.Repositories.EmailAlert
                                                           EmailFlag = p.Field<bool>("EMAILFLAG"),
                                                           AppFlag = p.Field<bool>("APPFLAG"),
                                                           WebFlag = p.Field<bool>("WEBFLAG"),
+                                                          SMSFlag = p.Field<bool>("SMSFLAG"),
                                                           EmailTemplate_Id = p.Field<long?>("EMAILTEMPLATE_ID"),
                                                           EmailTemplate = p.Field<string>("EMAILTEMPLATENAME"),
                                                           AppTemplate_Id = p.Field<long?>("APPTEMPLATE_ID"),
                                                           AppTemplate = p.Field<string>("APPTEMPLATENAME"),
                                                           WebTemplate_Id = p.Field<long?>("WEBTEMPLATE_ID"),
                                                           WebTemplate = p.Field<string>("WEBTEMPLATENAME"),
+                                                          SMSTemplate_Id = p.Field<long?>("SMSTEMPLATE_ID"),
+                                                          SMSTemplate = p.Field<string>("SMSTEMPLATENAME"),
                                                           AlertDays = p.Field<decimal?>("ALERTDAYS"),
                                                           IsActive = p.Field<int>("ISACTIVE"),
                                                       }).ToList();

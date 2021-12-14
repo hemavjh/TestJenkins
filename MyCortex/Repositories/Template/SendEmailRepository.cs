@@ -351,7 +351,8 @@ namespace MyCortex.Repositories.Template
                                                        Email_Status = p.Field<int>("EMAIL_STATUS"),
                                                        Email_Error_Reason = p.Field<string>("EMAIL_ERROR_REASON") ?? "",
                                                        EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
-                                                       EmailStatusType = p.Field<string>("EmailStatusType")
+                                                       EmailStatusType = p.Field<string>("EmailStatusType"),
+                                                       MobileNO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO"))
                                                    }).ToList();
                 return lst;
             }
