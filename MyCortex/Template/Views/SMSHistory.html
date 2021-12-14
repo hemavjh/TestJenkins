@@ -1,4 +1,11 @@
 ﻿<script>
+    $(document).ready(function () {
+        $('.activeButton').removeClass('activeButton');
+        var element = document.getElementById($('.secondaryMenuActive').data('menu'));
+        $(element).addClass('activeButton');
+    });
+</script>
+<script>
     $(function () {
         var dtToday = new Date();
 
@@ -15,14 +22,6 @@
         document.getElementById("Period_To").value = maxDate;
     });
 </script>
-<script>
-        $(document).ready(function () {
-            $('.activeButton').removeClass('activeButton');
-            var element = document.getElementById($('.secondaryMenuActive').data('menu'));
-            $(element).addClass('activeButton');
-        });
-</script>
-
 <ul class="secondaryMenu">
     <li>
         <a href="Home/Index#/SMSTemplate/3">SMS Template</a>
@@ -31,13 +30,13 @@
         <a href="Home/Index#/SMSSend/3">Send SMS</a>
     </li>
     <li>
-        <a class="secondaryMenuActive" href="Home/Index#/SMSUndeliver/3" data-menu="Bulk SMS">Resend SMS</a>
+        <a href="Home/Index#/SMSUndeliver/3">Resend SMS</a>
     </li>
     <li>
-        <a href="Home/Index#/SMSHistory/3">SMS History</a>
+        <a class="secondaryMenuActive" href="Home/Index#/SMSHistory/3" data-menu="Bulk SMS">SMS History</a>
     </li>
 </ul>
-<h1 class="page-title">SMS Undelivered</h1>
+<h1 class="page-title">SMS History</h1>
 
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000">
@@ -64,7 +63,7 @@
                             <font class='mandatory-field'>*</font>
                         </sup>
                     </label>
-                    <input type="date" id="Period_From" max="2099-12-31" class="form-control" ng-model="Period_From" ng-init="Period_From=''">
+                    <input type="date" id="Period_From" max="2099-12-31" class="form-control" ng-model="Period_From">
                 </div>
             </div>
             <div class="col-sm-2">
@@ -74,40 +73,50 @@
                             <font class='mandatory-field'>*</font>
                         </sup>
                     </label>
-                    <input type="date" id="Period_To" max="2099-12-31" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
+                    <input type="date" id="Period_To" max="2099-12-31" class="form-control" ng-model="Period_To">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="inputGroups">
-                    <label for="">Advance Filter</label>
+                    <label for="Status">Status</label>
+                    <select class="form-control" data-style="form-control" id="Select1" ng-required="true" ng-model="Email_Stauts" data-live-search="true" data-selectpicker data-collection-name="Email_Stauts">
+                        <option value="0">All</option>
+                        <option value="1">Delivered</option>
+                        <option value="2">Undelivered</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="inputGroups">
+                    <label for="More">Advance Filter</label>
                     <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5" href="#collapseMore"
-                       ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageUndeliveredDropdownList()"
+                       ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageingHistoryDropdownList()"
                        title="Click for Advance search">
                         <sub ng-show="currentTab=='1' ">
                             <i class="fa fa-filter" aria-hidden="true"></i>
+
                         </sub>
                         <sub ng-show="currentTab=='2'">
                             <i class="fa fa-filter" aria-hidden="true"></i>
                         </sub>
                     </a>
+
+
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-1">
                 <div class="inputGroups">
-                    <button type="button" class="theme-btn-1 pull-right mt-15" ng-click="UndeliveredEmailDetailslist()"
+                    <button type="button" class="theme-btn-1 mt-15 pull-right" ng-click="EmailHistoryDetailslist()"
                             title="Click to Search">
                         Go
                     </button>
-                    <button type="button" class="theme-btn-1 pull-right mr-10 mt-15" id="btnsave" ng-disabled="false"
-                            ng-click="UndeliveredEmail_Insert()" title="Click to Resend the Email">
-                        Resend
-                    </button>
                 </div>
             </div>
-        </div>
 
+        </div>
     </form>
 </div>
+
 
 
 <!--- More Filter List Search--->
@@ -236,9 +245,10 @@
                     </select>
                 </div>
                 <div class="inputGroups">
-                    <a href="javascript:" ng-click="EmailHistoryDetailslist()" class="theme-btn-1 mt-15 ">Search</a>
+                    <a href="javascript:" ng-click="EmailHistoryDetailslist()" class="theme-btn-1 mr-10 mt-15">Search</a>
 
-                    <a href="javascript:" ng-click="ResetPatientFilter()" class="theme-btn-2 ml-10 mt-15 ">Reset</a>
+                    <a href="javascript:" ng-click="ResetPatientFilter()" class="theme-btn-2 mt-15">Reset</a>
+
                 </div>
             </div>
         </div>
@@ -247,20 +257,20 @@
 </div>
 
 
-<table st-table="Emailemptydata" style="width: 100%" st-safe-src="EmailrowCollectionFilter" class="table themeTable">
+<table st-table="Emailemptydata" style="width: 100%" st-safe-src="EmailrowCollectionFilter" st-search="query"
+       class="table themeTable">
     <thead>
         <tr style="text-align: center">
             <th width="5%">#</th>
-            <th st-ratio="5">
-                <input type="checkbox" ng-model="SelectedAllUser" ng-click="checkAll()" />
-            </th>
-            <th width="10%" st-sort="FullName">User Name/MobileNO</th>
+            <th width="15%" st-sort="FullName">User Name/MobileNO</th>
             <th width="10%" st-sort="TypeName">User Type</th>
             <th width="10%" st-sort="TemplateName">Template Name</th>
-            <th width="15%" st-sort="EmailSubject">SMS Subject</th>
+            <th width="15%" st-sort="SMSSubject">SMS Subject</th>
+            <th width="10%" st-sort="SMSTemplate">SMS Content</th>
             <th width="10%" st-sort="Send_Date">Sent On</th>
+            <th width="10%" st-sort="Email_Status">Status</th>
             <th width="15%" st-sort="Email_Error_Reason">Remarks</th>
-            <th st-ratio="9">Action</th>
+            <th width="10%" st-sort="">Action</th>
         </tr>
     </thead>
 
@@ -272,13 +282,8 @@
         </tr>
         <tr ng-repeat="row in Emailemptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: center">
-                <input type="checkbox" ng-model="row.SelectedUser" />
-            </td>
             <td style="text-align: left">
-                <div class="textwrap">
-                    {{row.FullName}}<br>{{row.MobileNO}}
-                </div>
+                <div class="textwrap">{{row.FullName}}<br>{{row.MobileNO}}</div>
             </td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.TypeName}}</div>
@@ -290,17 +295,27 @@
                 <div class="textwrap">{{row.EmailSubject}}</div>
             </td>
             <td style="text-align: left">
+                <div class="textwrap">
+                    <p ng-bind-html="row.EmailTemplate.substring(0,100)"></p>
+                    {{row.EmailTemplate.length > 100 ? "..." : ''}}
+                </div>
+            </td>
+            <td style="text-align: left">
                 <div class="textwrap">{{row.Send_Date | date :'dd-MMM-yyyy hh:mm a'}}</div>
+            </td>
+            <td style="text-align: left">
+                <div class="textwrap">
+                    {{row.Email_Status==1? 'Delivered' : row.Email_Status==2 ?'Undelivered' :''}}
+                </div>
             </td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.Email_Error_Reason}}</div>
             </td>
-            <td style="text-align: center">
-                <i class="fa fa-eye" aria-hidden="true" title="Click to View the Email Details"
-                   ng-click="GenerateTemplate(row.EmailTemplate, row.MobileNO, row.EmailSubject)"></i>
-                <i class="fa fa-pencil" aria-hidden="true"
-                   ng-click="UndeliveredSMS_EditModel(row.EmailTemplate, row.MobileNO, row.EmailSubject, row.Id, row.UserId)"></i>
-
+            <td>
+                <a href="javascript:" ng-click="SMSBody_ViewModel(row.MobileNO, row.EmailSubject, row.EmailTemplate)"
+                   title="View">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
             </td>
         </tr>
     </tbody>
@@ -315,127 +330,49 @@
 </table>
 
 
-
-<div id="Template_PreviewModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
+<div id="EmailBody_ViewModel" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width: 60%">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title=""
-                        ng-click="CancelPopup()">
+                <button type="button" class="close" data-dismiss="modal" title="" ng-click="CancelPopup()">
                     &times;
                 </button>
-                <h4 class="modal-title">Template Preview</h4>
+                <h4 class="modal-title">SMS Content View</h4>
             </div>
             <div class="modal-body">
-                <form role="form">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label>MobileNO</label>
-                                <span>{{MobileNO}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <label>SMS Subject</label>
-                                <span>{{EmailSubject}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <label>SMS Body</label>
-                                <span ng-bind-html="Generated_Template"></span>
-                            </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="inputGroups">
+                            <label>MobileNO</label>
+                            <span>{{MobileNO}}</span>
+                        </div>
+                        <div class="inputGroups">
+                            <label>SMS Subject</label>
+                            <span>{{EmailSubject}}</span>
+                        </div>
+                        <div class="inputGroups">
+                            <label>SMS Content</label>
+                            <span ng-bind-html="Generated_Template"></span>
                         </div>
                     </div>
+                </div>
 
-                </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-2" title="Click to Cancel"
-                        ng-click="CancelPreview_PopUp()">
+                <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="EmailBody_CancelModel()">
                     Cancel
                 </button>
             </div>
         </div>
     </div>
 </div>
-
-
-
-<div id="EditModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" style="width: 60%">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title=""
-                        ng-click="CancelPopup()">
-                    &times;
-                </button>
-                <h4 class="modal-title">Resend SMS</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="inputGroups">
-                                <label>MobileNO</label>
-                                <span>{{MobileNO}}</span>
-                            </div>
-                            <div class="inputGroups">
-                                <label>
-                                    SMS Subject<sup>
-                                        <font class='mandatory-field'>*</font>
-                                    </sup>
-                                </label>
-                                <input type="text" class="form-control" id="Text3" name="EmailSubject"
-                                       ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
-                                       maxlength="100" onkeypress="" />
-                            </div>
-                            <div class="inputGroups">
-                                <label>
-                                    SMS Body<sup>
-                                        <font class='mandatory-field'>*</font>
-                                    </sup>
-                                </label>
-                                <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
-                                     ondrop="drop(event)" ondragover="allowDrop(event)">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1" title="Click to Send the Email" id="send" ng-disabled="false"
-                        ng-click="UndeliveredEmail_Edit()">
-                    Send
-                </button>
-                <button type="button" class="theme-btn-2 ml-10" title="Click to Cancel"
-                        ng-click="UndeliveredEmail_Cancel()">
-                    Cancel
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
-    //CKEDITOR.disableAutoInline = true;
-    // Initialize the editor with the hcard plugin.
-    CKEDITOR.replace('editor1', {
-        toolbarLocation: 'top',
-        // Remove some plugins that would conflict with the bottom
-        // toolbar position.
-        removePlugins: 'elementspath,resize'
-    });
-</script>
-
-<script>
-    //$(".date").bootstrapDP({
+    //$('.date').bootstrapDP({
     //    format: "dd-M-yyyy",
     //    forceParse: false,
-    //    endDate: '+0d',
     //    autoclose: true,
     //    todayHighlight: true,
     //    toggleActive: true,
     //    todayBtn: true
     //});
-
 </script>

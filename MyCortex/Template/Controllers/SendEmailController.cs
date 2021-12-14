@@ -384,6 +384,10 @@ namespace MyCortex.Template.Controllers
                 {
                     msgtype = "Send Notification";
                 }
+                if (Emailobj.TemplateType_Id == 3)
+                {
+                    msgtype = "Send SMS";
+                }
                 //SendEmail_Update[Send Email Update Method Name] 
                 if (ModelData.Any(item => item.flag == 0) == true)
                 {
@@ -402,7 +406,7 @@ namespace MyCortex.Template.Controllers
 
                 }
                 if (model.ReturnFlag == 1)
-                { 
+                {
                     if (Emailobj.TemplateType_Id == 1)
                     {
                         if (emailModel != null)
@@ -413,13 +417,17 @@ namespace MyCortex.Template.Controllers
                             var res = mail.SendEmailAsync(msg, ModelData[0].Id);
                         }
                     }
-                    else
+                    else if (Emailobj.TemplateType_Id == 2)
                     {
                         PushNotificationMessage message = new PushNotificationMessage();
                         message.Title = Emailobj.Email_Subject;
                         message.Message = Emailobj.Email_Body;
 
                         PushNotificationApiManager.sendNotification(message, ModelData[0].Id, Emailobj.UserId, 4);
+                    }
+                    else if (Emailobj.TemplateType_Id == 3) 
+                    { 
+                    
                     }
                 }
                 model.SendEmail = ModelData;

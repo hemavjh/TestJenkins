@@ -217,6 +217,10 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Template/Views/SMSUndelivered.html',
         controller: 'EmailUndeliveredController'
     }).
+    when('/SMSHistory/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/SMSHistory.html',
+        controller: 'EmailHistoryController'
+    }).
     when('/NotificationView', {
         templateUrl: baseUrl + 'Template/Views/NotificationView.html',
         controller: 'NotificationViewController'
