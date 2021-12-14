@@ -141,36 +141,37 @@
 <div id="PayorModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
-                <h4 class="modal-title">Payor</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" style="font-size:small">
-                    <div class="inputGroups">
-                        <label>PayorName<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="PayorName" name="PayorName" ng-model="PayorName" ng-init="PayorName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
-                    </div>
-                    <div class="inputGroups">
-                        <label>ShortCode<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
-                    </div>
-                    <div class="inputGroups">
-                        <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="Description" name="Description" ng-model="Description" ng-init="Description=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
-                    </div>
-                    <div class="inputGroups">
-                        <label>ReferCode<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="ReferCode" name="ReferCode" ng-model="ReferCode" ng-init="ReferCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" ng-show="PayorSave == true" id="btnsave" ng-disabled="false" ng-click="PayorAddEdit()" title="Click to Save">Save</button>
-                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
-            </div>
-        </div>
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="PayorAddEdit()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopup()" style="color:#fff;">&times;</button>
+                    <h4 class="modal-title">Payor</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="inputGroups">
+                            <label>PayorName<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" id="PayorName" name="PayorName" ng-model="PayorName" ng-init="PayorName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
+                        </div>
+                        <div class="inputGroups">
+                            <label>ShortCode<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
+                        </div>
+                        <div class="inputGroups">
+                            <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" id="Description" name="Description" ng-model="Description" ng-init="Description=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
+                        </div>
+                        <div class="inputGroups">
+                            <label>ReferCode<sup><font class='mandatory-field'>*</font></sup></label>
+                            <input type="text" class="form-control" id="ReferCode" name="ReferCode" ng-model="ReferCode" ng-init="ReferCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
+                        </div>
+                    
+                  </div>
+                  <div class="modal-footer" style="text-align:center;">
+                    <button type="submit" class="theme-btn-1 mr-10 btn-save" ng-show="PayorSave == true" id="btnsave" ng-disabled="false" ng-click="submitted = true;" title="Click to Save"> Save</button>
+                    <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+                </div>
+            </form>
     </div>
+  </div>
 </div>
 <!--VIEW MODAL-->
 <!--<div id="PayorViewModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false" ng-int="ViewICD10()">
