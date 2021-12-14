@@ -527,6 +527,7 @@
     <Content Include="scripts\angular-ui.js" />
     <Content Include="scripts\angular.js" />
     <Content Include="scripts\angular.min.js" />
+    <Content Include="scripts\app\AllergyMasterListController.js" />
     <Content Include="scripts\app\authInterceptorService.js" />
     <Content Include="scripts\app\app.js" />
     <Content Include="scripts\app\controller.js" />

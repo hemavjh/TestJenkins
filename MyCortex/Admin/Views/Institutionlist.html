@@ -182,27 +182,22 @@
         </tr>
     </tfoot>
 </table>
-
-
-
 <!--Create & Edit Modal-->
 <div id="InstitutionCreateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width: 70%">
         <div class="modal-content" ng-init="CountryBased_StateFunction()">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
-                        title="Close">
-                    &times;
-                </button>
-                <h1 class="modal-title">Institution</h1>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="panel panel-default" id="Basic1">
-                        <div class="panel-body">
-
-                            <form class="form-horizontal" role="form">
-
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="Institution_AddAndEdit();">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
+                            title="Close">
+                        &times;
+                    </button>
+                    <h1 class="modal-title">Institution</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-default" id="Basic1">
+                            <div class="panel-body">
                                 <div class="panel panel-default panel-info" id="Div1">
                                     <table cellpadding="0" cellspacing="0" border="0" width="100%"
                                            class="formControlGroup">
@@ -220,11 +215,10 @@
                                                         </td>
                                                         <td width="36%">
                                                             <input type="text" class="form-control" id="Text5"
-                                                                   ng-model="Institution_Name"
+                                                                   ng-model="Institution_Name" ng-required="true"
                                                                    ng-init="Institution_Name=''" ng-maxlength="100"
                                                                    maxlength="100" placeholder="" onkeypress="">
                                                         </td>
-
                                                     </tr>
                                                     <tr>
                                                         <td>
@@ -236,7 +230,7 @@
                                                         </td>
                                                         <td>
                                                             <input type="text" class="form-control" id="Text1"
-                                                                   ng-model="INSTITUTION_SHORTNAME"
+                                                                   ng-model="INSTITUTION_SHORTNAME" ng-required="true"
                                                                    ng-init="INSTITUTION_SHORTNAME=''" ng-maxlength="100"
                                                                    maxlength="100" placeholder="" onkeypress="">
                                                         </td>
@@ -250,7 +244,7 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control" id="Text32"
+                                                            <input type="text" class="form-control" id="Text32" ng-required="true"
                                                                    ng-model="Email" ng-init="Email=''" maxlength="50"
                                                                    ng-maxlength="50" placeholder="" onkeypress="">
                                                         </td>
@@ -310,12 +304,8 @@
                                                 </a>
 
                                             </td>
-
-                                            </td>
                                         </tr>
                                     </table>
-
-
                                 </div>
                                 <div class="panel panel-default panel-info" id="Div2">
                                     <table cellpadding="0" cellspacing="0" border="0" width="100%"
@@ -380,16 +370,18 @@
                                                             </label>
                                                         </td>
                                                         <td class="bootstrap-select">
-                                                            <select class="form-control" data-style="form-control"
-                                                                    data-live-search="true" id="countryselectpicker"
-                                                                    data-selectpicker data-collection-name="CountryNameList"
-                                                                    ng-model="CountryId" ng-change="CountryBased_StateFunction();StateClearFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in CountryNameList"
-                                                                        ng-required="true" value="{{sel.Id}}">
-                                                                    {{sel.CountryName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divInsCountry" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control"
+                                                                        data-live-search="true" id="countryselectpicker"
+                                                                        data-selectpicker data-collection-name="CountryNameList"
+                                                                        ng-model="CountryId" ng-change="CountryBased_StateFunction();StateClearFunction();insCountryChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in CountryNameList"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.CountryName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -401,16 +393,18 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <select class="form-control" data-style="form-control"
-                                                                    id="stateselectpicker" data-live-search="true"
-                                                                    data-selectpicker data-collection-name="StateName_List"
-                                                                    ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in StateName_List"
-                                                                        ng-required="true" value="{{sel.Id}}">
-                                                                    {{sel.StateName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divInsState" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control"
+                                                                        id="stateselectpicker" data-live-search="true"
+                                                                        data-selectpicker data-collection-name="StateName_List"
+                                                                        ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();insStateChange();">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in StateName_List"
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.StateName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -422,52 +416,62 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <select class="form-control" data-style="form-control"
-                                                                    data-live-search="true" data-selectpicker
-                                                                    data-collection-name="LocationName_List"
-                                                                    ng-model="LocationNameId">
-                                                                <option value="0">Select</option>
-                                                                <option ng-repeat="sel in LocationName_List "
-                                                                        ng-required="true" value="{{sel.Id}}">
-                                                                    {{sel.LocationName}}
-                                                                </option>
-                                                            </select>
+                                                            <div id="divInsCity" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                                <select class="form-control" data-style="form-control" id="cityselectpicker"
+                                                                        data-live-search="true" data-selectpicker ng-change="insCityChange();"
+                                                                        data-collection-name="LocationName_List"
+                                                                        ng-model="LocationNameId">
+                                                                    <option value="0">Select</option>
+                                                                    <option ng-repeat="sel in LocationName_List "
+                                                                            value="{{sel.Id}}">
+                                                                        {{sel.LocationName}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <!--<tr ng-show="Id != 0">
-                                                <td>
-                                                    <label>Default Data</label>
-                                                </td>
-                                                <td>
-                                                    <button ng-click="InsertDefaultData();">
-                                                        Insert
-                                                    </button>
-                                                </td>
-                                            </tr>-->
+                                                        <td>
+                                                            <label>Default Data</label>
+                                                        </td>
+                                                        <td>
+                                                            <button ng-click="InsertDefaultData();">
+                                                                Insert
+                                                            </button>
+                                                        </td>
+                                                    </tr>-->
                                                 </table>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer" style="text-align:center;">
-                            <button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
-                                    ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
-                                Save
-                            </button>
-                            <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
-                                    ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
-                                Save and Add Subscription
-                            </button>
-                            <button type="button" class="theme-btn-2" title="Click to Cancel"
-                                    ng-click="CancelInstitutionpopup()">
-                                Cancel
-                            </button>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <!--<button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
+                                        ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
+                                    Save
+                                </button>
+                                <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
+                                        ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
+                                    Save and Add Subscription
+                                </button>-->
+                                <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
+                                        ng-click="submitted= true;" ng-hide="editInstbutton == 0">
+                                    Save
+                                </button>
+                                <button type="submit" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
+                                        ng-click="submitted= true;" ng-hide="editInstbutton == 1">
+                                    Save and Add Subscription
+                                </button>
+                                <button type="button" class="theme-btn-2" title="Click to Cancel"
+                                        ng-click="CancelInstitutionpopup()">
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -601,16 +605,16 @@
                                         </td>
                                     </tr>
                                     <!--<tr>
-        <td width="10%" valign="top" rowspan="4">
-            <label>
-                Logo Upload
-                <br />
-            </label>
-        </td>
-        <td style="width:180px;height:180px;" valign="top" rowspan="6">
-            <img src="{{uploadme}}" width="180" height="180" class="mtb-7 com_img" />
-        </td>
-    </tr>-->
+                                        <td width="10%" valign="top" rowspan="4">
+                                            <label>
+                                                Logo Upload
+                                                <br />
+                                            </label>
+                                        </td>
+                                        <td style="width:180px;height:180px;" valign="top" rowspan="6">
+                                            <img src="{{uploadme}}" width="180" height="180" class="mtb-7 com_img" />
+                                        </td>
+                                    </tr>-->
                                 </table>
                             </form>
                         </div>
