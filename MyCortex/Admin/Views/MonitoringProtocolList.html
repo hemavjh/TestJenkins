@@ -40,7 +40,8 @@
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="AddCloneProtocolPopup();ProtocolClear()"
                                class="theme-btn-1 pull-right mt-20 ml-10">
-                                Clone</a>
+                                Clone
+                            </a>
                             <a href="javascript:"
                                ng-click="AddMonitoringProtocolPopup();ProtocolClear();CloneProtocolClear();"
                                class="theme-btn-1 pull-right mt-20 ml-10">Add New</a>
@@ -63,7 +64,8 @@
 
         <tbody>
             <tr ng-if="rowCollectionFilter.length==0">
-                <td colspan="7" style="text-align: center">No Data Available
+                <td colspan="7" style="text-align: center">
+                    No Data Available
                 </td>
             </tr>
             <tr class="info" ng-repeat="row in emptydata">
@@ -108,7 +110,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close">
-                    &times;</button>
+                    &times;
+                </button>
                 <h4 class="modal-title">Monitoring Protocol</h4>
             </div>
             <ul class="themeTabs">
@@ -133,9 +136,11 @@
                             <div class="col-sm-4" ng-show="Cloneval == 1">
 
                                 <div class="inputGroups">
-                                    <label>Clone From Template<sup>
+                                    <label>
+                                        Clone From Template<sup>
                                             <font class='mandatory-field'>*</font>
-                                        </sup></label>
+                                        </sup>
+                                    </label>
                                     <select class="form-control" data-style="form-control" id="Select1" data-live-search="true" data-selectpicker data-collection-name="rowCollectionFilter"
                                             ng-model="Protocol_Names" ng-change="CloneProtocolFunction()">
                                         <option value="0">Select</option>
@@ -150,9 +155,11 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label>Protocol Name<sup>
+                                    <label>
+                                        Protocol Name<sup>
                                             <font class='mandatory-field'>*</font>
-                                        </sup></label>
+                                        </sup>
+                                    </label>
                                     <input type="text" class="form-control" id="Text5" ng-model="ProtocolName"
                                            ng-init="ProtocolName=''" ng-maxlength="100" maxlength="100" placeholder=""
                                            onkeypress="">
@@ -173,12 +180,16 @@
                                     </tr>
                                     <tr>
 
-                                        <th>Parameter <sup>
+                                        <th>
+                                            Parameter <sup>
                                                 <font class='mandatory-field'>*</font>
-                                            </sup></th>
-                                        <th>Unit <sup>
+                                            </sup>
+                                        </th>
+                                        <th>
+                                            Unit <sup>
                                                 <font class='mandatory-field'>*</font>
-                                            </sup></th>
+                                            </sup>
+                                        </th>
                                         <th>From</th>
                                         <th>To</th>
                                         <th></th>
@@ -190,7 +201,8 @@
                                 <tbody>
 
                                     <tr ng-if="ParameterSettingslist.length==0">
-                                        <td colspan="7" style="text-align: center">No Data Available
+                                        <td colspan="7" style="text-align: center">
+                                            No Data Available
                                         </td>
                                     </tr>
                                     <!--{{ParameterSettingslist}}-->
@@ -201,7 +213,8 @@
                                                     ng-options="item.Id as item.Name for item in ParameterTypeList"
                                                     ng-change="ParameterSettings_ViewEdit(row);">
                                                 <option value="">Select</option>
-                                            </select></td>
+                                            </select>
+                                        </td>
 
                                         <td>
 
@@ -352,31 +365,34 @@
                             </table>
                             <a href="javascript:" title="Click to Add" class="theme-btn-1"
                                ng-click="MonitoringParameterSettings_Insert()">
-                                Add</a>
+                                Add
+                            </a>
 
 
                         </div>
-                        <div class="row" ng-show="currentTab=='2'">
+                        <div ng-show="currentTab=='2'">
                             <table class="table themeTable" template-pagination="custom/pager">
                                 <thead>
                                     <tr style="text-align: center">
                                         <th>Parameter</th>
                                         <th>Duration</th>
                                         <th>Count</th>
-                                        <!--<th>High</th>
+                                        <th>High</th>
                                         <th>Medium</th>
-                                        <th>Low</th>-->
+                                        <th>Low</th>
                                         <th>Action</th>
                                     </tr>
 
                                 </thead>
                                 <tbody>
                                     <tr ng-if="ParameterSettingslist.length==0">
-                                        <td colspan="7" style="text-align: center">No Data Available
+                                        <td colspan="7" style="text-align: center">
+                                            No Data Available
                                         </td>
                                     </tr>
                                     <tr ng-repeat="row in ParameterSettingslist">
-                                        <td>{{(ParameterTypeList | filter : {Id : row.Parameter_Id}: true)[0].Name}}
+                                        <td>
+                                            {{(ParameterTypeList | filter : {Id : row.Parameter_Id}: true)[0].Name}}
                                         </td>
                                         <td>
                                             <select ng-model="row.Com_DurationType" class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="DurationTypeList"
@@ -388,18 +404,18 @@
                                             <input type="text" class="form-control" ng-model="row.Comp_Duration"
                                                    maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                         </td>
-                                        <!--<td>
+                                        <td>
                                             <input type="text" class="form-control" ng-model="row.Comp_High"
-                                                maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" ng-model="row.Comp_Medium"
-                                                maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" ng-model="row.Comp_Low"
-                                                maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                        </td>-->
+                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                        </td>
                                         <td style="text-align: center">
                                             <i class="fa fa-trash-o" aria-hidden="true"
                                                ng-click="MonitoringProtocolDelete($index,row.Id)"
@@ -409,94 +425,23 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="input-group">
-                                <h2>Custom Recurrence</h2>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <h3>Repeat Every</h3>
-                                    <select data-style="form-control" ng-change="ChangeMethod()" ng-model="Compliancealert">
-                                        <option value="1">Daily</option>
-                                        <option value="2">Weekly</option>
-                                        <option value="3">Monthly</option>
-                                        <option value="4">Yearly</option>
-                                    </select>
-                                    <input type="text" id="member" name="member" value="" placeholder="No of Times in a day">
-                                    <button type="button" class="theme-btn-1 mr-10" id="btnsave" title="Click to Save"
-                                            ng-click="addFields()">
-                                        Fill Details
-                                    </button>
-                                    <!--<div id="container" />-->
 
-                                </div>
-                                <div class="inputGroups" ng-if="ComplianceWeekly==1">
-                                    <div class="weekDays-selector">
-                                        <input type="checkbox" id="weekday-mon" class="weekday" />
-                                        <label for="weekday-mon">M</label>
-                                        <input type="checkbox" id="weekday-tue" class="weekday" />
-                                        <label for="weekday-tue">T</label>
-                                        <input type="checkbox" id="weekday-wed" class="weekday" />
-                                        <label for="weekday-wed">W</label>
-                                        <input type="checkbox" id="weekday-thu" class="weekday" />
-                                        <label for="weekday-thu">T</label>
-                                        <input type="checkbox" id="weekday-fri" class="weekday" />
-                                        <label for="weekday-fri">F</label>
-                                        <input type="checkbox" id="weekday-sat" class="weekday" />
-                                        <label for="weekday-sat">S</label>
-                                        <input type="checkbox" id="weekday-sun" class="weekday" />
-                                        <label for="weekday-sun">S</label>
-                                    </div>
-                                </div>
-                                <div class="inputGroups" ng-if="ComplianceWeekly==2">
-                                    <label>Select Date of the month</label>
-                                    <select class="form-control" ng-change="ChangeMethod()" ng-model="Compliancealert">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="18">18</option>
-                                        <option value="19">19</option>
-                                        <option value="20">20</option>
-                                        <option value="21">21</option>
-                                        <option value="22">22</option>
-                                        <option value="23">23</option>
-                                        <option value="24">24</option>
-                                        <option value="25">25</option>
-                                        <option value="26">26</option>
-                                        <option value="27">27</option>
-                                        <option value="28">28</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <h4>Timings</h4>
-                                    <div id="container" />
-                                </div>
-                            </div>
+
                         </div>
+
+
+
                     </form>
                 </div>
             </div>
             <div class="modal-footer" style="text-align: center;">
                 <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
                         ng-click="ProtocolParameter_AddEdit()">
-                    Save</button>
+                    Save
+                </button>
                 <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelProtocol()">
-                    Cancel</button>
+                    Cancel
+                </button>
             </div>
         </div>
 
@@ -510,7 +455,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" title="Close">
-                    &times;</button>
+                    &times;
+                </button>
                 <h4 class="modal-title">Monitoring Protocol</h4>
 
             </div>
@@ -526,8 +472,8 @@
                     </a>
                 </li>
             </ul>
-            <div class="modal-body"  id="Div1">
-                <form  role="form">
+            <div class="modal-body" id="Div1">
+                <form role="form">
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="inputGroups">
@@ -539,7 +485,7 @@
 
 
                     <!--  <div id="Div1" class="panel-collapse" ng-show="currentTab=='1'">-->
-                    <div id="Div2"  ng-show="currentTab=='1'">
+                    <div id="Div2" ng-show="currentTab=='1'">
 
                         <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
                             <thead>
@@ -579,7 +525,8 @@
                             </thead>
                             <tbody>
                                 <tr ng-if="ParameterSettingslist.length==0">
-                                    <td colspan="16" style="text-align: center">No Data Available
+                                    <td colspan="16" style="text-align: center">
+                                        No Data Available
                                     </td>
                                 </tr>
                                 <tr ng-repeat="row in ParameterSettingslist">
@@ -655,10 +602,10 @@
 
 
 
-                    <div  ng-show="currentTab=='2'">
+                    <div ng-show="currentTab=='2'">
                         <!--<div class="panel-heading containeralign" style="text-align: left;"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
                                         </a></h4></div>-->
-                        <div id="Div5" >
+                        <div id="Div5">
 
                             <table class="table themeTable" template-pagination="custom/pager">
                                 <thead>
@@ -674,7 +621,8 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-if="ParameterSettingslist.length==0">
-                                        <td colspan="7" style="text-align: center">No Data Available
+                                        <td colspan="7" style="text-align: center">
+                                            No Data Available
                                         </td>
                                     </tr>
                                     <tr ng-repeat="row in ParameterSettingslist">
@@ -721,7 +669,8 @@
 
                 <button type="button" class="theme-btn-2" title="Click to Cancel"
                         ng-click="CancelViewProtocol()">
-                    Cancel</button>
+                    Cancel
+                </button>
             </div>
         </div>
 
@@ -739,25 +688,3 @@
     //    //todayBtn: true
     //});
 </script>
-<style>
-    .weekDays-selector input {
-        display: none !important;
-    }
-
-        .weekDays-selector input[type=checkbox] + label {
-            display: inline-block;
-            border-radius: 6px;
-            background: #dddddd;
-            height: 40px;
-            width: 30px;
-            margin-right: 3px;
-            line-height: 40px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .weekDays-selector input[type=checkbox]:checked + label {
-            background: #2AD705;
-            color: #ffffff;
-        }
-</style>
