@@ -1423,41 +1423,41 @@ namespace MyCortex.User.Controller
                 model.Error_Code = "";
                 model.PatientHealthDataDetails = ModelData;
                 model.Message = messagestr;
-                if ((ModelData.flag == 1) == true || (ModelData.flag == 2) == true)
-                {
-                    PatientHealthDataModel phm = new PatientHealthDataModel();
-                    phm = repository.PatientHealthData_AlertNotification_List(ModelData.Id);
-                    string Event_Code = "";
-                    if (phm != null)
-                    {
-                        if (phm.HighCount > 0)
-                            Event_Code = "DIAG_HIGH";
-                        if (phm.MediumCount > 0)
-                            Event_Code = "DIAG_MEDIUM";
-                        if (phm.LowCount > 0)
-                            Event_Code = "DIAG_LOW";
+                //if ((ModelData.flag == 1) == true || (ModelData.flag == 2) == true)
+                //{
+                //    PatientHealthDataModel phm = new PatientHealthDataModel();
+                //    phm = repository.PatientHealthData_AlertNotification_List(ModelData.Id);
+                //    string Event_Code = "";
+                //    if (phm != null)
+                //    {
+                //        if (phm.HighCount > 0)
+                //            Event_Code = "DIAG_HIGH";
+                //        if (phm.MediumCount > 0)
+                //            Event_Code = "DIAG_MEDIUM";
+                //        if (phm.LowCount > 0)
+                //            Event_Code = "DIAG_LOW";
 
-                        if (phm.HighCount > 0 || phm.MediumCount > 0 || phm.LowCount > 0)
-                        {
-                            AlertEvents AlertEventReturn = new AlertEvents();
-                            IList<EmailListModel> EmailList;
-                            EmailList = AlertEventReturn.Diagnostic_Compliance_AlertEvent((long)ModelData.Patient_Id, (long)ModelData.Institution_Id);
+                //        if (phm.HighCount > 0 || phm.MediumCount > 0 || phm.LowCount > 0)
+                //        {
+                //            AlertEvents AlertEventReturn = new AlertEvents();
+                //            IList<EmailListModel> EmailList;
+                //            EmailList = AlertEventReturn.Diagnostic_Compliance_AlertEvent((long)ModelData.Patient_Id, (long)ModelData.Institution_Id);
 
-                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)ModelData.Institution_Id, EmailList);
-                        }
-                    }
-                }
-                if ((ModelData.flag == 1) == true)
-                {
-                    string Event_Code = "";
-                    Event_Code = "NEWDATA_CAPTURE";
+                //            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, (long)ModelData.Institution_Id, EmailList);
+                //        }
+                //    }
+                //}
+                //if ((ModelData.flag == 1) == true)
+                //{
+                //    string Event_Code = "";
+                //    Event_Code = "NEWDATA_CAPTURE";
 
-                    AlertEvents AlertEventReturn = new AlertEvents();
-                    IList<EmailListModel> EmailList;
-                    EmailList = AlertEventReturn.NewDataCapturedEvent((long)patientDataObj.Patient_Id, (long)ModelData.Institution_Id);
+                //    AlertEvents AlertEventReturn = new AlertEvents();
+                //    IList<EmailListModel> EmailList;
+                //    EmailList = AlertEventReturn.NewDataCapturedEvent((long)patientDataObj.Patient_Id, (long)ModelData.Institution_Id);
 
-                    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataObj.Patient_Id, (long)ModelData.Institution_Id, EmailList);
-                }
+                //    AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, patientDataObj.Patient_Id, (long)ModelData.Institution_Id, EmailList);
+                //}
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, model);
 
