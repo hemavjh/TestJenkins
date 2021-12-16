@@ -2115,7 +2115,16 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $('#divState').addClass("ng-invalid");
             }
         }
-
+        $scope.dobChange = function () {
+            if ($scope.DOB != "") {
+                $('#divDOB').removeClass("ng-invalid");
+                $('#divDOB').addClass("ng-valid");
+            }
+            else {
+                $('#divDOB').removeClass("ng-valid");
+                $('#divDOB').addClass("ng-invalid");
+            }
+        }
         $scope.TabClick = false;
 
         $scope.checkTab = function () {
@@ -2133,7 +2142,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
         $scope.Businessuesrclickcount = 1;
         $scope.AddUserPopUP = function () {
-            $('#divInstitution').addClass("ng-invalid");
+            if ($scope.LoginType == '1') {
+                $('#divInstitution').removeClass("ng-valid");
+                $('#divInstitution').addClass("ng-invalid");
+            }
+            else {
+                $('#divInstitution').removeClass("ng-invalid");
+                $('#divInstitution').addClass("ng-valid");
+            }
+            //$('#divInstitution').addClass("ng-invalid");
             $scope.submitted = false;
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
@@ -2699,10 +2716,28 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $http.get(baseUrl + '/api/Common/GenderList/').success(
                     function (data) {
                         $scope.GenderList = data;
+
+                        if ($scope.GenderId != "0") {
+                            $('#divGender').removeClass("ng-invalid");
+                            $('#divGender').addClass("ng-valid");
+                        }
+                        else {
+                            $('#divGender').removeClass("ng-valid");
+                            $('#divGender').addClass("ng-invalid");
+                        }
                     });
 
                 $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
                     $scope.DepartmentList = data;
+
+                    if ($scope.DepartmentId != "0") {
+                        $('#divDepartment').removeClass("ng-invalid");
+                        $('#divDepartment').addClass("ng-valid");
+                    }
+                    else {
+                        $('#divDepartment').removeClass("ng-valid");
+                        $('#divDepartment').addClass("ng-invalid");
+                    }
                 });
             }
         }
@@ -2715,6 +2750,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     console.log(data);
                     $scope.UserTypeList = data;
                     $scope.Businesstab1 = $scope.Businesstab1 + 1;
+
+                    if ($scope.UserTypeId != "0") {
+                        $('#divUserType').removeClass("ng-invalid");
+                        $('#divUserType').addClass("ng-valid");
+                    }
+                    else {
+                        $('#divUserType').removeClass("ng-valid");
+                        $('#divUserType').addClass("ng-invalid");
+                    }
                 });
 
                 $http.get(baseUrl + '/api/Common/GenderList/').success(
@@ -2725,6 +2769,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
                     $scope.DepartmentList = data;
                     $scope.Businesstab1 = $scope.Businesstab1 + 1;
+
+                    if ($scope.DepartmentId != "0") {
+                        $('#divDepartment').removeClass("ng-invalid");
+                        $('#divDepartment').addClass("ng-valid");
+                    }
+                    else {
+                        $('#divDepartment').removeClass("ng-valid");
+                        $('#divDepartment').addClass("ng-invalid");
+                    }
                 });
             }
             $scope.Businessuesrclickcount = $scope.Businessuesrclickcount + 1;
@@ -3931,6 +3984,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
                 $scope.GenderList = data;
             });
+            $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
+                $scope.DepartmentList = data;
+            });
+            $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
+                $scope.UserTypeList = data;
+            });
+            $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
+                $scope.NationalityList = data;
+            });
 
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
@@ -4046,11 +4108,22 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             }
 
                             $scope.DepartmentId = data.DEPARTMENT_ID.toString();
+                            var department = document.getElementById('Select1').value;
+                            //alert(department);
+                            if ($scope.DepartmentId != "0") {
+                                $('#divDepartment').removeClass("ng-invalid");
+                                $('#divDepartment').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divDepartment').removeClass("ng-valid");
+                                $('#divDepartment').addClass("ng-invalid");
+                            }
                             $scope.FirstName = data.FirstName;
                             $scope.MiddleName = data.MiddleName;
                             $scope.LastName = data.LastName;
                             $scope.Employee_No = data.EMPLOYEMENTNO;
                             $scope.EmailId = data.EMAILID;
+                            $scope.MobileNo = data.MOBILE_NO;
                             var mobilenoFields = data.MOBILE_NO.split('~');
                             var countrycode = mobilenoFields[0];
                             var mNumber = mobilenoFields[1];
@@ -4068,6 +4141,14 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
                             $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
                             $scope.UserTypeId = data.UserType_Id.toString();
+                            if ($scope.UserTypeId != "0") {
+                                $('#divUserType').removeClass("ng-invalid");
+                                $('#divUserType').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divUserType').removeClass("ng-valid");
+                                $('#divUserType').addClass("ng-invalid");
+                            }
                             $scope.Health_License = data.HEALTH_LICENSE;
                             $scope.File_Name = data.FILE_NAME;
                             $scope.CertificateFileName = data.FILE_NAME;
@@ -4076,9 +4157,33 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             $scope.File_FullPath = data.FILE_FULLPATH;
                             $scope.Upload_FileName = data.UPLOAD_FILENAME;
                             $scope.GenderId = data.GENDER_ID.toString();
+                            if ($scope.GenderId != "0") {
+                                $('#divGender').removeClass("ng-invalid");
+                                $('#divGender').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divGender').removeClass("ng-valid");
+                                $('#divGender').addClass("ng-invalid");
+                            }
                             $scope.NationalityId = data.NATIONALITY_ID.toString();
+                            if ($scope.NationalityId != "0") {
+                                $('#divNationality').removeClass("ng-invalid");
+                                $('#divNationality').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divNationality').removeClass("ng-valid");
+                                $('#divNationality').addClass("ng-invalid");
+                            }
                             $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                             $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                            if ($scope.DOB != "") {
+                                $('#divDOB').removeClass("ng-invalid");
+                                $('#divDOB').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divDOB').removeClass("ng-valid");
+                                $('#divDOB').addClass("ng-invalid");
+                            }
                             $scope.HomeAreaCode = data.HOME_AREACODE;
                             $scope.Home_PhoneNo = data.HOME_PHONENO;
                             $scope.MobileAreaCode = data.MOBIL_AREACODE;
@@ -4090,7 +4195,30 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             $scope.CountryId = data.COUNTRY_ID.toString();
                             $scope.StateId = data.STATE_ID.toString();
                             $scope.CityId = data.CITY_ID.toString();
-
+                            if ($scope.CountryId != "0") {
+                                $('#divCountry').removeClass("ng-invalid");
+                                $('#divCountry').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divCountry').removeClass("ng-valid");
+                                $('#divCountry').addClass("ng-invalid");
+                            }
+                            if ($scope.StateId != "0") {
+                                $('#divState').removeClass("ng-invalid");
+                                $('#divState').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divState').removeClass("ng-valid");
+                                $('#divState').addClass("ng-invalid");
+                            }
+                            if ($scope.CityId != "0") {
+                                $('#divCity').removeClass("ng-invalid");
+                                $('#divCity').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divCity').removeClass("ng-valid");
+                                $('#divCity').addClass("ng-invalid");
+                            }
                             $scope.CountryDuplicateId = $scope.CountryId;
                             $scope.CountryFlag = true;
                             $scope.StateDuplicateId = $scope.StateId;
@@ -4202,11 +4330,11 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             setTimeout(function () {
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
+                                $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
                                 $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.UserTypeId = data.UserType_Id.toString();
-                                $scope.NationalityId = data.NATIONALITY_ID.toString();
                             }, 10000);
 
                             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
@@ -4298,6 +4426,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                             $('#patientrowid').prop('disabled', true);
                             $("#chatLoaderPV").hide();
                             inputPhoneNo.setNumber(mNumberCC);
+                            document.getElementById('txthdFullNumber').value = mNumberCC;
                         });
                     } else {
                         window.location.href = baseUrl + "/Home/LoginIndex";
@@ -4553,14 +4682,8 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
             $scope.User_InsertUpdate();
         }
         $scope.User_InsertUpdate = function () {
+            //$("#chatLoaderPV").show();
             $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
-            //$scope.ConfigCode = "MRN_PREFIX";
-            //$scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
-            //$http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
-            //    console.log(data2);
-            //    $scope.PrefixMRN = data2[0].ConfigValue;
-            //});
-
             $('#btnsave').attr("disabled", true);
             $('#btnsave1').attr("disabled", true);
             $('#btnsave2').attr("disabled", true);
@@ -5027,6 +5150,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                     $('#btnsave2').attr("disabled", false);
                 }
             });
+            //$("#chatLoaderPV").hide();
         }
 
         $scope.InstitueDefaultConfiguration = function () {
@@ -19883,7 +20007,6 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailTemplatePopUP = function () {
-            $scope =S
             angular.element('#EmailTemplateModal').modal('show');
             $('#btnsave').attr("disabled", false);
             $scope.ClearPopup();
