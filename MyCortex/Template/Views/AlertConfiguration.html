@@ -67,14 +67,16 @@
             <thead>
                 <tr style="text-align: center">
                     <th st-ratio="5">#</th>
-                    <th st-ratio="12" st-sort="EventName">Event</th>
-                    <th st-ratio="10" st-sort="EmailFlag">Send Email</th>
-                    <th st-ratio="12" st-sort="EmailTemplate">Email Template</th>
-                    <th st-ratio="10" st-sort="AppFlag">App Notification</th>
-                    <th st-ratio="12" st-sort="AppTemplate">App Template</th>
-                    <th st-ratio="10" st-sort="WebFlag">Web Notification</th>
-                    <th st-ratio="11" st-sort="WebTemplate">Web Template</th>
-                    <th st-ratio="10" st-sort="AlertDays">Event Duration</th>
+                    <th st-ratio="8" st-sort="EventName">Event</th>
+                    <th st-ratio="8" st-sort="EmailFlag">Send Email</th>
+                    <th st-ratio="10" st-sort="EmailTemplate">Email Template</th>
+                    <th st-ratio="9" st-sort="AppFlag">App Notification</th>
+                    <th st-ratio="10" st-sort="AppTemplate">App Template</th>
+                    <th st-ratio="9" st-sort="WebFlag">Web Notification</th>
+                    <th st-ratio="10" st-sort="WebTemplate">Web Template</th>
+                    <th st-ratio="8" st-sort="SMSFlag">Send SMS</th>
+                    <th st-ratio="8" st-sort="SMSTemplate">SMS Template</th>
+                    <th st-ratio="8" st-sort="AlertDays">Event Duration</th>
                     <th st-ratio="8">Action</th>
                 </tr>
             </thead>
@@ -95,6 +97,8 @@
                     <td style="text-align: left">{{row.AppTemplate}}</td>
                     <td style="text-align: center">{{row.WebFlag==true?'Yes':'No'}}</td>
                     <td style="text-align: left">{{row.WebTemplate}}</td>
+                    <td style="text-align: center">{{row.SMSFlag==true?'Yes':'No'}}</td>
+                    <td style="text-align: left">{{row.SMSTemplate}}</td>
                     <td style="text-align: left">{{row.AlertDays}}</td>
                     <td st-ratio="10">
                         <a href="javascript:" ng-click="ViewEmailAlertPopUP(row.Id)" title="View">
@@ -211,6 +215,23 @@
                         </select>
 
                     </div>
+
+                    <div class="inputGroups">
+                        <label>SMS</label>
+                        <input type="checkbox" value="agree" ng-model="SMSFlag">
+                    </div>
+                    <div class="inputGroups" ng-show="SMSFlag==true">
+                        <label>SMS Template</label>
+                        <select class="" data-style="form-control" ng-model="SMSTemplate" id="select3"
+                                data-live-search="true" data-selectpicker data-collection-name="SMSTempalteTypeList">
+                            <option value="0">Select</option>
+                            <option ng-repeat="sel in SMSTempalteTypeList" ng-selected="SMSTemplate==sel.Id"
+                                    value="{{sel.Id}}">
+                                {{sel.TemplateName}}
+                            </option>
+                        </select>
+                    </div>
+                    
                     <div class="inputGroups" ng-show="Eventtype==2">
 
                         <label>Duration</label>
@@ -283,6 +304,17 @@
                         <label>Template</label>
                         <span>{{ViewWebTemplateName}}</span>
                     </div>
+
+                    <div class="inputGroups">
+                        <label>SMS</label>
+                        <input type="checkbox" style="display: inline-block;" value="agree" ng-model="SMSFlag"
+                               ng-disabled="true">
+                    </div>
+                    <div class="inputGroups" ng-show="SMSFlag==true">
+                        <label>Template</label>
+                        <span>{{ViewSMSTemplateName}}</span>
+                    </div>
+                    
                     <div class="inputGroups" ng-show="Eventtype== 2">
                         <label>Duration</label>
                         <span>{{AlertDays}}&nbsp;&nbsp;{{EventDurationUOM}}</span>

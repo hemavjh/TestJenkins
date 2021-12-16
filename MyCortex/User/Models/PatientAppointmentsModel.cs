@@ -67,6 +67,21 @@ namespace MyCortex.User.Model
         public IList<PatientAppointmentsModel> PatientAppointmentList { get; set; }
     }
 
+    public class AppointmentPaymentHistory
+    {
+        public long SNO { get; set; }
+
+        public long ID { get; set; }
+
+        public string APPOINTMENT_DATE { get; set; }
+
+        public string PAYMENT_STATUS { get; set; }
+
+        public string PAYMENT_DATE { get; set; }
+
+        public string PAYMENT_TIME { get; set; }
+    }
+
     public class ScheduledDaysListModel
     {
         public DateTime Date { get; set; }

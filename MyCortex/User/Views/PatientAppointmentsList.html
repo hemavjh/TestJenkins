@@ -70,7 +70,7 @@
                             </div>
                             <div class="" style="width:80%">
                                 <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr. {{Row.DoctorName}}</p>
-                                <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / {{Row.Payment_Status}}</p>
+                                <p class="m-bottom-0 secondary-text1">{{Row.Doctor_DepartmentName}} / <a href="" ng-click="show_payment_history(Row)">{{Row.Payment_Status}}</a></p>
                             </div>
                         </div>
                         <div class="flex">
@@ -122,8 +122,8 @@
                     </div>
                 </div>
                 <!--<div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
-         No Upcoming Waiting Appointment...
-     </div>-->
+                    No Upcoming Waiting Appointment...
+                </div>-->
             </div>
             <div id="StripePayOptions" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog" style="width: 70%">
@@ -173,6 +173,57 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="appointment_payment_history" class="modal fade-scale " role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 70%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close"
+                            ng-click="ClosePaymentAppointmentHistory()">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Appointment Payment History</h4>
+                </div>
+                <div id="main-box">
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <table class="table themeTable">
+                                <thead>
+                                    <tr style="text-align: center">
+                                        <th>SNo</th>
+                                        <th>Id</th>
+                                        <th>Payment Date</th>
+                                        <th>Payment Time</th>
+                                        <th>Payment Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in paymentHistory">
+                                        <td>
+                                            <span>{{row.SNO}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{row.ID}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{row.PAYMENT_DATE}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{row.PAYMENT_TIME}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{row.PAYMENT_STATUS}}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="lds-ripple" id="payment_waveLoader" style="z-index: 10000;display: none;"><div></div><div></div></div>
             </div>
         </div>
     </div>

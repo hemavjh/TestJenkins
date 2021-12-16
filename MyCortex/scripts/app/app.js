@@ -6,7 +6,57 @@ var EmpApp = angular.module('EmpApp', [
     'ngIdle',
     'toastr',
     'ngFileUpload',
-    'AllergyMasterList'
+    'AllergyMasterList',
+    'ICD10Controller',
+    'DrugDBController',
+    'PayorMasterController',
+    'PlanMasterController',
+    'ParameterSettingsController',
+    'ChatSettingsController',
+    'PasswordController',
+    'EmailConfigurationController',
+    'EmailAlertlistController',
+    'WebConfigurationController',
+    'LanguageSettingsController',
+    'GateWaySettingsController',
+    'EmailTemplateController',
+    'SendEmailController',
+    'EmailUndeliveredController',
+    'EmailHistoryController',
+    'PatientReportListController',
+    'DoctorShiftController',
+    'AttendanceDetailsController',
+    'MyHomeController',
+    'InstitutionSubscriptionHospitalAdminController',
+    'InstitutionHospitalAdminController',
+    'UserController',
+    'PatientApprovalController',
+    'InstitutionController',
+    'InstitutionSubscriptionController',
+    'UserHealthDataDetailsController',
+    'NotificationViewController',
+    'CareCoordinatorController',
+    'AllPatientListController',
+    'CareGiverAssignedPatientsController',
+    'MonitoringProtocolController',
+    'PatientAppointmentController',
+    'PatientAppointmentListController',
+    'homeController',
+    'GooglehomeController',
+    'UsersLogController',
+    'DirectCallController',
+    'DirectVideoCallController',
+    'ParameterController',
+    'UnderConstructionController',
+    'ParentController',
+    'AlertConfigurationController',
+    'ProtocolController',
+    'PatientController',
+    'DoctorProfileController',
+    'CoordinatorController',
+    'CommonController',
+    'AppointmentSlotController',
+    'SlotTimingController'
 ]);
 
 
@@ -217,13 +267,17 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         templateUrl: baseUrl + 'Template/Views/SMSUndelivered.html',
         controller: 'EmailUndeliveredController'
     }).
+    when('/SMSHistory/:PageParameter', {
+        templateUrl: baseUrl + 'Template/Views/SMSHistory.html',
+        controller: 'EmailHistoryController'
+    }).
     when('/NotificationView', {
         templateUrl: baseUrl + 'Template/Views/NotificationView.html',
         controller: 'NotificationViewController'
     }).
     when('/AuditReport', {
         templateUrl: baseUrl + 'Report/Views/AuditReportList.html',
-        controller: 'PatientReportList'
+        controller: 'PatientReportListController'
     }).
     when('/AppointmentSlot', {
         templateUrl: baseUrl + 'User/Views/AppointmentSlot.html',

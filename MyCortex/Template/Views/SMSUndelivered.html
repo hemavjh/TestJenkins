@@ -277,7 +277,7 @@
             </td>
             <td style="text-align: left">
                 <div class="textwrap">
-                    {{row.FullName}}<br>{{row.EmailId}}
+                    {{row.FullName}}<br>{{row.MobileNO}}
                 </div>
             </td>
             <td style="text-align: left">
@@ -297,9 +297,9 @@
             </td>
             <td style="text-align: center">
                 <i class="fa fa-eye" aria-hidden="true" title="Click to View the Email Details"
-                   ng-click="GenerateTemplate(row.EmailTemplate, row.EmailId, row.EmailSubject)"></i>
+                   ng-click="GenerateTemplate(row.EmailTemplate, row.MobileNO, row.EmailSubject)"></i>
                 <i class="fa fa-pencil" aria-hidden="true"
-                   ng-click="UndeliveredEmail_EditModel(row.EmailTemplate, row.EmailId, row.EmailSubject, row.Id, row.UserId)"></i>
+                   ng-click="UndeliveredSMS_EditModel(row.EmailTemplate, row.MobileNO, row.EmailSubject, row.Id, row.UserId)"></i>
 
             </td>
         </tr>
@@ -331,15 +331,15 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="inputGroups">
-                                <label>To</label>
-                                <span>{{EmailId}}</span>
+                                <label>MobileNO</label>
+                                <span>{{MobileNO}}</span>
                             </div>
                             <div class="inputGroups">
-                                <label>Email Subject</label>
+                                <label>SMS Subject</label>
                                 <span>{{EmailSubject}}</span>
                             </div>
                             <div class="inputGroups">
-                                <label>Email Body</label>
+                                <label>SMS Body</label>
                                 <span ng-bind-html="Generated_Template"></span>
                             </div>
                         </div>
@@ -367,19 +367,19 @@
                         ng-click="CancelPopup()">
                     &times;
                 </button>
-                <h4 class="modal-title">Resend Email</h4>
+                <h4 class="modal-title">Resend SMS</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="inputGroups">
-                                <label>To</label>
-                                <span>{{EmailId}}</span>
+                                <label>MobileNO</label>
+                                <span>{{MobileNO}}</span>
                             </div>
                             <div class="inputGroups">
                                 <label>
-                                    Email Subject<sup>
+                                    SMS Subject<sup>
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
@@ -389,7 +389,7 @@
                             </div>
                             <div class="inputGroups">
                                 <label>
-                                    Email Body<sup>
+                                    SMS Body<sup>
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>

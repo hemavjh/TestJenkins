@@ -24,5 +24,6 @@ namespace MyCortex.Template.Models
         public string EmailTemplate { get; set; }
         public string EmailId { get; set; }
         public string EmailStatusType { get; set; }
+        public string MobileNO { get; set; }
     }
 }
