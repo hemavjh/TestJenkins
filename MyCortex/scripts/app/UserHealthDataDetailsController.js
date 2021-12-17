@@ -2862,6 +2862,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             angular.element('#StripePayOptions').modal('show');
         }
 
+        $scope.patientVitalsrowChkChange = function (itemIndex) {
+            //alert(itemIndex);
+            $("#ptDateTimePicker" + itemIndex).val(new Date().toJSON().slice(0, 19));
+        }
+
         // Add row concept for Patient Vital Parameters
         $scope.AddVitalParameters = [{
             'Id': 0,
@@ -2869,6 +2874,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'Units_ID': 0,
             'UOM_Name': '',
             'ParameterValue': '',
+            'chkDateTime': false,
+            'ptDateTime': new Date().toJSON().slice(0, 19),
             'IsActive': 1
         }];
 
@@ -2881,6 +2888,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
+                    'chkDateTime': false,
+                    'ptDateTime': new Date().toJSON().slice(0, 19),
                     'IsActive': 1
                 }
                 $scope.AddVitalParameters.push(obj);
@@ -2892,6 +2901,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
+                    'chkDateTime': false,
+                    'ptDateTime': new Date().toJSON().slice(0, 19),
                     'IsActive': 1
                 }];
             }
@@ -2908,6 +2919,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         'Units_ID': 0,
                         'UOM_Name': '',
                         'ParameterValue': '',
+                        'chkDateTime': false,
+                        'ptDateTime': new Date().toJSON().slice(0, 19),
                         'IsActive': 1
                     }];
                 }

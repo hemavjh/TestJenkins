@@ -2974,6 +2974,8 @@
                                     <th width="30%">Parameter Names</th>
                                     <th width="15%">Unit</th>
                                     <th width="20%">Value</th>
+                                    <th width="7%">Check</th>
+                                    <th width="20%">Date & Time</th>
                                     <th width="5%">Action</th>
                                 </tr>
                             </thead>
@@ -2993,12 +2995,19 @@
                                                 ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in ParameterMappingList">
                                             <option value="">Select</option>
                                         </select>
-                                       <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
+                                        <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
                                     </td>
                                     <td style="text-align: center">
                                         <input type="text" class="form-control"
                                                ng-model="row.ParameterValue" maxlength="10"
                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" ng-model="row.chkDateTime" ng-change="patientVitalsrowChkChange($index)" class="checkbox" value="1" />
+                                    </td>
+                                    <td>
+                                        <input type="datetime-local" ng-readonly="row.chkDateTime == false" ej-datetimepicker ng-init="row.ptDateTime=''" ng-model="row.ptDateTime" class="form-control date"
+                                               id="ptDateTimePicker{{$index}}" ng-required="true">
                                     </td>
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"
