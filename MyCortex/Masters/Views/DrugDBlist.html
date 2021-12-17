@@ -145,13 +145,12 @@
                                 </sup>
                             </label>
                             <div id="divStrength" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                <select class="" data-style="form-control" ng-model="Strength_ID" id="selectpicker" ng-change="StrengthChange()"
-                                        data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
-                                    <option ng-repeat="sel in StrengthIDList" ng-selected="Strength_ID==sel.Id"
-                                            value="{{sel.Id}}">
+                                <select class="" data-style="form-control" ng-model="Strength_ID" id="selectpicker" ng-change="StrengthChange()" data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
+                                    <option ng-repeat="sel in StrengthIDList" ng-selected="Strength_ID==sel.Id" value="{{sel.Id}}">
                                         {{sel.Name}}
                                     </option>
                                 </select>
+                            </div>
                             </div>
                             <div class="inputGroups">
                                 <label>
@@ -193,8 +192,7 @@
                                 </button>
                             </div>
                         </div>
-               </div>
-            </form>
+               </form>
         </div>
     </div>
 </div>

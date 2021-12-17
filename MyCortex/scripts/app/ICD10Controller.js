@@ -255,6 +255,7 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddICD10PopUP = function () {
+            $scope.submitted = false;
             angular.element('#ICD10Modal').modal('show');
             $("#btnsave").attr("disabled", false);
             $scope.ClearPopup();
