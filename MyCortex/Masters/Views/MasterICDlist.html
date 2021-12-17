@@ -84,19 +84,18 @@
                         <td st-ratio="10">
 
                             <a href="javascript:" ng-click="ViewICD1OPopUP(row.Id)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
-
                             <a href="javascript:" ng-click="row.IsActive == 0 ||  EditICD10PopUP(row.Id)" title="Edit">
-                                <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                <i class="fa fa-pencil ng-scope" aria-hidden="true" ></i>
                                 <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
 
                                 </a>
                             </a>
-                            <a href="javascript:" id="btndelete" ng-disabled="false" ng-click="DeleteICD10(row.Id)" title="Active">
-                                <i class="fa fa-check-circle-o ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
-                                <a href="javascript:" ng-click="ActiveICD10(row.Id)" title="InActive">
+                                <a href="javascript:;" id="btndelete" ng-disabled="false" ng-click="DeleteICD10(row.Id)" title="Active">
+                                    <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
 
-                                </a>
-                            </a>
+                                    <a href="javascript:"ng-click="ActiveICD10(row.Id)" title="InActive">
+                                        <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                                    </a>
                         </td>
                     </tr>
                 </tbody>

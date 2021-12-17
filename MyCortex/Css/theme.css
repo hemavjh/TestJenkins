@@ -2784,3 +2784,7 @@ responsiveProfileImage1 {
 .ddlValidationBorder{
     border-radius:4px !important;
 }
+
+.swal2-popup{
+    width:515px !important;
+}
