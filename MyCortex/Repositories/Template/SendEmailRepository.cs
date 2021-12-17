@@ -204,7 +204,7 @@ namespace MyCortex.Repositories.Template
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                param.Add(new DataParameter("@ID", obj.Id));
+                param.Add(new DataParameter("@ID", obj.UserId));
                 {
                     DataEncryption DecryptFields = new DataEncryption();
                     DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_RESENDLISTING", param);
