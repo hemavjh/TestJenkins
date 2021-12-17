@@ -164,6 +164,26 @@ namespace MyCortex.Repositories.Uesr
 
         }
 
+        public IList<AppointmentPaymentHistory> AppointmentPaymentHistory(long appointmentId, Guid Login_Session_Id, long Institution_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@APPOINTMENT_ID", appointmentId));
+            param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_APPOINTMENT_PAYMENT_HISTORY]", param);
+            IList<AppointmentPaymentHistory> INS = (from p in dt.AsEnumerable()
+                                                   select
+                                                   new AppointmentPaymentHistory()
+                                                   {
+                                                       SNO = p.Field<long>("SNO"),
+                                                       ID = p.Field<long>("ID"),
+                                                       APPOINTMENT_DATE = p.Field<string>("APPOINTMENT_DATE"),
+                                                       PAYMENT_STATUS = p.Field<string>("PAYMENT_STATUS"),
+                                                       PAYMENT_DATE = p.Field<string>("PAYMENT_DATE"),
+                                                       PAYMENT_TIME = p.Field<string>("PAYMENT_TIME")
+                                                   }).ToList();
+            return INS;
+        }
+
         public IList<PatientAppointmentsModel> AppointmentReSchedule_InsertUpdate(Guid Login_Session_Id, PatientAppointmentsModel obj)
         {
             string flag = "";
