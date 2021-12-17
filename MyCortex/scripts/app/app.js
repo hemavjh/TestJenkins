@@ -5,7 +5,8 @@ var EmpApp = angular.module('EmpApp', [
     'ngSanitize',
     'ngIdle',
     'toastr',
-    'ngFileUpload'
+    'ngFileUpload',
+    'AllergyMasterList'
 ]);
 
 
@@ -347,7 +348,11 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         when('/DeviceList', {
             templateUrl: baseUrl + 'Masters/Views/DeviceList.html',
             controller: 'MyHomeController'
-        }). 
+        }).
+        when('/Admin_Userslog_List', {
+            templateUrl: baseUrl + 'Admin/Views/HospitalAdmin_Userslog.html',
+            controller: 'UsersLogController'
+        }).
     otherwise({
         redirectTo: '/Googlehome'
     });

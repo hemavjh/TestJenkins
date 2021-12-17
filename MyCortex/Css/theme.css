@@ -2780,3 +2780,7 @@ responsiveProfileImage1 {
     width: 200px;
     height: 200px;
 }
+
+.ddlValidationBorder{
+    border-radius:4px !important;
+}
