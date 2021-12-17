@@ -1033,7 +1033,30 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         and redirected to the list page.
         */
         $scope.ReInsertProtocolDetails = function () {
-            var Ins = confirm("Do you like to activate the selected Monitoring Protocol?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Monitoring Protocol?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Monitoring Protocol has been activated successfully");
+                        toastr.success("Selected Monitoring Protocol has been activated successfully", "success");
+                        $scope.MonitoringProtocolDetailsListGo();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected Monitoring Protocol?");
             if (Ins == true) {
                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Monitoring Protocol has been activated successfully");
@@ -1042,7 +1065,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsert Monitoring Protocol Details" + data;
                 });
-            };
+            };*/
         }
 
         /* Calling the api method to detele the details of the Protocol Monitoring 
@@ -1054,7 +1077,30 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
             $scope.Protocol_InActive();
         };
         $scope.Protocol_InActive = function () {
-            var del = confirm("Do you like to deactivate the selected Monitoring Protocol?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Monitoring Protocol?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Monitoring Protocol has been deactivated Successfully");
+                        toastr.success("Selected Monitoring Protocol has been deactivated Successfully", "success");
+                        $scope.MonitoringProtocolDetailsListGo();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting Monitoring Protocol!" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Monitoring Protocol?");
             if (del == true) {
                 $http.get(baseUrl + 'api/Protocol/ProtocolMonitoring_InActive/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Monitoring Protocol has been deactivated Successfully");
@@ -1063,7 +1109,7 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Monitoring Protocol!" + data;
                 });
-            };
+            };*/
         };
 
         /*'Active' the Protocol Monitoring*/
@@ -1103,87 +1149,87 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.MonitoringProtocolDelete = function (itemIndex, ParamId) {
             var del = confirm("Do you like to delete the selected Parameter?");
             if (del == true) {
-                if ($scope.Id <= 0) {
-                    $scope.ParameterSettingslist.splice(itemIndex, 1);
-                    if ($scope.ParameterSettingslist.length == 0) {
-                        $scope.ParameterSettingslist = [{
-                            'Id': 0,
-                            'Protocol_Id': 0,
-                            'ProtocolName': '',
-                            'Institution_Id': 0,
-                            'Institution_Name': '',
-                            'Parameter_Id': 0,
-                            'ParameterName': '',
-                            'Units_Id': 0,
-                            'UnitsName': '',
-                            'Com_DurationType': 0,
-                            'DurationName': '',
-                            'Diag_HighMax_One': '',
-                            'Diag_HighMin_One': '',
-                            'Diag_MediumMax_One': '',
-                            'Diag_MediumMin_One': '',
-                            'Diag_LowMax_One': '',
-                            'Diag_LowMin_One': '',
-                            'Diag_HighMax_Two': '',
-                            'Diag_HighMin_Two': '',
-                            'Diag_MediumMax_Two': '',
-                            'Diag_MediumMin_Two': '',
-                            'Diag_LowMax_Two': '',
-                            'Diag_LowMin_Two': '',
-                            'Comp_Duration': '',
-                            'Comp_High': '',
-                            'Comp_Medium': '',
-                            'Comp_Low': '',
-                            'Isactive': 1,
-                            'Created_By': '',
-                            'NormalRange_High': '',
-                            'NormalRange_Low': ''
-                        }];
+                    if ($scope.Id <= 0) {
+                        $scope.ParameterSettingslist.splice(itemIndex, 1);
+                        if ($scope.ParameterSettingslist.length == 0) {
+                            $scope.ParameterSettingslist = [{
+                                'Id': 0,
+                                'Protocol_Id': 0,
+                                'ProtocolName': '',
+                                'Institution_Id': 0,
+                                'Institution_Name': '',
+                                'Parameter_Id': 0,
+                                'ParameterName': '',
+                                'Units_Id': 0,
+                                'UnitsName': '',
+                                'Com_DurationType': 0,
+                                'DurationName': '',
+                                'Diag_HighMax_One': '',
+                                'Diag_HighMin_One': '',
+                                'Diag_MediumMax_One': '',
+                                'Diag_MediumMin_One': '',
+                                'Diag_LowMax_One': '',
+                                'Diag_LowMin_One': '',
+                                'Diag_HighMax_Two': '',
+                                'Diag_HighMin_Two': '',
+                                'Diag_MediumMax_Two': '',
+                                'Diag_MediumMin_Two': '',
+                                'Diag_LowMax_Two': '',
+                                'Diag_LowMin_Two': '',
+                                'Comp_Duration': '',
+                                'Comp_High': '',
+                                'Comp_Medium': '',
+                                'Comp_Low': '',
+                                'Isactive': 1,
+                                'Created_By': '',
+                                'NormalRange_High': '',
+                                'NormalRange_Low': ''
+                            }];
+                        }
                     }
-                }
-                else {
+                    else {
 
-                    $scope.ParameterSettingslistDelete.push(ParamId);
+                        $scope.ParameterSettingslistDelete.push(ParamId);
 
-                    $scope.ParameterSettingslist.splice(itemIndex, 1);
+                        $scope.ParameterSettingslist.splice(itemIndex, 1);
 
-                    if ($scope.ParameterSettingslist.length == 0) {
-                        $scope.ParameterSettingslist = [{
-                            'Id': 0,
-                            'Protocol_Id': 0,
-                            'ProtocolName': '',
-                            'Institution_Id': 0,
-                            'Institution_Name': '',
-                            'Parameter_Id': 0,
-                            'ParameterName': '',
-                            'Units_Id': 0,
-                            'UnitsName': '',
-                            'Com_DurationType': 0,
-                            'DurationName': '',
-                            'Diag_HighMax_One': '',
-                            'Diag_HighMin_One': '',
-                            'Diag_MediumMax_One': '',
-                            'Diag_MediumMin_One': '',
-                            'Diag_LowMax_One': '',
-                            'Diag_LowMin_One': '',
-                            'Diag_HighMax_Two': '',
-                            'Diag_HighMin_Two': '',
-                            'Diag_MediumMax_Two': '',
-                            'Diag_MediumMin_Two': '',
-                            'Diag_LowMax_Two': '',
-                            'Diag_LowMin_Two': '',
-                            'Comp_Duration': '',
-                            'Comp_High': '',
-                            'Comp_Medium': '',
-                            'Comp_Low': '',
-                            'Isactive': 1,
-                            'Created_By': '',
-                            'NormalRange_High': '',
-                            'NormalRange_Low': ''
-                        }];
+                        if ($scope.ParameterSettingslist.length == 0) {
+                            $scope.ParameterSettingslist = [{
+                                'Id': 0,
+                                'Protocol_Id': 0,
+                                'ProtocolName': '',
+                                'Institution_Id': 0,
+                                'Institution_Name': '',
+                                'Parameter_Id': 0,
+                                'ParameterName': '',
+                                'Units_Id': 0,
+                                'UnitsName': '',
+                                'Com_DurationType': 0,
+                                'DurationName': '',
+                                'Diag_HighMax_One': '',
+                                'Diag_HighMin_One': '',
+                                'Diag_MediumMax_One': '',
+                                'Diag_MediumMin_One': '',
+                                'Diag_LowMax_One': '',
+                                'Diag_LowMin_One': '',
+                                'Diag_HighMax_Two': '',
+                                'Diag_HighMin_Two': '',
+                                'Diag_MediumMax_Two': '',
+                                'Diag_MediumMin_Two': '',
+                                'Diag_LowMax_Two': '',
+                                'Diag_LowMin_Two': '',
+                                'Comp_Duration': '',
+                                'Comp_High': '',
+                                'Comp_Medium': '',
+                                'Comp_Low': '',
+                                'Isactive': 1,
+                                'Created_By': '',
+                                'NormalRange_High': '',
+                                'NormalRange_Low': ''
+                            }];
 
+                        }
                     }
-                }
             }
         };
 
