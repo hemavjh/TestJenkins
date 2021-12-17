@@ -15,6 +15,7 @@ namespace MyCortex.Repositories
         IList<SendEmailModel> Get_SendEmail_UserList(string UserTypeId, long Institution_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id);
         SendEmailModel GenerateTemplate(long Id, long Template_Id, long Institution_Id, long TemplateType_Id);
         IList<SendEmailModel> SendEmail_AddEdit(SendEmailModel obj);
+        IList<SendEmailModel> SendEmail_ResendListing(SendEmailModel obj);
         IList<EmailHistoryListModel> EmailHistory_List(long? Id, DateTime? Period_From, DateTime? Period_To, int? Email_Stauts, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, long TemplateType_Id, Guid Login_Session_Id);
         void SendEmail_Update(long Id, string Error_Reason, int Email_Status, string Sender_MessageId);
         NotifictaionUserFCM UpdateUser_FCMTocken(NotifictaionUserFCM objDetail);
