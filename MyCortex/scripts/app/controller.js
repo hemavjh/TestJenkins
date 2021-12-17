@@ -58,6 +58,16 @@ MyCortexControllers.factory('rememberMe', function () {
 });
 
 
+MyCortexControllers.controller("ParentController", ['$scope',
+    function ($scope) {
+        $scope.$on('$viewContentLoaded', function () {
+            angular.element(".date input").keydown(function (event) {
+                if (event.which != 46)
+                    return false;
+            });
+        });
+    }
+]);
 MyCortexControllers.directive('stRatio', function () {
     return {
         link: function (scope, element, attr) {

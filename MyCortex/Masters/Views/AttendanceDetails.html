@@ -220,8 +220,8 @@
         $('#datetimepickerholiday_To').attr('max', maxDate);
         $('#datetimepickerholiday_From').attr('max', maxDate);
 
-        document.getElementById("datetimepickerholiday_To").value = maxDate;
-        document.getElementById("datetimepickerholiday_From").value = maxDate;
+        //document.getElementById("datetimepickerholiday_To").value = maxDate;
+        //document.getElementById("datetimepickerholiday_From").value = maxDate;
     });
 </script>
 <ul class="secondaryMenu">
@@ -393,7 +393,7 @@
                         <div>
                             <!--<input type="date" id="AttendanceFromDate" max="2099-12-31" class="form-control" ng-model="AttendanceFromDate"
             ng-init="AttendanceFromDate=''">-->
-                            <input type="text" ej-datetimepicker ng-init="AttendanceFromDate=''" ng-model="AttendanceFromDate" class="form-control date" id="datetimepickerholiday_From" ng-required="true">
+                            <input type="text" ej-datetimepicker ng-model="AttendanceFromDate" class="form-control date" id="datetimepickerholiday_From" ng-required="true">
 
                         </div>
                     </div>
@@ -407,7 +407,7 @@
                         <div>
                             <!--<input type="date" class="form-control" max="2099-12-31" id="AttendanceToDate" ng-model="AttendanceToDate"
             ng-init="AttendanceToDate=''">-->
-                            <input type="text" ej-datetimepicker ng-init="AttendanceToDate=''" ng-model="AttendanceToDate" class="form-control date" id="datetimepickerholiday_To" ng-required="true">
+                            <input type="text" ej-datetimepicker ng-model="AttendanceToDate" class="form-control date" id="datetimepickerholiday_To" ng-required="true">
                             <!--<span class="input-group-addon">
                 <i class="glyphicon glyphicon-th"></i>
             </span>-->
