@@ -54,7 +54,6 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
         $scope.MessageUndeliveredDropdownList = function () {
             if ($scope.TabClick == false) {
                 $scope.TabClick = true;
-                alert("s");
                 $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
                     $scope.GenderList = data;
                 });
@@ -149,6 +148,15 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
+            if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+                if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
+                    //alert("From Date should not be greater than To Date");
+                    toastr.warning("From Date should not be greater than To Date", "warning");
+                    $scope.Period_From = DateFormatEdit($scope.Period_From);
+                    $scope.Period_To = DateFormatEdit($scope.Period_To);
+                    return false;
+                }
+            }
             var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
@@ -172,15 +180,15 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             //    $scope.Period_To = DateFormatEdit($scope.Period_From);
             //    return false;
             //}
-            if (($scope.Period_From != "") && ($scope.Period_To != "")) {
-                if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
-                    //alert("From Date should not be greater than To Date");
-                    toastr.warning("From Date should not be greater than To Date", "warning");
-                    $scope.Period_From = DateFormatEdit($scope.Period_From);
-                    $scope.Period_To = DateFormatEdit($scope.Period_To);
-                    return false;
-                }
-            }
+            //if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+            //    if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
+            //        //alert("From Date should not be greater than To Date");
+            //        toastr.warning("From Date should not be greater than To Date", "warning");
+            //        $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //        $scope.Period_To = DateFormatEdit($scope.Period_To);
+            //        return false;
+            //    }
+            //}
             $scope.Period_From = DateFormatEdit($scope.Period_From);
             $scope.Period_To = DateFormatEdit($scope.Period_To);
             return true;
