@@ -19512,7 +19512,7 @@ MyCortexControllers.controller("EmailTemplateController", ['$scope', '$http', '$
             $scope.EmailTemplate = "";
             $scope.Type = "0";
             $scope.Template = "";
-            if ($scope.PageParameter == 1) {
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
                 $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
             }
         }
@@ -20106,7 +20106,8 @@ MyCortexControllers.controller("SendEmailController", ['$scope', '$http', '$filt
                                 Template_Id: $scope.Template_Id,
                                 Created_By: $scope.UserId,
                                 Institution_Id: $scope.InstitutionId,
-                                TemplateType_Id: $scope.PageParameter
+                                TemplateType_Id: $scope.PageParameter,
+                                MobileNO: SelectedUser.MobileNO
                             };
                             $('#btnsave').attr("disabled", true);
                             $scope.SelectedUserList.push(obj);
@@ -20406,6 +20407,15 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             $scope.Generated_Template = EmailTemplate;
             $scope.EmailId = EmailId;
         }
+
+        $scope.GenerateSMSTemplate = [];
+        $scope.GenerateSMSTemplate = function (EmailTemplate, MobileNO, EmailSubject) {
+            angular.element('#Template_PreviewModel').modal('show');
+            $scope.EmailSubject = EmailSubject;
+            $scope.Generated_Template = EmailTemplate;
+            $scope.MobileNO = MobileNO;
+        }
+
         $scope.ClearValues = function () {
             angular.forEach($scope.Filter_SendEmailUserList, function (SelectedUser, index) {
                 SelectedUser.SelectedUser = false;
@@ -20506,7 +20516,7 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
             $("#chatLoaderPV").show();
             $('#save').attr("disabled", true);
             $('#send').attr("disabled", true);
-            if ($scope.PageParameter == 1) {
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
                 $scope.EditEmail_Body = (CKEDITOR.instances.editor1.getData());
             }
             $scope.SelectedUserList = [];
@@ -20514,10 +20524,12 @@ MyCortexControllers.controller("EmailUndeliveredController", ['$scope', '$http',
                 Id: $scope.SendEmail_Id,
                 UserId: $scope.PrimaryKeyId,
                 Created_By: $window.localStorage['UserId'],
+                TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : $scope.PageParameter == 3 ? '3' : '',
                 Institution_Id: $scope.InstituteId,
                 EmailId: $scope.EmailId,
                 Email_Body: $scope.EditEmail_Body,
-                Email_Subject: $scope.EmailSubject
+                Email_Subject: $scope.EmailSubject,
+                MobileNO: $scope.MobileNO
             };
             $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Edit/', obj).success(function (data) {
                 //alert(data.Message);
