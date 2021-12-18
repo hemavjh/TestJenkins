@@ -93,10 +93,10 @@
                             href="#collapseMore"
                             ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageUndeliveredDropdownList()"
                             title="Click for Advance search">
-                            <sub ng-show="currentTab=='1' ">
+                            <sub ng-if="currentTab=='1' ">
                                 <i class="fa fa-filter" aria-hidden="true"></i>
                             </sub>
-                            <sub ng-show="currentTab=='2'">
+                            <sub ng-if="currentTab=='2'">
                                 <i class="fa fa-filter" aria-hidden="true"></i>
                             </sub>
                         </a>
@@ -258,7 +258,7 @@
     </thead>
 
     <tbody>
-        <tr ng-show="EmailrowCollectionFilter.length==0">
+        <tr ng-if="EmailrowCollectionFilter.length==0">
             <td colspan="15" style="text-align: center">
                 No Data Available
             </td>
@@ -296,7 +296,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="EmailrowCollectionFilter.length >10">
+    <tfoot ng-if="EmailrowCollectionFilter.length >10">
         <tr>
             <td colspan="15" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""

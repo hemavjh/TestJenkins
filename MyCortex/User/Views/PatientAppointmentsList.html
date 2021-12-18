@@ -13,7 +13,7 @@
         <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
 
             <div id="Past" class="tab-pane fade">
-                <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
+                <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-if="PreviousAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
                             <p class="up-time">
@@ -47,13 +47,13 @@
                     </div>
                 </div>
 
-                <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
+                <div class="myAppoinments" ng-if="PreviousAppointmentCount !== 0">
                     No Past Appointment...
                 </div>
             </div>
 
             <div id="appt" class="tab-pane fade in active">
-                <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
+                <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-if="UpComingAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
                             <p class="up-time">
@@ -78,7 +78,7 @@
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px">View Uploaded Records |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size:9px;margin-right:2px" ng-click="RescheduleDocAppointment(Row)">Reschedule |</a>
                             <a href="" class="font-semibold m-bottom-0" style="font-size: 9px; margin-right: 2px" ng-click="CancelDocAppointment(Row)"> Cancel |</a>
-                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-show="Row.Payment_Status === 'UNPAID'" ng-click="AppointmentPayment(Row)">  Pay</a>
+                            <a href="" class="font-semibold m-bottom-0" style="font-size:9px" ng-if="Row.Payment_Status === 'UNPAID'" ng-click="AppointmentPayment(Row)">  Pay</a>
                         </div>
                         <div class="flex">
                             <a class="homepadamicon chats" style="cursor: pointer" onclick="openChatWindow()"><img class="kutticon" src="images/chats-icon.png"> </a>
@@ -90,12 +90,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
+                <div class="myAppoinments" ng-if="UpComingAppointmentCount !== 0">
                     No Upcoming Appointment...
                 </div>
             </div>
             <div id="Waiting_Appointment" ng-if="userTypeId == 5" class="tab-pane fade in active">
-                <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
+                <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-if="UpComingWaitingAppointmentCount == 0">
                     <div class=" upcoming-doctor">
                         <div class="flex justify-content-between align-items-center mb-4">
                             <p class="up-time">
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
+                <!--<div class="myAppoinments" ng-if="UpComingWaitingAppointmentCount !== 0">
                     No Upcoming Waiting Appointment...
                 </div>-->
             </div>

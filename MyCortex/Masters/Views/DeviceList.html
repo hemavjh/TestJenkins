@@ -106,7 +106,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollection.length >30">
+    <tfoot ng-if="rowCollection.length >30">
         <tr>
             <td colspan="5" class="text-center">
                 <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -114,7 +114,7 @@
             </td>
         </tr>
     </tfoot>
-    <!--<tfoot ng-show="total_page>1">
+    <!--<tfoot ng-if="total_page>1">
         <tr>
             <td colspan="8" class="text-center">
                 <ul class="pagination">
@@ -247,7 +247,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" ng-show="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="Device_InsertUpdate()" title="Click to Save">Save</button>
+                <button type="button" ng-if="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="Device_InsertUpdate()" title="Click to Save">Save</button>
                 <button type="button" class="theme-btn-2  btn-save" ng-click="CancelDeviceList()" title="Click to Cancel">Cancel</button>
             </div>
         </div>

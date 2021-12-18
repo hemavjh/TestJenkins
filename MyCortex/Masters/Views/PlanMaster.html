@@ -118,7 +118,7 @@
                         </td>
                     </tr>
                 </tbody>
-                <tfoot ng-show="total_page>1">
+                <tfoot ng-if="total_page>1">
                     <tr>
                         <td colspan="6" class="text-center">
                             <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
@@ -212,7 +212,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-show="PlanSave == true" ng-click="PlanAddEdit()" title="Click to Save">Save</button>
+                <button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-if="PlanSave == true" ng-click="PlanAddEdit()" title="Click to Save">Save</button>
                 <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
             </div>
         </div>

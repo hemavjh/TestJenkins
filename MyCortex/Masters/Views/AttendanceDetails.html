@@ -333,7 +333,7 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot ng-show="rowCollectionAttendanceFilter.length >10">
+        <tfoot ng-if="rowCollectionAttendanceFilter.length >10">
             <tr>
                 <td colspan="9" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -357,7 +357,7 @@
             </div>
             <div class="modal-body">
                 <form role="form">
-                    <div class="inputGroups" ng-show="Id==0">
+                    <div class="inputGroups" ng-if="Id==0">
                         <label>
                             User Name<sup>
                                 <font class='mandatory-field'>*</font>
@@ -368,7 +368,7 @@
                                 ng-options="item1.Id as item1.FullName for item1 in UserTypeList" multiselect-dropdown
                                 style="width: 230px;"></select>
                     </div>
-                    <div class="inputGroups" ng-show="Id>0">
+                    <div class="inputGroups" ng-if="Id>0">
                         <label>
                             User Name<sup>
                                 <font class='mandatory-field'>*</font>
