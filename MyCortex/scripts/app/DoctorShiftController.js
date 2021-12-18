@@ -2806,7 +2806,41 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $scope.DoctorShift_Delete();
         };
         $scope.DoctorShift_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected Doctor Shift?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Doctor Shift?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+                    $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Delete/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        else if (data.ReturnFlag == 0) {
+                            toastr.info(data.Message, "info");
+                        }
+
+                        $scope.DoctorShiftListGo();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  Drug DB details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Doctor Shift?");
             if (del == true) {
                 $("#chatLoaderPV").show();
                 var obj =
@@ -2828,7 +2862,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $scope.error = "AN error has occured while deleting Institution!" + data;
                 });
                 $("#chatLoaderPV").hide();
-            };
+            };*/
         };
 
         /*'Active' the Doctor shift */
@@ -2853,7 +2887,34 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     toastr.info("Activate Doctor Shift is already created, Please check", "info");
                 }
                 else {
-                    var Ins = confirm("Do you like to activate the selected Doctor Shift?");
+                    Swal.fire({
+                        title: 'Do you like to activate the selected Doctor Shift?',
+                        html: '',
+                        showDenyButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: 'Yes',
+                        denyButtonText: 'No',
+                        showCloseButton: true,
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            var obj =
+                            {
+                                Id: $scope.Id,
+                                Modified_By: $window.localStorage['UserId']
+                            }
+                            $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Active/', obj).success(function (data) {
+                                alert(data.Message);
+                                $scope.DoctorShiftListGo();
+                            }).error(function (data) {
+                                $scope.error = "An error has occurred while ReInsertDoctor Shift" + data;
+                            });
+                        } else if (result.isDenied) {
+                            //Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+                    /*var Ins = confirm("Do you like to activate the selected Doctor Shift?");
                     if (Ins == true) {
                         var obj =
                         {
@@ -2866,7 +2927,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                         }).error(function (data) {
                             $scope.error = "An error has occurred while ReInsertDoctor Shift" + data;
                         });
-                    };
+                    };*/
                 }
             })
             $("#chatLoaderPV").hide();
