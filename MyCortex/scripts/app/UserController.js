@@ -442,8 +442,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.EditUserPopUP = function (CatId) {
-            $('#btnsave').attr("disabled", false);
-            $('#btnsave2').attr("disabled", false);
+            if ($scope.LoginType == '1') {
+                $('#divInstitution').addClass("ng-invalid");
+                $('#divInstitution').removeClass("ng-valid");
+            }
+            else {
+                $('#divInstitution').addClass("ng-valid");
+                $('#divInstitution').removeClass("ng-invalid");
+            }
+
+            $scope.submitted = false;
+            $('#btnsave').attr("disabled", true);
+            $('#btnsave2').attr("disabled", true);
             $scope.uploadme = null;
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
@@ -2291,7 +2301,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
 
                             $scope.DepartmentId = data.DEPARTMENT_ID.toString();
-                            var department = document.getElementById('Select1').value;
                             if ($scope.DepartmentId != "0" || $scope.DepartmentId != "") {
                                 $('#divDepartment').removeClass("ng-invalid");
                                 $('#divDepartment').addClass("ng-valid");
@@ -2517,6 +2526,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.UserTypeId = data.UserType_Id.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
+                                $('#btnsave').attr("disabled", false);
+                                $('#btnsave2').attr("disabled", false);
                             }, 10000);
 
                             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
@@ -2870,6 +2881,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#btnsave2').attr("disabled", true);
             var myPromise = $scope.AgeRestictLimit();
             $scope.Is_Master = false;
+            $("#chatLoaderPV").show();
             myPromise.then(function (resolve) {
 
                 if (($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) || ($scope.MenuTypeId == 1 && $scope.LoginType == 3)) // for business users
@@ -2880,7 +2892,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.Is_Master = true;
                 }
                 if ($scope.User_Admin_AddEdit_Validations() == true) {
-                    $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
                     $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src');
@@ -3329,6 +3340,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $('#btnsave').attr("disabled", false);
                     $('#btnsave1').attr("disabled", false);
                     $('#btnsave2').attr("disabled", false);
+                    $("#chatLoaderPV").hide();
                 }
             });
         }

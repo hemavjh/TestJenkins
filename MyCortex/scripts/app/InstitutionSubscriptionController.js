@@ -66,6 +66,11 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.EditInstSub = 0;
         $scope.EditIntstitutionSubPopup = function (InsSubId, ActiveFlag) {
             if (ActiveFlag == "1") {
+                $('#divInssInstitute').addClass("ng-invalid");
+                $('#divInssTimeZone').addClass("ng-invalid");
+                $('#divInssChronicEdit').addClass("ng-invalid");
+                $('#divInssApModule').addClass("ng-invalid");
+                $scope.submitted = false;
                 $scope.ClearInstitutionSubscriptionPopup();
                 $scope.Id = InsSubId;
                 $scope.Hcp_Pat = true;
@@ -301,7 +306,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $scope.Contract_Period_From = DateFormatEdit($scope.Contract_Period_From);
                 $scope.Contract_Period_To = DateFormatEdit($scope.Contract_Period_To);
             }
-
+            if ($scope.Chroniccc == false && $scope.Chroniccg == false && $scope.Chroniccl == false && $scope.Chronicsc == false) {
+                toastr.warning("Please select Any One In Chronic Edi", "warning");
+                return false;
+            }
             return true;
         };
         /*on click Save calling the insert update function for Institution Subscription */
