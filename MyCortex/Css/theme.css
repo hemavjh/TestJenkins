@@ -34,6 +34,10 @@
     --negativeHoverBtnText: #35a9e4;
 }
 
+.swal2-popup{
+    width:450px !important;
+}
+
 @font-face {
     font-family: Amazon Ember;
     src: url("../fonts/Amazon-Ember-Regular.ttf");
