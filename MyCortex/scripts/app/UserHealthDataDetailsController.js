@@ -19,6 +19,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.LiveDataCurrentTime = "";
         $scope.PatientLiveDataList = [];
+        $scope.paymentHistory = [];
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
             $('.chartTabs').addClass('charTabsNone');
@@ -983,6 +984,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppoiFromTime = list.AppointmentFromDateTime;
                         $scope.AppoiToTime = list.AppointmentToDateTime;
 
+                    }
+                    $scope.ClosePaymentAppointmentHistory = function () {
+                        angular.element('#appointment_payment_history').modal('hide');
+                    }
+                    $scope.show_payment_history = function (Row) {
+                        $scope.paymentHistory = [];
+                        $("#payment_waveLoader").show();
+                        angular.element('#appointment_payment_history').modal('show');
+                        $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                            $scope.paymentHistory = data1;
+                            $("#payment_waveLoader").hide();
+                        }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
                     }
                     $scope.setappoint_type = function (type) {
                         $scope.AppointmoduleID1 = type;
