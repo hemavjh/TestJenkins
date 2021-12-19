@@ -1387,7 +1387,58 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             "ReasonTypeId": "1",
                             "SESSION_ID": $scope.LoginSessionId
                         }
-                        if (confirm("Confirm to cancel appointment")) {
+                        Swal.fire({
+                            title: 'Confirm to cancel appointment',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
+                                    //alert(data.Message);
+                                    if (data.ReturnFlag == 1) {
+                                        toastr.success(data.Message, "success");
+                                    }
+                                    else if (data.ReturnFlag == 0) {
+                                        toastr.info(data.Message, "info");
+                                    }
+                                    if (data.AppointmentDetails.PaymentStatusId == 3) {
+                                        $scope.refundAppointmentId = data.AppointmentDetails.Id;
+                                        $scope.refundMerchantOrderNo = data.AppointmentDetails.MerchantOrderNo;
+                                        $scope.refundAmount = data.AppointmentDetails.Amount;
+                                        $scope.refundOrderNo = data.AppointmentDetails.OrderNo;
+                                        $scope.refundInstitutionId = data.AppointmentDetails.Institution_Id;
+
+                                        //setTimeout(function () { document.getElementById('but_paybyrefund').click(); }, 100);
+
+                                        var obj = {
+                                            refundAppointmentId: data.AppointmentDetails.Id,
+                                            refundMerchantOrderNo: data.AppointmentDetails.MerchantOrderNo,
+                                            refundAmount: data.AppointmentDetails.Amount,
+                                            refundOrderNo: data.AppointmentDetails.OrderNo,
+                                            refundInstitutionId: data.AppointmentDetails.Institution_Id
+                                        };
+
+                                        $http.post(baseUrl + '/api/PayBy/RefundPayByCheckoutSession/', obj).success(function (data) {
+                                            console.log(data);
+                                            $scope.$broadcast("appointment_list");
+                                        }).error(function (data) { console.log(data); });
+
+                                    }
+                                    if (data.ReturnFlag == 1) {
+                                        $scope.$broadcast("appointment_list");
+                                    }
+                                });
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
+                        /*if (confirm("Confirm to cancel appointment")) {
                             $http.post(baseUrl + '/api/PatientAppointments/CancelPatient_Appointment/?Login_Session_Id=' + $scope.LoginSessionId, objectCancel).success(function (data) {
                                 //alert(data.Message);
                                 if (data.ReturnFlag == 1) {
@@ -1423,7 +1474,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     $scope.$broadcast("appointment_list");
                                 }
                             });
-                        }
+                        }*/
                         $("#chatLoaderPV").hide();
                     }
                     $scope.ConfirmAppointment = function (Row) {
@@ -2915,20 +2966,37 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         };
 
         $scope.VitalParameterDelete = function (itemIndex) {
-            var del = confirm("Do you like to delete the selected Parameter?");
-            if (del == true) {
-                $scope.AddVitalParameters.splice(itemIndex, 1);
-                if ($scope.AddVitalParameters.length == 0) {
-                    $scope.AddVitalParameters = [{
-                        'Id': 0,
-                        'ParameterId': 0,
-                        'Units_ID': 0,
-                        'UOM_Name': '',
-                        'ParameterValue': '',
-                        'IsActive': 1
-                    }];
+            Swal.fire({
+                title: 'Do you like to delete the selected Parameter?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    //  var del = confirm("Do you like to delete the selected Parameter?");
+                    // if (del == true) {
+                    $scope.AddVitalParameters.splice(itemIndex, 1);
+                    if ($scope.AddVitalParameters.length == 0) {
+                        $scope.AddVitalParameters = [{
+                            'Id': 0,
+                            'ParameterId': 0,
+                            'Units_ID': 0,
+                            'UOM_Name': '',
+                            'ParameterValue': '',
+                            'IsActive': 1
+                        }];
+                    }
+                    //}
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
                 }
-            }
+            });
+           
         };
 
         $scope.ParameterInsert_UpdateValidations = function () {
@@ -3143,7 +3211,40 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
         };
         $scope.Parameter_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected Parameter?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Parameter?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+                    $http.post(baseUrl + '/api/User/ParametersDetails_Delete/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        else if (data.ReturnFlag == 0) {
+                            toastr.error(data.Message, "warning");
+                        }
+                        $scope.HistoryDetails();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Parameter" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Parameter?");
             if (del == true) {
                 var obj =
                 {
@@ -3163,7 +3264,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.error = "An error has occurred while deleting Parameter" + data;
                 });
 
-            };
+            }*/;
         };
 
         /*'Active' the Institution*/
@@ -3179,7 +3280,37 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         and redirected to the list page.
         */
         $scope.ReInsertParametersDetails = function () {
-            var Ins = confirm("Do you like to activate the selected Parameter?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Parameter?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+                    $http.post(baseUrl + '/api/User/ParametersDetails_Active/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.HistoryDetails();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while ReInsertParameterDetails" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected Parameter?");
             if (Ins == true) {
                 var obj =
                 {
@@ -3195,7 +3326,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsertParameterDetails" + data;
                 });
-            };
+            };*/
         }
 
         $scope.EditVitalParameters = function (CatId, activeFlag) {
@@ -3231,13 +3362,33 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
 
         $scope.CancelAppointmentModal = function (AppointmentId) {
-            var msg = confirm("Do you like to Cancel the Patient Appointment?");
+            Swal.fire({
+                title: 'Do you like to Cancel the Patient Appointment',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.Cancelled_Remarks = "";
+                    $scope.Appointment_Id = AppointmentId;
+                    angular.element('#PatientAppointmentModal').modal('show');
+                    $scope.ReasonTypeDropList();
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var msg = confirm("Do you like to Cancel the Patient Appointment?");
             if (msg == true) {
                 $scope.Cancelled_Remarks = "";
                 $scope.Appointment_Id = AppointmentId;
                 angular.element('#PatientAppointmentModal').modal('show');
                 $scope.ReasonTypeDropList();
-            }
+            }*/
         }
         $scope.ReasonTypeDropList = function () {
             // if($window.localStorage['UserTypeId']==2 || $window.localStorage['UserTypeId']==4  ||$window.localStorage['UserTypeId']==7 ){
@@ -4289,25 +4440,42 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         /* This is for delete row  function  */
         $scope.ICD10Delete = function (itemIndex) {
-            var del = confirm("Do you like to delete the selected ICD10 Details?");
-            if (del == true) {
-
-                $scope.AddICD10List.splice(itemIndex, 1);
-                if ($scope.AddICD10List.length == 0) {
-                    $scope.AddICD10List = [{
-                        'Id': 0,
-                        'Category_ID': 0,
-                        'Category_Name': '',
-                        'Code_ID': '0',
-                        'ICDCode': '',
-                        'ICD_Description': '',
-                        'ICD_Remarks': '',
-                        'Active_From': '',
-                        'Active_To': ''
-                    }];
-
+            Swal.fire({
+                title: 'Do you like to delete the selected ICD10 Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                //    var del = confirm("Do you like to delete the selected ICD10 Details?");
+         //    if (del == true) {
+ 
+                 $scope.AddICD10List.splice(itemIndex, 1);
+                 if ($scope.AddICD10List.length == 0) {
+                     $scope.AddICD10List = [{
+                         'Id': 0,
+                         'Category_ID': 0,
+                         'Category_Name': '',
+                         'Code_ID': '0',
+                         'ICDCode': '',
+                         'ICD_Description': '',
+                         'ICD_Remarks': '',
+                         'Active_From': '',
+                         'Active_To': ''
+                     }];
+ 
+                 }
+           //  }
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
                 }
-            }
+            })
+            
         }
 
         /* This is for PatientICD10 Insert and update Validations */
@@ -4907,23 +5075,40 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
         //This is for MedicationDetailsDelete
         $scope.MedicationDetailsDelete = function (itemIndex) {
-            var del = confirm("Do you like to delete the selected Details?");
-            if (del == true) {
-                $scope.AddMedicationDetails.splice(itemIndex, 1);
-                if ($scope.AddMedicationDetails.length == 0) {
-                    $scope.AddMedicationDetails = [{
-                        'Id': 0,
-                        'PatientId': 0,
-                        'DrugId': "",
-                        'FrequencyId': 0,
-                        'RouteId': 0,
-                        'NoOfDays': "",
-                        'StartDate': new Date(DatetimepickermaxDate),
-                        'EndDate': new Date(DatetimepickermaxDate),
-                        ' Created_By': 0
-                    }];
+            Swal.fire({
+                title: 'Do you like to delete the selected Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    // var del = confirm("Do you like to delete the selected Details?");
+                    // if (del == true) {
+                    $scope.AddMedicationDetails.splice(itemIndex, 1);
+                    if ($scope.AddMedicationDetails.length == 0) {
+                        $scope.AddMedicationDetails = [{
+                            'Id': 0,
+                            'PatientId': 0,
+                            'DrugId': "",
+                            'FrequencyId': 0,
+                            'RouteId': 0,
+                            'NoOfDays': "",
+                            'StartDate': new Date(DatetimepickermaxDate),
+                            'EndDate': new Date(DatetimepickermaxDate),
+                            ' Created_By': 0
+                        }];
+                    }
+                    //}
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
                 }
-            }
+            });
+           
         };
         ///* This is for PatientMedication Insert and update Validations */
         $scope.PatientMedication_InsertUpdate_Validationcontrols = function () {
@@ -5660,7 +5845,38 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.Allergy_InActive();
         };
         $scope.Allergy_InActive = function () {
-            var del = confirm("Do you like to deactivate the selected Allergy?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Allergy?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+
+                    $http.post(baseUrl + '/api/User/AllergyDetails_InActive/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.PatientAllergyList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Allergy?");
             if (del == true) {
                 var obj =
                 {
@@ -5677,7 +5893,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
                 });
-            };
+            };*/
         };
 
         /*'Active' the Allergy*/
@@ -5691,7 +5907,38 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         and redirected to the list page.
         */
         $scope.Allergy_Active = function () {
-            var Ins = confirm("Do you like to activate the selected Allergy?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Allergy?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+
+                    $http.post(baseUrl + '/api/User/AllergyDetails_Active/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.PatientAllergyList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected Allergy?");
             if (Ins == true) {
                 var obj =
                 {
@@ -5708,7 +5955,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
                 });
-            };
+            };*/
         }
 
         $scope.ErrorFunction = function () {
@@ -6539,26 +6786,72 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             });
         }
         $scope.RemovePatient_OtherData_Item = function (rowIndex) {
-            var del = confirm("Do you like to delete document");
-            if (del == true) {
-                var Previous_DocumentItem = [];
+            Swal.fire({
+                title: 'Do you like to delete document',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    //var del = confirm("Do you like to delete document");
+                    //  if (del == true) {
+                    var Previous_DocumentItem = [];
 
-                angular.forEach($scope.Patient_OtherData, function (selectedPre, index) {
-                    if (index != rowIndex)
-                        Previous_DocumentItem.push(selectedPre);
-                });
-                $scope.Patient_OtherData = Previous_DocumentItem;
-                if ($scope.Patient_OtherData.length > 0) {
-                    $scope.Add_OtherDataflag = 1;
+                    angular.forEach($scope.Patient_OtherData, function (selectedPre, index) {
+                        if (index != rowIndex)
+                            Previous_DocumentItem.push(selectedPre);
+                    });
+                    $scope.Patient_OtherData = Previous_DocumentItem;
+                    if ($scope.Patient_OtherData.length > 0) {
+                        $scope.Add_OtherDataflag = 1;
+                    }
+                    else {
+                        $scope.Add_OtherDataflag = 0;
+                    }
+                    // }
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
                 }
-                else {
-                    $scope.Add_OtherDataflag = 0;
-                }
-            }
+            });
+
         };
         $scope.Patient_OtherData_InActive = function (GetId) {
             $scope.Id = GetId;
-            var del = confirm("Do you like to deactivate the selected Document?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Document?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj = {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId'],
+                    }
+                    $http.post(baseUrl + '/api/User/Patient_OtherData_InActive', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.Patient_OtherData_List();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Document" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Document?");
             if (del == true) {
                 var obj = {
                     Id: $scope.Id,
@@ -6573,12 +6866,41 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Document" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Patient_OtherData_Active = function (GetId) {
             $scope.Id = GetId;
-            var del = confirm("Do you like to activate the selected Document?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Document?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj = {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId'],
+                    }
+                    $http.post(baseUrl + '/api/User/Patient_OtherData_Active', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.Patient_OtherData_List();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Document" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to activate the selected Document?");
             if (del == true) {
                 var obj = {
                     Id: $scope.Id,
@@ -6593,7 +6915,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Document" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Allergies = function () {
@@ -6614,7 +6936,36 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
         };
         $scope.DoctorNotes_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected Notes?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Notes?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj = {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId'],
+                    }
+                    $http.post(baseUrl + '/api/User/DoctorNotesDetails_InActive/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.patientnotelist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Notes?");
             if (del == true) {
                 var obj = {
                     Id: $scope.Id,
@@ -6629,7 +6980,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
                 });
-            }
+            }*/
         };
 
         /*'Active' the Institution*/
@@ -6650,7 +7001,36 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         and redirected to the list page.
         */
         $scope.ReInsertDoctorNotesDetails = function () {
-            var Ins = confirm("Do you like to activate the selected Notes?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Notes?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj = {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId'],
+                    }
+                    $http.post(baseUrl + '/api/User/DoctorNotesDetails_Active/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.patientnotelist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Doctor Notes" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Notes?");
             if (Ins == true) {
                 var obj = {
                     Id: $scope.Id,
@@ -6666,7 +7046,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.error = "An error has occurred while deleting Doctor Notes" + data;
                 });
 
-            };
+            };*/
         }
     }
 ]);
