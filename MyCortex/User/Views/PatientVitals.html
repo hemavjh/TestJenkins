@@ -1603,13 +1603,14 @@
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
 
-                                                                <a href="javascript:" title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                                <a href="javascript:" title="Active" ng-click="InActiveMedication(Medication.Id)" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                                     <img src="../../Images/activeIcon1.png" ng-if="Medication.IsActive==1" />
                                                                 </a>
 
-                                                                <a href="javascript:" title="Inactive" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                                <a href="javascript:" title="Inactive" ng-click="ActiveMedication(Medication.Id)" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                                     <img src="../../Images/inactive.png" ng-if="Medication.IsActive==0" />
                                                                 </a>
+                                                               
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -1724,15 +1725,15 @@
                                                                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-show="row.IsActive==0 && ((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
-                                                                    <!--<a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
+                                                                   <!-- <a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
                                                                         <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
                                                                     <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
                                                                         <img
                                                                             src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
-                                                                    <a href="javascript:" title="Active" title="Active" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
+                                                                    <a href="javascript:" title="Active" ng-click="InActiveICDPatient(row.Id)"  ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                                     </a>
-                                                                    <a href="javascript:" title="Inactive" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
+                                                                    <a href="javascript:" title="Inactive" ng-click="ActiveICDPatient(row.Id)" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                                                                     </a>
 
