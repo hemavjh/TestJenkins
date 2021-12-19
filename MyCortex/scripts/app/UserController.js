@@ -2731,6 +2731,103 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 })
             }
         };
+
+        $scope.PatientGenderChange = function () {
+            var Gender = document.getElementById('Select10').value;
+            if (Gender != "0") {
+                $('#divPatientGender').removeClass("ng-invalid");
+                $('#divPatientGender').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientGender').removeClass("ng-valid");
+                $('#divPatientGender').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientCityChange = function () {
+            var city = document.getElementById('CityId').value;
+            if (city != "0") {
+                $('#divPatientCity').removeClass("ng-invalid");
+                $('#divPatientCity').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientCity').removeClass("ng-valid");
+                $('#divPatientCity').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientNationalityChange = function () {
+            var nationality = document.getElementById('Select5').value;
+            if (nationality != "0") {
+                $('#divPatientNationality').removeClass("ng-invalid");
+                $('#divPatientNationality').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientNationality').removeClass("ng-valid");
+                $('#divPatientNationality').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientMaritalChange = function () {
+            var MaritalStatus = document.getElementById('Select1').value;
+            if (MaritalStatus != "0") {
+                $('#divPatientMarital').removeClass("ng-invalid");
+                $('#divPatientMarital').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientMarital').removeClass("ng-valid");
+                $('#divPatientMarital').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientBldGrpChange = function () {
+            var BldGrp = document.getElementById('Select2').value;
+            if (BldGrp != "0") {
+                $('#divPatientBldGrp').removeClass("ng-invalid");
+                $('#divPatientBldGrp').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientBldGrp').removeClass("ng-valid");
+                $('#divPatientBldGrp').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientCountryChange = function () {
+            var country = document.getElementById('countryselectpicker').value;
+            if (country != "0") {
+                $('#divPatientCountry').removeClass("ng-invalid");
+                $('#divPatientCountry').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientCountry').removeClass("ng-valid");
+                $('#divPatientCountry').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientEthnicChange = function () {
+            var ethnicgroup = document.getElementById('Select3').value;
+            if (ethnicgroup != "0") {
+                $('#divPatientEthnic').removeClass("ng-invalid");
+                $('#divPatientEthnic').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientEthnic').removeClass("ng-valid");
+                $('#divPatientEthnic').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientStateChange = function () {
+            var city = document.getElementById('stateselectpicker').value;
+            if (city != "0") {
+                $('#divPatientState').removeClass("ng-invalid");
+                $('#divPatientState').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientState').removeClass("ng-valid");
+                $('#divPatientState').addClass("ng-invalid");
+            }
+        }
+
         $scope.AdminDefaultConfiguration = 0;
         $scope.AdminInstitutionCreation = function () {
             $scope.AdminDefaultConfiguration = 1;
