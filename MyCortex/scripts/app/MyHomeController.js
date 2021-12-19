@@ -811,6 +811,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $("#chatLoaderPV").hide();
                 $scope.DeviceId = data.DeviceId;
                 $scope.DeviceName = data.DeviceName;
+                if (data.DeviceName == "FORA") {
+                    $scope.DeviceName = "FORA P20";
+                }
+                if (data.DeviceName == "BLEsmart_0000011AB0495F0337C2") {
+                    $scope.DeviceName = "OMRON BPM";
+                }
                 if (data.DeviceType == "Medical Device") {
                     $scope.DeviceType = 2;
                 }
@@ -899,6 +905,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 //    return value.ID != '';
                 //});
                 //var devicetypechange = $scope.DeviceType.toString();
+                angular.forEach($scope.AllDeviceNameList, function (value, index) {
+                    if (value.ID == $scope.DeviceName) {
+                        $scope.DeviceName = value.DeviceName
+                    }
+                });
                 angular.forEach($scope.AllDevice, function (value, index) {
                     if (value.ID == $scope.DeviceType) {
                         $scope.DeviceType = value.DeviceTypeName
