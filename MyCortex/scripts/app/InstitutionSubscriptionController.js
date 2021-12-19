@@ -56,6 +56,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.TimeZone_Id = "0";
             $scope.Hcp_Pat = false;
             $scope.ClearInstitutionSubscriptionPopup();
+            $scope.Contract_Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $('#btnsave').attr("disabled", false);
             $('#btnsave1').attr("disabled", false);
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
