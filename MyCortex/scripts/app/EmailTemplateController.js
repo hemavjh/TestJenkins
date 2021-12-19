@@ -350,7 +350,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             $scope.EmailTemplate = "";
             $scope.Type = "0";
             $scope.Template = "";
-            if ($scope.PageParameter == 1) {
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
                 $scope.Template = CKEDITOR.instances.editor1.setData($scope.Template);
             }
         }

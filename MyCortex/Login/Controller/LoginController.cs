@@ -615,7 +615,8 @@ namespace MyCortex.Login.Controller
                     generatedpwd = egmodel.GeneratePassword_ByPasswordPolicy(InstitutionId);
                     if (generatedpwd == "" || generatedpwd == null)
                         generatedpwd = ConfigurationManager.AppSettings["User.defaultPassword"];
-
+                    if (generatedpwd == null)
+                        generatedpwd = "P@ssw0rd";
                     //NewPassword = Encrypt(NewPassword);
                     //ReenterPassword = Encrypt(ReenterPassword);
 
