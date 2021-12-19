@@ -385,7 +385,38 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
         and redirected to the list page.
         */
         $scope.Attendance_InActive = function () {
-            var del = confirm("Do you like to deactivate the selected Holiday?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Holiday?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+
+                    $http.post(baseUrl + '/api/Attendance/Attendance_InActive/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.AttendanceList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Holiday" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Holiday?");
             if (del == true) {
                 var obj =
                 {
@@ -402,7 +433,7 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Holiday" + data;
                 });
-            };
+            };*/
         };
 
         /*Active the Doctor Holiday*/
@@ -416,7 +447,38 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
        and redirected to the list page.
        */
         $scope.Attendance_Active = function () {
-            var Ins = confirm("Do you like to activate the selected  Holiday?");
+            Swal.fire({
+                title: 'Do you like to activate the selected  Holiday?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+
+                    $http.post(baseUrl + '/api/Attendance/Attendance_Active/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.AttendanceList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  Drug DB details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected  Holiday?");
             if (Ins == true) {
                 var obj =
                 {
@@ -433,7 +495,7 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Holiday" + data;
                 });
-            };
+            };*/
         }
 
         $scope.ErrorFunction = function () {
