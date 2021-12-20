@@ -22,9 +22,9 @@
         $('#SD_Date').attr('min', maxDate);
         $('#start_Date').attr('min', maxDate);
         $('#End_Date').attr('min', maxDate);
+        $('#ptDateTimePicker').attr('min', maxDate);
     });
 </script>
-
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
 <script src='Scripts/mixer.js'></script>-->
 <body>
@@ -1431,7 +1431,7 @@
                                                                     {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
                                                                 </td>
                                                                 <td style="text-align: left">
-                                                                    <a href="javascript:" title="Save"                                                                       ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)" 
+                                                                    <a href="javascript:" title="Save" ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)"
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/save.png" />
                                                                     </a>
@@ -1440,7 +1440,7 @@
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/deleteNewIcon.png" />
                                                                     </a>
-                                                                    <a href="javascript:" title="Edit" 
+                                                                    <a href="javascript:" title="Edit"
                                                                        ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <img src="../../Images/EditIcon.png" />
@@ -1466,10 +1466,10 @@
                                                             <tr>
                                                                 <td colspan="7" class="text-center">
                                                                     <!--<div st-items-by-page="page_size"
-         st-page-change="rembemberCurrentPage(newPage)"
-         st-pagination=""
-         st-template="Masters/Views/pagination.custom.html">
-    </div>-->
+                                                                         st-page-change="rembemberCurrentPage(newPage)"
+                                                                         st-pagination=""
+                                                                         st-template="Masters/Views/pagination.custom.html">
+                                                                    </div>-->
                                                                     <!-- THis Hidden Input for fetching the current TAB  value - for Pagination issue-->
                                                                     <input style="width: 130px" class="text-center" type="hidden" ng-model="inputcurrentgrpid">
                                                                     <ul class="pagination" style="margin-left:110px;">
@@ -2975,6 +2975,8 @@
                                     <th width="30%">Parameter Names</th>
                                     <th width="15%">Unit</th>
                                     <th width="20%">Value</th>
+                                    <th width="7%">Check</th>
+                                    <th width="20%">Date & Time</th>
                                     <th width="5%">Action</th>
                                 </tr>
                             </thead>
@@ -2994,12 +2996,19 @@
                                                 ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in ParameterMappingList">
                                             <option value="">Select</option>
                                         </select>
-                                       <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
+                                        <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
                                     </td>
                                     <td style="text-align: center">
                                         <input type="text" class="form-control"
                                                ng-model="row.ParameterValue" maxlength="10"
                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" ng-model="row.chkDateTime" ng-change="patientVitalsrowChkChange($index)" class="checkbox" value="1" />
+                                    </td>
+                                    <td>
+                                        <input type="datetime-local" ng-readonly="row.chkDateTime == false" ej-datetimepicker ng-init="row.ptDateTime=''" ng-model="row.ptDateTime" class="form-control date"
+                                               id="ptDateTimePicker{{$index}}" ng-required="true">
                                     </td>
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"
@@ -3524,7 +3533,7 @@
 
                                     <td>
                                         <div class="col-md-10 input-group date">
-                                            <input type="date" id="start_Date" max="2099-12-31" class="form-control" ng-model="row.StartDate" 
+                                            <input type="date" id="start_Date" max="2099-12-31" class="form-control" ng-model="row.StartDate"
                                                    style="width: 165px">
                                             <!--<span class="input-group-addon">
                                                 <i class="glyphicon glyphicon-th"></i>
@@ -3966,6 +3975,9 @@
                                 </tr>-->
 
                                 <tr ng-repeat="row in AddICD10List">
+                                    Ad
+                                    
+
                                     <td><label>ICD Code</label></td>
 
                                     <td>
@@ -3993,6 +4005,9 @@
 
 
                                 <tr ng-repeat="row in AddICD10List">
+
+                                     i
+                                    
 
                                     <td><label>ICD Description</label></td>
 
@@ -4506,9 +4521,9 @@
                                     <input id="datee" ng-model="row.DocumentDate" type="date" class="form-control date" placeholder="">
                                 </td>
                                 <td>
-                                   
+
                                     <select ng-model="row.DocumentType" data-live-search="true" data-selectpicker data-collection-name="DocumentTypeList"
-                                            class="form-control" data-style="form-control" 
+                                            class="form-control" data-style="form-control"
                                             ng-options="row.DocumentType as row.DocumentType for row in DocumentTypeList"
                                             style="width: 170px;">
                                         <option value="">Select</option>
@@ -4571,10 +4586,10 @@
                     <h4 class="modal-title">Doument</h4>
                 </div>
                 <div class="modal-body">
-                   
+
 
                     <div class="modal-footer" style="text-align: center;">
-                        
+
                     </div>
                 </div>
             </div>
@@ -4711,7 +4726,7 @@
                                            style="height: 0px !important; display: none;" />
 
                                     <!--<button type="button" class="btn  btn-autosize" id="EditDocLogo">
-            Upload File</button>-->
+                                    Upload File</button>-->
                                     <a ng-href="{{Resume}}" target="_blank"><div class="textwrap">{{EditFileName}}</div></a>
 
                                     <div class="uploadIconContainer" style="align-items: left!important; justify-content: flex-start;">
@@ -4735,10 +4750,10 @@
                     </form>
                 </div>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn  btn-save" id="other_Datasave1" ng-click="Patient_OtherData_Edit()" title="Click to Save">
+                    <button type="button" class="theme-btn-1 btn btn-save" id="other_Datasave1" ng-click="Patient_OtherData_Edit()" ng-disabled="false" title="Click to Save">
                         Save
                     </button>
-                    <button type="button" class="btn  btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
+                    <button type="button" class="theme-btn-1 btn btn-save" ng-click="OtherData_CancelPopup()" title="Click to Cancel">
                         Cancel
                     </button>
                 </div>
@@ -5513,6 +5528,7 @@
                                 </div>
                             </div>-->
                         </div>
+
                         <!--<div class="mt-10">
                             <button type="button" class="btn-darkblue" title="Search" ng-click="SearchAvailibleDoctorsList()">
                                 Search
@@ -5826,7 +5842,7 @@
                                         <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                     </div>
                                 </div>
-                                <div class="" style="width:50%; text-align: center;" >
+                                <div class="" style="width:50%; text-align: center;">
                                     <p class="primary-text font-semibold m-bottom-0" style="font-size:17px;">Dr.{{DoctorDetailList.FirstName}}</p>
                                     <p class="m-bottom-0 secondary-text1">{{DoctorDetailList.Department_Name}}</p>
                                 </div>
@@ -6768,5 +6784,108 @@ Works in Mozilla, Webkit & IE.
     <script>
         $('#timepicker1').timepicker();
         $('#timepicker2').timepicker();
+    </script>
+    <script>
+        $('#ptDateTimePicker').datetimepicker({
+            ownerDocument: document,
+            contentWindow: window,
+
+            value: '',
+            rtl: false,
+
+            format: 'Y/m/d H:i',
+            formatTime: 'H:i',
+            formatDate: 'Y/m/d',
+
+            startDate: false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
+            step: 60,
+            monthChangeSpinner: true,
+
+            closeOnDateSelect: false,
+            closeOnTimeSelect: true,
+            closeOnWithoutClick: true,
+            closeOnInputClick: true,
+            openOnFocus: true,
+
+            timepicker: true,
+            datepicker: true,
+            weeks: false,
+
+            defaultTime: false, // use formatTime format (ex. '10:00' for formatTime: 'H:i')
+            defaultDate: false, // use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
+
+            minDate: false,
+            maxDate: false,
+            minTime: false,
+            maxTime: false,
+            minDateTime: false,
+            maxDateTime: false,
+
+            allowTimes: [],
+            opened: false,
+            initTime: true,
+            inline: false,
+            theme: '',
+            touchMovedThreshold: 5,
+
+            onSelectDate: function () { },
+            onSelectTime: function () { },
+            onChangeMonth: function () { },
+            onGetWeekOfYear: function () { },
+            onChangeYear: function () { },
+            onChangeDateTime: function () { },
+            onShow: function () { },
+            onClose: function () { },
+            onGenerate: function () { },
+
+            withoutCopyright: true,
+            inverseButton: false,
+            hours12: false,
+            next: 'xdsoft_next',
+            prev: 'xdsoft_prev',
+            dayOfWeekStart: 0,
+            parentID: 'body',
+            timeHeightInTimePicker: 25,
+            //timepicker<a href = "https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a> bar: true,
+            todayButton: true,
+            prevButton: true,
+            nextButton: true,
+            defaultSelect: true,
+
+            scrollMonth: true,
+            scrollTime: true,
+            scrollInput: true,
+
+            lazyInit: false,
+            mask: false,
+            validateOnBlur: true,
+            allowBlank: true,
+            yearStart: 1950,
+            yearEnd: 2050,
+            monthStart: 0,
+            monthEnd: 11,
+            style: '',
+            id: '',
+            fixed: false,
+            roundTime: 'round', // ceil, floor
+            className: '',
+            weekends: [],
+            highlightedDates: [],
+            highlightedPeriods: [],
+            allowDates: [],
+            allowDateRe: null,
+            disabledDates: [],
+            disabledWeekDays: [],
+            yearOffset: 0,
+            beforeShowDay: null,
+
+            enterLikeTab: true,
+            showApplyButton: false
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            document.getElementById("ptDateTimePicker").style.display = "block";
+        });
     </script>
 </body>

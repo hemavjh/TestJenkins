@@ -19,6 +19,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.LiveDataCurrentTime = "";
         $scope.PatientLiveDataList = [];
+        $scope.paymentHistory = [];
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
             $('.chartTabs').addClass('charTabsNone');
@@ -984,6 +985,18 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppoiToTime = list.AppointmentToDateTime;
 
                     }
+                    $scope.ClosePaymentAppointmentHistory = function () {
+                        angular.element('#appointment_payment_history').modal('hide');
+                    }
+                    $scope.show_payment_history = function (Row) {
+                        $scope.paymentHistory = [];
+                        $("#payment_waveLoader").show();
+                        angular.element('#appointment_payment_history').modal('show');
+                        $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                            $scope.paymentHistory = data1;
+                            $("#payment_waveLoader").hide();
+                        }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
+                    }
                     $scope.setappoint_type = function (type) {
                         $scope.AppointmoduleID1 = type;
                     }
@@ -993,6 +1006,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
                         $scope.DocumentTypeList = data;
                     })
+                    function convertdate(date) {
+                        mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+                            day = ("0" + date.getDate()).slice(-2);
+                        return [date.getFullYear(), mnth, day].join("-") + ' ' + [date.getHours(), date.getMinutes(), date.getSeconds()].join(':');
+                    }
                     $scope.SavePatientAppointment = function () {
                         if ($scope.AppoiDate == undefined || $scope.AppoiDate == null || $scope.AppoiDate == "") {
                             //alert('Please select Appointment Date')
@@ -1064,10 +1082,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             }
 
 
-                                            //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
-
+                                            
                                             $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id + '&Id=' + $scope.Id + '&FileName=' + '&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id + '&Id=' + $scope.Id + '&FileName=' + '&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&DocumentDate=' + convertdate(new Date()) + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
                                                 fddata,
                                                 {
                                                     transformRequest: angular.identity,
@@ -1235,7 +1252,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                             //var url = baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Id=' + $scope.Id + '&FileName=' + $scope.appdocfilename + '&DocumentName=' + $scope.appdocfilename + '&Remarks="Appointment"' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1';
 
                                             $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id + '&Id=' + $scope.Id + '&FileName=' + '&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
+                                            $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=' + data.PatientAppointmentList[0].Id + '&Id=' + $scope.Id + '&FileName=' + '&DocumentName=""' + '&Remarks=Appointment' + '&Created_By=' + $window.localStorage['UserId'] + '&DocumentDate=' + convertdate(new Date()) + '&Is_Appointment=1&Filetype=' + $scope.filetype.toString(),
                                                 fddata,
                                                 {
                                                     transformRequest: angular.identity,
@@ -4481,14 +4498,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (value.Active_To == false || value.Active_To == null || value.Active_To == undefined) {
                     value.Active_To = "";
                 }
-                if (value.Active_From == false || value.Active_From == null || value.Active_From == undefined) {
-                    value.Active_From = "";
+                if ((value.Active_From) == "") {
+                    validationMsg = validationMsg + "Please select Active From Date";
+                    validateflag = false;
+                    return false;
                 }
-                //if ((value.Active_From) == "") {
-                //    validationMsg = validationMsg + "Please select Active From Date";
-                //    validateflag = false;
-                //    return false;
-                //}
                 /*if ((value.Active_To) == "") {
                     validationMsg = validationMsg + "Please select Active To Date";
                     validateflag = false;
@@ -6393,6 +6407,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                 //var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                 /*window.open(url);*/
+                console.log(typeof(data.DocumentBlobData))
                 let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
                 pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
                 pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.Filetype.toString() + ";base64, " + data.DocumentBlobData.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
@@ -6508,6 +6523,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 angular.forEach($scope.Patient_OtherData, function (value, index) {
                     if ((value.DocumentName == null) || (value.DocumentName == undefined) || (value.DocumentName == "")) {
                         AMitem = 1;
+                    }
+                    if ((value.CertificateFileName == null) || (value.CertificateFileName == undefined) || (value.CertificateFileName == "")) {
+                        toastr.warning("Please select a file", "warning");
+                        return false;
                     }
 
                     $scope.filetype = value.CertificateFileName.split(".");
@@ -6637,6 +6656,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             if (typeof ($scope.EditFileName) == "undefined" || $scope.EditFileName == "" || $scope.EditFileName == null) {
                 //alert("Please Upload Document");
                 toastr.warning("Please Upload Document", "warning");
+                return false;
+            }
+            if (typeof ($scope.DocumentType) == "undefined" || $scope.DocumentType == "" || $scope.DocumentType == null) {
+                //alert("Please Upload Document");
+                toastr.warning("Please Select DocumentType", "warning");
                 return false;
             }
             var fileval = 0;
