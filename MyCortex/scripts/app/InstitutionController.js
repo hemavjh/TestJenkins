@@ -669,7 +669,30 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             $scope.Institution_Delete();
         };
         $scope.Institution_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected Institution?");
+             Swal.fire({
+                 title: 'Do you like to deactivate the selected Institution?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Institution has been deactivated Successfully");
+                        toastr.success("Selected Institution has been deactivated Successfully", "success");
+                        $scope.InstitutionDetailsListGo();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting Institution!" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Institution?");
             if (del == true) {
                 $http.get(baseUrl + '/api/Institution/InstitutionDetails_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Institution has been deactivated Successfully");
@@ -678,7 +701,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Institution!" + data;
                 });
-            };
+            };*/
         };
 
         /*'Active' the Institution*/
@@ -694,7 +717,30 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         and redirected to the list page.
         */
         $scope.ReInsertInstitutionDetails = function () {
-            var Ins = confirm("Do you like to activate the selected Institution?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Institution?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/Institution/InstitutionDetails_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Institution has been activated successfully");
+                        toastr.success("Selected Institution has been activated successfully", "success");
+                        $scope.InstitutionDetailsListGo();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while ReInsertInstitutionDetails" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Institution?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/Institution/InstitutionDetails_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Institution has been activated successfully");
@@ -703,7 +749,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsertInstitutionDetails" + data;
                 });
-            };
+            };*/
         }
 
         /*
