@@ -160,8 +160,8 @@
 
         var maxDate = year + '-' + month + '-' + day;
         $('#Date_Birth').attr('max', maxDate);
-        document.getElementById("Expiry_Date").value = maxDate;
-        document.getElementById("Date_Birth").value = maxDate;
+        //document.getElementById("Expiry_Date").value = maxDate;
+        //document.getElementById("Date_Birth").value = maxDate;
     });
 </script>
 <script>
@@ -601,7 +601,7 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB" ng-init="DOB=''"
+                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
@@ -1239,7 +1239,7 @@
                                 <div class="col-sm-6">
                                     <div class="inputGroups">
                                         <label>Expiry Date</label>
-                                        <input max="2099-12-31" type="date" id="Expiry_Date" class="form-control" ng-model="ExpiryDate" ng-init="ExpiryDate=''"
+                                        <input max="2099-12-31" type="date" id="Expiry_Date" class="form-control" ng-model="ExpiryDate"
                                                style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                         <!--<input type="text" class="form-control" id="Text8"
                                         ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"

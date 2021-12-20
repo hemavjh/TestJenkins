@@ -43,7 +43,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Health_License = "";
         $scope.Title_Id = 0;
         $scope.NationalityId = "0";
-        $scope.DOB = "";
+        //$scope.DOB = "";
+        $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.Address1 = "";
         $scope.Address2 = "";
         $scope.Address3 = "";
@@ -183,7 +185,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Member_ID = "";
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
-        $scope.Expiry_Date = "";
+        //$scope.Expiry_Date = "";
         $scope.SelectedPayor = "0";
         $scope.SelectedPlan = "0";
         $scope.EditPayorId = [];
@@ -362,6 +364,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.status = 1;
             $('[data-id="selectpicker"]').prop('disabled', false);
             $scope.SuperAdminDropdownsList();
+            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
 
@@ -692,6 +695,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             var UserTypeId = 2;
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
         $scope.SubscriptionValidation = function () {
