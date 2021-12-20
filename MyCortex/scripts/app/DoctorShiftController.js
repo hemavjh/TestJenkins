@@ -2905,7 +2905,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                                 Modified_By: $window.localStorage['UserId']
                             }
                             $http.post(baseUrl + '/api/DoctorShift/DoctorShift_Active/', obj).success(function (data) {
-                                alert(data.Message);
+                                //alert(data.Message);
+                                toastr.success(data.Message, "success");
                                 $scope.DoctorShiftListGo();
                             }).error(function (data) {
                                 $scope.error = "An error has occurred while ReInsertDoctor Shift" + data;
@@ -3009,8 +3010,30 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             }
         };
         $scope.Reset_MyAppointment = function () {
-
-            var del = confirm("Do you like to Reset the AppointmentSetting  details?");
+            Swal.fire({
+                title: 'Do you like to Reset the AppointmentSetting  details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
+                        //alert("AppointmentSetting  has been Reset Successfully");
+                        toastr.success("AppointmentSetting  has been Reset Successfully", "success");
+                        $scope.AppointmentSettings();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to Reset the AppointmentSetting  details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingDelete/?InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
                     //alert("AppointmentSetting  has been Reset Successfully");
@@ -3019,7 +3042,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  AppointmentSettings details" + data;
                 });
-            }
+            }*/
 
         }
 
