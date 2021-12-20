@@ -13,6 +13,7 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         $scope.UpComingAppointmentCount = 0;
         $scope.PreviousAppointmentCount = 0;
         $scope.UpComingWaitingAppointmentCount = 0;
+        $scope.paymentHistory = [];
         $scope.calcNewYear;
         intial_loading();
         function intial_loading() {
@@ -31,6 +32,15 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         }
         function compareAppointmentDates() {
             $scope.calcNewYear = setInterval(checkdates(), 1000);
+        }
+        $scope.show_payment_history = function (Row) {
+            $scope.paymentHistory = [];
+            $("#payment_waveLoader").show();
+            angular.element('#appointment_payment_history').modal('show');
+            $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                $scope.paymentHistory = data1;
+                $("#payment_waveLoader").hide();
+            }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
         }
         function checkdates() {
             var AppoinList = $scope.UpComingAppointmentDetails;
