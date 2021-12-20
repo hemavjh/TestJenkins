@@ -41,6 +41,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.DeviceId = "0";
         $scope.MyDeviceflag = "0";
         $scope.ISact = 1;
+        $scope.PIN = "1234";
 
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
@@ -67,7 +68,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.Model = "";
             $scope.OS = "";
             $scope.Id = "0";
-            $scope.PIN = "";
+            $scope.PIN = "1234";
             $scope.SelectedDevice = "0";
             $('#savemytab').attr("disabled", false);
             $('#tabname').prop('disabled', false);
@@ -544,7 +545,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 });
             });
             angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (valuser) {
-                if (valuser.UserId == undefined || valuser.PIN == undefined) {
+                if (valuser.UserId == undefined && valuser.PIN == undefined) {
                     UserEmpty = 1;
                 }
             });
