@@ -57,7 +57,8 @@
 function varifychar(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode >= 33 && charCode <= 64) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
-        alert("Numbers & Special characters are not allowed.");
+        //alert("Numbers & Special characters are not allowed.");
+        swal.fire("Numbers & Special characters are not allowed.");
         if (e.preventDefault()) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -69,7 +70,8 @@ function varifychar(e) {
 function OnlySpecChar(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if (charCode >= 48 && charCode <= 57) {
-        alert("Numbers are not allowed.");
+        //alert("Numbers are not allowed.");
+        swal.fire("Numbers are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -81,7 +83,8 @@ function OnlySpecChar(e) {
 function NoSpecChar(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode >= 33 && charCode <= 47) || (charCode >= 58 && charCode <= 64) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
-        alert("Special characters are not allowed.");
+        //alert("Special characters are not allowed.");
+        swal.fire("Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -93,7 +96,8 @@ function NoSpecChar(e) {
 function varifyNumberPositive(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if (charCode <= 44 || charCode > 57 || charCode == 47 || charCode == 45 || charCode == 46) {
-        alert("Characters & Special characters are not allowed.");
+        //alert("Characters & Special characters are not allowed.");
+        swal.fire("Characters & Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -106,7 +110,8 @@ function varifyNumberPositive(e) {
 function NoSpecCharallowFew(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode >= 33 && charCode <= 37) || (charCode >= 39 && charCode <= 44) || (charCode == 47) || (charCode >= 58 && charCode <= 64) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
-        alert("Characters & Special characters are not allowed.");
+        //alert("Characters & Special characters are not allowed.");
+        swal.fire("Characters & Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -119,7 +124,8 @@ function NoSpecCharallowFew(e) {
 function OnlySpecCharNum(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode != 43 && charCode != 45) && (!(charCode >= 48 && charCode <= 57))) {
-        alert("Special characters are not allowed.");
+        //alert("Special characters are not allowed.");
+        swal.fire("Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -132,7 +138,8 @@ function OnlySpecCharNum(e) {
 function ParticularSpec(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode >= 33 && charCode <= 38) || (charCode >= 40 && charCode <= 45) || (charCode >= 47 && charCode <= 64) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
-        alert("Numbers & Special characters are not allowed.");
+        //alert("Numbers & Special characters are not allowed.");
+        swal.fire("Numbers & Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -338,7 +345,8 @@ function DominFormat(dominIds) {
 function OnlySpecCharNum(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode != 40 && charCode != 41 && charCode != 43 && charCode != 45 && charCode != 46) && (!(charCode >= 48 && charCode <= 57))) {
-        alert("Characters & Special characters are not allowed.");
+        //alert("Characters & Special characters are not allowed.");
+        swal.fire("Characters & Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -351,7 +359,8 @@ function OnlySpecCharNum(e) {
 function Numberdot(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if (!(charCode >= 48 && charCode <= 57 || charCode == 46)) {
-        alert("Characters & Special characters are not allowed.");
+        //alert("Characters & Special characters are not allowed.");
+        swal.fire("Characters & Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -369,7 +378,8 @@ function ParseDate(dateString) {
 function OnlySpecCharallow(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if (!(charCode >= 32 && charCode <= 47) && (!(charCode >= 58 && charCode <= 64)) && (!(charCode >= 91 && charCode <= 96)) && (!(charCode >= 123 && charCode <= 126))) {
-        alert("Number & characters are not allowed.");
+        //alert("Number & characters are not allowed.");
+        swal.fire("Number & characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -383,7 +393,8 @@ function OnlySpecCharallow(e) {
 function SomeSpec(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode >= 33 && charCode <= 34) || (charCode >= 36 && charCode <= 37) || (charCode >= 39 && charCode <= 44) || (charCode >= 58 && charCode <= 64) || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
-        alert("Special characters are not allowed.");
+        //alert("Special characters are not allowed.");
+        swal.fire("Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -420,7 +431,8 @@ function divcollapse(tableid, imageId) {
 function OnlySpecTimeNum(e) {
     var charCode = e.charCode || e.keyCode || e.which;
     if ((charCode != 46) && (!(charCode >= 48 && charCode <= 57))) {
-        alert("Special characters are not allowed.");
+        //alert("Special characters are not allowed.");
+        swal.fire("Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
@@ -434,7 +446,8 @@ function AlphanumericSpl(e) {
     if ((charCode >= 33 && charCode <= 37) || (charCode >= 39 && charCode <= 44) || (charCode == 46)
         || (charCode >= 58 && charCode <= 64)
         || (charCode >= 91 && charCode <= 96) || (charCode >= 123 && charCode <= 126)) {
-        alert("Special characters are not allowed.");
+        //alert("Special characters are not allowed.");
+        swal.fire("Special characters are not allowed.");
         if (e.preventDefault) {
             e.preventDefault();
         } else if (typeof e.returnValue !== "undefined") {
