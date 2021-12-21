@@ -204,7 +204,7 @@ namespace MyCortex.Repositories.Template
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                param.Add(new DataParameter("@ID", obj.Id));
+                param.Add(new DataParameter("@ID", obj.UserId));
                 {
                     DataEncryption DecryptFields = new DataEncryption();
                     DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_RESENDLISTING", param);
@@ -248,6 +248,7 @@ namespace MyCortex.Repositories.Template
             string TagsReplaceData = "";
             string FinalResult = "";
             string EmailSubject = "";
+            string GeneralTemplate = "";
             int EncryptFlag;
             //long TemplateType_Id;
             string Section = "";
@@ -303,6 +304,11 @@ namespace MyCortex.Repositories.Template
                         TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
                     }
                     Template = FinalResult.Replace(TagName, TagsReplaceData);
+                    if (TemplateType_Id == 3)
+                    {
+                        Template = Template.Replace("<p>", "");
+                        Template = Template.Replace("</p>", "");
+                    }
                 }
             }
             return new SendEmailModel

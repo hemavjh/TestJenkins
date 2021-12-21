@@ -22,8 +22,8 @@
         $('#Period_From').attr('max', maxDate);
         $('#Period_To').attr('max', maxDate);
 
-        document.getElementById("Period_From").value = maxDate;
-        document.getElementById("Period_To").value = maxDate;
+        //document.getElementById("Period_From").value = maxDate;
+        //document.getElementById("Period_To").value = maxDate;
     });
 </script>
 
@@ -65,14 +65,13 @@
             <div class="col-sm-2">
                 <div class="inputGroups">
                     <label>Period From</label>
-                    <input id="Period_From" type="date" class="form-control" ng-model="Period_From"
-                           ng-init="Period_From=''">
+                    <input id="Period_From" type="date" class="form-control" ng-model="Period_From">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="inputGroups">
                     <label>Period To</label>
-                    <input id="Period_To" type="date" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
+                    <input id="Period_To" type="date" class="form-control" ng-model="Period_To">
                 </div>
             </div>
             <div class="col-sm-2">
@@ -92,10 +91,10 @@
                     <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link" href="#collapseMore"
                        ng-click="currentTab=='1'?currentTab='2':currentTab='1';MessageingHistoryDropdownList()"
                        title="Click for Advance search">
-                        <sub ng-show="currentTab=='1' ">
+                        <sub ng-if="currentTab=='1' ">
                             <i class="fa fa-filter" aria-hidden="true"></i>
                         </sub>
-                        <sub ng-show="currentTab=='2'">
+                        <sub ng-if="currentTab=='2'">
                             <i class="fa fa-filter" aria-hidden="true"></i>
                         </sub>
                     </a>
@@ -264,7 +263,7 @@
     </thead>
 
     <tbody>
-        <tr ng-show="EmailrowCollectionFilter.length==0">
+        <tr ng-if="EmailrowCollectionFilter.length==0">
             <td colspan="15" style="text-align: center">
                 No Data Available
             </td>
@@ -301,7 +300,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="EmailrowCollectionFilter.length >10">
+    <tfoot ng-if="EmailrowCollectionFilter.length >10">
         <tr>
             <td colspan="15" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""

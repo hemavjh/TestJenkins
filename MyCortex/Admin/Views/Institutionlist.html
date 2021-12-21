@@ -173,7 +173,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollectionFilter.length >page_size">
+    <tfoot ng-if="rowCollectionFilter.length >page_size">
         <tr>
             <td colspan="7" class="text-center">
                 <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -286,9 +286,9 @@
                                                 </div>
 
                                                 <img id="item-img-output" class="responsiveProfileImage" src="{{uploadme}}"
-                                                     ng-show="(uploadme != null)" style="max-width: 120px;" />
+                                                     ng-if="(uploadme != null)" style="max-width: 120px;" />
                                                 <img class="responsiveProfileImage" src="../../Images/noImage.jpg"
-                                                     ng-show="(uploadme == null)" style="max-width: 120px;" />
+                                                     ng-if="(uploadme == null)" style="max-width: 120px;" />
 
 
                                                 <div class="uploadIconContainer">
@@ -299,7 +299,7 @@
                                                     <span>Upload Logo</span>
                                                 </div>
                                                 <a href="javascript:" ng-click="imageclear();PhotoUplaodSelected();"
-                                                   title="Clear" ng-show="(uploadme != null)">
+                                                   title="Clear" ng-if="(uploadme != null)">
                                                     <u>Clear</u>
                                                 </a>
 
@@ -430,7 +430,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <!--<tr ng-show="Id != 0">
+                                                    <!--<tr ng-if="Id != 0">
                                                         <td>
                                                             <label>Default Data</label>
                                                         </td>
@@ -448,19 +448,19 @@
                             </div>
                             <div class="modal-footer" style="text-align:center;">
                                 <!--<button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
-                                        ng-click="Institution_AddEdit()" ng-hide="editInstbutton == 0">
+                                        ng-click="Institution_AddEdit()" ng-if="editInstbutton == 0">
                                     Save
                                 </button>
                                 <button type="button" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
-                                        ng-click="Institution_AddEdit_AndSubscription()" ng-hide="editInstbutton == 1">
+                                        ng-click="Institution_AddEdit_AndSubscription()" ng-if="editInstbutton == 1">
                                     Save and Add Subscription
                                 </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
-                                        ng-click="submitted= true;" ng-hide="editInstbutton == 0">
+                                        ng-click="submitted= true;" ng-if="editInstbutton == 1">
                                     Save
                                 </button>
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
-                                        ng-click="submitted= true;" ng-hide="editInstbutton == 1">
+                                        ng-click="submitted= true;" ng-if="editInstbutton == 0">
                                     Save and Add Subscription
                                 </button>
                                 <button type="button" class="theme-btn-2" title="Click to Cancel"
@@ -512,9 +512,9 @@
                                         <!--ng-if="!uploadme==0 ||!uploadme==null"-->
                                         <td style="width:180px;height:180px;" valign="top" rowspan="6">
                                             <img src="{{uploadme}}" width="180" height="180"
-                                                 class="responsiveProfileImage" ng-show="(uploadme != null)" />
+                                                 class="responsiveProfileImage" ng-if="(uploadme != null)" />
                                             <img src="../../Images/noImage.jpg" width="180" height="180"
-                                                 class="responsiveProfileImage" ng-show="(uploadme == null)" />
+                                                 class="responsiveProfileImage" ng-if="(uploadme == null)" />
                                         </td>
                                     </tr>
                                     <tr>

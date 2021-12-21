@@ -41,6 +41,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.DeviceId = "0";
         $scope.MyDeviceflag = "0";
         $scope.ISact = 1;
+        $scope.PIN = "1234";
 
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
@@ -55,11 +56,24 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.UserLists = data;
         });
 
+
+        $scope.checkTab = function () {
+            if (typeof ($scope.TabName) != "undefined" && $scope.TabName != "") {
+                $scope.currentTab = 3;
+            }
+            //else if ($scope.row.Id != "" ) {
+            //    $scope.currentTab = 3;
+            //}
+            else
+                $scope.currentTab = 1;
+        }
+
         $scope.onCategoryChange = function () {
             $scope.DeviceId = $scope.DeviceName;
         }
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
+            $scope.submitted = false;
             $scope.currentTab = "1";
             //$scope.ClearPopup(); 
             $scope.TabName = "";
@@ -67,7 +81,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.Model = "";
             $scope.OS = "";
             $scope.Id = "0";
-            $scope.PIN = "";
+            $scope.PIN = "1234";
             $scope.SelectedDevice = "0";
             $('#savemytab').attr("disabled", false);
             $('#tabname').prop('disabled', false);
@@ -588,7 +602,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 });
             });
             angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (valuser) {
-                if (valuser.UserId == undefined || valuser.PIN == undefined) {
+                if (valuser.UserId == undefined && valuser.PIN == undefined) {
                     UserEmpty = 1;
                 }
             });
@@ -786,7 +800,54 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         };
 
+        $scope.DeviceChange = function () {
+
+            var DeviceChange = document.getElementById('DeviceName').value;
+            if (DeviceChange != "") {
+                $('#divDeviceNameChange').removeClass("ng-invalid");
+                $('#divDeviceNameChange').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceNameChange').removeClass("ng-valid");
+                $('#divDeviceNameChange').addClass("ng-invalid");
+            }
+        }
+
+
+        $scope.DeviceTypeChange = function () {
+
+            var DeviceTypeChange = document.getElementById('DeviceType').value;
+            if (DeviceTypeChange != "") {
+                $('#divDeviceType').removeClass("ng-invalid");
+                $('#divDeviceType').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceType').removeClass("ng-valid");
+                $('#divDeviceType').addClass("ng-invalid");
+            }
+        }
+
+        $scope.DeviceParameter = function () {
+
+            var DeviceParameter = document.getElementById('Parameter').value;
+            if (DeviceParameter != "") {
+                $('#divDeviceParameter').removeClass("ng-invalid");
+                $('#divDeviceParameter').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceParameter').removeClass("ng-valid");
+                $('#divDeviceParameter').addClass("ng-invalid");
+            }
+        }
+
+    
+
+
         $scope.AddDevicePopUP = function () {
+            $scope.submitted = false;
+            $('#divDeviceNameChange').addClass("ng-invalid");
+            $('#divDeviceType').addClass("ng-invalid");
+            $('#divDeviceParameter').addClass("ng-invalid");
             $scope.Id = 0;
             $scope.CancelDeviceList();
             $('#btnsave').attr("disabled", false);
@@ -855,6 +916,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $("#chatLoaderPV").hide();
                 $scope.DeviceId = data.DeviceId;
                 $scope.DeviceName = data.DeviceName;
+                if (data.DeviceName == "FORA") {
+                    $scope.DeviceName = "FORA P20";
+                }
+                if (data.DeviceName == "BLEsmart_0000011AB0495F0337C2") {
+                    $scope.DeviceName = "OMRON BPM";
+                }
                 if (data.DeviceType == "Medical Device") {
                     $scope.DeviceType = 2;
                 }
@@ -992,6 +1059,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 //    return value.ID != '';
                 //});
                 //var devicetypechange = $scope.DeviceType.toString();
+                angular.forEach($scope.AllDeviceNameList, function (value, index) {
+                    if (value.ID == $scope.DeviceName) {
+                        $scope.DeviceName = value.DeviceName
+                    }
+                });
                 angular.forEach($scope.AllDevice, function (value, index) {
                     if (value.ID == $scope.DeviceType) {
                         $scope.DeviceType = value.DeviceTypeName

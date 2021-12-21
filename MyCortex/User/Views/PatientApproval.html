@@ -75,10 +75,10 @@
                                     <label>Advance filter</label>
                                     <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link ml-5" href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1';PatientApprovalDropdownList()" title="Click for Advance search">
                                         <i class="fas fa-filter"></i>
-                                        <sub ng-show="currentTab=='1' ">
+                                        <sub ng-if="currentTab=='1' ">
 
                                         </sub>
-                                        <sub ng-show="currentTab=='2'">
+                                        <sub ng-if="currentTab=='2'">
 
                                         </sub>
                                     </a>
@@ -264,14 +264,14 @@
                          <td style="text-align: left">{{row.EmailId}}</td>     
                   <td style="text-align: left">{{row.Approval_Flag==2?null:row.PendingSince}}
                       &nbsp;&nbsp;&nbsp;&nbsp;
-                      <i class="fa fa-comment-o" ng-show="row.Approval_Flag==0&&row.Remarks!=null" title="Remarks : {{row.Remarks}}"></i>
+                      <i class="fa fa-comment-o" ng-if="row.Approval_Flag==0&&row.Remarks!=null" title="Remarks : {{row.Remarks}}"></i>
 
                   </td>
                           <td style="text-align: left" ng-if="row.Approval_Flag==2">Approved</td>
                   <td st-ratio="15"  ng-if="row.Approval_Flag==0">                      
                       <a href="javascript:"  title="Click to Approve the Patient" ng-click="Active_PatientApproval(row.Id)">Not Approved</a></td>                      
                 </tbody>
-                <tfoot ng-show="rowCollectionFilter.length >10">
+                <tfoot ng-if="rowCollectionFilter.length >10">
                     <tr>
                         <td colspan="7" class="text-center">
                             <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>

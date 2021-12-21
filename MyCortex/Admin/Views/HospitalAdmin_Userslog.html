@@ -204,7 +204,7 @@
             </td>            
         </tr>
     </tbody>
-    <tfoot ng-show="UserDetailsList.length >10">
+    <tfoot ng-if="UserDetailsList.length >10">
         <tr>
             <td colspan="10" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""

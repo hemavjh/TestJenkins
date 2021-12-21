@@ -23,8 +23,8 @@
         $('#ToDate').attr('min', maxDate);
         $('#FromDate').attr('min', maxDate);
 
-        document.getElementById("FromDate").value = maxDate;
-        document.getElementById("ToDate").value = maxDate;
+        //document.getElementById("FromDate").value = maxDate;
+        //document.getElementById("ToDate").value = maxDate;
     });
 </script>
 
@@ -213,7 +213,7 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot ng-show="rowCollectionFilter.length >10">
+        <tfoot ng-if="rowCollectionFilter.length >10">
             <tr>
                 <td colspan="15" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -265,7 +265,7 @@
                             <div>
                                 <form class="form-horizontal" role="form">
                                     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='1'">
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-sm-4">
@@ -334,7 +334,7 @@
                                             </div>
                                         </div>
                                         <div style="text-align: center;">
-                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" style="cursor: pointer" ng-show="DoctorSave == true" id="saveDoctorShift1" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" style="cursor: pointer" ng-if="DoctorSave == true" id="saveDoctorShift1" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                 Save
                                             </button>
                                             <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
@@ -343,7 +343,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
+                                    <div class="panel panel-default bs-0 b-0" ng-if="currentTab=='2'">
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row" id="MyHomeUserList">
@@ -387,7 +387,7 @@
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>            ng-click="updateCheckValue(rows.Id, row.Id, $event);"
-                                                                    <a href="javascript:" title="Click to Add" ng-show="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
+                                                                    <a href="javascript:" title="Click to Add" ng-if="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
                                                                 </div>
                                                             </div>-->
                                                     <div class="tab-body" style=" min-height: 22rem;">
@@ -473,7 +473,7 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift2" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-if="DoctorSave == true" id="saveDoctorShift2" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
                                                 <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
@@ -483,7 +483,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
+                                    <div class="panel panel-default m-0 bt-0 bs-0" ng-if="currentTab=='3'">
                                         <div id="collapse3" class="panel-collapse">
                                             <div class="tab-body" style="min-height: 50rem;">
                                                 <div class="col-sm-12 p-0">
@@ -1089,7 +1089,7 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;padding-top: 60px;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift3" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-if="DoctorSave == true" id="saveDoctorShift3" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
                                                 <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">

@@ -36,9 +36,9 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
             var TodtAppo = "";
             $scope.AttendanceFromDate = "";
             $scope.AttendanceToDate = "";
-            FromdtAppo = moment($filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+            FromdtAppo = moment($filter('date')(new Date(), 'yyyy/MM/dd HH:mm'));
             $scope.AttendanceFromDate = FromdtAppo["_i"]
-            TodtAppo = moment($filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+            TodtAppo = moment($filter('date')(new Date(), 'yyyy/MM/dd HH:mm'));
             $scope.AttendanceToDate = TodtAppo["_i"]
             $scope.Remarks = "";
             angular.element('#AttendanceAddModal').modal('show');

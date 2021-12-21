@@ -216,8 +216,8 @@
             day = '0' + day.toString();
 
         var maxDate = month + '-' + day + '-' + year;
-        document.getElementById("datetimepicker").value = maxDate;
-        document.getElementById("datetimepicker_mask").value = maxDate;
+        //document.getElementById("datetimepicker").value = maxDate;
+        //document.getElementById("datetimepicker_mask").value = maxDate;
     });
 </script>
 
@@ -268,7 +268,7 @@
                     <label>Period From<font class='mandatory-field'>*</font></label>
                     <div id="Div13">
                         <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_From">-->
-                        <input type="text" ej-datetimepicker  ng-init="Period_From=''" ng-model="Period_From" class="form-control date" id="datetimepicker" ng-required="true"><br><br>
+                        <input type="text" ej-datetimepicker  ng-model="Period_From" class="form-control date" id="datetimepicker" ng-required="true"><br><br>
                     </div>
                 </div>
             </div>
@@ -277,7 +277,7 @@
                     <label>Period To<font class='mandatory-field'>*</font></label>
                     <div id="PeriodTo">
                         <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_To">-->
-                        <input type="text" ej-datetimepicker  ng-init="Period_To=''" ng-model="Period_To" class="form-control date" id="datetimepicker_mask" ng-required="true"><br><br>
+                        <input type="text" ej-datetimepicker ng-model="Period_To" class="form-control date" id="datetimepicker_mask" ng-required="true"><br><br>
                         <!--<span class="input-group-addon">
                             <i class="glyphicon glyphicon-th"></i>
                         </span>-->
@@ -387,7 +387,7 @@
 
         </tr>
     </tbody>
-    <tfoot ng-show="TotalPageAuditReport >1">
+    <tfoot ng-if="TotalPageAuditReport >1">
         <tr>
             <td colspan="9" class="text-center">
                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""

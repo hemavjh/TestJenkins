@@ -376,9 +376,52 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
             toastr.info("Inactive record cannot be edited", "info");
         }
 
+        $scope.PayorChange = function () {
+
+            var PayorChange = document.getElementById('SelectedPayor').value;
+            if (PayorChange != "0") {
+                $('#divPayorChange').removeClass("ng-invalid");
+                $('#divPayorChange').addClass("ng-valid");
+            }
+            else {
+                $('#divPayorChange').removeClass("ng-valid");
+                $('#divPayorChange').addClass("ng-invalid");
+            }
+        }
+
+        $scope.ValidFromDateChange = function () {
+
+            var ValidFromDate = document.getElementById('ValidFromDate').value;
+            if (ValidFromDate != "0") {
+                $('#divValidFromDateChange').removeClass("ng-invalid");
+                $('#divValidFromDateChange').addClass("ng-valid");
+            }
+            else {
+                $('#divValidFromDateChange').removeClass("ng-valid");
+                $('#divValidFromDateChange').addClass("ng-invalid");
+            }
+        }
+
+        $scope.ValidToDateChange = function () {
+
+            var ValidToDate = document.getElementById('ValidToDate').value;
+            if (ValidToDate != "0") {
+                $('#divValidToDateChange').removeClass("ng-invalid");
+                $('#divValidToDateChange').addClass("ng-valid");
+            }
+            else {
+                $('#divValidToDateChange').removeClass("ng-valid");
+                $('#divValidToDateChange').addClass("ng-invalid");
+            }
+        }
+
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddPlanPopUP = function () {
+            $scope.submitted = false;
+            $('#divPayorChange').addClass("ng-invalid");
+            $('#divValidFromDateChange').addClass("ng-invalid");
+            $('#divValidToDateChange').addClass("ng-invalid");
             $scope.Id = 0;
             $scope.PlanSave = true;
             var sel1 = $('#SelectedPayor');
