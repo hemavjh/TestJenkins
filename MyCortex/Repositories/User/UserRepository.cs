@@ -3725,14 +3725,15 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Patient_OtherDataModel Patient_OtherData_View(long Id)
+        public Patient_OtherDataModel Patient_OtherData_View(long Id,Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_OTHERDATA_VIEW]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_OTHERDATA_VIEW_test]", param);
                 Patient_OtherDataModel View = (from p in dt.AsEnumerable()
                                                select
                                                new Patient_OtherDataModel()
