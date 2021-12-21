@@ -99,20 +99,26 @@
                                 </sup>
                             </label>
                             <div id="divSSLEnable" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                <select class="form-control" data-style="form-control" ng-model="SSL_Enable" id="SSL_Enable" data-live-search="true" data-selectpicker data-collection-name="SSL_Enable"  ng-change="SSLEnableChange();">
+                                <select class="form-control" data-style="form-control" ng-model="SSL_Enable" id="SSL_Enable" data-live-search="true" data-selectpicker data-collection-name="SSL_Enable" ng-change="SSLEnableChange();">
                                     <option value="0">Select</option>
                                     <option value="1">Yes</option>
                                     <option value="2">No</option>
                                 </select>
                             </div>
-                            </div>
                         </div>
+                    </div>
                     <div class="col-sm-12">
                         <div class="inputGroups">
                             <label>Remarks</label>
                             <textarea rows="5" class="form-control" id="Textarea2" ng-model="Remarks" ng-maxlength="250"
                                       maxlength="250"></textarea>
                         </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="button" class="theme-btn-1 mr-10" id="test_connection" title="Test Connection"
+                                ng-click="check_email_configuration()">
+                            Test Connection
+                        </button>
                     </div>
                 </div>
             </div>
