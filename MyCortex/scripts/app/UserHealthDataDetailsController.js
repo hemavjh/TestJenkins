@@ -6751,7 +6751,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 calling the api method for read the file path
                 and saving the image uploaded in the local server.
                 */
-                $scope.Remarks = $scope.Remarks == 'null' ? '' : $scope.Remarks;
+                $scope.Remarks = $scope.Remarks == null ? "" : $scope.Remarks;
                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
                 $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks, + '&Created_By=' + $scope.Created_By + '&DocumentDate=' + convert($scope.DocumentDate) + '&DocumentType=' + $scope.DocumentType,
                     fd,
