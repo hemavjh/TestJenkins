@@ -158,6 +158,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $sel3.multiselect('enable');
             $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
+            $scope.FromDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.ToDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $('#saveDoctorShift1').attr("disabled", false);
             $('#saveDoctorShift2').attr("disabled", false);
             $('#saveDoctorShift3').attr("disabled", false);

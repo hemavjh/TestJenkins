@@ -43,7 +43,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Health_License = "";
         $scope.Title_Id = 0;
         $scope.NationalityId = "0";
-        $scope.DOB = "";
+        //$scope.DOB = "";
+        $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.Address1 = "";
         $scope.Address2 = "";
         $scope.Address3 = "";
@@ -183,7 +185,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Member_ID = "";
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
-        $scope.Expiry_Date = "";
+        //$scope.Expiry_Date = "";
         $scope.SelectedPayor = "0";
         $scope.SelectedPlan = "0";
         $scope.EditPayorId = [];
@@ -337,7 +339,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#divInstitution').addClass("ng-valid");
                 $('#divInstitution').removeClass("ng-invalid");
             }
-               
+            $('#divGender').addClass("ng-invalid");
+            $('#divDepartment').addClass("ng-invalid");
+            $('#divUserType').addClass("ng-invalid");
+            $('#divNationality').addClass("ng-invalid");
+            $('#divDOB').addClass("ng-invalid");
+            $('#divCountry').addClass("ng-invalid");
+            $('#divCity').addClass("ng-invalid");
+            $('#divState').addClass("ng-invalid");
             $scope.submitted = false;
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
@@ -362,6 +371,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.status = 1;
             $('[data-id="selectpicker"]').prop('disabled', false);
             $scope.SuperAdminDropdownsList();
+            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
 
@@ -442,8 +452,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.EditUserPopUP = function (CatId) {
-            $('#btnsave').attr("disabled", false);
-            $('#btnsave2').attr("disabled", false);
+            if ($scope.LoginType == '1') {
+                $('#divInstitution').addClass("ng-invalid");
+                $('#divInstitution').removeClass("ng-valid");
+            }
+            else {
+                $('#divInstitution').addClass("ng-valid");
+                $('#divInstitution').removeClass("ng-invalid");
+            }
+
+            $scope.submitted = false;
+            $('#btnsave').attr("disabled", true);
+            $('#btnsave2').attr("disabled", true);
             $scope.uploadme = null;
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
@@ -682,6 +702,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             var UserTypeId = 2;
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
         $scope.SubscriptionValidation = function () {
@@ -2176,6 +2198,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
                 $scope.NationalityList = data;
             });
+            $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
+                $scope.MaritalStatusListTemp = [];
+                $scope.MaritalStatusListTemp = data;
+                $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+            });
+            $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+                $scope.EthnicGroupListTemp = [];
+                $scope.EthnicGroupListTemp = data;
+                $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+            });
+            $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+                $scope.BloodGroupListTemp = [];
+                $scope.BloodGroupListTemp = data;
+                $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
+            });
 
             $scope.loadCount = 3;
             $("#chatLoaderPV").show();
@@ -2291,7 +2328,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
 
                             $scope.DepartmentId = data.DEPARTMENT_ID.toString();
-                            var department = document.getElementById('Select1').value;
                             if ($scope.DepartmentId != "0" || $scope.DepartmentId != "") {
                                 $('#divDepartment').removeClass("ng-invalid");
                                 $('#divDepartment').addClass("ng-valid");
@@ -2513,10 +2549,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                                $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                                $scope.EthnicGroupId = data.ETHINICGROUP_ID;
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.UserTypeId = data.UserType_Id.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
+                                $scope.EthnicGroup = data.EthnicGroup.toString();
+                                $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                                $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                                $('#btnsave').attr("disabled", false);
+                                $('#btnsave2').attr("disabled", false);
                             }, 10000);
 
                             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
@@ -2870,6 +2911,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#btnsave2').attr("disabled", true);
             var myPromise = $scope.AgeRestictLimit();
             $scope.Is_Master = false;
+            $("#chatLoaderPV").show();
             myPromise.then(function (resolve) {
 
                 if (($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) || ($scope.MenuTypeId == 1 && $scope.LoginType == 3)) // for business users
@@ -2880,7 +2922,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.Is_Master = true;
                 }
                 if ($scope.User_Admin_AddEdit_Validations() == true) {
-                    $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
                     $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src');
@@ -3329,6 +3370,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $('#btnsave').attr("disabled", false);
                     $('#btnsave1').attr("disabled", false);
                     $('#btnsave2').attr("disabled", false);
+                    $("#chatLoaderPV").hide();
                 }
             });
         }

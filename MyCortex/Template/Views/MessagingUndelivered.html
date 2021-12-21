@@ -13,8 +13,8 @@
         var maxDate = year + '-' + month + '-' + day;
         //$('#Period_From').attr('max', maxDate);
         //$('#Period_To').attr('max', maxDate);
-        document.getElementById("Period_From").value = maxDate;
-        document.getElementById("Period_To").value = maxDate;
+        //document.getElementById("Period_From").value = maxDate;
+        //document.getElementById("Period_To").value = maxDate;
     });
 </script>
   <script>
@@ -64,7 +64,7 @@
                     <label>Period From<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="date" id="Period_From" max="2099-12-31" class="form-control" ng-model="Period_From" ng-init="Period_From=''">
+                    <input type="date" id="Period_From" max="2099-12-31" class="form-control" ng-model="Period_From">
                 </div>
             </div>
             <div class="col-sm-2">
@@ -72,7 +72,7 @@
                     <label>Period To<sup>
                             <font class='mandatory-field'>*</font>
                         </sup></label>
-                    <input type="date" id="Period_To" max="2099-12-31" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
+                    <input type="date" id="Period_To" max="2099-12-31" class="form-control" ng-model="Period_To">
                 </div>
             </div>
             <div class="col-sm-2">

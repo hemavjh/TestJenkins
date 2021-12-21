@@ -99,6 +99,10 @@ namespace MyCortex.Repositories.Masters
                 //insobj.RefId = EncryptRerId.Encrypt(RefId.RefId);
                 param.Add(new DataParameter("@REF_ID", RefId.RefId));
             }
+            else
+            {
+                param.Add(new DataParameter("@REF_ID", insobj.RefId));
+            }
 
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try

@@ -41,6 +41,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.DeviceId = "0";
         $scope.MyDeviceflag = "0";
         $scope.ISact = 1;
+        $scope.PIN = "1234";
 
         //$http.get(baseUrl + '/api/Common/Deviceslist/').success(function (data) {
         //    $scope.DevicesLists = data;
@@ -80,7 +81,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.Model = "";
             $scope.OS = "";
             $scope.Id = "0";
-            $scope.PIN = "";
+            $scope.PIN = "1234";
             $scope.SelectedDevice = "0";
             $('#savemytab').attr("disabled", false);
             $('#tabname').prop('disabled', false);
@@ -601,7 +602,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 });
             });
             angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (valuser) {
-                if (valuser.UserId == undefined || valuser.PIN == undefined) {
+                if (valuser.UserId == undefined && valuser.PIN == undefined) {
                     UserEmpty = 1;
                 }
             });
@@ -915,6 +916,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $("#chatLoaderPV").hide();
                 $scope.DeviceId = data.DeviceId;
                 $scope.DeviceName = data.DeviceName;
+                if (data.DeviceName == "FORA") {
+                    $scope.DeviceName = "FORA P20";
+                }
+                if (data.DeviceName == "BLEsmart_0000011AB0495F0337C2") {
+                    $scope.DeviceName = "OMRON BPM";
+                }
                 if (data.DeviceType == "Medical Device") {
                     $scope.DeviceType = 2;
                 }
@@ -1052,6 +1059,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 //    return value.ID != '';
                 //});
                 //var devicetypechange = $scope.DeviceType.toString();
+                angular.forEach($scope.AllDeviceNameList, function (value, index) {
+                    if (value.ID == $scope.DeviceName) {
+                        $scope.DeviceName = value.DeviceName
+                    }
+                });
                 angular.forEach($scope.AllDevice, function (value, index) {
                     if (value.ID == $scope.DeviceType) {
                         $scope.DeviceType = value.DeviceTypeName

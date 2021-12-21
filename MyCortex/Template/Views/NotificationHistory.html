@@ -22,8 +22,8 @@
         $('#Period_From').attr('max', maxDate);
         $('#Period_To').attr('max', maxDate);
 
-        document.getElementById("Period_From").value = maxDate;
-        document.getElementById("Period_To").value = maxDate;
+        //document.getElementById("Period_From").value = maxDate;
+        //document.getElementById("Period_To").value = maxDate;
     });
 </script>
 
@@ -65,14 +65,13 @@
             <div class="col-sm-2">
                 <div class="inputGroups">
                     <label>Period From</label>
-                    <input id="Period_From" type="date" class="form-control" ng-model="Period_From"
-                           ng-init="Period_From=''">
+                    <input id="Period_From" type="date" class="form-control" ng-model="Period_From">
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="inputGroups">
                     <label>Period To</label>
-                    <input id="Period_To" type="date" class="form-control" ng-model="Period_To" ng-init="Period_To=''">
+                    <input id="Period_To" type="date" class="form-control" ng-model="Period_To">
                 </div>
             </div>
             <div class="col-sm-2">
