@@ -55,11 +55,24 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.UserLists = data;
         });
 
+
+        $scope.checkTab = function () {
+            if (typeof ($scope.TabName) != "undefined" && $scope.TabName != "") {
+                $scope.currentTab = 3;
+            }
+            //else if ($scope.row.Id != "" ) {
+            //    $scope.currentTab = 3;
+            //}
+            else
+                $scope.currentTab = 1;
+        }
+
         $scope.onCategoryChange = function () {
             $scope.DeviceId = $scope.DeviceName;
         }
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
+            $scope.submitted = false;
             $scope.currentTab = "1";
             //$scope.ClearPopup(); 
             $scope.TabName = "";
@@ -742,7 +755,54 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         };
 
+        $scope.DeviceChange = function () {
+
+            var DeviceChange = document.getElementById('DeviceName').value;
+            if (DeviceChange != "") {
+                $('#divDeviceNameChange').removeClass("ng-invalid");
+                $('#divDeviceNameChange').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceNameChange').removeClass("ng-valid");
+                $('#divDeviceNameChange').addClass("ng-invalid");
+            }
+        }
+
+
+        $scope.DeviceTypeChange = function () {
+
+            var DeviceTypeChange = document.getElementById('DeviceType').value;
+            if (DeviceTypeChange != "") {
+                $('#divDeviceType').removeClass("ng-invalid");
+                $('#divDeviceType').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceType').removeClass("ng-valid");
+                $('#divDeviceType').addClass("ng-invalid");
+            }
+        }
+
+        $scope.DeviceParameter = function () {
+
+            var DeviceParameter = document.getElementById('Parameter').value;
+            if (DeviceParameter != "") {
+                $('#divDeviceParameter').removeClass("ng-invalid");
+                $('#divDeviceParameter').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceParameter').removeClass("ng-valid");
+                $('#divDeviceParameter').addClass("ng-invalid");
+            }
+        }
+
+    
+
+
         $scope.AddDevicePopUP = function () {
+            $scope.submitted = false;
+            $('#divDeviceNameChange').addClass("ng-invalid");
+            $('#divDeviceType').addClass("ng-invalid");
+            $('#divDeviceParameter').addClass("ng-invalid");
             $scope.Id = 0;
             $scope.CancelDeviceList();
             $('#btnsave').attr("disabled", false);
