@@ -60,6 +60,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.Contract_Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $('#btnsave').attr("disabled", false);
             $('#btnsave1').attr("disabled", false);
+            $scope.EditInstSub = 0;
             angular.element('#InstitutionSubscriptionCreateModal').modal('show');
         }
         $scope.CancelIntstitutionSubPopup = function () {
