@@ -6416,9 +6416,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.Patient_OtherData_Image_View = function (Id, filetype) {
             $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                //var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
+                //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                 /*window.open(url);*/
-                console.log(typeof(data.DocumentBlobData))
+                console.log(typeof (data.DocumentBlobData))
                 let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
                 pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
                 pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.Filetype.toString() + ";base64, " + data.DocumentBlobData.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
@@ -6450,6 +6450,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'DocumentDate': new Date(),
                 'DocumentType': '',
                 'resumedoc': $scope.resumedoc,
+                'file':'',
                 'DocumentName': '',
                 'Remarks': '',
             }];
@@ -6467,6 +6468,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'resumedoc': $scope.resumedoc,
             'DocumentType': '',
             'DocumentName': '',
+            'file': '',
             'Remarks': '',
         }];
 
@@ -6480,6 +6482,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'DocumentType': '',
                     'DocumentName': '',
                     'Remarks': '',
+                    'file': ''
                 }
                 $scope.Patient_OtherData.push(obj);
             }
@@ -6491,6 +6494,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Remarks': '',
                     'DocumentDate': new Date(),
                     'DocumentType': '',
+                    'file': ''
                 }];
             };
         };
@@ -6500,7 +6504,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //}
             var row = $scope.Patient_OtherData[index];
             if (row != undefined)
+                $scope.Patient_OtherData[index]['file'] = e.files[0]
                 row.CertificateFileName = e.files[0]['name'];
+            
         }
         $scope.Editfile = []
         $scope.EditdocfileChange = function (e) {
@@ -6617,15 +6623,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.Created_By = $window.localStorage['UserId'];
                     $scope.Modified_By = $window.localStorage['UserId'];
                     var fd = new FormData();
-                    var imgBlob;
-                    var imgBlobfile;
-                    var itemIndexLogo = -1;
-                    var itemIndexdoc = -1;
-                    imgBlob = $scope.dataURItoBlob(value.resumedoc);
-                    itemIndexLogo = 0;
-                    if (itemIndexLogo != -1) {
-                        fd.append('file', imgBlob);
-                    }
+                    //var imgBlob;
+                    //var imgBlobfile;
+                    //var itemIndexLogo = -1;
+                    //var itemIndexdoc = -1;
+                    //imgBlob = $scope.dataURItoBlob(value.resumedoc);
+                    //itemIndexLogo = 0;
+                    //if (itemIndexLogo != -1) {
+                    fd.append('file', value.file);
+                    /*}*/
                     /*
                     calling the api method for read the file path
                     and saving the image uploaded in the local server.
@@ -6698,13 +6704,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
                 return false;
             }
-            if ($scope.CertificateValue == 1) {
-                if ($scope.dataURItoBlob($scope.EditFileName).size > 5242880) {
-                    //alert("Uploaded file size cannot be greater than 5MB");
-                    toastr.warning("Uploaded file size cannot be greater than 5MB", "warning");
-                    return false;
-                }
-            }
+            //if ($scope.CertificateValue == 1) {
+            //    if ($scope.dataURItoBlob($scope.EditFileName).size > 5242880) {
+            //        //alert("Uploaded file size cannot be greater than 5MB");
+            //        toastr.warning("Uploaded file size cannot be greater than 5MB", "warning");
+            //        return false;
+            //    }
+            //}
             return true;
         }
 
@@ -6738,7 +6744,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //}
                 }
                 /*if (itemIndexLogo != -1) {*/
-                console.log($scope.Editfile[0])
+                
                 fd.append('file', $scope.Editfile[0]);
                 //}
                 /*
