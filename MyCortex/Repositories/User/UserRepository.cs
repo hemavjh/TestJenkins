@@ -3733,7 +3733,7 @@ namespace MyCortex.Repositories.Uesr
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_OTHERDATA_VIEW_test]", param);
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_SP_OTHERDATA_VIEW]", param);
                 Patient_OtherDataModel View = (from p in dt.AsEnumerable()
                                                select
                                                new Patient_OtherDataModel()
