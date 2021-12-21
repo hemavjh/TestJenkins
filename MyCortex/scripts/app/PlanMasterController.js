@@ -277,8 +277,33 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
         };
         /*THIS IS FOR DELETE FUNCTION */
         $scope.PlanMaster_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Plan Master details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Plan Master details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Plan details has been deactivated Successfully");
+                        toastr.success("Plan details has been deactivated Successfully", "success");
+                        $("#chatLoaderPV").hide();
+                        $scope.Planlist();
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "An error has occurred while deleting  Plan Master details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Plan Master details?");
             if (del == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Delete/?Id=' + $scope.Id).success(function (data) {
@@ -290,7 +315,7 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                     $("#chatLoaderPV").hide();
                     $scope.error = "An error has occurred while deleting  Plan Master details" + data;
                 });
-            }
+            }*/
         };
 
         $scope.ActivePlan = function (PId) {
@@ -299,8 +324,33 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
         };
 
         $scope.PlanMaster_Active = function () {
-
-            var Ins = confirm("Do you like to activate the selected Plan Master details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Plan Master details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Plan details has been activated successfully");
+                        toastr.success("Selected Plan details has been activated successfully", "success");
+                        $("#chatLoaderPV").hide();
+                        $scope.Planlist();
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "An error has occured while deleting Payor records" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Plan Master details?");
             if (Ins == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PlanMaster/PlanMaster_Active/?Id=' + $scope.Id).success(function (data) {
@@ -312,7 +362,7 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                     $("#chatLoaderPV").hide();
                     $scope.error = "An error has occured while deleting Payor records" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Active_ErrorFunction = function () {
@@ -326,9 +376,52 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
             toastr.info("Inactive record cannot be edited", "info");
         }
 
+        $scope.PayorChange = function () {
+
+            var PayorChange = document.getElementById('SelectedPayor').value;
+            if (PayorChange != "0") {
+                $('#divPayorChange').removeClass("ng-invalid");
+                $('#divPayorChange').addClass("ng-valid");
+            }
+            else {
+                $('#divPayorChange').removeClass("ng-valid");
+                $('#divPayorChange').addClass("ng-invalid");
+            }
+        }
+
+        $scope.ValidFromDateChange = function () {
+
+            var ValidFromDate = document.getElementById('ValidFromDate').value;
+            if (ValidFromDate != "0") {
+                $('#divValidFromDateChange').removeClass("ng-invalid");
+                $('#divValidFromDateChange').addClass("ng-valid");
+            }
+            else {
+                $('#divValidFromDateChange').removeClass("ng-valid");
+                $('#divValidFromDateChange').addClass("ng-invalid");
+            }
+        }
+
+        $scope.ValidToDateChange = function () {
+
+            var ValidToDate = document.getElementById('ValidToDate').value;
+            if (ValidToDate != "0") {
+                $('#divValidToDateChange').removeClass("ng-invalid");
+                $('#divValidToDateChange').addClass("ng-valid");
+            }
+            else {
+                $('#divValidToDateChange').removeClass("ng-valid");
+                $('#divValidToDateChange').addClass("ng-invalid");
+            }
+        }
+
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddPlanPopUP = function () {
+            $scope.submitted = false;
+            $('#divPayorChange').addClass("ng-invalid");
+            $('#divValidFromDateChange').addClass("ng-invalid");
+            $('#divValidToDateChange').addClass("ng-invalid");
             $scope.Id = 0;
             $scope.PlanSave = true;
             var sel1 = $('#SelectedPayor');

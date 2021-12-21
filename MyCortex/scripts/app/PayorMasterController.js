@@ -202,8 +202,33 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
         };
         /*THIS IS FOR DELETE FUNCTION */
         $scope.PayorMaster_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Payor Master details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Payor Master details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Payor details has been deactivated Successfully");
+                        toastr.success("Payor details has been deactivated Successfully", "success");
+                        $("#chatLoaderPV").hide();
+                        $scope.Payorlist();
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "An error has occurred while deleting  Payor Master details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Payor Master details?");
             if (del == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Delete/?Id=' + $scope.Id).success(function (data) {
@@ -215,7 +240,7 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                     $("#chatLoaderPV").hide();
                     $scope.error = "An error has occurred while deleting  Payor Master details" + data;
                 });
-            }
+            }*/
         };
 
         $scope.ActivePayor = function (PId) {
@@ -224,8 +249,33 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
         };
 
         $scope.PayorMaster_Active = function () {
-
-            var Ins = confirm("Do you like to activate the selected Payor Master details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Payor Master details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Payor details has been activated successfully");
+                        toastr.success("Selected Payor details has been activated successfully", "success");
+                        $("#chatLoaderPV").hide();
+                        $scope.Payorlist();
+                    }).error(function (data) {
+                        $("#chatLoaderPV").hide();
+                        $scope.error = "An error has occured while deleting Payor records" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Payor Master details?");
             if (Ins == true) {
                 $("#chatLoaderPV").show();
                 $http.get(baseUrl + '/api/PayorMaster/PayorMaster_Active/?Id=' + $scope.Id).success(function (data) {
@@ -237,7 +287,7 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
                     $("#chatLoaderPV").hide();
                     $scope.error = "An error has occured while deleting Payor records" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Active_ErrorFunction = function () {
@@ -254,6 +304,7 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddPayorPopUP = function () {
+            $scope.submitted = false;
             $scope.Id = 0;
             $scope.PayorSave = true;
             $('#btnsave').attr("disabled", false);

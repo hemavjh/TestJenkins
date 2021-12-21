@@ -39,6 +39,8 @@ EmailHistorycontroller.controller("EmailHistoryController", ['$scope', '$http', 
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
+        $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.GenderList = [];
         $scope.NationalityList = [];
         $scope.EthnicGroupList = [];
@@ -119,59 +121,25 @@ EmailHistorycontroller.controller("EmailHistoryController", ['$scope', '$http', 
                 toastr.warning("Please select Period From", "warning");
                 return false;
             }
-            //else if (isDate($scope.Period_From) == false) {
-            //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
-            //    return false;
-            //}
             if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
                 //alert("Please select Period To");
                 toastr.warning("Please select Period To", "warning");
                 return false;
             }
-            //else if (isDate($scope.Period_To) == false) {
-            //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
-            //    return false;
-            //}
-
+            
             var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
             var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             if (diffDays >= $scope.ValidateDays) {
-                //alert($scope.ValidateDays + '  ' + "days only allowed to filter");
                 toastr.warning($scope.ValidateDays + '  ' + "days only allowed to filter", "warning");
                 return false;
             }
 
-            /*var date1 = new Date($scope.Period_From);
-            var date2 = new Date($scope.Period_To);
-            var diffTime = Math.abs(date2 - date1);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays >= 14) {
-                alert("14 days only allowed to filter");
-                return false;
-            }*/
             var retval = true;
-            //if ((ParseDate($scope.Period_From) < ParseDate(today)))  {
-            //    alert("FromDate Can Be Booked Only For Past");
-            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
-            //    $scope.Period_To = DateFormatEdit($scope.Period_To);
-            //    retval = false;
-            //    return false;
-            //}
-
-            //if ((ParseDate($scope.Period_To) < ParseDate(today)))  {
-            //    alert("To Date Can Be Booked Only For Past");
-            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
-            //    $scope.Period_To = DateFormatEdit($scope.Period_To);
-            //    retval = false;
-            //    return false;
-            //}
-
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
 
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
-                    //alert("From Date should not be greater than To Date");
                     toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.Period_From = DateFormatEdit($scope.Period_From);
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
@@ -234,6 +202,8 @@ EmailHistorycontroller.controller("EmailHistoryController", ['$scope', '$http', 
             if ($window.localStorage['UserTypeId'] == 3) {
                 if ($scope.FilterValidation() == true) {
                     $("#chatLoaderPV").show();
+                    $scope.Period_From = document.getElementById("Period_From").value;
+                    $scope.Period_To = document.getElementById("Period_To").value;
                     $http.get(baseUrl + '/api/SendEmail/EmailHistory_List/?Id=' + $scope.Id + '&Period_From=' + $scope.Period_From + '&Period_To=' + $scope.Period_To + '&Email_Stauts=' + $scope.Email_Stauts
                         + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId']
                         + '&TemplateType_Id=' + $scope.PageParameter + '&Login_Session_Id=' + $scope.LoginSessionId
@@ -312,6 +282,14 @@ EmailHistorycontroller.controller("EmailHistoryController", ['$scope', '$http', 
             $scope.EmailSubject = EmailSubject;
             $scope.Generated_Template = EmailBody;
         }
+
+        $scope.SMSBody_ViewModel = function (MobileNO, EmailSubject, EmailBody) {
+            angular.element('#EmailBody_ViewModel').modal('show');
+            $scope.MobileNO = MobileNO;
+            $scope.EmailSubject = EmailSubject;
+            $scope.Generated_Template = EmailBody;
+        }
+
         $scope.EmailBody_CancelModel = function () {
             angular.element('#EmailBody_ViewModel').modal('hide');
         }

@@ -74,6 +74,7 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
 
         /* THIS IS FOR ADD/EDIT PROCEDURE */
         $scope.DrugDBAddEdit = function () {
+            $scope.submitted = false;
             if ($scope.Validationcontrols() == true) {
                 $("#chatLoaderPV").show();
                 var obj = {
@@ -238,7 +239,6 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 });
             }
         }
-
         /* THIS IS FOR VIEW PROCEDURE */
         $scope.ViewDrugDB = function () {
             $("#chatLoaderPV").show();
@@ -265,8 +265,39 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
             toastr.info("Inactive record cannot be edited", "info");
         }
 
+
+        $scope.StrengthChange = function () {
+
+            var StrengthId = document.getElementById('selectpicker').value;
+            if (StrengthId != "0") {
+                $('#divStrength').removeClass("ng-invalid");
+                $('#divStrength').addClass("ng-valid");
+            }
+            else {
+                $('#divStrength').removeClass("ng-valid");
+                $('#divStrength').addClass("ng-invalid");
+            }
+        }
+
+        $scope.DosageFromChange = function () {
+
+            var Dosage_From_ID = document.getElementById('selectpicker').value;
+            if (Dosage_From_ID != "0") {
+                $('#divDosageFrom').removeClass("ng-invalid");
+                $('#divDosageFrom').addClass("ng-valid");
+            }
+            else {
+                $('#divDosageFrom').removeClass("ng-valid");
+                $('#divDosageFrom').addClass("ng-invalid");
+            }
+        }
+
+
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddDrugDBPopUP = function () {
+            $scope.submitted = false;
+            $('#divStrength').addClass("ng-invalid");
+            $('#divDosageFrom').addClass("ng-invalid");
             $scope.ClearPopup();
             angular.element('#DrugDBModal').modal('show');
             $("#btnsave").attr("disabled", false);
@@ -311,8 +342,30 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
 
         /*THIS IS FOR DELETE FUNCTION */
         $scope.DrugDBMaster_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Drug DB details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Drug DB details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert(" Drug DB details has been deactivated Successfully");
+                        toastr.success(" Drug DB details has been deactivated Successfully", "success");
+                        $scope.DrugDB_List();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  Drug DB details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Drug DB details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert(" Drug DB details has been deactivated Successfully");
@@ -321,7 +374,7 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  Drug DB details" + data;
                 });
-            }
+            }*/
         };
 
         $scope.ActiveDrugDB = function (PId) {
@@ -334,8 +387,30 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
             and redirected to the list page.
            */
         $scope.DrugDBMasterActive = function () {
-
-            var Ins = confirm("Do you like to activate the selected Drug DB details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Drug DB details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Drug DB details has been activated successfully");
+                        toastr.success("Selected Drug DB details has been activated successfully", "success");
+                        $scope.DrugDB_List();
+                    }).error(function (data) {
+                        $scope.error = "An error has occured while deleting Drug DB records" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected Drug DB details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMaster_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Drug DB details has been activated successfully");
@@ -344,7 +419,7 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting Drug DB records" + data;
                 });
-            }
+            }*/
         };
     }
 ]);

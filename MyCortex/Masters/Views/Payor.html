@@ -110,7 +110,7 @@
                         </td>
                     </tr>
                 </tbody>
-                <tfoot ng-show="total_page>1">
+                <tfoot ng-if="total_page>1">
                     <tr>
                         <td colspan="6" class="text-center">
                             <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
@@ -166,7 +166,7 @@
                     
                   </div>
                   <div class="modal-footer" style="text-align:center;">
-                    <button type="submit" class="theme-btn-1 mr-10 btn-save" ng-show="PayorSave == true" id="btnsave" ng-disabled="false" ng-click="submitted = true;" title="Click to Save"> Save</button>
+                    <button type="submit" class="theme-btn-1 mr-10 btn-save" ng-if="PayorSave == true" id="btnsave" ng-disabled="false" ng-click="submitted = true;" title="Click to Save"> Save</button>
                     <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
                 </div>
             </form>

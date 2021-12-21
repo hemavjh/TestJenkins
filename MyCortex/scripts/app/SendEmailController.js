@@ -263,7 +263,8 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
                                 Template_Id: $scope.Template_Id,
                                 Created_By: $scope.UserId,
                                 Institution_Id: $scope.InstitutionId,
-                                TemplateType_Id: $scope.PageParameter
+                                TemplateType_Id: $scope.PageParameter,
+                                MobileNO: SelectedUser.MobileNO
                             };
                             $('#btnsave').attr("disabled", true);
                             $scope.SelectedUserList.push(obj);

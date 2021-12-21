@@ -160,8 +160,8 @@
 
         var maxDate = year + '-' + month + '-' + day;
         $('#Date_Birth').attr('max', maxDate);
-        document.getElementById("Expiry_Date").value = maxDate;
-        document.getElementById("Date_Birth").value = maxDate;
+        //document.getElementById("Expiry_Date").value = maxDate;
+        //document.getElementById("Date_Birth").value = maxDate;
     });
 </script>
 <script>
@@ -269,7 +269,7 @@
         <div id="Div4">
             <form class="form-horizontal" role="form" style="font-size: small">
                 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-                <div id="collapse1" class="panel panel-default bs-0 m-0 bt-0" ng-show="currentTab=='1'">
+                <div id="collapse1" class="panel panel-default bs-0 m-0 bt-0" ng-if="currentTab=='1'">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-4">
@@ -315,7 +315,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="inputGroups" ng-show="DropDownListValue==3">
+                                <div class="inputGroups" ng-if="DropDownListValue==3">
                                     <label>
                                         MRN No.<sup>
                                             <font class='mandatory-field'>*</font>
@@ -399,14 +399,14 @@
                                 </div>
                                 <div class="inputGroups">
                                     <label>Group</label>
-                                    <div ng-hide="Pat_UserTypeId==2">
+                                    <div ng-if="Pat_UserTypeId==2">
                                         <select ng-model="SelectedGroup" multiple="multiple"
                                                 ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
                                                 multiselect-dropdown style="width: 230px;">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                    <span ng-show="Pat_UserTypeId==2">
+                                    <span ng-if="Pat_UserTypeId==2">
                                         {{ViewGroupName}}
                                     </span>
                                 </div>
@@ -446,10 +446,10 @@
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatient();"
-                                               title="Clear" ng-hide="Pat_UserTypeId==2">
+                                               title="Clear" ng-if="Pat_UserTypeId==2">
                                                 Clear
                                             </a>
-                                            <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                            <div style="max-width: 250px;" class="theme-btn-1" ng-if="Pat_UserTypeId==2">
                                                 <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
                                                     <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                     <span>Upload Profile Photo</span>
@@ -501,10 +501,10 @@
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
-                                               title="Clear" ng-hide="Pat_UserTypeId==2">
+                                               title="Clear" ng-if="Pat_UserTypeId==2">
                                                 Clear
                                             </a>
-                                            <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                            <div style="max-width: 250px;" class="theme-btn-1" ng-if="Pat_UserTypeId==2">
                                                 <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
                                                     <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                     <span>Upload National Photo</span>
@@ -543,7 +543,7 @@
                     </div>
 
                 </div>
-                <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='2'">
+                <div class="panel panel-default m-0 bt-0 bs-0" ng-if="currentTab=='2'">
                     <div class="panel-body" id="collapse2">
                         <div class="row">
                             <div class="col-sm-6">
@@ -601,7 +601,7 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB" ng-init="DOB=''"
+                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
@@ -644,14 +644,14 @@
                                 </div>
                                 <div class="inputGroups">
                                     <label>Chronic Condition</label>
-                                    <div ng-hide="Pat_UserTypeId==2">
+                                    <div ng-if="Pat_UserTypeId==2">
                                         <select ng-model="SelectedChronicCondition" multiple="multiple"
                                                 ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
                                                 multiselect-dropdown style="width: 230px;">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                    <span ng-hide="Pat_UserTypeId==2">
+                                    <span ng-if="Pat_UserTypeId==2">
                                         {{ChronicCondition}}
                                     </span>
                                 </div>
@@ -659,7 +659,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
+                <div class="panel panel-default m-0 bt-0 bs-0" ng-if="currentTab=='3'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Address Info
@@ -748,7 +748,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default m-0 bt-0" ng-show="currentTab=='4'">
+                <div class="panel panel-default m-0 bt-0" ng-if="currentTab=='4'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">Emergency Contact
@@ -805,7 +805,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default m-0 bt-0" ng-show="currentTab=='5'">
+                <div class="panel panel-default m-0 bt-0" ng-if="currentTab=='5'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Medical Info
@@ -849,7 +849,7 @@
                             </div>
 
                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                <tr ng-hide="CURRENTLY_TAKEMEDICINE ==2">
+                                <tr ng-if="CURRENTLY_TAKEMEDICINE ==2">
 
                                     <td colspan="2">
                                         <table class="table themeTable" template-pagination="custom/pager">
@@ -892,10 +892,10 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <a href="javascript:" ng-click="AddMedicine_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
+                                        <a href="javascript:" ng-click="AddMedicine_Insert()" ng-if="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
                                 </tr>
-                                <tr ng-hide="PAST_MEDICALHISTORY ==2">
+                                <tr ng-if="PAST_MEDICALHISTORY ==2">
 
                                     <td colspan="2">
                                         <table class="table themeTable" template-pagination="custom/pager">
@@ -1014,12 +1014,12 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <a href="javascript:" ng-click="AddMedicalHistory_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
+                                        <a href="javascript:" ng-click="AddMedicalHistory_Insert()" ng-if="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
 
                                 </tr>
 
-                                <tr ng-hide="FAMILYHEALTH_PROBLEMHISTORY==2">
+                                <tr ng-if="FAMILYHEALTH_PROBLEMHISTORY==2">
 
                                     <td colspan="2">
                                         <table class="table themeTable" template-pagination="custom/pager">
@@ -1077,7 +1077,7 @@
 
 
                                         </table>
-                                        <a href="javascript:" ng-click="AddHealthProblem_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
+                                        <a href="javascript:" ng-click="AddHealthProblem_Insert()" ng-if="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
 
                                 </tr>
@@ -1203,7 +1203,7 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default m-0 bt-0" ng-show="currentTab=='6'">
+                <div class="panel panel-default m-0 bt-0" ng-if="currentTab=='6'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">Emergency Contact
@@ -1239,7 +1239,7 @@
                                 <div class="col-sm-6">
                                     <div class="inputGroups">
                                         <label>Expiry Date</label>
-                                        <input max="2099-12-31" type="date" id="Expiry_Date" class="form-control" ng-model="ExpiryDate" ng-init="ExpiryDate=''"
+                                        <input max="2099-12-31" type="date" id="Expiry_Date" class="form-control" ng-model="ExpiryDate"
                                                style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                         <!--<input type="text" class="form-control" id="Text8"
                                         ng-model="EMERG_CONT_MIDDLENAME" ng-init="EMERG_CONT_MIDDLENAME=''"
@@ -1288,10 +1288,10 @@
 
                                             <div style="margin-top: 15px;">
                                                 <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientInsurance();"
-                                                   title="Clear" ng-hide="Pat_UserTypeId==2">
+                                                   title="Clear" ng-if="Pat_UserTypeId==2">
                                                     Clear
                                                 </a>
-                                                <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                                <div style="max-width: 250px;" class="theme-btn-1" ng-if="Pat_UserTypeId==2">
                                                     <label for="InsuranceLogo" class="mb-0" title="Click to Upload Insurance Logo">
                                                         <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                         <span>Upload Insurance Photo</span>

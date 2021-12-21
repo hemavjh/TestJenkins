@@ -118,7 +118,7 @@
                         </td>
                     </tr>
                 </tbody>
-                <tfoot ng-show="total_page>1">
+                <tfoot ng-if="total_page>1">
                     <tr>
                         <td colspan="6" class="text-center">
                             <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
@@ -149,72 +149,82 @@
 <div id="PlanMasterModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopUP()" style="color:#fff;">&times;</button>
-                <h4 class="modal-title">Plan</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="PlanAddEdit()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close" ng-click="CancelPopUP()" style="color:#fff;">&times;</button>
+                    <h4 class="modal-title">Plan</h4>
+                </div>
+                <div class="modal-body">
                     <div class="inputGroups">
                         <label>Selected PayorName<sup><font class='mandatory-field'>*</font></sup></label>
-                        <select class="form-control" data-style="form-control" id="SelectedPayor"
-                                data-live-search="true" data-selectpicker data-collection-name="SelectedPayorList"
-                                ng-model="SelectedPayor">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in PayorMasterList" ng-selected="SelectedPayor==sel.Id" ng-required="true"
-                                    value="{{sel.Id}}">
-                                {{sel.PayorName}}
-                            </option>
-                        </select>
+                        <div id="divPayorChange" class="ng-invalid ddlValidationBorder" ng-required="true">
+                            <select class="form-control" data-style="form-control" id="SelectedPayor"
+                                    data-live-search="true" data-selectpicker data-collection-name="SelectedPayorList"
+                                    ng-model="SelectedPayor" ng-change="PayorChange();">
+                                <option value="0">Select</option>
+                                <option ng-repeat="sel in PayorMasterList" ng-selected="SelectedPayor==sel.Id" ng-required="true"
+                                        value="{{sel.Id}}">
+                                    {{sel.PayorName}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="inputGroups">
                         <label>PlanName<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="PlanName" name="PlanName" ng-model="PlanName" ng-init="PlanName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <input type="text" class="form-control" id="PlanName" name="PlanName" ng-model="PlanName" ng-init="PlanName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
                         <label>ShortCode<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
                         <label>Description<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="Description" name="Description" ng-model="Description" ng-init="Description=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <input type="text" class="form-control" id="Description" name="Description" ng-model="Description" ng-init="Description=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
                         <label>Package Name<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="PackageName" name="PackageName" ng-model="PackageName" ng-init="PackageName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <input type="text" class="form-control" id="PackageName" name="PackageName" ng-model="PackageName" ng-init="PackageName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
                         <label>Financial Class<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="FinancialClass" name="FinancialClass" ng-model="FinancialClass" ng-init="FinancialClass=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <input type="text" class="form-control" id="FinancialClass" name="FinancialClass" ng-model="FinancialClass" ng-init="FinancialClass=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
                         <label>Price Code<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="PriceCode" name="PriceCode" ng-model="PriceCode" ng-init="PriceCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <input type="text" class="form-control" id="PriceCode" name="PriceCode" ng-model="PriceCode" ng-init="PriceCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
                         <label>Refer Code<sup><font class='mandatory-field'>*</font></sup></label>
-                        <input type="text" class="form-control" id="ReferCode" name="ReferCode" ng-model="ReferCode" ng-init="ReferCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" />
+                        <input type="text" class="form-control" id="ReferCode" name="ReferCode" ng-model="ReferCode" ng-init="ReferCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
                         <div class="col-xs-11 input-group date">
                             <label>ValidFromDate<sup><font class='mandatory-field'>*</font></sup></label>
-                            <input type="date" class="form-control" ng-model="ValidFromDate" id="ValidFromDate"
-                                   ng-init="ValidFromDate=''" style="width:190px">
+
+                            <div id="divValidFromDateChange" class="ng-valid ddlValidationBorder">
+                                <input type="date" class="form-control" ng-model="ValidFromDate" id="ValidFromDate" ng-change="ValidFromDateChange();"
+                                       ng-init="ValidFromDate=''" style="width:190px" ng-required="true">
+                            </div>
+                        </div>
+                        <div class="inputGroups">
+                            <div class="col-xs-11 input-group date">
+                                <label>ValidToDate<sup><font class='mandatory-field'>*</font></sup></label>
+                                <div id="divValidToDateChange" class="ng-valid ddlValidationBorder">
+                                    <input type="date" class="form-control" ng-model="ValidToDate" id="ValidToDate" ng-change="ValidToDateChange();"
+                                           ng-init="ValidToDate=''" style="width:190px" ng-required="true">
+                                </div>
                         </div>
                     </div>
-                    <div class="inputGroups">
-                        <div class="col-xs-11 input-group date">
-                            <label>ValidToDate<sup><font class='mandatory-field'>*</font></sup></label>
-                            <input type="date" class="form-control" ng-model="ValidToDate" id="ValidToDate"
-                                   ng-init="ValidToDate=''" style="width:190px">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-show="PlanSave == true" ng-click="PlanAddEdit()" title="Click to Save">Save</button>
-                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
-            </div>
-        </div>
-    </div>
+                </div>
+              </div>
+
+       
+               <div class="modal-footer" style="text-align:center;">
+                   <button type="submit" class="theme-btn-1 mr-10 btn-save" id="btnsave" ng-disabled="false" ng-show="PlanSave == true" ng-click="submitted = true;" title="Click to Save">Save</button>
+                  <button type="button" class="theme-btn-2  btn-save" ng-click="CancelPopUP()" title="Click to Cancel">Cancel</button>
+               </div>
+          </form>
+      </div>
+   </div>
 </div>
+

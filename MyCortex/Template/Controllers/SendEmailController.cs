@@ -20,6 +20,9 @@ using MyCortex.Notification.Firebase;
 using MyCortex.Notification.Model;
 using MyCortex.Notification.Models;
 using MyCortex.Provider;
+using System.Net.Http.Headers;
+using System.Security.Cryptography.Xml;
+using System.Text.RegularExpressions;
 
 namespace MyCortex.Template.Controllers
 {
@@ -181,6 +184,74 @@ namespace MyCortex.Template.Controllers
 
                         }
                     }
+                    else if (itemData.TemplateType_Id == 3) {
+                        if (itemData.MobileNO != null || itemData.MobileNO != string.Empty) {
+
+                            string[] EncryptMbNO; string[] SMSSplMbNo;
+                            string
+                                SMSPrefixMbNO = string.Empty, SMSSuffixMbNO = string.Empty, SMSMbNO = string.Empty, SMSSubject = string.Empty,
+                                SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
+                            bool containsTildeSpecialCharacter, containsPlusSpecialCharacter = false;
+                            Regex rgx = new Regex("[^A-Za-z0-9]");
+                            
+                            containsTildeSpecialCharacter = rgx.IsMatch(itemData.MobileNO);
+                            EncryptMbNO = itemData.MobileNO.Split('~');
+
+                            if (containsTildeSpecialCharacter)
+                            {
+                                SMSPrefixMbNO = EncryptMbNO[0];
+                                SMSSuffixMbNO = EncryptMbNO[1];
+                                SMSMbNO = SMSPrefixMbNO + SMSSuffixMbNO;
+                                containsPlusSpecialCharacter = rgx.IsMatch(SMSPrefixMbNO);
+                            }
+                            if (containsPlusSpecialCharacter)
+                            {
+                                SMSSplMbNo = SMSPrefixMbNO.Split('+');
+                                SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+                            }
+                            else
+                            {
+                                SMSMbNO = EncryptMbNO[0];
+                            }
+                            SMSSubject = model1.Email_Subject;
+                            SMSBody = model1.Email_Body;
+                            SMSApiId = "Kv2n09u8";
+                            SMSUserName = "MyHealth";
+                            SMSSource = "Medspero";
+
+                            SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
+                            
+                            HttpClient client = new HttpClient();
+                            client.BaseAddress = new Uri(SMSURL);
+
+                            // Add an Accept header for JSON format.
+                            client.DefaultRequestHeaders.Accept.Add(
+                            new MediaTypeWithQualityHeaderValue("application/json"));
+
+                            // List data response.
+                            HttpResponseMessage smsResponse = client.GetAsync(SMSURL).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+                            if (smsResponse.IsSuccessStatusCode)
+                            {
+                                // Parse the response body.
+                                //var dataObjects = smsResponse.Content.ReadAsAsync<IEnumerable<DataObject>>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
+                                //foreach (var d in dataObjects)
+                                //{
+                                //    Console.WriteLine("{0}", d.Name);
+                                //}
+                                repository.SendEmail_Update(ModelData[0].Id, "", 1, "");
+                            }
+                            else
+                            {
+                                Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
+                                repository.SendEmail_Update(ModelData[0].Id, smsResponse.ReasonPhrase, 2, "");
+                            }
+
+                            //Make any other calls using HttpClient here.
+
+                            //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
+                            client.Dispose();
+                        }
+                    }
                     else
                     {
                         PushNotificationMessage message = new PushNotificationMessage();
@@ -196,6 +267,9 @@ namespace MyCortex.Template.Controllers
                 {
                     msgtype = "Send Notification";
                 }
+                if (Emailobj[0].TemplateType_Id == 3)
+                { msgtype = "Send SMS"; }
+
                 //SendEmail_Update[Send Email Update Method Name] 
                 if (ModelData.Any(item => item.flag == 0) == true)
                 {
@@ -315,18 +389,74 @@ namespace MyCortex.Template.Controllers
             string messagestr = "";
             try
             {
+                long Institution_Id;
+                DataEncryption EncryptPassword = new DataEncryption();
+                Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+                EmailConfigurationModel emailModel = new EmailConfigurationModel();
+                emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
+
                 foreach (SendEmailModel itemData in Emailobj)
                 {
                     SendEmailModel model1 = new SendEmailModel();
                     model1 = repository.GenerateTemplate(itemData.UserId, itemData.Template_Id, itemData.Institution_Id, itemData.TemplateType_Id);
                     itemData.Email_Subject = model1.Email_Subject;
                     itemData.Email_Body = model1.Email_Body;
+                    ModelData = repository.SendEmail_ResendListing(itemData);
+
+                    if (itemData.TemplateType_Id == 1)
+                    {
+                        if (emailModel != null)
+                        {
+                            AlertEventModel alert = new AlertEventModel();
+                            alert.Template_Id = itemData.Template_Id;
+                            alert.TempBody = itemData.Email_Body;
+                            alert.TempSubject = itemData.Email_Subject;
+
+                            List<EmailListModel> elList = new List<EmailListModel>();
+                            EmailListModel el = new EmailListModel();
+                            el.UserName = itemData.UserName;
+                            el.EmailId = EncryptPassword.Decrypt(ModelData[0].EmailId);
+                            el.EmailType_Flag = 1;
+                            elList.Add(el);
+
+                            SendGridApiManager mail = new SendGridApiManager();
+                            var res = mail.SendComposedSMTPEmail(emailModel, alert, elList, ModelData[0].Id);
+                        }
+                    }
+                    else
+                    {
+                        PushNotificationMessage message = new PushNotificationMessage();
+                        message.Title = itemData.Email_Subject;
+                        message.Message = itemData.Email_Body;
+
+                        PushNotificationApiManager.sendNotification(message, ModelData[0].Id, itemData.Created_By, 4);
+                    }
                 }
 
                 var msgtype = "Send Email";
                 if (Emailobj[0].TemplateType_Id == 2)
                 {
                     msgtype = "Send Notification";
+                }
+                if (Emailobj[0].TemplateType_Id == 3)
+                { msgtype = "Send SMS"; }
+
+                //SendEmail_Update[Send Email Update Method Name] 
+                if (ModelData.Any(item => item.flag == 0) == true)
+                {
+                    messagestr = msgtype + " not created, Please check the data";
+                    model.ReturnFlag = 0;
+                }
+                else if (ModelData.Any(item => item.flag == 1) == true)
+                {
+                    messagestr = msgtype + " created Successfully";
+                    model.ReturnFlag = 1;
+                }
+                else if (ModelData.Any(item => item.flag == 2) == true)
+                {
+                    messagestr = msgtype + " updated Successfully";
+                    model.ReturnFlag = 1;
+
                 }
 
                 //SendEmail_Update[Send Email Update Method Name] 
@@ -426,8 +556,51 @@ namespace MyCortex.Template.Controllers
                         PushNotificationApiManager.sendNotification(message, ModelData[0].Id, Emailobj.UserId, 4);
                     }
                     else if (Emailobj.TemplateType_Id == 3) 
-                    { 
-                    
+                    {
+                        if (Emailobj.MobileNO != null || Emailobj.MobileNO != string.Empty)
+                        {
+                            string[] EncryptMbNO; string[] SMSSplMbNo;
+                            string
+                                SMSPrefixMbNO = string.Empty, SMSSuffixMbNO = string.Empty, SMSMbNO = string.Empty, SMSSubject = string.Empty,
+                                SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
+
+                            EncryptMbNO = Emailobj.MobileNO.Split('~');
+                            SMSPrefixMbNO = EncryptMbNO[0];
+                            SMSSuffixMbNO = EncryptMbNO[1];
+                            SMSSplMbNo = SMSPrefixMbNO.Split('+');
+                            SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+                            SMSSubject = Emailobj.Email_Subject;
+                            SMSBody = Emailobj.Email_Body;
+                            SMSApiId = "Kv2n09u8";
+                            SMSUserName = "MyHealth";
+                            SMSSource = "Medspero";
+
+                            SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
+
+                            HttpClient client = new HttpClient();
+                            client.BaseAddress = new Uri(SMSURL);
+
+                            // Add an Accept header for JSON format.
+                            client.DefaultRequestHeaders.Accept.Add(
+                            new MediaTypeWithQualityHeaderValue("application/json"));
+
+                            // List data response.
+                            HttpResponseMessage smsResponse = client.GetAsync(SMSURL).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+                            if (smsResponse.IsSuccessStatusCode)
+                            {
+                                repository.SendEmail_Update(ModelData[0].Id, "", 1, "");
+                            }
+                            else
+                            {
+                                Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
+                                repository.SendEmail_Update(ModelData[0].Id, smsResponse.ReasonPhrase, 2, "");
+                            }
+
+                            //Make any other calls using HttpClient here.
+
+                            //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
+                            client.Dispose();
+                        }
                     }
                 }
                 model.SendEmail = ModelData;

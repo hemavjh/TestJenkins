@@ -29,10 +29,10 @@
                                href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
                                title="Click for Advance search">
 
-                                <sub ng-show="currentTab=='1'">
+                                <sub ng-if="currentTab=='1'">
                                     <i class="fa fa-filter" aria-hidden="true"></i>
                                 </sub>
-                                <sub ng-show="currentTab=='2'">
+                                <sub ng-if="currentTab=='2'">
                                     <i class="fa fa-filter" aria-hidden="true"></i>
                                 </sub>
                             </a>
@@ -240,7 +240,7 @@
             </div>
 
         </div>
-        <div ng-show="PatientCount>Patient_PerPage">
+        <div ng-if="PatientCount>Patient_PerPage">
             <ul class="pagination nav" ng-repeat="row in PageCountArray">
                 <li class="active"><a ng-click="Next_PatientListFunction(row.PageNumber)">{{row.PageNumber}}</a></li>
             </ul>

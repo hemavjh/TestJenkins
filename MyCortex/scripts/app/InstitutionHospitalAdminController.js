@@ -318,7 +318,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                                 }
                                 $http.get(baseUrl + '/Home/LoginLogoDetails/').success(function (resImage) {
                                     document.getElementById("InstLogo").src = resImage[0];
-                                    alert(data.Message);
+                                    //alert(data.Message);
+                                    toastr.success(data.Message, "success");
                                     $("#btnsave").attr("disabled", false);
                                     $scope.CancelInstitutionHospitalAdmin();
                                 }).error(function (response) {
@@ -378,7 +379,57 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
         };
 
         $scope.DeleteCometChatUsers = function () {
-            if (confirm("Are you sure you want to Run this Settings?")) {
+            Swal.fire({
+                title: 'Are you sure you want to Run this Settings?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#runCometchat").text('Processing(0%)....');
+                    $("#runCometchat").addClass('disabled');
+                    let isComplete = false;
+                    $http.get(baseUrl + 'api/User/GetCometChatUserList?InstitutionId=' + $scope.InstituteId).success(function (data) {
+                        if (data.length > 0) {
+                            var usercount = data.length;
+                            angular.forEach(data, function (item, modIndex) {
+                                $http.get(baseUrl + 'api/User/DeleteCometchat_User?Id=' + item.Id + '&Institution=' + $scope.InstituteId).success(function (data) {
+                                    var obj = {
+                                        Id: item.Id,
+                                        FullName: item.FullName,
+                                        EMAILID: item.EmailId
+                                    };
+                                    $http.post(baseUrl + 'api/User/CreateCometchat_User?Institution=' + $scope.InstituteId, obj).success(function (data) {
+                                        if (parseInt(usercount) - 1 === modIndex) {
+                                            isComplete = true;
+                                            $("#runCometchat").text('CometChat User Configuration');
+                                            $("#runCometchat").removeClass('disabled');
+                                        }
+                                        else {
+                                            if (!isComplete) {
+                                                var percentage = (modIndex / usercount) * 100;
+                                                $("#runCometchat").text('Processing(' + percentage + '%)....');
+                                            }
+                                        }
+                                    }).error(function (data) {
+
+                                    });
+                                }).error(function (data) {
+                                });
+                            });
+                        }
+                    }).error(function (data) {
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* if (confirm("Are you sure you want to Run this Settings?")) {
                 $("#runCometchat").text('Processing(0%)....');
                 $("#runCometchat").addClass('disabled');
                 let isComplete = false;
@@ -413,11 +464,38 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                     }
                 }).error(function (data) {
                 });
-            }
+            }*/
         };
 
         $scope.InstitueConfiguration = function () {
-            if (confirm("Are you sure you want to Run this Configuration Settings?")) {
+            Swal.fire({
+                title: 'Are you sure you want to Run this Configuration Settings?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#runConfig").text('Processing(0%)....');
+                    $("#runConfig").addClass('disabled');
+                    $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).success(function (data) {
+                        $("#runConfig").text('Processing(5%)....');
+                        $scope.InstitueConfigurationStep2();
+                    }).error(function (data) {
+                        //alert("Error In Step 1");
+                        toastr.info("Error In Step 1", "info");
+                        $("#runConfig").text('Processing(5%)....');
+                        $scope.InstitueConfigurationStep2();
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*if (confirm("Are you sure you want to Run this Configuration Settings?")) {
                 $("#runConfig").text('Processing(0%)....');
                 $("#runConfig").addClass('disabled');
                 $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=1', $scope.InstituteId).success(function (data) {
@@ -428,7 +506,7 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                     $("#runConfig").text('Processing(5%)....');
                     $scope.InstitueConfigurationStep2();
                 });
-            }
+            }*/
         };
 
         $scope.InstitueConfigurationStep2 = function () {
@@ -436,7 +514,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(10%)....');
                 $scope.InstitueConfigurationStep3();
             }).error(function (data) {
-                alert("Error In Step 2");
+                //alert("Error In Step 2");
+                toastr.info("Error In Step 2", "info");
                 $("#runConfig").text('Processing(10%)....');
                 $scope.InstitueConfigurationStep3();
             });
@@ -447,7 +526,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(15%)....');
                 $scope.InstitueConfigurationStep4();
             }).error(function (data) {
-                alert("Error In Step 3");
+                //alert("Error In Step 3");
+                toastr.info("Error In Step 3", "info");
                 $("#runConfig").text('Processing(15%)....');
                 $scope.InstitueConfigurationStep4();
             });
@@ -458,7 +538,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(20%)....');
                 $scope.InstitueConfigurationStep5();
             }).error(function (data) {
-                alert("Error In Step 4");
+                //alert("Error In Step 4");
+                toastr.info("Error In Step 4", "info");
                 $("#runConfig").text('Processing(20%)....');
                 $scope.InstitueConfigurationStep5();
             });
@@ -469,7 +550,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(25%)....');
                 $scope.InstitueConfigurationStep6();
             }).error(function (data) {
-                alert("Error In Step 5");
+                //alert("Error In Step 5");
+                toastr.info("Error In Step 5", "info");
                 $("#runConfig").text('Processing(25%)....');
                 $scope.InstitueConfigurationStep6();
             });
@@ -480,7 +562,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(30%)....');
                 $scope.InstitueConfigurationStep7();
             }).error(function (data) {
-                alert("Error In Step 6");
+                //alert("Error In Step 6");
+                toastr.info("Error In Step 6", "info");
                 $("#runConfig").text('Processing(30%)....');
                 $scope.InstitueConfigurationStep7();
             });
@@ -491,7 +574,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(35%)....');
                 $scope.InstitueConfigurationStep8();
             }).error(function (data) {
-                alert("Error In Step 7");
+                //alert("Error In Step 7");
+                toastr.info("Error In Step 7", "info");
                 $("#runConfig").text('Processing(35%)....');
                 $scope.InstitueConfigurationStep8();
             });
@@ -502,7 +586,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(40%)....');
                 $scope.InstitueConfigurationStep9();
             }).error(function (data) {
-                alert("Error In Step 8");
+                //alert("Error In Step 8");
+                toastr.info("Error In Step 8", "info");
                 $("#runConfig").text('Processing(40%)....');
                 $scope.InstitueConfigurationStep9();
             });
@@ -513,7 +598,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(50%)....');
                 $scope.InstitueConfigurationStep10();
             }).error(function (data) {
-                alert("Error In Step 9");
+                //alert("Error In Step 9");
+                toastr.info("Error In Step 9", "info");
                 $("#runConfig").text('Processing(50%)....');
                 $scope.InstitueConfigurationStep10();
             });
@@ -524,7 +610,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(55%)....');
                 $scope.InstitueConfigurationStep11();
             }).error(function (data) {
-                alert("Error In Step 10");
+                //alert("Error In Step 10");
+                toastr.info("Error In Step 10", "info");
                 $("#runConfig").text('Processing(55%)....');
                 $scope.InstitueConfigurationStep11();
             });
@@ -535,7 +622,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(60%)....');
                 $scope.InstitueConfigurationStep12();
             }).error(function (data) {
-                alert("Error In Step 11");
+                //alert("Error In Step 11");
+                toastr.info("Error In Step 11", "info");
                 $("#runConfig").text('Processing(60%)....');
                 $scope.InstitueConfigurationStep12();
             });
@@ -546,7 +634,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(70%)....');
                 $scope.InstitueConfigurationStep13();
             }).error(function (data) {
-                alert("Error In Step 12");
+                //alert("Error In Step 12");
+                toastr.info("Error In Step 12", "info");
                 $("#runConfig").text('Processing(70%)....');
                 $scope.InstitueConfigurationStep13();
             });
@@ -557,7 +646,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(80%)....');
                 $scope.InstitueConfigurationStep14();
             }).error(function (data) {
-                alert("Error In Step 13");
+                //alert("Error In Step 13");
+                toastr.info("Error In Step 13", "info");
                 $("#runConfig").text('Processing(80%)....');
                 $scope.InstitueConfigurationStep14();
             });
@@ -568,7 +658,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(90%)....');
                 $scope.InstitueConfigurationStep15();
             }).error(function (data) {
-                alert("Error In Step 14");
+                //alert("Error In Step 14");
+                toastr.info("Error In Step 14", "info");
                 $("#runConfig").text('Processing(90%)....');
                 $scope.InstitueConfigurationStep15();
             });
@@ -579,7 +670,8 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
                 $("#runConfig").text('Processing(95%)....');
                 $scope.InstitueConfigurationStep16();
             }).error(function (data) {
-                alert("Error In Step 15");
+                //alert("Error In Step 15");
+                toastr.info("Error In Step 15", "info");
                 $("#runConfig").text('Processing(95%)....');
                 $scope.InstitueConfigurationStep16();
             });
@@ -590,14 +682,16 @@ InstitutionHAcontroller.controller("InstitutionHospitalAdminController", ['$scop
             $http.post(baseUrl + 'api/Common/DefaultConfig_InsertUpdate/?Step=16', $scope.InstituteId).success(function (data) {
                 $("#runConfig").text('Processing(100%)....');
                 setTimeout(function () {
-                    alert("Configuration Steps Completed!");
+                    //alert("Configuration Steps Completed!");
+                    toastr.success("Configuration Steps Completed!", "success");
                 }, 5000);
 
                 $("#runConfig").text('Re-run configuration');
                 $("#runConfig").removeClass('disabled');
             }).error(function (data) {
                 $("#runConfig").text('Processing(100%)....');
-                alert("Error In Step 16");
+                //alert("Error In Step 16");
+                toastr.info("Error In Step 16", "info");
                 $("#runConfig").text('Re-run configuration');
                 $("#runConfig").removeClass('disabled');
             });

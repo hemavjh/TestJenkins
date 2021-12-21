@@ -38,6 +38,8 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
         $scope.Patient_Id = $window.localStorage['UserId'];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
+        $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
 
         $scope.GenderList = [];
         $scope.NationalityList = [];
@@ -54,7 +56,6 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
         $scope.MessageUndeliveredDropdownList = function () {
             if ($scope.TabClick == false) {
                 $scope.TabClick = true;
-                alert("s");
                 $http.get(baseUrl + '/api/Common/GenderList/').success(function (data) {
                     $scope.GenderList = data;
                 });
@@ -149,6 +150,15 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
+            if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+                if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
+                    //alert("From Date should not be greater than To Date");
+                    toastr.warning("From Date should not be greater than To Date", "warning");
+                    $scope.Period_From = DateFormatEdit($scope.Period_From);
+                    $scope.Period_To = DateFormatEdit($scope.Period_To);
+                    return false;
+                }
+            }
             var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
@@ -172,15 +182,15 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             //    $scope.Period_To = DateFormatEdit($scope.Period_From);
             //    return false;
             //}
-            if (($scope.Period_From != "") && ($scope.Period_To != "")) {
-                if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
-                    //alert("From Date should not be greater than To Date");
-                    toastr.warning("From Date should not be greater than To Date", "warning");
-                    $scope.Period_From = DateFormatEdit($scope.Period_From);
-                    $scope.Period_To = DateFormatEdit($scope.Period_To);
-                    return false;
-                }
-            }
+            //if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+            //    if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
+            //        //alert("From Date should not be greater than To Date");
+            //        toastr.warning("From Date should not be greater than To Date", "warning");
+            //        $scope.Period_From = DateFormatEdit($scope.Period_From);
+            //        $scope.Period_To = DateFormatEdit($scope.Period_To);
+            //        return false;
+            //    }
+            //}
             $scope.Period_From = DateFormatEdit($scope.Period_From);
             $scope.Period_To = DateFormatEdit($scope.Period_To);
             return true;
@@ -195,8 +205,8 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                 if ($scope.FilterValidation() == true) {
                     $("#chatLoaderPV").show();
                     $scope.Email_Stauts = "2";
-                    $scope.Period_From = document.getElementById("Period_From").value;
-                    $scope.Period_To = document.getElementById("Period_To").value;
+                    $scope.Period_From = document.getElementById("P_From").Value;
+                    $scope.Period_To = document.getElementById("P_To").Value;
 
                     $scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
                     $scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
@@ -268,6 +278,15 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             $scope.Generated_Template = EmailTemplate;
             $scope.EmailId = EmailId;
         }
+
+        $scope.GenerateSMSTemplate = [];
+        $scope.GenerateSMSTemplate = function (EmailTemplate, MobileNO, EmailSubject) {
+            angular.element('#Template_PreviewModel').modal('show');
+            $scope.EmailSubject = EmailSubject;
+            $scope.Generated_Template = EmailTemplate;
+            $scope.MobileNO = MobileNO;
+        }
+
         $scope.ClearValues = function () {
             angular.forEach($scope.Filter_SendEmailUserList, function (SelectedUser, index) {
                 SelectedUser.SelectedUser = false;
@@ -347,11 +366,28 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             $scope.EmailId = EmailId;
         }
 
+        $scope.UndeliveredSMS_EditModel = function (EmailTemplate, MobileNO, EmailSubject, SendEmail_Id, UserId) {
+            angular.element('#EditModal').modal('show');
+            $('#btnsave').attr("disabled", false);
+            $('#send').attr("disabled", false);
+            $scope.SendEmail_Id = SendEmail_Id;
+            $scope.EmailSubject = EmailSubject;
+            $scope.Generated_Template = EmailTemplate;
+            $scope.PrimaryKeyId = UserId;
+            if ($scope.PageParameter == 2) {
+                $scope.EditEmail_Body = EmailTemplate;
+            }
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+                $scope.Generated_Template = CKEDITOR.instances.editor1.setData($scope.Generated_Template);
+            }
+            $scope.MobileNO = MobileNO;
+        }
+
         $scope.UndeliveredEmail_Edit = function () {
             $("#chatLoaderPV").show();
             $('#save').attr("disabled", true);
             $('#send').attr("disabled", true);
-            if ($scope.PageParameter == 1) {
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
                 $scope.EditEmail_Body = (CKEDITOR.instances.editor1.getData());
             }
             $scope.SelectedUserList = [];
@@ -359,10 +395,12 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                 Id: $scope.SendEmail_Id,
                 UserId: $scope.PrimaryKeyId,
                 Created_By: $window.localStorage['UserId'],
+                TemplateType_Id: $scope.PageParameter == 1 ? '1' : $scope.PageParameter == 2 ? '2' : $scope.PageParameter == 3 ? '3' : '',
                 Institution_Id: $scope.InstituteId,
                 EmailId: $scope.EmailId,
                 Email_Body: $scope.EditEmail_Body,
-                Email_Subject: $scope.EmailSubject
+                Email_Subject: $scope.EmailSubject,
+                MobileNO: $scope.MobileNO
             };
             $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Edit/', obj).success(function (data) {
                 //alert(data.Message);
