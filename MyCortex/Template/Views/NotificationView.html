@@ -56,7 +56,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="UserNotificationList_Filter.length >10">
+    <tfoot ng-if="UserNotificationList_Filter.length >10">
         <tr>
             <td colspan="7" style="text-align: center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -138,12 +138,12 @@
                                     No Data Available
                                 </td>
                             </tr>
-                            <tr class="info" ng-show="MonitoringProtocolName.length != '0'">
+                            <tr class="info" ng-if="MonitoringProtocolName.length != '0'">
                                 <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
                                 <td style="text-align: left">{{MonitoringProtocolName}}</td>
                             </tr>
                         </tbody>
-                        <tfoot ng-show="rowCollection.length >30">
+                        <tfoot ng-if="rowCollection.length >30">
                             <tr>
                                 <td colspan="5" class="text-center">
                                     <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -271,7 +271,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot ng-show="PatientAssignedknownAllergyActiveDataList.length >page_size">
+                        <tfoot ng-if="PatientAssignedknownAllergyActiveDataList.length >page_size">
                             <tr>
                                 <td colspan="8" class="text-center">
                                     <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"

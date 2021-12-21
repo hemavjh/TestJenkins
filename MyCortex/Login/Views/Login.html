@@ -52,10 +52,10 @@
 
     <div class="loginContainer">
         <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-        <div ng-hide="Productlogin == 1">
+        <div ng-if="Productlogin == 1">
             <h1>{{ProductName1}} Sign In</h1>
         </div>
-        <div ng-hide="Productlogin == 0">
+        <div ng-if="Productlogin == 0">
             <h3>Sign In</h3>
             <h2>New to {{ProductName1}}? Sign Up</h2>
         </div>
