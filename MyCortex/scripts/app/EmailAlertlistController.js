@@ -316,8 +316,30 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         };
         /*THIS IS FOR DELETE FUNCTION */
         $scope.EmailAlert_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Alert details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Alert details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Alert has been deactivated Successfully");
+                        toastr.success("Alert has been deactivated Successfully", "success");
+                        $scope.EmailAlertlist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Alert details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Alert details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert("Alert has been deactivated Successfully");
@@ -326,7 +348,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Alert details" + data;
                 });
-            }
+            }*/
         };
 
         /* THIS IS FOR ACTIVE FUNCTION*/
@@ -341,8 +363,30 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             and redirected to the list page.
            */
         $scope.EmailAlert_Active = function () {
-
-            var Ins = confirm("Do you like to activate the selected Alert details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Alert details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Alert details has been activated successfully");
+                        toastr.success("Selected Alert details has been activated successfully", "success");
+                        $scope.EmailAlertlist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occured while deleting alert records" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Alert details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Alert details has been activated successfully");
@@ -351,7 +395,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting alert records" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Active_ErrorFunction = function () {

@@ -114,14 +114,21 @@
                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
                         <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
                     </a>
-                    <a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
+                    <!--<a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
                         <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
 
                         <a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
                             <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
                         </a>
+                    </a>-->
+                    <a href="javascript:;" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
+                        <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
+
+                        <a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)"  title="Inactive">
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                        </a>
                     </a>
-            </td>
+</td>
         </tr>
     </tbody>
     <tfoot ng-show="rowCollectionFilter.length >10">

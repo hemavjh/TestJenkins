@@ -4855,7 +4855,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.ICD10Details_Delete();
         };
         $scope.ICD10Details_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected ICD10 Details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected ICD10 Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/PatientICD10Details_InActive/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected ICD10 Details has been deactivated Successfully");
+                        toastr.success("Selected ICD10 Details has been deactivated Successfully", "success");
+                        $scope.PatientICD10List();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting ICD10 Details!" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected ICD10 Details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/PatientICD10Details_InActive/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected ICD10 Details has been deactivated Successfully");
@@ -4864,7 +4887,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting ICD10 Details!" + data;
                 });
-            };
+            };*/
         };
 
         /*'Active' the ICD10Details*/
@@ -4880,7 +4903,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         and redirected to the list page.
         */
         $scope.ICD10Details = function () {
-            var Ins = confirm("Do you like to activate the selected ICD10 Details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected ICD10 Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/PatientICD10Details_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected ICD10 Details has been activated successfully");
+                        toastr.success("Selected ICD10 Details has been activated successfully", "success");
+                        $scope.PatientICD10List();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while ICD10 Details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected ICD10 Details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/User/PatientICD10Details_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected ICD10 Details has been activated successfully");
@@ -4889,7 +4935,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ICD10 Details" + data;
                 });
-            };
+            };*/
         }
 
         //  This is for  Patient Medication function	
@@ -5550,7 +5596,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.Medication_Delete();
         };
         $scope.Medication_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected Medication?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Medication?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/MedicationDetails_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Medication has been deactivated Successfully");
+                        toastr.success("Selected Medication has been deactivated Successfully", "success");
+                        $scope.PatientMedicationList();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting Medication!" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Medication?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/MedicationDetails_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Medication has been deactivated Successfully");
@@ -5559,7 +5628,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Medication!" + data;
                 });
-            };
+            };*/
         };
 
         /*'Active' the Medication*/
@@ -5574,7 +5643,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         and redirected to the list page.
         */
         $scope.MedicationDetails = function () {
-            var Ins = confirm("Do you like to activate the selected Medication?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Medication?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                // Read more about isConfirmed, isDenied below 
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/MedicationDetails_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Medication has been activated successfully");
+                        toastr.success("Selected Medication has been activated successfully", "success");
+                        $scope.PatientMedicationList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while Medication" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected Medication?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/User/MedicationDetails_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Medication has been activated successfully");
@@ -5583,7 +5675,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while Medication" + data;
                 });
-            };
+            };*/
         }
 
         $scope.AllergyTabClick = 1;
