@@ -32,8 +32,14 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
         /* on click Add New, Add popup opened*/
         $scope.AddAttendance = function () {
             $scope.DoctorName = "";
+            var FromdtAppo = "";
+            var TodtAppo = "";
             $scope.AttendanceFromDate = "";
             $scope.AttendanceToDate = "";
+            FromdtAppo = moment($filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+            $scope.AttendanceFromDate = FromdtAppo["_i"]
+            TodtAppo = moment($filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+            $scope.AttendanceToDate = TodtAppo["_i"]
             $scope.Remarks = "";
             angular.element('#AttendanceAddModal').modal('show');
             $('#btnsave').attr("disabled", false);
@@ -136,23 +142,29 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
            */
         $scope.DoctorAttendance_InsertUpdateValidations = function () {
             var today = moment(new Date()).format('DD-MMM-YYYY');
-            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY');
-            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY');
+            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY  hh:mm:ss');
+            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY  hh:mm:ss');
 
             if ($scope.SelectedAttendance == "" || $scope.SelectedAttendance == undefined) {
                 //alert("Please select User");
                 toastr.warning("Please select User", "warning");
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
 
             else if (typeof ($scope.AttendanceFromDate) == "undefined" || $scope.AttendanceFromDate == 0) {
                 //alert("Please select From Date");
                 toastr.warning("Please select From Date", "warning");
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
             else if (typeof ($scope.AttendanceToDate) == "undefined" || $scope.AttendanceToDate == 0) {
                 //alert("Please select To Date");
                 toastr.warning("Please select To Date", "warning");
+                $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+                $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                 return false;
             }
             else if ((ParseDate($scope.AttendanceFromDate) < ParseDate(today))) {
@@ -175,7 +187,7 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                     //alert("From Date Should not be greater than To Date");
                     toastr.warning("From Date Should not be greater than To Date", "warning");
                     $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
-                    $scope.AttendanceToDate = Dmoment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
+                    $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
                     return false;
                 }
             }
@@ -190,6 +202,8 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
         $scope.DoctorAttendanceDetails = [];
         $scope.AttendanceAddEdit = function () {
             $scope.DoctorAttendanceDetails = [];
+            $scope.AttendanceFromDate = moment($('#datetimepickerholiday_From').val()).format('DD-MMM-YYYY hh:mm:ss');
+            $scope.AttendanceToDate = moment($('#datetimepickerholiday_To').val()).format('DD-MMM-YYYY hh:mm:ss');
             if ($scope.DoctorAttendance_InsertUpdateValidations() == true) {
                 $("#chatLoaderPV").show();
                 var AttendanceFromDate = $('#datetimepickerholiday_From').val().split(' ')[0];
@@ -371,7 +385,38 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
         and redirected to the list page.
         */
         $scope.Attendance_InActive = function () {
-            var del = confirm("Do you like to deactivate the selected Holiday?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Holiday?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+
+                    $http.post(baseUrl + '/api/Attendance/Attendance_InActive/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.AttendanceList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Holiday" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Holiday?");
             if (del == true) {
                 var obj =
                 {
@@ -388,7 +433,7 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Holiday" + data;
                 });
-            };
+            };*/
         };
 
         /*Active the Doctor Holiday*/
@@ -402,7 +447,38 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
        and redirected to the list page.
        */
         $scope.Attendance_Active = function () {
-            var Ins = confirm("Do you like to activate the selected  Holiday?");
+            Swal.fire({
+                title: 'Do you like to activate the selected  Holiday?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+
+                    $http.post(baseUrl + '/api/Attendance/Attendance_Active/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.AttendanceList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  Drug DB details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected  Holiday?");
             if (Ins == true) {
                 var obj =
                 {
@@ -419,7 +495,7 @@ AttendanceDetailscontroller.controller("AttendanceDetailsController", ['$scope',
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Holiday" + data;
                 });
-            };
+            };*/
         }
 
         $scope.ErrorFunction = function () {

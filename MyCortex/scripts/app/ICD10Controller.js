@@ -204,7 +204,31 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
         /*THIS IS FOR DELETE FUNCTION */
         $scope.ICDMaster_Delete = function () {
 
-            var del = confirm("Do you like to deactivate the selected ICD 10 details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected ICD 10 details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/MasterICD/ICDMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert(" ICD 10 details has been deactivated Successfully");
+                        toastr.success(" ICD 10 details has been deactivated Successfully", "success");
+                        $scope.ICD10list();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+
+           /* var del = confirm("Do you like to deactivate the selected ICD 10 details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MasterICD/ICDMaster_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert(" ICD 10 details has been deactivated Successfully");
@@ -213,7 +237,7 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
                 });
-            }
+            }*/
         };
 
         $scope.ActiveICD10 = function (PId) {
@@ -228,8 +252,29 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
             and redirected to the list page.
            */
         $scope.ICDMaster_Active = function () {
-
-            var Ins = confirm("Do you like to activate the selected ICD 10 details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected ICD 10 details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/MasterICD/ICDMaster_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected ICD 10 details has been activated successfully");
+                        toastr.success("Selected ICD 10 details has been activated successfully", "success");
+                        $scope.ICD10list();
+                    }).error(function (data) {
+                        $scope.error = "An error has occured while deleting ICD 1O records" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected ICD 10 details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/MasterICD/ICDMaster_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected ICD 10 details has been activated successfully");
@@ -238,7 +283,7 @@ ICD10controller.controller("ICD10Controller", ['$scope', '$http', '$filter', '$r
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting ICD 1O records" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Active_ErrorFunction = function () {
