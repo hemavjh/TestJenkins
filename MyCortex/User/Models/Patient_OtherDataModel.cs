@@ -29,6 +29,8 @@ namespace MyCortex.User.Model
         public DateTime? DocumentDate { get; set; }
         public long Modified_By { get; set; }
         public long Institution_Id { get; set; }
+
+        public Guid? Login_Session_Id { get; set; }
     }
     public class DocumentTypeModel
     {
