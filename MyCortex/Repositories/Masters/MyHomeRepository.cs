@@ -189,6 +189,7 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@TAB_ID", insobj.TabId));
             param.Add(new DataParameter("@USER_ID", insobj.UserId));
             param.Add(new DataParameter("@PIN", insobj.PIN));
+            param.Add(new DataParameter("@ISTEMP", insobj.IsTemp));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {

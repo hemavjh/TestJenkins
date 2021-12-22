@@ -122,7 +122,7 @@
                     </td>
                 </tr>
             </tbody>
-            <tfoot ng-if="rowCollectionFilter.length >10">
+            <tfoot ng-show="rowCollectionFilter.length >10">
                 <tr>
                     <td colspan="10" class="text-center">
                         <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -287,19 +287,19 @@
                         <input type="checkbox" style="display: inline-block;" value="agree" ng-model="EmailFlag"
                                ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-if="EmailFlag==true">
+                    <div class="inputGroups" ng-show="EmailFlag==true">
                         <label>Template</label>
                         <span>{{ViewEmailTemplateName}}</span>
                     </div>
                     <div class="inputGroups">
-                        <label ng-if="EventTo.length>0"><b>To</b>:&nbsp;{{EventTo}}</label>
-                        <label ng-if="EventCC.length>0"><b>CC</b>:&nbsp;{{EventCC}}</label>
+                        <label ng-show="EventTo.length>0"><b>To</b>:&nbsp;{{EventTo}}</label>
+                        <label ng-show="EventCC.length>0"><b>CC</b>:&nbsp;{{EventCC}}</label>
                     </div>
                     <div class="inputGroups">
                         <label>App Notification</label>
                         <input type="checkbox" value="agree" ng-model="AppFlag" ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-if="AppFlag==true">
+                    <div class="inputGroups" ng-show="AppFlag==true">
                         <label>App Template</label>
                         <span>{{ViewAppTemplateName}}</span>
                     </div>
@@ -307,7 +307,7 @@
                         <label>Web Notification</label>
                         <input type="checkbox" value="agree" ng-model="WebFlag" ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-if="WebFlag==true">
+                    <div class="inputGroups" ng-show="WebFlag==true">
                         <label>Template</label>
                         <span>{{ViewWebTemplateName}}</span>
                     </div>
@@ -317,12 +317,12 @@
                         <input type="checkbox" style="display: inline-block;" value="agree" ng-model="SMSFlag"
                                ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-if="SMSFlag==true">
+                    <div class="inputGroups" ng-show="SMSFlag==true">
                         <label>Template</label>
                         <span>{{ViewSMSTemplateName}}</span>
                     </div>
                     
-                    <div class="inputGroups" ng-if="Eventtype== 2">
+                    <div class="inputGroups" ng-show="Eventtype== 2">
                         <label>Duration</label>
                         <span>{{AlertDays}}&nbsp;&nbsp;{{EventDurationUOM}}</span>
                     </div>

@@ -119,6 +119,7 @@ namespace MyCortex.Masters.Models
         public long UserId { get; set; }
         public string PIN { get; set; }
         public int Flag { get; set; }
+        public int IsTemp { get; set; }
     }
 
     public class TabUserPinReturnModels
