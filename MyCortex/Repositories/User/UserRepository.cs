@@ -3748,7 +3748,8 @@ namespace MyCortex.Repositories.Uesr
                                                    PatientName = p.Field<string>("PatientName"),
                                                    Remarks = p.Field<string>("Remarks"),
                                                    DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
-                                                   DocumentType = p.Field<string>("DOCUMENT_TYPE")
+                                                   DocumentType = p.Field<string>("DOCUMENT_TYPE"),
+                                                   Filetype= p.Field<string>("FILETYPE")
                                                }).FirstOrDefault();
                 return View;
             }

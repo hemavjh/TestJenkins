@@ -6744,16 +6744,19 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //}
                 }
                 /*if (itemIndexLogo != -1) {*/
+                if ($scope.Editfile.length !== 0) {
+                    fd.append('file', $scope.Editfile[0]);
+                }
                 
-                fd.append('file', $scope.Editfile[0]);
+                
                 //}
                 /*
                 calling the api method for read the file path
                 and saving the image uploaded in the local server.
                 */
-                $scope.Remarks = $scope.Remarks == 'null' ? '' : $scope.Remarks;
+                $scope.Remarks = $scope.Remarks == null ? "" : $scope.Remarks;
                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks, + '&Created_By=' + $scope.Created_By + '&DocumentDate=' + convert($scope.DocumentDate) + '&DocumentType=' + $scope.DocumentType,
+                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By + '&DocumentDate=' + convert($scope.DocumentDate) + '&Filetype=' + $scope.Filetype + '&DocumentType=' + $scope.DocumentType,
                     fd,
                     {
                         transformRequest: angular.identity,
@@ -6883,6 +6886,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             });
 
         };
+        $scope.Filetype ="";
         $scope.Patient_OtherData_View = function (Id) {
             $scope.OtherData_Id = Id;
             $http.get(baseUrl + '/api/User/Patient_OtherData_View/?Id=' + $scope.OtherData_Id +'&Login_Session_Id=' + $scope.LoginSessionId ).success(function (data) {
@@ -6893,6 +6897,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.DocumentType = data.DocumentType;
                 $scope.DocumentName = data.DocumentName;
                 $scope.Remarks = data.Remarks;
+                $scope.Filetype = data.Filetype;
             });
         }
         $scope.RemovePatient_OtherData_Item = function (rowIndex) {

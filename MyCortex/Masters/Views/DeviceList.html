@@ -106,7 +106,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-if="rowCollection.length >30">
+    <tfoot ng-show="rowCollection.length >30">
         <tr>
             <td colspan="5" class="text-center">
                 <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -114,7 +114,7 @@
             </td>
         </tr>
     </tfoot>
-    <!--<tfoot ng-if="total_page>1">
+    <!--<tfoot ng-show="total_page>1">
         <tr>
             <td colspan="8" class="text-center">
                 <ul class="pagination">

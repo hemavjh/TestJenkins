@@ -77,9 +77,9 @@
                                             <div style="margin-left: 151px;margin-top: -12px;">
                                                 <span style="font-weight:bold;"> Logo Upload</span>
                                                 <img src="{{uploadme}}" style="margin-left:-20px;height: 200px;width: 170px;" class="institutionLogo"
-                                                     ng-if="(uploadme != '')" />
+                                                     ng-show="(uploadme != '')" />
                                                 <img src="../../Images/noImage.jpg" style="margin-left: -20px; height: 200px; width: 170px;" class="institutionLogo"
-                                                     ng-if="(uploadme == '' || uploadme == null)" />
+                                                     ng-show="(uploadme == '' || uploadme == null)" />
                                             </div>
                                         </div>
                                     </div>

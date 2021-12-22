@@ -58,7 +58,7 @@
                     <div class="panel panel-default bt-0 m-0 b-0 bs-0 patientProfileInfo">
                         <div class="panel-body">
                             <div class="panel-group" id="accordion">
-                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-if="currentTab=='1'">
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='1'">
                                     <div id="collapse1" class="panel-collapse">
                                         <div class="panel-body">
                                             <div class="col-sm-4">
@@ -124,14 +124,14 @@
                                                     <label>Mobile No.</label>
                                                     <span>{{MobileNo}}</span>
                                                 </div>
-                                                <div class="inputGroups" ng-if="EditPatientGroupId == 1">
+                                                <div class="inputGroups" ng-hide="EditPatientGroupId == 1">
                                                     <div class="row">
                                                         <div class="col-sm-9">
                                                             <label> Group</label>
                                                             <span> {{ViewGroupName}}</span>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientGroup()" ng-if="EditgroupOption == 1">
+                                                            <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientGroup()" ng-show="EditgroupOption == 1">
                                                                 Edit Group
                                                             </button>
                                                         </div>
@@ -180,10 +180,10 @@
                                                         <div ng-if="(uploadme!=null)&&uploadview ==true" valign="top" rowspan="6">
                                                             <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme}}" />
                                                         </div>
-                                                        <a href="javascript:" ng-if="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
                                                            class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
 
-                                                        <a href="javascript:" ng-if="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
                                                            class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>
                                                 </div>
                                             </div>
@@ -208,17 +208,17 @@
                                                         <div ng-if="(uploadme1!=null)&&Nationaluploadview ==true" valign="top" rowspan="6">
                                                             <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme1}}" />
                                                         </div>
-                                                        <!--<a href="javascript:" ng-if="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                        <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
                                                            class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
 
-                                                        <a href="javascript:" ng-if="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
                                                            class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-if="currentTab=='2'">
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='2'">
                                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
@@ -266,21 +266,21 @@
                                                         <label>Blood Group</label>
                                                         <span>{{ViewBloodGroup}}</span>
                                                     </div>
-                                                    <div class="inputGroups" ng-if="EditPatientChronicCondition == 1">
+                                                    <div class="inputGroups" ng-show="EditPatientChronicCondition == 1">
                                                         <div class="row">
                                                             <div class="col-sm-9">
                                                                 <label> Chronic Condition</label>
                                                                 <span> {{ChronicCondition}}</span>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientChronic()" ng-if="EditChronicOption == 1">
+                                                                <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientChronic()" ng-show="EditChronicOption == 1">
                                                                     Edit
                                                                 </button>
                                                             </div>
                                                         </div>
                                                         
                                                     </div>
-                                                    <div class="inputGroups" ng-if="Pat_UserTypeId==2" ng-if="EditPatientChronicCondition == 1">
+                                                    <div class="inputGroups" ng-hide="Pat_UserTypeId==2" ng-if="EditPatientChronicCondition == 1">
                                                         <label>Chronic Condition</label>
                                                         <div>
                                                             <select ng-model="SelectedChronicConditionEdit" multiple="multiple"
@@ -300,7 +300,7 @@
                                     </div>
                                 </div>
 
-                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-if="currentTab=='3'">
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='3'">
                                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Address Info
@@ -353,7 +353,7 @@
                                 </div>
 
 
-                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-if="currentTab=='4'">
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='4'">
                                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">Emergency Contact
@@ -393,7 +393,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default bs-0 b-0 m-0 bt-0" ng-if="currentTab=='5'">
+                                <div class="panel panel-default bs-0 b-0 m-0 bt-0" ng-show="currentTab=='5'">
                                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion"
@@ -428,7 +428,7 @@
                                             <table cellpadding="0" cellspacing="0" border="0"
                                                    width="100%" class="formControlGroup">
 
-                                                <tr ng-if="CURRENTLY_TAKEMEDICINE ==2">
+                                                <tr ng-hide="CURRENTLY_TAKEMEDICINE ==2">
 
                                                     <td width="35" colspan="2">
                                                         <table class="table themeTable"
@@ -464,7 +464,7 @@
                                                     </td>
                                                 </tr>
 
-                                                <tr ng-if="PAST_MEDICALHISTORY ==2">
+                                                <tr ng-hide="PAST_MEDICALHISTORY ==2">
                                                     <td colspan="2">
                                                         <table class="table themeTable"
                                                                template-pagination="custom/pager">
@@ -520,7 +520,7 @@
                                                     </td>
                                                 </tr>
 
-                                                <tr ng-if="FAMILYHEALTH_PROBLEMHISTORY==2">
+                                                <tr ng-hide="FAMILYHEALTH_PROBLEMHISTORY==2">
                                                     <td colspan="2">
                                                         <table class="table themeTable"
                                                                template-pagination="custom/pager">
@@ -628,7 +628,7 @@
                                     </div>
                                 </div>
 
-                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-if="currentTab=='6'">
+                                <div class="panel panel-default bt-0 m-0 b-0 bs-0" ng-show="currentTab=='6'">
                                     <div id="collapse11" class="panel-collapse">
                                         <div class="panel-body">
                                             <div class="row">
@@ -682,10 +682,10 @@
                                                         <div ng-if="(uploadme2!=null)&&Insuranceuploadview ==true" valign="top" rowspan="6">
                                                             <img width="180" height="180" class="responsiveProfileImage" src="{{uploadme2}}" />
                                                         </div>
-                                                        <!--<a href="javascript:" ng-if="PageParameter==0" ng-click="Active_PatientApproval()"
+                                                        <!--<a href="javascript:" ng-show="PageParameter==0" ng-click="Active_PatientApproval()"
                                                            class="btn btn-autosize" title="Click to Approve the Patient">Approve</a>
 
-                                                        <a href="javascript:" ng-if="PageParameter==0" ng-click="MoreInfoPopup()"
+                                                        <a href="javascript:" ng-show="PageParameter==0" ng-click="MoreInfoPopup()"
                                                            class="btn btn-autosize" title="Click to enter the More Informations">More Information Required</a>-->
                                                 </div>
                                             </div>

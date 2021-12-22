@@ -195,7 +195,7 @@
                     <div class="panel-body">
 
                         <h1 class="title2 text-left">My Appointments</h1>
-                        <div class="myAppoinments" ng-if="MyAppoinmentdata.length==0">
+                        <div class="myAppoinments" ng-show="MyAppoinmentdata.length==0">
                             No Appointments
                         </div>
                         <div class="myAppoinments">
@@ -226,14 +226,14 @@
                     <!--<div class="panel panel-default patientProfileInfo mt-10">
                     <div class="panel-body">-->
                     <!--<h1 class="title2 text-left">My Appointments</h1>-->
-                    <!--<h3 class="title2 text-left" ng-if="PatientAppointmentCount==0">
+                    <!--<h3 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
                         My Appointments({{PatientAppointmentCount}})
                     </h3>
-                    <h3 class="title2 text-left" ng-if="PatientAppointmentCount>0">
+                    <h3 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
                         My Appointments
                     </h3>
                     <div class="myAppoinmentspart">
-                        <div id="slides1" class="slides" ng-if="PatientAppointmentCount==0">
+                        <div id="slides1" class="slides" ng-hide="PatientAppointmentCount==0">
                             <ul>
                                 <li>
                                     <div class="myAppoinmentsfull">
@@ -281,18 +281,18 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="myAppoinments" ng-if="PatientAppointmentCount !== 0">
+                                <div class="myAppoinments" ng-hide="PatientAppointmentCount !== 0">
                                     No Appointments
                                 </div>
-                                <p class="leadtile" ng-if="PatientAppointmentCount==0">
-                                    <a id="prev" ng-if="index==0" title="Previous Appointment" ng-click="Next_PatientAppointment(2)"><img class="apoileft" src="images/appointment-left.jpg"></a>
+                                <p class="leadtile" ng-hide="PatientAppointmentCount==0">
+                                    <a id="prev" ng-hide="index==0" title="Previous Appointment" ng-click="Next_PatientAppointment(2)"><img class="apoileft" src="images/appointment-left.jpg"></a>
                                     <a id="next" title="Next Appointment" ng-click="Next_PatientAppointment(1)"
-                                       ng-if="index+1==PatientAppointmentCount"><img class="apoiright" src="images/appointment-right.jpg"></a>
+                                       ng-hide="index+1==PatientAppointmentCount"><img class="apoiright" src="images/appointment-right.jpg"></a>
                                 </p>
                             </div>
                         </div>
                     </div>-->
-                    <div ng-if="UserTypeId==6" ng-init="CareGiverAssign_Function()">
+                    <div ng-show="UserTypeId==6" ng-init="CareGiverAssign_Function()">
                         <div class="panel panel-default">
 
                             <div class="panel-body">
@@ -320,7 +320,7 @@
 
                         </div>
                     </div>
-                    <div class="mt-15" ng-if="UserTypeId==2">
+                    <div class="mt-15" ng-show="UserTypeId==2">
 
                         <h1 class="title2 text-left" ng-if="Mode==1">Other Info</h1>
 
@@ -355,16 +355,16 @@
                             </div>
 
                         </div>
-                        <!--<h1 class="title2 text-left" ng-if="PatientAppointmentCount==0">
+                        <!--<h1 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
                             My Appointments({{PatientAppointmentCount}})
                         </h1>
-                        <h1 class="title2 text-left" ng-if="PatientAppointmentCount>0">
+                        <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
 
 
                             My Appoint
                             ments
                         </h1>-->
-                        <!--<div class="patientCard" ng-if="PatientAppointmentCount==0">
+                        <!--<div class="patientCard" ng-hide="PatientAppointmentCount==0">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
@@ -419,10 +419,10 @@
                                     <span style="text-align: right">
                                         <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
                                            title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
-                                           ng-if="index==0"></i>&nbsp;&nbsp;
+                                           ng-hide="index==0"></i>&nbsp;&nbsp;
                                         <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
                                            title="Next Appointment" ng-click="Next_PatientAppointment(1)"
-                                           ng-if="index+1==PatientAppointmentCount"></i>
+                                           ng-hide="index+1==PatientAppointmentCount"></i>
                                     </span>
                                 </div>
                                 <div class="col-sm-6">
@@ -430,7 +430,7 @@
                                 </div>
                             </div>
                         </div>-->
-                        <!--<div class="patientCard" ng-if="PatientAppointmentCount>0">
+                        <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
                             <div class="row">
                                 <div class="col-sm-12">
                                     No doctor appointments scheduled
@@ -438,7 +438,7 @@
                             </div>
                         </div>-->
                     </div>
-                    <!--                        <div ng-if="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
+                    <!--                        <div ng-show="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
                         el
                         <div class="panel panel-default">
 
@@ -467,7 +467,7 @@
 
                         </div>
                     </div>-->
-                    <div class="mt-15" ng-if="UserTypeId ==4||UserTypeId==7">
+                    <div class="mt-15" ng-show="UserTypeId ==4||UserTypeId==7">
 
                         <div class="panel panel-default patientProfileInfo">
                             <div class="panel-body">
@@ -495,7 +495,7 @@
 
                         </div>
                     </div>
-                    <div class="mt-15" ng-if="UserTypeId ==5">
+                    <div class="mt-15" ng-show="UserTypeId ==5">
                         <!--<div class="flex align-items-center justify-content-between mb-4">
                             <p class="m-bottom-0 font-semibold self-center">Appointment</p>
                             <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
@@ -615,8 +615,8 @@
 
                         </div>
                     </div>
-                    <p ng-if="BookNewSettings== false" class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
-                    <div class="flex align-items-center justify-content-between mb-4" ng-if="BookNewSettings== true">
+                    <p ng-show="BookNewSettings== false" class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
+                    <div class="flex align-items-center justify-content-between mb-4" ng-show="BookNewSettings== true">
                         <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
                         <button type="button" id="BookNew" ng-disabled="false" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
                             + Book New
@@ -643,7 +643,7 @@
                             <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
 
                                 <div id="Past" class="tab-pane fade">
-                                    <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-if="PreviousAppointmentCount == 0">
+                                    <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
                                         <div class=" upcoming-doctor">
                                             <div class="flex justify-content-between align-items-center mb-4">
                                                 <p class="up-time">
@@ -677,13 +677,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="myAppoinments" ng-if="PreviousAppointmentCount !== 0">
+                                    <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
                                         No Past Appointment...
                                     </div>
                                 </div>
 
                                 <div id="appt" class="tab-pane fade in active">
-                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-if="UpComingAppointmentCount == 0">
+                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
                                         <div class=" upcoming-doctor">
                                             <div class="flex justify-content-between align-items-center mb-4">
                                                 <p class="up-time">
@@ -719,12 +719,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="myAppoinments" ng-if="UpComingAppointmentCount !== 0">
+                                    <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
                                         No Upcoming Appointment...
                                     </div>
                                 </div>
                                 <div id="Waiting_Appointment" class="tab-pane fade in active">
-                                    <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-if="UpComingWaitingAppointmentCount == 0">
+                                    <div class="" ng-repeat="Row in UpComingWaitingAppointmentDetails" ng-hide="UpComingWaitingAppointmentCount == 0">
                                         <div class=" upcoming-doctor">
                                             <div class="flex justify-content-between align-items-center mb-4">
                                                 <p class="up-time">
@@ -750,7 +750,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="myAppoinments" ng-if="UpComingWaitingAppointmentCount !== 0">
+                                    <div class="myAppoinments" ng-hide="UpComingWaitingAppointmentCount !== 0">
                                         No Upcoming Waiting Appointment...
                                     </div>
                                 </div>
@@ -761,7 +761,7 @@
                 <!--</div>
                 </div>-->
                 <div class="col-sm-7">
-                    <h1 class="page-title" ng-if="ParameterValueList.length>=0">
+                    <h1 class="page-title" ng-show="ParameterValueList.length>=0">
                         Alerts<sub>
                             <input type="image" src="../../Images/expand.gif"
                                    title='Click to Collapse'
@@ -769,97 +769,97 @@
                                    style="width: 20px;" id="tableid_img">
                         </sub>
                     </h1>
-                    <div class="mynotificationsWarnings myhighposition" ng-if="(ParameterValueList |filter:{HighCount:1}).length>=0" ng-click="AlertCountredDisplay()">
+                    <div class="mynotificationsWarnings myhighposition" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" ng-click="AlertCountredDisplay()">
                         <div class="jinglebelllow">
-                            <i id="Highcount" class="fa fa-bell-o myhighBell" ng-if="(ParameterValueList |filter:{HighCount:1}).length>=0"></i>
-                            <span ng-if="(ParameterValueList |filter:{HighCount:1}).length>=0"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
+                            <i id="Highcount" class="fa fa-bell-o myhighBell" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"></i>
+                            <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
                         </div>
                     </div>
 
-                    <div class="mynotificationsWarnings mymediumPosition" ng-if="(ParameterValueList |filter:{MediumCount:1}).length>=0" ng-click="AlertCountDisplay()">
+                    <div class="mynotificationsWarnings mymediumPosition" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" ng-click="AlertCountDisplay()">
                         <div class="jinglebellmedium">
-                            <i id="Medcount" class="fa fa-bell-o mymediumBell" ng-if="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
-                            <span ng-if="(ParameterValueList |filter:{MediumCount:1}).length>=0">{{(ParameterValueList |filter:{MediumCount:1}).length}}</span>
+                            <i id="Medcount" class="fa fa-bell-o mymediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
+                            <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0">{{(ParameterValueList |filter:{MediumCount:1}).length}}</span>
                         </div>
                     </div>
 
-                    <div class="mynotificationsWarnings mylowPosition" ng-if="(ParameterValueList |filter:{LowCount:1}).length>=0" ng-click="AlertCountgreenDisplay()">
+                    <div class="mynotificationsWarnings mylowPosition" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" ng-click="AlertCountgreenDisplay()">
                         <div class="jinglebellhigh">
-                            <i id="Lowcount" class="fa fa-bell-o mylowBell" ng-if="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
-                            <span ng-if="(ParameterValueList |filter:{LowCount:1}).length>=0"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
+                            <i id="Lowcount" class="fa fa-bell-o mylowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
+                            <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
                         </div>
                     </div>
 
                     <div class="PatientNotification1">
 
-                        <div class="changeViews" ng-if="currentTab=='2' || currentTab=='3' ">
-                            <a href="javascript:" ng-if="VitalChart=='1'" title="Chart View"
+                        <div class="changeViews" ng-show="currentTab=='2' || currentTab=='3' ">
+                            <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
                                ng-click="VitalChart ='2';HistoryDetails(currentTab);">
                                 <i class="fas fa-chart-bar"></i>
                             </a>
-                            <a href="javascript:" ng-if="VitalChart=='2'" title="Grid View"
+                            <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
                                ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
                                 <i class="fas fa-table"></i>
                             </a>
 
-                            <a href="javascript:" ng-if="unitgrouptype == 1 && currentTab == 2" ng-click="unitgrouptype = 2;getParameterList();ActivitiesDaysClick(2,VitalChart)" title="Metric">
+                            <a href="javascript:" ng-show="unitgrouptype == 1 && currentTab == 2" ng-click="unitgrouptype = 2;getParameterList();ActivitiesDaysClick(2,VitalChart)" title="Metric">
                                 <!--<i class="fas fa-language"></i>-->
                                 <img src="../../Images/UOMIcon.jpg" height="25" width="25" />
                             </a>
-                            <a href="javascript:" ng-if="unitgrouptype == 2 && currentTab == 2" ng-click="unitgrouptype = 1;getParameterList();ActivitiesDaysClick(2,VitalChart)" title="English">
+                            <a href="javascript:" ng-show="unitgrouptype == 2 && currentTab == 2" ng-click="unitgrouptype = 1;getParameterList();ActivitiesDaysClick(2,VitalChart)" title="English">
                                 <!--<i class="fas fa-language"></i>-->
                                 <img src="../../Images/UOMIcon.jpg" height="25" width="25" />
                             </a>
-                            <a href="javascript:" ng-if="unitgrouptype == 1 && currentTab == 3" ng-click="unitgrouptype = 2;getParameterList();ActivitiesDaysClick(3,VitalChart)" title="Metric">
+                            <a href="javascript:" ng-show="unitgrouptype == 1 && currentTab == 3" ng-click="unitgrouptype = 2;getParameterList();ActivitiesDaysClick(3,VitalChart)" title="Metric">
                                 <!--<i class="fas fa-language"></i>-->
                                 <img src="../../Images/UOMIcon.jpg" height="25" width="25" />
                             </a>
-                            <a href="javascript:" ng-if="unitgrouptype == 2 && currentTab == 3" ng-click="unitgrouptype = 1;getParameterList();ActivitiesDaysClick(3,VitalChart)" title="English">
+                            <a href="javascript:" ng-show="unitgrouptype == 2 && currentTab == 3" ng-click="unitgrouptype = 1;getParameterList();ActivitiesDaysClick(3,VitalChart)" title="English">
                                 <!--<i class="fas fa-language"></i>-->
                                 <img src="../../Images/UOMIcon.jpg" height="25" width="25" />
                             </a>
                         </div>
                     </div>
                     <div class="PatientNotification2">
-                        <a ng-if="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
+                        <a ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
                            href="javascript:" ng-click="AddVitalsPopUp()" class="theme-btn-1 ml-20" title='Add New Vitals'>Add New</a>
-                        <a ng-if="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
+                        <a ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))"
                            href="javascript:" ng-click="AddVitalsPopUp()" class="theme-btn-1 ml-20" title='Add New Lab'>Add New</a>
                         <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
-                           ng-if="currentTab=='4' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                           ng-show="currentTab=='4' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                             Add New
                         </a>
                         <a href="javascript:" ng-click="AddMedicationPopUp()" title="Add New Medication"
-                           ng-if="currentTab=='5' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                           ng-show="currentTab=='5' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                             Add New
                         </a>
                         <a href="javascript:" ng-click="AddAllergyPopUp()" title="Add New"
-                           ng-if="currentTab=='6' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                           ng-show="currentTab=='6' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                             Add New
                         </a>
                         <a href="javascript:" ng-click="PatientNotesAddPopup()" title="Add New"
-                           ng-if="currentTab=='7' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
+                           ng-show="currentTab=='7' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1 ml-20">
                             Add New
                         </a>
                         <a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())" title="Add New Other Data"
-                           ng-if="currentTab=='8' && (UserTypeId!= 6)" class="theme-btn-1 ml-20">
+                           ng-show="currentTab=='8' && (UserTypeId!= 6)" class="theme-btn-1 ml-20">
                             Add New
                         </a>
                     </div>
 
 
                     <br ng-if="ParameterValueList.length>=0" />
-                    <div class="row" ng-if="ParameterValueList.length>=0" style="display: none" id="tableid">
+                    <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
-                                <div class="notificationsWarnings" ng-if="row.HighCount>0">
-                                    <i class="fas fa-bell highBell" ng-if="row.HighCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.HighCount>0">
+                                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.MediumCount>0">
-                                    <i class="fas fa-bell mediumBell" ng-if="row.MediumCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.MediumCount>0">
+                                    <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.LowCount>0">
-                                    <i class="fas fa-bell lowBell" ng-if="row.LowCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.LowCount>0">
+                                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
                                 </div>
                                 <strong>{{row.PageType}}:</strong>
                                 <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
@@ -867,10 +867,10 @@
                                 <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
-                                <span ng-if="row.PageType=='C'"><br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-if="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <span ng-show="row.PageType=='C'"><br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
@@ -878,11 +878,11 @@
 
 
                     <br ng-if="redcount==2" />
-                    <div class="row" ng-if="HighCountVitalList.length>0" style="display: none" id="tableid3">
+                    <div class="row" ng-show="HighCountVitalList.length>0" style="display: none" id="tableid3">
                         <div class="col-sm-3" ng-repeat="row in HighCountVitalList">
                             <div ng-class="{'alert alert-danger nibp':row.HighCount>0}">
-                                <div class="notificationsWarnings" ng-if="row.HighCount>0">
-                                    <i class="fas fa-bell highBell" ng-if="row.HighCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.HighCount>0">
+                                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                                 </div>
                                 <strong>{{row.PageType}}:</strong>
                                 <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
@@ -890,25 +890,25 @@
                                 <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
-                                <span ng-if="row.PageType=='C'"><br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-if="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <span ng-show="row.PageType=='C'"><br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
                     <br ng-if="redcount==3" />
-                    <div class="row" ng-if="ParameterValueList.length>=0" style="display: none" id="tableid4">
+                    <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid4">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
-                                <div class="notificationsWarnings" ng-if="row.HighCount>0">
-                                    <i class="fas fa-bell highBell" ng-if="row.HighCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.HighCount>0">
+                                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.MediumCount>0">
-                                    <i class="fas fa-bell mediumBell" ng-if="row.MediumCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.MediumCount>0">
+                                    <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.LowCount>0">
-                                    <i class="fas fa-bell lowBell" ng-if="row.LowCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.LowCount>0">
+                                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
                                 </div>
                                 <strong>{{row.PageType}}:</strong>
                                 <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
@@ -916,20 +916,20 @@
                                 <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
-                                <span ng-if="row.PageType=='C'"><br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-if="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <span ng-show="row.PageType=='C'"><br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
 
                     <br ng-if="yellowcount==2" />
-                    <div class="row" ng-if="MediumCountVitalList.length>0" style="display: none" id="tableid1">
+                    <div class="row" ng-show="MediumCountVitalList.length>0" style="display: none" id="tableid1">
                         <div class="col-sm-3" ng-repeat="row in MediumCountVitalList">
                             <div ng-class="{'alert alert-warning nibp':row.MediumCount>0}">
-                                <div class="notificationsWarnings" ng-if="row.MediumCount>0">
-                                    <i class="fas fa-bell mediumBell" ng-if="row.MediumCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.MediumCount>0">
+                                    <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                                 </div>
                                 <strong>{{row.PageType}}:</strong>
                                 <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
@@ -937,25 +937,25 @@
                                 <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
-                                <span ng-if="row.PageType=='C'"><br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-if="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <span ng-show="row.PageType=='C'"><br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
                     <br ng-if="yellowcount==3" />
-                    <div class="row" ng-if="ParameterValueList.length>=0" style="display: none" id="tableid2">
+                    <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid2">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
-                                <div class="notificationsWarnings" ng-if="row.HighCount>0">
-                                    <i class="fas fa-bell highBell" ng-if="row.HighCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.HighCount>0">
+                                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.MediumCount>0">
-                                    <i class="fas fa-bell mediumBell" ng-if="row.MediumCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.MediumCount>0">
+                                    <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.LowCount>0">
-                                    <i class="fas fa-bell lowBell" ng-if="row.LowCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.LowCount>0">
+                                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
                                 </div>
                                 <strong>{{row.PageType}}:</strong>
                                 <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
@@ -963,19 +963,19 @@
                                 <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
-                                <span ng-if="row.PageType=='C'"><br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-if="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <span ng-show="row.PageType=='C'"><br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
                     <br ng-if="greencount==2" />
-                    <div class="row" ng-if="LowCountVitalList.length>0" style="display: none" id="tableid5">
+                    <div class="row" ng-show="LowCountVitalList.length>0" style="display: none" id="tableid5">
                         <div class="col-sm-3" ng-repeat="row in LowCountVitalList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0}">
-                                <div class="notificationsWarnings" ng-if="row.LowCount>0">
-                                    <i class="fas fa-bell lowBell" ng-if="row.LowCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.LowCount>0">
+                                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
                                 </div>
                                 <strong>{{row.PageType}}:</strong>
                                 <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
@@ -983,25 +983,25 @@
                                 <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
-                                <span ng-if="row.PageType=='C'"><br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-if="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <span ng-show="row.PageType=='C'"><br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
                     <br ng-if="greencount==3" />
-                    <div class="row" ng-if="ParameterValueList.length>=0" style="display: none" id="tableid6">
+                    <div class="row" ng-show="ParameterValueList.length>=0" style="display: none" id="tableid6">
                         <div class="col-sm-3" ng-repeat="row in ParameterValueList">
                             <div ng-class="{'alert alert-success nibp':row.LowCount>0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}">
-                                <div class="notificationsWarnings" ng-if="row.HighCount>0">
-                                    <i class="fas fa-bell highBell" ng-if="row.HighCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.HighCount>0">
+                                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.MediumCount>0">
-                                    <i class="fas fa-bell mediumBell" ng-if="row.MediumCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.MediumCount>0">
+                                    <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                                 </div>
-                                <div class="notificationsWarnings" ng-if="row.LowCount>0">
-                                    <i class="fas fa-bell lowBell" ng-if="row.LowCount>0"></i>
+                                <div class="notificationsWarnings" ng-show="row.LowCount>0">
+                                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
                                 </div>
                                 <strong>{{row.PageType}}:</strong>
                                 <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
@@ -1009,10 +1009,10 @@
                                 <span>{{row.Average}}&nbsp;&nbsp;{{row.Com_DurationType =='' ?  '' : (row.Com_DurationType)}}</span><br />
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
-                                <span ng-if="row.PageType=='C'"><br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
-                                <span ng-if="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
-                                <span ng-if="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
+                                <span ng-show="row.PageType=='C'"><br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
+                                <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
                         </div>
                     </div>
@@ -1022,7 +1022,7 @@
 
 
 
-                            <ul class="chartTabs" ng-if="currentTab=='1'">
+                            <ul class="chartTabs" ng-show="currentTab=='1'">
                                 <li>
                                     <a ng-click="DayDetailsList(currentTab)"
                                        ng-class="{'chartActiveTab':LSType_Id=='1'}" style="margin-left:10px;">Today</a>
@@ -1052,7 +1052,7 @@
                                        ng-class="{'chartActiveTab':LSType_Id=='7'}">All</a>
                                 </li>
                             </ul>
-                            <div ng-if="currentTab!='1' && VitalChart=='1'"
+                            <div ng-show="currentTab!='1' && VitalChart=='1'"
                                  ng-click="TabClickDataLoad(currentTab)">
                                 <ul class="chartTabs">
                                     <li>
@@ -1126,7 +1126,7 @@
                                         Documents
                                     </a>
                                 </li>
-                                <li ng-if="UserTypeId==2 || UserTypeId==4 || UserTypeId==7 || UserTypeId==5 || UserTypeId==6 ">
+                                <li ng-show="UserTypeId==2 || UserTypeId==4 || UserTypeId==7 || UserTypeId==5 || UserTypeId==6 ">
                                     <a ng-class="{'themeTabActive boldtxtt':currentTab=='9'}" ng-click="currentTab='9';LiveTabClick()">
                                         Live
                                     </a>
@@ -1140,7 +1140,7 @@
 
 
 
-                                        <div class="panel-body" ng-if="currentTab=='1'">
+                                        <div class="panel-body" ng-show="currentTab=='1'">
                                             <div id="zoomChart"></div>
                                             <!--<script>
                                                 Highcharts.chart('zoomChart', {
@@ -1216,11 +1216,11 @@
                                             </script>-->
                                             <highchart id="Chart1" config="StepCountChartConfig" class="chartHeight" />
                                         </div>
-                                        <div class="panel-body" ng-if="currentTab=='1'">
+                                        <div class="panel-body" ng-show="currentTab=='1'">
                                             <highchart id="Chart2" config="DistanceCoveredChartConfig"
                                                        class="chartHeight" />
                                         </div>
-                                        <div class="panel panel-info" ng-if="currentTab=='1'">
+                                        <div class="panel panel-info" ng-show="currentTab=='1'">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title containeralign">
                                                     <a data-toggle="collapse" data-parent="#accordion"
@@ -1237,7 +1237,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="panel panel-info" ng-if="currentTab=='1'">
+                                        <div class="panel panel-info" ng-show="currentTab=='1'">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title containeralign">
                                                     <a data-toggle="collapse" data-parent="#accordion"
@@ -1254,7 +1254,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div ng-if="currentTab=='2' || currentTab=='3' ">
+                                        <div ng-show="currentTab=='2' || currentTab=='3' ">
                                             <div>
                                                 <!-- Commented by yogesh
                                                 <div class="dropdown profile_menu">
@@ -1327,7 +1327,7 @@
 
                                                     </ul>
                                                 </div>-->
-                                                <div ng-if="VitalChart=='2'">
+                                                <div ng-show="VitalChart=='2'">
 
                                                     <div id="table1">
                                                         <div class="row">
@@ -1343,13 +1343,13 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-4">
-                                                                <div class="inputGroups" ng-if="currentTab=='2'">
+                                                                <div class="inputGroups" ng-show="currentTab=='2'">
                                                                     <label>Active</label>
                                                                     <input toggle-checkbox ng-model="VitalsIsActive"
                                                                            type="checkbox" ng-change="GeneralFunction(2,2);"
                                                                            title="Active / All">
                                                                 </div>
-                                                                <div class="inputGroups" ng-if="currentTab=='3'">
+                                                                <div class="inputGroups" ng-show="currentTab=='3'">
                                                                     <label>Active</label>
                                                                     <input toggle-checkbox ng-model="VitalsIsActive"
                                                                            type="checkbox" ng-change="GeneralFunction(3,2);"
@@ -1380,13 +1380,13 @@
                                             </div>
 
                                             <div id="collapse21" class="panel-collapse">
-                                                <div ng-if="VitalChart=='1'">
+                                                <div ng-show="VitalChart=='1'">
                                                     <div ng-repeat="row in VitalsParameterList_Data|filter:{ParameterParent_Id:0}">
                                                         <highchart id="Chart{{row.ParameterId}}" class="chartHeight">
                                                     </div>
                                                 </div>
 
-                                                <div ng-if="VitalChart=='2'">
+                                                <div ng-show="VitalChart=='2'">
                                                     <table st-table="emptydataVitalLab" style="width: 100%"
                                                            st-safe-src="PatientHealthDataTableList"
                                                            class="table themeTable">
@@ -1419,50 +1419,50 @@
                                                                 <td style="text-align: left">{{row.UOM_Name}}</td>
                                                                 <td style="text-align: right"
                                                                     ng-init="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]=1">
-                                                                    <label ng-if="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1">
+                                                                    <label ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1">
                                                                         {{row.ParameterValue}}
                                                                     </label>
                                                                     <input type="text" class="form-control"
                                                                            ng-init="row.newParameterValue=row.ParameterValue"
                                                                            ng-model="row.newParameterValue"
-                                                                           ng-if="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2" />
+                                                                           ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2" />
                                                                 </td>
                                                                 <td style="text-align: left">
                                                                     {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
                                                                 </td>
                                                                 <td style="text-align: left">
                                                                     <a href="javascript:" title="Save" ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)"
-                                                                       ng-if="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
+                                                                       ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/save.png" />
                                                                     </a>
                                                                     <a href="javascript:" title="Cancel"
                                                                        ng-click="CancelEdit(row, ((current_page-1)*page_size)+$index);"
-                                                                       ng-if="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
+                                                                       ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/deleteNewIcon.png" />
                                                                     </a>
                                                                     <a href="javascript:" title="Edit"
                                                                        ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
-                                                                       ng-if="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                       ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
                                                                     <a href="javascript:"
                                                                        ng-click="DeleteParameters(row.Id, row.ParameterId)"
-                                                                       title="Active" ng-if="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                       title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <img src="../../Images/activeIcon1.png"
                                                                              ng-if="row.IsActive==1"
-                                                                             ng-if="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
+                                                                             ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
                                                                     </a>
                                                                     <a href="javascript:"
                                                                        ng-click="ReInsertParameters(row.Id)"
-                                                                       title="Inactive" ng-if="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                       title="Inactive" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <img src="../../Images/inactive.png"
                                                                              ng-if="row.IsActive==0"
-                                                                             ng-if="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
+                                                                             ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1;" />
                                                                     </a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-                                                        <tfoot ng-if="patientvitals_pages>1">
+                                                        <tfoot ng-show="patientvitals_pages>1">
                                                             <tr>
                                                                 <td colspan="7" class="text-center">
                                                                     <!--<div st-items-by-page="page_size"
@@ -1495,7 +1495,7 @@
                                             </div>
 
                                         </div>
-                                        <div ng-if="currentTab=='5'">
+                                        <div ng-show="currentTab=='5'">
 
                                             <div id="table4" class="row">
                                                 <div class="col-sm-4">
@@ -1518,7 +1518,7 @@
                                                 <div class="col-sm-4">
                                                     <!--<div class="inputGroups">
                                                         <button type="button" class="theme-btn-1" title="Add New Medication" ng-click="AddMedicationPopUp()"
-                                                                ng-if="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                                ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                             Add New
                                                         </button>
                                                     </div>-->
@@ -1593,13 +1593,13 @@
                                                                     <img src="../../Images/ViewIcon.png" />
                                                                 </a>
                                                                 <a href="javascript:" title="Edit" ng-click="EditMedication(Medication.Id, Medication.Created_Dt,3)"
-                                                                   ng-if="Medication.IsActive==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                                   ng-show="Medication.IsActive==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
 
 
 
-                                                                <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-if="Medication.IsActive==0 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                                <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-show="Medication.IsActive==0 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
 
@@ -1614,7 +1614,7 @@
                                                             </td>
                                                         </tr>
                                                     </tbody>
-                                                    <tfoot ng-if="PatientPillBoxPages>1">
+                                                    <tfoot ng-show="PatientPillBoxPages>1">
                                                         <tr>
                                                             <td colspan="7" class="text-center">
                                                                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -1644,7 +1644,7 @@
 
 
                                         </div>
-                                        <div ng-if="currentTab=='4'">
+                                        <div ng-show="currentTab=='4'">
                                             <div id="collapse3" class="panel-collapse">
 
                                                 <div id="table5">
@@ -1671,7 +1671,7 @@
                                                         <div class="col-sm-4">
                                                             <!--<div class="inputGroups">
                                                                 <a href="javascript:" ng-click="AddPatientICD10Popup()" title="Add New Diagnosis"
-                                                                   ng-if="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
+                                                                   ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))" class="theme-btn-1">
                                                                     Add New
                                                                 </a>
                                                             </div>-->
@@ -1719,14 +1719,14 @@
                                                                     <a href="javascript:" ng-click="ViewPatientICD10(row.Id,2)" title="View">
                                                                         <img src="../../Images/ViewIcon.png" />
                                                                     </a>
-                                                                    <a href="javascript:" title="Edit" ng-click="EditPatientICD10(row.Id, row.Created_DT,3)" ng-if="row.IsActive==1 && ((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
+                                                                    <a href="javascript:" title="Edit" ng-click="EditPatientICD10(row.Id, row.Created_DT,3)" ng-show="row.IsActive==1 && ((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
-                                                                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-if="row.IsActive==0 && ((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
+                                                                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-show="row.IsActive==0 && ((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
                                                                    <!-- <a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
-                                                                        <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
+                                                                        <img src="../../Images/activeIcon1.png" ng-show="row.IsActive==1" /></a>
                                                                     <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
                                                                         <img
                                                                             src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
@@ -1740,7 +1740,7 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-                                                        <tfoot style="align: center" ng-if="PatientIcdPages>1">
+                                                        <tfoot style="align: center" ng-show="PatientIcdPages>1">
                                                             <tr>
                                                                 <td colspan="8" class="text-center">
                                                                     <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -1769,7 +1769,7 @@
 
                                             </div>
                                         </div>
-                                        <div ng-if="currentTab=='6'">
+                                        <div ng-show="currentTab=='6'">
                                             <div id="table3">
                                                 <div class="row">
                                                     <div class="col-sm-4">
@@ -1856,26 +1856,26 @@
                                                                     <img src="../../Images/ViewIcon.png" />
                                                                 </a>
                                                                 <a href="javascript:" ng-click="EditAllergy(Allen.Id, Allen.Created_Dt)" title="Edit"
-                                                                   ng-if="Allen.IsActive == 1 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7))">
+                                                                   ng-show="Allen.IsActive == 1 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7))">
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
                                                                 <a href="javascript:" ng-click="ErrorFunction()" title="Edit"
-                                                                   ng-if="Allen.IsActive == 0 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2))">
+                                                                   ng-show="Allen.IsActive == 0 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2))">
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
 
                                                                 <a href="javascript:" ng-click="InActiveAllergy(Allen.Id)" title="Active"
-                                                                   ng-if="Allen.IsActive == 1 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2))">
+                                                                   ng-show="Allen.IsActive == 1 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2))">
                                                                     <img src="../../Images/activeIcon1.png" ng-if="Allen.IsActive==1" />
                                                                 </a>
                                                                 <a href="javascript:" ng-click="ActiveAllergy(Allen.Id)" title="Inactive"
-                                                                   ng-if="Allen.IsActive == 0 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2))">
+                                                                   ng-show="Allen.IsActive == 0 && ((UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2))">
                                                                     <img src="../../Images/inactive.png" ng-if="Allen.IsActive==0" />
                                                                 </a>
                                                             </td>
                                                         </tr>
                                                     </tbody>
-                                                    <tfoot ng-if="PatientAllergyPages > 1">
+                                                    <tfoot ng-show="PatientAllergyPages > 1">
                                                         <tr>
                                                             <td colspan="9" class="text-center">
                                                                 <!--<div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -1903,7 +1903,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div ng-if="currentTab=='7'">
+                                        <div ng-show="currentTab=='7'">
 
 
                                             <div id="table2">
@@ -2020,7 +2020,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div ng-if="currentTab=='8'">
+                                        <div ng-show="currentTab=='8'">
                                             <div id="collapse15">
 
 
@@ -2112,16 +2112,16 @@
                                                                         <img src="../../Images/ViewIcon.png" />
                                                                     </a>
                                                                     <a href="javascript:;" ng-click="row.IsActive == 0 || Patient_OtherData_EditModal(row.Id, row.Created_Date)"
-                                                                       title="Edit" ng-if="(UserTypeId!= 6)">
+                                                                       title="Edit" ng-show="(UserTypeId!= 6)">
                                                                         <img src="../../Images/EditIcon.png" ng-if="row.IsActive==1" />
                                                                     </a>
-                                                                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-if="(UserTypeId!= 6)">
+                                                                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-show="(UserTypeId!= 6)">
                                                                         <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
                                                                     </a>
-                                                                    <a href="javascript:;" ng-click="Patient_OtherData_InActive(row.Id)" title="Active" ng-if="(UserTypeId!= 6)">
+                                                                    <a href="javascript:;" ng-click="Patient_OtherData_InActive(row.Id)" title="Active" ng-show="(UserTypeId!= 6)">
                                                                         <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                                     </a>
-                                                                    <a href="javascript:" ng-click="Patient_OtherData_Active(row.Id)" title="InActive" ng-if="(UserTypeId!= 6)">
+                                                                    <a href="javascript:" ng-click="Patient_OtherData_Active(row.Id)" title="InActive" ng-show="(UserTypeId!= 6)">
                                                                         <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                                                                     </a>
                                                                 </td>
@@ -2129,7 +2129,7 @@
 
                                                         </tbody>
 
-                                                        <tfoot ng-if="Patientothers >1">
+                                                        <tfoot ng-show="Patientothers >1">
                                                             <tr>
                                                                 <td colspan="7" class="text-center">
                                                                     <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/paginationustom.html">
@@ -2157,21 +2157,21 @@
                                             </div>
 
                                         </div>
-                                        <div class="panel panel-info" ng-if="currentTab=='9'">
-                                            <div class="row" style="text-align: center;" ng-if="PatientLiveDataList.length==0">
+                                        <div class="panel panel-info" ng-show="currentTab=='9'">
+                                            <div class="row" style="text-align: center;" ng-show="PatientLiveDataList.length==0">
                                                 No Live data
                                             </div>
                                             <div class="row" ng-if="PatientLiveDataList.length>0">
                                                 <div class="col-sm-4" ng-repeat="row in PatientLiveDataList">
                                                     <div ng-class="{'alert alert-success nibp':row.LowCount>=0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}" ng-if="row.Type_Id==1">
-                                                        <div class="notificationsWarnings" ng-if="row.HighCount>0">
-                                                            <i class="fas fa-bell highBell" ng-if="row.HighCount>0"></i>
+                                                        <div class="notificationsWarnings" ng-show="row.HighCount>0">
+                                                            <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
                                                         </div>
-                                                        <div class="notificationsWarnings" ng-if="row.MediumCount>0">
-                                                            <i class="fas fa-bell mediumBell" ng-if="row.MediumCount>0"></i>
+                                                        <div class="notificationsWarnings" ng-show="row.MediumCount>0">
+                                                            <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
                                                         </div>
-                                                        <div class="notificationsWarnings" ng-if="row.LowCount>0">
-                                                            <i class="fas fa-bell lowBell" ng-if="row.LowCount>0"></i>
+                                                        <div class="notificationsWarnings" ng-show="row.LowCount>0">
+                                                            <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
                                                         </div>
                                                         <strong>{{row.ParameterName}}</strong>&nbsp;&nbsp;{{row.UnitName =='' ?  '' : (row.UnitName)}}<br />
                                                         <label>Set Value</label>
@@ -2802,12 +2802,12 @@
                                             No Data Available
                                         </td>
                                     </tr>
-                                    <tr class="info" ng-if="MonitoringProtocolName.length != '0'">
+                                    <tr class="info" ng-show="MonitoringProtocolName.length != '0'">
                                         <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
                                         <td style="text-align: left">{{MonitoringProtocolName}}</td>
                                     </tr>
                                 </tbody>
-                                <tfoot ng-if="rowCollection.length >30">
+                                <tfoot ng-show="rowCollection.length >30">
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -2935,7 +2935,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <tfoot ng-if="PatientAssignedknownAllergyActiveDataList.length >page_size">
+                                <tfoot ng-show="PatientAssignedknownAllergyActiveDataList.length >page_size">
                                     <tr>
                                         <td colspan="8" class="text-center">
                                             <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -2964,8 +2964,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title" ng-if="currentTab=='2'">Vitals</h4>
-                        <h4 class="modal-title" ng-if="currentTab=='3'">Lab</h4>
+                        <h4 class="modal-title" ng-show="currentTab=='2'">Vitals</h4>
+                        <h4 class="modal-title" ng-show="currentTab=='3'">Lab</h4>
                     </div>
                     <div class="modal-body">
                         <table class="table themeTable" template-pagination="custom/pager">
@@ -3097,7 +3097,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <tfoot style="align: center" ng-if="PatientHealthDataChartList.length >page_size">
+                                <tfoot style="align: center" ng-show="PatientHealthDataChartList.length >page_size">
                                     <tr>
                                         <td colspan="7" class="text-center">
                                             <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -3629,7 +3629,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <tfoot ng-if="DrugCodeListsFilter.length >page_size">
+                                <tfoot ng-show="DrugCodeListsFilter.length >page_size">
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -3830,7 +3830,7 @@
                                         <td style="text-align: left">{{row.CategoryName}}
                                     </tr>
                                 </tbody>
-                                <tfoot ng-if="ICD10CodeListsFilter.length >page_size">
+                                <tfoot ng-show="ICD10CodeListsFilter.length >page_size">
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -4979,7 +4979,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot ng-if="FilterViewData.length >page_size">
+                        <tfoot ng-show="FilterViewData.length >page_size">
                             <tr>
                                 <td colspan="7" class="text-center">
                                     <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -5070,7 +5070,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            <tfoot ng-if="PatientAssignedProtocolDataList.length >page_size">
+                            <tfoot ng-show="PatientAssignedProtocolDataList.length >page_size">
                                 <tr>
                                     <td colspan="5" class="text-center">
                                         <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -5159,7 +5159,7 @@
 
                                     </tr>
                                 </tbody>
-                                <tfoot ng-if="DoctorAppoinmentFilter.length >page_size">
+                                <tfoot ng-show="DoctorAppoinmentFilter.length >page_size">
                                     <tr>
                                         <td colspan="15" class="text-center">
                                             <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -5242,7 +5242,7 @@
                                         <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
                                     </tr>
                                 </tbody>
-                                <tfoot ng-if="CareCoordinatorFilter.length >page_size">
+                                <tfoot ng-show="CareCoordinatorFilter.length >page_size">
                                     <tr>
                                         <td colspan="15" class="text-center">
                                             <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)"
@@ -5304,7 +5304,7 @@
                             </tr>
                         </table>
                         <div class="panel panel-default patientProfileInfo">
-                            <div id="Div7" class="panel-collapse" ng-if="currentTab=='1'">
+                            <div id="Div7" class="panel-collapse" ng-show="currentTab=='1'">
                                 <div class="panel-body">
                                     <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
                                         <thead>
@@ -5417,7 +5417,7 @@
 
 
 
-                            <div class="panel panel-info" ng-if="currentTab=='2'">
+                            <div class="panel panel-info" ng-show="currentTab=='2'">
                                 <!--<div class="panel-heading containeralign" style="text-align: left;"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
                                     </a></h4></div>-->
                                 <div id="Div8" class="panel-collapse">
@@ -5497,7 +5497,7 @@
                     </button>
                     <h4 class="modal-title">Book Doctor Appointment</h4>
                 </div>
-                <div id="main-box" ng-if="showMainBox">
+                <div id="main-box" ng-show="showMainBox">
                     <div class="modal-body">
                         <div class="flex">
                             <div class="col-sm-4">
@@ -5634,7 +5634,7 @@
                     </div>
                 </div>
 
-                <div id="box" ng-if="!showMainBox">
+                <div id="box" ng-show="!showMainBox">
                     <div class="modal-body">
                         <div class="flex">
                             <div class="col-sm-7">
@@ -5665,7 +5665,7 @@
                                              ng-class="{highframe : 0 === IsNew }">Follow Up - ({{ FollowUpDuration }} min)</div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 flex centerallign" ng-if="DataNotAvailible == 1">
+                                <div class="col-sm-12 flex centerallign" ng-show="DataNotAvailible == 1">
                                     <label>Sorry, slots not available for the day</label>
                                 </div>
                                 <div class="col-sm-12 flex flex-wrap mt-10">

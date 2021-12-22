@@ -90,7 +90,7 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot ng-if="rowCollection.length >30">
+        <tfoot ng-show="rowCollection.length >30">
             <tr>
                 <td colspan="5" class="text-center">
                     <div st-items-by-page="30" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -133,7 +133,7 @@
 
 
                         <div class="row">
-                            <div class="col-sm-4" ng-if="Cloneval == 1">
+                            <div class="col-sm-4" ng-show="Cloneval == 1">
 
                                 <div class="inputGroups">
                                     <label>
@@ -167,8 +167,8 @@
                             </div>
                         </div>
 
-                        <!--  <div id="Div1" class="panel-collapse" ng-if="currentTab=='1'">-->
-                        <div id="collapse1" class="panel-collapse" ng-if="currentTab=='1'">
+                        <!--  <div id="Div1" class="panel-collapse" ng-show="currentTab=='1'">-->
+                        <div id="collapse1" class="panel-collapse" ng-show="currentTab=='1'">
 
                             <table template-pagination="custom/pager" style="width: 100%;" class="table themeTable">
                                 <thead>
@@ -370,7 +370,7 @@
 
 
                         </div>
-                        <div ng-if="currentTab=='2'">
+                        <div ng-show="currentTab=='2'">
                             <table class="table themeTable" template-pagination="custom/pager">
                                 <thead>
                                     <tr style="text-align: center">
@@ -484,8 +484,8 @@
                     </div>
 
 
-                    <!--  <div id="Div1" class="panel-collapse" ng-if="currentTab=='1'">-->
-                    <div id="Div2" ng-if="currentTab=='1'">
+                    <!--  <div id="Div1" class="panel-collapse" ng-show="currentTab=='1'">-->
+                    <div id="Div2" ng-show="currentTab=='1'">
 
                         <table class="table themeTable" template-pagination="custom/pager" style="width: 100%">
                             <thead>
@@ -602,9 +602,9 @@
 
 
 
-                    <div ng-if="currentTab=='2'">
+                    <div ng-show="currentTab=='2'">
                         <!--<div class="panel-heading containeralign" style="text-align: left;"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Additional Info
-                                        </a></h4></div>-->
+                        </a></h4></div>-->
                         <div id="Div5">
 
                             <table class="table themeTable" template-pagination="custom/pager">
@@ -650,10 +650,10 @@
 
                                         </td>
                                         <!--  <td style="text-align: center">
-                                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
-                                                ng-click="MonitoringProtocolDelete($index,row.Parameter_Id)" ng-model="row.selectedQual"
-                                                style="width: 20px;" id="Image4" />
-                                        </td>-->
+                            <input type="image" src="../../Images/deleteNewIcon.png" title='Click to delete'
+                                ng-click="MonitoringProtocolDelete($index,row.Parameter_Id)" ng-model="row.selectedQual"
+                                style="width: 20px;" id="Image4" />
+                        </td>-->
                                     </tr>
                                 </tbody>
                             </table>
