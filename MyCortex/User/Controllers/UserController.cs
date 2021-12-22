@@ -3640,7 +3640,8 @@ namespace MyCortex.User.Controller
                         }
                         else
                         {
-                            ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment,"", DocumentType);
+                            
+                            ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment, Filetype, DocumentType);
                             model.DocumentDetails = ModelData;
                             result = Request.CreateResponse(HttpStatusCode.OK);
                         }
