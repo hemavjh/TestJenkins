@@ -712,7 +712,7 @@
                                             </sup>
                                         </label>
                                         <div id="divPatientCity" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                            <select class="form-control" data-style="form-control" data-live-search="true"
+                                            <select class="form-control" data-style="form-control" data-live-search="true" id="CityId"
                                                     data-selectpicker data-collection-name="LocationName_List" ng-model="CityId" ng-disabled="Pat_UserTypeId==2" ng-change="PatientCityChange();">
                                                 <option value="0">Select</option>
                                                 <option ng-repeat="sel in LocationName_List"
@@ -754,7 +754,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    </div>
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -1342,11 +1342,11 @@
             </div>
     </div>
     <div style="text-align: center;">
-        <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="btnsave1" ng-disabled="false" title="Click to Save"
+        <button type="submit" class="theme-btn-1 mr-10 mtb-15 btn-save" id="btnsave1" ng-disabled="false" title="Click to Save"
                 ng-click="submitted=true">
             Save
         </button>
-        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel"
+        <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel" 
                 ng-click="Cancel_PatientEdit()">
             Cancel
         </button>
