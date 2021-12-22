@@ -66,6 +66,18 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
             return true;
         };
 
+        // Validation
+        $scope.SSLEnableChange = function () {
+            var sslenable = document.getElementById('SSL_Enable').value;
+            if (sslenable != "0") {
+                $('#divSSLEnable').removeClass("ng-invalid");
+                $('#divSSLEnable').addClass("ng-valid");
+            }
+            else {
+                $('#divSSLEnable').removeClass("ng-valid");
+                $('#divSSLEnable').addClass("ng-invalid");
+            }
+        }
         /* Institution Dropdown function  */
         $scope.InstitutionList = [];
         $scope.InstitutionFilterList = [];
@@ -86,16 +98,23 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
         $scope.Remarks = "";
         /* Email configurations Save and Update Function*/
         $scope.EmailConfiguration_AddEdit = function () {
-            if ($scope.EmailConfigurationValidation() == true) {
+            //if ($scope.EmailConfigurationValidation() == true) {
                 $("#chatLoaderPV").show();
                 var val_sslen = 2;
                 if ($scope.SSL_Enable == "1") {
                     val_sslen = 1;
-
                 }
                 else {
                     val_sslen = 2;
                 }
+            if ($scope.SSL_Enable != "0") {
+                $('#divSSLEnable').removeClass("ng-invalid");
+                $('#divSSLEnable').addClass("ng-valid");
+            }
+            else {
+                $('#divSSLEnable').removeClass("ng-valid");
+                $('#divSSLEnable').addClass("ng-invalid");
+            }
                 var obj = {
                     Id: $scope.Id,
                     Institution_Id: $window.localStorage['InstitutionId'],
@@ -121,7 +140,7 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
                 }).error(function (data) {
                     $scope.error = "An error has occurred while adding Email Configuration!" + data.ExceptionMessage;
                 });
-            }
+            //}
         };
         /* Email configurations View and Edit Function*/
         $scope.EmailConfiguration_ViewEdit = function () {
@@ -163,6 +182,51 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
             $scope.Remarks = "";
         }
 
+
+        $scope.check_email_configuration = function () {
+            if ($scope.EmailConfigurationValidation() == true) {
+                var val_sslen = 2;
+                if ($scope.SSL_Enable == "1") {
+                    val_sslen = 1;
+                }
+                else {
+                    val_sslen = 2;
+                }
+                if ($scope.SSL_Enable != "0") {
+                    $('#divSSLEnable').removeClass("ng-invalid");
+                    $('#divSSLEnable').addClass("ng-valid");
+                }
+                else {
+                    $('#divSSLEnable').removeClass("ng-valid");
+                    $('#divSSLEnable').addClass("ng-invalid");
+                }
+                var obj = {
+                    Id: $scope.Id,
+                    Institution_Id: $window.localStorage['InstitutionId'],
+                    Sender_Email_Id: $scope.Sender_Email_Id,
+                    UserName: $scope.UserName,
+                    Password: $scope.Password,
+                    ServerName: $scope.ServerName,
+                    PortNo: $scope.PortNo,
+                    DisplayName: $scope.DisplayName,
+                    EConfigSSL_Enable: val_sslen,
+                    Remarks: $scope.Remarks,
+                    Created_By: $window.localStorage['UserId']
+                };
+                $("#chatLoaderPV").show();
+                $http.post(baseUrl + 'api/EmailConfiguration/CheckEmailConfiguration/', obj).success(function (data) {
+                    if (data != null) {
+                        //console.log(data);
+                        if (data == true) {
+                            toastr.success("Email Setup Working Properly", "Success");
+                        } else {
+                            toastr.warning("Email Setup Not Working Properly", "Warning");
+                        }
+                    }
+                    $("#chatLoaderPV").hide();
+                }).error(function (data) { toastr.warning("Email Setup Server Error", "Warning"); });
+            }
+        }
 
     }
 ]);

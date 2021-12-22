@@ -122,7 +122,7 @@
                     </td>
                 </tr>
             </tbody>
-            <tfoot ng-show="rowCollectionFilter.length >10">
+            <tfoot ng-if="rowCollectionFilter.length >10">
                 <tr>
                     <td colspan="10" class="text-center">
                         <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -138,123 +138,130 @@
 <div id="EmailAlertModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close"
-                        ng-click="CancelPopup()">
-                    &times;
-                </button>
-                <h4 class="modal-title">Alert Configuration</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                    <div class="inputGroups">
-                        <label>
-                            Event <sup>
-                                <font class='mandatory-field'>*</font>
-                            </sup>
-                        </label>
-                        <select class="" data-style="form-control" ng-model="Event" id="select1" data-live-search="true"
-                                data-selectpicker data-collection-name="AlertEvent"
-                                ng-change="DurationDisplayCheck();EventClear();EventBasedToList();EventToClearFunction();">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.Id}}">
-                                {{sel.EventName}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="inputGroups">
-                        <label>Email</label>
-                        <input type="checkbox" value="agree" ng-model="EmailFlag">
-                    </div>
-                    <div class="inputGroups" ng-show="EmailFlag==true">
-                        <label>Email Template</label>
-                        <select class="" data-style="form-control" ng-model="EmailTemplate" id="select3"
-                                data-live-search="true" data-selectpicker data-collection-name="EmailTempalteTypeList">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in EmailTempalteTypeList" ng-selected="EmailTemplate==sel.Id"
-                                    value="{{sel.Id}}">
-                                {{sel.TemplateName}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="inputGroups">
-                        <label ng-show="EventTo.length>0"><b>To</b>:&nbsp;{{EventTo}}</label>
-                        <label ng-show="EventCC.length>0"><b>CC</b>:&nbsp;{{EventCC}}</label>
-                    </div>
-                    <div class="inputGroups">
-                        <label>App Notification</label>
-                        <input type="checkbox" value="agree" ng-model="AppFlag">
-                    </div>
-                    <div class="inputGroups" ng-show="AppFlag==true">
+            <form role="form" ng-class="{'submitted': submitted}" ng-submit="EmailAlertAddEdit();">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close"
+                            ng-click="CancelPopup()">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Alert Configuration</h4>
+                </div>
+                <div class="modal-body">                    
+                        <div class="inputGroups">
+                            <label>
+                                Event <sup>
+                                    <font class='mandatory-field'>*</font>
+                                </sup>
+                            </label>
+                            <div id="divAlertEvent" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                <select class="" data-style="form-control" ng-model="Event" id="select1" data-live-search="true"
+                                        data-selectpicker data-collection-name="AlertEvent"
+                                        ng-change="AlertEventChange();DurationDisplayCheck();EventClear();EventBasedToList();EventToClearFunction();">
+                                    <option value="0">Select</option>
+                                    <option ng-repeat="sel in AlertEvent" ng-selected="Event==sel.Id" value="{{sel.Id}}">
+                                        {{sel.EventName}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="inputGroups">
+                                <label>Email</label>
+                                <input type="checkbox" value="agree" ng-model="EmailFlag" ng-change="AlertEmailChange();">
+                            </div>
+                            <div class="inputGroups" ng-show="EmailFlag==true">
+                                <label>Email Template</label>
+                                <div id="divAlertEmail" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                    <select class="" data-style="form-control" ng-model="EmailTemplate" id="select3"
+                                            data-live-search="true" data-selectpicker data-collection-name="EmailTempalteTypeList" ng-change="AlertEmailChange();">
+                                        <option value="0">Select</option>
+                                        <option ng-repeat="sel in EmailTempalteTypeList" ng-selected="EmailTemplate==sel.Id"
+                                                value="{{sel.Id}}">
+                                            {{sel.TemplateName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                                <div class="inputGroups">
+                                    <label ng-show="EventTo.length>0"><b>To</b>:&nbsp;{{EventTo}}</label>
+                                    <label ng-show="EventCC.length>0"><b>CC</b>:&nbsp;{{EventCC}}</label>
+                                </div>
+                                <div class="inputGroups">
+                                    <label>App Notification</label>
+                                    <input type="checkbox" value="agree" ng-model="AppFlag" ng-change="AlertAppTemplateChange();">
+                                </div>
+                                <div class="inputGroups" ng-show="AppFlag==true">
 
-                        <label>App Template</label>
-                        <select class="" data-style="form-control" ng-model="AppTemplate" id="select4"
-                                data-live-search="true" data-selectpicker data-collection-name="AppTempalteTypeList">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in AppTempalteTypeList" ng-selected="AppTemplate==sel.Id"
-                                    value="{{sel.Id}}">
-                                {{sel.TemplateName}}
-                            </option>
-                        </select>
+                                    <label>App Template</label>
+                                    <div id="divAlertAppTemplate" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                        <select class="" data-style="form-control" ng-model="AppTemplate" id="select4"
+                                                data-live-search="true" data-selectpicker data-collection-name="AppTempalteTypeList" ng-change="AlertAppTemplateChange();">
+                                            <option value="0">Select</option>
+                                            <option ng-repeat="sel in AppTempalteTypeList" ng-selected="AppTemplate==sel.Id"
+                                                    value="{{sel.Id}}">
+                                                {{sel.TemplateName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="inputGroups">
+                                    <label>Web Notification</label>
+                                    <input type="checkbox" value="agree" ng-model="WebFlag" ng-change="AlertWebTemplateChange();">
+                                </div>
+                                <div class="inputGroups" ng-show="WebFlag==true">
 
-                    </div>
-                    <div class="inputGroups">
-                        <label>Web Notification</label>
-                        <input type="checkbox" value="agree" ng-model="WebFlag">
-                    </div>
-                    <div class="inputGroups" ng-show="WebFlag==true">
+                                    <label>Web Template</label>
+                                    <div id="divAlertWebTemplate" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                        <select class="" data-style="form-control" ng-model="WebTemplate" id="select5"
+                                                data-live-search="true" data-selectpicker data-collection-name="TempalteTypeList" ng-change="AlertWebTemplateChange();">
+                                            <option value="0">Select</option>
+                                            <option ng-repeat="sel in TempalteTypeList" ng-selected="WebTempalte==sel.Id"
+                                                    value="{{sel.Id}}">
+                                                {{sel.TemplateName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                        <label>Web Template</label>
-                        <select class="" data-style="form-control" ng-model="WebTemplate" id="select5"
-                                data-live-search="true" data-selectpicker data-collection-name="TempalteTypeList">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in TempalteTypeList" ng-selected="WebTempalte==sel.Id"
-                                    value="{{sel.Id}}">
-                                {{sel.TemplateName}}
-                            </option>
-                        </select>
+                                <div class="inputGroups">
+                                    <label>SMS</label>
+                                    <input type="checkbox" value="agree" ng-model="SMSFlag" ng-change="AlertSMSTemplateChange();">
+                                </div>
+                                <div class="inputGroups" ng-show="SMSFlag==true">
+                                    <label>SMS Template</label>
+                                    <div id="divAlertSMSTemplate" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                        <select class="" data-style="form-control" ng-model="SMSTemplate" id="select3"
+                                                data-live-search="true" data-selectpicker data-collection-name="SMSTempalteTypeList" ng-change="AlertSMSTemplateChange();">
+                                            <option value="0">Select</option>
+                                            <option ng-repeat="sel in SMSTempalteTypeList" ng-selected="SMSTemplate==sel.Id"
+                                                    value="{{sel.Id}}">
+                                                {{sel.TemplateName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                    </div>
+                                <div class="inputGroups" ng-show="Eventtype==2">
 
-                    <div class="inputGroups">
-                        <label>SMS</label>
-                        <input type="checkbox" value="agree" ng-model="SMSFlag">
-                    </div>
-                    <div class="inputGroups" ng-show="SMSFlag==true">
-                        <label>SMS Template</label>
-                        <select class="" data-style="form-control" ng-model="SMSTemplate" id="select3"
-                                data-live-search="true" data-selectpicker data-collection-name="SMSTempalteTypeList">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in SMSTempalteTypeList" ng-selected="SMSTemplate==sel.Id"
-                                    value="{{sel.Id}}">
-                                {{sel.TemplateName}}
-                            </option>
-                        </select>
-                    </div>
-                    
-                    <div class="inputGroups" ng-show="Eventtype==2">
+                                    <label>Duration</label>
 
-                        <label>Duration</label>
+                                    <span style="display:flex;">
+                                        <input type="text" class="form-control" ng-model="AlertDays"
+                                               maxlength="6" />&nbsp;&nbsp;{{EventDurationUOM}}
+                                    </span>
 
-                        <span style="display:flex;">
-                            <input type="text" class="form-control" ng-model="AlertDays"
-                                   maxlength="6" />&nbsp;&nbsp;{{EventDurationUOM}}
-                        </span>
+                                </div>
 
-                    </div>
-
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1" id="btnsave" ng-disabled="false" ng-click="EmailAlertAddEdit()"
-                        title="Click to Save">
-                    Save
-                </button>
-                <button type="button" class="theme-btn-2 ml-10" ng-click="CancelPopUP()"
-                        title="Click to Cancel">
-                    Cancel
-                </button>
-            </div>
+                            </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="submit" class="theme-btn-1" id="btnsave" ng-disabled="false" ng-click="submitted=true;"
+                            title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2 ml-10" ng-click="CancelPopUP()"
+                            title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -280,19 +287,19 @@
                         <input type="checkbox" style="display: inline-block;" value="agree" ng-model="EmailFlag"
                                ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-show="EmailFlag==true">
+                    <div class="inputGroups" ng-if="EmailFlag==true">
                         <label>Template</label>
                         <span>{{ViewEmailTemplateName}}</span>
                     </div>
                     <div class="inputGroups">
-                        <label ng-show="EventTo.length>0"><b>To</b>:&nbsp;{{EventTo}}</label>
-                        <label ng-show="EventCC.length>0"><b>CC</b>:&nbsp;{{EventCC}}</label>
+                        <label ng-if="EventTo.length>0"><b>To</b>:&nbsp;{{EventTo}}</label>
+                        <label ng-if="EventCC.length>0"><b>CC</b>:&nbsp;{{EventCC}}</label>
                     </div>
                     <div class="inputGroups">
                         <label>App Notification</label>
                         <input type="checkbox" value="agree" ng-model="AppFlag" ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-show="AppFlag==true">
+                    <div class="inputGroups" ng-if="AppFlag==true">
                         <label>App Template</label>
                         <span>{{ViewAppTemplateName}}</span>
                     </div>
@@ -300,7 +307,7 @@
                         <label>Web Notification</label>
                         <input type="checkbox" value="agree" ng-model="WebFlag" ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-show="WebFlag==true">
+                    <div class="inputGroups" ng-if="WebFlag==true">
                         <label>Template</label>
                         <span>{{ViewWebTemplateName}}</span>
                     </div>
@@ -310,12 +317,12 @@
                         <input type="checkbox" style="display: inline-block;" value="agree" ng-model="SMSFlag"
                                ng-disabled="true">
                     </div>
-                    <div class="inputGroups" ng-show="SMSFlag==true">
+                    <div class="inputGroups" ng-if="SMSFlag==true">
                         <label>Template</label>
                         <span>{{ViewSMSTemplateName}}</span>
                     </div>
                     
-                    <div class="inputGroups" ng-show="Eventtype== 2">
+                    <div class="inputGroups" ng-if="Eventtype== 2">
                         <label>Duration</label>
                         <span>{{AlertDays}}&nbsp;&nbsp;{{EventDurationUOM}}</span>
                     </div>

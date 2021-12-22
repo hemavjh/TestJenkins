@@ -22,6 +22,7 @@ using MyCortex.Notification.Models;
 using MyCortex.Provider;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.Xml;
+using System.Text.RegularExpressions;
 
 namespace MyCortex.Template.Controllers
 {
@@ -190,12 +191,28 @@ namespace MyCortex.Template.Controllers
                             string
                                 SMSPrefixMbNO = string.Empty, SMSSuffixMbNO = string.Empty, SMSMbNO = string.Empty, SMSSubject = string.Empty,
                                 SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
-                             
+                            bool containsTildeSpecialCharacter, containsPlusSpecialCharacter = false;
+                            Regex rgx = new Regex("[^A-Za-z0-9]");
+                            
+                            containsTildeSpecialCharacter = rgx.IsMatch(itemData.MobileNO);
                             EncryptMbNO = itemData.MobileNO.Split('~');
-                            SMSPrefixMbNO = EncryptMbNO[0];
-                            SMSSuffixMbNO = EncryptMbNO[1];
-                            SMSSplMbNo = SMSPrefixMbNO.Split('+');
-                            SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+
+                            if (containsTildeSpecialCharacter)
+                            {
+                                SMSPrefixMbNO = EncryptMbNO[0];
+                                SMSSuffixMbNO = EncryptMbNO[1];
+                                SMSMbNO = SMSPrefixMbNO + SMSSuffixMbNO;
+                                containsPlusSpecialCharacter = rgx.IsMatch(SMSPrefixMbNO);
+                            }
+                            if (containsPlusSpecialCharacter)
+                            {
+                                SMSSplMbNo = SMSPrefixMbNO.Split('+');
+                                SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+                            }
+                            else
+                            {
+                                SMSMbNO = EncryptMbNO[0];
+                            }
                             SMSSubject = model1.Email_Subject;
                             SMSBody = model1.Email_Body;
                             SMSApiId = "Kv2n09u8";

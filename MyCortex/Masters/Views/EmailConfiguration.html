@@ -31,67 +31,81 @@
         <div></div>
         <div></div>
     </div>
-
-    <div class="panel panel-default" id="Basic1">
-        <div class="panel-body">
-            <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="EmailConfiguration_AddEdit();">
+        <div class="panel panel-default" id="Basic1">
+            <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="inputGroups">
-                            <label>Sender Email ID<sup>
+                            <label>
+                                Sender Email ID<sup>
                                     <font class='mandatory-field'>*</font>
-                                </sup></label>
-                            <input type="text" class="form-control" id="Text3" ng-model="Sender_Email_Id"
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text3" ng-model="Sender_Email_Id" ng-required="true"
                                    ng-maxlength="150" maxlength="150">
                         </div>
                         <div class="inputGroups">
-                            <label>Password<sup>
+                            <label>
+                                Password<sup>
                                     <font class='mandatory-field'>*</font>
-                                </sup></label>
-                            <input type="password" class="form-control" id="Text10" ng-model="Password"
+                                </sup>
+                            </label>
+                            <input type="password" class="form-control" id="Text10" ng-model="Password" ng-required="true"
                                    ng-maxlength="30" maxlength="30">
                         </div>
                         <div class="inputGroups">
-                            <label>Port No<sup>
+                            <label>
+                                Port No<sup>
                                     <font class='mandatory-field'>*</font>
-                                </sup></label>
+                                </sup>
+                            </label>
                             <input type="text" class="form-control" id="Text4" ng-model="PortNo"
-                                   onkeypress="varifyNumberPositive(this.PortNo)" ng-maxlength="10" maxlength="10">
+                                   onkeypress="varifyNumberPositive(this.PortNo)" ng-maxlength="10" maxlength="10" ng-required="true">
                         </div>
                         <div class="inputGroups">
-                            <label>Display Name<sup>
+                            <label>
+                                Display Name<sup>
                                     <font class='mandatory-field'>*</font>
-                                </sup></label>
-                            <input type="text" class="form-control" id="Text5" ng-model="DisplayName" ng-maxlength="50"
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text5" ng-model="DisplayName" ng-maxlength="50" ng-required="true"
                                    maxlength="50">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="inputGroups">
-                            <label>User Name<sup>
+                            <label>
+                                User Name<sup>
                                     <font class='mandatory-field'>*</font>
-                                </sup></label>
-                            <input type="text" class="form-control" id="Text2" ng-model="UserName" ng-maxlength="50"
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text2" ng-model="UserName" ng-maxlength="50" ng-required="true"
                                    maxlength="50">
                         </div>
                         <div class="inputGroups">
-                            <label>Server Name(SMTP)<sup>
+                            <label>
+                                Server Name(SMTP)<sup>
                                     <font class='mandatory-field'>*</font>
-                                </sup></label>
-                            <input type="text" class="form-control" id="Text1" ng-model="ServerName" ng-maxlength="100"
+                                </sup>
+                            </label>
+                            <input type="text" class="form-control" id="Text1" ng-model="ServerName" ng-maxlength="100" ng-required="true"
                                    maxlength="100">
                         </div>
                         <div class="inputGroups">
-                            <label>SSL Enable<sup>
+                            <label>
+                                SSL Enable<sup>
                                     <font class='mandatory-field'>*</font>
-                                </sup></label>
-                            <select class="form-control" data-style="form-control" ng-model="SSL_Enable" id="SSL_Enable" data-live-search="true" data-selectpicker data-collection-name="SSL_Enable">
-                                <option value="0">Select</option>
-                                <option value="1">Yes</option>
-                                <option value="2">No</option>
-                            </select>
+                                </sup>
+                            </label>
+                            <div id="divSSLEnable" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                <select class="form-control" data-style="form-control" ng-model="SSL_Enable" id="SSL_Enable" data-live-search="true" data-selectpicker data-collection-name="SSL_Enable" ng-change="SSLEnableChange();">
+                                    <option value="0">Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
                         </div>
-
                     </div>
                     <div class="col-sm-12">
                         <div class="inputGroups">
@@ -100,19 +114,25 @@
                                       maxlength="250"></textarea>
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <button type="button" class="theme-btn-1 mr-10" id="test_connection" title="Test Connection"
+                                ng-click="check_email_configuration()">
+                            Test Connection
+                        </button>
+                    </div>
                 </div>
-
-
-
-            </form>
+            </div>
         </div>
-    </div>
-    <div style="text-align: center;">
-        <button type="button" class="theme-btn-1 mr-10" id="save" title="Click to Save"
-                ng-click="EmailConfiguration_AddEdit()">Save</button>
-        <button type="button" class="theme-btn-2" id="reset" title="Click to Reset"
-                ng-click="ClearFields()">Reset</button>
-    </div>
-
+        <div style="text-align: center;">
+            <button type="submit" class="theme-btn-1 mr-10" id="save" title="Click to Save"
+                    ng-click="submitted= true;">
+                Save
+            </button>
+            <button type="button" class="theme-btn-2" id="reset" title="Click to Reset"
+                    ng-click="ClearFields()">
+                Reset
+            </button>
+        </div>
+    </form>
 
 </div>

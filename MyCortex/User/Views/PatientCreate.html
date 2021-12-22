@@ -232,44 +232,45 @@
 <input type="text" hidden="hidden" id="txthdFullNumber" />
 <div class="row"
      ng-init="Patientcreatefunction();InstitutionBased_CountryStateList();Admin_View(3);PageParameter==1?currentTab=EditCurrentTab:currentTab='1';">
-    <div class="col-md-12">
-        <h1 class="page-title">Patient</h1>
-        <ul class="themeTabs">
-            <li>
-                <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'; TabClickLoad(currentTab)">
-                    <i class="far fa-file"></i>Basic Info
-                </a>
-            </li>
-            <li>
-                <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2';TabClickLoad(currentTab)">
-                    <i class="far fa-file-alt"></i>Additional Info
-                </a>
-            </li>
-            <li>
-                <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3';TabClickLoad(currentTab)">
-                    <i class="fas fa-map-marker-alt"></i>Address Info
-                </a>
-            </li>
-            <li>
-                <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4';TabClickLoad(currentTab)">
-                    <i class="far fa-address-card"></i>Emergency Contact Info
-                </a>
-            </li>
-            <li>
-                <a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5';TabClickLoad(currentTab)">
-                    <i class="far fa-hospital"></i>Medical Info
-                </a>
-            </li>
-            <li>
-                <a ng-class="{'themeTabActive':currentTab=='6'}" ng-click="currentTab='6';TabClickLoad(currentTab)">
-                    <i class="fas fa-notes-medical"></i>Insurance Info
-                </a>
-            </li>
-        </ul>
-        <div id="Div4">
-            <form class="form-horizontal" role="form" style="font-size: small">
+    <form class="form-horizontal" role="form" style="font-size: small" ng-class="{'submitted': submitted}" ng-submit="User_InsertUpdate();">
+        <div class="col-md-12">
+            <h1 class="page-title">Patient</h1>
+            <ul class="themeTabs">
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'; TabClickLoad(currentTab)">
+                        <i class="far fa-file"></i>Basic Info
+                    </a>
+                </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2';TabClickLoad(currentTab)">
+                        <i class="far fa-file-alt"></i>Additional Info
+                    </a>
+                </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='3'}" ng-click="currentTab='3';TabClickLoad(currentTab)">
+                        <i class="fas fa-map-marker-alt"></i>Address Info
+                    </a>
+                </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='4'}" ng-click="currentTab='4';TabClickLoad(currentTab)">
+                        <i class="far fa-address-card"></i>Emergency Contact Info
+                    </a>
+                </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='5'}" ng-click="currentTab='5';TabClickLoad(currentTab)">
+                        <i class="far fa-hospital"></i>Medical Info
+                    </a>
+                </li>
+                <li>
+                    <a ng-class="{'themeTabActive':currentTab=='6'}" ng-click="currentTab='6';TabClickLoad(currentTab)">
+                        <i class="fas fa-notes-medical"></i>Insurance Info
+                    </a>
+                </li>
+            </ul>
+            <div id="Div4">
+
                 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-                <div id="collapse1" class="panel panel-default bs-0 m-0 bt-0" ng-show="currentTab=='1'">
+                <div id="collapse1" class="panel panel-default bs-0 m-0 bt-0" ng-if="currentTab=='1'">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-4">
@@ -286,7 +287,7 @@
                                 <div class="inputGroups">
                                     <label>Middle Name</label>
                                     <input type="text" class="form-control" id="Text19" name="MiddleName"
-                                           ng-model="MiddleName" ng-init="MiddleName=''" ng-required="true"
+                                           ng-model="MiddleName" ng-init="MiddleName=''" 
                                            onkeypress="ParticularSpec(event)" placeholder="" ng-maxlength="100"
                                            maxlength="100" ng-disabled="Pat_UserTypeId==2" />
                                 </div>
@@ -326,36 +327,37 @@
                                            maxlength="50" disabled />
                                     <!--maxlength="50" ng-disabled="Pat_UserTypeId==2" disabled />-->
 
+                                    </div>
+                                    <!--<div class="inputGroups">
+            <label valign="top">Patient ID</label>
+            <span>{{PatientNo}}</span>
+    </div>
+    <div class="inputGroups">
+            <label>Short Name</label>
+            <span>{{Createdby_ShortName}}</span>
+    </div>-->
+                                    
+                                    <div class="inputGroups">
+                                        <label>
+                                            National ID<sup>
+                                                <font class='mandatory-field'>*</font>
+                                            </sup>
+                                        </label>
+                                        <input type="text" class="form-control" id="Text9" name="NationalId" ng-required="true"
+                                               ng-model="NationalId" ng-init="NationalId=''" placeholder="" ng-maxlength="50"
+                                               maxlength="50" ng-disabled="Pat_UserTypeId==2" />
+                                    </div>
+                                    <div class="inputGroups">
+                                        <label>
+                                            Insurance ID<sup>
+                                                <font class='mandatory-field'>*</font>
+                                            </sup>
+                                        </label>
+                                        <input type="text" class="form-control" id="Text3" name="InsuranceId" ng-required="true"
+                                               ng-model="InsuranceId" ng-init="InsuranceId=''" placeholder="" ng-maxlength="50"
+                                               maxlength="50" ng-disabled="Pat_UserTypeId==2" />
+                                    </div>
                                 </div>
-                                <!--<div class="inputGroups">
-                                        <label valign="top">Patient ID</label>
-                                        <span>{{PatientNo}}</span>
-                                </div>
-                                <div class="inputGroups">
-                                        <label>Short Name</label>
-                                        <span>{{Createdby_ShortName}}</span>
-                                </div>-->
-                                <div class="inputGroups">
-                                    <label>
-                                        National ID<sup>
-                                            <font class='mandatory-field'>*</font>
-                                        </sup>
-                                    </label>
-                                    <input type="text" class="form-control" id="Text9" name="NationalId"
-                                           ng-model="NationalId" ng-init="NationalId=''" placeholder="" ng-maxlength="50"
-                                           maxlength="50" ng-disabled="Pat_UserTypeId==2" />
-                                </div>
-                                <div class="inputGroups">
-                                    <label>
-                                        Insurance ID<sup>
-                                            <font class='mandatory-field'>*</font>
-                                        </sup>
-                                    </label>
-                                    <input type="text" class="form-control" id="Text3" name="InsuranceId"
-                                           ng-model="InsuranceId" ng-init="InsuranceId=''" placeholder="" ng-maxlength="50"
-                                           maxlength="50" ng-disabled="Pat_UserTypeId==2" />
-                                </div>
-                            </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label>
@@ -370,19 +372,19 @@
                                 <div class="inputGroups">
                                     <label>Google Email</label>
                                     <input type="text" class="form-control" id="Text11" name="Google_EmailId"
-                                           ng-model="Google_EmailId" ng-init="Google_EmailId=''" ng-required="true"
+                                           ng-model="Google_EmailId" ng-init="Google_EmailId=''" 
                                            placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                                 </div>
                                 <div class="inputGroups">
                                     <label>Facebook Email</label>
                                     <input type="text" class="form-control" id="Text12" name="FB_EmailId"
-                                           ng-model="FB_EmailId" ng-init="FB_EmailId=''" ng-required="true" placeholder=""
+                                           ng-model="FB_EmailId" ng-init="FB_EmailId=''"  placeholder=""
                                            ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                                 </div>
                                 <div class="inputGroups">
                                     <label>Apple Email</label>
                                     <input type="text" class="form-control" id="auid" name="appleUserID"
-                                           ng-model="appleUserID" ng-init="appleUserID=''" ng-required="true"
+                                           ng-model="appleUserID" ng-init="appleUserID=''" 
                                            placeholder="" ng-maxlength="50" maxlength="50" style="text-transform: lowercase;" />
                                 </div>
                                 <div class="inputGroups">
@@ -399,14 +401,14 @@
                                 </div>
                                 <div class="inputGroups">
                                     <label>Group</label>
-                                    <div ng-hide="Pat_UserTypeId==2">
+                                    <div ng-if="Pat_UserTypeId==2">
                                         <select ng-model="SelectedGroup" multiple="multiple"
                                                 ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
                                                 multiselect-dropdown style="width: 230px;">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                    <span ng-show="Pat_UserTypeId==2">
+                                    <span ng-if="Pat_UserTypeId==2">
                                         {{ViewGroupName}}
                                     </span>
                                 </div>
@@ -419,7 +421,7 @@
                                         </sup>-->
                                     </label>
                                     <input type="text" class="form-control" id="PATIENT_ID" name="PATIENT_ID" ng-model="PATIENT_ID"
-                                           ng-init="PATIENT_ID=''" ng-required="true" placeholder="" ng-maxlength="50"
+                                           ng-init="PATIENT_ID=''" placeholder="" ng-maxlength="50"
                                            maxlength="50" ng-disabled="Pat_UserTypeId==2" />
                                 </div>
 
@@ -446,10 +448,10 @@
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatient();"
-                                               title="Clear" ng-hide="Pat_UserTypeId==2">
+                                               title="Clear" ng-if="Pat_UserTypeId==2">
                                                 Clear
                                             </a>
-                                            <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                            <div style="max-width: 250px;" class="theme-btn-1" ng-if="Pat_UserTypeId==2">
                                                 <label for="UserLogo" class="mb-0" title="Click to Upload Logo">
                                                     <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                     <span>Upload Profile Photo</span>
@@ -501,10 +503,10 @@
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
-                                               title="Clear" ng-hide="Pat_UserTypeId==2">
+                                               title="Clear" ng-if="Pat_UserTypeId==2">
                                                 Clear
                                             </a>
-                                            <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                            <div style="max-width: 250px;" class="theme-btn-1" ng-if="Pat_UserTypeId==2">
                                                 <label for="NationalLogo" class="mb-0" title="Click to Upload Logo">
                                                     <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                     <span>Upload National Photo</span>
@@ -543,7 +545,7 @@
                     </div>
 
                 </div>
-                <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='2'">
+                <div class="panel panel-default m-0 bt-0 bs-0" ng-if="currentTab=='2'">
                     <div class="panel-body" id="collapse2">
                         <div class="row">
                             <div class="col-sm-6">
@@ -553,15 +555,17 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5"
-                                            data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-required="true"
-                                            ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id"
-                                                value="{{sel.Id}}">
-                                            {{sel.Name}}
-                                        </option>
-                                    </select>
+                                    <div id="divPatientNationality" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                        <select class="form-control" data-style="form-control" ng-model="NationalityId" id="Select5"
+                                                data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-change="PatientNationalityChange();"
+                                                ng-disabled="Pat_UserTypeId==2">
+                                            <option value="0">Select</option>
+                                            <option ng-repeat="sel in NationalityList" ng-selected="NationalityId==sel.Id"
+                                                    value="{{sel.Id}}">
+                                                {{sel.Name}}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="inputGroups">
                                     <label>
@@ -569,15 +573,17 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="Select1"
-                                            data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-required="true"
-                                            ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id"
-                                                value="{{sel.Id}}">
-                                            {{sel.Name}}
-                                        </option>
-                                    </select>
+                                    <div id="divPatientMarital" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                        <select class="form-control" data-style="form-control" ng-model="MaritalStatusId" id="Select1"
+                                                data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-change="PatientMaritalChange();"
+                                                ng-disabled="Pat_UserTypeId==2">
+                                            <option value="0">Select</option>
+                                            <option ng-repeat="sel in MaritalStatusList" ng-selected="MaritalStatusId==sel.Id"
+                                                    value="{{sel.Id}}">
+                                                {{sel.Name}}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="inputGroups">
                                     <label>
@@ -601,7 +607,7 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB"
+                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB" ng-init="DOB=''"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
@@ -659,7 +665,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
+                <div class="panel panel-default m-0 bt-0 bs-0" ng-if="currentTab=='3'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Address Info
@@ -686,16 +692,18 @@
                                                 <font class='mandatory-field'>*</font>
                                             </sup>
                                         </label>
-                                        <select class="form-control" data-style="form-control" data-live-search="true"
-                                                id="countryselectpicker" data-selectpicker
-                                                data-collection-name="CountryNameList" ng-model="CountryId"
-                                                ng-change="CountryBased_StateFunction();" ng-disabled="Pat_UserTypeId==2">
-                                            <option value="0">Select</option>
-                                            <option ng-repeat="sel in CountryNameList" ng-required="true"
-                                                    value="{{sel.Id}}">
-                                                {{sel.CountryName}}
-                                            </option>
-                                        </select>
+                                        <div id="divPatientCountry" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                            <select class="form-control" data-style="form-control" data-live-search="true"
+                                                    id="countryselectpicker" data-selectpicker
+                                                    data-collection-name="CountryNameList" ng-model="CountryId"
+                                                    ng-change="CountryBased_StateFunction();PatientCountryChange();" ng-disabled="Pat_UserTypeId==2">
+                                                <option value="0">Select</option>
+                                                <option ng-repeat="sel in CountryNameList"
+                                                        value="{{sel.Id}}">
+                                                    {{sel.CountryName}}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="inputGroups">
                                         <label>
@@ -703,16 +711,18 @@
                                                 <font class='mandatory-field'>*</font>
                                             </sup>
                                         </label>
-                                        <select class="form-control" data-style="form-control" data-live-search="true"
-                                                data-selectpicker data-collection-name="LocationName_List" ng-model="CityId" ng-disabled="Pat_UserTypeId==2">
-                                            <option value="0">Select</option>
-                                            <option ng-repeat="sel in LocationName_List"
-                                                    ng-required="true" value="{{sel.Id}}">
-                                                {{sel.LocationName}}
-                                            </option>
-                                        </select>
+                                        <div id="divPatientCity" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                            <select class="form-control" data-style="form-control" data-live-search="true"
+                                                    data-selectpicker data-collection-name="LocationName_List" ng-model="CityId" ng-disabled="Pat_UserTypeId==2" ng-change="PatientCityChange();">
+                                                <option value="0">Select</option>
+                                                <option ng-repeat="sel in LocationName_List"
+                                                        ng-required="true" value="{{sel.Id}}">
+                                                    {{sel.LocationName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        </div>
                                     </div>
-                                </div>
                                 <div class="col-sm-6">
                                     <div class="inputGroups">
                                         <label>Street Address Line 2</label>
@@ -731,24 +741,25 @@
                                                 <font class='mandatory-field'>*</font>
                                             </sup>
                                         </label>
-                                        <select class="form-control" data-style="form-control" id="stateselectpicker"
-                                                data-live-search="true" data-selectpicker
-                                                data-collection-name="StateName_List" ng-model="StateId"
-                                                ng-change="StateBased_CityFunction();" ng-disabled="Pat_UserTypeId==2">
-                                            <option value="0">Select</option>
-                                            <option ng-repeat="sel in StateName_List" ng-required="true"
-                                                    value="{{sel.Id}}">
-                                                {{sel.StateName}}
-                                            </option>
-                                        </select>
+                                        <div id="divPatientState" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                            <select class="form-control" data-style="form-control" id="stateselectpicker"
+                                                    data-live-search="true" data-selectpicker
+                                                    data-collection-name="StateName_List" ng-model="StateId"
+                                                    ng-change="PatientStateChange();StateBased_CityFunction();" ng-disabled="Pat_UserTypeId==2">
+                                                <option value="0">Select</option>
+                                                <option ng-repeat="sel in StateName_List"
+                                                        value="{{sel.Id}}">
+                                                    {{sel.StateName}}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
-
-                                </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default m-0 bt-0" ng-show="currentTab=='4'">
+                <div class="panel panel-default m-0 bt-0" ng-if="currentTab=='4'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">Emergency Contact
@@ -805,7 +816,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default m-0 bt-0" ng-show="currentTab=='5'">
+                <div class="panel panel-default m-0 bt-0" ng-if="currentTab=='5'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Medical Info
@@ -849,7 +860,7 @@
                             </div>
 
                             <table cellpadding="0" cellspacing="0" border="0" width="100%" class="formControlGroup">
-                                <tr ng-hide="CURRENTLY_TAKEMEDICINE ==2">
+                                <tr ng-if="CURRENTLY_TAKEMEDICINE ==2">
 
                                     <td colspan="2">
                                         <table class="table themeTable" template-pagination="custom/pager">
@@ -892,10 +903,10 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <a href="javascript:" ng-click="AddMedicine_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
+                                        <a href="javascript:" ng-click="AddMedicine_Insert()" ng-if="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
                                 </tr>
-                                <tr ng-hide="PAST_MEDICALHISTORY ==2">
+                                <tr ng-if="PAST_MEDICALHISTORY ==2">
 
                                     <td colspan="2">
                                         <table class="table themeTable" template-pagination="custom/pager">
@@ -1014,12 +1025,12 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <a href="javascript:" ng-click="AddMedicalHistory_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
+                                        <a href="javascript:" ng-click="AddMedicalHistory_Insert()" ng-if="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
 
                                 </tr>
 
-                                <tr ng-hide="FAMILYHEALTH_PROBLEMHISTORY==2">
+                                <tr ng-if="FAMILYHEALTH_PROBLEMHISTORY==2">
 
                                     <td colspan="2">
                                         <table class="table themeTable" template-pagination="custom/pager">
@@ -1077,7 +1088,7 @@
 
 
                                         </table>
-                                        <a href="javascript:" ng-click="AddHealthProblem_Insert()" ng-hide="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
+                                        <a href="javascript:" ng-click="AddHealthProblem_Insert()" ng-if="Pat_UserTypeId==2" class="theme-btn-1 mb-15">Add</a>
                                     </td>
 
                                 </tr>
@@ -1203,7 +1214,7 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default m-0 bt-0" ng-show="currentTab=='6'">
+                <div class="panel panel-default m-0 bt-0" ng-if="currentTab=='6'">
                     <!--<div class="panel-heading containeralign" style="text-align: left;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">Emergency Contact
@@ -1288,10 +1299,10 @@
 
                                             <div style="margin-top: 15px;">
                                                 <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientInsurance();"
-                                                   title="Clear" ng-hide="Pat_UserTypeId==2">
+                                                   title="Clear" ng-if="Pat_UserTypeId==2">
                                                     Clear
                                                 </a>
-                                                <div style="max-width: 250px;" class="theme-btn-1" ng-hide="Pat_UserTypeId==2">
+                                                <div style="max-width: 250px;" class="theme-btn-1" ng-if="Pat_UserTypeId==2">
                                                     <label for="InsuranceLogo" class="mb-0" title="Click to Upload Insurance Logo">
                                                         <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                         <span>Upload Insurance Photo</span>
@@ -1324,26 +1335,23 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </form>
-        </div>
+            </div>
     </div>
     <div style="text-align: center;">
         <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" id="btnsave1" ng-disabled="false" title="Click to Save"
-                ng-click="User_InsertUpdate()">
+                ng-click="submitted=true">
             Save
         </button>
         <button type="button" class="theme-btn-2  btn-save mtb-15" title="Click to Cancel"
                 ng-click="Cancel_PatientEdit()">
             Cancel
         </button>
-
     </div>
+        </form>
 </div>
 
 <script>

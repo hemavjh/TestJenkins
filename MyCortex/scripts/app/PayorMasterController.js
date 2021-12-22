@@ -304,6 +304,7 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddPayorPopUP = function () {
+            $scope.submitted = false;
             $scope.Id = 0;
             $scope.PayorSave = true;
             $('#btnsave').attr("disabled", false);

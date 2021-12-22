@@ -74,6 +74,7 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
 
         /* THIS IS FOR ADD/EDIT PROCEDURE */
         $scope.DrugDBAddEdit = function () {
+            $scope.submitted = false;
             if ($scope.Validationcontrols() == true) {
                 $("#chatLoaderPV").show();
                 var obj = {
@@ -238,7 +239,6 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 });
             }
         }
-
         /* THIS IS FOR VIEW PROCEDURE */
         $scope.ViewDrugDB = function () {
             $("#chatLoaderPV").show();
@@ -265,8 +265,39 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
             toastr.info("Inactive record cannot be edited", "info");
         }
 
+
+        $scope.StrengthChange = function () {
+
+            var StrengthId = document.getElementById('selectpicker').value;
+            if (StrengthId != "0") {
+                $('#divStrength').removeClass("ng-invalid");
+                $('#divStrength').addClass("ng-valid");
+            }
+            else {
+                $('#divStrength').removeClass("ng-valid");
+                $('#divStrength').addClass("ng-invalid");
+            }
+        }
+
+        $scope.DosageFromChange = function () {
+
+            var Dosage_From_ID = document.getElementById('selectpicker').value;
+            if (Dosage_From_ID != "0") {
+                $('#divDosageFrom').removeClass("ng-invalid");
+                $('#divDosageFrom').addClass("ng-valid");
+            }
+            else {
+                $('#divDosageFrom').removeClass("ng-valid");
+                $('#divDosageFrom').addClass("ng-invalid");
+            }
+        }
+
+
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddDrugDBPopUP = function () {
+            $scope.submitted = false;
+            $('#divStrength').addClass("ng-invalid");
+            $('#divDosageFrom').addClass("ng-invalid");
             $scope.ClearPopup();
             angular.element('#DrugDBModal').modal('show');
             $("#btnsave").attr("disabled", false);

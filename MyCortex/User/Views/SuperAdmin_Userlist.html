@@ -120,7 +120,8 @@
                 //alert(isValidNum);
                 if (!isValidNum) {
                     //toastr.error("Phone Number Invalid", "warning");
-                    alert("Phone number invalid");
+                   // alert("Phone number invalid");
+                    swal.fire("Phone number invalid");
                     document.getElementById("txthdFullNumber").value = "";
                 }
                 else {
@@ -149,7 +150,7 @@
 <input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
 <input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
 <input type="text" hidden="hidden" id="txthdFullNumber" />
-<ul class="secondaryMenu" ng-show="LoginType == 3">
+<ul class="secondaryMenu" ng-if="LoginType == 3">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
     <li>
         <a href="Home/Index#/InstitutionSubscriptionHospitalAdmin_view">Subscription</a>
@@ -252,10 +253,10 @@
             <td style="text-align: left">
                 {{row.EMAILID}}
             </td>
-            <!--<td ng-show="row.IsActive==1">
+            <!--<td ng-if="row.IsActive==1">
                 <span class="dotActive"></span>
             </td>
-            <td ng-show="row.IsActive==0">
+            <td ng-if="row.IsActive==0">
 
                 <span class="dotInActive"></span>
             </td>-->
@@ -283,7 +284,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="UserDetailsList.length >10">
+    <tfoot ng-if="UserDetailsList.length >10">
         <tr>
             <td colspan="10" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -381,7 +382,7 @@
                                                 </div>-->
                                             </td>
                                             <td width="17%">
-                                                <label valign="top" ng-show="LoginType == 1">
+                                                <label valign="top" ng-if="LoginType == 1">
                                                     Institution<sup>
                                                         <font class='mandatory-field'>*</font>
                                                     </sup>
@@ -391,7 +392,7 @@
                                                 <div id="divInstitution" class="ng-invalid ddlValidationBorder" ng-required="true">
                                                     <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker
                                                             data-collection-name="InstitutionList"
-                                                            ng-model="InstitutionId" ng-change="SubscriptionValidation();adminInsChange();" ng-show="LoginType == 1">
+                                                            ng-model="InstitutionId" ng-change="SubscriptionValidation();adminInsChange();" ng-if="LoginType == 1">
                                                         <option ng-repeat="sel in InstitutionList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                     </select>
                                                 </div>
@@ -480,7 +481,7 @@
                                                 </select>
                                             </td>
                                         </tr>-->
-                                        <tr ng-show="Id>0">
+                                        <tr ng-if="Id>0">
                                             <td>
                                                 <label>Short Name</label>
                                             </td>

@@ -56,11 +56,24 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.UserLists = data;
         });
 
+
+        $scope.checkTab = function () {
+            if (typeof ($scope.TabName) != "undefined" && $scope.TabName != "") {
+                $scope.currentTab = 3;
+            }
+            //else if ($scope.row.Id != "" ) {
+            //    $scope.currentTab = 3;
+            //}
+            else
+                $scope.currentTab = 1;
+        }
+
         $scope.onCategoryChange = function () {
             $scope.DeviceId = $scope.DeviceName;
         }
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddTabPopUP = function () {
+            $scope.submitted = false;
             $scope.currentTab = "1";
             //$scope.ClearPopup(); 
             $scope.TabName = "";
@@ -296,8 +309,30 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         };
         /*THIS IS FOR DELETE FUNCTION */
         $scope.MyTAB_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected My Home details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected My Home details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert(" My Home details has been deactivated Successfully");
+                        toastr.success(" My Home details has been deactivated Successfully", "success");
+                        $scope.TabList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  My Home details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected My Home details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert(" My Home details has been deactivated Successfully");
@@ -306,7 +341,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  My Home details" + data;
                 });
-            }
+            }*/
         };
 
         $scope.DeleteMYTABDeactive = function (DId) {
@@ -315,8 +350,30 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         };
         /*THIS IS FOR DELETE FUNCTION */
         $scope.MyTAB_DeleteDeactive = function () {
-
-            var del = confirm("Do you like to activate the selected My Home details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected My Home details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert(" My Home details has been  Activated Successfully");
+                        toastr.success(" My Home details has been  Activated Successfully", "success");
+                        $scope.TabList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  My Home details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+          /*  var del = confirm("Do you like to activate the selected My Home details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Tab_List_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert(" My Home details has been  Activated Successfully");
@@ -325,7 +382,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  My Home details" + data;
                 });
-            }
+            }*/
         };
 
         /*calling Alert message for cannot edit inactive record function */
@@ -765,7 +822,54 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         };
 
+        $scope.DeviceChange = function () {
+
+            var DeviceChange = document.getElementById('DeviceName').value;
+            if (DeviceChange != "") {
+                $('#divDeviceNameChange').removeClass("ng-invalid");
+                $('#divDeviceNameChange').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceNameChange').removeClass("ng-valid");
+                $('#divDeviceNameChange').addClass("ng-invalid");
+            }
+        }
+
+
+        $scope.DeviceTypeChange = function () {
+
+            var DeviceTypeChange = document.getElementById('DeviceType').value;
+            if (DeviceTypeChange != "") {
+                $('#divDeviceType').removeClass("ng-invalid");
+                $('#divDeviceType').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceType').removeClass("ng-valid");
+                $('#divDeviceType').addClass("ng-invalid");
+            }
+        }
+
+        $scope.DeviceParameter = function () {
+
+            var DeviceParameter = document.getElementById('Parameter').value;
+            if (DeviceParameter != "") {
+                $('#divDeviceParameter').removeClass("ng-invalid");
+                $('#divDeviceParameter').addClass("ng-valid");
+            }
+            else {
+                $('#divDeviceParameter').removeClass("ng-valid");
+                $('#divDeviceParameter').addClass("ng-invalid");
+            }
+        }
+
+    
+
+
         $scope.AddDevicePopUP = function () {
+            $scope.submitted = false;
+            $('#divDeviceNameChange').addClass("ng-invalid");
+            $('#divDeviceType').addClass("ng-invalid");
+            $('#divDeviceParameter').addClass("ng-invalid");
             $scope.Id = 0;
             $scope.CancelDeviceList();
             $('#btnsave').attr("disabled", false);
@@ -874,7 +978,32 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         and redirected to the list page.
         */
         $scope.ReInsertDeviceDetails = function () {
-            var Dev = confirm("Do you like to activate the selected Device?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Device?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Device has been activated successfully");
+                        toastr.success("Selected Device has been activated successfully", "success");
+                        $("#chatLoaderPV").hide();
+                        $scope.DeviceList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Dev = confirm("Do you like to activate the selected Device?");
             if (Dev == true) {
                 $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Device has been activated successfully");
@@ -883,7 +1012,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ReInsertDeviceDetails" + data;
                 });
-            };
+            };*/
         }
 
 
@@ -894,8 +1023,32 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         };
         /*THIS IS FOR DEACTIVE FUNCTION */
         $scope.Device_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Device?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Device?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $("#chatLoaderPV").show();
+                    $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert(" Device details has been deactivated Successfully");
+                        toastr.success(" Device details has been deactivated Successfully", "success");
+                        $("#chatLoaderPV").hide();
+                        $scope.DeviceList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  Device details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Device?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MyHome/Device_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert(" Device details has been deactivated Successfully");
@@ -904,7 +1057,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  Device details" + data;
                 });
-            }
+            }*/
         };
 
         $scope.CancelDeviceList = function () {

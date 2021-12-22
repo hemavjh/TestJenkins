@@ -63,6 +63,7 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             $scope.loadCount = 0;
             $scope.InstitutionClear();
             $scope.DropDownListValue = 1;
+            $scope.editInstbutton = 0;
             $('#btnsave1').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
             angular.element('#InstitutionCreateModal').modal('show');
@@ -451,9 +452,9 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             $scope.Address3 = "";
             $scope.ZipCode = "";
             $scope.Email = "";
-            $scope.CountryId = "0";
-            $scope.StateNameId = "0";
-            $scope.LocationNameId = "0";
+            $scope.CountryId = 0;
+            $scope.StateNameId = 0;
+            $scope.LocationNameId = 0;
             $scope.FileName = "";
             $scope.Photo_Fullpath = "";
             $scope.InstitutionLogo = "";

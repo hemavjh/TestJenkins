@@ -110,7 +110,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollectionFilter.length >page_size">
+    <tfoot ng-if="rowCollectionFilter.length >page_size">
         <tr>
             <td colspan="15" class="text-center">
                 <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>
@@ -324,25 +324,25 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr ng-show="Hcp_Pat == true">
+                                                <tr ng-if="Hcp_Pat == true">
                                                     <td>
                                                         <label>Created No.of Patient</label>
                                                     </td>
                                                     <td><span>{{Created_No_Of_Patient}}</span></td>
                                                 </tr>
-                                                <tr ng-show="Hcp_Pat == true">
+                                                <tr ng-if="Hcp_Pat == true">
                                                     <td>
                                                         <label>Created No.of HCP</label>
                                                     </td>
                                                     <td><span>{{Created_No_Of_HealthCareProf}}</span></td>
                                                 </tr>
-                                                <tr ng-show="Hcp_Pat == true">
+                                                <tr ng-if="Hcp_Pat == true">
                                                     <td>
                                                         <label>Remaind Patient</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_Patient}}</span></td>
                                                 </tr>
-                                                <tr ng-show="Hcp_Pat == true">
+                                                <tr ng-if="Hcp_Pat == true">
                                                     <td>
                                                         <label>Remaind HCP</label>
                                                     </td>
@@ -404,19 +404,19 @@
                             </div>
                             <div class="modal-footer" style="text-align:center;">
                                 <!--<button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
-                                        ng-click="Institution_SubscriptionAddEdit()" ng-hide="EditInstSub == 0">
+                                        ng-click="Institution_SubscriptionAddEdit()" ng-if="EditInstSub == 0">
                                     Save
                                 </button>
                                 <button type="button" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Save and Add Admin"
-                                        ng-click="AndSubscription_AndAdmin()" ng-hide="EditInstSub == 1">
+                                        ng-click="AndSubscription_AndAdmin()" ng-if="EditInstSub == 1">
                                     Save and Add Admin
                                 </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
-                                        ng-click="submitted= true;" ng-hide="EditInstSub == 0">
+                                        ng-click="submitted= true;" ng-if="EditInstSub == 1">
                                     Save
                                 </button>
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Save and Add Admin"
-                                        ng-click="submitted= true;" ng-hide="EditInstSub == 1">
+                                        ng-click="submitted= true;" ng-if="EditInstSub == 0">
                                     Save and Add Admin
                                 </button>
                                 <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>

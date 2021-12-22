@@ -110,21 +110,21 @@
                 </a>
 
                 <a href="javascript:" ng-click="row.IsActive == 0 ||  EditEmailTemplate(row.Id)" title="Edit">
-                    <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                    <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==1"></i></a>
                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
                         <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
                     </a>
-                    <a href="javascript:" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
+                    <a href="javascript:;" ng-click="DeleteEmailTempalte(row.Id)" title="Active">
                         <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>
 
-                        <a href="javascript:" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
-                            <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
+                        <a href="javascript:;" ng-click="ActiveEmailTempalte(row.Id)" title="InActive">
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ng-if="row.IsActive==0"></i>
                         </a>
                     </a>
-            </td>
+</td>
         </tr>
     </tbody>
-    <tfoot ng-show="rowCollectionFilter.length >10">
+    <tfoot ng-if="rowCollectionFilter.length >10">
         <tr>
             <td colspan="9" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -140,67 +140,81 @@
 <!--Add&Edit Modal-->
 <div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width:90%">
-        <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close"
-                    ng-click="CancelPopup()">&times;</button>
-                <h4 class="modal-title">Email Template</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form">
+        <form role="form" ng-submit="EmailTemplateAddEdit();" ng-class="{'submitted': submitted}">
+            <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close"
+                            ng-click="CancelPopup()">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Email Template</h4>
+                </div>
+                <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="inputGroups">
-                                <label>Template Name<sup>
+                                <label>
+                                    Template Name<sup>
                                         <font class='mandatory-field'>*</font>
-                                    </sup></label>
+                                    </sup>
+                                </label>
                                 <input type="text" class="form-control" id="Text1" name="TemplateName"
-                                    ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100"
-                                    maxlength="100" onkeypress="" />
+                                       ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100"
+                                       maxlength="100" onkeypress="" ng-required="true" />
                             </div>
                         </div>
                         <div class="col-sm-8">
                             <div class="inputGroups">
-                                <label>Email Subject<sup>
+                                <label>
+                                    Email Subject<sup>
                                         <font class='mandatory-field'>*</font>
-                                    </sup></label>
+                                    </sup>
+                                </label>
                                 <input type="text" class="form-control" id="Text3" name="EmailSubject"
-                                    ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
-                                    maxlength="100" onkeypress="" />
+                                       ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
+                                       maxlength="100" onkeypress="" ng-required="true" />
                             </div>
                         </div>
                         <div class="col-sm-8">
                             <div class="inputGroups">
-                                <label>Email Template<sup>
+                                <label>
+                                    Email Template<sup>
                                         <font class='mandatory-field'>*</font>
-                                    </sup></label>
-                                <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
-                                    ondragover="allowDrop(event)">
+                                    </sup>
+                                </label>
+                                <div id="divEmailEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                    <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
+                                         ondragover="allowDrop(event)" ng-required="true">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            </div>
                         <div class="col-sm-4">
                             <div class="inputGroups">
                                 <label>Tag Name</label>
                                 <ul style="list-style-type:none;padding: 10px; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 350px;overflow: auto;"
                                     id="allfields">
                                     <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
-                                        ng-repeat="row in TemplateTagMappingList" ng-model="TagName">{{row.TagList}}
+                                        ng-repeat="row in TemplateTagMappingList" ng-model="TagName">
+                                        {{row.TagList}}
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                  
-                </form>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="submitted= true;"
+                            title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
+                            title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
             </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="EmailTemplateAddEdit()"
-                    title="Click to Save">Save</button>
-                <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
-                    title="Click to Cancel">Cancel</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -274,7 +288,25 @@
         // toolbar position.
         removePlugins: 'elementspath,resize,forms'
     });
-
+    CKEDITOR.instances['editor1'].on('change', function (e) {
+        if (e.editor.checkDirty()) {
+            if (CKEDITOR.instances['editor1'].getData() != "") {
+                $('#divEmailEditor').removeClass('ng-invalid');
+                $('#divEmailEditor').addClass('ng-valid');
+            } else {
+                $('#divEmailEditor').removeClass('ng-valid');
+                $('#divEmailEditor').addClass('ng-invalid');
+            }
+        } else {
+            if (CKEDITOR.instances['editor1'].getData() != "") {
+                $('#divEmailEditor').removeClass('ng-invalid');
+                $('#divEmailEditor').addClass('ng-valid');
+            } else {
+                $('#divEmailEditor').removeClass('ng-valid');
+                $('#divEmailEditor').addClass('ng-invalid');
+            }
+        }
+    });
     // CKEDITOR.replace( 'editor2', {
     // 	toolbarLocation: 'top',
     // 	// Remove some plugins that would conflict with the bottom
@@ -285,7 +317,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".comment").shorten();
-    });
+    });   
 </script>
 <style>
     div.textwraptags {
