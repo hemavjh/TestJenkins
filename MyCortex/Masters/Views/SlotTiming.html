@@ -121,7 +121,7 @@
                         </a></td>
             </tr>
         </tbody>
-        <tfoot ng-if="rowCollectionShiftTimingsFilter.length >10">
+        <tfoot ng-show="rowCollectionShiftTimingsFilter.length >10">
             <tr>
                 <td colspan="9" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""

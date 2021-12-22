@@ -213,7 +213,7 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot ng-if="rowCollectionFilter.length >10">
+        <tfoot ng-show="rowCollectionFilter.length >10">
             <tr>
                 <td colspan="15" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -265,7 +265,7 @@
                             <div>
                                 <form class="form-horizontal" role="form">
                                     <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
-                                    <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='1'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-sm-4">
@@ -334,7 +334,7 @@
                                             </div>
                                         </div>
                                         <div style="text-align: center;">
-                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" style="cursor: pointer" ng-if="DoctorSave == true" id="saveDoctorShift1" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                            <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" style="cursor: pointer" ng-show="DoctorSave == true" id="saveDoctorShift1" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                 Save
                                             </button>
                                             <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
@@ -343,83 +343,89 @@
 
                                         </div>
                                     </div>
-                                    <div class="panel panel-default bs-0 b-0" ng-if="currentTab=='2'">
+                                    <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <div id="collapse2" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row" id="MyHomeUserList">
 
                                                     <!--<div class="col-sm-4">
-                                                                <div class="inputGroups">
-                                                                    <table class="table themeTable" template-pagination="custom/pager" id="MyHomeUserTable">
-                                                                        <thead>
-                                                                            <tr style="text-align: center">
-                                                                                <th width="7%">Sl No.</th>
-                                                                                <th width="60%">User</th>
-                                                                                <th width="40%">PIN</th>
-                                                                                <th width="8%">Action</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr ng-if="MyHomeflag==0 && (AddUserParameters | filter : {IsActive : true}).length==0">
-                                                                                <td colspan="5" style="text-align: center">
-                                                                                    No Data Available
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
-                                                                                <td style="text-align: right;">{{$index+1}}</td>
-                                                                                <td>
-                                                                                    <select ng-model="row.UserId" class="form-control" style="width:500px;"
-                                                                                            ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
-                                                                                        <option value="">Select</option>
-                                                                                    </select>
+                <div class="inputGroups">
+                    <table class="table themeTable" template-pagination="custom/pager" id="MyHomeUserTable">
+                        <thead>
+                            <tr style="text-align: center">
+                                <th width="7%">Sl No.</th>
+                                <th width="60%">User</th>
+                                <th width="40%">PIN</th>
+                                <th width="8%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="MyHomeflag==0 && (AddUserParameters | filter : {IsActive : true}).length==0">
+                                <td colspan="5" style="text-align: center">
+                                    No Data Available
+                                </td>
+                            </tr>
+                            <tr class="myhomedropdown" ng-repeat="row in AddUserParameters | filter : {IsActive :  true}">
+                                <td style="text-align: right;">{{$index+1}}</td>
+                                <td>
+                                    <select ng-model="row.UserId" class="form-control" style="width:500px;"
+                                            ng-options="item1.ID as item1.FullName for item1 in UserLists" id="userlisttab">
+                                        <option value="">Select</option>
+                                    </select>
 
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input type="text" class="form-control myhomedropdown"
-                                                                                           ng-model="row.PIN" maxlength="20"
-                                                                                           ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintab">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
-                                                                                           ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2" />-->
-                                                                                                    <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
-                                                                                                    <!--</td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>            ng-click="updateCheckValue(rows.Id, row.Id, $event);"
-                                                                    <a href="javascript:" title="Click to Add" ng-if="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
-                                                                </div>
-                                                            </div>-->
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control myhomedropdown"
+                                           ng-model="row.PIN" maxlength="20"
+                                           ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:240px;" id="pintab">
+                                </td>
+                                <td>
+                                    <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
+                                           ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2" />-->
+                                                    <!--<img src="../../Images/addNewIcon.png" ng-click="Increase();" />-->
+                                                    <!--</td>
+                    </tr>
+                </tbody>
+            </table>            ng-click="updateCheckValue(rows.Id, row.Id, $event);"
+            <a href="javascript:" title="Click to Add" ng-show="showSave == true" style="color: #337ab7;" id="tabadduser" ng-click="MyHomeAdd()">|Add|</a>
+        </div>
+    </div>-->
                                                     <div class="tab-body" style=" min-height: 22rem;">
                                                         <p class="sub-title" style=" margin-left: 8px;">Appointment Slot</p>
                                                         <div style="margin-right: -63px; margin-left: -7px;">
                                                             <div class="col-sm-3">
-                                                                <input type="checkbox"  ng-model="OrgDefault" id="OrgDefaultId" ng-click="OrgDefaultClick($event)" class="m-right-1">Use Org Default
+                                                                <input type="checkbox" ng-model="OrgDefault" id="OrgDefaultId" ng-click="OrgDefaultClick($event)" class="m-right-1">Use Org Default
                                                             </div>
                                                             <div class="col-sm-9">
                                                                 <div class="row">
                                                                     <div class="col-sm-3">
-                                                                        <p>New Appointment<sup>
-                                                                <font class='mandatory-field'>*</font>
-                                                            </sup></p>
+                                                                        <p>
+                                                                            New Appointment<sup>
+                                                                                <font class='mandatory-field'>*</font>
+                                                                            </sup>
+                                                                        </p>
                                                                         <div class="input-slot">
                                                                             <input type="text" id="NewAppointment" onkeypress="OnlySpecCharNum(event)" ng-model="NewAppointment" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <p>Follow-up Appointment<sup>
-                                                                <font class='mandatory-field'>*</font>
-                                                            </sup></p>
+                                                                        <p>
+                                                                            Follow-up Appointment<sup>
+                                                                                <font class='mandatory-field'>*</font>
+                                                                            </sup>
+                                                                        </p>
                                                                         <div class="input-slot">
                                                                             <input type="text" id="followup" ng-model="followup" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <p>Interval<sup>
-                                                                <font class='mandatory-field'>*</font>
-                                                            </sup></p>
+                                                                        <p>
+                                                                            Interval<sup>
+                                                                                <font class='mandatory-field'>*</font>
+                                                                            </sup>
+                                                                        </p>
                                                                         <div class="input-slot">
                                                                             <input type="text" id="IntervalBt" ng-model="IntervalBt" onkeypress="OnlySpecCharNum(event)" class="input-size">
                                                                             <p>Min</p>
@@ -427,16 +433,16 @@
                                                                     </div>
                                                                 </div>
                                                                 <!--<div class="row m-top-2">
-                                                                    <div class="col-sm-3">
-                                                                        <p>Custom Slot<sup>
-                                                                <font class='mandatory-field'>*</font>
-                                                            </sup></p>
-                                                                        <div class="input-slot">
-                                                                            <input type="text" id="CustomSlot" ng-model="CustomSlot" onkeypress="OnlySpecCharNum(event)" class="input-size">
-                                                                            <p>Min</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>-->
+                        <div class="col-sm-3">
+                            <p>Custom Slot<sup>
+                    <font class='mandatory-field'>*</font>
+                </sup></p>
+                            <div class="input-slot">
+                                <input type="text" id="CustomSlot" ng-model="CustomSlot" onkeypress="OnlySpecCharNum(event)" class="input-size">
+                                <p>Min</p>
+                            </div>
+                        </div>
+                    </div>-->
                                                             </div>
                                                         </div>
                                                         <div class="mt-4">
@@ -448,18 +454,22 @@
                                                                 </div>
                                                                 <div class="col-sm-9 row">
                                                                     <div class="col-sm-3">
-                                                                        <p>Booking Open<sup>
-                                                                <font class='mandatory-field'>*</font>
-                                                            </sup></p>
+                                                                        <p>
+                                                                            Booking Open<sup>
+                                                                                <font class='mandatory-field'>*</font>
+                                                                            </sup>
+                                                                        </p>
                                                                         <div class="input-slot">
                                                                             <input type="text" id="Days" onkeypress="OnlySpecCharNum(event)" ng-model="Days" class="input-size">
                                                                             <p>Days</p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-3">
-                                                                        <p>Booking Cancel Lock<sup>
-                                                                <font class='mandatory-field'>*</font>
-                                                            </sup></p>
+                                                                        <p>
+                                                                            Booking Cancel Lock<sup>
+                                                                                <font class='mandatory-field'>*</font>
+                                                                            </sup>
+                                                                        </p>
                                                                         <div class="input-slot">
                                                                             <input type="text" id="Minutes" onkeypress="OnlySpecCharNum(event)" ng-model="Minutes" class="input-size">
                                                                             <p>Hours</p>
@@ -473,7 +483,7 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-if="DoctorSave == true" id="saveDoctorShift2" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift2" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
                                                 <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">
@@ -483,7 +493,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default m-0 bt-0 bs-0" ng-if="currentTab=='3'">
+                                    <div class="panel panel-default m-0 bt-0 bs-0" ng-show="currentTab=='3'">
                                         <div id="collapse3" class="panel-collapse">
                                             <div class="tab-body" style="min-height: 50rem;">
                                                 <div class="col-sm-12 p-0">
@@ -1089,7 +1099,7 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: center;padding-top: 60px;">
-                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-if="DoctorSave == true" id="saveDoctorShift3" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
+                                                <button type="button" class="theme-btn-1 mr-10 mtb-15 btn-save" ng-show="DoctorSave == true" id="saveDoctorShift3" ng-disabled="false" ng-click="DoctorShift_InsertUpdate()" title="Click to Save">
                                                     Save
                                                 </button>
                                                 <button type="button" class="theme-btn-2  btn-save mtb-15" ng-click="CancelDoctorShift()" title="Click to Cancel" id="cancelDoctorShift">

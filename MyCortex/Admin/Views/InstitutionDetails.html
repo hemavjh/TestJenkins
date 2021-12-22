@@ -149,12 +149,12 @@
                                     </div>
                                 </div>
 
-                                <img id="item-img-output" src="{{uploadme}}" class="institutionLogo" ng-if="(uploadme != '')" />
-                                <img src="../../Images/noImage.jpg" class="institutionLogo" ng-if="(uploadme == '')" />
+                                <img id="item-img-output" src="{{uploadme}}" class="institutionLogo" ng-show="(uploadme != '')" />
+                                <img src="../../Images/noImage.jpg" class="institutionLogo" ng-show="(uploadme == '')" />
 
                                 <div class="mt-20">
                                     <label for="InstitutionLogo" class="theme-btn-1 mr-10" title="Click to Upload Logo">Upload</label>
-                                    <a class="theme-btn-2" href="javascript:" ng-click="imageclear();PhotoUplaodSelected();" title="Clear" ng-if="(uploadme != null)">
+                                    <a class="theme-btn-2" href="javascript:" ng-click="imageclear();PhotoUplaodSelected();" title="Clear" ng-show="(uploadme != null)">
                                         Clear
                                     </a>
                                 </div>

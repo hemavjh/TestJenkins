@@ -43,10 +43,10 @@
                            href="#collapseMore" ng-click="currentTab=='1'?currentTab='2':currentTab='1'"
                            title="Click for Advance search">
 
-                            <sub ng-if="currentTab=='1'">
+                            <sub ng-show="currentTab=='1'">
                                 <i class="fa fa-filter" aria-hidden="true"></i>
                             </sub>
-                            <sub ng-if="currentTab=='2'">
+                            <sub ng-show="currentTab=='2'">
                                 <i class="fa fa-filter" aria-hidden="true"></i>
                             </sub>
                         </a>
@@ -251,21 +251,21 @@
                 </div>
 
                 <div class="notificationsWarnings">
-                    <i class="fas fa-bell highBell" ng-if="row.HighCount>0"></i>
-                    <span ng-if="row.HighCount>0">{{row.HighCount==0?'':row.HighCount}}</span>
+                    <i class="fas fa-bell highBell" ng-show="row.HighCount>0"></i>
+                    <span ng-show="row.HighCount>0">{{row.HighCount==0?'':row.HighCount}}</span>
                 </div>
                 <div class="notificationsWarnings mediumPosition">
-                    <i class="fas fa-bell mediumBell" ng-if="row.MediumCount>0"></i>
-                    <span ng-if="row.MediumCount>0">{{row.MediumCount==0?'':row.MediumCount}}</span>
+                    <i class="fas fa-bell mediumBell" ng-show="row.MediumCount>0"></i>
+                    <span ng-show="row.MediumCount>0">{{row.MediumCount==0?'':row.MediumCount}}</span>
                 </div>
                 <div class="notificationsWarnings lowPosition">
-                    <i class="fas fa-bell lowBell" ng-if="row.LowCount>0"></i>
-                    <span ng-if="row.LowCount>0">{{row.LowCount==0?'':row.LowCount}}</span>
+                    <i class="fas fa-bell lowBell" ng-show="row.LowCount>0"></i>
+                    <span ng-show="row.LowCount>0">{{row.LowCount==0?'':row.LowCount}}</span>
                 </div>
             </div>
         </div>
     </div>
-    <div ng-if="PatientCount>Patient_PerPage">
+    <div ng-show="PatientCount>Patient_PerPage">
         <ul class="pagination nav" ng-repeat="row in PageCountArray">
             <li class="active"><a ng-click="Next_CareCoordinator_PatientListFunction(row.PageNumber)">{{row.PageNumber}}</a></li>
         </ul>

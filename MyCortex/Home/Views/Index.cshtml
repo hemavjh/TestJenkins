@@ -527,9 +527,9 @@
                                 Log Out From All Device
 
                             </li>
-                            @*<li ng-if="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
+                            @*<li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
                                 onclick="openColorSettingsWindow();" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>*@
-                            <li ng-if="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
+                            <li ng-show="@HttpContext.Current.Session["UserTypeId"].ToString() == '3' || @HttpContext.Current.Session["UserTypeId"].ToString() == '1'"
                                 onclick="openNav()" class="customDropdownlast-child" style="padding: 5px 20px !important;">Color Settings</li>
                         </ul>
                     </div>

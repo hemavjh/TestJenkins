@@ -103,7 +103,7 @@
                         </a></td>
             </tr>
         </tbody>
-        <tfoot ng-if="rowCollectionFilter.length >10">
+        <tfoot ng-show="rowCollectionFilter.length >10">
             <tr>
                 <td colspan="9" class="text-center">
                     <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -129,13 +129,13 @@
                         <label>Doctor<sup>
                                 <font class='mandatory-field'>*</font>
                             </sup></label>
-                        <div ng-if="Id==0">
+                        <div ng-show="Id==0">
                             <select ng-model="SelectedDoctor" multiple="multiple"
                                 ng-options="item1.Id as item1.FullName for item1 in DoctorList" multiselect-dropdown
                                 style="width: 230px;" ng-change="SelectedDoctorval()">
                             </select>
                         </div>
-                        <div ng-if="Id>0">
+                        <div ng-show="Id>0">
                             <select class="" data-style="form-control" ng-model="SelectedDoctor1" id="selectpicker"
                                 data-live-search="true" data-selectpicker data-collection-name="DoctorList"
                                 ng-change="SelectedDoctorval()">
@@ -144,7 +144,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="inputGroups" ng-if="SelectedDoctor.length == 1 && SelectedDoctor!=0">
+                    <div class="inputGroups" ng-show="SelectedDoctor.length == 1 && SelectedDoctor!=0">
 
                         <label>Department Name</label>
                         <span> {{DepartmentName}}</span>
