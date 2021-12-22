@@ -108,10 +108,19 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         /* THIS IS FOR ADD/EDIT FUNCTION */
         $scope.EmailTemplateAddEdit = function () {
-            if ($scope.Validationcontrols() == true) {
-
+            //if ($scope.Validationcontrols() == true) {
+            
+            if ($scope.editor1 != "") {
+                $('#divSMSEditor').removeClass("ng-valid");
+                $('#divSMSEditor').addClass("ng-invalid");
+            }
+            else {
+                $('#divSMSEditor').removeClass("ng-invalid");
+                $('#divSMSEditor').addClass("ng-valid");
+            }
+            //$window.alert($scope.Template);
                 var TemplateChildList = [],
-
+                
                     rxp = /{([^}]+)}/g,
 
                     TagName = $scope.Template,
@@ -166,7 +175,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     $("#chatLoaderPV").hide();
                     angular.element('#EmailTemplateModal').modal('hide');
                 })
-            }
+            //}
         }
 
         /* THIS IS FOR LIST PROCEDURE */

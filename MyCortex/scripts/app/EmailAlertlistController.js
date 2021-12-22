@@ -77,12 +77,65 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                         $scope.DurationDisplayCheck();
                         return false;
                     }
-
                 }
             }
-
             return true;
         };
+        $scope.AlertEventChange = function () {
+            var event = document.getElementById('select1').value;
+            if (event != "0") {
+                $('#divAlertEvent').removeClass("ng-invalid");
+                $('#divAlertEvent').addClass("ng-valid");
+            }
+            else {
+                $('#divAlertEvent').removeClass("ng-valid");
+                $('#divAlertEvent').addClass("ng-invalid");
+            }
+        }
+        $scope.AlertEmailChange = function () {
+            var email = document.getElementById("select3").value;
+            if (email == "0" && $scope.EmailTemplate == true) {
+                $('#divAlertEmail').removeClass("ng-valid");
+                $('#divAlertEmail').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertEmail').removeClass("ng-invalid");
+                $('#divAlertEmail').addClass("ng-valid");
+            }
+        }
+        $scope.AlertAppTemplateChange = function () {
+            var tagtemplate = document.getElementById("select4").value;
+            if (tagtemplate == "0" && $scope.AppFlag == true) {
+                $('#divAlertAppTemplate').removeClass("ng-valid");
+                $('#divAlertAppTemplate').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertAppTemplate').removeClass("ng-invalid");
+                $('#divAlertAppTemplate').addClass("ng-valid");
+            }
+        }
+        $scope.AlertWebTemplateChange = function () {
+            var webtemplate = document.getElementById("select5").value;
+            if (webtemplate == "0" && $scope.WebTemplate == true) {
+                $('#divAlertWebTemplate').removeClass("ng-valid");
+                $('#divAlertWebTemplate').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertWebTemplate').removeClass("ng-invalid");
+                $('#divAlertWebTemplate').addClass("ng-valid");
+            }
+        }
+        $scope.AlertSMSTemplateChange = function () {
+            var SMStemplate = document.getElementById("select2").value;
+            if (SMStemplate == "0" && $scope.WebTemplate == true) {
+                $('#divAlertSMSTemplate').removeClass("ng-valid");
+                $('#divAlertSMSTemplate').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertSMSTemplate').removeClass("ng-invalid");
+                $('#divAlertSMSTemplate').addClass("ng-valid");
+            }
+        }
 
         /* Email Alert List Function*/
         $scope.AlertEvent = [];
