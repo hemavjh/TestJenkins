@@ -205,8 +205,8 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                 if ($scope.FilterValidation() == true) {
                     $("#chatLoaderPV").show();
                     $scope.Email_Stauts = "2";
-                    $scope.Period_From = document.getElementById("P_From").Value;
-                    $scope.Period_To = document.getElementById("P_To").Value;
+                    $scope.Period_From = document.getElementById("Period_From").Value;
+                    $scope.Period_To = document.getElementById("Period_To").Value;
 
                     $scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
                     $scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
