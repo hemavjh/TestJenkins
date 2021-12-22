@@ -96,7 +96,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $scope.AddUserParameters = [{
                 'Id': 0,
                 'UserId': 0,
-                'PIN': "",
+                'PIN': $scope.PIN,
                 'IsActive': true
             }];
             $scope.AddDeviceParameters = [{
@@ -474,6 +474,28 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                     'IsActive': true
                 })
             }
+        };
+
+        $scope.PinChange = function (PinId, rowIndex, UserId) {
+            //alert('Set', PinId, rowIndex);
+            var obj = {
+                InstitutionId: $window.localStorage['InstitutionId'],
+                TabId: $scope.Id,
+                UserId: UserId,
+                PIN: $scope.PIN,
+                IsTemp: 1
+            }
+            $("#chatLoaderPV").show();
+            $http.post(baseUrl + '/api/MyHome/Tab_User_Pin_Update/', obj).success(function (data) {
+                if (data.ReturnFlag == 1) {
+                    toastr.success("User Pin Is" + "(" + $scope.PIN + ")" + "Updated Successfully", "success");
+                    $("#chatLoaderPV").hide();
+                }
+                else {
+                    toastr.info(data.Message, "info");
+                    $("#chatLoaderPV").hide();
+                }
+            });
         };
 
         $scope.MyHomeDelete = function (Delete_Id, rowIndex) {
