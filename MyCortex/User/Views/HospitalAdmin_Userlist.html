@@ -338,7 +338,7 @@
             </td>
         </tr>
     </tbody>
-    <tfoot ng-if="BusinessUserList.length >page_size">
+    <tfoot ng-show="BusinessUserList.length >page_size">
         <tr>
             <td colspan="10" class="text-center">
                 <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -452,7 +452,7 @@
                                 <div>
 
 
-                                    <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='1'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='1'">
                                         <div id="collapse1" class="panel-collapse">
                                             <div class="panel-body">
                                                 <div class="row">
@@ -533,11 +533,11 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="inputGroups" ng-if="Id>0">
+                                                        <div class="inputGroups" ng-show="Id>0">
                                                             <label>User No.</label>
                                                             {{PatientNo}}
                                                         </div>
-                                                        <div class="inputGroups" ng-if="Id>0">
+                                                        <div class="inputGroups" ng-show="Id>0">
                                                             <label>Short Name</label>
                                                             {{Createdby_ShortName}}
                                                         </div>
@@ -581,7 +581,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="inputGroups" ng-if="UserTypeId==7">
+                                                        <div class="inputGroups" ng-hide="UserTypeId==7">
                                                             <label>Group</label>
                                                             <select ng-model="SelectedGroup" multiple="multiple"
                                                                     ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList"
@@ -661,7 +661,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default bs-0 b-0" ng-if="currentTab=='2'">
+                                    <div class="panel panel-default bs-0 b-0" ng-show="currentTab=='2'">
                                         <!--<div class="panel-heading containeralign">
                                             <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent="#accordion"
@@ -743,7 +743,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='3'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='3'">
                                         <!--<div class="panel-heading containeralign">
                                             <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent="#accordion"
@@ -843,7 +843,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='4'">
+                                    <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='4'">
                                         <!--<div class="panel-heading containeralign">
                                             <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent="#accordion"
@@ -957,7 +957,7 @@
                         <div class="patientProfileInfo">
 
                             <div class="panel-group" id="Div4">
-                                <div class="panel panel-default bs-0 b-0 m-0" ng-if="currentTab=='1'">
+                                <div class="panel panel-default bs-0 b-0 m-0" ng-show="currentTab=='1'">
 
                                     <div id="Div5" class="panel-collapse">
                                         <div class="panel-body">
@@ -1043,7 +1043,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='2'">
+                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='2'">
                                     <!--                                                <div class="panel-heading containeralign">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1074,7 +1074,8 @@
                                                         <span>{{Institution}}</span>
                                                     </div>
                                                     <div class="inputGroups">
-                                                        <label>Date of Birth
+                                                        <label>
+                                                            Date of Birth
                                                         </label>
                                                         <span>
                                                             {{DOB |date:"dd-MMM-yyyy"}}
@@ -1092,7 +1093,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='3'">
+                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='3'">
                                     <!--                                                <div class="panel-heading containeralign">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1137,7 +1138,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel panel-default b-0 bs-0 m-0" ng-if="currentTab=='4'">
+                                <div class="panel panel-default b-0 bs-0 m-0" ng-show="currentTab=='4'">
                                     <!--<div class="panel-heading containeralign">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -1192,8 +1193,8 @@
         <div class="alert {{alertType}} alert-dismissible" role="alert">
             {{alertConfrimationMessage}}<br />
             <div style="padding:10px">
-                <button type="button" id="alertbtn1" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn1Click()" ng-if="alertbtn1Show">{{btn1Text}}</button>
-                <button type="button" id="alertbtn2" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn2Click()" ng-if="alertbtn2Show">{{btn2Text}}</button>
+                <button type="button" id="alertbtn1" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn1Click()" ng-show="alertbtn1Show">{{btn1Text}}</button>
+                <button type="button" id="alertbtn2" class="btn theme-btnalert-1 btn-sm" ng-click="alertbtn2Click()" ng-show="alertbtn2Show">{{btn2Text}}</button>
             </div>
         </div>
     </center>
