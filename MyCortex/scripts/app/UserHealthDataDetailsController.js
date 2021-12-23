@@ -1865,6 +1865,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.LabTab_Clicked = "0";
         $scope.TabClickDataLoad = function (TabClicked) {
             var callFunction = true;
+            $scope.current_page = 1;
+            $scope.inputPageNo = 1;
             $('.chartTabs').removeClass('charTabsNone');
             $scope.ParamGroup_Id = 0;
             if (TabClicked == "1" && $scope.LifestyleTab_Clicked == "0") {
