@@ -29,6 +29,8 @@ namespace MyCortex.Notification.Models
         public int  EmailType_Flag { get; set; }
         public long UserId { get; set; }
         public string UserName { get; set; }
+
+        public string mobile_no { get; set; }
     }
 
     public class Appointment_AlertEventModel
