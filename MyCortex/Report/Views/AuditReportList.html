@@ -228,92 +228,104 @@
     <div></div>
     <div></div>
 </div>
+
 <div class="panel panel-default" id="AMid">
     <div class="panel-body">
         <div class="row">
-            <div class="col-sm-4">
-                <div class="inputGroups">
-                    <label>User Type<font class='mandatory-field'>*</font></label>
-                    <select class="form-control" data-style="form-control" id="stateselectpicker"
-                            data-live-search="true" data-selectpicker data-collection-name="Usertype_listdata"
-                            ng-model="UserTypeId" ng-change="UserTypeBaseduserName()">
-                        <option ng-repeat="sel in Usertype_listdata" ng-required="true" value="{{sel.Id}}">
-                            {{sel.TypeName}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="inputGroups">
-                    <label>User Name<font class='mandatory-field'>*</font></label>
-                    <select class="form-control" data-style="form-control" id="Select1" data-live-search="true"
-                            data-selectpicker data-collection-name="UserName_listdata" ng-model="UserNameId"
-                            style="width: 150px;">
-                        <option ng-repeat="sel in UserName_listdata" ng-required="true" value="{{sel.Id}}">
-                            {{sel.FullName}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="inputGroups">
-                    <label>Table Short Name<font class='mandatory-field'>*</font></label>
-                    <select ng-model="ShortNameId" multiple="multiple"
-                            ng-options="item1.ShortNameId as item1.ShortName for item1 in TableShortName_listdata"
-                            multiselect-dropdown style="width: 150px;"></select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="inputGroups">
-                    <label>Period From<font class='mandatory-field'>*</font></label>
-                    <div id="Div13">
-                        <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_From">-->
-                        <input type="text" ej-datetimepicker  ng-init="Period_From=''" ng-model="Period_From" class="form-control date" id="datetimepicker" ng-required="true"><br><br>
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="PatientReportDetailslist();">
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>User Type<font class='mandatory-field'>*</font></label>
+                        <div id="divUserType" class="ng-invalid ddlValidationBorder" >
+                        <select class="form-control" data-style="form-control" id="stateselectpicker"
+                                data-live-search="true" data-selectpicker data-collection-name="Usertype_listdata"
+                                ng-model="UserTypeId" ng-change="UserTypeBaseduserName();UserType();" ng-required="true">
+                           
+                            <option ng-repeat="sel in Usertype_listdata" value="{{sel.Id}}">
+                                {{sel.TypeName}}
+                            </option>
+                        </select>
+                           </div>
+                        </div>
+                    </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>User Name<font class='mandatory-field'>*</font></label>
+                        <div id="divUserNameChange" class="ng-invalid ddlValidationBorder">
+                            <select class="form-control" data-style="form-control" id="Select1" data-live-search="true"
+                                    data-selectpicker data-collection-name="UserName_listdata" ng-model="UserNameId"
+                                    style="width: 150px;" ng-required="true" ng-change="UserName();">
+                                <option ng-repeat="sel in UserName_listdata"  value="{{sel.Id}}">
+                                    {{sel.FullName}}
+                                </option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Table Short Name<font class='mandatory-field'>*</font></label>
+                        <div id="divTableName" class="ng-invalid ddlValidationBorder">
+                            <select ng-model="ShortNameId" multiple="multiple" id="SelectPicker"
+                                    ng-options="item1.ShortNameId as item1.ShortName for item1 in TableShortName_listdata"
+                                    multiselect-dropdown style="width: 150px;" ng-change="TableName();" ng-required="true"></select>
+                        </div>
+                        </div>
+                    </div>
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Period From<font class='mandatory-field'>*</font></label>
+                        <div id="Div13" class="ng-invalid ddlValidationBorder">
+                            <input type="text" id="datetimepicker" max="2099-12-31" placeholder="" class="form-control date" ng-model="Period_From" ng-change="PeriodFromChange();" ng-required="true">
+                            <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_From">-->
+                      <!--      <input type="text" ej-datetimepicker ng-init="Period_From=''" ng-model="Period_From" class="form-control date" id="datetimepicker" ng-required="true"><br><br>-->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="inputGroups">
-                    <label>Period To<font class='mandatory-field'>*</font></label>
-                    <div id="PeriodTo">
-                        <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_To">-->
-                        <input type="text" ej-datetimepicker  ng-init="Period_To=''" ng-model="Period_To" class="form-control date" id="datetimepicker_mask" ng-required="true"><br><br>
-                        <!--<span class="input-group-addon">
-                            <i class="glyphicon glyphicon-th"></i>
-                        </span>-->
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <label>Period To<font class='mandatory-field'>*</font></label>
+                        <div id="PeriodTo">
+                            <!--<input type="date" max="2099-12-31" class="form-control date" ng-model="Period_To">-->
+                            <input type="text" ej-datetimepicker ng-init="Period_To=''" ng-model="Period_To" class="form-control date" id="datetimepicker_mask"  ng-required="true"><br><br>
+                            <!--<span class="input-group-addon">
+                        <i class="glyphicon glyphicon-th"></i>
+                    </span>-->
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!--<div class="col-sm-4">
-                <div class="inputGroups">
-                    <label>Period From Time<font class='mandatory-field'>*</font></label>
-                    <div class="input-group bootstrap-timepicker timepicker">
-                        <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodFromTime"
-                               ng-init="PeriodFromTime=''">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                    </div>
-                </div>
-            </div>-->
-            <!--<div class="col-sm-4">
-                <div class="inputGroups">
-                    <label>Period To Time<font class='mandatory-field'>*</font></label>
-                    <div class="input-group bootstrap-timepicker timepicker">
-                        <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodToTime"
-                               ng-init="PeriodToTime=''">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                    </div>
-                </div>
-            </div>-->
-
-            <div class="col-sm-4">
-                <div class="inputGroups">
-                    <button type="button" class="theme-btn-1 mt-15" ng-click="PatientReportDetailslist()"
-                            title="Click to Search">
-                        Go
-                    </button>
+                <!--<div class="col-sm-4">
+            <div class="inputGroups">
+                <label>Period From Time<font class='mandatory-field'>*</font></label>
+                <div class="input-group bootstrap-timepicker timepicker">
+                    <input id="timepicker1" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodFromTime"
+                           ng-init="PeriodFromTime=''">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                 </div>
             </div>
+        </div>-->
+                <!--<div class="col-sm-4">
+            <div class="inputGroups">
+                <label>Period To Time<font class='mandatory-field'>*</font></label>
+                <div class="input-group bootstrap-timepicker timepicker">
+                    <input id="timepicker2" type="text" style="font-size:13px;" class="form-control input-small" ng-model="PeriodToTime"
+                           ng-init="PeriodToTime=''">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                </div>
+            </div>
+        </div>-->
+
+                <div class="col-sm-4">
+                    <div class="inputGroups">
+                        <button type="submit" class="theme-btn-1 mt-15" ng-click="submitted = true;"
+                                title="Click to Search">
+                            Go
+                        </button>
+                    </div>
+                </div>
+
+                </form>
         </div>
     </div>
 </div>

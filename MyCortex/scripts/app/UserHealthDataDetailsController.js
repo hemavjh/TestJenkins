@@ -764,6 +764,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             return false;
                         }
                     });
+
                     $scope.SearchAvailibleDoctorsList = function () {
                         $scope.DoctorListWithTimeZone = [];
                         document.getElementById("show").disabled = true;
@@ -3597,7 +3598,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //Care Giver Login
         $scope.CG_Remarks = "";
         $scope.CG_Update_ClearAlerts = function () {
-
             if (typeof ($scope.CG_Remarks) == "undefined" || $scope.CG_Remarks == "") {
                 //alert("Please enter Notes / Remarks to clear alert");
                 toastr.warning("Please enter Notes / Remarks to clear alert", "warning");
@@ -3617,6 +3617,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     if ((data == 1) || (data == 3)) {
                         //alert("Clear Alerts updated successfully");
                         toastr.success("Clear Alerts updated successfully", "success");
+                        $scope.submitted = false;
                         $('#clear').attr("disabled", false);
                         $scope.CG_Remarks = "";
                         $scope.ParameterValueList = [];
@@ -5383,6 +5384,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.AllergyTabClick = $scope.AllergyTabClick + 1;
             }
         }
+
+
         $scope.AllergyDropDown = 2;
         $scope.AllergenId = "0";
         $scope.AllergyTypeId = "0";
@@ -5429,7 +5432,6 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.AllergyOnsetListTemp.splice(0, 0, obj);
                 $scope.AllergyOnsetList = angular.copy($scope.AllergyOnsetListTemp);
             })
-
             $scope.AllergySeverityList = [];
             $http.get(baseUrl + 'api/User/AllergySeverityList/?Institution_Id=' + $scope.Institution_Id).success(function (data) {
                 $scope.AllergySeverityListTemp = [];
@@ -5443,6 +5445,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.AllergyReactionList = data;
             })
         }
+
+
         $scope.AddAllergyPopUp = function () {
             $scope.PatientAllergyCreateModalClear();
             $scope.AllergyClickDetailsList();
@@ -5805,6 +5809,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         //To open a popup window form for add new notes
         $scope.PatientNotesAddPopup = function () {
+            $scope.submitted = false;
             $scope.Id = 0;
             $scope.PatientNotesClear();
             $('#saved').attr("disabled", false);

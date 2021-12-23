@@ -46,6 +46,9 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
                 $scope.UserTypeId = 0;
             });
 
+
+
+
             $scope.UserTypeBaseduserName = function () {
                 $http.get(baseUrl + '/api/Login/Userdetailslist/?UserTypeId=' + $scope.UserTypeId + '&InstitutionId=' + $scope.InstituteId).success(function (data) {
                     $scope.UserName_listdataTemp = [];
@@ -202,10 +205,67 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
 
             }
 
+
+            $scope.UserType = function () {
+
+                var UserTypeId = document.getElementById('stateselectpicker').value;
+                if (UserTypeId != "0") {
+                    $('#divUserType').removeClass("ng-invalid");
+                    $('#divUserType').addClass("ng-valid");
+                }
+                else {
+                    $('#divUserType').removeClass("ng-valid");
+                    $('#divUserType').addClass("ng-invalid");
+                }
+            }
+
+
+            $scope.UserName = function () {
+
+                var UserNameId = document.getElementById('Select1').value;
+                if (UserNameId != "0") {
+                    $('#divUserNameChange').removeClass("ng-invalid");
+                    $('#divUserNameChange').addClass("ng-valid");
+                }
+                else {
+                    $('#divUserNameChange').removeClass("ng-valid");
+                    $('#divUserNameChange').addClass("ng-invalid");
+                }
+            }
+
+            $scope.TableName = function () {
+
+                var ShortNameId = document.getElementById('SelectPicker').value;
+                if (ShortNameId != "0") {
+                    $('#divTableName').removeClass("ng-invalid");
+                    $('#divTableName').addClass("ng-valid");
+                }
+                else {
+                    $('#divTableName').removeClass("ng-valid");
+                    $('#divTableName').addClass("ng-invalid");
+                }
+            }
+
+            $scope.PeriodFromChange = function () {
+                var Period_From = document.getElementById('datetimepicker').value;
+                if (Period_From != "") {
+                    $('#Div13').removeClass("ng-invalid");
+                    $('#Div13').addClass("ng-valid");
+                }
+                else {
+                    $('#Div13').removeClass("ng-valid");
+                    $('#Div13').addClass("ng-invalid");
+                }
+            }
+
             $scope.ReportDetailsemptydata = [];
             $scope.ReportPatienAudit = [];
             $scope.PatientDetailsFilteredDataList = [];
             $scope.PatientReportDetailslist = function () {
+                $('#divUserType').addClass("ng-invalid");
+                $('#divUserNameChange').addClass("ng-invalid");
+                $('#divTableName').addClass("ng-invalid");
+                $('#Div13').addClass("ng-invalid");
                 if ($scope.patientReportValidation() == true) {
                     $("#chatLoaderPV").show();
                     $scope.ConfigCode = "PATIENTPAGE_COUNT";
