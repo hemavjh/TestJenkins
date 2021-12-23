@@ -1697,7 +1697,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") && $scope.LoginType != "1") {
+                else if ((typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please enter Employment No.", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -1705,7 +1705,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") && $scope.LoginType != "1") {
+                else if ((typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Gender", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
@@ -1713,7 +1713,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     return false;
                 }
-                else if ((typeof ($scope.DepartmentId) == "undefined" || $scope.DepartmentId == "0") && $scope.LoginType != "1") {
+                else if ((typeof ($scope.DepartmentId) == "undefined" || $scope.DepartmentId == "0") && $scope.LoginType != "1" && $scope.LoginType != "3") {
                     toastr.warning("Please select Department", "Warning");
                     $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
