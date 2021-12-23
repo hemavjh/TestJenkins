@@ -370,7 +370,7 @@
                                                             </label>
                                                         </td>
                                                         <td class="bootstrap-select">
-                                                            <div id="divInsCountry" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                            <!--<div id="divInsCountry" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                                 <select class="form-control" data-style="form-control"
                                                                         data-live-search="true" id="countryselectpicker"
                                                                         data-selectpicker data-collection-name="CountryNameList"
@@ -381,7 +381,7 @@
                                                                         {{sel.CountryName}}
                                                                     </option>
                                                                 </select>
-                                                            </div>
+                                                            <!--</div>-->
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -393,18 +393,18 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <div id="divInsState" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                            <!--<div id="divInsState" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                                 <select class="form-control" data-style="form-control"
                                                                         id="stateselectpicker" data-live-search="true"
                                                                         data-selectpicker data-collection-name="StateName_List"
-                                                                        ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();insStateChange();">
+                                                                        ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();">
                                                                     <option value="0">Select</option>
                                                                     <option ng-repeat="sel in StateName_List"
                                                                             value="{{sel.Id}}">
                                                                         {{sel.StateName}}
                                                                     </option>
                                                                 </select>
-                                                            </div>
+                                                            <!--</div>-->
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -416,9 +416,9 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <div id="divInsCity" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                            <!--<div id="divInsCity" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                                 <select class="form-control" data-style="form-control" id="cityselectpicker"
-                                                                        data-live-search="true" data-selectpicker ng-change="insCityChange();"
+                                                                        data-live-search="true" data-selectpicker
                                                                         data-collection-name="LocationName_List"
                                                                         ng-model="LocationNameId">
                                                                     <option value="0">Select</option>
@@ -427,7 +427,7 @@
                                                                         {{sel.LocationName}}
                                                                     </option>
                                                                 </select>
-                                                            </div>
+                                                            <!--</div>-->
                                                         </td>
                                                     </tr>
                                                     <!--<tr ng-show="Id != 0">
@@ -456,11 +456,11 @@
                                     Save and Add Subscription
                                 </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
-                                        ng-click="submitted= true;" ng-if="editInstbutton == 1">
+                                        ng-click="submitted= true;" ng-show="editInstbutton == 1">
                                     Save
                                 </button>
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
-                                        ng-click="submitted= true;" ng-if="editInstbutton == 0">
+                                        ng-click="submitted= true;" ng-show="editInstbutton == 0">
                                     Save and Add Subscription
                                 </button>
                                 <button type="button" class="theme-btn-2" title="Click to Cancel"

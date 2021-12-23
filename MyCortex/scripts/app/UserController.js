@@ -5,24 +5,24 @@ if (baseUrl == "/") {
     baseUrl = "";
 }
 
-Usercontroller.service('InstSub', ['$log', function ($log) {
-    this.myService = 0;
-    this.SubscriptionInstiID = 0;
-    return {
-        getInstiID: function () {
-            return this.myService;
-        },
-        setInstiID: function (data) {
-            this.myService = data;
-        },
-        getSubID: function () {
-            return this.SubscriptionInstiID;
-        },
-        setSubID: function (data) {
-            this.SubscriptionInstiID = data;
-        }
-    };
-}]);
+//Usercontroller.service('InstSub', ['$log', function ($log) {
+//    this.myService = 0;
+//    this.SubscriptionInstiID = 0;
+//    return {
+//        getInstiID: function () {
+//            return this.myService;
+//        },
+//        setInstiID: function (data) {
+//            this.myService = data;
+//        },
+//        getSubID: function () {
+//            return this.SubscriptionInstiID;
+//        },
+//        setSubID: function (data) {
+//            this.SubscriptionInstiID = data;
+//        }
+//    };
+//}]);
 
 Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub', 'toastr',
     function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub, toastr) {
@@ -239,112 +239,119 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.SelectedGroup = "0";
         }
 
-        $scope.genderChange = function () {
-            var genderId = document.getElementById('Select3').value;
-            if (genderId != "0") {
-                $('#divGender').removeClass("ng-invalid");
-                $('#divGender').addClass("ng-valid");
-            }
-            else {
-                $('#divGender').removeClass("ng-valid");
-                $('#divGender').addClass("ng-invalid");
-            }
-        }
+        //$scope.genderChange = function () {
+        //    var genderId = document.getElementById('Select3').value;
+        //    if (genderId != "0") {
+        //        $('#divGender').removeClass("ng-invalid");
+        //        $('#divGender').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divGender').removeClass("ng-valid");
+        //        $('#divGender').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.departmentChange = function () {
-            var deptId = document.getElementById('Select1').value;
-            if (deptId != "0") {
-                $('#divDepartment').removeClass("ng-invalid");
-                $('#divDepartment').addClass("ng-valid");
-            }
-            else {
-                $('#divDepartment').removeClass("ng-valid");
-                $('#divDepartment').addClass("ng-invalid");
-            }
-        }
+        //$scope.departmentChange = function () {
+        //    var deptId = document.getElementById('Select1').value;
+        //    if (deptId != "0") {
+        //        $('#divDepartment').removeClass("ng-invalid");
+        //        $('#divDepartment').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divDepartment').removeClass("ng-valid");
+        //        $('#divDepartment').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.UserTypeChange = function () {
-            var userType = document.getElementById('Select2').value;
-            if (userType != "0") {
-                $('#divUserType').removeClass("ng-invalid");
-                $('#divUserType').addClass("ng-valid");
-            }
-            else {
-                $('#divUserType').removeClass("ng-valid");
-                $('#divUserType').addClass("ng-invalid");
-            }
-        }
+        //$scope.UserTypeChange = function () {
+        //    var userType = document.getElementById('Select2').value;
+        //    if (userType != "0") {
+        //        $('#divUserType').removeClass("ng-invalid");
+        //        $('#divUserType').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divUserType').removeClass("ng-valid");
+        //        $('#divUserType').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.nationalityChange = function () {
-            var nationality = document.getElementById('Select5').value;
-            if (nationality != "0") {
-                $('#divNationality').removeClass("ng-invalid");
-                $('#divNationality').addClass("ng-valid");
-            }
-            else {
-                $('#divNationality').removeClass("ng-valid");
-                $('#divNationality').addClass("ng-invalid");
-            }
-        }
+        //$scope.nationalityChange = function () {
+        //    var nationality = document.getElementById('Select5').value;
+        //    if (nationality != "0") {
+        //        $('#divNationality').removeClass("ng-invalid");
+        //        $('#divNationality').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divNationality').removeClass("ng-valid");
+        //        $('#divNationality').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.countryChange = function () {
-            var country = document.getElementById('countryselectpicker').value;
-            if (country != "0") {
-                $('#divCountry').removeClass("ng-invalid");
-                $('#divCountry').addClass("ng-valid");
-            }
-            else {
-                $('#divCountry').removeClass("ng-valid");
-                $('#divCountry').addClass("ng-invalid");
-            }
-        }
+        //$scope.countryChange = function () {
+        //    var country = document.getElementById('countryselectpicker').value;
+        //    if (country != "0") {
+        //        $('#divCountry').removeClass("ng-invalid");
+        //        $('#divCountry').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divCountry').removeClass("ng-valid");
+        //        $('#divCountry').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.cityChange = function () {
-            var city = document.getElementById('SelectCity').value;
-            if (city != "0") {
-                $('#divCity').removeClass("ng-invalid");
-                $('#divCity').addClass("ng-valid");
-            }
-            else {
-                $('#divCity').removeClass("ng-valid");
-                $('#divCity').addClass("ng-invalid");
-            }
-        }
+        //$scope.cityChange = function () {
+        //    var city = document.getElementById('SelectCity').value;
+        //    if (city != "0") {
+        //        $('#divCity').removeClass("ng-invalid");
+        //        $('#divCity').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divCity').removeClass("ng-valid");
+        //        $('#divCity').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.stateChange = function () {
-            var state = document.getElementById('stateselectpicker').value;
-            if (state != "0") {
-                $('#divState').removeClass("ng-invalid");
-                $('#divState').addClass("ng-valid");
-            }
-            else {
-                $('#divState').removeClass("ng-valid");
-                $('#divState').addClass("ng-invalid");
-            }
-        }
-        $scope.dobChange = function () {
-            if ($scope.DOB != "") {
-                $('#divDOB').removeClass("ng-invalid");
-                $('#divDOB').addClass("ng-valid");
-            }
-            else {
-                $('#divDOB').removeClass("ng-valid");
-                $('#divDOB').addClass("ng-invalid");
-            }
-        }
+        //$scope.stateChange = function () {
+        //    var state = document.getElementById('stateselectpicker').value;
+        //    if (state != "0") {
+        //        $('#divState').removeClass("ng-invalid");
+        //        $('#divState').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divState').removeClass("ng-valid");
+        //        $('#divState').addClass("ng-invalid");
+        //    }
+        //}
+        //$scope.dobChange = function () {
+        //    if ($scope.DOB != "") {
+        //        $('#divDOB').removeClass("ng-invalid");
+        //        $('#divDOB').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divDOB').removeClass("ng-valid");
+        //        $('#divDOB').addClass("ng-invalid");
+        //    }
+        //}
         $scope.TabClick = false;
 
         $scope.checkTab = function () {
-            if ($scope.FirstName != "" && $scope.LastName != "" && $scope.Employee_No != ""
-                && $scope.GenderId != "" && $scope.DepartmentId != "" && $scope.EmailId != ""
-                && $scope.MobileNo != "") {
-                $scope.currentTab = 2;
+
+            if (!($scope.FirstName != "" && $scope.LastName != "" && $scope.Employee_No != ""
+                && $scope.EmailId != "" && $scope.MobileNo != "" && $scope.Health_License != "")) {
+
+                if ($scope.FirstName != "" && $scope.LastName != "" && $scope.Employee_No != ""
+                    && $scope.EmailId != "" && $scope.MobileNo != "") {
+                    $scope.currentTab = 2;
+                }
+                else if ($scope.Health_License != "") {
+                    $scope.currentTab = 3;
+                }
+                else
+                    $scope.currentTab = 1;
             }
-            else if ($scope.Health_License != "" && $scope.NationalityId != "" && $scope.DOB != "") {
-                $scope.currentTab = 3;
+            else {
+                //$scope.currentTab = 1;
             }
-            else
-                $scope.currentTab = 1;
         }
 
         $scope.Businessuesrclickcount = 1;
@@ -729,17 +736,17 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.InstitutionSubscriptionLicensecheck(3);
         }
 
-        $scope.adminInsChange = function () {
-            var ins = document.getElementById('selectpicker').value;
-            if (ins != "0") {
-                $('#divInstitution').removeClass("ng-invalid");
-                $('#divInstitution').addClass("ng-valid");
-            }
-            else {
-                $('#divInstitution').removeClass("ng-valid");
-                $('#divInstitution').addClass("ng-invalid");
-            }
-        }
+        //$scope.adminInsChange = function () {
+        //    var ins = document.getElementById('selectpicker').value;
+        //    if (ins != "0") {
+        //        $('#divInstitution').removeClass("ng-invalid");
+        //        $('#divInstitution').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInstitution').removeClass("ng-valid");
+        //        $('#divInstitution').addClass("ng-invalid");
+        //    }
+        //}
 
         $scope.InstitutionSubscriptionLicensecheck = function (UserTypeId) {
             if (UserTypeId == 3) {
@@ -1043,7 +1050,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.tab1 = $scope.tab1 + 1;
                     $scope.PatientgetBase64Image();
                     // validation for Gender
-                    $scope.PatientGenderChange();
+                    //$scope.PatientGenderChange();
                 });
 
             $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
@@ -1074,7 +1081,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.NationalityList = angular.copy($scope.NationalityListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                     //validation when loading nationality
-                    $scope.PatientNationalityChange();
+                    //$scope.PatientNationalityChange();
                 });
 
                 $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
@@ -1085,7 +1092,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                     //validation for marital status
-                    $scope.PatientMaritalChange();
+                    //$scope.PatientMaritalChange();
                 });
                 $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
                     $scope.EthnicGroupListTemp = [];
@@ -1095,7 +1102,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                     //validation checking for ethnic group
-                    $scope.PatientEthnicChange();
+                    //$scope.PatientEthnicChange();
                 });
                 $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
                     /*$scope.BloodGroupList = data;*/
@@ -1106,7 +1113,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
                     //validation checking for blood grp when loading.
-                    $scope.PatientBldGrpChange();
+                    //$scope.PatientBldGrpChange();
                 });
                 $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
                     $scope.ChronicConditionList = data;
@@ -1669,11 +1676,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 if (($scope.MenuTypeId == 1) && (($scope.InstitutionId) == "undefined" || $scope.InstitutionId == "0")) {
                     //alert("Please select Institution");
                     toastr.warning("Please select Institution", "Warning");
+                    $("#chatLoaderPV").hide();
                     return false;
                 }
                 else if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
                     //alert("Please enter First Name");
                     toastr.warning("Please enter First Name", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
@@ -1682,35 +1691,40 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
                     //alert("Please enter Last Name");
                     toastr.warning("Please enter Last Name", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
                     return false;
                 }
-                /*else if (typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") {
-                    alert("Please enter Employment No.");
+                else if ((typeof ($scope.Employee_No) == "undefined" || $scope.Employee_No == "") && $scope.LoginType != "1") {
+                    toastr.warning("Please enter Employment No.", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
                     return false;
                 }
-                else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
-                    alert("Please select Gender");
+                else if ((typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") && $scope.LoginType != "1") {
+                    toastr.warning("Please select Gender", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
                     return false;
                 }
-                else if (typeof ($scope.DepartmentId) == "undefined" || $scope.DepartmentId == "0") {
-                    alert("Please select Department");
+                else if ((typeof ($scope.DepartmentId) == "undefined" || $scope.DepartmentId == "0") && $scope.LoginType != "1") {
+                    toastr.warning("Please select Department", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
                     return false;
-                }*/
+                }
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
                     //alert("Please enter Email");
                     toastr.warning("Please enter Email", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
@@ -1719,6 +1733,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 else if (EmailFormate($scope.EmailId) == false) {
                     //alert("Invalid email format");
                     toastr.warning("Invalid email format", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
@@ -1727,6 +1742,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
                     //alert("Please enter Mobile No.");
                     toastr.warning("Please enter Mobile No.", "Warning");
+                    $("#chatLoaderPV").hide();
                     if ($scope.MenuTypeId == 2) {
                         $scope.currentTab = 1;
                     }
@@ -1751,6 +1767,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (fileval == 2) {
                         //alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico");
                         toastr.warning("Please choose files of type jpeg/jpg/png/bmp/gif/ico", "warning");
+                        $("#chatLoaderPV").hide();
                         return false;
                     }
                 }
@@ -1760,24 +1777,28 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 if (typeof ($scope.UserTypeId) == "undefined" || $scope.UserTypeId == "0") {
                     //alert("Please select Type of User");
                     toastr.warning("Please select Type of User", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.Health_License) == "undefined" || $scope.Health_License == "") {
                     //alert("Please enter Health License under Additional Info");
                     toastr.warning("Please enter Health License under Additional Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
                     //alert("Please select Nationality under Additional Info");
                     toastr.warning("Please select Nationality under Additional Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
                     $scope.currentTab = 2;
                     return false;
@@ -1790,24 +1811,28 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 else if ($scope.AgeRestrictioncalculation() == false) {
                     //alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
                     toastr.warning("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
                     //alert("Please select Country under Address Info");
                     toastr.warning("Please select Country under Address Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
                     //alert("Please select State under Address Info");
                     toastr.warning("Please select State under Address Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
                     //alert("Please select City under Address Info");
                     toastr.warning("Please select City under Address Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
@@ -1834,6 +1859,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (fileval == 2) {
                         //alert("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.");
                         toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
+                        $("#chatLoaderPV").hide();
                         return false;
                     }
                 }
@@ -1844,18 +1870,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
                     //alert("Please enter First Name");
                     toastr.warning("Please enter First Name", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
                     //alert("Please enter Last Name");
                     toastr.warning("Please enter Last Name", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
                     //alert("Please select Gender");
                     toastr.warning("Please select Gender", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
@@ -1867,77 +1896,90 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
                     //alert("Please enter National ID");
                     toastr.warning("Please enter National ID", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
                     //alert("Please enter Insurance ID");
                     toastr.warning("Please enter Insurance ID", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
                     //alert("Please enter Email");
                     toastr.warning("Please enter Email", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (EmailFormate($scope.EmailId) == false) {
                     //alert("Invalid email format");
                     toastr.warning("Invalid email format", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (EmailFormate($scope.Google_EmailId) == false) {
                     //alert("Invalid Google Email format");
                     toastr.warning("Invalid Google Email format", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (EmailFormate($scope.FB_EmailId) == false) {
                     //alert("Invalid Facebook Email format");
                     toastr.warning("Invalid Facebook Email format", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 } else if (EmailFormate($scope.appleUserID) == false) {
                     //alert("Invalid Apple Email format");
                     toastr.warning("Invalid Apple Email format", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
                     //alert("Please enter Mobile No.");
                     toastr.warning("Please enter Mobile No.", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
                 else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
                     //alert("Please select Nationality under Additional Info");
                     toastr.warning("Please select Nationality under Additional Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.MaritalStatusId) == "undefined" || $scope.MaritalStatusId == "0") {
                     //alert("Please select Marital Status under Additional Info");
                     toastr.warning("Please select Marital Status under Additional Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.BloodGroupId) == "undefined" || $scope.BloodGroupId == "0") {
                     //alert("Please select Blood Group under Additional Info");
                     toastr.warning("Please select Blood Group under Additional Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.EthnicGroupId) == "undefined" || $scope.EthnicGroupId == "0") {
                     //alert("Please select Ethnic Group under Additional Info");
                     toastr.warning("Please select Ethnic Group under Additional Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
                     //alert("Please select Date of Birth under Additional info");
                     toastr.warning("Please select Date of Birth under Additional info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.DOB = DateFormatEdit($scope.DOB, "dd-MMM-yyyy");
                     $scope.currentTab = 2;
                     return false;
@@ -1950,24 +1992,28 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 else if ($scope.AgeRestrictioncalculation() == false) {
                     //alert("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth");
                     toastr.warning("Age should be more than " + $scope.JAge + " years.Please enter a valid Date of Birth", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 2;
                     return false;
                 }
                 else if (typeof ($scope.CountryId) == "undefined" || $scope.CountryId == "0") {
                     //alert("Please select Country under Address Info");
                     toastr.warning("Please select Country under Address Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.StateId) == "undefined" || $scope.StateId == "0") {
                     //alert("Please select State under Address Info");
                     toastr.warning("Please select State under Address Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
                 else if (typeof ($scope.CityId) == "undefined" || $scope.CityId == "0") {
                     //alert("Please select City under Address Info");
                     toastr.warning("Please select City under Address Info", "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 3;
                     return false;
                 }
@@ -1975,6 +2021,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (($ff($scope.AddMedicines, { Status: 1 }).length == 0)) {
                         //alert("Please add atleast one row for Currrently Take Medicine under Medical Info");
                         toastr.warning("Please add atleast one row for Currrently Take Medicine under Medical Info", "warning");
+                        $("#chatLoaderPV").hide();
                         $scope.currentTab = 5;
                         return false;
                     }
@@ -1988,6 +2035,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         if ($scope.AddMedicines.length < 1 || AMitem == 1) {
                             //alert("Please enter Medicine Name under Medical Info");
                             toastr.warning("Please enter Medicine Name under Medical Info", "warning");
+                            $("#chatLoaderPV").hide();
                             $scope.currentTab = 5;
                             return false;
                         }
@@ -2003,6 +2051,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if ($scope.AddMedicalHistory.length < 1 || MHitem == 1) {
                         //alert("Please enter Medical History under Medical Info");
                         toastr.warning("Please enter Medical History under Medical Info", "warning");
+                        $("#chatLoaderPV").hide();
                         $scope.currentTab = 5;
                         return false;
                     }
@@ -2011,6 +2060,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (($ff($scope.AddHealthProblem, { Status: 1 }).length == 0)) {
                         //alert("Please add atleast one row for family Health Problem History under Medical Info");
                         toastr.warning("Please add atleast one row for family Health Problem History under Medical Info", "warning");
+                        $("#chatLoaderPV").hide();
                         $scope.currentTab = 5;
                         return false;
                     }
@@ -2028,12 +2078,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         if ($scope.AddHealthProblem.length < 1 || Relation_Healthitem == 1) {
                             //alert("Please select Relationship under Medical Info");
                             toastr.warning("Please select Relationship under Medical Info", "warning");
+                            $("#chatLoaderPV").hide();
                             $scope.currentTab = 5;
                             return false;
                         }
                         if ($scope.AddHealthProblem.length < 1 || HealthProb_Item == 1) {
                             //alert("Please enter Health Problem under Medical Info");
                             toastr.warning("Please enter Health Problem under Medical Info", "warning");
+                            $("#chatLoaderPV").hide();
                             $scope.currentTab = 5;
                             return false;
                         }
@@ -2057,6 +2109,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if (fileval == 2) {
                         //alert("Please choose files of type jpeg/jpg/png/bmp/gif/ico");
                         toastr.warning("Please choose files of type jpeg/jpg/png/bmp/gif/ico", "warning");
+                        $("#chatLoaderPV").hide();
                         return false;
                     }
                 }
@@ -2069,6 +2122,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                     //alert(alertmsg);
                     toastr.warning(alertmsg, "warning");
+                    $("#chatLoaderPV").hide();
                     $scope.currentTab = 1;
                     return false;
                 }
@@ -2078,6 +2132,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     if ($scope.dataURItoBlob($scope.Editresumedoc).size > 1048576) {
                         //alert("Certificate file size cannot be greater than 1MB");
                         toastr.warning("Certificate file size cannot be greater than 1MB", "warning");
+                        $("#chatLoaderPV").hide();
                         $scope.currentTab = 5;
                         return false;
                     }
@@ -2239,7 +2294,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.EthnicGroupListTemp = data;
                 $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                 //validation checking for ethnic group
-                $scope.PatientEthnicChange();
+                //$scope.PatientEthnicChange();
             });
             $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
                 $scope.BloodGroupListTemp = [];
@@ -2976,101 +3031,101 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         };
 
-        $scope.PatientGenderChange = function () {
-            var Gender = document.getElementById('Select10').value;
-            if (Gender != "0") {
-                $('#divPatientGender').removeClass("ng-invalid");
-                $('#divPatientGender').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientGender').removeClass("ng-valid");
-                $('#divPatientGender').addClass("ng-invalid");
-            }
-        }
-        //validation
-        $scope.PatientCityChange = function () {
-            var city = document.getElementById('CityId').value;
-            if (city != "0") {
-                $('#divPatientCity').removeClass("ng-invalid");
-                $('#divPatientCity').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientCity').removeClass("ng-valid");
-                $('#divPatientCity').addClass("ng-invalid");
-            }
-        }
-        //validation
-        $scope.PatientNationalityChange = function () {
-            var nationality = document.getElementById('Select5').value;
-            if (nationality != "0") {
-                $('#divPatientNationality').removeClass("ng-invalid");
-                $('#divPatientNationality').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientNationality').removeClass("ng-valid");
-                $('#divPatientNationality').addClass("ng-invalid");
-            }
-        }
-        //validation
-        $scope.PatientMaritalChange = function () {
-            var MaritalStatus = document.getElementById('Select1').value;
-            if (MaritalStatus != "0") {
-                $('#divPatientMarital').removeClass("ng-invalid");
-                $('#divPatientMarital').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientMarital').removeClass("ng-valid");
-                $('#divPatientMarital').addClass("ng-invalid");
-            }
-        }
-        //validation
-        $scope.PatientBldGrpChange = function () {
-            var BldGrp = document.getElementById('Select2').value;
-            if (BldGrp != "0") {
-                $('#divPatientBldGrp').removeClass("ng-invalid");
-                $('#divPatientBldGrp').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientBldGrp').removeClass("ng-valid");
-                $('#divPatientBldGrp').addClass("ng-invalid");
-            }
-        }
-        //validation
-        $scope.PatientCountryChange = function () {
-            var country = document.getElementById('countryselectpicker').value;
-            if (country != "0") {
-                $('#divPatientCountry').removeClass("ng-invalid");
-                $('#divPatientCountry').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientCountry').removeClass("ng-valid");
-                $('#divPatientCountry').addClass("ng-invalid");
-            }
-        }
-        //validation
-        $scope.PatientEthnicChange = function () {
-            var ethnicgroup = document.getElementById('Select3').value;
-            if (ethnicgroup != "0") {
-                $('#divPatientEthnic').removeClass("ng-invalid");
-                $('#divPatientEthnic').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientEthnic').removeClass("ng-valid");
-                $('#divPatientEthnic').addClass("ng-invalid");
-            }
-        }
-        //validation
-        $scope.PatientStateChange = function () {
-            var city = document.getElementById('stateselectpicker').value;
-            if (city != "0") {
-                $('#divPatientState').removeClass("ng-invalid");
-                $('#divPatientState').addClass("ng-valid");
-            }
-            else {
-                $('#divPatientState').removeClass("ng-valid");
-                $('#divPatientState').addClass("ng-invalid");
-            }
-        }
+        //$scope.PatientGenderChange = function () {
+        //    var Gender = document.getElementById('Select10').value;
+        //    if (Gender != "0") {
+        //        $('#divPatientGender').removeClass("ng-invalid");
+        //        $('#divPatientGender').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientGender').removeClass("ng-valid");
+        //        $('#divPatientGender').addClass("ng-invalid");
+        //    }
+        //}
+        ////validation
+        //$scope.PatientCityChange = function () {
+        //    var city = document.getElementById('CityId').value;
+        //    if (city != "0") {
+        //        $('#divPatientCity').removeClass("ng-invalid");
+        //        $('#divPatientCity').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientCity').removeClass("ng-valid");
+        //        $('#divPatientCity').addClass("ng-invalid");
+        //    }
+        //}
+        ////validation
+        //$scope.PatientNationalityChange = function () {
+        //    var nationality = document.getElementById('Select5').value;
+        //    if (nationality != "0") {
+        //        $('#divPatientNationality').removeClass("ng-invalid");
+        //        $('#divPatientNationality').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientNationality').removeClass("ng-valid");
+        //        $('#divPatientNationality').addClass("ng-invalid");
+        //    }
+        //}
+        ////validation
+        //$scope.PatientMaritalChange = function () {
+        //    var MaritalStatus = document.getElementById('Select1').value;
+        //    if (MaritalStatus != "0") {
+        //        $('#divPatientMarital').removeClass("ng-invalid");
+        //        $('#divPatientMarital').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientMarital').removeClass("ng-valid");
+        //        $('#divPatientMarital').addClass("ng-invalid");
+        //    }
+        //}
+        ////validation
+        //$scope.PatientBldGrpChange = function () {
+        //    var BldGrp = document.getElementById('Select2').value;
+        //    if (BldGrp != "0") {
+        //        $('#divPatientBldGrp').removeClass("ng-invalid");
+        //        $('#divPatientBldGrp').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientBldGrp').removeClass("ng-valid");
+        //        $('#divPatientBldGrp').addClass("ng-invalid");
+        //    }
+        //}
+        ////validation
+        //$scope.PatientCountryChange = function () {
+        //    var country = document.getElementById('countryselectpicker').value;
+        //    if (country != "0") {
+        //        $('#divPatientCountry').removeClass("ng-invalid");
+        //        $('#divPatientCountry').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientCountry').removeClass("ng-valid");
+        //        $('#divPatientCountry').addClass("ng-invalid");
+        //    }
+        //}
+        ////validation
+        //$scope.PatientEthnicChange = function () {
+        //    var ethnicgroup = document.getElementById('Select3').value;
+        //    if (ethnicgroup != "0") {
+        //        $('#divPatientEthnic').removeClass("ng-invalid");
+        //        $('#divPatientEthnic').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientEthnic').removeClass("ng-valid");
+        //        $('#divPatientEthnic').addClass("ng-invalid");
+        //    }
+        //}
+        ////validation
+        //$scope.PatientStateChange = function () {
+        //    var city = document.getElementById('stateselectpicker').value;
+        //    if (city != "0") {
+        //        $('#divPatientState').removeClass("ng-invalid");
+        //        $('#divPatientState').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divPatientState').removeClass("ng-valid");
+        //        $('#divPatientState').addClass("ng-invalid");
+        //    }
+        //}
 
         $scope.AdminDefaultConfiguration = 0;
         $scope.AdminInstitutionCreation = function () {
