@@ -239,8 +239,30 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
         }
         /*THIS IS FOR DELETE FUNCTION */
         $scope.AllergyMaster_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Allergies details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Allergies details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/MasterAllergy/AllergyMaster_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert(" Allergy detail has been deactivated Successfully");
+                        toastr.success(" Allergy detail has been deactivated Successfully", "success");
+                        $scope.AllergyMasterList_Details();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Allergy details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected Allergies details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/MasterAllergy/AllergyMaster_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert(" Allergy detail has been deactivated Successfully");
@@ -249,7 +271,7 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Allergy details" + data;
                 });
-            }
+            }*/
         }
 
         $scope.DeleteAllergy = function (AId) {
@@ -265,7 +287,38 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
 
         /* Calling the api method to inactived the details of the Allergy for the  Allergy Id, and redirected to the list page.*/
         $scope.Allergy_Active = function () {
-            var Ins = confirm("Do you like to activate the selected Allergy?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Allergy?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var obj =
+                    {
+                        Id: $scope.Id,
+                        Modified_By: $window.localStorage['UserId']
+                    }
+
+                    $http.post(baseUrl + '/api/MasterAllergy/AllergyMaster_Active/', obj).success(function (data) {
+                        //alert(data.Message);
+                        if (data.ReturnFlag == 2) {
+                            toastr.success(data.Message, "success");
+                        }
+                        $scope.AllergyMasterList_Details();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Allergies" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Allergy?");
             if (Ins == true) {
                 var obj =
                 {
@@ -282,7 +335,7 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Allergies" + data;
                 });
-            };
+            };*/
         }
 
 

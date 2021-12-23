@@ -197,6 +197,41 @@ namespace MyCortex.Repositories.Template
                 return null;
             }
         }
+
+        public IList<SendEmailModel> SendEmail_ResendListing(SendEmailModel obj)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@ID", obj.Id));
+                {
+                    DataEncryption DecryptFields = new DataEncryption();
+                    DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_RESENDLISTING", param);
+                    IList<SendEmailModel> list = (from p in dt.AsEnumerable()
+                                                  select new SendEmailModel()
+                                                  {
+                                                      Id = p.Field<long>("ID"),
+                                                      UserId = p.Field<long>("USERID"),
+                                                      Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                      Email_Subject = p.Field<string>("EMAIL_SUBJECT"),
+                                                      Template_Id = p.Field<long>("TEMPLATE_ID"),
+                                                      UserName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                      Created_By = p.Field<long>("CREATED_BY"),
+                                                      flag = p.Field<int>("FLAG"),
+                                                      Send_Date = p.Field<DateTime>("SEND_DATE"),
+                                                      EmailId = p.Field<string>("EMAILID")
+                                                  }).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>
         /// to get composed email detail from Email template based on Event and Template
         /// </summary>
