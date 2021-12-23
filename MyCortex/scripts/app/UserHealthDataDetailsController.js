@@ -61,6 +61,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //$scope.PreviousAppointmentDetails = [];
         $scope.flag = 0;
         $scope.MNR_No = "";
+        $scope.StartDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.EndDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.OnSetDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')); 
         $scope.Type_Id = 0;
         $scope.LSType_Id = 0;
         $scope.VitalsType_Id = 0;
@@ -2884,6 +2887,16 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         $scope.AddVitalsPopUp = function () {
             angular.element('#PatientVitalsCreateModal').modal('show');
+            $scope.AddVitalParameters = [{
+                'Id': 0,
+                'ParameterId': 0,
+                'Units_ID': 0,
+                'UOM_Name': '',
+                'ParameterValue': '',
+                'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                'IsActive': 1
+            }];
         }
 
         $scope.smsResponse = [];
@@ -2942,8 +2955,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'Units_ID': 0,
             'UOM_Name': '',
             'ParameterValue': '',
-            'chkDateTime': false,
-            'ptDateTime': new Date().toJSON().slice(0, 19),
+            'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+            'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
             'IsActive': 1
         }];
 
@@ -2956,8 +2969,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
-                    'chkDateTime': false,
-                    'ptDateTime': new Date().toJSON().slice(0, 19),
+                    'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                    'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                     'IsActive': 1
                 }
                 $scope.AddVitalParameters.push(obj);
@@ -2969,8 +2982,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
-                    'chkDateTime': false,
-                    'ptDateTime': new Date().toJSON().slice(0, 19),
+                    'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                    'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                     'IsActive': 1
                 }];
             }
@@ -4358,8 +4371,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'ICDCode': '',
             'ICD_Description': '',
             'ICD_Remarks': '',
-            'Active_From': '',
-            'Active_To': ''
+            'Active_From': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+            'Active_To': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'))
 
         }];
 
@@ -4430,7 +4443,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 format: "dd-M-yyyy",
                 forceParse: false,
                 //endDate: '+0d',
-                startDate: new Date(),
+                startDate: DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                 autoclose: true,
                 todayHighlight: true,
                 toggleActive: true,
@@ -4441,7 +4454,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 format: "dd-M-yyyy",
                 forceParse: false,
                 //endDate: '+0d',
-                startDate: new Date(),
+                startDate: DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                 autoclose: true,
                 todayHighlight: true,
                 toggleActive: true,
@@ -5067,8 +5080,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'FrequencyId': 0,
             'RouteId': 0,
             'NoOfDays': "",
-            ' StartDate': "",
-            'EndDate': "",
+            'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+            'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
             ' Created_By': 0
 
         }];
@@ -5082,8 +5095,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'FrequencyId': 0,
                     'RouteId': 0,
                     'NoOfDays': "",
-                    'StartDate': new Date(DatetimepickermaxDate),
-                    'EndDate': new Date(DatetimepickermaxDate),
+                    'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                    'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                     ' Created_By': 0
                 }
                 $scope.AddMedicationDetails.push(obj);
@@ -5096,8 +5109,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'FrequencyId': 0,
                     'RouteId': 0,
                     'NoOfDays': "",
-                    'StartDate': new Date(DatetimepickermaxDate),
-                    'EndDate': new Date(DatetimepickermaxDate),
+                    'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                    'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                     ' Created_By': 0
                 }];
             }
@@ -5155,8 +5168,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             'FrequencyId': 0,
                             'RouteId': 0,
                             'NoOfDays': "",
-                            'StartDate': new Date(DatetimepickermaxDate),
-                            'EndDate': new Date(DatetimepickermaxDate),
+                            'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                            'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
                             ' Created_By': 0
                         }];
                     }
@@ -5575,8 +5588,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'FrequencyId': 0,
                 'NoOfDays': '',
                 'RouteId': 0,
-                'StartDate': new Date(DatetimepickermaxDate),
-                'EndDate': new Date(DatetimepickermaxDate)
+                'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'))
             }];
         }
         $scope.CancelEditMedicationPopUp = function () {
