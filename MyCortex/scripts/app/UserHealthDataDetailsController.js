@@ -2892,6 +2892,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
 
         $scope.AddVitalsPopUp = function () {
+            for (let i = 0; i < $scope.AddVitalParameters.length; i++) {
+                $scope.AddVitalParameters[i].All_UnitLists = $scope.ParameterMappingList;
+            }
             angular.element('#PatientVitalsCreateModal').modal('show');
         }
 
@@ -3018,21 +3021,23 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (result.isConfirmed) {
                     //  var del = confirm("Do you like to delete the selected Parameter?");
                     // if (del == true) {
-                    $scope.AddVitalParameters.splice(itemIndex, 1);
-                    if ($scope.AddVitalParameters.length == 0) {
-                        $scope.AddVitalParameters = [{
-                            'Id': 0,
-                            'ParameterId': 0,
-                            'Units_ID': 0,
-                            'UOM_Name': '',
-                            'ParameterValue': '',
-                            'chkDateTime': false,
-                            'ActivityDate': new Date().toJSON().slice(0, 19),
-                            'IsActive': 1,
-                            'All_UnitLists': $scope.ParameterMappingList,
-                            'ParameterMappingList': []
-                        }];
-                    }
+                    $scope.$apply(() => {
+                        $scope.AddVitalParameters.splice(itemIndex, 1);
+                        if ($scope.AddVitalParameters.length == 0) {
+                            $scope.AddVitalParameters = [{
+                                'Id': 0,
+                                'ParameterId': 0,
+                                'Units_ID': 0,
+                                'UOM_Name': '',
+                                'ParameterValue': '',
+                                'chkDateTime': false,
+                                'ActivityDate': new Date().toJSON().slice(0, 19),
+                                'IsActive': 1,
+                                'All_UnitLists': $scope.ParameterMappingList,
+                                'ParameterMappingList': []
+                            }];
+                        }
+                    });
                     //}
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
