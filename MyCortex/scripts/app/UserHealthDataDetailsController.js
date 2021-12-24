@@ -121,6 +121,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.ParameterMappingList = data;
             });
         }
+        AllParameterMappingList();
+        function AllParameterMappingList() {
+            $http.get(baseUrl + '/api/ParameterSettings/AllParameterMappingList/').success(function (data) {
+                $scope.ParameterMappingList = data;
+                for (let i = 0; i < $scope.AddVitalParameters.length; i++) {
+                    $scope.AddVitalParameters[i].All_UnitLists = data;
+                }
+            });
+        }
 
         // editable time value from app settings
         $scope.PATIENTDATA_EDITTIME = 0;
@@ -2950,6 +2959,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $("#ptDateTimePicker" + itemIndex).val(new Date().toJSON().slice(0, 19));
         }
 
+        $scope.get_SubParameterMappingList = function (index) {
+            var pid = $scope.AddVitalParameters[index].ParameterId;
+            var unitlist = $scope.AddVitalParameters[index].All_UnitLists;
+            var newlist = unitlist.filter(x => x.Parameter_ID == pid);
+            $scope.AddVitalParameters[index].ParameterMappingList = newlist;
+        }
+
         // Add row concept for Patient Vital Parameters
         $scope.AddVitalParameters = [{
             'Id': 0,
@@ -2957,9 +2973,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'Units_ID': 0,
             'UOM_Name': '',
             'ParameterValue': '',
-            'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-            'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-            'IsActive': 1
+            'chkDateTime': false,
+            'ActivityDate': new Date().toJSON().slice(0, 19),
+            'IsActive': 1,
+            'All_UnitLists': $scope.ParameterMappingList,
+            'ParameterMappingList': []
         }];
 
         /*This is a Addrow function to add new row and save Family Health Problem details*/
@@ -2971,9 +2989,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
-                    'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                    'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                    'IsActive': 1
+                    'chkDateTime': false,
+                    'ActivityDate': new Date().toJSON().slice(0, 19),
+                    'IsActive': 1,
+                    'All_UnitLists': $scope.ParameterMappingList,
+                    'ParameterMappingList': []
                 }
                 $scope.AddVitalParameters.push(obj);
             }
@@ -2984,12 +3004,19 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
-                    'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                    'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                    'IsActive': 1
+                    'chkDateTime': false,
+                    'ActivityDate': new Date().toJSON().slice(0, 19),
+                    'IsActive': 1,
+                    'All_UnitLists': $scope.ParameterMappingList,
+                    'ParameterMappingList': []
                 }];
             }
         };
+
+        $scope.ejDTonChange = function (event, index) {
+            var datee = document.getElementById('ptDateTimePicker' + index).value;
+            $scope.AddVitalParameters[index].ActivityDate = datee;
+        }
 
         $scope.VitalParameterDelete = function (itemIndex) {
             Swal.fire({
@@ -3014,7 +3041,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             'Units_ID': 0,
                             'UOM_Name': '',
                             'ParameterValue': '',
-                            'IsActive': 1
+                            'chkDateTime': false,
+                            'ActivityDate': new Date().toJSON().slice(0, 19),
+                            'IsActive': 1,
+                            'All_UnitLists': $scope.ParameterMappingList,
+                            'ParameterMappingList': []
                         }];
                     }
                     //}
@@ -3095,6 +3126,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 var filteredObj = $ff($scope.AddVitalParameters, function (value) {
                     return value.ParameterId != '';
                 });
+                for (let i = 0; i < filteredObj.length; i++) {
+                    if (filteredObj[i].chkDateTime == false) {
+                        filteredObj[i].Activity_Date = $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss')
+                    } else {
+                        filteredObj[i].Activity_Date = $filter('date')(filteredObj[i].ActivityDate, 'dd-MMM-yyyy HH:mm:ss')
+                    }
+                }
                 var obj = {
                     Id: $scope.Id,
                     ActivityDate: $filter('date')(new Date(), 'dd-MMM-yyyy HH:mm:ss'),
@@ -3376,9 +3414,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.AddVitalParameters = [{
                 'Id': 0,
                 'ParameterId': 0,
+                'Units_ID': 0,
                 'UOM_Name': '',
                 'ParameterValue': '',
-                'IsActive': 1
+                'chkDateTime': false,
+                'ActivityDate': new Date().toJSON().slice(0, 19),
+                'IsActive': 1,
+                'All_UnitLists': $scope.ParameterMappingList,
+                'ParameterMappingList': []
             }];
             $scope.UOMName = "";
         }
