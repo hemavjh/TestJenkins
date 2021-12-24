@@ -266,7 +266,7 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
         }
 
 
-        $scope.StrengthChange = function () {
+     /*   $scope.StrengthChange = function () {
 
             var StrengthId = document.getElementById('selectpicker').value;
             if (StrengthId != "0") {
@@ -290,14 +290,12 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                 $('#divDosageFrom').removeClass("ng-valid");
                 $('#divDosageFrom').addClass("ng-invalid");
             }
-        }
+        }*/
 
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddDrugDBPopUP = function () {
             $scope.submitted = false;
-            $('#divStrength').addClass("ng-invalid");
-            $('#divDosageFrom').addClass("ng-invalid");
             $scope.ClearPopup();
             angular.element('#DrugDBModal').modal('show');
             $("#btnsave").attr("disabled", false);

@@ -535,12 +535,29 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
             $scope.UserTypeName = "0";
             $scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
         };
+
+     /*   $scope.UserTypeChange = function () {
+
+            var UserTypeName = document.getElementById('Select2').value;
+            if (UserTypeName != "0") {
+                $('#divUserType').removeClass("ng-invalid");
+                $('#divUserType').addClass("ng-valid");
+            }
+            else {
+                $('#divUserType').removeClass("ng-valid");
+                $('#divUserType').addClass("ng-invalid");
+            }
+        }
+*/
+        
+     
         /*
        Call the api method for insert and Update the record for a reset password
        and display the record of selected reset password when Id is greater than 0
        in edit.html and provide an option for create and modify the reset password and save the reset password record
        */
         $scope.ResetPassword = function () {
+            $scope.submitted = false;
             if ($scope.Validationresetcontrols() == true) {
                 $("#chatLoaderPV").show();
                 $('#btn-signup').attr("disabled", true);
@@ -586,13 +603,15 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                 toastr.warning("Please enter Maximum Length greater than Minimum Length", "warning");
                 return false;
             }
-            else if (typeof ($scope.Expiry_Period) == "undefined" || $scope.Expiry_Period == "" && $scope.AllowExpiryDays != 1) {
+            else if (typeof ($scope.Expiry_Period) == "undefined" || $scope.Expiry_Period == "" && $scope.AllowExpiryDays != 0) {
                 //alert("Please enter Password  Expiry Period");
                 toastr.warning("Please enter Password  Expiry Period", "warning");
                 return false;
             }
             return true;
         };
+
+
 
 
         //Insert function for password policy
@@ -677,6 +696,14 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                     $scope.Created_By = data.Created_By;
                     $scope.Remember_Password = data.Remember_Password;
                     $scope.Created_Dt = data.Created_Dt;
+                    if ($scope.AllowExpiryDays == true) {
+                        $("Text4").removeClass("ng-invalid");
+                        $("Text4").addClass("ng-valid");
+                    }
+                    else {
+                        $("Text4").removeClass("ng-valid");
+                        $("Text4").addClass("ng-invalid");
+                    }
                 }
                 $("#chatLoaderPV").hide();
                 //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
@@ -714,7 +741,14 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         //clear function for expiry period
         $scope.ClearPasswordExpiryperiod = function () {
             $scope.Expiry_Period = "";
-
+            if ($scope.AllowExpiryDays == true) {
+                $("#Text4").removeClass('ng-invalid');
+                $("#Text4").addClass('ng-valid');
+            }
+            else {
+                $("#Text4").removeClass('ng-valid');
+                $("#Text4").addClass('ng-invalid');
+            }
         }
 
         /*Clear the scope variables values*/

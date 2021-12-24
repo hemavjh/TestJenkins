@@ -144,13 +144,12 @@
                                     <font class='mandatory-field'>*</font>
                                 </sup>
                             </label>
-                            <div id="divStrength" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                <select class="" data-style="form-control" ng-model="Strength_ID" id="selectpicker" ng-change="StrengthChange()" data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
+                                <select class="" data-style="form-control" ng-model="Strength_ID" id="selectpicker"  data-live-search="true" data-selectpicker data-collection-name="StrengthIDList">
                                     <option ng-repeat="sel in StrengthIDList" ng-selected="Strength_ID==sel.Id" value="{{sel.Id}}">
                                         {{sel.Name}}
                                     </option>
                                 </select>
-                            </div>
+                            
                             </div>
                             <div class="inputGroups">
                                 <label>
@@ -158,15 +157,14 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <div id="divDosageFrom" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                    <select class="" data-style="form-control" ng-model="Dosage_From_ID" id="select1" ng-change="DosageFromChange()"
+                                    <select class="" data-style="form-control" ng-model="Dosage_From_ID" id="select1" 
                                             data-live-search="true" data-selectpicker data-collection-name="DosageFromIDList" >
                                         <option ng-repeat="sel in DosageFromIDList" ng-selected="Dosage_From_ID==sel.Id"
                                                 value="{{sel.Id}}">
                                             {{sel.Name}}
                                         </option>
                                     </select>
-                                </div>
+                               
                                 <div class="inputGroups">
                                     <label>Item Code</label>
 
@@ -242,6 +240,7 @@
                             <div class="textwrap">{{Drug_Code}}</div>
                         </span>
                     </div>
+                    
 
 
                 </form>
