@@ -194,64 +194,64 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             }
         }
 
-        $scope.insSubInstituteChange = function () {
-            var ins = document.getElementById('insselectpicker').value;
-            if (ins != "0") {
-                $('#divInssInstitute').removeClass("ng-invalid");
-                $('#divInssInstitute').addClass("ng-valid");
-            }
-            else {
-                $('#divInssInstitute').removeClass("ng-valid");
-                $('#divInssInstitute').addClass("ng-invalid");
-            }
-        }
+        //$scope.insSubInstituteChange = function () {
+        //    var ins = document.getElementById('insselectpicker').value;
+        //    if (ins != "0") {
+        //        $('#divInssInstitute').removeClass("ng-invalid");
+        //        $('#divInssInstitute').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInssInstitute').removeClass("ng-valid");
+        //        $('#divInssInstitute').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.insSubTimeZoneChange = function () {
-            var tz = document.getElementById('TimeZoneID').value;
-            if (tz != "0") {
-                $('#divInssTimeZone').removeClass("ng-invalid");
-                $('#divInssTimeZone').addClass("ng-valid");
-            }
-            else {
-                $('#divInssTimeZone').removeClass("ng-valid");
-                $('#divInssTimeZone').addClass("ng-invalid");
-            }
-        }
+        //$scope.insSubTimeZoneChange = function () {
+        //    var tz = document.getElementById('TimeZoneID').value;
+        //    if (tz != "0") {
+        //        $('#divInssTimeZone').removeClass("ng-invalid");
+        //        $('#divInssTimeZone').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInssTimeZone').removeClass("ng-valid");
+        //        $('#divInssTimeZone').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.insSubTypeChange = function () {
-            if ($scope.Subscription_Type == "1" || $scope.Subscription_Type == "2") {
-                $('#divInssType').removeClass("ng-invalid");
-                $('#divInssType').addClass("ng-valid");
-            }
-            else {
-                $('#divInssType').removeClass("ng-valid");
-                $('#divInssType').addClass("ng-invalid");
-            }
-        }
+        //$scope.insSubTypeChange = function () {
+        //    if ($scope.Subscription_Type == "1" || $scope.Subscription_Type == "2") {
+        //        $('#divInssType').removeClass("ng-invalid");
+        //        $('#divInssType').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInssType').removeClass("ng-valid");
+        //        $('#divInssType').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.insSubChronicChange = function () {
-            //alert($scope.Chroniccc);
-            if ($scope.Chroniccc == false && $scope.Chroniccg == false && $scope.Chroniccl == false && $scope.Chronicsc == false) {
-                $('#divInssChronicEdit').removeClass("ng-valid");
-                $('#divInssChronicEdit').addClass("ng-invalid");
-            }
-            else {
-                $('#divInssChronicEdit').removeClass("ng-invalid");
-                $('#divInssChronicEdit').addClass("ng-valid");
-            }
-        }
+        //$scope.insSubChronicChange = function () {
+        //    //alert($scope.Chroniccc);
+        //    if ($scope.Chroniccc == false && $scope.Chroniccg == false && $scope.Chroniccl == false && $scope.Chronicsc == false) {
+        //        $('#divInssChronicEdit').removeClass("ng-valid");
+        //        $('#divInssChronicEdit').addClass("ng-invalid");
+        //    }
+        //    else {
+        //        $('#divInssChronicEdit').removeClass("ng-invalid");
+        //        $('#divInssChronicEdit').addClass("ng-valid");
+        //    }
+        //}
 
-        $scope.insSubAppointmentModuleChange = function () {
-            var am = document.getElementById('AppointmentModuleID').value;
-            if (am != "0") {
-                $('#divInssApModule').removeClass("ng-invalid");
-                $('#divInssApModule').addClass("ng-valid");
-            }
-            else {
-                $('#divInssApModule').removeClass("ng-valid");
-                $('#divInssApModule').addClass("ng-invalid");
-            }
-        }
+        //$scope.insSubAppointmentModuleChange = function () {
+        //    var am = document.getElementById('AppointmentModuleID').value;
+        //    if (am != "0") {
+        //        $('#divInssApModule').removeClass("ng-invalid");
+        //        $('#divInssApModule').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInssApModule').removeClass("ng-valid");
+        //        $('#divInssApModule').addClass("ng-invalid");
+        //    }
+        //}
 
         /* Validating the create page mandatory fields
         checking mandatory for the follwing fields
@@ -553,7 +553,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
                     $scope.Chronicsc = data.ChronicSc;
-                    $scope.insSubChronicChange();
+                    //$scope.insSubChronicChange();
                     $scope.Created_No_Of_Patient = data.Created_No_Of_Patient;
                     $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
                     $scope.Remaining_No_Of_Patient = data.Remaining_No_Of_Patient;

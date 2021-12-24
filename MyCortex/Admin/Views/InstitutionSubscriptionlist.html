@@ -140,14 +140,14 @@
                                             <Lable>Institution Name<sup><font class='mandatory-field'>*</font></sup></Lable>
                                         </td>
                                         <td width="25%">
-                                            <div id="divInssInstitute" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                           <!-- <div id="divInssInstitute" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                 <select class="form-control" data-style="form-control" id="insselectpicker" data-live-search="true"
                                                         data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
-                                                        ng-change="InstituteGetDetails();insSubInstituteChange();">
+                                                        ng-change="InstituteGetDetails();">
                                                     <!--<option value="0">Select</option>-->
                                                     <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                 </select>
-                                            </div>
+                                            <!--</div>-->
                                         </td>
 
                                         <td rowspan="9" valign="top">
@@ -212,17 +212,17 @@
                                                         <Lable>TimeZone ID<sup><font class='mandatory-field'>*</font></sup></Lable>
                                                     </td>
                                                     <td width="25%">
-                                                        <div id="divInssTimeZone" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                        <!--<div id="divInssTimeZone" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                             <select class="form-control" data-style="form-control" data-live-search="true"
                                                                     data-selectpicker data-collection-name="TimeZoneListID" id="TimeZoneID"
-                                                                    ng-model="TimeZone_Id" ng-change="insSubTimeZoneChange();">
+                                                                    ng-model="TimeZone_Id">
                                                                 <option value="0">Select Time Zone</option>
                                                                 <option ng-repeat="set in TimeZoneListID"
                                                                         ng-selected="TimeZoneId == set.TimeZoneId" value="{{set.TimeZoneId}}">
                                                                     {{set.TimeZoneDisplayName}}
                                                                 </option>
                                                             </select>
-                                                        </div>
+                                                        <!--</div>-->
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -278,10 +278,10 @@
                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
                                                             <tr>
                                                                 <td>
-                                                                    <div id="divInssType" class="ng-valid ddlValidationBorder" ng-required="true">
-                                                                        <input type="radio" value="1" ng-change="insSubTypeChange()" ng-model="Subscription_Type" ng-checked="checked='true'"> Standard
-                                                                        <input type="radio" value="2" ng-change="insSubTypeChange()" ng-model="Subscription_Type"> Premium
-                                                                    </div>
+                                                                    <!--<div id="divInssType" class="ng-valid ddlValidationBorder" ng-required="true">-->
+                                                                        <input type="radio" value="1" ng-model="Subscription_Type" ng-checked="checked='true'"> Standard
+                                                                        <input type="radio" value="2" ng-model="Subscription_Type"> Premium
+                                                                    <!--</div>-->
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -295,12 +295,12 @@
                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
                                                             <tr>
                                                                 <td>
-                                                                    <div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccc"  ng-model="Chroniccc">CC
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccg"  ng-model="Chroniccg">CG
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccl"  ng-model="Chroniccl">CL
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chronicsc"  ng-model="Chronicsc">SC
-                                                                    </div>
+                                                                    <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
+                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
+                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
+                                                                        <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC
+                                                                    <!--</div>-->
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -311,17 +311,17 @@
                                                         <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
                                                     </td>
                                                     <td width="25%">
-                                                        <div id="divInssApModule" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                        <!--<div id="divInssApModule" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                             <select class="form-control" data-style="form-control" data-live-search="true"
                                                                     data-selectpicker data-collection-name="AppointmentModuleListID" id="AppointmentModuleID"
-                                                                    ng-model="AppointmentModule_Id" ng-change="insSubAppointmentModuleChange();">
+                                                                    ng-model="AppointmentModule_Id">
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="set in AppointmentModuleListID"
                                                                         ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">
                                                                     {{set.Name}}
                                                                 </option>
                                                             </select>
-                                                        </div>
+                                                        <!--</div>-->
                                                     </td>
                                                 </tr>
                                                 <tr ng-show="Hcp_Pat == true">
@@ -412,11 +412,11 @@
                                     Save and Add Admin
                                 </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
-                                        ng-click="submitted= true;" ng-if="EditInstSub == 1">
+                                        ng-click="submitted= true;" ng-show="EditInstSub == 1">
                                     Save
                                 </button>
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Save and Add Admin"
-                                        ng-click="submitted= true;" ng-if="EditInstSub == 0">
+                                        ng-click="submitted= true;" ng-show="EditInstSub == 0">
                                     Save and Add Admin
                                 </button>
                                 <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>
