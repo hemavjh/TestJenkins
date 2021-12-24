@@ -2963,7 +2963,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" ng-click="ParameterCancelPopup()">&times;</button>
                         <h4 class="modal-title" ng-show="currentTab=='2'">Vitals</h4>
                         <h4 class="modal-title" ng-show="currentTab=='3'">Lab</h4>
                     </div>
@@ -2984,16 +2984,17 @@
                                 <tr ng-repeat="row in AddVitalParameters">
                                     <td class="textalign">{{$index+1}}</td>
                                     <td style="text-align: center">
+                                        <!--ng-change="getParameterMappingList(row);"-->
                                         <select ng-model="row.ParameterId" data-live-search="true" data-selectpicker data-collection-name="VitalsParameterList_Data"
-                                                class="form-control" data-style="form-control" ng-change="getParameterMappingList(row);"
+                                                class="form-control" data-style="form-control" ng-change="get_SubParameterMappingList($index)" 
                                                 ng-options="item1.ParameterId as item1.ParameterName for item1 in VitalsParameterList_Data  | filter:{IsFormulaParam: 0,ParameterHas_Child:0}">
                                             <option value="">Select</option>
                                         </select>
                                     </td>
                                     <td style="text-align: left">
-                                        <select ng-model="row.Units_Id" data-live-search="true" data-selectpicker data-collection-name="ParameterMappingList"
+                                        <select ng-model="row.Units_Id" data-live-search="true" data-selectpicker data-collection-name="row.ParameterMappingList"
                                                 class="form-control" data-style="form-control"
-                                                ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in ParameterMappingList">
+                                                ng-options="item1.Units_ID as item1.Units_with_Group_Name for item1 in row.ParameterMappingList">
                                             <option value="">Select</option>
                                         </select>
                                         <!-- {{(VitalsParameterList_Data| filter:{ ParameterId:row.ParameterId}:true)[0].UOM_Name}}-->
@@ -3007,8 +3008,8 @@
                                         <input type="checkbox" ng-model="row.chkDateTime" ng-change="patientVitalsrowChkChange($index)" class="checkbox" value="1" />
                                     </td>
                                     <td>
-                                        <input type="datetime-local" ng-readonly="row.chkDateTime == false" ej-datetimepicker ng-init="row.ptDateTime=''" ng-model="row.ptDateTime" class="form-control date"
-                                               id="ptDateTimePicker{{$index}}" ng-required="true">
+                                        <input type="datetime-local" ng-readonly="row.chkDateTime == false" ej-datetimepicker ng-init="row.ActivityDate=''" ng-model="row.ActivityDate" class="form-control date"
+                                               id="ptDateTimePicker{{$index}}" [dateTimeFormat]="dd-MMM-yyyy HH:mm:ss" ng-required="true" ng-change="ejDTonChange(row.ActivityDate, $index)">
                                     </td>
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"
