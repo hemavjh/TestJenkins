@@ -608,7 +608,7 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB" ng-init="DOB=''"
+                                    <input max="2099-12-31" type="date" id="Date_Birth" class="form-control" ng-model="DOB"
                                            style="width: 165px" ng-disabled="Pat_UserTypeId==2">
                                     <!--<span class="input-group-addon">
                                         <i class="glyphicon glyphicon-th"></i>
@@ -639,30 +639,32 @@
                                             <font class='mandatory-field'>*</font>
                                         </sup>
                                     </label>
-                                    <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="Select2"
-                                            data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-required="true"
-                                            ng-disabled="Pat_UserTypeId==2">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id"
-                                                value="{{sel.Id}}">
-                                            {{sel.BloodGroup_Name}}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="inputGroups">
-                                    <label>Chronic Condition</label>
-                                    <div ng-hide="Pat_UserTypeId==2">
-                                        <select ng-model="SelectedChronicCondition" multiple="multiple"
-                                                ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
-                                                multiselect-dropdown style="width: 230px;">
+                                    <div id="divPatientBlood" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                        <select class="form-control" data-style="form-control" ng-model="BloodGroupId" id="Select2"
+                                                data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-required="true"
+                                                ng-disabled="Pat_UserTypeId==2">
                                             <option value="0">Select</option>
+                                            <option ng-repeat="sel in BloodGroupList" ng-selected="BloodGroupId==sel.Id"
+                                                    value="{{sel.Id}}">
+                                                {{sel.BloodGroup_Name}}
+                                            </option>
                                         </select>
                                     </div>
-                                    <span ng-hide="Pat_UserTypeId==2">
-                                        {{ChronicCondition}}
-                                    </span>
+                                    </div>
+                                    <div class="inputGroups">
+                                        <label>Chronic Condition</label>
+                                        <div ng-hide="Pat_UserTypeId==2">
+                                            <select ng-model="SelectedChronicCondition" multiple="multiple"
+                                                    ng-options="item1.Id as item1.Name for item1 in ChronicConditionList"
+                                                    multiselect-dropdown style="width: 230px;">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                        <span ng-hide="Pat_UserTypeId==2">
+                                            {{ChronicCondition}}
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -351,7 +351,8 @@ namespace MyCortex.Repositories.EmailAlert
                                                 UserId = p.Field<long>("UserId"),
                                                 UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
                                                 EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
-                                                EmailType_Flag = p.Field<int>("EmailSentType")
+                                                EmailType_Flag = p.Field<int>("EmailSentType"),
+                                                mobile_no = DecryptFields.Decrypt(p.Field<string>("mobile_no"))
                                             }).ToList();
                 return lst;
             }
