@@ -389,13 +389,13 @@
                                                 </label>
                                             </td>
                                             <td width="35%">
-                                                <div id="divInstitution" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                <!--<div id="divInstitution" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                     <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker
                                                             data-collection-name="InstitutionList"
-                                                            ng-model="InstitutionId" ng-change="SubscriptionValidation();adminInsChange();" ng-show="LoginType == 1">
+                                                            ng-model="InstitutionId" ng-change="SubscriptionValidation();" ng-show="LoginType == 1">
                                                         <option ng-repeat="sel in InstitutionList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                     </select>
-                                                </div>
+                                                <!--</div>-->
                                             </td>
                                         </tr>
                                         <tr>
@@ -455,13 +455,15 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <select class="" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image()">
-                                                    <option value="0">Select</option>
-                                                    <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
-                                                            value="{{sel.Id}}">
-                                                        {{sel.Gender_Name}}
-                                                    </option>
-                                                </select>
+                                                <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image();" ng-disabled="Pat_UserTypeId==2">
+                                                        <option value="0">Select</option>
+                                                        <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
+                                                                value="{{sel.Id}}">
+                                                            {{sel.Gender_Name}}
+                                                        </option>
+                                                    </select>
+                                                <!--</div>-->
                                             </td>
                                         </tr>
                                         <!--<tr>
