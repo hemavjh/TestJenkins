@@ -2967,8 +2967,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.get_SubParameterMappingList = function (index) {
             var pid = $scope.AddVitalParameters[index].ParameterId;
             var unitlist = $scope.AddVitalParameters[index].All_UnitLists;
-            var newlist = unitlist.filter(x => x.Parameter_ID == pid);
-            $scope.AddVitalParameters[index].ParameterMappingList = newlist;
+            if (unitlist.length != 0) {
+                var newlist = unitlist.filter(x => x.Parameter_ID == pid);
+                $scope.AddVitalParameters[index].ParameterMappingList = newlist;
+            }
         }
 
         // Add row concept for Patient Vital Parameters
@@ -3067,13 +3069,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             var TSDuplicate = 0;
             var varlidationCheck = 0;
             var paramExist = 0;
+            var unitIdExist = 0;
             var DuplicateParam = '';
             //angular.forEach($scope.VitalsParameterList_Data, function (value, index) {
             angular.forEach($scope.AddVitalParameters, function (value1, index1) {
-                if (value1.ParameterId != '' || value1.ParameterId > 0) {
+                if (value1.ParameterId != '' && value1.ParameterId > 0) {
                     paramExist = 1;
                 }
-                if (value1.Units_Id != '' || value1.Units_Id > 0) {
+                if (value1.Units_ID != '' && value1.Units_ID > 0) {
                     unitIdExist = 1;
                 }
                 var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: value1.ParameterId }, true)[0]
@@ -3089,7 +3092,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     if (value1.ParameterValue == '' || value1.ParameterValue <= 0) {
                         varlidationCheck = 1;
                         //alert("Please enter value for " + checkobj.ParameterName);
-                        toastr.warning("Please enter value for" + checkobj.ParameterName, "warning");
+                        toastr.warning("Please enter value for " + checkobj.ParameterName, "warning");
                         return false;
                     }
                     else if (checkobj.Min_Possible > parseFloat(value1.ParameterValue) && checkobj.Min_Possible > 0) {
