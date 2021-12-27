@@ -174,7 +174,8 @@
                 //alert(isValidNum);
                 if (!isValidNum) {
                     //toastr.error("Phone Number Invalid", "warning");
-                    alert("Phone number invalid");
+                    //alert("Phone number invalid");
+                    swal.fire("Phone number invalid");
                     document.getElementById("txthdFullNumber").value = "";
                 }
                 else {

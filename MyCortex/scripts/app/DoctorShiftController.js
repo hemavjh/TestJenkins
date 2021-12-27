@@ -3365,7 +3365,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     AppointmentInterval: $scope.IntervalBt,
                     MinRescheduleDays: $scope.ReduceNumberofavailableAppointmentes,
                     MinRescheduleMinutes: $scope.Minutest,
-                    DefautTimeZone: $scope.SelectedTimeZone,
+                    DefautTimeZone: $scope.SelectedTimeZone == null ? "" : $scope.SelectedTimeZone,
                     DefaultWorkingDays: $scope.DefaultWorkingDays,
                     DefaultHoliDays: $scope.SelectedDefaultholiday,
                     IsAppointmentInHolidays: $scope.BookEnable,
@@ -3380,6 +3380,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     MaxScheduleDays: $scope.AppointmentDay
                 };
                 $('#save').attr("disabled", true);
+                console.log(obj)
                 $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);

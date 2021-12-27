@@ -182,7 +182,7 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <div id="divEmailEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                <div id="divEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
                                     <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
                                          ondragover="allowDrop(event)" ng-required="true">
                                     </div>
@@ -291,19 +291,19 @@
     CKEDITOR.instances['editor1'].on('change', function (e) {
         if (e.editor.checkDirty()) {
             if (CKEDITOR.instances['editor1'].getData() != "") {
-                $('#divEmailEditor').removeClass('ng-invalid');
-                $('#divEmailEditor').addClass('ng-valid');
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
             } else {
-                $('#divEmailEditor').removeClass('ng-valid');
-                $('#divEmailEditor').addClass('ng-invalid');
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
             }
         } else {
             if (CKEDITOR.instances['editor1'].getData() != "") {
-                $('#divEmailEditor').removeClass('ng-invalid');
-                $('#divEmailEditor').addClass('ng-valid');
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
             } else {
-                $('#divEmailEditor').removeClass('ng-valid');
-                $('#divEmailEditor').addClass('ng-invalid');
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
             }
         }
     });
