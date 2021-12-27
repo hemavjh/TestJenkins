@@ -120,6 +120,14 @@ namespace MyCortex.Masters.Controllers
         }
 
         [HttpGet]
+        public IList<ParamaterSettingsModel> AllParameterMappingList()
+        {
+            IList<ParamaterSettingsModel> model;
+            model = repository.AllParameterMappingList();
+            return model;
+        }
+
+        [HttpGet]
         public bool UnitGroupPreferenceSave(Int64 institutionId, int preferenceType)
         {
             try
