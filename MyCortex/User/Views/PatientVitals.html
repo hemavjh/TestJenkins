@@ -2973,7 +2973,7 @@
                                 <tr style="text-align: center">
                                     <th width="7%">#</th>
                                     <th width="30%">Parameter Names</th>
-                                    <th width="15%">Unit</th>
+                                    <th width="30%">Unit</th>
                                     <th width="20%">Value</th>
                                     <th width="7%">Check</th>
                                     <th width="20%">Date & Time</th>
@@ -3005,11 +3005,11 @@
                                                ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
                                     </td>
                                     <td>
-                                        <input type="checkbox" ng-model="row.chkDateTime" ng-change="patientVitalsrowChkChange($index)" class="checkbox" value="1" />
+                                        <input type="checkbox" ng-model="row.chkDateTime" style="margin-left: 12px; margin-top: 11px;" ng-change="patientVitalsrowChkChange($index)" class="checkbox" value="1" />
                                     </td>
                                     <td>
-                                        <input type="datetime-local" ng-readonly="row.chkDateTime == false" ej-datetimepicker ng-init="row.ActivityDate=''" ng-model="row.ActivityDate" class="form-control date"
-                                               id="ptDateTimePicker{{$index}}" [dateTimeFormat]="dd-MMM-yyyy HH:mm:ss" ng-required="true" ng-change="ejDTonChange(row.ActivityDate, $index)">
+                                        <input type="datetime-local" value="row.ActivityDate" ng-disabled="row.chkDateTime == false" ej-datetimepicker ng-init="row.ActivityDate=''" ng-model="row.ActivityDate" class="form-control date"
+                                               id="ptDateTimePicker{{$index}}" ng-required="true" ng-change="ejDTonChange(row.ActivityDate, $index)">
                                     </td>
                                     <td style="text-align: center">
                                         <input type="image" src="../../Images/deleteNewIcon.png"

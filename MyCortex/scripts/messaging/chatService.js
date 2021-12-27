@@ -705,10 +705,12 @@ const chatService = function() {
                                 if (customMessage.data.customData.CallType === "Audio") {
                                     $("#WaitingCall-Page").hide();
                                     $("#directCall-Page").show();
+                                    $('#transparent-background-call').show();
                                     this.initiateDirectCall(customMessage.data.customData.CallSessionId);
                                 } else {
                                     $("#WaitingCall-Page").hide();
                                     $("#directCall-Page").show();
+                                    $('#transparent-background-call').show();
                                     this.initiateDirectVideoCall(customMessage.data.customData.CallSessionId);
                                 }
                             } else {
@@ -751,12 +753,13 @@ const chatService = function() {
                     $("#call-page").attr("style", "display:flex");
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
-
+                    $('#transparent-background-call').show();
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
                 },
                 error => {
                     console.log("Call initialization failed with exception:", error);
+                    $('#transparent-background-call').hide();
                 }
             );
         },
@@ -776,9 +779,11 @@ const chatService = function() {
                 new CometChat.OngoingCallListener({
                     onCallEnded: call => {
                         console.log("Call ended:", call);
+                        $('#transparent-background-call').hide();
                     },
                     onError: error => {
                         console.log("Error :", error);
+                        $('#transparent-background-call').hide();
                     }
                 })
             );
@@ -799,9 +804,11 @@ const chatService = function() {
                 new CometChat.OngoingCallListener({
                     onCallEnded: call => {
                         console.log("Call ended:", call);
+                        $('#transparent-background-call').hide();
                     },
                     onError: error => {
                         console.log("Error :", error);
+                        $('#transparent-background-call').hide();
                     }
                 })
             );
@@ -836,11 +843,13 @@ const chatService = function() {
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
                     $.playSound('/images/vivo-ringtone.mp3');
+                    $('#transparent-background-call').show();
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
                 },
                 error => {
                     console.log("Call initialization failed with exception:", error);
+                    $('#transparent-background-call').hide();
                 }
             );
         },
@@ -916,7 +925,8 @@ const chatService = function() {
                                 onUserJoined: user => {
                                     /* Notification received here if another user joins the call. */
                                     //console.log("User joined call:", user);
-                                    /* this method can be use to display message or perform any actions if someone joining the call */
+                                /* this method can be use to display message or perform any actions if someone joining the call */
+                                    $('#transparent-background-call').show();
                                 },
                                 onUserLeft: user => {
                                     /* Notification received here if another user left the call. */
@@ -934,6 +944,7 @@ const chatService = function() {
                                     $("#msg-page").attr("style", "display:block");
                                     $("#call-page").attr("style", "display:none");
                                     $("#showchatIcon").hide();
+                                    $('#transparent-background-call').hide();
                                     //CometChat.removeCallListener(listnerID);
                                     CometChat.endCall(call.sessionId).then(
                                         call => {
@@ -992,6 +1003,7 @@ const chatService = function() {
                             onUserJoined: user => {
                                 /* Notification received here if another user joins the call. */
                                 //console.log("User joined call:", user);
+                                $('#transparent-background-call').show();
                                 $("#add-book").hide();
                                 $("#groupsList").hide();
                                 $("#msg-page").attr("style", "display:none");
@@ -1016,8 +1028,10 @@ const chatService = function() {
                                 CometChat.endCall(call.sessionId).then(
                                     call => {
                                         //console.log("Call ended: endCall", call);
+                                        $('#transparent-background-call').hide();
                                     }, err => {
                                         console.log("error while ending call", err);
+                                        $('#transparent-background-call').hide();
                                     }
                                 );
                                 /* Notification received here if current ongoing call is ended. */
