@@ -2897,9 +2897,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         }
 
         $scope.AddVitalsPopUp = function () {
-            for (let i = 0; i < $scope.AddVitalParameters.length; i++) {
-                $scope.AddVitalParameters[i].All_UnitLists = $scope.ParameterMappingList;
-            }
+            //for (let i = 0; i < $scope.AddVitalParameters.length; i++) {
+            //    $scope.AddVitalParameters[i].All_UnitLists = $scope.ParameterMappingList;
+            //}
             angular.element('#PatientVitalsCreateModal').modal('show');
             $scope.AddVitalParameters = [{
                 'Id': 0,
@@ -2907,9 +2907,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'Units_ID': 0,
                 'UOM_Name': '',
                 'ParameterValue': '',
-                'chkDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                'ptDateTime': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                'IsActive': 1
+                'chkDateTime': false,
+                'ActivityDate': new Date().toJSON().slice(0, 19),
+                'IsActive': 1,
+                'All_UnitLists': $scope.ParameterMappingList,
+                'ParameterMappingList': []
             }];
         }
 
