@@ -241,9 +241,11 @@
                                                                         </td>
                                                                         <td>
                                                                             <div style="width:80px;">
-                                                                                <input type="image" src="../../Images/deleteNewIcon.png" disabled="disabled" title='Click to Delete' class="myhomedropdown"
-                                                                                       ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2View" />
-                                                                                <img ng-show="IsEdit == true" src="../../Images/ResetIcon.png" title='Click to Change Pin' style="width: 20px; cursor:pointer;margin-top: -9px;margin-left: 6px;" ng-click="PinChange(row.ID,$index, row.UserId);" />
+                                                                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
+                                                                                        ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2View" />
+                                                                                <div style="width: 20px; cursor: pointer; margin-top: -26px; margin-left: 23px;">
+                                                                                    <img ng-show="IsEdit == true" src="../../Images/ResetIcon.png" style="width: 20px;" title='Click to Change Pin' ng-click="PinChange(row.ID,$index, row.UserId);" />
+                                                                                </div>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -438,7 +440,7 @@
                                                                         <th width="7%">Sl No.</th>
                                                                         <th width="60%">User</th>
                                                                         <th width="10%">PIN</th>
-                                                                        <th width="20%">Action</th>
+                                                                        <!--<th width="20%">Action</th>-->
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -461,13 +463,15 @@
                                                                                    ng-model="row.PIN" maxlength="20" disabled="disabled"
                                                                                    ng-maxlength="10" onkeypress="OnlySpecCharNum(event)" style="width:70px;" id="pintabview">
                                                                         </td>
-                                                                        <td>
+                                                                        <!--<td>
                                                                             <div style="width:80px;">
-                                                                                <input type="image" src="../../Images/deleteNewIcon.png" disabled="disabled" title='Click to Delete' class="myhomedropdown"
-                                                                                       ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2View" />
-                                                                                <img ng-show="IsEdit == true" src="../../Images/ResetIcon.png" title='Click to Change Pin' style="width: 20px; cursor:pointer;margin-top: -9px;margin-left: 6px;" ng-click="PinChange(row.ID,$index, row.UserId);" />
+                                                                                <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
+                                                                                        ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2View" />
+                                                                                <div style="width: 20px; cursor: pointer; margin-top: -26px; margin-left: 23px;">
+                                                                                    <img ng-show="IsEdit == true" src="../../Images/ResetIcon.png" style="width: 20px;" title='Click to Change Pin' ng-click="PinChange(row.ID,$index, row.UserId);" />
+                                                                                </div>
                                                                             </div>
-                                                                        </td>
+                                                                        </td>-->
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -496,7 +500,7 @@
                                                                     <tr style="text-align: center">
                                                                         <th width="10%">Sl No.</th>
                                                                         <th width="60%">Device</th>
-                                                                        <th width="8%">Action</th>
+                                                                        <!--<th width="8%">Action</th>-->
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -513,10 +517,10 @@
                                                                                 <option value="">Select</option>
                                                                             </select>
                                                                         </td>
-                                                                        <td>
+                                                                        <!--<td>
                                                                             <input type="image" src="../../Images/deleteNewIcon.png" disabled="disabled" title='Click to Delete' class="myhomedevicedropdown"
                                                                                    ng-click="MyDeviceDelete(row.Id,$index)" ng-model="row.SelectedDeviceId" style="width: 20px;" id="Image3View" />
-                                                                        </td>
+                                                                        </td>-->
                                                                     </tr>
                                                                 </tbody>
                                                             </table>

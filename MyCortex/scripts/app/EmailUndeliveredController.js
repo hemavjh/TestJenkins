@@ -128,10 +128,10 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             */
         $scope.FilterValidation = function () {
             var today = moment(new Date()).format('DD-MMM-YYYY');
-            $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
-            $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
+            //$scope.Period_From = document.getElementById("Period_From").Value;
+            //$scope.Period_To = document.getElementById("Period_To").Value;
 
-            if (typeof ($scope.Period_From) == "undefined" || $scope.Period_From == "") {
+            if ($scope.Period_From == undefined || $scope.Period_From == "") {
                 //alert("Please select Period From");
                 toastr.warning("Please select Period From", "warning");
 
@@ -141,7 +141,7 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
-            if (typeof ($scope.Period_To) == "undefined" || $scope.Period_To == "") {
+            if ($scope.Period_To == undefined || $scope.Period_To == "") {
                 //alert("Please select Period To");
                 toastr.warning("Please select Period To", "warning");
                 return false;
@@ -150,6 +150,8 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
             //    return false;
             //}
+            $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
+            $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
             if (($scope.Period_From != "") && ($scope.Period_To != "")) {
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
                     //alert("From Date should not be greater than To Date");
@@ -205,11 +207,11 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                 if ($scope.FilterValidation() == true) {
                     $("#chatLoaderPV").show();
                     $scope.Email_Stauts = "2";
-                    $scope.Period_From = document.getElementById("Period_From").Value;
-                    $scope.Period_To = document.getElementById("Period_To").Value;
+                    //$scope.Period_From = document.getElementById("Period_From").Value;
+                    //$scope.Period_To = document.getElementById("Period_To").Value;
 
-                    $scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
-                    $scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
+                    //$scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
+                    //$scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
 
                     $http.get(baseUrl + '/api/SendEmail/EmailHistory_List/?Id=' + $scope.Id + '&Period_From=' + $scope.Period_From + '&Period_To=' + $scope.Period_To + '&Email_Stauts=' + $scope.Email_Stauts
                         + '&PATIENTNO=' + $scope.Filter_PatientNo + '&INSURANCEID=' + $scope.filter_InsuranceId + '&GENDER_ID=' + $scope.Filter_GenderId + '&NATIONALITY_ID=' + $scope.filter_NationalityId + '&ETHINICGROUP_ID=' + $scope.filter_EthinicGroupId + '&MOBILE_NO=' + $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus + '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId + '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.IsActive + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId']
