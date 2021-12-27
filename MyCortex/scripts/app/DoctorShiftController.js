@@ -1510,15 +1510,6 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please select  End Date", "warning");
                 return false;
             }
-            if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
-                if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
-                    //alert("Start Date should not be greater than End Date");
-                    toastr.warning("Start Date should not be greater than End Date", "warning");
-                    $scope.FromDate = DateFormatEdit($scope.FromDate);
-                    $scope.ToDate = DateFormatEdit($scope.ToDate);
-                    return false;
-                }
-            }
             else if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0" || $scope.NewAppointment == '') {
                 //alert("Please Enter NewAppointment Time Slot");
                 toastr.warning("Please Enter NewAppointment Time Slot", "warning");
@@ -1548,6 +1539,15 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 //alert("Please Enter Minutes");
                 toastr.warning("Please Enter Minutes", "warning");
                 return false;
+            }
+            else if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
+                if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
+                    //alert("Start Date should not be greater than End Date");
+                    toastr.warning("Start Date should not be greater than End Date", "warning");
+                    $scope.FromDate = DateFormatEdit($scope.FromDate);
+                    $scope.ToDate = DateFormatEdit($scope.ToDate);
+                    return false;
+                }
             }
 
             $scope.FromDate = DateFormatEdit($scope.FromDate);
