@@ -191,7 +191,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'Institution_Name': '',
             'Parameter_Id': 0,
             'ParameterName': '',
-            'Units_Id': 0,
+            'Units_ID': 0,
             'UnitsName': '',
             'Com_DurationType': 0,
             'DurationName': '',
@@ -3075,9 +3075,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             angular.forEach($scope.AddVitalParameters, function (value1, index1) {
                 if (value1.ParameterId != '' && value1.ParameterId > 0) {
                     paramExist = 1;
+                } else {
+                    paramExist = 0;
                 }
                 if (value1.Units_ID != '' && value1.Units_ID > 0) {
                     unitIdExist = 1;
+                } else {
+                    unitIdExist = 0;
                 }
                 var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: value1.ParameterId }, true)[0]
                 if (checkobj != null) {
