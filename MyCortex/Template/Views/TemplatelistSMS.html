@@ -146,16 +146,17 @@
 <!--Add&Edit Modal-->
 <div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width:90%">
+        
         <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close"
-                        ng-click="CancelPopup()">
-                    &times;
-                </button>
-                <h4 class="modal-title">SMS Template</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form">
+            <form role="form" ng-submit="EmailTemplateAddEdit();" ng-class="{'submitted': submitted}">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close"
+                            ng-click="CancelPopup()">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">SMS Template</h4>
+                </div>
+                <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-8">
                             <div class="inputGroups">
@@ -164,7 +165,7 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <input type="text" class="form-control" id="Text1" name="TemplateName"
+                                <input type="text" class="form-control" id="Text1" name="TemplateName" ng-required="true"
                                        ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100"
                                        maxlength="100" onkeypress="" />
                             </div>
@@ -176,7 +177,7 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <input type="text" class="form-control" id="Text3" name="EmailSubject"
+                                <input type="text" class="form-control" id="Text3" name="EmailSubject" ng-required="true"
                                        ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
                                        maxlength="100" onkeypress="" />
                             </div>
@@ -188,8 +189,10 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
-                                     ondragover="allowDrop(event)">
+                                <div id="divEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                    <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
+                                         ondragover="allowDrop(event)">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -206,20 +209,20 @@
                             </div>
                         </div>
                     </div>
-
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="EmailTemplateAddEdit()"
-                        title="Click to Save">
-                    Save
-                </button>
-                <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
-                        title="Click to Cancel">
-                    Cancel
-                </button>
-            </div>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="submitted=true"
+                            title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
+                            title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
+       
     </div>
 </div>
 
@@ -298,6 +301,25 @@
         removePlugins: 'elementspath,resize,forms'
     });
 
+    CKEDITOR.instances['editor1'].on('change', function (e) {
+        if (e.editor.checkDirty()) {
+            if (CKEDITOR.instances['editor1'].getData() != "") {
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
+            } else {
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
+            }
+        } else {
+            if (CKEDITOR.instances['editor1'].getData() != "") {
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
+            } else {
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
+            }
+        }
+    });
     // CKEDITOR.replace( 'editor2', {
     // 	toolbarLocation: 'top',
     // 	// Remove some plugins that would conflict with the bottom

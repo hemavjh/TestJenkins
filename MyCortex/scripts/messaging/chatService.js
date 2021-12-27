@@ -364,7 +364,8 @@ const chatService = function() {
                     this.callReceiving();
                 },
                 error => {
-                    alert("Chat login is not created for this User, please contact Admin");
+                    //alert("Chat login is not created for this User, please contact Admin");
+                    swal.fire("Chat login is not created for this User, please contact Admin");
                     console.log("Login failed with error:", error.code);
                 }
             );
@@ -1156,7 +1157,8 @@ const chatService = function() {
                             },
                             error => {
                                 console.log("Group leaving failed with exception:", error);
-                                alert("Error in deleting the group");
+                                //alert("Error in deleting the group");
+                                swal.fire("Error in deleting the group");
                             }
                         );
                         console.log("Group delete failed with exception:", error);
@@ -1389,7 +1391,8 @@ const chatService = function() {
                 }
             });
             if (validGroup === false) {
-                alert("Minimum two users to be selected to create group");
+                //alert("Minimum two users to be selected to create group");
+                swal.fire("Minimum two users to be selected to create group");
                 return false;
             }
 
@@ -1412,7 +1415,8 @@ const chatService = function() {
                     });
                     CometChat.addMembersToGroup(GUID, membersList, []).then(
                         response => {
-                            alert("Group created successfully");
+                            //alert("Group created successfully");
+                            swal.fire("Group created successfully");
 
                             $('#addGroup').click();
                         },
