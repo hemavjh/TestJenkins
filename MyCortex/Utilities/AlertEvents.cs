@@ -13,6 +13,9 @@ using MyCortex.Notification.Firebase;
 using log4net;
 using MyCortex.Repositories.Template;
 using MyCortex.Template.Models;
+using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace MyCortex.Notification
 {
@@ -41,7 +44,7 @@ namespace MyCortex.Notification
             }
             return EventTemplatemodel;
         }
-        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType)
+        public void SendAlert_Email_Notification(AlertEventResultModel alertList, EmailConfigurationModel emailModel, long Institution_Id, int emailType, long EntityId)
         {
             foreach (AlertEventModel alert in alertList.AlertEventTemplateList)
             {
@@ -91,6 +94,73 @@ namespace MyCortex.Notification
 
                     PushNotificationApiManager.sendNotification(message, sendEmailModel[0].Id, alert.UserId, alert.TemplateFor);
                 }
+                else if(alert.TemplateType_Id == 3)
+                {
+                    //string[] EncryptMbNO; string[] SMSSplMbNo;
+                    string
+                        SMSPrefixMbNO = string.Empty, SMSSuffixMbNO = string.Empty, SMSMbNO = string.Empty, SMSSubject = string.Empty,
+                        SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
+                    //bool containsTildeSpecialCharacter, containsPlusSpecialCharacter = false;
+                    //Regex rgx = new Regex("[^A-Za-z0-9]");
+                    string MobileNo = alertList.AlertEventEmailList[0].mobile_no.Replace(@"~", @"").Replace(@"+", @"");
+                    //containsTildeSpecialCharacter = rgx.IsMatch(MobileNO);
+                    //EncryptMbNO = MobileNO.Split('~');
+
+                    //if (containsTildeSpecialCharacter)
+                    //{
+                    //    SMSPrefixMbNO = EncryptMbNO[0];
+                    //    SMSSuffixMbNO = EncryptMbNO[1];
+                    //    SMSMbNO = SMSPrefixMbNO + SMSSuffixMbNO;
+                    //    containsPlusSpecialCharacter = rgx.IsMatch(SMSPrefixMbNO);
+                    //}
+                    //if (containsPlusSpecialCharacter)
+                    //{
+                    //    SMSSplMbNo = SMSPrefixMbNO.Split('+');
+                    //    SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+                    //}
+                    //else
+                    //{
+                    //    SMSMbNO = EncryptMbNO[0];
+                    //}
+                    SMSMbNO = MobileNo;
+                    SMSSubject = alert.TempSubject;
+                    SMSBody = alert.TempBody;
+                    SMSApiId = "Kv2n09u8";
+                    SMSUserName = "MyHealth";
+                    SMSSource = "Medspero";
+
+                    SMSURL = "https://txt.speroinfotech.ae/API/SendSMS?" + "username=" + SMSUserName + "&apiId=" + SMSApiId + "&json=True&destination=" + SMSMbNO + "&source=" + SMSSource + "&text=" + SMSBody;
+
+                    HttpClient client = new HttpClient();
+                    client.BaseAddress = new Uri(SMSURL);
+
+                    // Add an Accept header for JSON format.
+                    client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // List data response.
+                    HttpResponseMessage smsResponse = client.GetAsync(SMSURL).Result;  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+                    if (smsResponse.IsSuccessStatusCode)
+                    {
+                        // Parse the response body.
+                        //var dataObjects = smsResponse.Content.ReadAsAsync<IEnumerable<DataObject>>().Result;  //Make sure to add a reference to System.Net.Http.Formatting.dll
+                        //foreach (var d in dataObjects)
+                        //{
+                        //    Console.WriteLine("{0}", d.Name);
+                        //}
+                        sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
+                        sendemailrepository.SendEmail_Update(EntityId, smsResponse.ReasonPhrase, 2, "");
+                    }
+
+                    //Make any other calls using HttpClient here.
+
+                    //Dispose once all HttpClient calls are complete. This is not necessary if the containing object will be disposed of; for example in this case the HttpClient instance will be disposed automatically when the application terminates so the following call is superfluous.
+                    client.Dispose();
+                }
             }
         }
         
@@ -104,7 +174,7 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventTemplateList = AlertEventTemplate;
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
-                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid);
+                SendAlert_Email_Notification(AlertEventResultList, null, Institution_Id, (int)EmailTypeVal.SendGrid, EntityId);
                 return 1;
             }
             catch(Exception ex)
@@ -130,7 +200,7 @@ namespace MyCortex.Notification
                 AlertEventResultList.AlertEventEmailList = EmailList;
 
 
-                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP);
+                SendAlert_Email_Notification(AlertEventResultList, emailModel, Institution_Id, (int)EmailTypeVal.SMTP, EntityId);
                 return 1;
             }
             catch (Exception ex)

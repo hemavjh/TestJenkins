@@ -11,8 +11,8 @@
             day = '0' + day.toString();
 
         var maxDate = year + '-' + month + '-' + day;
-        document.getElementById("Contract_Period_From").value = maxDate;
-        document.getElementById("Contract_Period_To").value = maxDate;
+        //document.getElementById("Contract_Period_From").value = maxDate;
+        //document.getElementById("Contract_Period_To").value = maxDate;
     });
 </script>
 <script>
@@ -262,7 +262,7 @@
                                                                     <div>
                                                                         <!--<input type="text" class="form-control" id="Text5" ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:152px" ng-required="true"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>-->
                                                                         <input type="date" id="Contract_Period_To" placeholder="" max="2099-12-31" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required"
-                                                                               ng-model="Contract_Period_To" ng-init="Contract_Period_To=''" style="width:165px" 
+                                                                               ng-model="Contract_Period_To" style="width:165px" 
                                                                                ng-required="true">
                                                                     </div>
                                                                 </td>
@@ -296,10 +296,10 @@
                                                             <tr>
                                                                 <td>
                                                                     <div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccc" ng-init="checked=true" value="1" ng-model="Chroniccc">CC
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccg" ng-init="checked=true" value="1" ng-model="Chroniccg">CG
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccl" ng-init="checked=true" value="1" ng-model="Chroniccl">CL
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chronicsc" ng-init="checked=true" value="1" ng-model="Chronicsc">SC
+                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccc"  ng-model="Chroniccc">CC
+                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccg"  ng-model="Chroniccg">CG
+                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccl"  ng-model="Chroniccl">CL
+                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chronicsc"  ng-model="Chronicsc">SC
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -412,11 +412,11 @@
                                     Save and Add Admin
                                 </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
-                                        ng-click="submitted= true;" ng-hide="EditInstSub == 0">
+                                        ng-click="submitted= true;" ng-if="EditInstSub == 1">
                                     Save
                                 </button>
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Save and Add Admin"
-                                        ng-click="submitted= true;" ng-hide="EditInstSub == 1">
+                                        ng-click="submitted= true;" ng-if="EditInstSub == 0">
                                     Save and Add Admin
                                 </button>
                                 <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>

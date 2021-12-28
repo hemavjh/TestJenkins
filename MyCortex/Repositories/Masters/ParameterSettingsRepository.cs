@@ -116,17 +116,18 @@ namespace MyCortex.Repositories.Masters
                     }
 
                 }
-                foreach (ParamaterSettingsModel item in obj)
-                {
-                    // execute only once for thie institution
-                    if(executedOnce==0)
-                    { 
-                        List<DataParameter> param = new List<DataParameter>();
-                        param.Add(new DataParameter("@INSTITUTION_ID", item.Institution_ID));
-                        retid = ClsDataBase.Insert("[MYCORTEX].STANDARD_PARAMETER_PARENT_INSERTUPDATE", param, true);
-                        executedOnce = 1;
-                    }
-                }
+                ////Commented By Gowtham
+                //foreach (ParamaterSettingsModel item in obj)
+                //{
+                //    // execute only once for thie institution
+                //    if(executedOnce==0)
+                //    { 
+                //        List<DataParameter> param = new List<DataParameter>();
+                //        param.Add(new DataParameter("@INSTITUTION_ID", item.Institution_ID));
+                //        retid = ClsDataBase.Insert("[MYCORTEX].STANDARD_PARAMETER_PARENT_INSERTUPDATE", param, true);
+                //        executedOnce = 1;
+                //    }
+                //}
                 return retid;
             }
             catch (Exception ex)

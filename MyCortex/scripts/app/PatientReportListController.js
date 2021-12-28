@@ -25,8 +25,16 @@ PatientReportList.controller("PatientReportListController", ['$scope', '$http', 
             $scope.UserName_listdata = [];
             $scope.ShortNameId = "";
 
-            $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            var FromdtAppo = "";
+            var TodtAppo = "";
+            $scope.Period_From = "";
+            $scope.Period_To = "";
+            FromPeriod = moment($filter('date')(new Date(), 'yyyy/MM/dd HH:mm'));
+            $scope.Period_From = FromPeriod["_i"]
+            ToPeriod = moment($filter('date')(new Date(), 'yyyy/MM/dd HH:mm'));
+            $scope.Period_To = ToPeriod["_i"]
+            //$scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //$scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.PeriodFromTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
             $scope.PeriodToTime = DateFormatEdit($filter('date')(new Date(), 'hh:mm'));
 

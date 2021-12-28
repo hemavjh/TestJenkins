@@ -108,10 +108,19 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         /* THIS IS FOR ADD/EDIT FUNCTION */
         $scope.EmailTemplateAddEdit = function () {
-            if ($scope.Validationcontrols() == true) {
-
+            //if ($scope.Validationcontrols() == true) {
+            
+            if ($scope.editor1 != "") {
+                $('#divSMSEditor').removeClass("ng-valid");
+                $('#divSMSEditor').addClass("ng-invalid");
+            }
+            else {
+                $('#divSMSEditor').removeClass("ng-invalid");
+                $('#divSMSEditor').addClass("ng-valid");
+            }
+            //$window.alert($scope.Template);
                 var TemplateChildList = [],
-
+                
                     rxp = /{([^}]+)}/g,
 
                     TagName = $scope.Template,
@@ -166,7 +175,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     $("#chatLoaderPV").hide();
                     angular.element('#EmailTemplateModal').modal('hide');
                 })
-            }
+            //}
         }
 
         /* THIS IS FOR LIST PROCEDURE */
@@ -258,8 +267,30 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         };
         /*THIS IS FOR DELETE FUNCTION */
         $scope.EmailTempalte_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Template?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Template?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Template has been deactivated Successfully");
+                        toastr.success("Template has been deactivated Successfully", "success");
+                        $scope.EmailTemplatelist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Template?");
             if (del == true) {
                 $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert("Template has been deactivated Successfully");
@@ -268,7 +299,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting  ICD 10 details" + data;
                 });
-            }
+            }*/
         };
 
         /* THIS IS FOR ACTIVE FUNCTION*/
@@ -283,8 +314,30 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
             and redirected to the list page.
            */
         $scope.EmailTempalte_Active = function () {
-
-            var Ins = confirm("Do you like to activate the selected Template?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Template?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Template has been activated successfully");
+                        toastr.success("Selected Template has been activated successfully", "success");
+                        $scope.EmailTemplatelist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occured while deleting ICD 1O records" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Template?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/EmailTemplate/EmailTemplate_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Template has been activated successfully");
@@ -293,7 +346,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting ICD 1O records" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Active_ErrorFunction = function () {

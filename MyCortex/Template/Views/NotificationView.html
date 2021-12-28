@@ -133,12 +133,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-if="MonitoringProtocolName.length==0">
+                            <tr ng-show="MonitoringProtocolName.length==0">
                                 <td colspan="7" style="text-align: center">
                                     No Data Available
                                 </td>
                             </tr>
-                            <tr class="info" ng-show="MonitoringProtocolName.length != '0'">
+                            <tr class="info" ng-if="MonitoringProtocolName.length != '0'">
                                 <td style="text-align: right">{{((current_page-1)*page_size)+$index+1}}</td>
                                 <td style="text-align: left">{{MonitoringProtocolName}}</td>
                             </tr>

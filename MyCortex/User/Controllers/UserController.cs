@@ -3640,7 +3640,8 @@ namespace MyCortex.User.Controller
                         }
                         else
                         {
-                            ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment,"", DocumentType);
+                            
+                            ModelData = repository.Patient_OtherData_InsertUpdate(Patient_Id, Login_Session_Id, Appointment_Id, Id, FileName, DocumentName, Remarks, fileData, Created_By, DocumentDate, Is_Appointment, Filetype, DocumentType);
                             model.DocumentDetails = ModelData;
                             result = Request.CreateResponse(HttpStatusCode.OK);
                         }
@@ -3707,14 +3708,14 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public Patient_OtherDataModel Patient_OtherData_View(long Id)
+        public Patient_OtherDataModel Patient_OtherData_View(long Id, Guid Login_Session_Id)
         {
             try
             {
                 if (_logger.IsInfoEnabled)
                     _logger.Info("Controller");
                 Patient_OtherDataModel model = new Patient_OtherDataModel();
-                model = repository.Patient_OtherData_View(Id);
+                model = repository.Patient_OtherData_View(Id, Login_Session_Id);
                 return model;
             }
             catch (Exception ex)

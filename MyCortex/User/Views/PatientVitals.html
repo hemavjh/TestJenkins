@@ -986,7 +986,7 @@
                                 <label>Actual Value</label>
                                 <span>{{row.ParameterValue}}</span><br />
                                 <span ng-show="row.PageType=='C'"><br /></span>
-                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-show="row.PageType=='D'">{{row.Device_No}}/</span>
+                                <span ng-show="row.PageType=='D'">{{row.DeviceType}}/</span><span ng-if="row.PageType=='D'">{{row.Device_No}}/</span>
                                 <span ng-show="row.PageType=='D'">{{row.Activity_Date| date:'dd-MMM-yyyy hh:mm a'}}<br /></span>
                                 <span ng-show="row.PageType=='D'">{{row.TypeName}}: {{row.Createdby_ShortName}}</span><br />
                             </div>
@@ -1263,9 +1263,9 @@
                                                     <button class="btn btn-primary dropdown-toggle" type="button"
                                                             data-toggle="dropdown" aria-expanded="false">
                                                         <i class="fas fa-chart-line" class="themeProfile"
-                                                           ng-show="VitalChart=='1'"></i>
+                                                           ng-if="VitalChart=='1'"></i>
                                                         <i class="fas fa-table" class="themeProfile"
-                                                           ng-show="VitalChart=='2'"></i>
+                                                           ng-if="VitalChart=='2'"></i>
 
                                                     </button>
                                                     <ul class="dropdown-menu customDropdown">
@@ -1275,14 +1275,14 @@
                                                                ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
                                                                 <i class="fas fa-chart-line"
                                                                    class="themeProfile"></i>Chart<i class="fas fa-check"
-                                                                                                    ng-show="VitalChart=='1'"></i>
+                                                                                                    ng-if="VitalChart=='1'"></i>
                                                             </a>
                                                         </li>
                                                         <li class="customDropdownlast-child">
                                                             <a href="javascript:" style="text-decoration: underline"
                                                                ng-click="VitalChart ='2';HistoryDetails(currentTab);">
                                                                 <i class="fas fa-table"
-                                                                   class="themeProfile"></i>Detail<i class="fas fa-check" ng-show="VitalChart=='2'"></i>
+                                                                   class="themeProfile"></i>Detail<i class="fas fa-check" ng-if="VitalChart=='2'"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1290,11 +1290,11 @@
                                                 End Here-->
                                                 <!-- Added by yogesh-->
                                                 <!--<div class="changeViews">
-                                                    <a href="javascript:" ng-show="VitalChart=='1'" title="Chart View"
+                                                    <a href="javascript:" ng-if="VitalChart=='1'" title="Chart View"
                                                        ng-click="VitalChart ='2';WeeKDetailsList(currentTab);">
                                                         <i class="fas fa-chart-bar"></i></i>
                                                     </a>
-                                                    <a href="javascript:" ng-show="VitalChart=='2'" title="Grid View"
+                                                    <a href="javascript:" ng-if="VitalChart=='2'" title="Grid View"
                                                        ng-click="VitalChart ='1';HistoryDetails(currentTab);">
                                                         <i class="fas fa-table" class="themeProfile"></i></i>
                                                     </a>
@@ -1316,14 +1316,14 @@
                                                                 ng-click="VitalChart ='1';WeeKDetailsList(currentTab);">
                                                                 <i class="fas fa-chart-line" class="themeProfile"></i>
                                                                 Chart <i class="fas fa-check"
-                                                                    ng-show="VitalChart=='1'"></i></a>
+                                                                    ng-if="VitalChart=='1'"></i></a>
                                                         </li>
                                                         <li>
                                                             <a href="javascript:" style="text-decoration: underline"
                                                                 ng-click="VitalChart ='2';HistoryDetails(currentTab);">
                                                                 <i class="fas fa-table" class="themeProfile"></i>
                                                                 Detail <i class="fas fa-check"
-                                                                    ng-show="VitalChart=='2'"></i>
+                                                                    ng-if="VitalChart=='2'"></i>
                                                             </a>
                                                         </li>
 
@@ -1360,12 +1360,12 @@
                                                             </div>
                                                             <div class="col-sm-4">
                                                                 <!--<div class="inputGroups">
-                                                                    <div ng-show="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                    <div ng-if="currentTab=='2' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <a href="javascript:" ng-click="AddVitalsPopUp()"
                                                                            class="theme-btn-1"
                                                                            title='Add New Vitals'>Add New</a>
                                                                     </div>
-                                                                    <div ng-show="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
+                                                                    <div ng-if="currentTab=='3' && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <a href="javascript:" ng-click="AddVitalsPopUp()"
                                                                            class="theme-btn-1 ml-10"
                                                                            title='Add New Lab'>Add New</a>
@@ -1605,13 +1605,14 @@
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
 
-                                                                <a href="javascript:" title="Active" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                                <a href="javascript:" title="Active" ng-click="InActiveMedication(Medication.Id)" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                                     <img src="../../Images/activeIcon1.png" ng-if="Medication.IsActive==1" />
                                                                 </a>
 
-                                                                <a href="javascript:" title="Inactive" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
+                                                                <a href="javascript:" title="Inactive" ng-click="ActiveMedication(Medication.Id)" ng-show="((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==5))">
                                                                     <img src="../../Images/inactive.png" ng-if="Medication.IsActive==0" />
                                                                 </a>
+                                                               
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -1726,15 +1727,15 @@
                                                                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit" ng-show="row.IsActive==0 && ((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
-                                                                    <!--<a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
-                                                                        <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" /></a>
+                                                                   <!-- <a href="javascript:" ng-click="InActiveICDPatient(row.Id)" title="Active">
+                                                                        <img src="../../Images/activeIcon1.png" ng-show="row.IsActive==1" /></a>
                                                                     <a href="javascript:" ng-click="ActiveICDPatient(row.Id)" title="Inactive">
                                                                         <img
                                                                             src="../../Images/inactive.png" ng-if="row.IsActive==0" /></a>-->
-                                                                    <a href="javascript:" title="Active" title="Active" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
+                                                                    <a href="javascript:" title="Active" ng-click="InActiveICDPatient(row.Id)"  ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/activeIcon1.png" ng-if="row.IsActive==1" />
                                                                     </a>
-                                                                    <a href="javascript:" title="Inactive" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
+                                                                    <a href="javascript:" title="Inactive" ng-click="ActiveICDPatient(row.Id)" ng-show="((UserTypeId==4)||(UserTypeId ==7)||(UserTypeId ==5))">
                                                                         <img src="../../Images/inactive.png" ng-if="row.IsActive==0" />
                                                                     </a>
 
@@ -1794,7 +1795,7 @@
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <!--<div class="inputGroups">
-                                                            <a href="javascript:" title="Add New Allergy" ng-show="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
+                                                            <a href="javascript:" title="Add New Allergy" ng-if="(UserTypeId== 4)||(UserTypeId==5)||(UserTypeId==7)||(UserTypeId==2)"
                                                                ng-click="AddAllergyPopUp()" width="55%"
                                                                class="theme-btn-1">Add New</a>
                                                         </div>-->
@@ -1995,7 +1996,7 @@
                                                             </td>
                                                         </tr>
                                                     </tbody>
-                                                    <tfoot ng-show="PatientNotes_pages>1">
+                                                    <tfoot ng-if="PatientNotes_pages>1">
                                                         <tr>
                                                             <td colspan="7" class="text-center">
                                                                 <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
@@ -2042,7 +2043,7 @@
                                                             <input toggle-checkbox ng-model="OtherData_IsActive" type="checkbox" ng-change="Patient_OtherData_List();"
                                                                    title="Active / All">
                                                             <!--<a href="javascript:" ng-click="Patient_OtherData_AddModal(OtherData_ClearPopup())"
-                                                               class="theme-btn-1 ml-10" title='Add New Other Data' ng-show="(UserTypeId!= 6)">
+                                                               class="theme-btn-1 ml-10" title='Add New Other Data' ng-if="(UserTypeId!= 6)">
                                                                 Add New
                                                             </a>-->
                                                         </div>
@@ -2103,7 +2104,7 @@
                                                                     <div class="textwrap">{{row.Created_Name}}</div>
                                                                 </td>
                                                                 <td style="text-align: left">{{row.Created_Date| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
-                                                                <td style="text-align: left">{{row.DocumentDate| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
+                                                                <td style="text-align: left">{{row.DocumentDate| date :'dd-MMM-yyyy'}}</td>
                                                                 <td style="text-align: left">
                                                                     <div class="textwrap">{{row.DocumentType}}</div>
                                                                 </td>
@@ -2162,7 +2163,7 @@
                                             <div class="row" style="text-align: center;" ng-show="PatientLiveDataList.length==0">
                                                 No Live data
                                             </div>
-                                            <div class="row" ng-show="PatientLiveDataList.length>0">
+                                            <div class="row" ng-if="PatientLiveDataList.length>0">
                                                 <div class="col-sm-4" ng-repeat="row in PatientLiveDataList">
                                                     <div ng-class="{'alert alert-success nibp':row.LowCount>=0,'alert alert-danger nibp':row.HighCount>0,'alert alert-warning nibp':row.MediumCount>0}" ng-if="row.Type_Id==1">
                                                         <div class="notificationsWarnings" ng-show="row.HighCount>0">
@@ -2223,7 +2224,7 @@
                         </div>
                     </div>
                     <!--<div class="col-sm-4">
-                        <div class="mt-15" ng-show="UserTypeId==2">
+                        <div class="mt-15" ng-if="UserTypeId==2">
 
                             <h1 class="title2 text-left" ng-if="Mode==1">Other Info</h1>
 
@@ -2258,16 +2259,16 @@
                                 </div>
 
                             </div>-->
-                    <!--<h1 class="title2 text-left" ng-hide="PatientAppointmentCount==0">
+                    <!--<h1 class="title2 text-left" ng-if="PatientAppointmentCount==0">
                         My Appointments({{PatientAppointmentCount}})
                     </h1>
-                    <h1 class="title2 text-left" ng-hide="PatientAppointmentCount>0">
+                    <h1 class="title2 text-left" ng-if="PatientAppointmentCount>0">
 
 
                         My Appoint
                         ments
                     </h1>-->
-                    <!--<div class="patientCard" ng-hide="PatientAppointmentCount==0">
+                    <!--<div class="patientCard" ng-if="PatientAppointmentCount==0">
                     <div class="row">
                         <div class="col-sm-6">
                             <div ng-if="(ViewGenderName| lowercase)=='male' && (PhotoBlob == null || PhotoBlob=='')"
@@ -2322,10 +2323,10 @@
                                 <span style="text-align: right">
                                     <i class="fa fa-arrow-left" style="font-size: 15px; color: blue"
                                        title="Previous Appointment" ng-click="Next_PatientAppointment(2)"
-                                       ng-hide="index==0"></i>&nbsp;&nbsp;
+                                       ng-if="index==0"></i>&nbsp;&nbsp;
                                     <i class="fa fa-arrow-right" style="font-size: 15px; color: blue"
                                        title="Next Appointment" ng-click="Next_PatientAppointment(1)"
-                                       ng-hide="index+1==PatientAppointmentCount"></i>
+                                       ng-if="index+1==PatientAppointmentCount"></i>
                                 </span>
                             </div>
                             <div class="col-sm-6">
@@ -2333,7 +2334,7 @@
                             </div>
                         </div>
                     </div>-->
-                    <!--<div class="patientCard" ng-hide="PatientAppointmentCount>0">
+                    <!--<div class="patientCard" ng-if="PatientAppointmentCount>0">
                         <div class="row">
                             <div class="col-sm-12">
                                 No doctor appointments scheduled
@@ -2341,7 +2342,7 @@
                         </div>
                     </div>-->
                     <!--</div>-->
-                    <!--                        <div ng-show="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
+                    <!--                        <div ng-if="UserTypeId==6" class="mt-15" ng-init="CareGiverAssign_Function()">
                                                 el
                                                 <div class="panel panel-default">
 
@@ -2370,7 +2371,7 @@
 
                                                 </div>
                                             </div>-->
-                    <!--<div class="mt-15" ng-show="UserTypeId ==4||UserTypeId==7">
+                    <!--<div class="mt-15" ng-if="UserTypeId ==4||UserTypeId==7">
 
                         <div class="panel panel-default patientProfileInfo">
                             <div class="panel-body">
@@ -2398,7 +2399,7 @@
 
                         </div>
                     </div>
-                    <div class="mt-15" ng-show="UserTypeId ==5">-->
+                    <div class="mt-15" ng-if="UserTypeId ==5">-->
                     <!--<div class="flex align-items-center justify-content-between mb-4">
                         <p class="m-bottom-0 font-semibold self-center">Appointment</p>
                         <button type="button" class="theme-btn-3" ng-click="ShowAppointmentBookingPopUp()">
@@ -2518,7 +2519,7 @@
 
                         </div>
                     </div>
-                    <div class="flex align-items-center justify-content-between mb-4" ng-show="UserTypeId ==5 || UserTypeId ==2">
+                    <div class="flex align-items-center justify-content-between mb-4" ng-if="UserTypeId ==5 || UserTypeId ==2">
                         <p class="m-bottom-0 font-semibold self-center" style="font-weight: bold; font-size: 20px;">Appointment</p>
                         <button type="button" class="btnn-check" ng-click="ShowAppointmentBookingPopUp()">
                             + Book New
@@ -2539,7 +2540,7 @@
                             <div class="tab-content centerScroll" style="display:inherit !important; height: 212px;">
 
                                 <div id="Past" class="tab-pane fade">
-                                    <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-hide="PreviousAppointmentCount == 0">
+                                    <div class="" ng-repeat="Row in PreviousAppointmentDetails" ng-if="PreviousAppointmentCount == 0">
                                         <div class=" upcoming-doctor">
                                             <div class="flex justify-content-between align-items-center mb-4">
                                                 <p class="up-time">
@@ -2568,13 +2569,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="myAppoinments" ng-hide="PreviousAppointmentCount !== 0">
+                                    <div class="myAppoinments" ng-if="PreviousAppointmentCount !== 0">
                                         No Past Appointment...
                                     </div>
                                 </div>
 
                                 <div id="appt" class="tab-pane fade in active">
-                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-hide="UpComingAppointmentCount == 0">
+                                    <div class="" ng-repeat="Row in UpComingAppointmentDetails" ng-if="UpComingAppointmentCount == 0">
                                         <div class=" upcoming-doctor">
                                             <div class="flex justify-content-between align-items-center mb-4">
                                                 <p class="up-time">
@@ -2602,7 +2603,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="myAppoinments" ng-hide="UpComingAppointmentCount !== 0">
+                                    <div class="myAppoinments" ng-if="UpComingAppointmentCount !== 0">
                                         No Upcoming Appointment...
                                     </div>
                                 </div>
@@ -4623,7 +4624,7 @@
                                 </td>
                                 <td>
                                     <span>
-                                        <div class="textwrap">{{DocumentDate| date :'dd-MMM-yyyy hh:mm:ss a'}}</div>
+                                        <div class="textwrap">{{DocumentDate| date :'dd-MMM-yyyy'}}</div>
                                     </span>
                                 </td>
                             </tr>

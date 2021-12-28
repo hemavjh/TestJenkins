@@ -3725,10 +3725,11 @@ namespace MyCortex.Repositories.Uesr
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public Patient_OtherDataModel Patient_OtherData_View(long Id)
+        public Patient_OtherDataModel Patient_OtherData_View(long Id,Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
@@ -3747,7 +3748,8 @@ namespace MyCortex.Repositories.Uesr
                                                    PatientName = p.Field<string>("PatientName"),
                                                    Remarks = p.Field<string>("Remarks"),
                                                    DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
-                                                   DocumentType = p.Field<string>("DOCUMENT_TYPE")
+                                                   DocumentType = p.Field<string>("DOCUMENT_TYPE"),
+                                                   Filetype= p.Field<string>("FILETYPE")
                                                }).FirstOrDefault();
                 return View;
             }

@@ -77,12 +77,65 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                         $scope.DurationDisplayCheck();
                         return false;
                     }
-
                 }
             }
-
             return true;
         };
+        $scope.AlertEventChange = function () {
+            var event = document.getElementById('select1').value;
+            if (event != "0") {
+                $('#divAlertEvent').removeClass("ng-invalid");
+                $('#divAlertEvent').addClass("ng-valid");
+            }
+            else {
+                $('#divAlertEvent').removeClass("ng-valid");
+                $('#divAlertEvent').addClass("ng-invalid");
+            }
+        }
+        $scope.AlertEmailChange = function () {
+            var email = document.getElementById("select3").value;
+            if (email == "0" && $scope.EmailTemplate == true) {
+                $('#divAlertEmail').removeClass("ng-valid");
+                $('#divAlertEmail').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertEmail').removeClass("ng-invalid");
+                $('#divAlertEmail').addClass("ng-valid");
+            }
+        }
+        $scope.AlertAppTemplateChange = function () {
+            var tagtemplate = document.getElementById("select4").value;
+            if (tagtemplate == "0" && $scope.AppFlag == true) {
+                $('#divAlertAppTemplate').removeClass("ng-valid");
+                $('#divAlertAppTemplate').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertAppTemplate').removeClass("ng-invalid");
+                $('#divAlertAppTemplate').addClass("ng-valid");
+            }
+        }
+        $scope.AlertWebTemplateChange = function () {
+            var webtemplate = document.getElementById("select5").value;
+            if (webtemplate == "0" && $scope.WebTemplate == true) {
+                $('#divAlertWebTemplate').removeClass("ng-valid");
+                $('#divAlertWebTemplate').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertWebTemplate').removeClass("ng-invalid");
+                $('#divAlertWebTemplate').addClass("ng-valid");
+            }
+        }
+        $scope.AlertSMSTemplateChange = function () {
+            var SMStemplate = document.getElementById("select2").value;
+            if (SMStemplate == "0" && $scope.WebTemplate == true) {
+                $('#divAlertSMSTemplate').removeClass("ng-valid");
+                $('#divAlertSMSTemplate').addClass("ng-invalid");
+            }
+            else {
+                $('#divAlertSMSTemplate').removeClass("ng-invalid");
+                $('#divAlertSMSTemplate').addClass("ng-valid");
+            }
+        }
 
         /* Email Alert List Function*/
         $scope.AlertEvent = [];
@@ -316,8 +369,30 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         };
         /*THIS IS FOR DELETE FUNCTION */
         $scope.EmailAlert_Delete = function () {
-
-            var del = confirm("Do you like to deactivate the selected Alert details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Alert details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Alert has been deactivated Successfully");
+                        toastr.success("Alert has been deactivated Successfully", "success");
+                        $scope.EmailAlertlist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while deleting Alert details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Alert details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert("Alert has been deactivated Successfully");
@@ -326,7 +401,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 }).error(function (data) {
                     $scope.error = "An error has occurred while deleting Alert details" + data;
                 });
-            }
+            }*/
         };
 
         /* THIS IS FOR ACTIVE FUNCTION*/
@@ -341,8 +416,30 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             and redirected to the list page.
            */
         $scope.EmailAlert_Active = function () {
-
-            var Ins = confirm("Do you like to activate the selected Alert details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Alert details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Alert details has been activated successfully");
+                        toastr.success("Selected Alert details has been activated successfully", "success");
+                        $scope.EmailAlertlist();
+                    }).error(function (data) {
+                        $scope.error = "An error has occured while deleting alert records" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var Ins = confirm("Do you like to activate the selected Alert details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/EmailAlertConfig/EmailAlert_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Alert details has been activated successfully");
@@ -351,7 +448,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 }).error(function (data) {
                     $scope.error = "An error has occured while deleting alert records" + data;
                 });
-            }
+            }*/
         };
 
         $scope.Active_ErrorFunction = function () {

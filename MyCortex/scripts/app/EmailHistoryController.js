@@ -39,6 +39,8 @@ EmailHistorycontroller.controller("EmailHistoryController", ['$scope', '$http', 
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
 
+        $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.GenderList = [];
         $scope.NationalityList = [];
         $scope.EthnicGroupList = [];

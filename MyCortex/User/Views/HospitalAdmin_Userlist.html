@@ -733,7 +733,7 @@
                                                             <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control ng-pristine ng-invalid ng-invalid-required" ng-model="DOB" ng-init="DOB=''">-->
                                                             <!--<input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''">-->
                                                             <div id="divDOB" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                                                <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB" ng-init="DOB=''" ng-change="dobChange();">
+                                                                <input type="date" id="Date_Birth" max="2099-12-31" placeholder="" class="form-control" ng-model="DOB" ng-change="dobChange();">
                                                             </div>
                                                             <!--</div>-->
                                                         </div>
@@ -1075,14 +1075,13 @@
                                                     </div>
                                                     <div class="inputGroups">
                                                         <label>
-Date of Birth
+                                                            Date of Birth
                                                         </label>
                                                         <span>
                                                             {{DOB |date:"dd-MMM-yyyy"}}
                                                             <!--{{DOB | date : format : "dd-MM-yyyy"}}-->
                                                         </span>
                                                     </div>
-                                                    la
                                                     <div class="inputGroups">
                                                         <label valign="top">RowId</label>
                                                         <span id="hosadminrowid">{{Id}}</span>
@@ -1181,7 +1180,6 @@ Date of Birth
             <div class="modal-footer" style="text-align: center;">
                 <button type="button" class="btn  btn-save" ng-click="CancelPopup()" title="Click to Cancel">
                     Cancel
-                    bu
                 </button>
             </div>
         </div>
@@ -1190,7 +1188,7 @@ Date of Birth
     g-
 </div>
 
-<!--<div ng-show="alertConfrimationVisible" id="alertConfrim" style="top:50%; left:50%; margin:0; transform: translate(-50%, -50%);">
+<!--<div ng-if="alertConfrimationVisible" id="alertConfrim" style="top:50%; left:50%; margin:0; transform: translate(-50%, -50%);">
     <center>
         <div class="alert {{alertType}} alert-dismissible" role="alert">
             {{alertConfrimationMessage}}<br />

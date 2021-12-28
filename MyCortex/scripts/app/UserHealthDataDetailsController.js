@@ -19,7 +19,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.LiveDataCurrentTime = "";
         $scope.PatientLiveDataList = [];
-        $scope.paymentHistory = [];
+        //$scope.paymentHistory = [];
         $scope.PatientType = 1;
         $scope.LiveTabClick = function () {
             $('.chartTabs').addClass('charTabsNone');
@@ -989,15 +989,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.ClosePaymentAppointmentHistory = function () {
                         angular.element('#appointment_payment_history').modal('hide');
                     }
-                    $scope.show_payment_history = function (Row) {
-                        $scope.paymentHistory = [];
-                        $("#payment_waveLoader").show();
-                        angular.element('#appointment_payment_history').modal('show');
-                        $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
-                            $scope.paymentHistory = data1;
-                            $("#payment_waveLoader").hide();
-                        }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
-                    }
+                    //$scope.show_payment_history = function (Row) {
+                    //    $scope.paymentHistory = [];
+                    //    $("#payment_waveLoader").show();
+                    //    angular.element('#appointment_payment_history').modal('show');
+                    //    $http.get(baseUrl + '/api/PatientAppointments/AppointmentPaymentHistory/?appointmentId=' + Row.Id + '&Login_Session_Id=' + $scope.LoginSessionId + '&Institution_Id=' + $window.localStorage['InstitutionId']).success(function (data1) {
+                    //        $scope.paymentHistory = data1;
+                    //        $("#payment_waveLoader").hide();
+                    //    }).error(function (data) { console.log(data); $("#payment_waveLoader").hide(); });
+                    //}
                     $scope.setappoint_type = function (type) {
                         $scope.AppointmoduleID1 = type;
                     }
@@ -2931,6 +2931,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             angular.element('#StripePayOptions').modal('show');
         }
 
+        $scope.patientVitalsrowChkChange = function (itemIndex) {
+            //alert(itemIndex);
+            $("#ptDateTimePicker" + itemIndex).val(new Date().toJSON().slice(0, 19));
+        }
+
         // Add row concept for Patient Vital Parameters
         $scope.AddVitalParameters = [{
             'Id': 0,
@@ -2938,6 +2943,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'Units_ID': 0,
             'UOM_Name': '',
             'ParameterValue': '',
+            'chkDateTime': false,
+            'ptDateTime': new Date().toJSON().slice(0, 19),
             'IsActive': 1
         }];
 
@@ -2950,6 +2957,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
+                    'chkDateTime': false,
+                    'ptDateTime': new Date().toJSON().slice(0, 19),
                     'IsActive': 1
                 }
                 $scope.AddVitalParameters.push(obj);
@@ -2961,6 +2970,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Units_ID': 0,
                     'UOM_Name': '',
                     'ParameterValue': '',
+                    'chkDateTime': false,
+                    'ptDateTime': new Date().toJSON().slice(0, 19),
                     'IsActive': 1
                 }];
             }
@@ -4845,7 +4856,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.ICD10Details_Delete();
         };
         $scope.ICD10Details_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected ICD10 Details?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected ICD10 Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/PatientICD10Details_InActive/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected ICD10 Details has been deactivated Successfully");
+                        toastr.success("Selected ICD10 Details has been deactivated Successfully", "success");
+                        $scope.PatientICD10List();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting ICD10 Details!" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to deactivate the selected ICD10 Details?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/PatientICD10Details_InActive/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected ICD10 Details has been deactivated Successfully");
@@ -4854,7 +4888,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting ICD10 Details!" + data;
                 });
-            };
+            };*/
         };
 
         /*'Active' the ICD10Details*/
@@ -4870,7 +4904,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         and redirected to the list page.
         */
         $scope.ICD10Details = function () {
-            var Ins = confirm("Do you like to activate the selected ICD10 Details?");
+            Swal.fire({
+                title: 'Do you like to activate the selected ICD10 Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/PatientICD10Details_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected ICD10 Details has been activated successfully");
+                        toastr.success("Selected ICD10 Details has been activated successfully", "success");
+                        $scope.PatientICD10List();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while ICD10 Details" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected ICD10 Details?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/User/PatientICD10Details_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected ICD10 Details has been activated successfully");
@@ -4879,7 +4936,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while ICD10 Details" + data;
                 });
-            };
+            };*/
         }
 
         //  This is for  Patient Medication function	
@@ -5540,7 +5597,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             $scope.Medication_Delete();
         };
         $scope.Medication_Delete = function () {
-            var del = confirm("Do you like to deactivate the selected Medication?");
+            Swal.fire({
+                title: 'Do you like to deactivate the selected Medication?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/MedicationDetails_Delete/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Medication has been deactivated Successfully");
+                        toastr.success("Selected Medication has been deactivated Successfully", "success");
+                        $scope.PatientMedicationList();
+                    }).error(function (data) {
+                        $scope.error = "AN error has occured while deleting Medication!" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to deactivate the selected Medication?");
             if (del == true) {
                 $http.get(baseUrl + '/api/User/MedicationDetails_Delete/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Medication has been deactivated Successfully");
@@ -5549,7 +5629,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "AN error has occured while deleting Medication!" + data;
                 });
-            };
+            };*/
         };
 
         /*'Active' the Medication*/
@@ -5564,7 +5644,30 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         and redirected to the list page.
         */
         $scope.MedicationDetails = function () {
-            var Ins = confirm("Do you like to activate the selected Medication?");
+            Swal.fire({
+                title: 'Do you like to activate the selected Medication?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                // Read more about isConfirmed, isDenied below 
+                if (result.isConfirmed) {
+                    $http.get(baseUrl + '/api/User/MedicationDetails_Active/?Id=' + $scope.Id).success(function (data) {
+                        //alert("Selected Medication has been activated successfully");
+                        toastr.success("Selected Medication has been activated successfully", "success");
+                        $scope.PatientMedicationList();
+                    }).error(function (data) {
+                        $scope.error = "An error has occurred while Medication" + data;
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var Ins = confirm("Do you like to activate the selected Medication?");
             if (Ins == true) {
                 $http.get(baseUrl + '/api/User/MedicationDetails_Active/?Id=' + $scope.Id).success(function (data) {
                     //alert("Selected Medication has been activated successfully");
@@ -5573,7 +5676,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }).error(function (data) {
                     $scope.error = "An error has occurred while Medication" + data;
                 });
-            };
+            };*/
         }
 
         $scope.AllergyTabClick = 1;
@@ -6318,9 +6421,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         $scope.Patient_OtherData_Image_View = function (Id, filetype) {
             $http.get(baseUrl + '/api/User/Patient_OtherData_GetDocument?Id=' + Id + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 //var mtype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                //var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
+                //\var url = 'data:' + mtype + ';base64,' + data.DocumentBlobData.toString();
                 /*window.open(url);*/
-                console.log(typeof(data.DocumentBlobData))
+                console.log(typeof (data.DocumentBlobData))
                 let pdfWindow = window.open("", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=500,width=500,height=400");
                 pdfWindow.document.write("<html><head><title>Test</title><style>body{margin: 0px;}iframe{border-width: 0px;}</style></head>");
                 pdfWindow.document.write("<body><embed width='100%' height='100%' src='data:" + data.Filetype.toString() + ";base64, " + data.DocumentBlobData.toString() + "#toolbar=0&navpanes=0&scrollbar=0'></embed></body></html>");
@@ -6352,6 +6455,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 'DocumentDate': new Date(),
                 'DocumentType': '',
                 'resumedoc': $scope.resumedoc,
+                'file':'',
                 'DocumentName': '',
                 'Remarks': '',
             }];
@@ -6369,6 +6473,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             'resumedoc': $scope.resumedoc,
             'DocumentType': '',
             'DocumentName': '',
+            'file': '',
             'Remarks': '',
         }];
 
@@ -6382,6 +6487,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'DocumentType': '',
                     'DocumentName': '',
                     'Remarks': '',
+                    'file': ''
                 }
                 $scope.Patient_OtherData.push(obj);
             }
@@ -6393,6 +6499,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     'Remarks': '',
                     'DocumentDate': new Date(),
                     'DocumentType': '',
+                    'file': ''
                 }];
             };
         };
@@ -6402,7 +6509,9 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             //}
             var row = $scope.Patient_OtherData[index];
             if (row != undefined)
+                $scope.Patient_OtherData[index]['file'] = e.files[0]
                 row.CertificateFileName = e.files[0]['name'];
+            
         }
         $scope.Editfile = []
         $scope.EditdocfileChange = function (e) {
@@ -6519,15 +6628,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.Created_By = $window.localStorage['UserId'];
                     $scope.Modified_By = $window.localStorage['UserId'];
                     var fd = new FormData();
-                    var imgBlob;
-                    var imgBlobfile;
-                    var itemIndexLogo = -1;
-                    var itemIndexdoc = -1;
-                    imgBlob = $scope.dataURItoBlob(value.resumedoc);
-                    itemIndexLogo = 0;
-                    if (itemIndexLogo != -1) {
-                        fd.append('file', imgBlob);
-                    }
+                    //var imgBlob;
+                    //var imgBlobfile;
+                    //var itemIndexLogo = -1;
+                    //var itemIndexdoc = -1;
+                    //imgBlob = $scope.dataURItoBlob(value.resumedoc);
+                    //itemIndexLogo = 0;
+                    //if (itemIndexLogo != -1) {
+                    fd.append('file', value.file);
+                    /*}*/
                     /*
                     calling the api method for read the file path
                     and saving the image uploaded in the local server.
@@ -6600,13 +6709,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 toastr.warning("Please choose jpeg/jpg/png/bmp/gif/ico/pdf/xls/xlsx/doc/docx/odt/txt/pptx/ppt/rtf/tex file.", "warning");
                 return false;
             }
-            if ($scope.CertificateValue == 1) {
-                if ($scope.dataURItoBlob($scope.EditFileName).size > 5242880) {
-                    //alert("Uploaded file size cannot be greater than 5MB");
-                    toastr.warning("Uploaded file size cannot be greater than 5MB", "warning");
-                    return false;
-                }
-            }
+            //if ($scope.CertificateValue == 1) {
+            //    if ($scope.dataURItoBlob($scope.EditFileName).size > 5242880) {
+            //        //alert("Uploaded file size cannot be greater than 5MB");
+            //        toastr.warning("Uploaded file size cannot be greater than 5MB", "warning");
+            //        return false;
+            //    }
+            //}
             return true;
         }
 
@@ -6640,15 +6749,19 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //}
                 }
                 /*if (itemIndexLogo != -1) {*/
-                console.log($scope.Editfile[0])
-                fd.append('file', $scope.Editfile[0]);
+                if ($scope.Editfile.length !== 0) {
+                    fd.append('file', $scope.Editfile[0]);
+                }
+                
+                
                 //}
                 /*
                 calling the api method for read the file path
                 and saving the image uploaded in the local server.
                 */
+                $scope.Remarks = $scope.Remarks == null ? "" : $scope.Remarks;
                 $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
-                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By + '&DocumentDate=' + convert($scope.DocumentDate) + '&DocumentType=' + $scope.DocumentType,
+                $http.post(baseUrl + '/api/User/Patient_OtherData_InsertUpdate?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId + '&Appointment_Id=0' + '&Id=' + $scope.Id + '&FileName=' + $scope.EditFileName + '&DocumentName=' + $scope.DocumentName + '&Remarks=' + $scope.Remarks + '&Created_By=' + $scope.Created_By + '&DocumentDate=' + convert($scope.DocumentDate) + '&Filetype=' + $scope.Filetype + '&DocumentType=' + $scope.DocumentType,
                     fd,
                     {
                         transformRequest: angular.identity,
@@ -6778,9 +6891,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             });
 
         };
+        $scope.Filetype ="";
         $scope.Patient_OtherData_View = function (Id) {
             $scope.OtherData_Id = Id;
-            $http.get(baseUrl + '/api/User/Patient_OtherData_View/Id?=' + $scope.OtherData_Id).success(function (data) {
+            $http.get(baseUrl + '/api/User/Patient_OtherData_View/?Id=' + $scope.OtherData_Id +'&Login_Session_Id=' + $scope.LoginSessionId ).success(function (data) {
                 $scope.OtherData_Id = data.Id;
                 $scope.FileName = data.FileName;
                 $scope.EditFileName = data.FileName;
@@ -6788,6 +6902,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 $scope.DocumentType = data.DocumentType;
                 $scope.DocumentName = data.DocumentName;
                 $scope.Remarks = data.Remarks;
+                $scope.Filetype = data.Filetype;
             });
         }
         $scope.RemovePatient_OtherData_Item = function (rowIndex) {

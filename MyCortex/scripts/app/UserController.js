@@ -5,6 +5,24 @@ if (baseUrl == "/") {
     baseUrl = "";
 }
 
+Usercontroller.service('InstSub', ['$log', function ($log) {
+    this.myService = 0;
+    this.SubscriptionInstiID = 0;
+    return {
+        getInstiID: function () {
+            return this.myService;
+        },
+        setInstiID: function (data) {
+            this.myService = data;
+        },
+        getSubID: function () {
+            return this.SubscriptionInstiID;
+        },
+        setSubID: function (data) {
+            this.SubscriptionInstiID = data;
+        }
+    };
+}]);
 
 Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub', 'toastr',
     function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub, toastr) {
@@ -43,7 +61,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Health_License = "";
         $scope.Title_Id = 0;
         $scope.NationalityId = "0";
-        $scope.DOB = "";
+        //$scope.DOB = "";
+        $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.Address1 = "";
         $scope.Address2 = "";
         $scope.Address3 = "";
@@ -183,7 +203,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Member_ID = "";
         $scope.Policy_Number = "";
         $scope.Reference_ID = "";
-        $scope.Expiry_Date = "";
+        //$scope.Expiry_Date = "";
         $scope.SelectedPayor = "0";
         $scope.SelectedPlan = "0";
         $scope.EditPayorId = [];
@@ -337,7 +357,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $('#divInstitution').addClass("ng-valid");
                 $('#divInstitution').removeClass("ng-invalid");
             }
-               
+            $('#divGender').addClass("ng-invalid");
+            $('#divDepartment').addClass("ng-invalid");
+            $('#divUserType').addClass("ng-invalid");
+            $('#divNationality').addClass("ng-invalid");
+            $('#divDOB').addClass("ng-invalid");
+            $('#divCountry').addClass("ng-invalid");
+            $('#divCity').addClass("ng-invalid");
+            $('#divState').addClass("ng-invalid");
             $scope.submitted = false;
             $('#btnsave').attr("disabled", false);
             $('#btnsave2').attr("disabled", false);
@@ -362,6 +389,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.status = 1;
             $('[data-id="selectpicker"]').prop('disabled', false);
             $scope.SuperAdminDropdownsList();
+            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
 
@@ -442,8 +470,18 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.EditUserPopUP = function (CatId) {
-            $('#btnsave').attr("disabled", false);
-            $('#btnsave2').attr("disabled", false);
+            if ($scope.LoginType == '1') {
+                $('#divInstitution').addClass("ng-invalid");
+                $('#divInstitution').removeClass("ng-valid");
+            }
+            else {
+                $('#divInstitution').addClass("ng-valid");
+                $('#divInstitution').removeClass("ng-invalid");
+            }
+
+            $scope.submitted = false;
+            $('#btnsave').attr("disabled", true);
+            $('#btnsave2').attr("disabled", true);
             $scope.uploadme = null;
             $scope.uploadme1 = null;
             $scope.uploadme2 = null;
@@ -682,6 +720,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             var UserTypeId = 2;
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
+            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
         $scope.SubscriptionValidation = function () {
@@ -735,8 +775,11 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.EditPatientPopUp = function (CatId) {
             $scope.Id = CatId;
             $scope.DropDownListValue = 3;
+            $scope.submitted = false;
             $('#btnsave1').attr("disabled", false);
             $scope.AppConfigurationProfileImageList();
+            $('#btnsave').attr("disabled", true);
+            $('#btnsave2').attr("disabled", true);
             //$scope.Admin_View($scope.MenuTypeId);
             $location.path("/PatientEdit/" + $scope.Id + "/2" + "/" + "3" + "/4");
 
@@ -999,6 +1042,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.GenderList = data;
                     $scope.tab1 = $scope.tab1 + 1;
                     $scope.PatientgetBase64Image();
+                    // validation for Gender
+                    $scope.PatientGenderChange();
                 });
 
             $http.get(baseUrl + '/api/Common/GroupTypeList/?Institution_Id=' + $scope.InstituteId).success(function (data) {
@@ -1028,6 +1073,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $scope.NationalityListTemp.splice(0, 0, obj);*/
                     $scope.NationalityList = angular.copy($scope.NationalityListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
+                    //validation when loading nationality
+                    $scope.PatientNationalityChange();
                 });
 
                 $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
@@ -1037,6 +1084,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                      $scope.MaritalStatusListTemp.splice(0, 0, obj);*/
                     $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
+                    //validation for marital status
+                    $scope.PatientMaritalChange();
                 });
                 $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
                     $scope.EthnicGroupListTemp = [];
@@ -1045,6 +1094,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                      $scope.EthnicGroupListTemp.splice(0, 0, obj);*/
                     $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
+                    //validation checking for ethnic group
+                    $scope.PatientEthnicChange();
                 });
                 $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
                     /*$scope.BloodGroupList = data;*/
@@ -1054,6 +1105,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                      $scope.BloodGroupListTemp.splice(0, 0, obj);*/
                     $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
                     $scope.tab1 = $scope.tab1 + 1;
+                    //validation checking for blood grp when loading.
+                    $scope.PatientBldGrpChange();
                 });
                 $http.get(baseUrl + '/api/Common/ChronicConditionList/').success(function (data) {
                     $scope.ChronicConditionList = data;
@@ -2156,8 +2209,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
         $scope.Admin_View = function (MenuType) {
-            $scope.ChronicConditionList = [];
             $("#chatLoaderPV").show();
+            $scope.ChronicConditionList = [];
             if (($scope.LoginType == 3 || $scope.LoginType == 2) && $scope.EditParameter == 4) {
                 $scope.DropDownListValue = 4;
             }
@@ -2175,6 +2228,23 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             });
             $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
                 $scope.NationalityList = data;
+            });
+            $http.get(baseUrl + '/api/Common/MaritalStatusList/').success(function (data) {
+                $scope.MaritalStatusListTemp = [];
+                $scope.MaritalStatusListTemp = data;
+                $scope.MaritalStatusList = angular.copy($scope.MaritalStatusListTemp);
+            });
+            $http.get(baseUrl + '/api/Common/EthnicGroupList/').success(function (data) {
+                $scope.EthnicGroupListTemp = [];
+                $scope.EthnicGroupListTemp = data;
+                $scope.EthnicGroupList = angular.copy($scope.EthnicGroupListTemp);
+                //validation checking for ethnic group
+                $scope.PatientEthnicChange();
+            });
+            $http.get(baseUrl + '/api/Common/BloodGroupList/').success(function (data) {
+                $scope.BloodGroupListTemp = [];
+                $scope.BloodGroupListTemp = data;
+                $scope.BloodGroupList = angular.copy($scope.BloodGroupListTemp);
             });
 
             $scope.loadCount = 3;
@@ -2291,7 +2361,6 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             }
 
                             $scope.DepartmentId = data.DEPARTMENT_ID.toString();
-                            var department = document.getElementById('Select1').value;
                             if ($scope.DepartmentId != "0" || $scope.DepartmentId != "") {
                                 $('#divDepartment').removeClass("ng-invalid");
                                 $('#divDepartment').addClass("ng-valid");
@@ -2305,14 +2374,34 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.LastName = data.LastName;
                             $scope.Employee_No = data.EMPLOYEMENTNO;
                             $scope.EmailId = data.EMAILID;
-                            $scope.MobileNo = data.MOBILE_NO;
+                            /*$scope.MobileNo = data.MOBILE_NO;
                             var mobilenoFields = data.MOBILE_NO.split('~');
                             var countrycode = mobilenoFields[0];
                             var mNumber = mobilenoFields[1];
                             var mNumberCC = countrycode + mNumber;
                             //$scope.MobileNo = data.MOBILE_NO;
-                            $scope.MobileNo = typeof (mNumber) == "undefined" ? data.MOBILE_NO : mNumber;
-                            //inputPhoneNo.setNumber(mNumberCC);
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? data.MOBILE_NO : mNumber;*/
+                            $scope.MobileNo = data.MOBILE_NO;
+                            var splitmobno = data.MOBILE_NO.includes('~');
+                            if (splitmobno == true) {
+                                var mobilenoFields = data.MOBILE_NO.split('~');
+                                var countrycode = mobilenoFields[0];
+                                var mNumber = mobilenoFields[1];
+                            } else {
+                                var countrycode = "";
+                                var mNumber = data.MOBILE_NO;
+                            }
+                            var mNumberCC = countrycode + mNumber;
+
+                            if (countrycode == "") {
+                                var isccodeavail = data.MOBILE_NO;
+                            }
+                            else {
+                                var isccodeavail = mNumber;
+                            }
+                           
+                            $scope.MobileNo = typeof (mNumber) == "undefined" ? isccodeavail : mNumber //data.MOBILE_NO : mNumber;
+                          
                             $scope.ViewDepartmentName = data.Department_Name;
                             $scope.ViewInstitutionName = data.InstitutionName;
                             $scope.Photo = data.Photo;
@@ -2348,7 +2437,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $('#divGender').addClass("ng-invalid");
                             }
                             $scope.NationalityId = data.NATIONALITY_ID.toString();
-                            if ($scope.NationalityId != "0" || $scope.NationalityId !="") {
+                            if ($scope.NationalityId != "0" || $scope.NationalityId != "") {
                                 $('#divNationality').removeClass("ng-invalid");
                                 $('#divNationality').addClass("ng-valid");
                             }
@@ -2357,6 +2446,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $('#divNationality').addClass("ng-invalid");
                             }
                             $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                            if ($scope.EthnicGroupId != "0" || $scope.EthnicGroupId != "") {
+                                $('#divPatientEthnic').removeClass("ng-invalid");
+                                $('#divPatientEthnic').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divPatientEthnic').removeClass("ng-valid");
+                                $('#divPatientEthnic').addClass("ng-invalid");
+                            }
                             $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
                             if ($scope.DOB != "" || $scope.DOB != null) {
                                 $('#divDOB').removeClass("ng-invalid");
@@ -2436,7 +2533,23 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 });
                             }
                             $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
+                            if ($scope.MaritalStatusId != "0" || $scope.MaritalStatusId != "") {
+                                $('#divPatientMarital').removeClass("ng-invalid");
+                                $('#divPatientMarital').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divPatientMarital').removeClass("ng-valid");
+                                $('#divPatientMarital').addClass("ng-invalid");
+                            }
                             $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                            if ($scope.BloodGroupId != "0" || $scope.BloodGroupId != "") {
+                                $('#divPatientBlood').removeClass("ng-invalid");
+                                $('#divPatientBlood').addClass("ng-valid");
+                            }
+                            else {
+                                $('#divPatientBlood').removeClass("ng-valid");
+                                $('#divPatientBlood').addClass("ng-invalid");
+                            }
                             $scope.PatientNo = data.PATIENTNO;
                             $scope.Createdby_ShortName = data.Createdby_ShortName;
                             $scope.InsuranceId = data.INSURANCEID;
@@ -2513,10 +2626,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                                $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                                $scope.EthnicGroupId = data.ETHINICGROUP_ID;
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.UserTypeId = data.UserType_Id.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
+                                $scope.EthnicGroup = data.EthnicGroup;
+                                $('#btnsave').attr("disabled", false);
+                                $('#btnsave1').attr("disabled", false);
+                                $('#btnsave2').attr("disabled", false);
                             }, 10000);
 
                             $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data1) {
@@ -2858,6 +2975,103 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 })
             }
         };
+
+        $scope.PatientGenderChange = function () {
+            var Gender = document.getElementById('Select10').value;
+            if (Gender != "0") {
+                $('#divPatientGender').removeClass("ng-invalid");
+                $('#divPatientGender').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientGender').removeClass("ng-valid");
+                $('#divPatientGender').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientCityChange = function () {
+            var city = document.getElementById('CityId').value;
+            if (city != "0") {
+                $('#divPatientCity').removeClass("ng-invalid");
+                $('#divPatientCity').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientCity').removeClass("ng-valid");
+                $('#divPatientCity').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientNationalityChange = function () {
+            var nationality = document.getElementById('Select5').value;
+            if (nationality != "0") {
+                $('#divPatientNationality').removeClass("ng-invalid");
+                $('#divPatientNationality').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientNationality').removeClass("ng-valid");
+                $('#divPatientNationality').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientMaritalChange = function () {
+            var MaritalStatus = document.getElementById('Select1').value;
+            if (MaritalStatus != "0") {
+                $('#divPatientMarital').removeClass("ng-invalid");
+                $('#divPatientMarital').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientMarital').removeClass("ng-valid");
+                $('#divPatientMarital').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientBldGrpChange = function () {
+            var BldGrp = document.getElementById('Select2').value;
+            if (BldGrp != "0") {
+                $('#divPatientBldGrp').removeClass("ng-invalid");
+                $('#divPatientBldGrp').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientBldGrp').removeClass("ng-valid");
+                $('#divPatientBldGrp').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientCountryChange = function () {
+            var country = document.getElementById('countryselectpicker').value;
+            if (country != "0") {
+                $('#divPatientCountry').removeClass("ng-invalid");
+                $('#divPatientCountry').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientCountry').removeClass("ng-valid");
+                $('#divPatientCountry').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientEthnicChange = function () {
+            var ethnicgroup = document.getElementById('Select3').value;
+            if (ethnicgroup != "0") {
+                $('#divPatientEthnic').removeClass("ng-invalid");
+                $('#divPatientEthnic').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientEthnic').removeClass("ng-valid");
+                $('#divPatientEthnic').addClass("ng-invalid");
+            }
+        }
+        //validation
+        $scope.PatientStateChange = function () {
+            var city = document.getElementById('stateselectpicker').value;
+            if (city != "0") {
+                $('#divPatientState').removeClass("ng-invalid");
+                $('#divPatientState').addClass("ng-valid");
+            }
+            else {
+                $('#divPatientState').removeClass("ng-valid");
+                $('#divPatientState').addClass("ng-invalid");
+            }
+        }
+
         $scope.AdminDefaultConfiguration = 0;
         $scope.AdminInstitutionCreation = function () {
             $scope.AdminDefaultConfiguration = 1;
@@ -2870,6 +3084,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $('#btnsave2').attr("disabled", true);
             var myPromise = $scope.AgeRestictLimit();
             $scope.Is_Master = false;
+            $("#chatLoaderPV").show();
             myPromise.then(function (resolve) {
 
                 if (($scope.MenuTypeId == 2 || $scope.MenuTypeId == 3) || ($scope.MenuTypeId == 1 && $scope.LoginType == 3)) // for business users
@@ -2969,6 +3184,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             FILE_NAME: $scope.CertificateFileName,
                             FILE_FULLPATH: "",
                             UPLOAD_FILENAME: $scope.Resume,
+                            
                             GENDER_ID: $scope.GenderId == 0 ? null : $scope.GenderId,
                             NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
                             ETHINICGROUP_ID: $scope.EthnicGroupId == 0 ? null : $scope.EthnicGroupId,
@@ -3320,6 +3536,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $("#NationalLogo").val('');
                             $("#InsuranceLogo").val('');
                             $('#btnsave').attr("disabled", false);
+                            $('#btnsave1').attr("disabled", false);
+                            $('#btnsave2').attr("disabled", false);
                         }
 
                         $("#chatLoaderPV").hide();
