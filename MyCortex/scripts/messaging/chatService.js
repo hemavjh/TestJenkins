@@ -961,6 +961,7 @@ const chatService = function() {
                         // Outgoing Call Accepted
                     },
                     onOutgoingCallRejected(call) {
+                        $('#transparent-background-call').hide();
                         $.stopSound();
                         //CometChat.removeCallListener(listenerID);
                         utilService.callEndAction();
@@ -968,6 +969,7 @@ const chatService = function() {
                         // Outgoing Call Rejected
                     },
                     onIncomingCallCancelled(call) {
+                        $('#transparent-background-call').hide();
                         $.stopSound();
                         //CometChat.removeCallListener(listenerID);
                         utilService.callEndAction();
@@ -1045,11 +1047,13 @@ const chatService = function() {
                 error => {
                     utilService.callEndAction();
                     console.log("Call acceptance failed with error", error);
+                    $('#transparent-background-call').hide();
                     // handle exception
                 }
             );
         },
         callReject: function () {
+            $('#transparent-background-call').hide();
             var sessionID = $('#callSessionID').val();
             var status;
             checkCallStatus = false;
