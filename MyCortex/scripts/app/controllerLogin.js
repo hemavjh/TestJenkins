@@ -399,18 +399,58 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             return false;
         }
         return true;
-    };
+        };
+
+        //function getOS() {
+        //    var userAgent = window.navigator.userAgent,
+        //        platform = window.navigator.platform,
+        //        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+        //        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+        //        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+        //        os = null;
+
+        //    if (macosPlatforms.indexOf(platform) !== -1) {
+        //        os = 'Mac OS';
+        //    } else if (iosPlatforms.indexOf(platform) !== -1) {
+        //        os = 'iOS';
+        //    } else if (windowsPlatforms.indexOf(platform) !== -1) {
+        //        os = 'Windows';
+        //    } else if (/Android/.test(userAgent)) {
+        //        os = 'Android';
+        //    } else if (!os && /Linux/.test(platform)) {
+        //        os = 'Linux';
+        //    }
+
+        //    return os;
+        //}
+
+        //alert(getOS());
 
     var IpAddress = "";
-    $http.get("http://api.ipify.org/?format=json").then(function (response) {
-        IpAddress = response.data.ip;
-    });
+    //$http.get("http://api.ipify.org/?format=json").then(function (response) {
+    //    IpAddress = response.data.ip;
+    //});
 
-    var Login_Country = "";
-    var Login_City = "";
+        var Login_Country = "";
+        var Login_City = "";
+        var Login_CountryCode = "";
+        var Login_Longitude = "";
+        var Login_Latitude = "";
+        var Login_region = "";
+        var Login_regionName = "";
+        var Login_timeZoneName = "";
+        var Login_zipCode = "";
     $http.get("http://ip-api.com/json").then(function (response) {
         Login_Country = response.data.country;
-        Login_City = response.data.city
+        Login_City = response.data.city;
+        IpAddress = response.data.query;
+        Login_CountryCode = response.data.countryCode;
+        Login_Latitude = response.data.lat;
+        Login_Longitude = response.data.lon;
+        Login_region = response.data.region;
+        Login_regionName = response.data.regionName;
+        Login_timeZoneName = response.data.timezone;
+        Login_zipCode = response.data.zip;
     });
 
     navigator.sayswho = (function () {
@@ -456,7 +496,14 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 Browser_Version: navigator.sayswho,
                 Login_Country: Login_Country,
                 Login_City: Login_City,
-                Login_IpAddress: IpAddress
+                Login_IpAddress: IpAddress,
+                countryCode: Login_CountryCode,
+                Latitude: Login_Latitude,
+                Longitude: Login_Longitude,
+                region: Login_region,
+                regionName: Login_regionName,
+                timezoneName: Login_timeZoneName,
+                zipcode: Login_zipCode
             };
 
             //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
