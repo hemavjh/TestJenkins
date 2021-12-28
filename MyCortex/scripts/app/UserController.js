@@ -2406,24 +2406,23 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.Id = data.Id;
                             $scope.rowId = data.Id;
                             $scope.InstitutionId = data.INSTITUTION_ID.toString();
-                            if ($scope.InstitutionId != "0" || $scope.InstitutionId != "") {
-                                $('#divInstitution').removeClass("ng-invalid");
-                                $('#divInstitution').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divInstitution').removeClass("ng-valid");
-                                $('#divInstitution').addClass("ng-invalid");
-                            }
-
+                            //if ($scope.InstitutionId != "0" || $scope.InstitutionId != "") {
+                            //    $('#divInstitution').removeClass("ng-invalid");
+                            //    $('#divInstitution').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divInstitution').removeClass("ng-valid");
+                            //    $('#divInstitution').addClass("ng-invalid");
+                            //}
                             $scope.DepartmentId = data.DEPARTMENT_ID.toString();
-                            if ($scope.DepartmentId != "0" || $scope.DepartmentId != "") {
-                                $('#divDepartment').removeClass("ng-invalid");
-                                $('#divDepartment').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divDepartment').removeClass("ng-valid");
-                                $('#divDepartment').addClass("ng-invalid");
-                            }
+                            //if ($scope.DepartmentId != "0" || $scope.DepartmentId != "") {
+                            //    $('#divDepartment').removeClass("ng-invalid");
+                            //    $('#divDepartment').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divDepartment').removeClass("ng-valid");
+                            //    $('#divDepartment').addClass("ng-invalid");
+                            //}
                             $scope.FirstName = data.FirstName;
                             $scope.MiddleName = data.MiddleName;
                             $scope.LastName = data.LastName;
@@ -2467,14 +2466,14 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.NationalPhotoFullpath = data.NationalPhotoFullpath;
                             $scope.InsurancePhotoFullpath = data.InsurancePhotoFullpath;
                             $scope.UserTypeId = data.UserType_Id.toString();
-                            if ($scope.UserTypeId != "0" || $scope.UserTypeId != "") {
-                                $('#divUserType').removeClass("ng-invalid");
-                                $('#divUserType').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divUserType').removeClass("ng-valid");
-                                $('#divUserType').addClass("ng-invalid");
-                            }
+                            //if ($scope.UserTypeId != "0" || $scope.UserTypeId != "") {
+                            //    $('#divUserType').removeClass("ng-invalid");
+                            //    $('#divUserType').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divUserType').removeClass("ng-valid");
+                            //    $('#divUserType').addClass("ng-invalid");
+                            //}
                             $scope.Health_License = data.HEALTH_LICENSE;
                             $scope.File_Name = data.FILE_NAME;
                             $scope.CertificateFileName = data.FILE_NAME;
@@ -2483,41 +2482,41 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.File_FullPath = data.FILE_FULLPATH;
                             $scope.Upload_FileName = data.UPLOAD_FILENAME;
                             $scope.GenderId = data.GENDER_ID.toString();
-                            if ($scope.GenderId != "0" || $scope.GenderId != "") {
-                                $('#divGender').removeClass("ng-invalid");
-                                $('#divGender').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divGender').removeClass("ng-valid");
-                                $('#divGender').addClass("ng-invalid");
-                            }
-                            $scope.NationalityId = data.NATIONALITY_ID.toString();
-                            if ($scope.NationalityId != "0" || $scope.NationalityId != "") {
-                                $('#divNationality').removeClass("ng-invalid");
-                                $('#divNationality').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divNationality').removeClass("ng-valid");
-                                $('#divNationality').addClass("ng-invalid");
-                            }
-                            $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
-                            if ($scope.EthnicGroupId != "0" || $scope.EthnicGroupId != "") {
-                                $('#divPatientEthnic').removeClass("ng-invalid");
-                                $('#divPatientEthnic').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divPatientEthnic').removeClass("ng-valid");
-                                $('#divPatientEthnic').addClass("ng-invalid");
-                            }
-                            $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
-                            if ($scope.DOB != "" || $scope.DOB != null) {
-                                $('#divDOB').removeClass("ng-invalid");
-                                $('#divDOB').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divDOB').removeClass("ng-valid");
-                                $('#divDOB').addClass("ng-invalid");
-                            }
+                            //if ($scope.GenderId != "0" || $scope.GenderId != "") {
+                            //    $('#divGender').removeClass("ng-invalid");
+                            //    $('#divGender').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divGender').removeClass("ng-valid");
+                            //    $('#divGender').addClass("ng-invalid");
+                            //}
+                            //$scope.NationalityId = data.NATIONALITY_ID.toString();
+                            //if ($scope.NationalityId != "0" || $scope.NationalityId != "") {
+                            //    $('#divNationality').removeClass("ng-invalid");
+                            //    $('#divNationality').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divNationality').removeClass("ng-valid");
+                            //    $('#divNationality').addClass("ng-invalid");
+                            //}
+                            //$scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                            //if ($scope.EthnicGroupId != "0" || $scope.EthnicGroupId != "") {
+                            //    $('#divPatientEthnic').removeClass("ng-invalid");
+                            //    $('#divPatientEthnic').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divPatientEthnic').removeClass("ng-valid");
+                            //    $('#divPatientEthnic').addClass("ng-invalid");
+                            //}
+                            //$scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                            //if ($scope.DOB != "" || $scope.DOB != null) {
+                            //    $('#divDOB').removeClass("ng-invalid");
+                            //    $('#divDOB').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divDOB').removeClass("ng-valid");
+                            //    $('#divDOB').addClass("ng-invalid");
+                            //}
                             $scope.HomeAreaCode = data.HOME_AREACODE;
                             $scope.Home_PhoneNo = data.HOME_PHONENO;
                             $scope.MobileAreaCode = data.MOBIL_AREACODE;
@@ -2529,30 +2528,30 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.CountryId = data.COUNTRY_ID.toString();
                             $scope.StateId = data.STATE_ID.toString();
                             $scope.CityId = data.CITY_ID.toString();
-                            if ($scope.CountryId != "0" || $scope.CountryId != "") {
-                                $('#divCountry').removeClass("ng-invalid");
-                                $('#divCountry').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divCountry').removeClass("ng-valid");
-                                $('#divCountry').addClass("ng-invalid");
-                            }
-                            if ($scope.StateId != "0" || $scope.StateId != "") {
-                                $('#divState').removeClass("ng-invalid");
-                                $('#divState').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divState').removeClass("ng-valid");
-                                $('#divState').addClass("ng-invalid");
-                            }
-                            if ($scope.CityId != "0" || $scope.CityId != "") {
-                                $('#divCity').removeClass("ng-invalid");
-                                $('#divCity').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divCity').removeClass("ng-valid");
-                                $('#divCity').addClass("ng-invalid");
-                            }
+                            //if ($scope.CountryId != "0" || $scope.CountryId != "") {
+                            //    $('#divCountry').removeClass("ng-invalid");
+                            //    $('#divCountry').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divCountry').removeClass("ng-valid");
+                            //    $('#divCountry').addClass("ng-invalid");
+                            //}
+                            //if ($scope.StateId != "0" || $scope.StateId != "") {
+                            //    $('#divState').removeClass("ng-invalid");
+                            //    $('#divState').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divState').removeClass("ng-valid");
+                            //    $('#divState').addClass("ng-invalid");
+                            //}
+                            //if ($scope.CityId != "0" || $scope.CityId != "") {
+                            //    $('#divCity').removeClass("ng-invalid");
+                            //    $('#divCity').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divCity').removeClass("ng-valid");
+                            //    $('#divCity').addClass("ng-invalid");
+                            //}
                             $scope.CountryDuplicateId = $scope.CountryId;
                             $scope.CountryFlag = true;
                             $scope.StateDuplicateId = $scope.StateId;
@@ -2588,23 +2587,23 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 });
                             }
                             $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                            if ($scope.MaritalStatusId != "0" || $scope.MaritalStatusId != "") {
-                                $('#divPatientMarital').removeClass("ng-invalid");
-                                $('#divPatientMarital').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divPatientMarital').removeClass("ng-valid");
-                                $('#divPatientMarital').addClass("ng-invalid");
-                            }
-                            $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
-                            if ($scope.BloodGroupId != "0" || $scope.BloodGroupId != "") {
-                                $('#divPatientBlood').removeClass("ng-invalid");
-                                $('#divPatientBlood').addClass("ng-valid");
-                            }
-                            else {
-                                $('#divPatientBlood').removeClass("ng-valid");
-                                $('#divPatientBlood').addClass("ng-invalid");
-                            }
+                            //if ($scope.MaritalStatusId != "0" || $scope.MaritalStatusId != "") {
+                            //    $('#divPatientMarital').removeClass("ng-invalid");
+                            //    $('#divPatientMarital').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divPatientMarital').removeClass("ng-valid");
+                            //    $('#divPatientMarital').addClass("ng-invalid");
+                            //}
+                            //$scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                            //if ($scope.BloodGroupId != "0" || $scope.BloodGroupId != "") {
+                            //    $('#divPatientBlood').removeClass("ng-invalid");
+                            //    $('#divPatientBlood').addClass("ng-valid");
+                            //}
+                            //else {
+                            //    $('#divPatientBlood').removeClass("ng-valid");
+                            //    $('#divPatientBlood').addClass("ng-invalid");
+                            //}
                             $scope.PatientNo = data.PATIENTNO;
                             $scope.Createdby_ShortName = data.Createdby_ShortName;
                             $scope.InsuranceId = data.INSURANCEID;
@@ -2678,12 +2677,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.ISact = 1;
                             $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
                             setTimeout(function () {
+                                $scope.UserTypeId = data.UserType_Id.toString();
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
                                 $scope.EthnicGroupId = data.ETHINICGROUP_ID;
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
-                                $scope.UserTypeId = data.UserType_Id.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                                 $scope.EthnicGroup = data.EthnicGroup;
                                 $('#btnsave').attr("disabled", false);

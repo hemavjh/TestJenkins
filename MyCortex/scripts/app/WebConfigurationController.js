@@ -162,15 +162,15 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
             angular.forEach($scope.rowCollectionWebConfiguration, function (value, index) {
                 var obj = {
                     Id: value.ID,
-                    INSTITUTION_ID: $scope.INSTITUTION_ID,
-                    CONFIGVALUE: $scope.Config_value[value.ID] == 0 ? null : $scope.Config_value[value.ID],
+                    INSTITUTION_ID: value.INSTITUTION_ID, //$scope.INSTITUTION_ID,
+                    CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
                 }
                 $('#save').attr("disabled", true);
                 $scope.WebConfigurationDetails.push(obj);
             });
 
             $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
-                $("#chatLoaderPV").hide();
+                $("#chatLoaderPV").hide(); 
                 //alert("Configuration Data saved successfully");
                 toastr.success("Configuration Data saved successfully", "success");
                 $('#save').attr("disabled", false);

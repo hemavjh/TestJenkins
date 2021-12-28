@@ -94,8 +94,14 @@
                 </td>
 
                 <td style="text-align: left">
+                    <select class="form-control" style="max-width:100% !important"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='FULLNAME_FORMULA' && IsEdit==true">
+                        <option value="[L],[F]">[L],[F]</option>
+                        <option value="[F],[L],[M]">[F],[L],[M]</option>
+                        <option value="[L],[F],[M]">[L],[F],[M]</option>
+                    </select>
                     <input type="text" class="form-control" style="max-width:100% !important"
-                           ng-model="Config_value[row.ID]" placeholder="" ng-if="IsEdit==true">
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='FULLNAME_FORMULA' && IsEdit==true">
                     <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
                     <!--{{row.CONFIGVALUE}}-->
                 </td>
