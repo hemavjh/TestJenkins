@@ -61,9 +61,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.Health_License = "";
         $scope.Title_Id = 0;
         $scope.NationalityId = "0";
-        //$scope.DOB = "";
+        $scope.DOB = "";
         $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-        $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+        //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.Address1 = "";
         $scope.Address2 = "";
         $scope.Address3 = "";
@@ -396,7 +396,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.status = 1;
             $('[data-id="selectpicker"]').prop('disabled', false);
             $scope.SuperAdminDropdownsList();
-            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             angular.element('#UserModal').modal('show');
         }
 
@@ -728,7 +728,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
             $scope.AppConfigurationProfileImageList();
             $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $location.path("/PatientCreate/" + "2" + "/" + "3");
         }
         $scope.SubscriptionValidation = function () {
@@ -1865,8 +1865,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 }
             }
             if ($scope.MenuTypeId == 3) {
-                $scope.ExpiryDate = DateFormatEdit($filter('date')(document.getElementById("Expiry_Date").value, "dd-MMM-yyyy"));
-                $scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
+                //$scope.ExpiryDate = DateFormatEdit($filter('date')(document.getElementById("Expiry_Date").value, "dd-MMM-yyyy"));
+                //$scope.DOB = DateFormatEdit($filter('date')(document.getElementById("Date_Birth").value, "dd-MMM-yyyy"));
                 if (typeof ($scope.FirstName) == "undefined" || $scope.FirstName == "") {
                     //alert("Please enter First Name");
                     toastr.warning("Please enter First Name", "warning");
@@ -2490,7 +2490,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //    $('#divGender').removeClass("ng-valid");
                             //    $('#divGender').addClass("ng-invalid");
                             //}
-                            //$scope.NationalityId = data.NATIONALITY_ID.toString();
+                            $scope.NationalityId = data.NATIONALITY_ID.toString();
                             //if ($scope.NationalityId != "0" || $scope.NationalityId != "") {
                             //    $('#divNationality').removeClass("ng-invalid");
                             //    $('#divNationality').addClass("ng-valid");
@@ -2499,7 +2499,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //    $('#divNationality').removeClass("ng-valid");
                             //    $('#divNationality').addClass("ng-invalid");
                             //}
-                            //$scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
+                            $scope.EthnicGroupId = data.ETHINICGROUP_ID.toString();
                             //if ($scope.EthnicGroupId != "0" || $scope.EthnicGroupId != "") {
                             //    $('#divPatientEthnic').removeClass("ng-invalid");
                             //    $('#divPatientEthnic').addClass("ng-valid");
@@ -2508,7 +2508,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //    $('#divPatientEthnic').removeClass("ng-valid");
                             //    $('#divPatientEthnic').addClass("ng-invalid");
                             //}
-                            //$scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
+                            $scope.DOB = DateFormatEdit($filter('date')(data.DOB, "dd-MMM-yyyy"));
                             //if ($scope.DOB != "" || $scope.DOB != null) {
                             //    $('#divDOB').removeClass("ng-invalid");
                             //    $('#divDOB').addClass("ng-valid");
@@ -2595,7 +2595,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             //    $('#divPatientMarital').removeClass("ng-valid");
                             //    $('#divPatientMarital').addClass("ng-invalid");
                             //}
-                            //$scope.BloodGroupId = data.BLOODGROUP_ID.toString();
+                            $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                             //if ($scope.BloodGroupId != "0" || $scope.BloodGroupId != "") {
                             //    $('#divPatientBlood').removeClass("ng-invalid");
                             //    $('#divPatientBlood').addClass("ng-valid");
