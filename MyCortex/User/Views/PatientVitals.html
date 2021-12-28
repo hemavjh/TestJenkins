@@ -23,6 +23,7 @@
         $('#start_Date').attr('min', maxDate);
         $('#End_Date').attr('min', maxDate);
         $('#ptDateTimePicker').attr('min', maxDate);
+        $('#dateee').attr('min', maxDate);
     });
 </script>
 <!--<script src='Scripts/jquery-proper-slider.js'></script>
@@ -5511,7 +5512,7 @@
                             <div class="col-sm-4">
                                 <div class="inputGroups">
                                     <label for="usr">Select Date<sup><font class='mandatory-field'>*</font></sup></label>
-                                    <input id="datee" ng-model="AppoimDate" type="date" class="form-control date" placeholder="">
+                                    <input id="dateee" ng-model="AppoimDate" type="date" class="form-control date" max="2099-12-31">
                                 </div>
                             </div>
                             <div class="col-sm-4" style="padding-top: 24px; padding-left: 0px;">

@@ -779,9 +779,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     });
 
                     $scope.SearchAvailibleDoctorsList = function () {
+                        var dt = moment(new Date()).format('DD-MM-YYYY');
+                        var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
                         document.getElementById("show").disabled = true;
-                        if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
+                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
+                            toastr.warning("Please avoid past date as AppointmentDate", "warning");
+                        }
+                        else if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
                             //alert('Please select Speciality')
                             toastr.warning("Please select Speciality", "warning");
                         } else if ($scope.AppoimDate == undefined || $scope.AppoimDate == null || $scope.AppoimDate == "") {
@@ -851,7 +856,14 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         return [date.getFullYear(), mnth, day].join("-");
                     }
                     $scope.newAppoinmentDates = function () {
-                        if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
+                        var dt = moment(new Date()).format('DD-MM-YYYY');
+                        var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
+                        $scope.DoctorListWithTimeZone = [];
+                        document.getElementById("show").disabled = true;
+                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
+                            toastr.warning("Please avoid past date as AppointmentDate", "warning");
+                        }
+                        else if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
                             //alert('Please select Doctor')
                             toastr.warning("Please select Doctor", "warning");
                         } else {
@@ -874,11 +886,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                 var dattas = data.ScheduledDaysList;
                                 var AppDate = $scope.AppoimDate;
                                 var ApppDate = AppDate.getTime();
+                                
                                 for (i = 0; i <= dattas.length - 1; i++) {
                                     var today = dattas[i].Date;
                                     var toToday = new Date(today);
                                     var ApppoDate = toToday.getTime();
-                                    if (ApppDate == ApppoDate) {
+                                    var Currentdt = moment(toToday).format('DD-MM-YYYY');
+                                    var CurrentAppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
+
+                                    if (ApppDate == ApppoDate || CurrentAppointmentDate == Currentdt) {
                                         $scope.a = i - 2;
                                         $scope.b = i + 3;
                                         if ($scope.a == -1 || $scope.a == -2) {
@@ -901,7 +917,8 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                         var AppoiDate = (day + "-" + month + "-" + year)
                                         $scope.AppoiDate = AppoiDate;
                                         break;
-                                    } else {
+                                    }
+                                    else {
                                         $scope.a = 0;
                                         $scope.b = 5;
                                         workingDate();
