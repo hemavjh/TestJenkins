@@ -826,7 +826,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         };
 
-        $scope.DeviceChange = function () {
+    /*    $scope.DeviceChange = function () {
 
             var DeviceChange = document.getElementById('DeviceName').value;
             if (DeviceChange != "") {
@@ -865,15 +865,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 $('#divDeviceParameter').addClass("ng-invalid");
             }
         }
-
+*/
     
 
 
         $scope.AddDevicePopUP = function () {
             $scope.submitted = false;
-            $('#divDeviceNameChange').addClass("ng-invalid");
-            $('#divDeviceType').addClass("ng-invalid");
-            $('#divDeviceParameter').addClass("ng-invalid");
             $scope.Id = 0;
             $scope.CancelDeviceList();
             $('#btnsave').attr("disabled", false);

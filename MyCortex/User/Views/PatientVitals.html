@@ -296,8 +296,8 @@
                         <div class="panel panel-default">
 
                             <div class="panel-body">
-                                <h1 class="title2">Assign Caregiver</h1>
                                 <div class="inputGroups">
+                                    <label>Assign Caregiver<sup><font class='mandatory-field'>*</font></sup></label>
                                     <select ng-model="CareGiver_Id" multiple="multiple"
                                             ng-options="item1.Id as item1.Name for item1 in CareGiverList" multiselect-dropdown
                                             style="width: 230px;"></select>
@@ -594,22 +594,24 @@
                                     </div>
                                 </div>-->
                                 <div id="alertclear" class="tab-pane fade in active">
-                                    <div class="panel-body">
-                                        <div class="inputGroups">
-                                            <label for="usr">Call Notes/Remarks:</label>
-                                            <textarea type="text" ng-model="CG_Remarks" class="form-control" maxlength="250"
-                                                      ng-maxlength="250" />
+                                    <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="CG_Update_ClearAlerts();">
+                                        <div class="panel-body">
+                                            <div class="inputGroups">
+                                                <label for="usr">Call Notes/Remarks:<sup><font class='mandatory-field'>*</font></sup></label>
+                                                <textarea type="text" ng-model="CG_Remarks" class="form-control" maxlength="250" ng-required="true"
+                                                          ng-maxlength="250" />
+                                            </div>
+                                            <div class="inputGroups">
+                                                <button type="submit" class="theme-btn-1 mt-10 mr-10" ng-disabled="false" id="clear" ng-click="submitted= true" title="Click here to Clear the alert">
+                                                    Clear
+                                                </button>
+                                                <button type="button" class="theme-btn-2 mt-10" ng-click="ViewClearAlertHistoryPopup()"
+                                                        title="Click here to open the alert history">
+                                                    View History
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="inputGroups">
-                                            <button type="button" class="theme-btn-1 mt-10 mr-10" ng-disabled="false" id="clear" ng-click="CG_Update_ClearAlerts()" title="Click here to Clear the alert">
-                                                Clear
-                                            </button>
-                                            <button type="button" class="theme-btn-2 mt-10" ng-click="ViewClearAlertHistoryPopup()"
-                                                    title="Click here to open the alert history">
-                                                View History
-                                            </button>
-                                        </div>
-                                    </div>
+                                        </form>
                                 </div>
                             </div>
 
@@ -3320,7 +3322,7 @@
 
             </div>
         </div>
-        <div id="PatientAllergyCreateModal" class="modal fade " role="dialog" data-backdrop="static" data-keyboard="false">
+     <div id="PatientAllergyCreateModal" class="modal fade " role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -3658,35 +3660,32 @@
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
-                                title="Close">
-                            &times;
-                        </button>
-
-                        <h4 class="modal-title">Clinical Notes</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-
-                            <div class="inputGroups">
-                                <label>Clinical Notes<sup><font class='mandatory-field'>*</font></sup></label>
-                                <textarea rows="5" cols="100" maxlength="1500" ng-model="Notes" class="form-control"></textarea>
-                            </div>
-
-
-                        </form>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <div class="col-sm-offset-2 col-sm-9">
-                            <button type="button" class="theme-btn-1" title="Save the Notes" id="saved" ng-disabled="false" ng-click="PatientNotesInsertUpdate()">
-                                Save
+                    <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="PatientNotesInsertUpdate()">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()"
+                                    title="Close">
+                                &times;
                             </button>
-                            <button type="button" class="theme-btn-2 ml-10" title="Click to Cancel" ng-click="CancelPatientNotesAddPopup()">
-                                Cancel
-                            </button>
+                            <h4 class="modal-title">Clinical Notes</h4>
                         </div>
-                    </div>
+                        <div class="modal-body">
+
+                                <div class="inputGroups">
+                                    <label>Clinical Notes<sup><font class='mandatory-field'>*</font></sup></label>
+                                    <textarea rows="5" cols="100" maxlength="1500" ng-model="Notes" class="form-control" required></textarea>
+                                </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <div class="col-sm-offset-2 col-sm-9">
+                                <button type="submit" class="theme-btn-1" title="Save the Notes" id="saved" ng-disabled="false" ng-click="submitted = true;">
+                                    Save
+                                </button>
+                                <button type="button" class="theme-btn-2 ml-10" title="Click to Cancel" ng-click="CancelPatientNotesAddPopup()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                        </form>
 
                 </div>
 

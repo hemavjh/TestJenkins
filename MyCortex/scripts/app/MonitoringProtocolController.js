@@ -21,8 +21,25 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         $scope.Cloneval = 0;
         $scope.Id = 0;
         $scope.IsAdd = 0;
+
+
+
+        $scope.CloneFromChange = function () {
+
+            var Protocol_Names = document.getElementById('Select1').value;
+            if (Protocol_Names != "0") {
+                $('#divCloneProtocol').removeClass("ng-invalid");
+                $('#divCloneProtocol').addClass("ng-valid");
+            }
+            else {
+                $('#divCloneProtocol').removeClass("ng-valid");
+                $('#divCloneProtocol').addClass("ng-invalid");
+            }
+        }
+
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD,VIEW AND EDIT */
         $scope.AddMonitoringProtocolPopup = function () {
+            $scope.submitted = false;
             $scope.IsAdd = 1;
             $('#btnsave').attr("disabled", false);
             angular.element('#ProtocolCreateModal').modal('show');
@@ -31,6 +48,8 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         }
 
         $scope.AddCloneProtocolPopup = function () {
+            $scope.submitted = false;
+            $('#divCloneProtocol').addClass("ng-invalid");
             $scope.Cloneval = 1;
             $('#btnsave').attr("disabled", false);
             angular.element('#ProtocolCreateModal').modal('show');

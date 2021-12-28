@@ -165,12 +165,12 @@
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
-                        <div id="divDeviceNameChange" class="ng-invalid ddlValidationBorder" ng-required="true;">
+                        
                             <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDeviceNameList" id="DeviceName" ng-model="DeviceName"
-                                    ng-options="item2.DeviceId as item2.DeviceName for item2 in AllDeviceNameList" ng-change="onCategoryChange();DeviceChange();">
+                                    ng-options="item2.DeviceId as item2.DeviceName for item2 in AllDeviceNameList" ng-change="onCategoryChange();" >
                                 <option value="">Select</option>
                             </select>
-                        </div>
+                    
                         <div class="inputGroups">
                             <label>
                                 DeviceId<sup>
@@ -188,12 +188,12 @@
                                     <font class='mandatory-field'>*</font>
                                 </sup>
                             </label>
-                            <div id="divDeviceType" class="ng-invalid ddlValidationBorder" ng-required="true;">
+                  
                                 <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDevice" id="DeviceType" ng-model="DeviceType"
-                                        ng-change="DeviceTypeChange();" ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
+                                         ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
                                     <option value="">Select</option>
                                 </select>
-                            </div>
+                           
 
 
                             <div class="inputGroups">
@@ -236,8 +236,8 @@
 
                                 </sup>
                             </label>
-                            <div id="divDeviceParameter" class="ng-invalid ddlValidationBorder" ng-required="true;">
-                                <select ng-model="SelectedParamter" multiple="multiple" id="Parameter" ng-change="DeviceParameter();"
+                         
+                                <select ng-model="SelectedParamter" multiple="multiple" id="Parameter"
                                         ng-options="item.Id as item.Name for item in ParameterTypeList"
                                         multiselect-dropdown></select>
 
@@ -253,7 +253,7 @@
         </option>-->
                                 <!--</select>-->
 
-                            </div>
+                          
 
                 </form>
             </div>
