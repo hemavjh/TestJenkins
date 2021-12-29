@@ -79,7 +79,7 @@ namespace MyCortex.Login.Model
         public string countryCode { get; set; }
         public string region { get; set; }
         public string regionName { get; set; }
-        public string timezoneName { get; set; }
+        public string timeZone { get; set; }
         public string zipcode { get; set; }
     }
 
