@@ -50,10 +50,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
-            if ($scope.PageParameter == 1) {
-                $scope.Template = (CKEDITOR.instances.editor1.getData());
-            }
-            else if ($scope.PageParameter == 3) {
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
                 $scope.Template = (CKEDITOR.instances.editor1.getData());
             }
             if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
@@ -68,7 +65,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     toastr.warning("Please enter Email Subject", "warning");
                 else
                     //alert("Please enter Notification Title");
-                    warning("Please enter Notification Title", "warning");
+                    toastr.warning("Please enter Notification Title", "warning");
 
                 return false;
             }
@@ -108,23 +105,21 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         /* THIS IS FOR ADD/EDIT FUNCTION */
         $scope.EmailTemplateAddEdit = function () {            
-
-            if (CKEDITOR.instances['editor1'].getData() != "") {
-                $('#divEditor').removeClass('ng-invalid');
-                $('#divEditor').addClass('ng-valid');
-            } else {
-                $('#divEditor').removeClass('ng-valid');
-                $('#divEditor').addClass('ng-invalid');
-                return false;
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+                if (CKEDITOR.instances['editor1'].getData() != "") {
+                    $('#divEditor').removeClass('ng-invalid');
+                    $('#divEditor').addClass('ng-valid');
+                } else {
+                    $('#divEditor').removeClass('ng-valid');
+                    $('#divEditor').addClass('ng-invalid');
+                    return false;
+                }
             }
 
-            if ($scope.PageParameter == 1) {
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
                 $scope.Template = (CKEDITOR.instances.editor1.getData());
             }
-            else if ($scope.PageParameter == 3) {
-                $scope.Template = (CKEDITOR.instances.editor1.getData());
-            }
-            //if ($scope.Validationcontrols() == true) {
+            if ($scope.Validationcontrols() == true) {
 
                 var TemplateChildList = [],
 
@@ -182,7 +177,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     $("#chatLoaderPV").hide();
                     angular.element('#EmailTemplateModal').modal('hide');
                 })
-            //}
+            }
         }
 
         /* THIS IS FOR LIST PROCEDURE */
