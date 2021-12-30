@@ -148,12 +148,14 @@ namespace MyCortex.Notification
                         //{
                         //    Console.WriteLine("{0}", d.Name);
                         //}
-                        sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                        //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                        sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                     }
                     else
                     {
                         Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
-                        sendemailrepository.SendEmail_Update(EntityId, smsResponse.ReasonPhrase, 2, "");
+                        //sendemailrepository.SendEmail_Update(EntityId, smsResponse.ReasonPhrase, 2, "");
+                        sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, smsResponse.ReasonPhrase, 2, "");
                     }
 
                     //Make any other calls using HttpClient here.
