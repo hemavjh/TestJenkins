@@ -318,7 +318,51 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                 toastr.warning("Please select atleast one User", "warning");
             }
             else {
-                var msg = confirm("Do you like to Resend the Email for Selected User?");
+                Swal.fire({
+                    title: 'Do you like to Resend the Email for Selected User?',
+                    html: '',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'Yes',
+                    denyButtonText: 'No',
+                    showCloseButton: true,
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        $("#chatLoaderPV").show();
+                        $scope.SelectedUserList = [];
+                        angular.forEach($scope.EmailrowCollectionFilter, function (SelectedUser, index) {
+                            if (SelectedUser.SelectedUser == true) {
+
+                                var obj = {
+                                    UserId: SelectedUser.Id,
+                                    Template_Id: SelectedUser.Template_Id,
+                                    Created_By: $scope.UserId,
+                                    Institution_Id: $scope.InstituteId,
+                                    EmailId: SelectedUser.EmailId,
+                                    TemplateType_Id: $scope.PageParameter
+                                };
+                                $('#btnsave').attr("disabled", true);
+                                $scope.SelectedUserList.push(obj);
+                            }
+                        });
+                        $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Insert/', $scope.SelectedUserList).success(function (data) {
+                            //alert(data.Message);
+                            toastr.success(data.Message, "success");
+                            $('#btnsave').attr("disabled", false);
+                            if (data.ReturnFlag == 1) {
+                                $scope.ClearValues();
+                                $scope.UndeliveredEmailDetailslist();
+                            }
+                            $("#chatLoaderPV").hide();
+                        });
+                       
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+                /*var msg = confirm("Do you like to Resend the Email for Selected User?");
                 if (msg == true) {
                     $("#chatLoaderPV").show();
                     $scope.SelectedUserList = [];
@@ -347,7 +391,7 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                         }
                         $("#chatLoaderPV").hide();
                     });
-                }
+                }*/
             }
         }
 
