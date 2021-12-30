@@ -3063,7 +3063,40 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         }
 
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete User Remainder Details?");
+            Swal.fire({
+                title: 'Do you like to delete User Remainder Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.$apply(() => {
+                        var Previous_MyReminderItem = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyReminderItem.push(selectedPre);
+                            });
+                            $scope.AddReminderParameters = Previous_MyReminderItem;
+                        } else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyReminderItem.push(selectedPre);
+                            });
+                            $scope.AddReminderParameters = Previous_MyReminderItem;
+                        }
+                    
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to delete User Remainder Details?");
             if (del == true) {
                 var Previous_MyReminderItem = [];
                 if ($scope.Id == 0) {
@@ -3079,7 +3112,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     });
                     $scope.AddReminderParameters = Previous_MyReminderItem;
                 }
-            }
+            }*/
         };
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/').success(function (data) {
             $scope.TimeZoneList = data;

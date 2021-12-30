@@ -4553,25 +4553,26 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    //    var del = confirm("Do you like to delete the selected ICD10 Details?");
+                //    var del = confirm("Do you like to delete the selected ICD10 Details?");
                     //    if (del == true) {
-
-                    $scope.AddICD10List.splice(itemIndex, 1);
-                    if ($scope.AddICD10List.length == 0) {
-                        $scope.AddICD10List = [{
-                            'Id': 0,
-                            'Category_ID': 0,
-                            'Category_Name': '',
-                            'Code_ID': '0',
-                            'ICDCode': '',
-                            'ICD_Description': '',
-                            'ICD_Remarks': '',
-                            'Active_From': '',
-                            'Active_To': ''
-                        }];
-
-                    }
-                    //  }
+                 $scope.$apply(() => { 
+                     $scope.AddICD10List.splice(itemIndex, 1);
+                     if ($scope.AddICD10List.length == 0) {
+                         $scope.AddICD10List = [{
+                             'Id': 0,
+                             'Category_ID': 0,
+                             'Category_Name': '',
+                             'Code_ID': '0',
+                             'ICDCode': '',
+                             'ICD_Description': '',
+                             'ICD_Remarks': '',
+                             'Active_From': '',
+                             'Active_To': ''
+                         }];
+ 
+                     }
+                });
+           //  }
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -4683,7 +4684,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         toastr.success(data.Message, "success");
                     }
                     else if (data.ReturnFlag == 1) {
-                        toastr.warning(data.Message, "warning");
+                        toastr.info(data.Message, "info");
                     }
                     $('#buttonsave').attr("disabled", false);
                     $('#buttonsave1').attr("disabled", false);
@@ -5236,20 +5237,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (result.isConfirmed) {
                     // var del = confirm("Do you like to delete the selected Details?");
                     // if (del == true) {
-                    $scope.AddMedicationDetails.splice(itemIndex, 1);
-                    if ($scope.AddMedicationDetails.length == 0) {
-                        $scope.AddMedicationDetails = [{
-                            'Id': 0,
-                            'PatientId': 0,
-                            'DrugId': "",
-                            'FrequencyId': 0,
-                            'RouteId': 0,
-                            'NoOfDays': "",
-                            'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                            'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                            ' Created_By': 0
-                        }];
-                    }
+                    $scope.$apply(() => {
+                        $scope.AddMedicationDetails.splice(itemIndex, 1);
+                        if ($scope.AddMedicationDetails.length == 0) {
+                            $scope.AddMedicationDetails = [{
+                                'Id': 0,
+                                'PatientId': 0,
+                                'DrugId': "",
+                                'FrequencyId': 0,
+                                'RouteId': 0,
+                                'NoOfDays': "",
+                                'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                                'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                                ' Created_By': 0
+                            }];
+                        }
+                    });
                     //}
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -7014,19 +7017,21 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (result.isConfirmed) {
                     //var del = confirm("Do you like to delete document");
                     //  if (del == true) {
-                    var Previous_DocumentItem = [];
+                    $scope.$apply(() => {
+                        var Previous_DocumentItem = [];
 
-                    angular.forEach($scope.Patient_OtherData, function (selectedPre, index) {
-                        if (index != rowIndex)
-                            Previous_DocumentItem.push(selectedPre);
-                    });
+                        angular.forEach($scope.Patient_OtherData, function (selectedPre, index) {
+                            if (index != rowIndex)
+                                Previous_DocumentItem.push(selectedPre);
+                        });
                     $scope.Patient_OtherData = Previous_DocumentItem;
-                    if ($scope.Patient_OtherData.length > 0) {
-                        $scope.Add_OtherDataflag = 1;
-                    }
-                    else {
-                        $scope.Add_OtherDataflag = 0;
-                    }
+                        if ($scope.Patient_OtherData.length > 0) {
+                            $scope.Add_OtherDataflag = 1;
+                        }
+                        else {
+                            $scope.Add_OtherDataflag = 0;
+                            }
+                    });
                     // }
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')

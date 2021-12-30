@@ -1166,7 +1166,108 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
         };
         $scope.ParameterSettingslistDelete = [];
         $scope.MonitoringProtocolDelete = function (itemIndex, ParamId) {
-            var del = confirm("Do you like to delete the selected Parameter?");
+            Swal.fire({
+                title: 'Do you like to delete the selected Parameter?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.$apply(() => {
+                        if ($scope.Id <= 0) {
+                            $scope.ParameterSettingslist.splice(itemIndex, 1);
+                            if ($scope.ParameterSettingslist.length == 0) {
+                                $scope.ParameterSettingslist = [{
+                                    'Id': 0,
+                                    'Protocol_Id': 0,
+                                    'ProtocolName': '',
+                                    'Institution_Id': 0,
+                                    'Institution_Name': '',
+                                    'Parameter_Id': 0,
+                                    'ParameterName': '',
+                                    'Units_Id': 0,
+                                    'UnitsName': '',
+                                    'Com_DurationType': 0,
+                                    'DurationName': '',
+                                    'Diag_HighMax_One': '',
+                                    'Diag_HighMin_One': '',
+                                    'Diag_MediumMax_One': '',
+                                    'Diag_MediumMin_One': '',
+                                    'Diag_LowMax_One': '',
+                                    'Diag_LowMin_One': '',
+                                    'Diag_HighMax_Two': '',
+                                    'Diag_HighMin_Two': '',
+                                    'Diag_MediumMax_Two': '',
+                                    'Diag_MediumMin_Two': '',
+                                    'Diag_LowMax_Two': '',
+                                    'Diag_LowMin_Two': '',
+                                    'Comp_Duration': '',
+                                    'Comp_High': '',
+                                    'Comp_Medium': '',
+                                    'Comp_Low': '',
+                                    'Isactive': 1,
+                                    'Created_By': '',
+                                    'NormalRange_High': '',
+                                    'NormalRange_Low': ''
+                                }];
+                            }
+                        }
+                        else {
+
+                            $scope.ParameterSettingslistDelete.push(ParamId);
+
+                            $scope.ParameterSettingslist.splice(itemIndex, 1);
+
+                            if ($scope.ParameterSettingslist.length == 0) {
+                                $scope.ParameterSettingslist = [{
+                                    'Id': 0,
+                                    'Protocol_Id': 0,
+                                    'ProtocolName': '',
+                                    'Institution_Id': 0,
+                                    'Institution_Name': '',
+                                    'Parameter_Id': 0,
+                                    'ParameterName': '',
+                                    'Units_Id': 0,
+                                    'UnitsName': '',
+                                    'Com_DurationType': 0,
+                                    'DurationName': '',
+                                    'Diag_HighMax_One': '',
+                                    'Diag_HighMin_One': '',
+                                    'Diag_MediumMax_One': '',
+                                    'Diag_MediumMin_One': '',
+                                    'Diag_LowMax_One': '',
+                                    'Diag_LowMin_One': '',
+                                    'Diag_HighMax_Two': '',
+                                    'Diag_HighMin_Two': '',
+                                    'Diag_MediumMax_Two': '',
+                                    'Diag_MediumMin_Two': '',
+                                    'Diag_LowMax_Two': '',
+                                    'Diag_LowMin_Two': '',
+                                    'Comp_Duration': '',
+                                    'Comp_High': '',
+                                    'Comp_Medium': '',
+                                    'Comp_Low': '',
+                                    'Isactive': 1,
+                                    'Created_By': '',
+                                    'NormalRange_High': '',
+                                    'NormalRange_Low': ''
+                                }];
+
+                            }
+                        }
+                    });
+
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            });
+        };
+            /*var del = confirm("Do you like to delete the selected Parameter?");
             if (del == true) {
                     if ($scope.Id <= 0) {
                         $scope.ParameterSettingslist.splice(itemIndex, 1);
@@ -1249,8 +1350,8 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
 
                         }
                     }
-            }
-        };
+            }*/
+        
 
         /*on clicking Remove in Protocol Filed its calling the Protocol delete funtion */
         $scope.RemoveQualification_Item = function (rowItem) {
