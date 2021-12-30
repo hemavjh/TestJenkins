@@ -1834,7 +1834,7 @@ li.customDropdownlast-child:hover {
     border-right: 1px solid #efefef;
     padding: 10px;
     overflow: auto;
-    height: 450px;
+    height: 350px;
     position: relative;
 }
 
