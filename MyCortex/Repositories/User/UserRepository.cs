@@ -1465,7 +1465,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber,int Active)
+        public IList<PatientHealthDataModel> HealthDataDetails_List(long Patient_Id, long OptionType_Id, long Group_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber,int Active, int IsGraphPlot)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -1476,6 +1476,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@PARAMGROUP_ID", Group_Id));
             param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@IsGraphPlot", IsGraphPlot));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTHDATA_SP_LISTS]", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
@@ -1511,7 +1512,7 @@ namespace MyCortex.Repositories.Uesr
         /// <param name="Patient_Id">Patient Id</param>
         /// <param name="OptionType_Id">Daily(1), 1 Week(2), 1 Month(3), 3 Month(4), 1 Year(5), Year Till Date(6) and All(7)</param>
         /// <returns>List of Health Data</returns>
-        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active)
+        public IList<PatientHealthDataModel> HealthData_List_On_Parameter(long Patient_Id, long OptionType_Id, long Group_Id, long Parameter_Id, long UnitsGroupType, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber, int Active, int IsGraphPlot)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
@@ -1523,6 +1524,7 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@PARAMETER_ID", Parameter_Id));
             param.Add(new DataParameter("@UNITSGROUP_ID", UnitsGroupType));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            param.Add(new DataParameter("@IsGraphPlot", IsGraphPlot));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTH_DATA_SP_LIST]", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
