@@ -512,9 +512,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                 confirmButtonText: 'Yes',
                 denyButtonText: 'No',
                 showCloseButton: true,
+                 allowOutsideClick: false,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
+                    $scope.$apply(() => { 
                     var Previous_MyHomeItem = [];
                     if ($scope.Id == 0) {
                         angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
@@ -534,7 +536,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         else {
                             $scope.MyHomeflag = 0;
                         }
-                    }
+                        }
+                    });
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -589,7 +592,47 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         };
 
         $scope.MyDeviceDelete = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete this My Home Device Details?");
+            Swal.fire({
+                title: 'Do you like to delete this My Home Device Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.$apply(() => {
+                        var Previous_MyDeviceItem = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyDeviceItem.push(selectedPre);
+                            });
+                            $scope.AddDeviceParameters = Previous_MyDeviceItem;
+                        } else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
+                                if (selectedPre.Id == Delete_Id) {
+                                    selectedPre.IsActive = false;
+                                }
+                            });
+                            if ($ff($scope.AddDeviceParameters, { IsActive: true }).length > 0) {
+                                $scope.MyDeviceflag = 1;
+                            }
+                            else {
+                                $scope.MyDeviceflag = 0;
+                            }
+                        }
+                    });
+
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+    });
+};
+            /*var del = confirm("Do you like to delete this My Home Device Details?");
             if (del == true) {
                 var Previous_MyDeviceItem = [];
                 if ($scope.Id == 0) {
@@ -611,8 +654,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         $scope.MyDeviceflag = 0;
                     }
                 }
-            }
-        };
+            }*/
+        
 
 
         $scope.MYTAB_InsertUpdate_validation = function () {

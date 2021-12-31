@@ -11,6 +11,10 @@ using MyCortex.User.Model;
 using MyCortex.Utilities;
 using MyCortex.Notification.Model;
 using MyCortex.Masters.Models;
+using Newtonsoft.Json;
+using System.Dynamic;
+using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace MyCortex.Repositories.Login
 {
@@ -27,6 +31,63 @@ namespace MyCortex.Repositories.Login
             db = new ClsDataBase();
         }
 
+        private void getSystemInformation(LoginModel obj)
+        {
+            StringCollection collection = new StringCollection();
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = "/C systeminfo | findstr /B /C:\"OS Name\"";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.Start();
+            string OSName = "", OSVersion = "", HostName = "", SystemManu = "", TimeZone = "";
+            while (!process.HasExited)
+            {
+                OSName += process.StandardOutput.ReadToEnd();
+            }
+            OSName = OSName.Replace("OS Name:", "").Trim();
+            obj.DeviceOS = OSName;
+
+            //process.StartInfo.Arguments = "/C systeminfo | findstr /B /C:\"OS Version\"";
+            //process.Start();
+            //while (!process.HasExited)
+            //{
+            //    OSVersion += process.StandardOutput.ReadToEnd();
+            //}
+            //OSVersion = OSVersion.Replace("OS Version:", "").Trim();
+
+            //process.StartInfo.Arguments = "/C systeminfo | findstr /B /C:\"Host Name\"";
+            //process.Start();
+            //while (!process.HasExited)
+            //{
+            //    HostName += process.StandardOutput.ReadToEnd();
+            //}
+            //HostName = HostName.Replace("Host Name:", "").Trim();
+
+            process.StartInfo.Arguments = "/C systeminfo | findstr /B /C:\"System Manufacturer\"";
+            process.Start();
+            while (!process.HasExited)
+            {
+                SystemManu += process.StandardOutput.ReadToEnd();
+            }
+            SystemManu = SystemManu.Replace("System Manufacturer:", "").Trim();
+            obj.DeviceName = SystemManu;
+
+            process.StartInfo.Arguments = "/C systeminfo | findstr /B /C:\"Time Zone\"";
+            process.Start();
+            while (!process.HasExited)
+            {
+                TimeZone += process.StandardOutput.ReadToEnd();
+            }
+            TimeZone = TimeZone.Replace("Time Zone:", "").Trim();
+            obj.timeZone = TimeZone;
+            //dynamic obj = JsonConvert.DeserializeObject<List<ExpandoObject>>(q);
+            //string jsonStr = JsonConvert.SerializeObject(q, Formatting.None);
+        }
+
 
         /// <summary>
         /// check login user authentication, stores Login History
@@ -35,6 +96,7 @@ namespace MyCortex.Repositories.Login
         /// <returns>Login validity details and User Information</returns>
         public LoginModel Userlogin_AddEdit(LoginModel obj)
         {
+            //getSystemInformation(obj);
             DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@Id", Id));
@@ -50,6 +112,14 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@Is_Tab", obj.isTab));
             param.Add(new DataParameter("@Ref_Id", obj.Tab_Ref_ID));
             param.Add(new DataParameter("@Language_Id", obj.LanguageId));
+            param.Add(new DataParameter("@Login_countryCode", obj.countryCode));
+            param.Add(new DataParameter("@Login_Latitude", obj.Latitude));
+            param.Add(new DataParameter("@Login_Longitude", obj.Longitude));
+            param.Add(new DataParameter("@Login_RegionName", obj.regionName));
+            param.Add(new DataParameter("@Login_zipCode", obj.zipcode));
+            param.Add(new DataParameter("@Login_DeviceOS", obj.DeviceOS));
+            param.Add(new DataParameter("@Login_DeviceName", obj.DeviceName));
+            param.Add(new DataParameter("@Login_TimeZone", obj.timeZone));
             //   param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
 
 

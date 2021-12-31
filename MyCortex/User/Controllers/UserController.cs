@@ -1130,7 +1130,7 @@ namespace MyCortex.User.Controller
         /// <returns>List of Health Data</returns>
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage PatientHealthDataDetails_List(long Patient_Id, int OptionType_Id, long Group_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0)
         {
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
@@ -1147,7 +1147,7 @@ namespace MyCortex.User.Controller
                     EndRowNumber = Page * _metadata.per_page;
                 }
 
-                model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active);
+                model = repository.HealthDataDetails_List(Patient_Id, OptionType_Id, Group_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active, IsGraphPlot);
                 if (model != null)
                 {
                     if (model.Count > 0)
@@ -1197,7 +1197,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public HttpResponseMessage PatientHealthData_List_On_Parameter(long Patient_Id, int OptionType_Id, long Group_Id, long Parameter_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0)
+        public HttpResponseMessage PatientHealthData_List_On_Parameter(long Patient_Id, int OptionType_Id, long Group_Id, long Parameter_Id, Guid Login_Session_Id, int Active = 1, long UnitsGroupType = 1, long StartRowNumber = 0, long EndRowNumber = 0, long Institution_Id = 0, int Page = 0, int IsGraphPlot = 0)
         {
             IList<PatientHealthDataModel> model = new List<PatientHealthDataModel>();
             PatientHealthDataReturnModel modelReturn = new PatientHealthDataReturnModel();
@@ -1214,7 +1214,7 @@ namespace MyCortex.User.Controller
                     EndRowNumber = Page * _metadata.per_page;
                 }
 
-                model = repository.HealthData_List_On_Parameter(Patient_Id, OptionType_Id, Group_Id, Parameter_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active);
+                model = repository.HealthData_List_On_Parameter(Patient_Id, OptionType_Id, Group_Id, Parameter_Id, UnitsGroupType, Login_Session_Id, StartRowNumber, EndRowNumber, Active, IsGraphPlot);
                 if (model != null)
                 {
                     if (model.Count > 0)
