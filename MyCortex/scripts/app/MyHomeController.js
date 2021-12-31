@@ -32,6 +32,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.InstitutionId = $window.localStorage['InstitutionId'];
         $scope.CREATED_BY = $window.localStorage['UserId'];
         $scope.IsEdit = false;
+        $scope.IsShow = false;
         $scope.showSave = true;
         $scope.View = 2;
         $scope.MyHomeRow = "-1";
@@ -93,6 +94,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $('#Image2').prop('title', 'Click to Delete');
             $('#tabdevice').prop('disabled', false);
             $scope.IsEdit = false;
+            $scope.IsShow = true;
             $scope.AddUserParameters = [{
                 'Id': 0,
                 'UserId': 0,
@@ -241,7 +243,8 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $("#MyHomeDeviceTable *").attr("disabled", "disabled").off('click');
             $('.myhomedropdown *').attr("disabled", "disabled").off('click');
             $scope.showSave = false;
-            $scope.IsEdit = true;
+            //$scope.IsEdit = true;
+            $scope.IsShow = false;
             var $sel2 = $('#tabdevice');
             $sel2.multiselect('disable');
             var $sel3 = $('#tabdeviceview');
@@ -416,6 +419,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             $('#Image3').prop('title', 'Click to Delete');
             $scope.showSave = true;
             $scope.IsEdit = true;
+            $scope.IsShow = true;
             $scope.ViewMyTab();
             angular.element('#TabAddModal').modal('show');
         }

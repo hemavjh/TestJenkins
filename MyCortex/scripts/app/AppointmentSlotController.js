@@ -197,10 +197,15 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
 
                     $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_AddEdit/', $scope.DoctorListDetails).success(function (data) {
                         // $("#chatLoaderPV").hide();
-                        alert(data.Message);
+                        //alert(data.Message);
+
                         if (data.ReturnFlag == "1") {
+                            toastr.success(data.Message, "success");
                             $scope.CancelSlot();
                             $scope.AppoinmentSlotListGo();
+                        }
+                        else if (data.ReturnFlag == "0") {
+                            toastr.info(data.Message, "info");
                         }
                         $("#chatLoaderPV").hide();
                     })
@@ -295,7 +300,37 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                 $scope.AppoinmentSlot_Delete();
             };
             $scope.AppoinmentSlot_Delete = function () {
-                var del = confirm("Do you like to deactivate the selected Appoinment Slot?");
+                Swal.fire({
+                    title: 'Do you like to deactivate the selected Appoinment Slot?',
+                    html: '',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'Yes',
+                    denyButtonText: 'No',
+                    showCloseButton: true,
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        var obj =
+                        {
+                            Id: $scope.Id,
+                            Modified_By: $window.localStorage['UserId']
+                        }
+
+                        //  $http.post(baseUrl + '/api/MasterICD/MasterICD_AddEdit/', obj).success(function (data) {
+                        $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Delete/', obj).success(function (data) {
+                            //alert(data.Message);
+                            toastr.success(data.Message, "success");
+                            $scope.AppoinmentSlotListGo();
+                        }).error(function (data) {
+                            $scope.error = "AN error has occured while deleting Institution!" + data;
+                        });
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+                /*var del = confirm("Do you like to deactivate the selected Appoinment Slot?");
                 if (del == true) {
 
                     var obj =
@@ -311,7 +346,7 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                     }).error(function (data) {
                         $scope.error = "AN error has occured while deleting Institution!" + data;
                     });
-                };
+                };*/
             };
 
             /*'Active' the Appoinment  Slot */
@@ -331,10 +366,39 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                     + '&Doctor_Id=' + DoctorId
                 ).success(function (data) {
                     if (data.returnval == 1) {
-                        alert("Activate Doctor Appoinment Slot is already created, Please check");
+                        //alert("Activate Doctor Appoinment Slot is already created, Please check");
+                        toastr.info("Activate Doctor Appoinment Slot is already created, Please check", "info");
                     }
                     else {
-                        var Ins = confirm("Do you like to activate the selected Appoinment Slot?");
+                        Swal.fire({
+                            title: 'Do you like to activate the selected Appoinment Slot?',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                var obj =
+                                {
+                                    Id: $scope.Id,
+                                    Modified_By: $window.localStorage['UserId']
+                                }
+                                $http.post(baseUrl + '/api/AppoinmentSlot/AppoinmentSlot_Active/', obj).success(function (data) {
+                                    //alert(data.Message);
+                                    toastr.success(data.Message, "success");
+                                    $scope.AppoinmentSlotListGo();
+                                }).error(function (data) {
+                                    $scope.error = "An error has occurred while ReInsertAppoinment Slot" + data;
+                                });
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
+                        /*var Ins = confirm("Do you like to activate the selected Appoinment Slot?");
                         if (Ins == true) {
                             var obj =
                             {
@@ -347,7 +411,7 @@ AppointmentSlot.controller("AppointmentSlotController", ['$scope', '$http', '$ro
                             }).error(function (data) {
                                 $scope.error = "An error has occurred while ReInsertAppoinment Slot" + data;
                             });
-                        };
+                        };*/
                     }
                 })
             }

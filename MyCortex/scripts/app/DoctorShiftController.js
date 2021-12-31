@@ -160,6 +160,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             // $scope.AppoinmentSlotClear();
             $scope.FromDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.ToDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.onDateRange();
             $('#saveDoctorShift1').attr("disabled", false);
             $('#saveDoctorShift2').attr("disabled", false);
             $('#saveDoctorShift3').attr("disabled", false);
@@ -1509,15 +1510,6 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please select  End Date", "warning");
                 return false;
             }
-            if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
-                if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
-                    //alert("Start Date should not be greater than End Date");
-                    toastr.warning("Start Date should not be greater than End Date", "warning");
-                    $scope.FromDate = DateFormatEdit($scope.FromDate);
-                    $scope.ToDate = DateFormatEdit($scope.ToDate);
-                    return false;
-                }
-            }
             else if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0" || $scope.NewAppointment == '') {
                 //alert("Please Enter NewAppointment Time Slot");
                 toastr.warning("Please Enter NewAppointment Time Slot", "warning");
@@ -1547,6 +1539,15 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 //alert("Please Enter Minutes");
                 toastr.warning("Please Enter Minutes", "warning");
                 return false;
+            }
+            else if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
+                if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
+                    //alert("Start Date should not be greater than End Date");
+                    toastr.warning("Start Date should not be greater than End Date", "warning");
+                    $scope.FromDate = DateFormatEdit($scope.FromDate);
+                    $scope.ToDate = DateFormatEdit($scope.ToDate);
+                    return false;
+                }
             }
 
             $scope.FromDate = DateFormatEdit($scope.FromDate);
@@ -3364,7 +3365,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     AppointmentInterval: $scope.IntervalBt,
                     MinRescheduleDays: $scope.ReduceNumberofavailableAppointmentes,
                     MinRescheduleMinutes: $scope.Minutest,
-                    DefautTimeZone: $scope.SelectedTimeZone,
+                    DefautTimeZone: $scope.SelectedTimeZone == null ? "" : $scope.SelectedTimeZone,
                     DefaultWorkingDays: $scope.DefaultWorkingDays,
                     DefaultHoliDays: $scope.SelectedDefaultholiday,
                     IsAppointmentInHolidays: $scope.BookEnable,
@@ -3379,6 +3380,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     MaxScheduleDays: $scope.AppointmentDay
                 };
                 $('#save').attr("disabled", true);
+                console.log(obj)
                 $http.post(baseUrl + '/api/DoctorShift/Org_AppointmentSettings_InsertUpdate/?Login_Session_Id=' + $scope.LoginSessionId, obj).success(function (data) {
                     $("#chatLoaderPV").hide();
                     //alert(data.Message);

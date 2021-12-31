@@ -1727,7 +1727,7 @@ namespace MyCortex.User.Controller
             {
                 foreach (PatientHealthDataModel itemData in patientDataListObj.PatientHealthDataModel)
                 {
-                    itemData.Activity_Date = patientDataListObj.ActivityDate;
+                    //itemData.Activity_Date = patientDataListObj.ActivityDate;
                     itemData.Created_By = patientDataListObj.Created_By;
                     itemData.Patient_Id = patientDataListObj.Patient_Id;
                     model = repository.PatientHealthData_Insert_Update(Login_Session_Id, itemData);

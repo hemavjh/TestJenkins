@@ -559,16 +559,11 @@ namespace MyCortex.Template.Controllers
                     {
                         if (Emailobj.MobileNO != null || Emailobj.MobileNO != string.Empty)
                         {
-                            string[] EncryptMbNO; string[] SMSSplMbNo;
                             string
-                                SMSPrefixMbNO = string.Empty, SMSSuffixMbNO = string.Empty, SMSMbNO = string.Empty, SMSSubject = string.Empty,
+                                SMSMbNO = string.Empty, SMSSubject = string.Empty,
                                 SMSBody = string.Empty, SMSURL = string.Empty, SMSApiId = string.Empty, SMSUserName = string.Empty, SMSSource = string.Empty;
-
-                            EncryptMbNO = Emailobj.MobileNO.Split('~');
-                            SMSPrefixMbNO = EncryptMbNO[0];
-                            SMSSuffixMbNO = EncryptMbNO[1];
-                            SMSSplMbNo = SMSPrefixMbNO.Split('+');
-                            SMSMbNO = SMSSplMbNo[1] + SMSSuffixMbNO;
+                            
+                            SMSMbNO = Emailobj.MobileNO.Replace(@"~", @"").Replace(@"+", @"");
                             SMSSubject = Emailobj.Email_Subject;
                             SMSBody = Emailobj.Email_Body;
                             SMSApiId = "Kv2n09u8";

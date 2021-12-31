@@ -107,20 +107,27 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.EmailTemplateTagDetails = [];
 
         /* THIS IS FOR ADD/EDIT FUNCTION */
-        $scope.EmailTemplateAddEdit = function () {
+        $scope.EmailTemplateAddEdit = function () {            
+
+            if (CKEDITOR.instances['editor1'].getData() != "") {
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
+            } else {
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
+                return false;
+            }
+
+            if ($scope.PageParameter == 1) {
+                $scope.Template = (CKEDITOR.instances.editor1.getData());
+            }
+            else if ($scope.PageParameter == 3) {
+                $scope.Template = (CKEDITOR.instances.editor1.getData());
+            }
             //if ($scope.Validationcontrols() == true) {
-            
-            if ($scope.editor1 != "") {
-                $('#divSMSEditor').removeClass("ng-valid");
-                $('#divSMSEditor').addClass("ng-invalid");
-            }
-            else {
-                $('#divSMSEditor').removeClass("ng-invalid");
-                $('#divSMSEditor').addClass("ng-valid");
-            }
-            //$window.alert($scope.Template);
+
                 var TemplateChildList = [],
-                
+
                     rxp = /{([^}]+)}/g,
 
                     TagName = $scope.Template,
@@ -362,6 +369,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailTemplatePopUP = function () {
+            $scope.submitted = false;
             angular.element('#EmailTemplateModal').modal('show');
             $('#btnsave').attr("disabled", false);
             $scope.ClearPopup();
