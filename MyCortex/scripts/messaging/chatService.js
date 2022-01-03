@@ -114,13 +114,6 @@ const utilService = function()
             $('#btnopenchat').attr("style", "display:none");
             $('#chatBox').attr("style", "display:block");
 
-            $('#chatBox').attr('style', 'display: block;height:530px;width:900px');
-            let totalHeight = $('#chatBox').outerHeight() - 72;
-            $('.chatBody').height(totalHeight);
-            $('.group-user').height(totalHeight - 72)
-
-            $('#address-user').height(totalHeight - 40);
-
             window.COMETCHAT_FROM_USER = window.localStorage['UserId'];
             window.COMETCHAT_TO_USER = "";
             // CC, CG, Clinician - open the selected patient id
