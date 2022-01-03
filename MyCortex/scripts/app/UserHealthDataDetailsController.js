@@ -1031,6 +1031,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppointmoduleID1 = type;
                     }
                     $scope.BackToDoc = function () {
+                        $scope.SearchAvailibleDoctorsList();
                         $scope.showMainBox = true;
                     }
                     $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
