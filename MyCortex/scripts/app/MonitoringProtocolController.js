@@ -705,31 +705,38 @@ MonitoringProtocol.controller("MonitoringProtocolController", ['$scope', '$http'
 
 
             if (TSDuplicate == 1) {
-                alert('Parameters ' + Duplicateparameter + ' already exist, cannot be Duplicated');
+                //alert('Parameters ' + Duplicateparameter + ' already exist, cannot be Duplicated');
+                toastr.info('Parameters ' + Duplicateparameter + ' already exist, cannot be Duplicated', "info");
                 return false;
             }
             if (MinvalueDuplicate1 == 1) {
-                alert(DuplicateMinvalue1);
+                //alert(DuplicateMinvalue1);
+                toastr.info("DuplicateMinvalue1", "info");
                 return false;
             }
             if (MinvalueDuplicate2 == 1) {
-                alert(DuplicateMinvalue2);
+                //alert(DuplicateMinvalue2);
+                toastr.info("DuplicateMinvalue2", "info");
                 return false;
             }
             if (MinvalueDuplicate3 == 1) {
-                alert(DuplicateMinvalue3);
+                //alert(DuplicateMinvalue3);
+                toastr.info("DuplicateMinvalue3", "info");
                 return false;
             }
             if (MinvalueDuplicate4 == 1) {
-                alert(DuplicateMinvalue4);
+                //alert(DuplicateMinvalue4);
+                toastr.info("DuplicateMinvalue4", "info");
                 return false;
             }
             if (MinvalueDuplicate5 == 1) {
-                alert(DuplicateMinvalue5);
+                //alert(DuplicateMinvalue5);
+                toastr.info("DuplicateMinvalue5", "info");
                 return false;
             }
             if (MinvalueDuplicate6 == 1) {
-                alert(DuplicateMinvalue6);
+                //alert(DuplicateMinvalue6);
+                toastr.info("DuplicateMinvalue6", "info");
                 return false;
             }
             return true;

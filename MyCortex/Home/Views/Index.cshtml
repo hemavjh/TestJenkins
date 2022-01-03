@@ -1110,56 +1110,72 @@
             if (data["Status"]) {
                 saved = true;
                 removeStyles();
-                alert(data.Message);
+                //alert(data.Message);
+                swal.fire(data.Message);
             }
         });
         //alert('use this method and saveAPIObj for saving value in DB ');
 
     };
     let restoreSettings = () => {
-        if (confirm("Click Ok Button to Restore Color Settings. If not Please click close button!")) {
-            let restoreAPIObj = {
-                UserId: @HttpContext.Current.Session["UserId"].ToString(),
-                InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString(),
-                Primary: defaultValueObj["primary"],
-                Secondary: defaultValueObj["secondary"],
-                headerBg: defaultValueObj["headerBg"],
-                headerText: defaultValueObj["headerText"],
-                TableHeaderBg: defaultValueObj["TableHeaderBg"],
-                TableHeaderText: defaultValueObj["TableHeaderText"],
-                TableAlternateRowBg: defaultValueObj["TableAlternateRowBg"],
-                TableAlternateRowText: defaultValueObj["TableAlternateRowText"],
-                TableRowHoverBg: defaultValueObj["TableRowHoverBg"],
-                TableRowHoverText: defaultValueObj["TableRowHoverText"],
-                linkText: defaultValueObj["linkText"],
-                positiveBtnBg: defaultValueObj["positiveBtnBg"],
-                positiveBtnBorder: defaultValueObj["positiveBtnBorder"],
-                positiveBtnText: defaultValueObj["positiveBtnText"],
-                positiveHoverBtnBg: defaultValueObj["positiveHoverBtnBg"],
-                positiveHoverBtnBorder: defaultValueObj["positiveHoverBtnBorder"],
-                positiveHoverBtnText: defaultValueObj["positiveHoverBtnText"],
-                negativeBtnBg: defaultValueObj["negativeBtnBg"],
-                negativeBtnBorder: defaultValueObj["negativeBtnBorder"],
-                negativeBtnText: defaultValueObj["negativeBtnText"],
-                negativeHoverBtnBg: defaultValueObj["negativeHoverBtnBg"],
-                negativeHoverBtnBorder: defaultValueObj["negativeHoverBtnBorder"],
-                negativeHoverBtnText: defaultValueObj["negativeHoverBtnText"],
-                title: defaultValueObj["title"],
-                subTitle: defaultValueObj["subTitle"]
-            }
-            console.log("restoreStyle:" + restoreAPIObj);
-            $.post(baseUrl + "api/ColorPreference/Save", restoreAPIObj, function (data, status) {
-                console.log("restoreStyleresponse:" + data);
-                if (data["Status"]) {
-                    saved = true;
-                    removeStyles();
+        Swal.fire({
+            title: 'Click Ok Button to Restore Color Settings. If not Please click close button!',
+            html: '',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            showCloseButton: true,
+            allowOutsideClick: false,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                let restoreAPIObj = {
+                    UserId: @HttpContext.Current.Session["UserId"].ToString(),
+                    InstitutionId: @HttpContext.Current.Session["InstitutionId"].ToString() == '0' ? -1 : @HttpContext.Current.Session["InstitutionId"].ToString(),
+                    Primary: defaultValueObj["primary"],
+                    Secondary: defaultValueObj["secondary"],
+                    headerBg: defaultValueObj["headerBg"],
+                    headerText: defaultValueObj["headerText"],
+                    TableHeaderBg: defaultValueObj["TableHeaderBg"],
+                    TableHeaderText: defaultValueObj["TableHeaderText"],
+                    TableAlternateRowBg: defaultValueObj["TableAlternateRowBg"],
+                    TableAlternateRowText: defaultValueObj["TableAlternateRowText"],
+                    TableRowHoverBg: defaultValueObj["TableRowHoverBg"],
+                    TableRowHoverText: defaultValueObj["TableRowHoverText"],
+                    linkText: defaultValueObj["linkText"],
+                    positiveBtnBg: defaultValueObj["positiveBtnBg"],
+                    positiveBtnBorder: defaultValueObj["positiveBtnBorder"],
+                    positiveBtnText: defaultValueObj["positiveBtnText"],
+                    positiveHoverBtnBg: defaultValueObj["positiveHoverBtnBg"],
+                    positiveHoverBtnBorder: defaultValueObj["positiveHoverBtnBorder"],
+                    positiveHoverBtnText: defaultValueObj["positiveHoverBtnText"],
+                    negativeBtnBg: defaultValueObj["negativeBtnBg"],
+                    negativeBtnBorder: defaultValueObj["negativeBtnBorder"],
+                    negativeBtnText: defaultValueObj["negativeBtnText"],
+                    negativeHoverBtnBg: defaultValueObj["negativeHoverBtnBg"],
+                    negativeHoverBtnBorder: defaultValueObj["negativeHoverBtnBorder"],
+                    negativeHoverBtnText: defaultValueObj["negativeHoverBtnText"],
+                    title: defaultValueObj["title"],
+                    subTitle: defaultValueObj["subTitle"]
                 }
-            });
-            //$('#colorSetting').modal('hide');
-            //alert('after close again make api to get new values');
-            //applyStyle();
-            //saved = false;
-        }
+                console.log("restoreStyle:" + restoreAPIObj);
+                $.post(baseUrl + "api/ColorPreference/Save", restoreAPIObj, function (data, status) {
+                    console.log("restoreStyleresponse:" + data);
+                    if (data["Status"]) {
+                        saved = true;
+                        removeStyles();
+                    }
+                });
+            } else if (result.isDenied) {
+                //Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+        
+        //$('#colorSetting').modal('hide');
+        //alert('after close again make api to get new values');
+        //applyStyle();
+        //saved = false;
 
     };
 
