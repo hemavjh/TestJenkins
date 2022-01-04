@@ -325,7 +325,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 //    data: data
                 //}).success(function (data) {
                 $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    toastr.info(data.Message, "info");
                     $scope.CancelSignUpPopup();
                     if ($scope.MenuTypeId == 3) {
                         $scope.ListRedirect();
@@ -335,7 +336,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             }).error(function (err) {
                 console.log(err);
                 $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                alert('error');
+                //alert('error');
+                toastr.info("error", "info");
             });
         }
     };
@@ -794,8 +796,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
 ]);
 
 /* THIS IS FOR SIGNUP CONTROLLER FUNCTION */
-MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff) {
+MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff ,toastr) {
         //Declaration and initialization of Scope Variables.    
         $scope.InstitutionCode = $routeParams.InstitutionCode;
         $scope.InstitutionId = 0;
@@ -812,6 +814,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.NationalityId = "0";
         $scope.EmailId = "";
         $scope.MobileNo = "";
+        $scope.MobileNo_CC = "";
         $scope.UserTypeId = 2;
         $scope.NationalityList = [];
         $scope.GenderList = [];
@@ -921,7 +924,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 });
             }
             else {
-                alert("There is no Institution for this code!!!");
+                //alert("There is no Institution for this code!!!");
+                toastr.info("There is no Institution for this code!!!", "info");
             }
         }).error(function (data) {
             $scope.error = "AN error has occured while Listing the records!" + data;
@@ -1079,6 +1083,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             if ($scope.SignupLogin_AddEdit_Validations() == true) {
                 // window.location.href = baseUrl + "/Home/Index#;
                 $("#chatLoaderPV").show();
+                $('#submit').attr("disabled", true);
+                $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
                 var tokendata = "UserName=admin&Password=admin&grant_type=password"
                 $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
@@ -1096,7 +1102,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                         NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
                         DOB: $scope.DOB,
                         EMAILID: $scope.EmailId,
-                        MOBILE_NO: $scope.MobileNo,
+                        MOBILE_NO: $scope.MobileNo_CC,
                         UserType_Id: $scope.UserTypeId,
                         ApprovalFlag: 0,
                         MrnPrefix: $scope.PrefixMRN,
@@ -1117,10 +1123,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
                         $("#chatLoaderPV").hide();
                         if (data.ReturnFlag == 1) {
-                            alert("You have been signed up successfully");
+                            //alert("You have been signed up successfully");
+                            toastr.success("You have been signed up successfully", "success");
+                            $scope.submitted = false;
+                            $('#submit').attr("disabled", false);
                             $scope.CancelSignUpPopup();
                         } else {
-                            alert(data.Message);
+                            //alert(data.Message);
+                            toastr.info(data.Message, "info");
+                            $scope.submitted = false;
+                            $('#submit').attr("disabled", false);
                         }
                         //if ($scope.MenuTypeId == 3) {
                         //    $scope.ListRedirect();
@@ -1128,13 +1140,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     }).error(function (err) {
                         $("#chatLoaderPV").hide();
                         console.log(err);
-                        alert(err);
-                    });
+                        //alert(err);
+                        toastr.info("err", "info");
+                    }
+                    );
                     //$("#chatLoaderPV").hide();
                 }).error(function (err) {
                     console.log(err);
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                    alert('error');
+                    //alert('error');
+                    toastr.info("error", "info");
                 });
             }
         };
@@ -1151,6 +1166,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.NationalityId = "0";
             $scope.EmailId = "";
             $scope.MobileNo = "";
+            $scope.MobileNo_CC = "";
             $scope.DOB = "";
             //$scope.HideSignUpModal();
         }
@@ -1190,7 +1206,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
     }
 ]);
 
-MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope', 'toastr', 
+MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope', '$toastr', 
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, $timeout, $rootScope, toastr) {
         $scope.fix = parseInt($routeParams.no) / 3;
         $scope.userid = $routeParams.str;
@@ -1306,7 +1322,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagchar <= 0) {
-                    alert("Please enter atleast one special character ");
+                    //alert("Please enter atleast one special character ");
+                    toastr.info("Please enter atleast one special character ", "info");
                     return false;
                 }
             }
@@ -1345,7 +1362,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     }
                 }
                 if ($scope.flag <= 0) {
-                    alert("Please enter atleast one number ");
+                    //alert("Please enter atleast one number ");
+                    toastr.warning("Please enter atleast one number ", "warning");
                     return false;
                 }
             }
@@ -1357,7 +1375,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 var user = $scope.username;
                 var pwd = $scope.NewPassword;
                 if (user == pwd) {
-                    alert("Username and password is same, please check the password");
+                    //alert("Username and password is same, please check the password");
+                    toastr.inf("Username and password is same, please check the password","info");
                     return false;
                 }
 
@@ -1385,7 +1404,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharUpper <= 0) {
-                    alert("Please enter atleast one uppercase letter ");
+                    //alert("Please enter atleast one uppercase letter ");
+                    toastr.info("Please enter atleast one uppercase letter ","info");
                     return false;
                 }
             }
@@ -1412,7 +1432,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharLower <= 0) {
-                    alert("Please enter atleast one lowercase letter ");
+                    //alert("Please enter atleast one lowercase letter ");
+                    toastr.info("Please enter atleast one lowercase letter ","info");
                     return false;
                 }
             }
@@ -1479,7 +1500,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagchar <= 0) {
-                    alert("Please enter atleast one special character ");
+                    //alert("Please enter atleast one special character ");
+                    toastr.info("Please enter atleast one special character ", "info");
                     return false;
                 }
             }
@@ -1518,7 +1540,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     }
                 }
                 if ($scope.flag <= 0) {
-                    alert("Please enter atleast one number ");
+                    //alert("Please enter atleast one number ");
+                    toastr.info("Please enter atleast one number ","info");
                     return false;
                 }
             }
@@ -1558,7 +1581,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharUpper <= 0) {
-                    alert("Please enter atleast one uppercase letter ");
+                    //alert("Please enter atleast one uppercase letter ");
+                    toastr.info("Please enter atleast one uppercase letter ","info");
                     return false;
                 }
             }
@@ -1585,7 +1609,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharLower <= 0) {
-                    alert("Please enter atleast one lowercase letter ");
+                    //alert("Please enter atleast one lowercase letter ");
+                    toastr.info("Please enter atleast one lowercase letter ","info");
                     return false;
                 }
             }
