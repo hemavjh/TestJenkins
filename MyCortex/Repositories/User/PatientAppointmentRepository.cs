@@ -485,9 +485,10 @@ namespace MyCortex.Repositories.Uesr
                             dt_shift.Columns.AddRange(new DataColumn[4] { new DataColumn("row_id", typeof(Int64)), new DataColumn("SHIFT_DATE", typeof(string)), new DataColumn("SHIFT_STARTTIME", typeof(string)), new DataColumn("SHIFT_ENDTIME", typeof(string)) });
                             foreach (SlotsList item2 in item1.TimeSlot)
                             {
-                                dt_shift.Rows.Add(cnt, item1.Day, item2.TimeSlotFromTime.TimeOfDay.ToString(), item2.TimeSlotToTime.TimeOfDay.ToString());
+                                dt_shift.Rows.Add(cnt, item1.Day.ToString("MM-dd-yyyy HH:mm:ss"), item2.TimeSlotFromTime.TimeOfDay.ToString(), item2.TimeSlotToTime.TimeOfDay.ToString());
                                 cnt = cnt + 1;
                             }
+
                             List<DataParameter> param5 = new List<DataParameter>();
                             param5.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
                             param5.Add(new DataParameter("@SHIFT_DETAILS", dt_shift));

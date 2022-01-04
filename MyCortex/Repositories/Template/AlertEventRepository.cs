@@ -124,12 +124,13 @@ namespace MyCortex.Repositories.EmailAlert
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENTSIGNUP_GETEMAIL]", param);
                 List<EmailListModel> lst = (from p in dt.AsEnumerable()
                                             select new EmailListModel()
-                                                     {
-                                                        UserId = p.Field<long>("UserId"),
-                                                        UserName = DecryptFields.Decrypt(p.Field<string>("Fullname")),
-                                                        EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
-                                                        EmailType_Flag = p.Field<int>("EmailSentType")
-                                                     }).ToList();
+                                            {
+                                                UserId = p.Field<long>("UserId"),
+                                                UserName = DecryptFields.Decrypt(p.Field<string>("Fullname")),
+                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                EmailType_Flag = p.Field<int>("EmailSentType"),
+                                                mobile_no = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO"))
+                                            }).ToList();
                 return lst;
             }
             catch (Exception ex)
@@ -229,23 +230,23 @@ namespace MyCortex.Repositories.EmailAlert
         public List<PatientHealthDataModel> PatientHealthData_Compliance_List()
         {
             List<DataParameter> param = new List<DataParameter>();
-             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-            
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_COMPLIANCEALERT]");
-            DataEncryption DecryptFields = new DataEncryption();
-            List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
-                                           select new PatientHealthDataModel()
-                                           {
-                                               Patient_Id = p.Field<long>("Id"),
-                                               ParameterId = p.Field<long>("PARAMETER_ID"),
-                                               HighCount = p.Field<int?>("HighCount"),
-                                               MediumCount = p.Field<int?>("MediumCount"),
-                                               LowCount = p.Field<int?>("LowCount"),
-                                               Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                           }).ToList();
-            return list;
+
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_COMPLIANCEALERT]");
+                DataEncryption DecryptFields = new DataEncryption();
+                List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
+                                                     select new PatientHealthDataModel()
+                                                     {
+                                                         Patient_Id = p.Field<long>("Id"),
+                                                         ParameterId = p.Field<long>("PARAMETER_ID"),
+                                                         HighCount = p.Field<int?>("HighCount"),
+                                                         MediumCount = p.Field<int?>("MediumCount"),
+                                                         LowCount = p.Field<int?>("LowCount"),
+                                                         Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                     }).ToList();
+                return list;
             }
             catch (Exception ex)
             {
@@ -516,7 +517,7 @@ namespace MyCortex.Repositories.EmailAlert
             try
             {
                 List<DataParameter> param = new List<DataParameter>();
-               
+
                 ClsDataBase.Insert("[MYCORTEX].[ALERTEVENT_PATIENTAPPOINTMENT_GETSCHEDULE]");
             }
             catch (Exception ex)
@@ -544,7 +545,7 @@ namespace MyCortex.Repositories.EmailAlert
                                                              Patient_Id = p.Field<long>("PATIENT_ID"),
                                                              Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                              Event_Code = p.Field<String>("EVENT_CODE"),
-                                                             
+
                                                          }).ToList();
                 return lst;
             }
@@ -619,15 +620,15 @@ namespace MyCortex.Repositories.EmailAlert
 
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_TARGETDAILY]", param);
                 TargetAchived_AlertEventModel lst = (from p in dt.AsEnumerable()
-                                                           select new TargetAchived_AlertEventModel()
-                                                           {
-                                                               UserId = p.Field<long>("UserId"),
-                                                               Institution_Id = p.Field<long>("Institution_Id"),
-                                                               Event_Id = p.Field<long>("EVENT_ID"),
-                                                               Event_Code = p.Field<string>("Event_Code"),
-                                                               Percentage = p.Field<int>("Percentage"),
-                                                               ParameterName = p.Field<string>("ParameterName"),
-                                                           }).FirstOrDefault();
+                                                     select new TargetAchived_AlertEventModel()
+                                                     {
+                                                         UserId = p.Field<long>("UserId"),
+                                                         Institution_Id = p.Field<long>("Institution_Id"),
+                                                         Event_Id = p.Field<long>("EVENT_ID"),
+                                                         Event_Code = p.Field<string>("Event_Code"),
+                                                         Percentage = p.Field<int>("Percentage"),
+                                                         ParameterName = p.Field<string>("ParameterName"),
+                                                     }).FirstOrDefault();
                 return lst;
             }
             catch (Exception ex)

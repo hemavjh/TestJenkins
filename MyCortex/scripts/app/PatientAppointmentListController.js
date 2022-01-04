@@ -100,7 +100,9 @@ PatientAppointmentList.controller("PatientAppointmentListController", ['$scope',
         function getPreviousAppointmentList() {
             $http.get(baseUrl + '/api/User/PatientPreviousAppointmentList/?Patient_Id=' + $scope.SelectedPatientId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
-                $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
+                if (data.PatientAppointmentList != null && data.PatientAppointmentList != undefined) {
+                    $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
+                }
             });
         }
         $scope.$on("appointment_list", intial_loading);

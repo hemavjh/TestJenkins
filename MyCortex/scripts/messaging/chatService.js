@@ -705,12 +705,14 @@ const chatService = function() {
                                 if (customMessage.data.customData.CallType === "Audio") {
                                     $("#WaitingCall-Page").hide();
                                     $("#directCall-Page").show();
-                                    $('#transparent-background-call').show();
+                                    //$('#transparent-background-call').show();
+                                    localStorage.setItem('callisRunning', 1);
                                     this.initiateDirectCall(customMessage.data.customData.CallSessionId);
                                 } else {
                                     $("#WaitingCall-Page").hide();
                                     $("#directCall-Page").show();
-                                    $('#transparent-background-call').show();
+                                    //$('#transparent-background-call').show();
+                                    localStorage.setItem('callisRunning', 1);
                                     this.initiateDirectVideoCall(customMessage.data.customData.CallSessionId);
                                 }
                             } else {
@@ -753,13 +755,15 @@ const chatService = function() {
                     $("#call-page").attr("style", "display:flex");
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
-                    $('#transparent-background-call').show();
+                    //$('#transparent-background-call').show();
+                    localStorage.setItem('callisRunning', 1);
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
                 },
                 error => {
                     console.log("Call initialization failed with exception:", error);
-                    $('#transparent-background-call').hide();
+                    //$('#transparent-background-call').hide();
+                    localStorage.setItem('callisRunning', 0);
                 }
             );
         },
@@ -779,11 +783,13 @@ const chatService = function() {
                 new CometChat.OngoingCallListener({
                     onCallEnded: call => {
                         console.log("Call ended:", call);
-                        $('#transparent-background-call').hide();
+                        //$('#transparent-background-call').hide();
+                        localStorage.setItem('callisRunning', 0);
                     },
                     onError: error => {
                         console.log("Error :", error);
-                        $('#transparent-background-call').hide();
+                        //$('#transparent-background-call').hide();
+                        localStorage.setItem('callisRunning', 0);
                     }
                 })
             );
@@ -804,11 +810,13 @@ const chatService = function() {
                 new CometChat.OngoingCallListener({
                     onCallEnded: call => {
                         console.log("Call ended:", call);
-                        $('#transparent-background-call').hide();
+                        //$('#transparent-background-call').hide();
+                        localStorage.setItem('callisRunning', 0);
                     },
                     onError: error => {
                         console.log("Error :", error);
-                        $('#transparent-background-call').hide();
+                        //$('#transparent-background-call').hide();
+                        localStorage.setItem('callisRunning', 0);
                     }
                 })
             );
@@ -843,13 +851,15 @@ const chatService = function() {
                     $("#showchatIcon").show();
                     $('#addressBook').hide();
                     $.playSound('/images/vivo-ringtone.mp3');
-                    $('#transparent-background-call').show();
+                    //$('#transparent-background-call').show();
+                    localStorage.setItem('callisRunning', 1);
                     //console.log("Call initiated successfully:", outGoingCall);
                     // perform action on success. Like show your calling screen.
                 },
                 error => {
                     console.log("Call initialization failed with exception:", error);
-                    $('#transparent-background-call').hide();
+                    //$('#transparent-background-call').hide();
+                    localStorage.setItem('callisRunning', 0);
                 }
             );
         },
@@ -926,7 +936,8 @@ const chatService = function() {
                                     /* Notification received here if another user joins the call. */
                                     //console.log("User joined call:", user);
                                 /* this method can be use to display message or perform any actions if someone joining the call */
-                                    $('#transparent-background-call').show();
+                                    //$('#transparent-background-call').show();
+                                    localStorage.setItem('callisRunning', 1);
                                 },
                                 onUserLeft: user => {
                                     /* Notification received here if another user left the call. */
@@ -944,7 +955,8 @@ const chatService = function() {
                                     $("#msg-page").attr("style", "display:block");
                                     $("#call-page").attr("style", "display:none");
                                     $("#showchatIcon").hide();
-                                    $('#transparent-background-call').hide();
+                                    //$('#transparent-background-call').hide();
+                                    localStorage.setItem('callisRunning', 0);
                                     //CometChat.removeCallListener(listnerID);
                                     CometChat.endCall(call.sessionId).then(
                                         call => {
@@ -961,6 +973,8 @@ const chatService = function() {
                         // Outgoing Call Accepted
                     },
                     onOutgoingCallRejected(call) {
+                        //$('#transparent-background-call').hide();
+                        localStorage.setItem('callisRunning', 0);
                         $.stopSound();
                         //CometChat.removeCallListener(listenerID);
                         utilService.callEndAction();
@@ -968,6 +982,8 @@ const chatService = function() {
                         // Outgoing Call Rejected
                     },
                     onIncomingCallCancelled(call) {
+                        //$('#transparent-background-call').hide();
+                        localStorage.setItem('callisRunning', 0);
                         $.stopSound();
                         //CometChat.removeCallListener(listenerID);
                         utilService.callEndAction();
@@ -1003,7 +1019,8 @@ const chatService = function() {
                             onUserJoined: user => {
                                 /* Notification received here if another user joins the call. */
                                 //console.log("User joined call:", user);
-                                $('#transparent-background-call').show();
+                                //$('#transparent-background-call').show();
+                                localStorage.setItem('callisRunning', 1);
                                 $("#add-book").hide();
                                 $("#groupsList").hide();
                                 $("#msg-page").attr("style", "display:none");
@@ -1028,10 +1045,12 @@ const chatService = function() {
                                 CometChat.endCall(call.sessionId).then(
                                     call => {
                                         //console.log("Call ended: endCall", call);
-                                        $('#transparent-background-call').hide();
+                                        //$('#transparent-background-call').hide();
+                                        localStorage.setItem('callisRunning', 0);
                                     }, err => {
                                         console.log("error while ending call", err);
-                                        $('#transparent-background-call').hide();
+                                        //$('#transparent-background-call').hide();
+                                        localStorage.setItem('callisRunning', 0);
                                     }
                                 );
                                 /* Notification received here if current ongoing call is ended. */
@@ -1045,11 +1064,15 @@ const chatService = function() {
                 error => {
                     utilService.callEndAction();
                     console.log("Call acceptance failed with error", error);
+                    //$('#transparent-background-call').hide();
+                    localStorage.setItem('callisRunning', 0);
                     // handle exception
                 }
             );
         },
         callReject: function () {
+            //$('#transparent-background-call').hide();
+            localStorage.setItem('callisRunning', 0);
             var sessionID = $('#callSessionID').val();
             var status;
             checkCallStatus = false;

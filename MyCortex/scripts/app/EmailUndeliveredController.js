@@ -40,7 +40,6 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.Period_From = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
         $scope.Period_To = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-
         $scope.GenderList = [];
         $scope.NationalityList = [];
         $scope.EthnicGroupList = [];
@@ -127,40 +126,30 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
             };
             */
         $scope.FilterValidation = function () {
-            var today = moment(new Date()).format('DD-MMM-YYYY');
+            
             //$scope.Period_From = document.getElementById("Period_From").Value;
             //$scope.Period_To = document.getElementById("Period_To").Value;
 
             if ($scope.Period_From == undefined || $scope.Period_From == "") {
-                //alert("Please select Period From");
                 toastr.warning("Please select Period From", "warning");
-
                 return false;
             }
-            //else if (isDate($scope.Period_From) == false) {
-            //    alert("Period From is in Invalid format, please enter dd-mm-yyyy");
-            //    return false;
-            //}
-            if ($scope.Period_To == undefined || $scope.Period_To == "") {
-                //alert("Please select Period To");
+            else if ($scope.Period_To == undefined || $scope.Period_To == "") {
                 toastr.warning("Please select Period To", "warning");
                 return false;
             }
-            //else if (isDate($scope.Period_To) == false) {
-            //    alert("Period To is in Invalid format, please enter dd-mm-yyyy");
-            //    return false;
-            //}
-            $scope.Period_From = moment($scope.Period_From).format('DD-MMM-YYYY');
-            $scope.Period_To = moment($scope.Period_To).format('DD-MMM-YYYY');
-            if (($scope.Period_From != "") && ($scope.Period_To != "")) {
+            else if (($scope.Period_From != "") && ($scope.Period_To != "")) {
                 if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
-                    //alert("From Date should not be greater than To Date");
                     toastr.warning("From Date should not be greater than To Date", "warning");
                     $scope.Period_From = DateFormatEdit($scope.Period_From);
                     $scope.Period_To = DateFormatEdit($scope.Period_To);
                     return false;
                 }
             }
+
+            $scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
+            $scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
+            
             var date1 = new Date($scope.Period_From);
             var date2 = new Date($scope.Period_To);
             var diffTime = Math.abs(date2 - date1);
@@ -170,31 +159,6 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                 toastr.warning("14 days only allowed to filter", "warning");
                 return false;
             }
-            //if ((ParseDate($scope.Period_From) < ParseDate(today))) {
-            //    //alert("FromDate Can Be Booked Only For Past");
-            //    toastr.warning("FromDate Can Be Booked Only For Past", "warning");
-            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
-            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
-            //    return false;
-            //}
-            //if ((ParseDate($scope.Period_To) < ParseDate(today))) {
-            //    //alert("To Date Can Be Booked Only For Past");
-            //    toastr.warning("To Date Can Be Booked Only For Past", "warning");
-            //    $scope.Period_From = DateFormatEdit($scope.Period_From);
-            //    $scope.Period_To = DateFormatEdit($scope.Period_From);
-            //    return false;
-            //}
-            //if (($scope.Period_From != "") && ($scope.Period_To != "")) {
-            //    if ((ParseDate($scope.Period_From) > ParseDate($scope.Period_To))) {
-            //        //alert("From Date should not be greater than To Date");
-            //        toastr.warning("From Date should not be greater than To Date", "warning");
-            //        $scope.Period_From = DateFormatEdit($scope.Period_From);
-            //        $scope.Period_To = DateFormatEdit($scope.Period_To);
-            //        return false;
-            //    }
-            //}
-            $scope.Period_From = DateFormatEdit($scope.Period_From);
-            $scope.Period_To = DateFormatEdit($scope.Period_To);
             return true;
         };
 
@@ -209,7 +173,6 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                     $scope.Email_Stauts = "2";
                     //$scope.Period_From = document.getElementById("Period_From").Value;
                     //$scope.Period_To = document.getElementById("Period_To").Value;
-
                     //$scope.Period_From = moment($scope.Period_From).format('YYYY-MM-DD');
                     //$scope.Period_To = moment($scope.Period_To).format('YYYY-MM-DD');
 
@@ -318,7 +281,51 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                 toastr.warning("Please select atleast one User", "warning");
             }
             else {
-                var msg = confirm("Do you like to Resend the Email for Selected User?");
+                Swal.fire({
+                    title: 'Do you like to Resend the Email for Selected User?',
+                    html: '',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'Yes',
+                    denyButtonText: 'No',
+                    showCloseButton: true,
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        $("#chatLoaderPV").show();
+                        $scope.SelectedUserList = [];
+                        angular.forEach($scope.EmailrowCollectionFilter, function (SelectedUser, index) {
+                            if (SelectedUser.SelectedUser == true) {
+
+                                var obj = {
+                                    UserId: SelectedUser.Id,
+                                    Template_Id: SelectedUser.Template_Id,
+                                    Created_By: $scope.UserId,
+                                    Institution_Id: $scope.InstituteId,
+                                    EmailId: SelectedUser.EmailId,
+                                    TemplateType_Id: $scope.PageParameter
+                                };
+                                $('#btnsave').attr("disabled", true);
+                                $scope.SelectedUserList.push(obj);
+                            }
+                        });
+                        $http.post(baseUrl + '/api/SendEmail/UndeliveredEmail_Insert/', $scope.SelectedUserList).success(function (data) {
+                            //alert(data.Message);
+                            toastr.success(data.Message, "success");
+                            $('#btnsave').attr("disabled", false);
+                            if (data.ReturnFlag == 1) {
+                                $scope.ClearValues();
+                                $scope.UndeliveredEmailDetailslist();
+                            }
+                            $("#chatLoaderPV").hide();
+                        });
+                       
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+                /*var msg = confirm("Do you like to Resend the Email for Selected User?");
                 if (msg == true) {
                     $("#chatLoaderPV").show();
                     $scope.SelectedUserList = [];
@@ -347,7 +354,7 @@ EmailUndeliveredcontroller.controller("EmailUndeliveredController", ['$scope', '
                         }
                         $("#chatLoaderPV").hide();
                     });
-                }
+                }*/
             }
         }
 

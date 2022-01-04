@@ -66,7 +66,23 @@ namespace MyCortex.Login.Model
         public long TabID { get; set; }
         public IList<TabDevicesModel> TabDevices { get; set; }
         public IList<TabUserModel> TabUsers { get; set; }
+        public string DeviceId { get; set; }
+        public string DeviceMACAddress { get; set; }
+        public string DeviceIPAddress { get; set; }
+        public string DeviceName { get; set; }
+        public string DeviceModel { get; set; }
+        public string DeviceOS { get; set; }
+        public string DeviceMiscInfo { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public DateTime? LocalDateTime { get; set; }
+        public string countryCode { get; set; }
+        public string region { get; set; }
+        public string regionName { get; set; }
+        public string timeZone { get; set; }
+        public string zipcode { get; set; }
     }
+
     public class GmailToken
     {
         [JsonProperty("access_token")]
