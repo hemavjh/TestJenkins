@@ -5062,7 +5062,7 @@
                                         <div class="textwrap">{{Protocol.ProtocolName}}</div>
                                     </td>
                                     <td style="text-align: left">
-                                        <div class="textwrap">{{Protocol.Doctor_Name }}</div>
+                                        <div class="textwrap" style="max-width: 150px; word-break: break-word;">{{Protocol.Doctor_Name }}</div>
                                     </td>
                                     <td style="text-align: left">
                                         <div class="textwrap">
@@ -5237,8 +5237,8 @@
                                     </tr>
                                     <tr ng-repeat="row in CareCoordinatorFilter">
                                         <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                                        <td style="text-align: left">{{row.Coordinator}}</td>
-                                        <td style="text-align: left">{{row.CareGiver}}</td>
+                                        <td style="text-align: left;">{{row.Coordinator}}</td>
+                                        <td style="text-align: left;">{{row.CareGiver}}</td>
                                         <td style="text-align: left">{{row.CC_Remarks}}</td>
                                         <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
                                     </tr>

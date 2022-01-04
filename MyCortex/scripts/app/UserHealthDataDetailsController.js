@@ -782,6 +782,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var dt = moment(new Date()).format('DD-MM-YYYY');
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
+                        $scope.DoctorListWithTimeZone1 = [];
                         document.getElementById("show").disabled = true;
                         if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
@@ -804,6 +805,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + DeptID + '&InstitutionId=' + $scope.SelectedInstitutionId + '&Date=' + res + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                                 $("#appoint_waveLoader").hide();
                                 $scope.DoctorListWithTimeZone = data;
+                                $scope.DoctorListWithTimeZone1 = $scope.DoctorListWithTimeZone;
                             }).error(function (data) { $("#appoint_waveLoader").hide(); });
                         }
 
@@ -1031,6 +1033,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppointmoduleID1 = type;
                     }
                     $scope.BackToDoc = function () {
+                        $scope.DoctorListWithTimeZone=$scope.DoctorListWithTimeZone1;
                         $scope.showMainBox = true;
                     }
                     $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
