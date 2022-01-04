@@ -4963,10 +4963,10 @@
                                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
 
                                 <td style="text-align: left">
-                                    <div class="textwrap">{{row.CaregiverName}}</div>
+                                    <div class="textwrap" style="max-width:150px; word-wrap:break-word;">{{row.CaregiverName}}</div>
                                 </td>
                                 <td style="text-align: left">
-                                    <div class="textwrap">{{row.CC_Remarks}}</div>
+                                    <div class="textwrap" style="max-width:150px; word-wrap:break-word;">{{row.CC_Remarks}}</div>
                                 </td>
                                 <td style="text-align: left">
                                     <div class="textwrap">{{row.Created_Dt| date:'dd-MMM-yyyy hh:mm a' }}</div>
@@ -5237,9 +5237,9 @@
                                     </tr>
                                     <tr ng-repeat="row in CareCoordinatorFilter">
                                         <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                                        <td style="text-align: left;">{{row.Coordinator}}</td>
-                                        <td style="text-align: left;">{{row.CareGiver}}</td>
-                                        <td style="text-align: left">{{row.CC_Remarks}}</td>
+                                        <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.Coordinator}}</td>
+                                        <td style="text-align: left;max-width:150px;word-wrap:break-word;">{{row.CareGiver}}</td>
+                                        <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.CC_Remarks}}</td>
                                         <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
                                     </tr>
                                 </tbody>
