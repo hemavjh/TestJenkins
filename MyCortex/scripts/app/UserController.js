@@ -4310,7 +4310,49 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.CertificateFileName = "";
         };
         $scope.RemoveMedicine_Item = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete this Current Medical Details?");
+            Swal.fire({
+                title: 'Do you like to delete this Current Medical Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    //    var del = confirm("Do you like to delete the selected ICD10 Details?");
+                    //    if (del == true) {
+                    $scope.$apply(() => {
+                        var Previous_Item = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddMedicines, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_Item.push(selectedPre);
+                            });
+                            $scope.AddMedicines = Previous_Item;
+                        }
+                        else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddMedicines, function (selectedPre, index) {
+                                if (selectedPre.Id == Delete_Id) {
+                                    selectedPre.Status = 0;
+                                }
+                            });
+                            if ($ff($scope.AddMedicines, { StatusId: 1 }).length > 0) {
+                                $scope.CurrentMedicineflag = 1;
+                            }
+                            else {
+                                $scope.CurrentMedicineflag = 0;
+                            }
+                        }
+                    });
+                    //  }
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to delete this Current Medical Details?");
             if (del == true) {
                 var Previous_Item = [];
                 if ($scope.Id == 0) {
@@ -4333,10 +4375,51 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.CurrentMedicineflag = 0;
                     }
                 }
-            }
+            }*/
         };
         $scope.RemoveMedicalHistory_Item = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete this Past Medical Details?");
+            Swal.fire({
+                title: 'Do you like to delete this Past Medical Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    //    var del = confirm("Do you like to delete the selected ICD10 Details?");
+                    //    if (del == true) {
+                    $scope.$apply(() => {
+                        var Previous_MedicalHistoryItem = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddMedicalHistory, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MedicalHistoryItem.push(selectedPre);
+                            });
+                            $scope.AddMedicalHistory = Previous_MedicalHistoryItem;
+                        } else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddMedicalHistory, function (selectedPre, index) {
+                                if (selectedPre.Id == Delete_Id) {
+                                    selectedPre.Status = 0;
+                                }
+                            });
+                            if ($ff($scope.AddMedicalHistory, { StatusId: 1 }).length > 0) {
+                                $scope.PastMedicineflag = 1;
+                            }
+                            else {
+                                $scope.PastMedicineflag = 0;
+                            }
+                        }
+                    });
+                    //  }
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to delete this Past Medical Details?");
             if (del == true) {
                 var Previous_MedicalHistoryItem = [];
                 if ($scope.Id == 0) {
@@ -4358,10 +4441,51 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.PastMedicineflag = 0;
                     }
                 }
-            }
+            }*/
         };
         $scope.RemoveHealthProblem_Item = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete this Family Health Problem Details?");
+            Swal.fire({
+                title: 'Do you like to delete this Family Health Problem Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    //    var del = confirm("Do you like to delete the selected ICD10 Details?");
+                    //    if (del == true) {
+                    $scope.$apply(() => {
+                        var Previous_HealthProblemItem = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddHealthProblem, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_HealthProblemItem.push(selectedPre);
+                            });
+                            $scope.AddHealthProblem = Previous_HealthProblemItem;
+                        } else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddHealthProblem, function (selectedPre, index) {
+                                if (selectedPre.Id == Delete_Id) {
+                                    selectedPre.Status = 0;
+                                }
+                            });
+                            if ($ff($scope.AddHealthProblem, { StatusId: 1 }).length > 0) {
+                                $scope.MedicalHistoryflag = 1;
+                            }
+                            else {
+                                $scope.MedicalHistoryflag = 0;
+                            }
+                        }
+                    });
+                    //  }
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+            /*var del = confirm("Do you like to delete this Family Health Problem Details?");
             if (del == true) {
                 var Previous_HealthProblemItem = [];
                 if ($scope.Id == 0) {
@@ -4383,7 +4507,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.MedicalHistoryflag = 0;
                     }
                 }
-            }
+            }*/
         };
 
         $scope.ClearHealthProblem = function () {
@@ -4435,7 +4559,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 toastr.info("Please select atleast one Patient to Assign Group", "info");
             }
             else if (typeof ($scope.AssignedGroup) == "undefined" || $scope.AssignedGroup == "0") {
-                alert("Please select Group");
+                //alert("Please select Group");
                 toastr.warning("Please select Group", "warning");
                 return false;
             }
