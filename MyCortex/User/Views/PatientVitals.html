@@ -1430,10 +1430,10 @@
                                                                            ng-model="row.newParameterValue"
                                                                            ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2" />
                                                                 </td>
-                                                                <td style="text-align: left">
+                                                                <td style="text-align: left; max-width:150px; word-wrap:break-word;">
                                                                     {{row.Createdby_FullName}} <br /> {{row.Created_Dt| date :'dd-MMM-yyyy hh:mm a'}}
                                                                 </td>
-                                                                <td style="text-align: left">
+                                                                <td style="text-align: left">s
                                                                     <a href="javascript:" title="Save" ng-click="ParameterEdit_Update(row, ((current_page-1)*page_size)+$index)"
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==2;">
                                                                         <img src="../../Images/save.png" />
@@ -1586,7 +1586,7 @@
                                                             <td style="text-align: left">
                                                                 {{Medication.StartDate| date:'dd-MMM-yyyy'}} <br /> {{Medication.EndDate| date:'dd-MMM-yyyy'}}
                                                             </td>
-                                                            <td style="text-align: left">
+                                                            <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
                                                                 {{Medication.Created_By_Name}} <br /> {{Medication.Created_Dt| date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                             </td>
 
@@ -5503,16 +5503,16 @@
                         <div class="flex">
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label for="usr">Select Specialty<sup><font class='mandatory-field'>*</font></sup></label>
-                                    <select class="form-control" id="speciality" ng-model="SelectedSpeciality"
-                                            multiple="multiple" ng-change="DeptIDStr()" ng-options="row.Id as row.Department_Name for row in DepartmentList"
-                                            multiselect-dropdown style="width: 220px;"></select>
+                                    <label for="usr">Select Date<sup><font class='mandatory-field'>*</font></sup></label>
+                                    <input id="dateee" type="date" class="form-control date" max="2099-12-31" ng-change="ByDateDeptList();" ng-model="AppoimDate">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="inputGroups">
-                                    <label for="usr">Select Date<sup><font class='mandatory-field'>*</font></sup></label>
-                                    <input id="dateee" ng-model="AppoimDate" type="date" class="form-control date" max="2099-12-31">
+                                    <label for="usr">Select Specialty<sup><font class='mandatory-field'>*</font></sup></label>
+                                    <select class="form-control" id="speciality" ng-model="SelectedSpeciality"
+                                            multiple="multiple" ng-change="DeptIDStr()" ng-options="row.Id as row.Department_Name for row in DepartmentList1"
+                                            multiselect-dropdown style="width: 220px;"></select>
                                 </div>
                             </div>
                             <div class="col-sm-4" style="padding-top: 24px; padding-left: 0px;">
@@ -5521,13 +5521,13 @@
                                 </button>
                             </div>
                             <!--<div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
-                                    <select class="form-control" ng-model="TimeZoneID">
-                                        <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
-                                    </select>
-                                </div>
-                            </div>-->
+        <div class="inputGroups">
+            <label for="usr">Select TimeZone<sup><font class='mandatory-field'>*</font></sup></label>
+            <select class="form-control" ng-model="TimeZoneID">
+                <option ng-repeat="list in TimeZoneList" value="{{list.TimeZoneId}}">{{list.TimeZoneDisplayName}}</option>
+            </select>
+        </div>
+    </div>-->
                         </div>
 
                         <!--<div class="mt-10">

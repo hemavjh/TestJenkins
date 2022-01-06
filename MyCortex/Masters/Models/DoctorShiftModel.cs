@@ -122,6 +122,11 @@ namespace MyCortex.Masters.Models
         public IList<DoctorShiftDayDetailsModel> FridayChildModuleList { get; set; }
         public IList<DoctorShiftDayDetailsModel> SaturdayChildModuleList { get; set; }
     }
+    public class ByDateDepartmentModel
+    {
+        public long Id { get; set; }
+        public string Department_Name { get; set; }
+    }
     public class DoctorShiftDayDetailsModel
     {
         public long Id { get; set; }
