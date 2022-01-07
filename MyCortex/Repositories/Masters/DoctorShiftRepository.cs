@@ -21,7 +21,34 @@ namespace MyCortex.Repositories.Masters
         public DoctorShiftRepository()
         {
             db = new ClsDataBase();
+        }
+        /// <summary>      
+        /// Getting list of department for selected Date
+        /// </summary>          
+        /// <returns>list of department for Selected Date</returns>
+        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InstitutionId", Institution_Id));
+            param.Add(new DataParameter("@Date", Filter_Date));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
 
+            try
+            {                
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[DATEWISEDEPARTMENT_SP_LIST]", param);
+                List<ByDateDepartmentModel> lst = (from p in dt.AsEnumerable()
+                                       select new ByDateDepartmentModel()
+                                       {
+                                           Id = p.Field<long>("Id"),
+                                           Department_Name = p.Field<string>("Department_Name")
+                                       }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
         }
         /// <summary>      
         /// Settings --> Doctor Shift --> View Page
