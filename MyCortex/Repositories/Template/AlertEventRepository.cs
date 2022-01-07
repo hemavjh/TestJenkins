@@ -96,6 +96,10 @@ namespace MyCortex.Repositories.EmailAlert
                                 TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
                             }
                             Template = FinalResult.Replace(TagName, TagsReplaceData);
+                            if (TemplateType_Id == 3)
+                            {
+                                Template = Template.Replace(@"<p>", @"").Replace(@"</p>", @"");
+                            }
                         }
                     }
                 }

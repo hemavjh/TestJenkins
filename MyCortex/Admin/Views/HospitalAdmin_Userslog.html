@@ -108,9 +108,6 @@
         $('#toggle-one').bootstrapToggle();
     })
 </script>-->
-<input type="text" hidden="hidden" id="txthdCountryCode" ng-model="PhoneCountryCode" />
-<input type="text" hidden="hidden" id="txthdCountryiso2" ng-model="PhoneCountryiso2" />
-<input type="text" hidden="hidden" id="txthdFullNumber" />
 <ul class="secondaryMenu">
     <li><a href="Home/Index#/InstitutionHospitalAdmin_view">Institution</a></li>
     <li>
@@ -181,32 +178,58 @@
             <th st-ratio="14" st-sort="FULLNAME">User</th>
             <th st-ratio="15" st-sort="LOGINTIME">Login Time</th>
             <th st-ratio="10" st-sort="LOGOUTTIME">Logout Time</th>
+            <th st-ratio="4" st-sort="LOGIN_COUNTRY">Country</th>
+            <th st-ratio="5" st-sort="REGIONNAME">State</th>
+            <th st-ratio="6" st-sort="LOGIN_CITY">City</th>
+            <th st-ratio="7" st-sort="LONGITUDE">Longitude</th>
+            <th st-ratio="7" st-sort="LATITUDE">Latitude</th>
+            <th st-ratio="8" st-sort="STATUS">Status</th>
+            <th st-ratio="9" st-sort="FAILURE_REASON">Failure Reason</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-if="flag==0 && rowCollectionFilter.length==0">
-            <td colspan="4" style="text-align: center">
+            <td colspan="11" style="text-align: center">
                 {{SearchMsg}}
             </td>
         </tr>
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            
             <td style="text-align: left">
                 {{row.FULLNAME}}
             </td>
-            
             <td style="text-align: left">
                 {{row.LOGINTIME| date :'dd-MMM-yyyy hh:mm a'}}
             </td>
             <td style="text-align: left;word-break: break-all;">
                 <div class="textwrap">{{row.LOGOUTTIME| date :'dd-MMM-yyyy hh:mm a'}}</div>
-            </td>            
+            </td>
+            <td>
+                {{row.LOGIN_COUNTRY}}
+            </td>
+            <td>
+                {{row.REGIONNAME}}
+            </td>
+            <td>
+                {{row.LOGIN_CITY}}
+            </td>
+            <td>
+                {{row.LONGITUDE}}
+            </td>
+            <td>
+                {{row.LATITUDE}}
+            </td>
+            <td>
+                {{row.STATUS}}
+            </td>
+            <td>
+                {{row.FAILURE_REASON}}
+            </td>
         </tr>
     </tbody>
     <tfoot ng-show="UserDetailsList.length >10">
         <tr>
-            <td colspan="10" class="text-center">
+            <td colspan="11" class="text-center">
                 <div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                      st-template="Masters/Views/pagination.custom.html"></div>
             </td>
