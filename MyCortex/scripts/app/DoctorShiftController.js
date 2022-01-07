@@ -1478,7 +1478,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
 
         /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
         $scope.ValidationcontrolsDoctorShift = function () {
-            var today = moment(new Date()).format('DD-MM-YYYY');
+            var today = moment(new Date()).format('YYYY-MM-DD');
             //$scope.FromDate = moment($scope.FromDate).format('DD-MM-YYYY');
             //$scope.ToDate = moment($scope.ToDate).format('DD-MM-YYYY');
 
