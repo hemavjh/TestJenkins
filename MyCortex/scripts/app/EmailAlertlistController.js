@@ -10,6 +10,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
 
         $scope.currentTab = "1";
         $scope.Id = "0";
+        $scope.UserTypeId = $window.localStorage["UserTypeId"];
 
         $scope.flag = 0;
         $scope.IsActive = true;
@@ -95,14 +96,18 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         $scope.SMSTempalteTypeList = [];
 
         $scope.Eventselected = function () {
+            if ($scope.UserTypeId == 1) {
+                $scope.status = 2;
+            }
             $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
                 + '&status=' + $scope.status).success(function (data) {
                     $scope.AlertListTemp = [];
                     $scope.AlertListTemp = data;
-                    /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.AlertListTemp.splice(0, 0, obj);*/
-                    $scope.AlertEvent = angular.copy($scope.AlertListTemp);
-
+                    if (data != null) {
+                        /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                        $scope.AlertListTemp.splice(0, 0, obj);*/
+                        $scope.AlertEvent = angular.copy($scope.AlertListTemp);
+                    }
                 });
         };
         $scope.Eventselected();
@@ -159,8 +164,10 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
 
         $scope.EventBasedToList = function () {
             $http.get(baseUrl + '/api/EmailAlertConfig/EventTo_List/?EventId=' + $scope.Event).success(function (data) {
-                $scope.EventCC = data[0].EventCC;
-                $scope.EventTo = data[0].EventTo;
+                if (data != null) {
+                    $scope.EventCC = data[0].EventCC;
+                    $scope.EventTo = data[0].EventTo;
+                }
             });
         };
         $scope.EventToClearFunction = function () {
@@ -229,7 +236,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         $scope.rowCollectionFilter = [];
         $scope.Id = 0;
         $scope.EmailAlertlist = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+            if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage["UserTypeId"] == 1) {
                 $("#chatLoaderPV").show();
                 $scope.ISact = 1;       // default active
                 if ($scope.IsActive == true) {
@@ -242,12 +249,14 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
                     $scope.rowCollection = data;
-                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                    if ($scope.rowCollectionFilter.length > 0) {
-                        $scope.flag = 1;
-                    }
-                    else {
-                        $scope.flag = 0;
+                    if (data != null) {
+                        $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                        if ($scope.rowCollectionFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
                     }
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {

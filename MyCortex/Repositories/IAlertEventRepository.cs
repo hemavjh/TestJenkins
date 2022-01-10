@@ -12,6 +12,8 @@ namespace MyCortex.Repositories
         IList<EmailListModel> UserCreateEvent(long Institution_Id, long Entity_Id);
         IList<AlertEventModel> AlertEvent_GenerateTemplate(long Entity_Id, string EventName, long Institution_Id);
         IList<EmailListModel> InstitutionCreateEvent(long Institution_Id, long Entity_Id);
+
+        IList<EmailListModel> InstitutionEvent(long Institution_Id, long Entity_Id);
         IList<EmailListModel> ClinicianNoteEvent(long Institution_Id, long Entity_Id);
         IList<EmailListModel> Diagnostic_Compliance_AlertEvent(long Institution_Id, long Entity_Id);
         IList<EmailListModel> NewDataCapturedEvent(long Institution_Id, long Entity_Id);

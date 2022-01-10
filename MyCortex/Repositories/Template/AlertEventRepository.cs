@@ -164,6 +164,33 @@ namespace MyCortex.Repositories.EmailAlert
                 return null;
             }
         }
+
+        public IList<EmailListModel> InstitutionEvent(long Institution_Id, long Entity_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                //DataEncryption DecryptFields = new DataEncryption();
+                param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                param.Add(new DataParameter("@Entity_Id", Entity_Id));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_INSTITUTION_GETEMAIL]", param);
+                List<EmailListModel> lst = (from p in dt.AsEnumerable()
+                                            select new EmailListModel()
+                                            {
+                                                UserId = p.Field<long>("UserId"),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
+                                                EmailType_Flag = p.Field<int>("EmailSentType")
+                                            }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         public IList<EmailListModel> ClinicianNoteEvent(long Institution_Id, long Entity_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
