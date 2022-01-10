@@ -1518,7 +1518,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please avoid past date as End Date", "warning");
                 return false;
             }
-            else if (ParseDate($scope.ToDate) < ParseDate($scope.FromDate)) {
+            else if ($scope.FromDate > $scope.ToDate) {
                 toastr.warning("Start Date should not be greater than End Date", "warning");
                 $scope.FromDate = DateFormatEdit($scope.FromDate);
                 $scope.ToDate = DateFormatEdit($scope.ToDate);
