@@ -9,11 +9,6 @@ namespace MyCortex.Admin.Models
 {
     public class AdminUsersLogModel
     {
-        public AdminUsersLogModel()
-        {
-
-        }
-
         public long? ID { get; set; }
         public long? USERID { get; set; }
         public DateTime? LOGINTIME { get; set; }
@@ -30,6 +25,14 @@ namespace MyCortex.Admin.Models
         public string IPADDRESS { get; set; }
         public long? INSTITUTION_ID { get; set; }
         public string FULLNAME { get; set; }
+        public string COUNTRYCODE { get; set; }
+        public string LONGITUDE { get; set; }
+        public string LATITUDE { get; set; }
+        public string REGIONNAME { get; set; }
+        public string ZIPCODE { get; set; }
+        public string USERNAME { get; set; }
+        public string STATUS { get; set; }
+        public string FAILURE_REASON { get; set; }
     }
     public class All_UserList
     {

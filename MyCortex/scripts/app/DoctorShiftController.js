@@ -1478,7 +1478,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
 
         /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
         $scope.ValidationcontrolsDoctorShift = function () {
-            var today = moment(new Date()).format('DD-MM-YYYY');
+            var today = moment(new Date()).format('YYYY-MM-DD');
             //$scope.FromDate = moment($scope.FromDate).format('DD-MM-YYYY');
             //$scope.ToDate = moment($scope.ToDate).format('DD-MM-YYYY');
 
@@ -3060,6 +3060,19 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 });
             }*/
 
+        }
+
+        $scope.remindDelete = function (Delete_Id, rowIndex) {
+            if ($scope.AddReminderParameters.length > 1) {
+                $scope.ReminderUserDelete(Delete_Id, rowIndex);
+            }
+            else if ($scope.Id == 0) {
+                $scope.ReminderUserDelete();
+                angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                    if (index != rowIndex)
+                        Previous_MyReminderItem.push(selectedPre);
+                });
+            }
         }
 
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {

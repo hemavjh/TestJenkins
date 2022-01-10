@@ -163,6 +163,14 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             $location.path("/PatientView/" + $scope.Id + "/0/3");
         };
 
+        $scope.splitMobileNumber = function (string, nb) {
+            var array = string.split('~');
+            var cc = array[0];
+            var number = array[1];
+            var mNumber = typeof (number) == "undefined" ? string : number;
+            //return array[nb];
+            return mNumber;
+        }
 
         $scope.searchquery = "";
         /* Filter the master list function.*/

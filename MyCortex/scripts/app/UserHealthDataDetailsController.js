@@ -735,9 +735,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //    $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
                     //    $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                     //});
+
+                    //alert(moment(new Date()).format('DD-MMM-YYYY'));
+                    $scope.ByDateDeptList = function () {
+                        var AppDate = document.getElementById('dateee').value; //$scope.AppoimDate;
+                         var res = convert(AppDate);
+                         $scope.DepartmentList1 = [];
+                         $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                             $scope.DepartmentList1 = data;
+                         });
+                    }
                     $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
                         $scope.DepartmentList = data;
                     });
+
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.TimeZoneList = data;
                     });
@@ -782,6 +793,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var dt = moment(new Date()).format('DD-MM-YYYY');
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
+                        $scope.DoctorListWithTimeZone1 = [];
                         document.getElementById("show").disabled = true;
                         if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
@@ -804,6 +816,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + DeptID + '&InstitutionId=' + $scope.SelectedInstitutionId + '&Date=' + res + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                                 $("#appoint_waveLoader").hide();
                                 $scope.DoctorListWithTimeZone = data;
+                                $scope.DoctorListWithTimeZone1 = $scope.DoctorListWithTimeZone;
                             }).error(function (data) { $("#appoint_waveLoader").hide(); });
                         }
 
@@ -1031,6 +1044,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppointmoduleID1 = type;
                     }
                     $scope.BackToDoc = function () {
+                        $scope.DoctorListWithTimeZone=$scope.DoctorListWithTimeZone1;
                         $scope.showMainBox = true;
                     }
                     $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
@@ -2972,6 +2986,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
                 $scope.AppoimDate = new Date(DatetimepickermaxDate);
             });
+             // load department list --department list shown by default for current date            
+                var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
+                $scope.DepartmentList1 = [];
+                $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                    $scope.DepartmentList1 = data;
+                });
+           
         }
         $scope.ShowStripePopup = function () {
             angular.element('#StripePayOptions').modal('show');

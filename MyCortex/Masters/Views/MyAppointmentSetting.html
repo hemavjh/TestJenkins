@@ -297,7 +297,7 @@
                                ng-click="MyAppointmentDelete(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Deleteimage" />
                         <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Add Reminder Slot'
                                ng-click="MyAppointmentAdd(row.ID,$index)" ng-model="row.SelectedReminder" style="width: 20px;" id="Addimage" />-->
-                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Decrease' ng-click="ReminderUserDelete(row.Id,$index+1)" ng-model="row.SelectedDelete" style="width: 20px;" id="ReminderDelete" />
+                        <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Decrease' ng-click="remindDelete(row.Id,0)" ng-model="row.SelectedDelete" style="width: 20px;" id="ReminderDelete" />
                         <a href="javascript:" title="Click to Add" style="color: #337ab7;" id="AppointmentReminderUser" ng-click="ReminderUserAdd()">|Add|</a>
                     </div>
 
