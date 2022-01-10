@@ -3062,6 +3062,19 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
 
         }
 
+        $scope.remindDelete = function (Delete_Id, rowIndex) {
+            if ($scope.AddReminderParameters.length > 1) {
+                $scope.ReminderUserDelete(Delete_Id, rowIndex);
+            }
+            else if ($scope.Id == 0) {
+                $scope.ReminderUserDelete();
+                angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                    if (index != rowIndex)
+                        Previous_MyReminderItem.push(selectedPre);
+                });
+            }
+        }
+
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
             Swal.fire({
                 title: 'Do you like to delete User Remainder Details?',

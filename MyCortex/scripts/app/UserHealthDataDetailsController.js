@@ -735,9 +735,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //    $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
                     //    $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                     //});
+
+                    //alert(moment(new Date()).format('DD-MMM-YYYY'));
+                    $scope.ByDateDeptList = function () {
+                        var AppDate = document.getElementById('dateee').value; //$scope.AppoimDate;
+                         var res = convert(AppDate);
+                         $scope.DepartmentList1 = [];
+                         $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                             $scope.DepartmentList1 = data;
+                         });
+                    }
                     $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
                         $scope.DepartmentList = data;
                     });
+
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.TimeZoneList = data;
                     });
@@ -2975,6 +2986,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
                 $scope.AppoimDate = new Date(DatetimepickermaxDate);
             });
+             // load department list --department list shown by default for current date            
+                var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
+                $scope.DepartmentList1 = [];
+                $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                    $scope.DepartmentList1 = data;
+                });
+           
         }
         $scope.ShowStripePopup = function () {
             angular.element('#StripePayOptions').modal('show');

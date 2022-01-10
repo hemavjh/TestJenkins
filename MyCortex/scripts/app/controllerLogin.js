@@ -183,29 +183,39 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
     $scope.remember = ($rememberMeService('cmVtZW1iZXJocm1z'));
     // end
     $scope.forgotPasswordEmail = "";
-    $scope.forgotPasswordValidate = function () {
+        $scope.forgotPasswordValidate = function () {
+            $("#chatLoaderPV").show();
         if (typeof ($scope.forgotPasswordEmail) == "undefined" || $scope.forgotPasswordEmail == "") {
-            alert("Please enter Email");
+            //alert("Please enter Email");
+            toastr.warning("Please enter Email","warning");
             return false;
         }
 
         else if (EmailFormate($scope.forgotPasswordEmail) == false) {
-            alert("Invalid Email format");
+            //alert("Invalid Email format");
+            toastr.info("Invalid Email format","info");
             return false;
         }
         $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).success(function (data) {
             if (data != null) {
-                alert(data.Message)
+                //alert(data.Message)
                 if (data.ReturnFlag == "1") {
+                    toastr.success(data.Message, "success");
+                    $("#chatLoaderPV").hide();
                     angular.element('#forgotPasswordModal').modal('hide');
                     $scope.forgotPasswordEmail = "";
                 }
+                else if (data.ReturnFlag == "0") {
+                    toastr.info(data.Message, "info");
+                }
             }
             else {
-                alert("This Email is not registered, Invalid Email")
+                //alert("This Email is not registered, Invalid Email")
+                toastr.info("This Email is not registered, Invalid Email", "info");
             }
         }).error(function (data) {
-            alert("This Email is not registered, Invalid Email")
+            //alert("This Email is not registered, Invalid Email")
+            toastr.info("This Email is not registered, Invalid Email", "info");
             $scope.error = "An error has occurred while deleting reset password details" + data;
         });
     }
@@ -248,7 +258,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             return false;
         }
         else if (EmailFormate($scope.EmailId) == false) {
-            alert("Invalid Email format");
+            //alert("Invalid Email format");
+            toastr.warning("Invalid Email format","warning");
             return false;
         }
         else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
@@ -334,7 +345,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 });
                 $("#chatLoaderPV").hide();
             }).error(function (err) {
-                console.log(err);
+                //console.log(err);
+                toastr.warning(err, "warning");
                 $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
                 //alert('error');
                 toastr.info("error", "info");
@@ -1001,7 +1013,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     if (masterVal.LANGUAGE_KEY === "pleaseenteravalidlastName") {
-                        alert(masterVal.LANGUAGE_TEXT);
+                        //alert(masterVal.LANGUAGE_TEXT);
+                        toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
                     }
                 });
                 return false;
@@ -1011,13 +1024,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             //    return false;
             //}
             else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
-                alert("Please enter NationalId.");
+                //alert("Please enter NationalId.");
+                toastr.warning("Please enter NationalId.", "warning");
                 return false;
             }
             else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     if (masterVal.LANGUAGE_KEY === "pleaseenteravalidinsuranceid") {
-                        alert(masterVal.LANGUAGE_TEXT);
+                        //alert(masterVal.LANGUAGE_TEXT);
+                        toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
                     }
                 });
                 return false;
@@ -1025,21 +1040,25 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     if (masterVal.LANGUAGE_KEY === "selectgender") {
-                        alert(masterVal.LANGUAGE_TEXT);
+                        //alert(masterVal.LANGUAGE_TEXT);
+                        toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
                     }
                 });
                 return false;
             }
             else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                alert("Please select Nationality");
+                //alert("Please select Nationality");
+                toastr.warning("Please select Nationality", "warning");
                 return false;
             }
             else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
-                alert("Please select Date of Birth");
+                //alert("Please select Date of Birth");
+                toastr.warning("Please select Date of Birth", "warning");
                 return false;
             } 
             if ((ParseDate($scope.DOB)) > (ParseDate(today))) {
-                alert("DOB Can Be Only select past date");
+                //alert("DOB Can Be Only select past date");
+                toastr.warning("DOB Can Be Only select past date", "warning");
                 $scope.DOB = DateFormatEdit($scope.DOB);
                 return false;
             }
@@ -1048,15 +1067,18 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             //    return false;
             //}
             else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
-                alert("Please enter Email");
+                //alert("Please enter Email");
+                toastr.warning("Please enter Email", "warning");
                 return false;
             }
             else if (EmailFormate($scope.EmailId) == false) {
-                alert("Invalid Email format");
+                //alert("Invalid Email format");
+                toastr.warning("Invalid Email format","warning");
                 return false;
             }
             else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
-                alert("Please enter Mobile No.");
+                //alert("Please enter Mobile No.");
+                toastr.warning("Please enter Mobile No.", "warning");
                 return false;
             }
             $scope.DOB = DateFormatEdit($scope.DOB);
@@ -1292,12 +1314,14 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             }
             //Password policy based validations
             else if (parseInt(('' + $scope.NewPassword).length) < parseInt($scope.Minimum_Length)) {
-                alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                //alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length, "warning");
                 return false;
             }
 
             else if (parseInt(('' + $scope.NewPassword).length) > parseInt($scope.Maximum_Length)) {
-                alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                //alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                toastr.warning("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length, "warning");
                 return false;
             }
             $scope.flag = 0;
@@ -1343,7 +1367,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                         var a = $scope.Without_Char.substring(leng, leng + 1);
 
                         if (angular.equals(z, a)) {
-                            alert($scope.Without_Char + "  characters not allowed, please check");
+                            //alert($scope.Without_Char + "  characters not allowed, please check");
+                            toastr.info($scope.Without_Char + "  characters not allowed, please check","info");
                             return false;
                         }
 
@@ -1470,12 +1495,14 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             }
             //Password policy based validations
             else if (parseInt(('' + $scope.NewPassword).length) < parseInt($scope.Minimum_Length)) {
-                alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                //alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length,"warning");
                 return false;
             }
 
             else if (parseInt(('' + $scope.NewPassword).length) > parseInt($scope.Maximum_Length)) {
-                alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                //alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                toastr.warning("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length, "warning");
                 return false;
             }
             $scope.flag = 0;
@@ -1553,7 +1580,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 var user = $scope.username;
                 var pwd = $scope.NewPassword;
                 if (user == pwd) {
-                    alert("Username and password is same, please check the password");
+                    //alert("Username and password is same, please check the password");
+                    toastr.warning("Username and password is same, please check the password","warning");
                     return false;
                 }
 
@@ -1652,11 +1680,15 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     + '&InstitutionId=' + $scope.InstituteId
                     + '&PageTypeId=' + $scope.PageParameter*/
                     .success(function (data) {
-                        alert(data.Message);
+                        //alert(data.Message);
                         if (data.ReturnFlag == "1") {
+                            toastr.success(data.Message, "success");
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
                             window.location.href = baseUrl + "/#/login";
+                        }
+                        else if (data.ReturnFlag == "0") {
+                            toastr.info(data.Message, "info");
                         }
                     }).error(function (data) {
                         $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;
@@ -1762,7 +1794,13 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                             + '&created_By=' + $window.localStorage['UserId']
                             + '&EmailId=""'
                             + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                                alert(data.Message);
+                                //alert(data.Message);
+                                if (data.ReturnFlag == "1") {
+                                    toastr.success(data.Message, "success");
+                                }
+                                else if (data.ReturnFlag == "0") {
+                                    toastr.info(data.Message, "info");
+                                }
                                 $('#btn-signup').attr("disabled", false);
                                 $scope.ClearPassword();
                                 $("#chatLoaderPV").hide();
