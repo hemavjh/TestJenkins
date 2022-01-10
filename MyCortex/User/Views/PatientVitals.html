@@ -1851,7 +1851,7 @@
                                                             <!-- <td style="text-align: left">
                                                                 {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
                                                             </td>-->
-                                                            <td style="text-align: left">
+                                                            <td style="text-align: left; max-width:150px; word-wrap:break-word;">
                                                                 {{Allen.Created_By_Name}}<br />{{Allen.Created_Dt|  date :'dd-MMM-yyyy hh:mm:ss a'}}
                                                             </td>
                                                             <td>
@@ -1957,7 +1957,7 @@
                                                                 {{((current_pageNote-1)*page_size)+$index+1}}
                                                             </td>
                                                             <td style="text-align: left; width: 10%" ng-if="row.Notes.length > 100">
-                                                                <div class="textwrap">
+                                                                <div class="textwrap" style="max-width:150px; word-wrap:break-word;">
                                                                     {{row.Notes.substring(0,100)+"..." }}
                                                                     <span class="link" style="text-decoration: underline; cursor: pointer" ng-click="NotesPopupModal(Notes,row)">
                                                                         more
@@ -1965,12 +1965,12 @@
                                                                 </div>
                                                             </td>
                                                             <td style="text-align: left" ng-if="row.Notes.length < 100">
-                                                                <div class="textwrap">
+                                                                <div class="textwrap" style="max-width:150px; word-wrap:break-word;">
                                                                     {{row.Notes}}
                                                                 </div>
 
                                                             </td>
-                                                            <td style="text-align: left">
+                                                            <td style="text-align: left;max-width:150px; word-wrap:break-word;">
                                                                 <div>{{row.Created_By_Name}}</div>
                                                             </td>
                                                             <td style="text-align: left">
@@ -2102,7 +2102,7 @@
                                                                 </td>
 
                                                                 <td style="text-align: left">
-                                                                    <div class="textwrap">{{row.Created_Name}}</div>
+                                                                    <div class="textwrap" style="max-width150px;word-wrap:break-word;">{{row.Created_Name}}</div>
                                                                 </td>
                                                                 <td style="text-align: left">{{row.Created_Date| date :'dd-MMM-yyyy hh:mm:ss a'}}</td>
                                                                 <td style="text-align: left">{{row.DocumentDate| date :'dd-MMM-yyyy'}}</td>
@@ -2930,7 +2930,7 @@
                                         <!--  <td style="text-align: left">
                                             {{Allen.OnSetDate| date:'dd-MMM-yyyy'}}
                                         </td>-->
-                                        <td style="text-align: left">
+                                        <td style="text-align: left;max-width:150px;word-wrap:break-word;">
 
 
 
