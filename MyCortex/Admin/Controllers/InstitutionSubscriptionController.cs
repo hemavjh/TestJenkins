@@ -13,6 +13,8 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
+using MyCortex.Notification;
+using MyCortex.Notification.Models;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -72,6 +74,17 @@ namespace MyCortex.Admin.Controllers
                 {
                     model.ReturnFlag = 1;
                     messagestr = "Subscription updated Successfully";
+                }
+                if (model.ReturnFlag == 1)
+                {
+                    string Event_Code = "SUBSCRIPTION_CREATION";
+                    AlertEvents AlertEventReturn = new AlertEvents();
+                    IList<EmailListModel> EmailList;
+                    if (Event_Code == "SUBSCRIPTION_CREATION")
+                    {
+                        EmailList = AlertEventReturn.InstitutionEvent((long)insobj.Institution_Id, (long)insobj.Id);
+                        AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, insobj.Institution_Id, -1, EmailList);
+                    }
                 }
                 model.Institute = ModelData;
                 model.Message = messagestr;// "User created successfully";

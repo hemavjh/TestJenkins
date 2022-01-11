@@ -10,6 +10,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.Id = "0";
         $scope.DuplicateId = "0";
+        $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
         $scope.flag = 0;
         $scope.IsActive = true;
         $scope.TemplateName = "";
@@ -22,9 +23,10 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         }
         $scope.Patient_Id = $window.localStorage['UserId'];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
+        $scope.SectionType = "";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.TemplateTagList = [];
-        if ($window.localStorage['UserTypeId'] == 3) {
+        if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage["UserTypeId"] == 1) {
             $http.get(baseUrl + '/api/EmailTemplate/TemplateTag_List/?Id=' + $scope.InstituteId).success(function (data) {
                 $scope.TemplateTagList = data;
             });
@@ -34,18 +36,48 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         $scope.TemplateTagMappingList = [];
         $scope.TempMappinglist = function () {
-            if ($scope.PageParameter == 1) {
-                $scope.Type = "1"; //For Email
+            if ($scope.UserTypeId != 1) {
+                if ($scope.PageParameter == 1) {
+                    $scope.Type = "1"; //For Email
+                }
+                else if ($scope.PageParameter == 2) {
+                    $scope.Type = "2";//For Notification
+                }
+                else if ($scope.PageParameter == 3) {
+                    $scope.Type = "3";//For SMS
+                }
+                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+                    $scope.TemplateTagMappingList = data;
+                });
             }
-            else if ($scope.PageParameter == 2) {
-                $scope.Type = "2";//For Notification
+            else {
+                if ($scope.PageParameter == 1) {
+                    $scope.Type = "1"; //For Email
+                }
+                else if ($scope.PageParameter == 2) {
+                    $scope.Type = "2";//For Notification
+                }
+                else if ($scope.PageParameter == 3) {
+                    $scope.Type = "3";//For SMS
+                }
+                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+                    $scope.TemplateTagMappingList = data;
+                });
             }
-            else if ($scope.PageParameter == 3) {
-                $scope.Type = "3";//For SMS
-            }
-            $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.TemplateTagMappingList = data;
-            });
+        };
+
+        $scope.OnChangeTypeBasedTagList = function (TagType) {
+            var EmailSectionType = TagType;
+            $scope.SectionType = "";
+            if (EmailSectionType == "1")
+                $scope.SectionType = "BASIC";
+            if (EmailSectionType == "2")
+                $scope.SectionType = "INS_SUB_DETAILS";
+            if (EmailSectionType != "0")
+                $scope.TemplateTagMappingList = [];
+                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+                    $scope.TemplateTagMappingList = data;
+                });
         };
 
         /* THIS IS FOR VALIDATION CONTROL */
@@ -187,7 +219,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.rowCollectionFilter = [];
 
         $scope.EmailTemplatelist = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+            if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage["UserTypeId"] == 1) {
                 $("#chatLoaderPV").show();
                 $scope.ISact = 1;       // default active
 
