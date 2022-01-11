@@ -97,7 +97,7 @@ namespace MyCortex.Repositories.Login
         public LoginModel Userlogin_AddEdit(LoginModel obj)
         {
             //getSystemInformation(obj);
-            DataEncryption DecryptFields = new DataEncryption();
+            //DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@UserName", obj.Username));
@@ -140,16 +140,16 @@ namespace MyCortex.Repositories.Login
                                   {
                                       Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
                                       INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
-                                      FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                      MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                      LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                      FirstName = p.Field<string>("FirstName"),
+                                      MiddleName = p.Field<string>("MiddleName"),
+                                      LastName = p.Field<string>("LastName"),
                                       EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO") ?? "",
-                                      EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+                                      EMAILID = p.Field<string>("EMAILID") ?? "",
                                       // EMAILID = p.Field<string>("EMAILID") ?? "",
                                       DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
-                                      MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
+                                      MOBILE_NO = p.Field<string>("MOBILE_NO") ?? "",
                                       //DOB = p.Field<DateTime?>("DOB"),
-                                      DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
+                                      DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                       Department_Name = p.Field<string>("Department_Name") ?? "",
                                       InstitutionName = p.Field<string>("InstitutionName") ?? "",
                                       IsActive = p.Field<int?>("IsActive"),
@@ -175,9 +175,9 @@ namespace MyCortex.Repositories.Login
                                       BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
                                       MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
                                       PATIENTNO = p.Field<string>("PATIENTNO") ?? "",
-                                      MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")) ?? "",
-                                      INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
-                                      NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
+                                      MNR_NO = p.Field<string>("MNR_NO") ?? "",
+                                      INSURANCEID = p.Field<string>("INSURANCEID") ?? "",
+                                      NATIONALID = p.Field<string>("NATIONALID") ?? "",
                                       EthnicGroup = p.Field<string>("EthnicGroup") ?? "",
                                       UserName = p.Field<string>("UserName") ?? "",
                                       GENDER_NAME = p.Field<string>("GENDER_NAME") ?? "",
@@ -206,10 +206,10 @@ namespace MyCortex.Repositories.Login
                                       ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT") ?? "",
                                       CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
                                       CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT") ?? "",
-                                      EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")) ?? "",
-                                      EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")) ?? "",
-                                      EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")) ?? "",
-                                      Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
+                                      EMERG_CONT_FIRSTNAME = p.Field<string>("EMERG_CONT_FIRSTNAME") ?? "",
+                                      EMERG_CONT_MIDDLENAME = p.Field<string>("EMERG_CONT_MIDDLENAME") ?? "",
+                                      EMERG_CONT_LASTNAME = p.Field<string>("EMERG_CONT_LASTNAME") ?? "",
+                                      Emergency_MobileNo = p.Field<string>("EMRG_CONT_PHONENO") ?? "",
                                       EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
                                       Patient_Type = p.IsNull("PATIENT_TYPE") ? 0 : p.Field<int>("PATIENT_TYPE"),
                                       Unitgroup_preference = p.Field<int?>("UNITGROUP_PREFERENCE") ?? 0,

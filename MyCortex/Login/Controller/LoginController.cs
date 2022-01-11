@@ -135,9 +135,9 @@ namespace MyCortex.Login.Controller
                 {
                     // encrypt the password
                     var username = loginObj.Username.ToLower();
-                    DataEncryption EncryptPassword = new DataEncryption();
-                    loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
-                    loginObj.Username = EncryptPassword.Encrypt(username);
+                    //DataEncryption EncryptPassword = new DataEncryption();
+                    //loginObj.Password = EncryptPassword.Encrypt(loginObj.Password);
+                    //loginObj.Username = EncryptPassword.Encrypt(username);
                     model = repository.Userlogin_AddEdit(loginObj);
 
                     HttpContext.Current.Session["UserId"] = model.UserId.ToString();

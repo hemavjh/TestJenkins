@@ -4456,5 +4456,54 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
+        public IList<DecryptUserListModel> DecryptUserDetails(long INSTITUTION_ID, long startno)
+        {
+            DataEncryption EncryptPassword = new DataEncryption();
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
+            param.Add(new DataParameter("@STARTNO", startno));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_INSTITUTION_USERLIST]", param);
+            DataEncryption DecryptFields = new DataEncryption();
+            List<DecryptUserListModel> list = (from p in dt.AsEnumerable()
+                                                   select new DecryptUserListModel()
+                                                   {
+                                                       SNO = p.Field<long>("SNO"),
+                                                       ID = p.Field<long>("ID"),
+                                                       FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")) ?? "",
+                                                       MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")) ?? "",
+                                                       LASTNAME = DecryptFields.Decrypt(p.Field<string>("LASTNAME")) ?? "",
+                                                       PASSWORD = DecryptFields.Decrypt(p.Field<string>("PASSWORD")) ?? "",
+                                                       EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+                                                       GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("GOOGLE_EMAILID")) ?? "",
+                                                       FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")) ?? "",
+                                                       MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
+                                                       PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")) ?? "",
+                                                       INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
+                                                       MRN_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")) ?? "",
+                                                       NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
+                                                       DOB_ENCRYPT = DecryptFields.Decrypt(p.Field<string>("DOB_ENCRYPT")) ?? "",
+                                                       FULLNAME = DecryptFields.Decrypt(p.Field<string>("FULLNAME")) ?? "",
+                                                       EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")) ?? "",
+                                                       EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")) ?? "",
+                                                       EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")) ?? "",
+                                                       EMRG_CONT_PHONENO = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
+                                                   }).ToList();
+            return list;
+        }
+
+        public int NEW_EncryptUserDetails(DataTable dt)
+        {
+            try
+            {
+                List<DataParameter> param = new List<DataParameter>();
+                param.Add(new DataParameter("@USER_DATA", dt));
+                DataTable dt3 = ClsDataBase.GetDataTable("[MYCORTEX].[UPDATE_ENCRYPTED_USER_DETAILS]", param);
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 }

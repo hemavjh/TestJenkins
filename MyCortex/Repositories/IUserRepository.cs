@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MyCortex.Admin.Models;
-
+using System.Data;
 
 namespace MyCortex.Repositories
 {
@@ -68,7 +68,9 @@ namespace MyCortex.Repositories
         void PatientAssignedProtocol_InsertUpdate(ProtocolModel prtobj);
         IList<ProtocolModel> PatientAssignedProtocolHistorylist(long Patient_Id, Guid Login_Session_Id);
 
+        IList<DecryptUserListModel> DecryptUserDetails(long InstitutionId, long startno);
 
+        int NEW_EncryptUserDetails(DataTable dt);
         IList<MasterICDModel> ICD10CategoryList();
         IList<MasterICDModel> ICD10CodeList(long Institution_ID);
         long PatientICD10Details_AddEdit(Guid Login_Session_Id, List<MasterICDModel> obj);
