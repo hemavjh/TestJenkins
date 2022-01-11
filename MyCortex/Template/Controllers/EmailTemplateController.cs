@@ -203,6 +203,29 @@ namespace MyCortex.Template.Controllers
         }
 
         /// <summary>
+        /// to get Section Based Email Template and Tag mapping list for the institution
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <param name="SectionName">Section Name</param>
+        /// <returns>Section Based Email Template and Tag mapping list for the institution</returns>
+        [HttpGet]
+        public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName)
+        {
+            IList<TagListMappingModels> model;
+            try
+            {
+                model = repository.SectionEmailTemplateTagMapping_List(Id, Institution_Id, SectionName);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// to get Email Template and Tag mapping list for the institution
         /// </summary>
         /// <param name="Id"></param>

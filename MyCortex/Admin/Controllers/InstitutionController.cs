@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using MyCortex.Masters.Models;
 using MyCortex.Provider;
 using MyCortex.Utilities;
+using MyCortex.Notification;
+using MyCortex.Notification.Models;
 
 namespace MyCortex.Admin.Controllers
 {
@@ -72,18 +74,17 @@ namespace MyCortex.Admin.Controllers
                         messagestr = "Institution updated Successfully";
                         model.ReturnFlag = 1;
                     }
-                    if (model.ReturnFlag == 1)
-                    {
-                        EmailGeneration Generator = new EmailGeneration();
-                        EmailGenerateModel MailMessage = new EmailGenerateModel();
-                        MailMessage.Institution_Id = -1;
-                        MailMessage.MessageToId = insobj.Email;
-                        MailMessage.MessageSubject = "Welcome - Mycortex Registration";
-                        MailMessage.MessageBody = messagestr;
-                        MailMessage.Created_By = 0;
-                        MailMessage.UserId = 0;
-                        var insData = Generator.SendEmail(MailMessage);
-                    }
+                if (model.ReturnFlag == 1)
+                {
+                    string Event_Code = "INS_CREATION";
+                    AlertEvents AlertEventReturn = new AlertEvents();
+                    IList<EmailListModel> EmailList;
+                    if (Event_Code == "INS_CREATION")
+                        {
+                            EmailList = AlertEventReturn.InstitutionEvent((long)ModelData[0].Id, -1);
+                            AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData[0].Id, -1, EmailList);
+                        }
+                }
                     model.Institute = ModelData;
                     model.Message = messagestr;// "User created successfully";
                     model.Status = "True";

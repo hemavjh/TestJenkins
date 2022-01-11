@@ -154,6 +154,19 @@
     </td>-->
 
                 </td>
+
+                <td style="text-align: left">
+                    <select class="form-control" style="max-width:100% !important"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
+                        <option value="5">Care Giver</option>
+                        <option value="6">Care Coordinator</option>
+                        <option value="4">Clinician</option>
+                        <option value="7">Super Clinician</option>
+                    </select>
+                    <input type="text" class="form-control" style="max-width:100% !important"
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC_CODE' && IsEdit==true">
+                    <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
+                </td>
             </tr>
         </tbody>
     </table>
