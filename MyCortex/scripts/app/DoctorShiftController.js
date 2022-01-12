@@ -1478,7 +1478,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
 
         /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
         $scope.ValidationcontrolsDoctorShift = function () {
-            var today = moment(new Date()).format('DD-MM-YYYY');
+            var today = moment(new Date()).format('YYYY-MM-DD');
+            var fromDt = moment($scope.FromDate).format('YYYY-MM-DD');
+            var toDt = moment($scope.ToDate).format('YYYY-MM-DD');
             //$scope.FromDate = moment($scope.FromDate).format('DD-MM-YYYY');
             //$scope.ToDate = moment($scope.ToDate).format('DD-MM-YYYY');
 
@@ -1505,7 +1507,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please select Start Date", "warning");
                 return false;
             }
-            else if (ParseDate(today) > ParseDate($scope.FromDate)) {
+            else if (today > fromDt) {
                 toastr.warning("Please avoid past date as Start Date", "warning");
                 return false;
             }
@@ -1514,11 +1516,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please select End Date", "warning");
                 return false;
             }
-            else if (ParseDate(today) > ParseDate($scope.ToDate)) {
+            else if (today > toDt) {
                 toastr.warning("Please avoid past date as End Date", "warning");
                 return false;
             }
-            else if (ParseDate($scope.ToDate) < ParseDate($scope.FromDate)) {
+            else if ($scope.FromDate > $scope.ToDate) {
                 toastr.warning("Start Date should not be greater than End Date", "warning");
                 $scope.FromDate = DateFormatEdit($scope.FromDate);
                 $scope.ToDate = DateFormatEdit($scope.ToDate);
@@ -3062,8 +3064,54 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
 
         }
 
+        $scope.remindDelete = function (Delete_Id, rowIndex) {
+            if ($scope.AddReminderParameters.length > 1) {
+                $scope.ReminderUserDelete(Delete_Id, rowIndex);
+            }
+            else if ($scope.Id == 0) {
+                $scope.ReminderUserDelete();
+                angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                    if (index != rowIndex)
+                        Previous_MyReminderItem.push(selectedPre);
+                });
+            }
+        }
+
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete User Remainder Details?");
+            Swal.fire({
+                title: 'Do you like to delete User Remainder Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.$apply(() => {
+                        var Previous_MyReminderItem = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyReminderItem.push(selectedPre);
+                            });
+                            $scope.AddReminderParameters = Previous_MyReminderItem;
+                        } else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyReminderItem.push(selectedPre);
+                            });
+                            $scope.AddReminderParameters = Previous_MyReminderItem;
+                        }
+                    
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to delete User Remainder Details?");
             if (del == true) {
                 var Previous_MyReminderItem = [];
                 if ($scope.Id == 0) {
@@ -3079,7 +3127,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     });
                     $scope.AddReminderParameters = Previous_MyReminderItem;
                 }
-            }
+            }*/
         };
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/').success(function (data) {
             $scope.TimeZoneList = data;

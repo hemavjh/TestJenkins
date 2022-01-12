@@ -447,10 +447,14 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
                     + '&InstitutionId=' + $scope.InstituteId
                     + '&PageTypeId=' + $scope.PageParameter*/
                     .success(function (data) {
-                        alert(data.Message);
+                        //alert(data.Message);
                         if (data.ReturnFlag == "1") {
+                            toastr.success(data.Message, "success");
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
+                        }
+                        else if (data.ReturnFlag == "0") {
+                            toastr.info(data.Message, "info");
                         }
                     }).error(function (data) {
                         $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;

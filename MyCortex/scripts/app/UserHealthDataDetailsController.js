@@ -735,9 +735,20 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     //    $scope.PreviousAppointmentDetails = data.PatientAppointmentList;
                     //    $scope.PreviousAppointmentCount = $scope.PreviousAppointmentDetails.length;
                     //});
+
+                    //alert(moment(new Date()).format('DD-MMM-YYYY'));
+                    $scope.ByDateDeptList = function () {
+                        var AppDate = document.getElementById('dateee').value; //$scope.AppoimDate;
+                         var res = convert(AppDate);
+                         $scope.DepartmentList1 = [];
+                         $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                             $scope.DepartmentList1 = data;
+                         });
+                    }
                     $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
                         $scope.DepartmentList = data;
                     });
+
                     $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/?Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                         $scope.TimeZoneList = data;
                     });
@@ -782,6 +793,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var dt = moment(new Date()).format('DD-MM-YYYY');
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
+                        $scope.DoctorListWithTimeZone1 = [];
                         document.getElementById("show").disabled = true;
                         if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
@@ -804,6 +816,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                             $http.get(baseUrl + '/api/PatientAppointments/DepartmentwiseDoctorList/?DepartmentIds=' + DeptID + '&InstitutionId=' + $scope.SelectedInstitutionId + '&Date=' + res + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                                 $("#appoint_waveLoader").hide();
                                 $scope.DoctorListWithTimeZone = data;
+                                $scope.DoctorListWithTimeZone1 = $scope.DoctorListWithTimeZone;
                             }).error(function (data) { $("#appoint_waveLoader").hide(); });
                         }
 
@@ -1031,6 +1044,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.AppointmoduleID1 = type;
                     }
                     $scope.BackToDoc = function () {
+                        $scope.DoctorListWithTimeZone=$scope.DoctorListWithTimeZone1;
                         $scope.showMainBox = true;
                     }
                     $http.get(baseUrl + '/api/User/DocumentTypeList/').success(function (data) {
@@ -1508,7 +1522,41 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $("#chatLoaderPV").hide();
                     }
                     $scope.ConfirmAppointment = function (Row) {
-                        if (confirm("Confirm to appointment")) {
+                        Swal.fire({
+                            title: 'Confirm to appointment',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $("#chatLoaderPV").show();
+                                var obj = {
+                                    "Id": Row.Id,
+                                    "SESSION_ID": $window.localStorage['Login_Session_Id'],
+                                    "Institution_Id": $window.localStorage['InstitutionId'],
+                                    "user_id": $window.localStorage['UserId']
+                                }
+                                $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
+                                    $("#chatLoaderPV").hide();
+                                    if (data.ReturnFlag == 1) {
+                                        CG_PatientAppointment_List();
+                                        //alert(data.Message);
+                                        toastr.success(data.Message, "success");
+                                    } else {
+                                        //alert(data.Message);
+                                        toastr.info(data.Message, "info");
+                                    }
+                                });
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
+                       /* if (confirm("Confirm to appointment")) {
                             $("#chatLoaderPV").show();
                             var obj = {
                                 "Id": Row.Id,
@@ -1525,7 +1573,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     alert(data.Message);
                                 }
                             });
-                        }
+                        }*/
                     }
                     $scope.AppointmentPayment = function (Row) {
                         $scope.paymentappointmentId = Row.Id;
@@ -2972,6 +3020,13 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
                 $scope.AppoimDate = new Date(DatetimepickermaxDate);
             });
+             // load department list --department list shown by default for current date            
+                var res = moment(new Date()).format('YYYY-MM-DD')// convert(AppDate);
+                $scope.DepartmentList1 = [];
+                $http.get(baseUrl + '/api/DoctorShift/ByDateDept_List/?Institution_Id=' + $window.localStorage['InstitutionId'] + '&Filter_Date=' + res).success(function (data) {
+                    $scope.DepartmentList1 = data;
+                });
+           
         }
         $scope.ShowStripePopup = function () {
             angular.element('#StripePayOptions').modal('show');
@@ -4553,25 +4608,26 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    //    var del = confirm("Do you like to delete the selected ICD10 Details?");
+                //    var del = confirm("Do you like to delete the selected ICD10 Details?");
                     //    if (del == true) {
-
-                    $scope.AddICD10List.splice(itemIndex, 1);
-                    if ($scope.AddICD10List.length == 0) {
-                        $scope.AddICD10List = [{
-                            'Id': 0,
-                            'Category_ID': 0,
-                            'Category_Name': '',
-                            'Code_ID': '0',
-                            'ICDCode': '',
-                            'ICD_Description': '',
-                            'ICD_Remarks': '',
-                            'Active_From': '',
-                            'Active_To': ''
-                        }];
-
-                    }
-                    //  }
+                 $scope.$apply(() => { 
+                     $scope.AddICD10List.splice(itemIndex, 1);
+                     if ($scope.AddICD10List.length == 0) {
+                         $scope.AddICD10List = [{
+                             'Id': 0,
+                             'Category_ID': 0,
+                             'Category_Name': '',
+                             'Code_ID': '0',
+                             'ICDCode': '',
+                             'ICD_Description': '',
+                             'ICD_Remarks': '',
+                             'Active_From': '',
+                             'Active_To': ''
+                         }];
+ 
+                     }
+                });
+           //  }
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
                 }
@@ -4683,7 +4739,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         toastr.success(data.Message, "success");
                     }
                     else if (data.ReturnFlag == 1) {
-                        toastr.warning(data.Message, "warning");
+                        toastr.info(data.Message, "info");
                     }
                     $('#buttonsave').attr("disabled", false);
                     $('#buttonsave1').attr("disabled", false);
@@ -5236,20 +5292,22 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (result.isConfirmed) {
                     // var del = confirm("Do you like to delete the selected Details?");
                     // if (del == true) {
-                    $scope.AddMedicationDetails.splice(itemIndex, 1);
-                    if ($scope.AddMedicationDetails.length == 0) {
-                        $scope.AddMedicationDetails = [{
-                            'Id': 0,
-                            'PatientId': 0,
-                            'DrugId': "",
-                            'FrequencyId': 0,
-                            'RouteId': 0,
-                            'NoOfDays': "",
-                            'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                            'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
-                            ' Created_By': 0
-                        }];
-                    }
+                    $scope.$apply(() => {
+                        $scope.AddMedicationDetails.splice(itemIndex, 1);
+                        if ($scope.AddMedicationDetails.length == 0) {
+                            $scope.AddMedicationDetails = [{
+                                'Id': 0,
+                                'PatientId': 0,
+                                'DrugId': "",
+                                'FrequencyId': 0,
+                                'RouteId': 0,
+                                'NoOfDays': "",
+                                'StartDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                                'EndDate': DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy')),
+                                ' Created_By': 0
+                            }];
+                        }
+                    });
                     //}
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')
@@ -7014,19 +7072,21 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 if (result.isConfirmed) {
                     //var del = confirm("Do you like to delete document");
                     //  if (del == true) {
-                    var Previous_DocumentItem = [];
+                    $scope.$apply(() => {
+                        var Previous_DocumentItem = [];
 
-                    angular.forEach($scope.Patient_OtherData, function (selectedPre, index) {
-                        if (index != rowIndex)
-                            Previous_DocumentItem.push(selectedPre);
-                    });
+                        angular.forEach($scope.Patient_OtherData, function (selectedPre, index) {
+                            if (index != rowIndex)
+                                Previous_DocumentItem.push(selectedPre);
+                        });
                     $scope.Patient_OtherData = Previous_DocumentItem;
-                    if ($scope.Patient_OtherData.length > 0) {
-                        $scope.Add_OtherDataflag = 1;
-                    }
-                    else {
-                        $scope.Add_OtherDataflag = 0;
-                    }
+                        if ($scope.Patient_OtherData.length > 0) {
+                            $scope.Add_OtherDataflag = 1;
+                        }
+                        else {
+                            $scope.Add_OtherDataflag = 0;
+                            }
+                    });
                     // }
                 } else if (result.isDenied) {
                     //Swal.fire('Changes are not saved', '', 'info')

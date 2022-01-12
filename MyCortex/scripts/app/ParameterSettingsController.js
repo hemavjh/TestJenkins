@@ -106,7 +106,8 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
             });
 
             if (validateflag == false) {
-                alert(validationMsg + "\n" + "cannot Save ");
+                //alert(validationMsg + "\n" + "cannot Save ");
+                toastr.info(validationMsg + "\n" + "cannot Save ","info");
                 return false;
             }
             return true;
