@@ -286,6 +286,12 @@ namespace MyCortex.Notification
             EmailListModel = repository.InstitutionCreateEvent(Institution_Id, Entity_Id);
             return EmailListModel;
         }
+        public IList<EmailListModel> InstitutionEvent(long Entity_Id, long Institution_Id)
+        {
+            IList<EmailListModel> EmailListModel;
+            EmailListModel = repository.InstitutionEvent(Institution_Id, Entity_Id);
+            return EmailListModel;
+        }
         public IList<EmailListModel> ClinicianNoteEvent(long Entity_Id, long Institution_Id)
         {
             IList<EmailListModel> EmailListModel;

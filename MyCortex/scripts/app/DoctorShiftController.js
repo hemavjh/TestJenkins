@@ -1479,6 +1479,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
         $scope.ValidationcontrolsDoctorShift = function () {
             var today = moment(new Date()).format('YYYY-MM-DD');
+            var fromDt = moment($scope.FromDate).format('YYYY-MM-DD');
+            var toDt = moment($scope.ToDate).format('YYYY-MM-DD');
             //$scope.FromDate = moment($scope.FromDate).format('DD-MM-YYYY');
             //$scope.ToDate = moment($scope.ToDate).format('DD-MM-YYYY');
 
@@ -1505,7 +1507,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please select Start Date", "warning");
                 return false;
             }
-            else if (ParseDate(today) > ParseDate($scope.FromDate)) {
+            else if (today > fromDt) {
                 toastr.warning("Please avoid past date as Start Date", "warning");
                 return false;
             }
@@ -1514,7 +1516,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please select End Date", "warning");
                 return false;
             }
-            else if (ParseDate(today) > ParseDate($scope.ToDate)) {
+            else if (today > toDt) {
                 toastr.warning("Please avoid past date as End Date", "warning");
                 return false;
             }

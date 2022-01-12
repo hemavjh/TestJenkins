@@ -488,7 +488,7 @@ namespace MyCortex.User.Controller
                     }
                     else if (userObj.UserType_Id == 3)
                     {
-                        Event_Code = "INS_CREATION";
+                        Event_Code = "ADMIN_USER_CREATION";
                     }
                     else if (userObj.ApprovalFlag != "0" && userObj.UserType_Id == 2)
                     {
@@ -496,9 +496,9 @@ namespace MyCortex.User.Controller
                     }
                     AlertEvents AlertEventReturn = new AlertEvents();
                     IList<EmailListModel> EmailList;
-                    if (Event_Code == "INS_CREATION")
+                    if (Event_Code == "ADMIN_USER_CREATION")
                     {
-                        EmailList = AlertEventReturn.InstitutionCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
+                        EmailList = AlertEventReturn.UserCreateEvent((long)ModelData.Id, (long)userObj.INSTITUTION_ID);
                         AlertEventReturn.Generate_SMTPEmail_Notification(Event_Code, ModelData.Id, -1, EmailList);
                     }
                     else

@@ -62,6 +62,7 @@ namespace MyCortex.Template.Models
          public long TagType_Id { get; set; }
          public string TagList { get; set; }
          public string Description { get; set; }
+         public string SectionName { get; set; }
          public int IsActive { get; set; }
      }
 }
