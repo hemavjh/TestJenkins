@@ -269,6 +269,43 @@ namespace MyCortex.Repositories.Template
         }
 
         /// <summary>
+        /// to get Section Based Email Template and Tag mapping list for the institution
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Institution_Id">Institution Id</param>
+        /// <param name="SectionName">Section Name</param>
+        /// <returns>Section Based Email Template and Tag mapping list for the institution</returns>
+        public IList<TagListMappingModels> SectionEmailTemplateTagMapping_List(long Id, long Institution_Id, string SectionName)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                param.Add(new DataParameter("@Id", Id));
+                param.Add(new DataParameter("@Institution_Id", Institution_Id));
+                param.Add(new DataParameter("@Sectionname", SectionName));
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[SECTIONTYPE_TAGTYPEMAPPING_SP_LIST]", param);
+                List<TagListMappingModels> lst = (from p in dt.AsEnumerable()
+                                                  select new TagListMappingModels()
+                                                  {
+                                                      Id = p.Field<long>("Id"),
+                                                      TagType_Id = p.Field<long>("TAGTYPE_ID"),
+                                                      TagType_Name = p.Field<string>("TAGTYPENAME"),
+                                                      TagList = p.Field<string>("TAGLIST"),
+                                                      IsActive = p.Field<int>("ISACTIVE"),
+                                                      Institution_Id = p.Field<long>("INSTITUTION_ID"),
+                                                      Institution_Name = p.Field<string>("INSTITUTION_NAME"),
+                                                  }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// to get Email Template and Tag mapping list for the institution
         /// </summary>
         /// <param name="Id"></param>

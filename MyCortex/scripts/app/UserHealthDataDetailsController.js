@@ -1522,7 +1522,41 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $("#chatLoaderPV").hide();
                     }
                     $scope.ConfirmAppointment = function (Row) {
-                        if (confirm("Confirm to appointment")) {
+                        Swal.fire({
+                            title: 'Confirm to appointment',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $("#chatLoaderPV").show();
+                                var obj = {
+                                    "Id": Row.Id,
+                                    "SESSION_ID": $window.localStorage['Login_Session_Id'],
+                                    "Institution_Id": $window.localStorage['InstitutionId'],
+                                    "user_id": $window.localStorage['UserId']
+                                }
+                                $http.post(baseUrl + '/api/User/CG_Confirm_PatientAppointments/', obj).success(function (data) {
+                                    $("#chatLoaderPV").hide();
+                                    if (data.ReturnFlag == 1) {
+                                        CG_PatientAppointment_List();
+                                        //alert(data.Message);
+                                        toastr.success(data.Message, "success");
+                                    } else {
+                                        //alert(data.Message);
+                                        toastr.info(data.Message, "info");
+                                    }
+                                });
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
+                       /* if (confirm("Confirm to appointment")) {
                             $("#chatLoaderPV").show();
                             var obj = {
                                 "Id": Row.Id,
@@ -1539,7 +1573,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                                     alert(data.Message);
                                 }
                             });
-                        }
+                        }*/
                     }
                     $scope.AppointmentPayment = function (Row) {
                         $scope.paymentappointmentId = Row.Id;

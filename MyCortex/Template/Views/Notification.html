@@ -24,7 +24,7 @@
             //$('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
         });
     </script>
-<ul class="secondaryMenu">
+<ul class="secondaryMenu" ng-show="UserTypeId == 3">
     <li>
         <a class="secondaryMenuActive" href="Home/Index#/Notification/2" data-menu="Bulk Notification">Notification Template</a>
     </li>
@@ -38,6 +38,15 @@
         <a href="Home/Index#/NotificationHistory/2">Notification History</a>
     </li>
 </ul>
+<ul class="secondaryMenu" ng-show="UserTypeId == 1">
+    <li><a href="Home/Index#/AdminEmailConfigurationList/1">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+</ul>
+
+
 <h1 class="page-title">Notification Template</h1>
 <div ng-init="PageParameter='2'">
     <div ng-init="EmailTemplatelist()">
