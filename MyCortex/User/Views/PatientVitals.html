@@ -764,7 +764,7 @@
                 <!--</div>
                 </div>-->
                 <div class="col-sm-7">
-                    <h1 class="page-title" ng-show="ParameterValueList.length>=0">
+                    <h1 class="page-title" ng-show="ParameterValueListCount.length>=0">
                         Alerts<sub>
                             <input type="image" src="../../Images/expand.gif"
                                    title='Click to Collapse'
@@ -772,24 +772,24 @@
                                    style="width: 20px;" id="tableid_img">
                         </sub>
                     </h1>
-                    <div class="mynotificationsWarnings myhighposition" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0" ng-click="AlertCountredDisplay()">
+                    <div class="mynotificationsWarnings myhighposition" ng-show="{HighParamCount}>=0" ng-click="AlertCountredDisplay()">
                         <div class="jinglebelllow">
-                            <i id="Highcount" class="fa fa-bell-o myhighBell" ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"></i>
-                            <span ng-show="(ParameterValueList |filter:{HighCount:1}).length>=0"> {{(ParameterValueList |filter:{HighCount:1}).length}}</span>
+                            <i id="Highcount" class="fa fa-bell-o myhighBell" ng-show="{HighParamCount}>=0"></i>
+                            <span ng-show="{HighParamCount}>=0"> {{HighParamCount}}</span>
                         </div>
                     </div>
 
-                    <div class="mynotificationsWarnings mymediumPosition" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0" ng-click="AlertCountDisplay()">
+                    <div class="mynotificationsWarnings mymediumPosition" ng-show="{MediumParamCount}>=0" ng-click="AlertCountDisplay()">
                         <div class="jinglebellmedium">
-                            <i id="Medcount" class="fa fa-bell-o mymediumBell" ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0"></i>
-                            <span ng-show="(ParameterValueList |filter:{MediumCount:1}).length>=0">{{(ParameterValueList |filter:{MediumCount:1}).length}}</span>
+                            <i id="Medcount" class="fa fa-bell-o mymediumBell" ng-show="{MediumParamCount}>=0"></i>
+                            <span ng-show="{MediumParamCount}>=0">{{MediumParamCount}}</span>
                         </div>
                     </div>
 
-                    <div class="mynotificationsWarnings mylowPosition" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0" ng-click="AlertCountgreenDisplay()">
+                    <div class="mynotificationsWarnings mylowPosition" ng-show="{LowParamCount}>=0" ng-click="AlertCountgreenDisplay()">
                         <div class="jinglebellhigh">
-                            <i id="Lowcount" class="fa fa-bell-o mylowBell" ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"></i>
-                            <span ng-show="(ParameterValueList |filter:{LowCount:1}).length>=0"> {{(ParameterValueList |filter:{LowCount:1}).length}}</span>
+                            <i id="Lowcount" class="fa fa-bell-o mylowBell" ng-show="{LowParamCount}>=0"></i>
+                            <span ng-show="{LowParamCount}>=0"> {{LowParamCount}}</span>
                         </div>
                     </div>
 

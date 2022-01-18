@@ -3631,12 +3631,25 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         if ($scope.UserTypeId != "3" || $scope.UserTypeId != "1") {
             //Assign care Giver only in Coordinator Login
-            $scope.ParameterValueList = [];
-            $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+
+            //$scope.ParameterValueList = [];            
+            $scope.ParameterValueListCount = [];
+
+            $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValueCount/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
+                $scope.ParameterValueListCount = data1;
+                angular.forEach($scope.ParameterValueListCount, function (value, index) {
+                    //console.log(value);
+                    $scope.HighParamCount = value.HighCount;
+                    $scope.LowParamCount = value.LowCount;
+                    $scope.MediumParamCount = value.MediumCount;
+                });
+            });
+            
+            /*$http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.ParameterValueList = data;
                 //angular.forEach($scope.ParameterValueList, function (value, index) {
                 //    console.log(value);
-                //    if(value.HighCount!= 0 ) 
+                //    if(value.HighCount!= 0) 
                 //    {
                 //        HighCountVital= (value.HighCount).length;
                 //        console.log(HighCountVital);
@@ -3644,7 +3657,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 //});
 
 
-            });
+            });*/
         }
 
         $scope.yellowcount = 1;
@@ -3671,6 +3684,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             var MediumCountVital;
             $scope.MediumCountVitalList = [];
             if ($scope.yellowcount == 2) {
+                $scope.ParameterValueList = [];
+                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.ParameterValueList = data;
+                });
+
                 angular.forEach($scope.ParameterValueList, function (value, index) {
                     console.log(value);
                     if (value.MediumCount != 0) {
@@ -3745,6 +3763,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             var HighCountVital;
             $scope.HighCountVitalList = [];
             if ($scope.redcount == 2) {
+                $scope.ParameterValueList = [];
+                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.ParameterValueList = data;
+                });
                 angular.forEach($scope.ParameterValueList, function (value, index) {
                     console.log(value);
                     if (value.HighCount != 0) {
@@ -3819,6 +3841,10 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             var LowCountVital;
             $scope.LowCountVitalList = [];
             if ($scope.greencount == 2) {
+                $scope.ParameterValueList = [];
+                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.ParameterValueList = data;
+                });
                 angular.forEach($scope.ParameterValueList, function (value, index) {
                     console.log(value);
                     if (value.LowCount != 0) {
