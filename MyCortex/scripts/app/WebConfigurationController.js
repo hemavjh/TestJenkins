@@ -241,6 +241,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 $scope.WebConfigurationDetails.push(obj);
             });
 
+
             $http.post(baseUrl + '/api/WebConfiguration/Configuration_AddEdit/', $scope.WebConfigurationDetails).success(function (data) {
                 $("#chatLoaderPV").hide();
                 //alert("Configuration Data saved successfully");
@@ -255,6 +256,66 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
             });
 
         };
+/*
+        $scope.insSubChronicChange = function () {
+            //alert($scope.Chroniccc);
+            if ($scope.Chroniccc == false && $scope.Chroniccg == false && $scope.Chroniccl == false && $scope.Chronicsc == false) {
+                $('#divInssChronicEdit').removeClass("ng-valid");
+                $('#divInssChronicEdit').addClass("ng-invalid");
+            }
+            else {
+                $('#divInssChronicEdit').removeClass("ng-invalid");
+                $('#divInssChronicEdit').addClass("ng-valid");
+            }
+        }*/
+
+        
+        $scope.onChangeChronic = function () {
+            CHRONIC_CODE = "";
+            //var ConfigValue = $scope.rowCollectionWebConfiguration["32"]["CONFIGVALUE"];
+            /*var ConfigValue = $scope.Config_value[$scope.Config_value.length - 1];*/
+            var ConfigRowId = $scope.Config_value.length - 1;
+            angular.forEach($scope.Config_value[ConfigRowId], function (ID, index) {
+                if ($scope.Config_value[ConfigRowId].length == 1) {
+                    CHRONIC_CODE = ID.toString();
+                }
+                else if (CHRONIC_CODE != "" || $scope.Config_value[ConfigRowId].length > 1) {
+                    CHRONIC_CODE = CHRONIC_CODE + ID + ',';
+
+                }
+            });
+
+            //var CHRONIC_CODE = "";
+            //angular.forEach($scope.Config_value[row.ID], function (Chronic_Id, index) {
+            //    if ($scope.Config_value[row.ID].length == 1) {
+            //        CHRONIC_CODE = Chronic_Id.toString();
+            //    }
+            //    else if (CHRONIC_CODE != "" || $scope.Config_value[row.ID].length > 1) {
+            //        CHRONIC_CODE = CHRONIC_CODE + Chronic_Id + ',';
+
+            //    }
+            //});
+        }
+
+
+/*
+        $scope.chronicChange = function (index) {
+            if ($scope.Chroniccc == true)
+                CHRONIC_CODE="
+        }*/
+
+       /*$scope.onChangeChronic = function () {
+            var SelectedINSTITUTION_ID = "";
+            angular.forEach($scope.SelectedConfig_value, function (Id, index) {
+                if ($scope.SelectedConfig_value.length == 0) {
+                    SelectedINSTITUTION_ID = Id.toString();
+                }
+                else if (SelectedINSTITUTION_ID != "" || $scope.SelectedConfig_value.length > 0) {
+                    SelectedINSTITUTION_ID = SelectedINSTITUTION_ID + Id + ',';
+
+                }
+            });
+        }*/
 
         $scope.onChangeChronic = function () {
             CHRONIC_CODE = "";
