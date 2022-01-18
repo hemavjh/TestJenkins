@@ -1444,7 +1444,7 @@
                                                                         <img src="../../Images/deleteNewIcon.png" />
                                                                     </a>
                                                                     <a href="javascript:" title="Edit"
-                                                                       ng-click="ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
+                                                                       ng-click="row.IsActive == 1 || ParameterClickEdit(row, ((current_page-1)*page_size)+$index);"
                                                                        ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1 && ((UserTypeId== 4)||(UserTypeId==7)||(UserTypeId==2)||(UserTypeId==5))">
                                                                         <img src="../../Images/EditIcon.png" />
                                                                     </a>
@@ -1980,7 +1980,7 @@
                                                                 <a href="javascript:" ng-click="ViewPatientNotesPopUP(row.Id)" title="View">
                                                                     <img src="../../Images/ViewIcon.png" />
                                                                 </a>
-                                                                <a href="javascript:" title="Edit" ng-click="EditPatientNotes(row.Id, row.Created_Dt, row.Created_By)">
+                                                                <a href="javascript:" title="Edit" ng-click="row.IsActive == 1 || EditPatientNotes(row.Id, row.Created_Dt, row.Created_By)">
                                                                     <img src="../../Images/EditIcon.png" />
                                                                 </a>
                                                                 <a href="javascript:" ng-click="DoctorNotesDetails_InActive(row.Id)" title="Active" ng-if="row.IsActive==1">
