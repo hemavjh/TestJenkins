@@ -26,6 +26,7 @@ namespace MyCortex.Admin.Controllers
     {
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
+        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IList<GatewaySettingsModel> gatewayModel;
         [HttpGet]
         [Authorize]
@@ -151,6 +152,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (WebException wx)
             {
+                _logger.Error(wx.Message, wx);
                 if (wx.Message != null)
                 {
                     using (WebResponse response = wx.Response)
@@ -172,6 +174,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
             return Request.CreateResponse(HttpStatusCode.OK, new { Token = token, Sign = payBySign });
@@ -205,6 +208,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Error");
             }
         }
@@ -302,6 +306,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch (WebException wx)
                 {
+                    _logger.Error(wx.Message, wx);
                     if (wx.Message != null)
                     {
                         using (WebResponse response = wx.Response)
@@ -325,6 +330,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return Request.CreateResponse(HttpStatusCode.OK, new { status = 0 });
             }
         }
