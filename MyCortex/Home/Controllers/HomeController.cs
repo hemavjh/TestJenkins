@@ -955,6 +955,7 @@ namespace MyCortex.Home.Controllers
             }
             catch (WebException wx)
             {
+                _logger.Error(wx.Message, wx);
                 if (wx.Message != null)
                 {
                     using (WebResponse response = wx.Response)
@@ -976,6 +977,7 @@ namespace MyCortex.Home.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
             return new RedirectResult(redirectUrl);
@@ -1074,6 +1076,7 @@ namespace MyCortex.Home.Controllers
                 }
                 catch (WebException wx)
                 {
+                    _logger.Error(wx.Message, wx);
                     if (wx.Message != null)
                     {
                         using (WebResponse response = wx.Response)
@@ -1096,6 +1099,7 @@ namespace MyCortex.Home.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
             return new RedirectResult(redirectUrl);
