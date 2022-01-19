@@ -13,22 +13,24 @@
             var image = $('#UserLogo').val();
             $image_crop = $('#image_demo').croppie({
                 enableExif: true,
-                url: image,
+                enableOrientation: true,
+                //type:'canvas',
+                //url: image,
                 viewport: {
                     width: 200,
                     height: 200,
-                    type: 'rectangle' //rectangle
+                    type: 'square' //rectangle
                 },
                 boundary: {
                     width: 300,
                     height: 300
-                },
+                }/*,
                 points: {
                     topLeftX: 0,
                     topLeftY: 0,
                     bottomRightX: 0,
                     bottomRightY: 0
-                }
+                }*/
             });
 
             $('#UserLogo').on('change', function () {
@@ -39,15 +41,16 @@
                     }).then(function () {
                     });
                 }
+                //alert(this.files[0]);
                 reader.readAsDataURL(this.files[0]);
                 $('#insertimageModal').modal('show');
             });
 
             $('.crop_image').click(function (event) {
                 $image_crop.croppie('result', {
-                    type: 'base64',
-                    format: 'jpeg',
-                    //type: 'canvas',
+                    //type: 'base64',
+                    //format: 'jpeg',
+                    type: 'canvas',
                     size: 'viewport'
                     //size: {width: 150, height: 200}
                 }).then(function (response) {
@@ -56,7 +59,6 @@
                 });
             });
         });
-
     </script>
     <script>
         $(document).ready(function () {
