@@ -344,7 +344,7 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
              controller: 'EmailConfigurationController'
          }).
         when('/AdminEmailConfigurationList/:LoginUserType', {
-            templateUrl: baseUrl + 'Masters/Views/AdminEmailConfiguration.html',
+            templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
             controller: 'EmailConfigurationController'
         }).
         //when('/AdminEmailConfigurationList/:LoginUserType', {
