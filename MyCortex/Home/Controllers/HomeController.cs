@@ -825,6 +825,8 @@ namespace MyCortex.Home.Controllers
         [HttpPost]
         public ActionResult CreatePayByCheckoutSession(FormCollection form)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
             string publicKey = string.Empty;
@@ -986,6 +988,8 @@ namespace MyCortex.Home.Controllers
         [HttpPost]
         public ActionResult RefundPayByCheckoutSession(FormCollection form)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
             string publicKey = string.Empty;
