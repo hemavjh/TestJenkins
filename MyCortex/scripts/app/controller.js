@@ -2753,14 +2753,15 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            if ($scope.Patientsearchquery == "" && $scope.Filter_PatientNo == "" && $scope.filter_InsuranceId == "" && $scope.filter_NationalityId == "0" && $scope.filter_MOBILE_NO == "" && $scope.filter_Email == "" && $scope.Filter_FirstName == "" && $scope.Filter_LastName == "" && $scope.Filter_MRN == "") {
-                $scope.Patient_List(3);
-            }
-            else {
-                $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
-                $scope.PageEnd = $scope.current_page * $scope.page_size;
-                getallpatientlist();
-            }
+            //if ($scope.Patientsearchquery == "" && $scope.Filter_PatientNo == "" && $scope.filter_InsuranceId == "" && $scope.filter_NationalityId == "0" && $scope.filter_MOBILE_NO == "" && $scope.filter_Email == "" && $scope.Filter_FirstName == "" && $scope.Filter_LastName == "" && $scope.Filter_MRN == "") {
+            //    $scope.Patient_List(3);
+            //}
+            //else {
+            //    $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
+            //    $scope.PageEnd = $scope.current_page * $scope.page_size;
+            //    getallpatientlist();
+            //}
+            $scope.Patient_List(3);
         }
 
         $scope.Patient_List = function (MenuType) {
@@ -2816,7 +2817,7 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
                 $scope.filter_MOBILE_NO + '&HOME_PHONENO=' + $scope.filter_HomePhoneNo + '&EMAILID=' + $scope.filter_Email + '&MARITALSTATUS_ID=' + $scope.filter_MaritalStatus +
                 '&COUNTRY_ID=' + $scope.filter_CountryId + '&STATE_ID=' + $scope.filter_StataId + '&CITY_ID=' + $scope.filter_CityId + '&BLOODGROUP_ID=' + $scope.filter_BloodGroupId +
                 '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&StartRowNumber=' + $scope.PageStart +
-                '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery).success(function (data) {
+                '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.Patientsearchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery).success(function (data) {
                     $("#chatLoaderPV").hide();
                     if (data.length == 0) {
                         $scope.SearchMsg = "No Data Available";
@@ -2891,15 +2892,17 @@ MyCortexControllers.controller("UserController", ['$scope', '$q', '$http', '$fil
 
 
         $scope.PatientSearch = function () {
-            if ($scope.Patientsearchquery == "") {
-                allpatientlist();
-            } else {
-                getallpatientlist();
-            }
+            //if ($scope.Patientsearchquery == "") {
+            //    allpatientlist();
+            //} else {
+            //    getallpatientlist();
+            //}
+            allpatientlist();
         }
 
         $scope.PatientAdvanceSearch = function () {
-            getallpatientlist();
+            //getallpatientlist();
+            allpatientlist();
         }
 
         getallpatientlist = function () {

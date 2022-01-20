@@ -1558,6 +1558,7 @@
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="scripts\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="scripts\ckeditor\skins\moono-lisa\readme.md" />
+    <None Include="Properties\PublishProfiles\VJHQA.pubxml" />
     <None Include="Properties\PublishProfiles\VJHSite-Dev-Profile.pubxml" />
     <Content Include="scripts\bootstrap-select-1.13.9\.eslintignore" />
     <Content Include="scripts\bootstrap-select-1.13.9\.github\ISSUE_TEMPLATE.md" />

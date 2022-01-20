@@ -723,7 +723,13 @@ namespace MyCortex.User.Controller
             {
                 INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
             }
-            model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID, StartRowNumber, EndRowNumber, SearchQuery, SearchEncryptedQuery);
+            if (INSTITUTION_ID == 58)
+            {
+                model = repository.Patient_List_New(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID, StartRowNumber, EndRowNumber, SearchQuery, SearchEncryptedQuery);
+            }
+            else { 
+                model = repository.Patient_List(Id, PATIENTNO, INSURANCEID, GENDER_ID, NATIONALITY_ID, ETHINICGROUP_ID, MOBILE_NO, HOME_PHONENO, EMAILID, MARITALSTATUS_ID, COUNTRY_ID, STATE_ID, CITY_ID, BLOODGROUP_ID, Group_Id, IsActive, INSTITUTION_ID, StartRowNumber, EndRowNumber, SearchQuery, SearchEncryptedQuery);
+            }
             return model;
         }
 
