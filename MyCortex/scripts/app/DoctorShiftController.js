@@ -1817,6 +1817,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             //    alert("Inactive record cannot be edited");
             //}
         };
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.EditDoctorShift = function () {
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
+        }
         /* 
      Calling api method for the dropdown list in the html page for the fields 
      Doctor List

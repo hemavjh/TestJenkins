@@ -14,6 +14,11 @@
             $('.activeButton').removeClass('activeButton');
             var element = document.getElementById($('.secondaryMenuActive').data('menu'));
             $(element).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                //$('#Templates/EmailSetup').addClass('activeButton');
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
         });
     </script>
 <ul class="secondaryMenu" ng-show="UserTypeId == 3">
@@ -175,13 +180,13 @@
                             <div class="inputGroups" ng-show="UserTypeId == 1">
                                 <label class="sub-title">
                                     Select Tag Type<sup>
-                                        <font class='mandatory-field'>*</font>
+                                        <!--<font class='mandatory-field'>*</font>-->
                                     </sup>
                                 </label>
                                 <!--<select ng-model="SelectedDepartment" multiple="multiple" id="TagType" ng-change="onChangeDepartment()"
                                         ng-options="item1.Id as item1.Department_Name for item1 in DepartmentList"
                                         multiselect-dropdown style="width: 220px;"></select>-->
-                                <select class="form-control" style="width: 420px;"
+                                <select class="form-control" style="width: 382px;"
                                 ng-model="TagType" ng-change="OnChangeTypeBasedTagList(TagType)">
                                 <option ng-selected="true" value="0">Select</option>
                                 <option value="1">User Creation</option>
