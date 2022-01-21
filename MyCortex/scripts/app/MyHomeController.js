@@ -452,7 +452,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.MyHomeRow = "-1";
         // Add row concept for Patient Vital Parameters
         $scope.AddUserParameters = [{
-            'Id': $scope.HomeId,
+            'ID': $scope.HomeId,
             'UserId': $scope.UserId,
             'PIN': $scope.PIN,
             'IsActive': true
@@ -463,7 +463,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
         $scope.MyHomeAdd = function () {
             if ($scope.MyHomeRow >= 0) {
                 var obj = {
-                    'Id': $scope.HomeId,
+                    'ID': $scope.HomeId,
                     'UserId': $scope.UserId,
                     'PIN': $scope.PIN,
                     'IsActive': true
@@ -472,7 +472,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             }
             else {
                 $scope.AddUserParameters.push({
-                    'Id': $scope.HomeId,
+                    'ID': $scope.HomeId,
                     'UserId': $scope.UserId,
                     'PIN': $scope.PIN,
                     'IsActive': true
@@ -502,7 +502,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             });
         };
 
-        $scope.MyHomeDelete = function (Delete_Id, rowIndex) {
+        $scope.MyHomeDelete = function (Delete_Id, rowIndex,UserId) {
 
             Swal.fire({
                 title: 'Do you like to delete this My Home Id Details?',
@@ -528,6 +528,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
                             if (selectedPre.ID == Delete_Id) {
                                 selectedPre.IsActive = false;
+                                //$scope.AddUserParameters.splice(rowIndex, 1);
+                            }
+                            if (selectedPre.UserId == UserId && selectedPre.Id == "0") {
+                                selectedPre.IsActive = false;
+                                //$scope.AddUserParameters.splice(rowIndex, 1);
                             }
                         });
                         if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
@@ -664,7 +669,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             var DuplicateUserId = '';
             angular.forEach($scope.AddUserParameters, function (value1, index1) {
                 angular.forEach($scope.AddUserParameters, function (value2, index2) {
-                    if (index1 > index2 && value1.UserId == value2.UserId) {
+                    if (index1 > index2 && value1.UserId == value2.UserId && (value1.IsActive == true && value2.IsActive == true)) {
                         TSDuplicate = 1;
                         DuplicateUserId = DuplicateUserId + ' ' + value2.UserId + ',';
                     };
