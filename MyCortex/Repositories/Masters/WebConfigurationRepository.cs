@@ -76,6 +76,26 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
+        public IList<WebConfigurationModel> ChronicCodeList()
+        {
+            //  DataEncryption DecryptFields = new DataEncryption();
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CHRONIC_CODE_LIST]");
+                DataEncryption DecryptFields = new DataEncryption();
+                List<WebConfigurationModel> list = (from p in dt.AsEnumerable()
+                                                    select new WebConfigurationModel()
+                                                    {
+                                                        CHRONICID = p.Field<string>("ID"),
+                                                        CHRONICNAME = p.Field<string>("NAME"),
+                                                    }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         public long WebConfiguration_InsertUpdate(Guid Login_Session_Id, List<WebConfigurationModel> insobj)
         {

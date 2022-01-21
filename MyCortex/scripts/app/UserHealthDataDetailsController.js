@@ -3273,6 +3273,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 }
             }
         }
+      /*  *//*calling Alert message for cannot edit inactive record function *//*
+        $scope.ParameterClickEdit = function () {
+           //alert("Parameter value cannot be edited");
+            toastr.info("Parameter value cannot be edited", "info");
+        }
+*/
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.ParameterClickEdit = function () {
+              //alert("Parameter value cannot be edited");
+            toastr.info("Parameter value cannot be edited", "info");
+        }
         $scope.ParameterEdit_Update = function (rowData, rowIndex) {
             if (rowData.newParameterValue == '') {
                 //alert("Please enter value");
@@ -6617,6 +6628,12 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
 
         }
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.EditPatientNotes = function () {
+             //alert('Notes only edited by author');
+            toastr.info("Notes only edited by author", "info");
+        }
+
 
         //Validation for insert function
         $scope.PatientNotesInsertUpdate_Validations = function () {

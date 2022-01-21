@@ -64,6 +64,21 @@ namespace MyCortex.Masters.Controllers
             }
         }
 
+        [HttpGet]
+        public IList<WebConfigurationModel> ChronicCodeList()
+        {
+            IList<WebConfigurationModel> model;
+            try
+            {
+                model = repository.ChronicCodeList();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         [HttpPost]
         public HttpResponseMessage WebConfiguration_InsertUpdate(Guid Login_Session_Id, [FromBody] List<WebConfigurationModel> insobj)
         {
