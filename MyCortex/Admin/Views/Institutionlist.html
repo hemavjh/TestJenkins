@@ -142,7 +142,7 @@
         <tr ng-repeat="row in emptydata | filter : query">
             <td style="text-align: center">{{((current_page-1)*page_size)+$index+1}}</td>
             <td style="text-align: center">{{row.Id}}</td>
-            <td style="text-align: left">
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                 <div class="textwrap">{{row.Institution_Name}}</div>
             </td>
             <td style="text-align: left">

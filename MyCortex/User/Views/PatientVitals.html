@@ -1832,7 +1832,7 @@
                                                             <td style="text-align: left">
                                                                 {{Allen.AllergyTypeName}}
                                                             </td>
-                                                            <td style="text-align: left">
+                                                            <td style="text-align: left; max-width:150px; word-wrap: break-word;">
                                                                 {{Allen.AllergenName}}
                                                             </td>
                                                             <td style="text-align: left">
@@ -2086,12 +2086,12 @@
                                                             <tr ng-repeat="row in OtherDataEmptyData">
 
                                                                 <td class="textalign">{{$index+1}}</td>
-                                                                <td style="text-align: left">
+                                                                <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
                                                                     <div class="textwrap">
                                                                         {{row.DocumentName}}
                                                                     </div>
                                                                 </td>
-                                                                <td style="text-align: left">
+                                                                <td style="text-align: left; ">
 
                                                                     <!--{{row.FileName}}-->
                                                                     <a href="javascript:;" ng-click="Patient_OtherData_Image_View(row.Id,row.FileName)">
@@ -3343,16 +3343,17 @@
                                         </label>
                                     </td>
                                     <td>
-
+                                        <div style="width:341px">
                                         <select class="form-control" data-style="form-control" id="AllergyTypeselectpicker"
                                                 data-live-search="true" data-selectpicker data-collection-name="AllergyTypeList"
                                                 ng-model="AllergyTypeId"
-                                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()">
+                                                ng-change="AllegenBasedType(AllergyTypeId);AllergenNameClearFunction()" >
                                             <option ng-repeat="sel in AllergyTypeList" ng-selected="AllergyTypeId==sel.Id" ng-required="true"
                                                     value="{{sel.Id}}">
                                                 {{sel.AllergyTypeName}}
                                             </option>
                                         </select>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -3364,14 +3365,16 @@
                                         </label>
                                     </td>
                                     <td>
+                                        <div style="max-width: 341px; word-wrap: break-word;">
                                         <select class="form-control" data-style="form-control" id="AllergenNameselectpicker"
-                                                data-live-search="true" data-selectpicker data-collection-name="AllergenListfilter"
-                                                ng-model="AllergenId">
-                                            <option ng-repeat="sel in AllergenListfilter" ng-selected="AllergenId==sel.Id" ng-required="true"
-                                                    value="{{sel.Id}}">
+                                                data-live-search="true" data-selectpicker  data-collection-name="AllergenListfilter"
+                                                ng-model="AllergenId" >
+                                            <option ng-repeat="sel in AllergenListfilter"  ng-selected="AllergenId==sel.Id" ng-required="true"
+                                                    value="{{sel.Id}}" >
                                                 {{sel.AllergenName}}
                                             </option>
                                         </select>
+                                            </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -3499,7 +3502,7 @@
                                            ng-click="DrugbasedDetails(DrugId,$index);DrugcodeSearchPopup($index)">Select</a>
                                     </td>
                                     <td>
-                                        <div class="textwrap">{{row.Generic_name}}</div> <br />
+                                        <div style="max-width: 150px; word-wrap: break-word;" class="textwrap">{{row.Generic_name}}</div> <br />
                                         {{row.Item_Code}}<br />
                                         {{row.StrengthName}}<br />
                                         {{row.Dosage_FormName}}
@@ -3628,7 +3631,7 @@
                                         </td>
                                         <td style="text-align: left">
                                             {{row.Drug_Code}}
-                                        <td style="text-align: left">
+                                        <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
                                             <div class="textwrap">{{row.Generic_name}}</div>
                                         </td>
                                     </tr>
@@ -4515,7 +4518,7 @@
                             <tr ng-repeat="row in Patient_OtherData">
                                 <td class="textalign">{{$index+1}}</td>
                                 <td style="text-align: left">
-                                    <input type="text" class="form-control" ng-model="row.DocumentName" maxlength="100"
+                                    <input type="text"  class="form-control" ng-model="row.DocumentName" maxlength="100"
                                            ng-maxlength="100" />
                                 </td>
                                 <td style="text-align: left">
@@ -5553,8 +5556,8 @@
                             </div>
                             <div class="col-sm-9 p-8" id="DocDetails" hidden>
                                 <div class="flex mb-8">
-                                    <div class="col-sm-7 flex p-0">
-                                        <div class="" style="width:20%">
+                                    <div class="col-sm-7 flex p-0" style="max-width: 386px; word-wrap: break-word;">
+                                        <div class="" style="width: 20%">
                                             <div ng-if="(PhotoBlob!=null && PhotoBlob!='')" valign="top" rowspan="6">
                                                 <img style="border-radius:50%;height:5rem;width:5rem" class="patientDetimg" src="{{'data:image/png;base64,'+ PhotoBlob}}" />
                                             </div>

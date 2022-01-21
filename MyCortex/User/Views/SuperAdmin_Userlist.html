@@ -233,7 +233,7 @@
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <td class="textalign">{{row.Id}}</td>
-            <td style="text-align: left">
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
                 {{row.InstitutionName}}
             </td>
             <td style="text-align: left" title="{{row.FullName}}">
@@ -390,11 +390,13 @@
                                             </td>
                                             <td width="35%">
                                                 <!--<div id="divInstitution" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                <div style="max-width: 467px; word-wrap: break-word;">
                                                     <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker
                                                             data-collection-name="InstitutionList"
                                                             ng-model="InstitutionId" ng-change="SubscriptionValidation();" ng-show="LoginType == 1">
                                                         <option ng-repeat="sel in InstitutionList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                     </select>
+                                                </div>
                                                 <!--</div>-->
                                             </td>
                                         </tr>
