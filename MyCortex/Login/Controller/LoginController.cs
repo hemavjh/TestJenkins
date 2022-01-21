@@ -495,12 +495,6 @@ namespace MyCortex.Login.Controller
                 {
                     if (_logger.IsInfoEnabled)
                         _logger.Info("Controller");
-                    //NewPassword = Encrypt(NewPassword);
-                    //OldPassword = Encrypt(OldPassword);
-                    //Confirmpassword = Encrypt(Confirmpassword);
-                    DataEncryption EncryptPassword = new DataEncryption();
-                    loginMod.NewPassword = EncryptPassword.Encrypt(loginMod.NewPassword);
-                    loginMod.Password = EncryptPassword.Encrypt(loginMod.Password);
                     flag = repository.ChangePassword(loginMod.UserId, loginMod.NewPassword, loginMod.Password, loginMod.ReenterPassword, loginMod.UserId, loginMod.InstitutionId, loginMod.LoginType);
                     if (flag > 0)
                     {
@@ -606,9 +600,8 @@ namespace MyCortex.Login.Controller
                     // UserModel Ins_model = new UserModel();
                     // Ins_model = userrepo.GetInstitutionForWebURL(request);
                     //long InstitutionId = Ins_model;
-                    DataEncryption EncryptPassword = new DataEncryption();
-                    long InstitutionId = repository.Get_UserInstitution(EncryptPassword.Encrypt(EmailId));
-                    long UserTypeId = repository.Get_UserType(EncryptPassword.Encrypt(EmailId));
+                    long InstitutionId = repository.Get_UserInstitution(EmailId);
+                    long UserTypeId = repository.Get_UserType(EmailId);
                     // long InstitutionId = Convert.ToInt64(ConfigurationManager.AppSettings["InstitutionId"]);//userrepo.GetInstitutionForWebURL(request);
 
                     EmailGeneration egmodel = new EmailGeneration();
@@ -620,9 +613,9 @@ namespace MyCortex.Login.Controller
                     //NewPassword = Encrypt(NewPassword);
                     //ReenterPassword = Encrypt(ReenterPassword);
 
-                    string NewPassword = EncryptPassword.Encrypt(generatedpwd);
+                    string NewPassword = generatedpwd;
                     long UserId = 0;
-                    model = repository.ResetPassword(UserId, NewPassword, NewPassword, InstitutionId, UserId, EncryptPassword.Encrypt(EmailId));
+                    model = repository.ResetPassword(UserId, NewPassword, NewPassword, InstitutionId, UserId, EmailId);
                     if ((model.ReturnFlag == 3) == true)
                     {
                         messagestr = "The Email does not exist, Please Check!";
@@ -724,12 +717,6 @@ namespace MyCortex.Login.Controller
                 {
                     if (_logger.IsInfoEnabled)
                         _logger.Info("Controller");
-
-                    DataEncryption EncryptPassword = new DataEncryption();
-                    NewPassword = EncryptPassword.Encrypt(NewPassword);
-                    ReenterPassword = EncryptPassword.Encrypt(ReenterPassword);
-                    if (EmailId != "\"\"")
-                        EmailId = EncryptPassword.Decrypt(EmailId);
 
                     model = repository.ResetPassword(Id, NewPassword, ReenterPassword, InstitutionId, created_By, EmailId);
                     if ((model.ReturnFlag == 3) == true)
@@ -884,12 +871,11 @@ namespace MyCortex.Login.Controller
                 {
                     if (_logger.IsInfoEnabled)
                         _logger.Info("Controller");
-                    DataEncryption EncryptPassword = new DataEncryption();
                     Int64 userid = Convert.ToInt64(loginMod.Status) / 4;
                     if (userid > 0)
                     {
                         loginMod.UserId = userid;
-                        loginMod.NewPassword = EncryptPassword.Encrypt(loginMod.NewPassword);
+                        loginMod.NewPassword = loginMod.NewPassword;
                         loginMod.Password = loginMod.Password.Replace("@", "/");
                         flag = repository.ChangePassword(loginMod.UserId, loginMod.NewPassword, loginMod.Password, loginMod.NewPassword, loginMod.UserId, loginMod.InstitutionId, loginMod.LoginType);
                         if (flag > 0)

@@ -23,7 +23,6 @@ namespace MyCortex.Repositories.Admin
             db = new ClsDataBase();
         }
 
-        DataEncryption DecryptFields = new DataEncryption();
         public IList<AdminUsersLogModel> Admin_Userslog_List(long? Institution_Id, Guid login_session_id,long? User_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
@@ -36,7 +35,7 @@ namespace MyCortex.Repositories.Admin
                                              select new AdminUsersLogModel()
                                              {
                                                  ID = p.Field<long?>("ID"),
-                                                 FULLNAME = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                 FULLNAME = p.Field<string>("FULLNAME"),
                                                  INSTITUTION_ID = p.Field<long?>("INSTITUTION_ID"),
                                                  LOGINTIME = p.Field<DateTime?>("LOGINTIME"),
                                                  LOGOUTTIME = p.Field<DateTime?>("LOGOUTTIME"),
@@ -45,7 +44,7 @@ namespace MyCortex.Repositories.Admin
                                                  LATITUDE = p.Field<string>("LATITUDE"),
                                                  REGIONNAME = p.Field<string>("REGIONNAME"),
                                                  ZIPCODE = p.Field<string>("ZIPCODE"),
-                                                 USERNAME = DecryptFields.Decrypt(p.Field<string>("USERNAME")),
+                                                 USERNAME = p.Field<string>("USERNAME"),
                                                  STATUS = p.Field<string>("STATUS"),
                                                  FAILURE_REASON = p.Field<string>("FAILURE_REASON"),
                                                  LOGIN_COUNTRY = p.Field<string>("LOGIN_COUNTRY"),

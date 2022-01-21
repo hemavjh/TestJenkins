@@ -838,14 +838,14 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@Id", Id));
-            param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
-            param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
+            param.Add(new DataParameter("@PatientNo", PATIENTNO));
+            param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
             param.Add(new DataParameter("@GenderId", GENDER_ID));
             param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
             param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
-            param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
+            param.Add(new DataParameter("@MobileNo", MOBILE_NO));
             param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-            param.Add(new DataParameter("@Email",  EncryptPassword.Encrypt(EMAILID)));
+            param.Add(new DataParameter("@Email", EMAILID));
             param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
             param.Add(new DataParameter("@CountryId", COUNTRY_ID));
             param.Add(new DataParameter("@StateId", STATE_ID));
@@ -855,26 +855,26 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@InstitutionId", INSTITUTION_ID));
             param.Add(new DataParameter("@SearchQuery", SearchQuery));
-            param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST", param);
+            param.Add(new DataParameter("@SearchEncryptedQuery", SearchQuery));
+            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST_NEW", param);
             DataEncryption DecryptFields = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
-                                    {
-                                        TotalRecord = p.Field<string>("TotalRecords"),
-                                        Id = p.Field<long>("Id"),
-                                        FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                        MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                        LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
-                                        FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                        MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                        IsActive = p.Field<int?>("IsActive"),
-                                        GroupName = p.Field<string>("GroupName"),
-                                        MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
-                                        GENDER_NAME = p.Field<string>("Gender_Name"),
-                                        LoginTime = p.Field<DateTime?>("LOGINTIME"),
-                                        EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
-                                    }).OrderBy(o=>o.FullName).ToList();
+                                                   {
+                                                       TotalRecord = p.Field<string>("TotalRecords"),
+                                                       Id = p.Field<long>("Id"),
+                                                       FirstName = p.Field<string>("FirstName"),
+                                                       MiddleName = p.Field<string>("MiddleName"),
+                                                       LastName = p.Field<string>("LastName"),
+                                                       FullName = p.Field<string>("FullName"),
+                                                       MOBILE_NO = p.Field<string>("MOBILE_NO"),
+                                                       IsActive = p.Field<int?>("IsActive"),
+                                                       GroupName = p.Field<string>("GroupName"),
+                                                       MNR_NO = p.Field<string>("MNR_NO"),
+                                                       GENDER_NAME = p.Field<string>("Gender_Name"),
+                                                       LoginTime = p.Field<DateTime?>("LOGINTIME"),
+                                                       EMAILID = p.Field<string>("EMAILID") ?? "",
+                                                   }).OrderBy(o => o.FullName).ToList();
             return list;
         }
 

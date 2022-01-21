@@ -97,7 +97,7 @@ namespace MyCortex.Repositories.Login
         public LoginModel Userlogin_AddEdit(LoginModel obj)
         {
             //getSystemInformation(obj);
-            //DataEncryption DecryptFields = new DataEncryption();
+            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@UserName", obj.Username));

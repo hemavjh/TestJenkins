@@ -513,7 +513,6 @@ namespace MyCortex.Home.Controllers
         /// <returns></returns>
         public async Task<ActionResult> SaveGoogleUser(string code, string state, string scope)
         {
-            DataEncryption Encrypt = new DataEncryption();
             if (string.IsNullOrEmpty(code))
             {
                 return RedirectToRoute("Default");
@@ -540,7 +539,7 @@ namespace MyCortex.Home.Controllers
 
             LoginModel model;
             LoginModel model1 = new LoginModel();
-            model1.Username = Encrypt.Encrypt(Session["EmailId"].ToString());
+            model1.Username = Session["EmailId"].ToString();
             model1.DeviceType = "Web";
             model1.LoginType = 2;
             model1.Sys_TimeDifference = Convert.ToInt32(Session["Sys_TimeDifference"].ToString());
