@@ -77,7 +77,7 @@
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <td style="text-align: left">
-                <div class="textwrap">{{row.Generic_name}}</div>
+                <div class="textwrap" style="max-width:150px; word-wrap:break-word;">{{row.Generic_name}}</div>
             </td>
             <td style="text-align: left">{{row.StrengthName}}</td>
             <td style="text-align: left">{{row.Dosage_FromName}}</td>
@@ -235,7 +235,7 @@
                         <label>Generic Name</label>
 
                         <span>
-                            <div class="textwrap">{{Generic_Name}}</div>
+                            <div class="textwrap" style="max-width:150px; word-wrap:break-word;">{{Generic_Name}}</div>
                         </span>
                     </div>
                     <div class="inputGroups">
