@@ -28,7 +28,6 @@ namespace MyCortex.Repositories.Masters
        
         public IList<TabListModel> Tab_List(int? IsActive, long Institution_Id, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
@@ -38,7 +37,6 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.MYHOME_TAB_SP_LIST", param);
-                DataEncryption DecryptFields = new DataEncryption();
                  List<TabListModel> list = (from p in dt.AsEnumerable()  
                                        select new TabListModel()
                                        {
@@ -94,9 +92,6 @@ namespace MyCortex.Repositories.Masters
                                              {
                                                  RefId = p.Field<string>("TABREFID"),
                                              }).FirstOrDefault();
-                //DataEncryption EncryptRerId = new DataEncryption();
-                //insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
-                //insobj.RefId = EncryptRerId.Encrypt(RefId.RefId);
                 param.Add(new DataParameter("@REF_ID", RefId.RefId));
             }
             else
@@ -214,7 +209,6 @@ namespace MyCortex.Repositories.Masters
         }
         public TabListModel Tab_ListView(int id)
             {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", id)); 
             try
@@ -264,7 +258,6 @@ namespace MyCortex.Repositories.Masters
 
         public IList<TabUserList> USERTABDETAILS_VIEW(long Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERTABDETAILS_SP_VIEW]", param);
@@ -274,7 +267,7 @@ namespace MyCortex.Repositories.Masters
                                                 ID = p.Field<long>("Id"),
                                                 TabId = p.Field<long>("TAB_ID"),
                                                 UserId = p.Field<long>("USER_ID"),
-                                                FullName = DecryptFields.Decrypt(p.Field<string>("USERNAME")),
+                                                FullName = p.Field<string>("USERNAME"),
                                                 PIN = p.Field<string>("PIN"),
                                                 IsActive = p.Field<bool>("ISACTIVE")
                                             }).ToList();
@@ -363,7 +356,6 @@ namespace MyCortex.Repositories.Masters
         public IList<TabUserModel> Get_TabUsers(long Institution_ID, long Tab_ID)
         {
             DataEncryption decrypt = new DataEncryption();
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_ID));
             param.Add(new DataParameter("@Tab_ID", Tab_ID));
@@ -382,10 +374,10 @@ namespace MyCortex.Repositories.Masters
                                               PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                               FingerPrint = p.Field<string>("FINGERPRINT"),
                                               IsActive = p.Field<bool>("ISACTIVE"),
-                                              FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
-                                              MiddleName = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")),
-                                              LastName = DecryptFields.Decrypt(p.Field<string>("LASTNAME")),
-                                              EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                              FirstName = p.Field<string>("FIRSTNAME"),
+                                              MiddleName = p.Field<string>("MIDDLENAME"),
+                                              LastName = p.Field<string>("LASTNAME"),
+                                              EmailId = p.Field<string>("EMAILID"),
                                               UserTypeId = p.Field<long>("USERTYPE_ID"),
                                               GenderId = p.Field<long>("GENDER_ID"),
                                               GenderName = p.Field<string>("GENDER_NAME"),
@@ -402,8 +394,6 @@ namespace MyCortex.Repositories.Masters
 
         public IList<ParameterModels> Parameter_Lists(long ParamGroup_ID, long TabId)
         {
-            DataEncryption decrypt = new DataEncryption();
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PARAMGROUPID", ParamGroup_ID));
             param.Add(new DataParameter("@Tab_ID", TabId));
@@ -428,7 +418,6 @@ namespace MyCortex.Repositories.Masters
         public TabUserDetails Tab_User_Validation(TabUserDetails TabLoginObj)
         {
             String Flag = "";
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>(); 
             param.Add(new DataParameter("@Tab_ID", TabLoginObj.TabId));
             param.Add(new DataParameter("@UserId", TabLoginObj.UserId));
@@ -445,12 +434,12 @@ namespace MyCortex.Repositories.Masters
                                                 TabRefId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("TAB_REF_ID") : "",
                                                 UserId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USER_ID") : 0,
                                                 PIN = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("PIN") : "",
-                                                UserName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("USER_NAME")) : "",
-                                                FirstName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")) : "",
-                                                MiddleName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")) : "",
-                                                LastName = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("LASTNAME")) : "",
-                                                EmailId = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("EMAILID")) : "",
-                                                Password = dt.Rows[0]["flag"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("PASSWORD")) : "",
+                                                UserName = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("USER_NAME") : "",
+                                                FirstName = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("FIRSTNAME") : "",
+                                                MiddleName = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("MIDDLENAME") : "",
+                                                LastName = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("LASTNAME") : "",
+                                                EmailId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("EMAILID") : "",
+                                                Password = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<string>("PASSWORD") : "",
                                                 UserTypeId = dt.Rows[0]["flag"].ToString() == "1" ? p.Field<long>("USERTYPE_ID") : 0,
                                                 Flag = p.Field<int>("flag")
                                             }).FirstOrDefault(); 
@@ -466,7 +455,6 @@ namespace MyCortex.Repositories.Masters
         public TabAdminDetails Tab_Logout_Validation(TabAdminDetails TabAdminObj)
         {
             String Flag = "";
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", TabAdminObj.InstitutionId));
             param.Add(new DataParameter("@USERID", TabAdminObj.UserId));
@@ -482,8 +470,8 @@ namespace MyCortex.Repositories.Masters
                                       {
                                           InstitutionId = dt.Rows[0]["FLAG"].ToString() == "1" ? p.Field<long>("INSTITUTION_ID") : 0,
                                           UserId = dt.Rows[0]["FLAG"].ToString() == "1" ? p.Field<long>("USERID") : 0,
-                                          UserName = dt.Rows[0]["FLAG"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("USERNAME")) : "",
-                                          Password = dt.Rows[0]["FLAG"].ToString() == "1" ? DecryptFields.Decrypt(p.Field<string>("PASSWORD")) : "",
+                                          UserName = dt.Rows[0]["FLAG"].ToString() == "1" ? p.Field<string>("USERNAME") : "",
+                                          Password = dt.Rows[0]["FLAG"].ToString() == "1" ? p.Field<string>("PASSWORD") : "",
                                           Flag = p.Field<int>("FLAG")
                                       }).FirstOrDefault();
                 return lst;
@@ -497,7 +485,6 @@ namespace MyCortex.Repositories.Masters
 
         public TabUserDashBordDetails GetDashBoardListDetails(long InstitutionId, long UserId, long TabId, Guid Login_Session_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             string DeviceType = "TAB";
@@ -523,7 +510,7 @@ namespace MyCortex.Repositories.Masters
 
                                                   UserDetails = new TabDeviceUserDetails()
                                                   {
-                                                      UserName = DecryptFields.Decrypt(p.Field<string>("UserName")),
+                                                      UserName = p.Field<string>("UserName"),
                                                       PhotoLobThumb = p.IsNull("PhotoThump") ? null : decrypt.DecryptFile(p.Field<byte[]>("PhotoThump"))
                                                   },
                                               }).FirstOrDefault();
@@ -555,7 +542,6 @@ namespace MyCortex.Repositories.Masters
             param.Add(new DataParameter("@ISTAB", 1));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (UserTypeId == 6)
                 {
@@ -570,7 +556,7 @@ namespace MyCortex.Repositories.Masters
                                                      select new TabDashBoardAlertDetails()
                                                      {
                                                          ID = p.Field<long>("Id"),
-                                                         PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                         PatientName = p.Field<string>("PatientName"),
                                                          HighCount = p.Field<int>("HighCount"),
                                                          MediumCount = p.Field<int>("MediumCount"),
                                                          LowCount = p.Field<int>("LowCount"),
@@ -582,7 +568,7 @@ namespace MyCortex.Repositories.Masters
                                                          ActivityDate = p.Field<DateTime?>("ACTIVITY_DATE"),
                                                          DeviceType = p.Field<string>("DEVICETYPE"),
                                                          DeviceNo = p.Field<string>("DEVICE_NO"),
-                                                         FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                         FullName = p.Field<string>("FULLNAME"),
                                                          TypeName = p.Field<string>("TYPENAME"),
                                                          CreatedByShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          ComDurationType = p.Field<string>("DurationType"),
@@ -643,7 +629,6 @@ namespace MyCortex.Repositories.Masters
         public IList<TabDashBoardAppointmentDetails> PatientAppoinmentsList(long PatientId, Guid Login_Session_Id)
         {
             DataEncryption decrypt = new DataEncryption();
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Patient_Id", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -660,8 +645,8 @@ namespace MyCortex.Repositories.Masters
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
                                                           Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
                                                           Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
-                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          PatientName = p.Field<string>("PATIENTNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           Doctor_Id = p.Field<long>("DOCTOR_ID"),
@@ -853,7 +838,6 @@ namespace MyCortex.Repositories.Masters
 
         public TabDevicesModel Device_ListView(long id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", id));
             try

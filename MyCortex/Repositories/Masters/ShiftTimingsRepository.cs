@@ -85,7 +85,6 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated List of AppoinmentSlot list Details DataTable</returns>
         public IList<ShiftTimingsModel> ShiftTimings_List(int? IsActive, long InstituteId, Guid Login_Session_Id)
         {
-          //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", InstituteId));
@@ -124,7 +123,6 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated a AppoinmentSlot Details DataTable </returns>
         public ShiftTimingsModel ShiftTimings_View(long Id, Guid Login_Session_Id)
         {
-          //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));

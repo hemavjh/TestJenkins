@@ -19,14 +19,12 @@ namespace MyCortex.Repositories.Masters
 
         public IList<GatewaySettingsModel> GatewaySettings_List(long Institution_Id, Guid Login_Session_Id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLGATEWAY_VALUE_SP_LIST]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 List<GatewaySettingsModel> list = (from p in dt.AsEnumerable()
                                                     select new GatewaySettingsModel()
                                                     {
@@ -47,7 +45,6 @@ namespace MyCortex.Repositories.Masters
 
         public IList<GatewaySettingsModel> GatewaySettings_Details(long InstitutionId, long GatewayId, string GatewayKey)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             param.Add(new DataParameter("@GATEWAY_ID", GatewayId));
@@ -55,7 +52,6 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLGATEWAY_VALUE_SP_DETAILS]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 List<GatewaySettingsModel> list = (from p in dt.AsEnumerable()
                                                    select new GatewaySettingsModel()
                                                    {

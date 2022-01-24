@@ -27,14 +27,12 @@ namespace MyCortex.Repositories.Masters
 
         public IList<LanguageSettingsModel> LanguageSettings_List(long Institution_Id, Guid Login_Session_Id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_TEXT_SP_LIST]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 List<LanguageSettingsModel> list = (from p in dt.AsEnumerable()
                                                     select new LanguageSettingsModel()
                                                     {
@@ -105,13 +103,11 @@ namespace MyCortex.Repositories.Masters
 
         public IList<InstituteLanguageModel> InstituteLanguage_List(long Institution_Id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[INSTITUTION_LANGUAGE_SP_VIEW]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 List<InstituteLanguageModel> list = (from p in dt.AsEnumerable()
                                                     select new InstituteLanguageModel()
                                                     {
@@ -131,7 +127,6 @@ namespace MyCortex.Repositories.Masters
 
         public object LanguageKeyValue_List(int Language_Id, long Institution_Id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             StringBuilder jsonOutput = new StringBuilder();
 
@@ -140,7 +135,6 @@ namespace MyCortex.Repositories.Masters
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[TBLLANGUAGE_TEXT_SP_LIST_KEYVALUE]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 List<LanguageKeyValueModel> list = (from p in dt.AsEnumerable()
                                                     select new LanguageKeyValueModel()
                                                     {

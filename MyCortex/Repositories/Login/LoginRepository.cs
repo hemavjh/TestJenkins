@@ -97,7 +97,6 @@ namespace MyCortex.Repositories.Login
         public LoginModel Userlogin_AddEdit(LoginModel obj)
         {
             //getSystemInformation(obj);
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@UserName", obj.Username));
@@ -287,7 +286,6 @@ namespace MyCortex.Repositories.Login
             try
             {
                 //bool chk = ClsDataBase.checkConnection();
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_BYGOOGLEMAIL", param);
                 LoginModel lst = (from p in dt.AsEnumerable()
                                   select
@@ -301,16 +299,16 @@ namespace MyCortex.Repositories.Login
                                       {
                                           Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
                                           INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
-                                          FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                          MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                          LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                          FirstName = p.Field<string>("FirstName"),
+                                          MiddleName = p.Field<string>("MiddleName"),
+                                          LastName = p.Field<string>("LastName"),
                                           EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO") ?? "",
-                                          EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+                                          EMAILID = p.Field<string>("EMAILID"),
                                           // EMAILID = p.Field<string>("EMAILID") ?? "",
                                           DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
-                                          MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
+                                          MOBILE_NO = p.Field<string>("MOBILE_NO"),
                                           //DOB = p.Field<DateTime?>("DOB"),
-                                          DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
+                                          DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                           Department_Name = p.Field<string>("Department_Name") ?? "",
                                           InstitutionName = p.Field<string>("InstitutionName") ?? "",
                                           IsActive = p.Field<int?>("IsActive"),
@@ -336,9 +334,9 @@ namespace MyCortex.Repositories.Login
                                           BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
                                           MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
                                           PATIENTNO = p.Field<string>("PATIENTNO") ?? "",
-                                          MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")) ?? "",
-                                          INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
-                                          NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
+                                          MNR_NO = p.Field<string>("MNR_NO"),
+                                          INSURANCEID = p.Field<string>("INSURANCEID"),
+                                          NATIONALID = p.Field<string>("NATIONALID"),
                                           EthnicGroup = p.Field<string>("EthnicGroup") ?? "",
                                           UserName = p.Field<string>("UserName") ?? "",
                                           GENDER_NAME = p.Field<string>("GENDER_NAME") ?? "",
@@ -367,10 +365,10 @@ namespace MyCortex.Repositories.Login
                                           ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT") ?? "",
                                           CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
                                           CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT") ?? "",
-                                          EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")) ?? "",
-                                          EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")) ?? "",
-                                          EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")) ?? "",
-                                          Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
+                                          EMERG_CONT_FIRSTNAME = p.Field<string>("EMERG_CONT_FIRSTNAME"),
+                                          EMERG_CONT_MIDDLENAME = p.Field<string>("EMERG_CONT_MIDDLENAME"),
+                                          EMERG_CONT_LASTNAME = p.Field<string>("EMERG_CONT_LASTNAME"),
+                                          Emergency_MobileNo = p.Field<string>("EMRG_CONT_PHONENO"),
                                           EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
 
                                       },
@@ -437,7 +435,6 @@ namespace MyCortex.Repositories.Login
         /// <returns>User details</returns>
         public LoginModel UserDetails_Get_FBMail(string EmailId)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@EMAIL", EmailId));
@@ -458,16 +455,16 @@ namespace MyCortex.Repositories.Login
                                       {
                                           Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
                                           INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
-                                          FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                          MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                          LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                          FirstName = p.Field<string>("FirstName"),
+                                          MiddleName = p.Field<string>("MiddleName"),
+                                          LastName = p.Field<string>("LastName"),
                                           EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO") ?? "",
-                                          EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+                                          EMAILID = p.Field<string>("EMAILID"),
                                           // EMAILID = p.Field<string>("EMAILID") ?? "",
                                           DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
-                                          MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
+                                          MOBILE_NO = p.Field<string>("MOBILE_NO"),
                                           //DOB = p.Field<DateTime?>("DOB"),
-                                          DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
+                                          DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                           Department_Name = p.Field<string>("Department_Name") ?? "",
                                           InstitutionName = p.Field<string>("InstitutionName") ?? "",
                                           IsActive = p.Field<int?>("IsActive"),
@@ -493,9 +490,9 @@ namespace MyCortex.Repositories.Login
                                           BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
                                           MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
                                           PATIENTNO = p.Field<string>("PATIENTNO") ?? "",
-                                          MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")) ?? "",
-                                          INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
-                                          NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
+                                          MNR_NO = p.Field<string>("MNR_NO"),
+                                          INSURANCEID = p.Field<string>("INSURANCEID"),
+                                          NATIONALID = p.Field<string>("NATIONALID"),
                                           EthnicGroup = p.Field<string>("EthnicGroup") ?? "",
                                           UserName = p.Field<string>("UserName") ?? "",
                                           GENDER_NAME = p.Field<string>("GENDER_NAME") ?? "",
@@ -524,10 +521,10 @@ namespace MyCortex.Repositories.Login
                                           ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT") ?? "",
                                           CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
                                           CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT") ?? "",
-                                          EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")) ?? "",
-                                          EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")) ?? "",
-                                          EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")) ?? "",
-                                          Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
+                                          EMERG_CONT_FIRSTNAME = p.Field<string>("EMERG_CONT_FIRSTNAME"),
+                                          EMERG_CONT_MIDDLENAME = p.Field<string>("EMERG_CONT_MIDDLENAME"),
+                                          EMERG_CONT_LASTNAME = p.Field<string>("EMERG_CONT_LASTNAME"),
+                                          Emergency_MobileNo = p.Field<string>("EMRG_CONT_PHONENO"),
                                           EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
 
                                       },
@@ -742,15 +739,13 @@ namespace MyCortex.Repositories.Login
         /// <returns>returns basic user information as serialized JSON object</returns>
         public IList<EmployeeLoginModel> UserLogged_Details(long Id)
         {
-
+            DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", HttpContext.Current.Session["Login_Session_Id"]));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption decrypt = new DataEncryption();
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[USERLOGIN_SP_DETAILS]", param);
 
                 IList<EmployeeLoginModel> LPH = (from p in dt.AsEnumerable()
@@ -759,17 +754,17 @@ namespace MyCortex.Repositories.Login
                                                     LogInTime = p.Field<DateTime?>("LogInTime"),
                                                     Photo = p.Field<string>("PHOTO_NAME"),
                                                     FileName = p.Field<string>("PHOTO_FILENAME"),
-                                                    FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                    FullName = p.Field<string>("FULLNAME"),
                                                     GENDER_NAME = p.Field<string>("GENDER_NAME"),
                                                     Photo_Fullpath = p.IsNull("PHOTO_FULLPATH") ? null : p.Field<string>("PHOTO_FULLPATH"),
-                                                    Employee_Name = p.IsNull("EMAILID") ? null : DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                    Employee_Name = p.IsNull("EMAILID") ? null :p.Field<string>("EMAILID"),
                                                     Name = p.IsNull("Name") ? null : p.Field<string>("Name"),
                                                     // BlobName = decrypt.DecryptFile(p.IsNull("BLOBDATA") ? null : p.Field<byte[]>("BLOBDATA")),
                                                     PhotoBlob = p.IsNull("BLOBDATA") ? null : decrypt.DecryptFile(p.Field<byte[]>("BLOBDATA")),
                                                     PatientType = p.Field<int>("PATIENT_TYPE"),
                                                     NATIONALITY_ID = p.Field<long>("NATIONALITY_ID"),
                                                     //DOB = p.Field<DateTime>("DOB"), if need add sp dob_encrypt value
-                                                    MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                                    MOBILE_NO = p.Field<string>("MOBILE_NO"),
                                                     USERTYPE_ID = p.Field<long>("USERTYPE_ID"),
                                                     UserType = p.Field<string>("USERTYPE")
                                                 }).ToList();
@@ -865,7 +860,6 @@ namespace MyCortex.Repositories.Login
         /// <returns>user basic details list model</returns>
         public IList<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@USERTYPEID", UserTypeId));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
@@ -877,12 +871,12 @@ namespace MyCortex.Repositories.Login
                                            select new UsertypeModal()
                                            {
                                                Id = p.Field<long>("ID"),
-                                               FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
-                                               FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                               FirstName = p.Field<string>("FIRSTNAME"),
+                                               FullName = p.Field<string>("FULLNAME"),
                                                //FirstName = p.Field<string>("FIRSTNAME"),
                                                //FullName = p.Field<string>("FULLNAME"),
                                                Department_Id = p.Field<long?>("DEPARTMENT_ID"),
-                                               EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                               EmailId = p.Field<string>("EMAILID"),
                                                // EmailId = p.Field<string>("EMAILID"),
                                                UserType_Id = p.Field<long?>("USERTYPE_ID")
                                            }).ToList();
@@ -977,7 +971,6 @@ namespace MyCortex.Repositories.Login
         /// <returns>Retuen the date</returns>
         public UsertypeModal LastPasswordChangeTime(long UserId)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try

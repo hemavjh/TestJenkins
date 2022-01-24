@@ -18,14 +18,12 @@ namespace MyCortex.Repositories.Masters
         private JavaScriptSerializer serializer = new JavaScriptSerializer();
         public IList<WebConfigurationModel> WebConfiguration_List(int? IsActive, int? Institution_Id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             param.Add(new DataParameter("@IS_ACTIVE", IsActive));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].APPCONFIGURATION_SP_LISTING", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 List<WebConfigurationModel> list = (from p in dt.AsEnumerable()
                                               select new WebConfigurationModel()
                                               {
@@ -48,14 +46,12 @@ namespace MyCortex.Repositories.Masters
 
         public WebConfigurationModel WebConfiguration_View(long Id, Guid Login_Session_Id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].APPCONFIGURATION_SP_VIEW", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 WebConfigurationModel WCM = (from p in dt.AsEnumerable()
                                        select new WebConfigurationModel()
                                        {

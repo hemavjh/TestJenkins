@@ -55,7 +55,6 @@ namespace MyCortex.Repositories.Admin
         public IList<All_UserList> GetAll_UserLists(long InstitutionId)
         {
             List<DataParameter> param = new List<DataParameter>();
-            DataEncryption DecryptFields = new DataEncryption();
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -65,10 +64,10 @@ namespace MyCortex.Repositories.Admin
                                             select new All_UserList()
                                             {
                                                 Id = p.Field<long>("ID"),
-                                                FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
-                                                FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                FirstName = p.Field<string>("FIRSTNAME"),
+                                                FullName = p.Field<string>("FULLNAME"),
                                                 DepartmentId = p.Field<long>("DEPARTMENT_ID"),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                EmailId = p.Field<string>("EMAILID"),
                                                 UserTypeId = p.Field<long>("USERTYPE_ID"),
                                             }).ToList();
                 return lst;

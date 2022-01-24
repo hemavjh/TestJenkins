@@ -122,7 +122,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENTSIGNUP_GETEMAIL]", param);
@@ -130,10 +129,10 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("Fullname")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("Fullname"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType"),
-                                                mobile_no = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO"))
+                                                mobile_no = p.Field<string>("MOBILE_NO")
                                             }).ToList();
                 return lst;
             }
@@ -149,7 +148,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_ADMINCREATION_GETEMAIL]", param);
@@ -157,8 +155,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -176,7 +174,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                //DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_INSTITUTION_GETEMAIL]", param);
@@ -202,7 +199,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_CLINICIANSNOTE_GETEMAIL]", param);
@@ -210,8 +206,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -231,7 +227,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_DIAG/COMP_ALERTS_GETEMAIL]", param);
@@ -239,8 +234,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -266,7 +261,6 @@ namespace MyCortex.Repositories.EmailAlert
             {
 
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_COMPLIANCEALERT]");
-                DataEncryption DecryptFields = new DataEncryption();
                 List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                      select new PatientHealthDataModel()
                                                      {
@@ -292,7 +286,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_NEWDATACAPTURED_GETEMAIL]", param);
@@ -300,8 +293,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -318,7 +311,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENT_MOREINFO_GETEMAIL]", param);
@@ -326,8 +318,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -347,7 +339,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENTSIGNUP_HOSADMIN_GETEMAIL]", param);
@@ -355,8 +346,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -373,7 +364,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENT_APPOINTMENTCREATION_GETEMAIL]", param);
@@ -381,10 +371,10 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType"),
-                                                mobile_no = DecryptFields.Decrypt(p.Field<string>("mobile_no"))
+                                                mobile_no = p.Field<string>("mobile_no")
                                             }).ToList();
                 return lst;
             }
@@ -401,7 +391,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENT_APPOINTMENTCANCEL_GETEMAIL]", param);
@@ -409,8 +398,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -427,15 +416,14 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_CAREGIVERASSIGN_GETEMAIL]", param);
                 List<EmailListModel> lst = (from p in dt.AsEnumerable()
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -452,7 +440,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_APPOINTMENTREMAINDER_FORDOCTOR_GETEMAIL]", param);
@@ -460,8 +447,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -479,7 +466,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_USER_GETEMAIL]", param);
@@ -487,8 +473,8 @@ namespace MyCortex.Repositories.EmailAlert
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -506,15 +492,14 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_USERLIMIT_GETEMAIL]", param);
                 List<EmailListModel> lst = (from p in dt.AsEnumerable()
                                             select new EmailListModel()
                                             {
                                                 UserId = p.Field<long>("UserId"),
-                                                UserName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EmailId")),
+                                                UserName = p.Field<string>("FullName"),
+                                                EmailId = p.Field<string>("EmailId"),
                                                 EmailType_Flag = p.Field<int>("EmailSentType")
                                             }).ToList();
                 return lst;
@@ -532,7 +517,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@SCHEDULE_ID", Schedule_Id));
                 ClsDataBase.Update("[MYCORTEX].[ALERTEVENT_APPOINTMENT_UPDATE_SCHEDULE_LIST]", param);
                 return true;
@@ -562,7 +546,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_APPOINTMENT_ALERT_SCHEDULE_LIST]");
                 List<Appointment_AlertEventModel> lst = (from p in dt.AsEnumerable()
                                                          select new Appointment_AlertEventModel()
@@ -592,7 +575,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_PASSWORDEXPIRYPERIOD]");
                 List<PasswordExpiry_AlertEventModel> lst = (from p in dt.AsEnumerable()
                                                             select new PasswordExpiry_AlertEventModel()
@@ -617,7 +599,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@UserId", UserId));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_LICENSECOUNT]", param);
@@ -644,8 +625,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
-
                 param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
                 param.Add(new DataParameter("@PATIENT_ID", UserId));
 
@@ -674,7 +653,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_TARGETWEEKLY]");
                 List<TargetAchived_AlertEventModel> lst = (from p in dt.AsEnumerable()
                                                            select new TargetAchived_AlertEventModel()
@@ -699,7 +677,6 @@ namespace MyCortex.Repositories.EmailAlert
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_LICENSEEXPIRY]");
                 List<LicenceExpiry_AlertEventModel> lst = (from p in dt.AsEnumerable()
                                                            select new LicenceExpiry_AlertEventModel()

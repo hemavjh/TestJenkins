@@ -516,7 +516,6 @@ namespace MyCortex.Repositories.Masters
         }
         public IList<TabUserList> UserList(long Institution_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>(); 
             param.Add(new DataParameter("@INSTITUTIONID", Institution_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -527,7 +526,7 @@ namespace MyCortex.Repositories.Masters
                                          select new TabUserList()
                                          {
                                              ID = p.Field<long>("ID"),
-                                             FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                             FullName = p.Field<string>("FULLNAME"),
                                              PIN = p.Field<string>("PIN"),
                                              IsActive = Convert.ToBoolean(p.Field<int>("ISACTIVE"))
                                             }).ToList();
