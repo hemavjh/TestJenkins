@@ -99,6 +99,11 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             if ($scope.UserTypeId == 1) {
                 $scope.status = 2;
             }
+            else if ($scope.UserTypeId == 3) {
+                $scope.status = 0;
+            } else {
+                $scope.status = 1;
+            }
             $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
                 + '&status=' + $scope.status).success(function (data) {
                     $scope.AlertListTemp = [];
