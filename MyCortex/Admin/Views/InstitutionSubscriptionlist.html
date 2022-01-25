@@ -81,7 +81,7 @@
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <td class="textalign">{{row.Id}}</td>
-            <td style="text-align: left">
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                 <div class="textwrap">{{row.Institution.Institution_Name}}</div>
             </td>
 
@@ -141,12 +141,14 @@
                                         </td>
                                         <td width="25%">
                                            <!-- <div id="divInssInstitute" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                            <div style="max-width: 240px; word-wrap: break-word;">
                                                 <select class="form-control" data-style="form-control" id="insselectpicker" data-live-search="true"
                                                         data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
                                                         ng-change="InstituteGetDetails();">
                                                     <!--<option value="0">Select</option>-->
                                                     <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                 </select>
+                                            </div>
                                             <!--</div>-->
                                         </td>
 
