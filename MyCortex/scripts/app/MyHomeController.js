@@ -526,13 +526,12 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         $scope.AddUserParameters = Previous_MyHomeItem;
                     } else if ($scope.Id > 0) {
                         angular.forEach($scope.AddUserParameters, function (selectedPre, index) {
-                            if (selectedPre.ID == Delete_Id) {
+                            //if (selectedPre.ID == Delete_Id) {
+                            //    selectedPre.IsActive = false;
+                            //    //$scope.AddUserParameters.splice(rowIndex, 1);
+                            //}
+                            if (index == rowIndex) {
                                 selectedPre.IsActive = false;
-                                //$scope.AddUserParameters.splice(rowIndex, 1);
-                            }
-                            if (selectedPre.UserId == UserId && selectedPre.Id == "0") {
-                                selectedPre.IsActive = false;
-                                //$scope.AddUserParameters.splice(rowIndex, 1);
                             }
                         });
                         if ($ff($scope.AddUserParameters, { IsActive: true }).length > 0) {
@@ -619,9 +618,11 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                             $scope.AddDeviceParameters = Previous_MyDeviceItem;
                         } else if ($scope.Id > 0) {
                             angular.forEach($scope.AddDeviceParameters, function (selectedPre, index) {
-                                if (selectedPre.Id == Delete_Id) {
+                                //if (selectedPre.Id == Delete_Id) {
+                                //    selectedPre.IsActive = false;
+                                //}
+                                if (index == rowIndex)
                                     selectedPre.IsActive = false;
-                                }
                             });
                             if ($ff($scope.AddDeviceParameters, { IsActive: true }).length > 0) {
                                 $scope.MyDeviceflag = 1;
@@ -673,12 +674,19 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
                         TSDuplicate = 1;
                         DuplicateUserId = DuplicateUserId + ' ' + value2.UserId + ',';
                     };
+                    if (value1.UserId == undefined && value1.ID == "0") 
+                        value1.IsActive = false;
+
+                    if (value2.UserId == undefined && value2.ID == "0")
+                        value2.IsActive = false;
                 });
             });
             angular.forEach($ff($scope.AddUserParameters, { IsActive: true }), function (valuser) {
                 if (valuser.UserId == undefined && valuser.PIN == undefined) {
                     UserEmpty = 1;
                 }
+                if (valuser.UserId == undefined && (valuser.ID == "0" || valuser.ID == 0))
+                    valuser.IsActive = false;
             });
             if (TSDuplicate == 1) {
                 //alert('User Name already exist, cannot be Duplicated');
@@ -695,7 +703,7 @@ MyHomecontroller.controller("MyHomeController", ['$scope', '$http', '$routeParam
             var DuplicateDeviceId = '';
             angular.forEach($scope.AddDeviceParameters, function (value1, index1) {
                 angular.forEach($scope.AddDeviceParameters, function (value2, index2) {
-                    if (index1 > index2 && value1.Id == value2.Id) {
+                    if (index1 > index2 && value1.Id == value2.Id && (value1.IsActive == true && value2.IsActive == true)) {
                         DuplicateDevice = 1;
                         DuplicateDeviceId = DuplicateDeviceId + ' ' + value2.DeviceName + ',';
                     };
