@@ -82,6 +82,14 @@ namespace MyCortex.User.Model
         public string Createdby_ShortName { get; set; }
         public string Com_DurationType { get; set; }
     }
+    public class GetParameterValueCountModel
+    {
+        //public long Id { get; set; }
+        //public decimal? ParameterValue { get; set; }
+        public int HighCount { get; set; }
+        public int MediumCount { get; set; }
+        public int LowCount { get; set; }       
+    }
     public class CareGiverListModel
     {
         public long Id { get; set; }
