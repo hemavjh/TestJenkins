@@ -2,6 +2,11 @@
     $(document).ready(function () {
         $('.activeButton').removeClass('activeButton');
         $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+        if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+            $('.activeButton').removeClass('activeButton');
+            //$('#Templates/EmailSetup').addClass('activeButton');
+            document.getElementById("Templates/EmailSetup").className += 'activeButton';
+        }
     });
 </script>
 <ul class="secondaryMenu" ng-show="UserTypeId == '3'">
@@ -11,10 +16,6 @@
     <li><a href="Home/Index#/ResetPassword">Reset Password</a></li>
     <li><a href="Home/Index#/MasterEmailConfigurationList">Email setup</a></li>
     <li><a class="secondaryMenuActive" href="Home/Index#/MasterAlertConfigurationList" data-menu="Settings">Alerts</a></li>
-    <!--<li><a href="Home/Index#/AppointmentSlot">Appointment Slot</a></li>
-    <li><a href="Home/Index#/SlotTiming">Shift Timing</a></li>
-    <li><a href="Home/Index#/DoctorShift">Doctor Shift</a></li>
-    <li><a href="Home/Index#/DoctorHoliday">Doctor Holiday</a></li>-->
     <li><a href="Home/Index#/WebConfiguration">Configuration</a></li>
     <li><a href="Home/Index#/LanguageSettings">Language</a></li>
     <li><a href="Home/Index#/GateWaySettings">GateWay</a></li>
@@ -86,7 +87,7 @@
             </thead>
             <tbody>
                 <tr ng-if="rowCollectionFilter.length==0">
-                    <td colspan="10" class="textalign">
+                    <td colspan="12" class="textalign">
                         No Data Available
                     </td>
                 </tr>

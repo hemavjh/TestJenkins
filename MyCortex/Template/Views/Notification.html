@@ -22,6 +22,11 @@
             var element = document.getElementById($('.secondaryMenuActive').data('menu'));
             $(element).addClass('activeButton');
             //$('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                //$('#Templates/EmailSetup').addClass('activeButton');
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
         });
     </script>
 <ul class="secondaryMenu" ng-show="UserTypeId == 3">

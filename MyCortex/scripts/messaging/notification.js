@@ -26,6 +26,22 @@ jQuery.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=FIREBASE_C
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
 
+        //if ('serviceWorker' in navigator) {
+        //    navigator.serviceWorker.register('firebase-messagin-sw.js').then(function () {
+        //        return navigator.serviceWorker.ready;
+        //    }).then(function (reg) {
+        //        console.log('Service Worker is ready', reg);
+        //        reg.pushManager.subscribe({ userVisibleOnly: true }).then(function (sub) {
+
+        //            console.log('endpoint:', sub.endpoint);
+        //            reg.active.postMessage(JSON.stringify({ uid: uid, token: token }));
+        //            console.log("Posted message");
+
+        //        });
+        //    }).catch(function (error) {
+        //        console.log('Error : ', error);
+        //    });
+        //}
         // Retrieve Firebase Messaging object.
         const messaging = firebase.messaging();
 
