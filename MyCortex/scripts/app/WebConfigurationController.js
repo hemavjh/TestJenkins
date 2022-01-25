@@ -222,7 +222,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 //$scope.WebConfigurationDetails.push(obj);
 
                 var obj = "";
-                if (index = 32) {
+/*                if (index = 32) {
                     obj = {
                         Id: value.ID,
                         INSTITUTION_ID: value.INSTITUTION_ID,
@@ -235,10 +235,15 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                         INSTITUTION_ID: value.INSTITUTION_ID,
                         CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
                     }
-                }
+                }*/
 
+                var obj = {
+                    Id: value.ID,
+                    INSTITUTION_ID: value.INSTITUTION_ID, //$scope.INSTITUTION_ID,
+                    CONFIGVALUE: $scope.Config_value[value.ID] == 0 ? null : $scope.Config_value[value.ID],
+                }
                 $('#save').attr("disabled", true);
-                $scope.WebConfigurationDetails.push(obj);
+                $scope.WebConfigurationDetails.push(obj);        
             });
 
 

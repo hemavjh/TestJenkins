@@ -795,7 +795,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.DoctorListWithTimeZone = [];
                         $scope.DoctorListWithTimeZone1 = [];
                         document.getElementById("show").disabled = true;
-                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
+                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
                         }
                         else if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
@@ -873,7 +873,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
                         document.getElementById("show").disabled = true;
-                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
+                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) { 
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
                         }
                         else if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {
@@ -3642,12 +3642,25 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         if ($scope.UserTypeId != "3" || $scope.UserTypeId != "1") {
             //Assign care Giver only in Coordinator Login
-            $scope.ParameterValueList = [];
+
+            $scope.ParameterValueList = [];            
+            /*$scope.ParameterValueListCount = [];
+            
+            $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValueCount/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data1) {
+                $scope.ParameterValueListCount = data1;
+                angular.forEach($scope.ParameterValueListCount, function (value, index) {
+                    //console.log(value);
+                    $scope.HighParamCount = value.HighCount;
+                    $scope.LowParamCount = value.LowCount;
+                    $scope.MediumParamCount = value.MediumCount;
+                });
+            });*/
+            
             $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
                 $scope.ParameterValueList = data;
                 //angular.forEach($scope.ParameterValueList, function (value, index) {
                 //    console.log(value);
-                //    if(value.HighCount!= 0 ) 
+                //    if(value.HighCount!= 0) 
                 //    {
                 //        HighCountVital= (value.HighCount).length;
                 //        console.log(HighCountVital);
@@ -3657,6 +3670,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
             });
         }
+
 
         $scope.yellowcount = 1;
         $scope.AlertCountDisplay = function () {
@@ -3881,6 +3895,242 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             }
             return true;
         };
+       /* $scope.yellowcount = 1;
+        $scope.AlertCountDisplay = function () {
+            $scope.redcount = 1;
+            $scope.greencount = 1;
+            $('.jinglebelllow').removeClass('active');
+            $('#Highcount').addClass('fa fa-bell-o myhighBell');
+            $('.jinglebellhigh').removeClass('active');
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
+            $('.jinglebellmedium').addClass('active');
+            $('#Medcount').removeClass('fa fa-bell-o mymediumBell');
+            $('#Medcount').addClass('fas fa-bell mymediumBell');
+            var x = document.getElementById("tableid");
+            var i = document.getElementById("tableid_img");
+            i.src = "../../Images/expand.gif"
+            x.style.display = "none";
+            document.getElementById('tableid_img').title = 'Click to Expand';
+            $('#tableid').hide();
+            $('#tableid1').hide();
+            $('#tableid2').hide();
+            $scope.yellowcount++;
+
+            var MediumCountVital;
+            $scope.MediumCountVitalList = [];
+            if ($scope.yellowcount == 2) {
+                $scope.ParameterValueList = [];
+                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.ParameterValueList = data;
+                });
+
+                angular.forEach($scope.ParameterValueList, function (value, index) {
+                    console.log(value);
+                    if (value.MediumCount != 0) {
+                        MediumCountVital = value.MediumCount;
+                        console.log(MediumCountVital);
+                        $scope.MediumCountVitalList.push(value);
+                    }
+                });
+                if ($scope.MediumCountVitalList.length > 0) {
+                    $('#tableid1').show();
+                    $('#tableid3').hide();
+                    $('#tableid2').hide();
+                    $('#tableid4').hide();
+                    $('#tableid5').hide();
+                    $('#tableid6').hide();
+                    return true;
+                } else {
+                    $('#tableid1').hide();
+                    $('#tableid3').hide();
+                    $('#tableid2').hide();
+                    $('#tableid4').hide();
+                    $('#tableid5').hide();
+                    $('#tableid6').hide();
+                    return true;
+                }
+
+            } else if ($scope.yellowcount == 3) {
+                $('#tableid3').hide();
+                $('#tableid5').hide();
+                $('#tableid1').hide();
+                $('#tableid2').show();
+                $('#tableid4').hide();
+                $('#tableid6').hide();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+                $('#tableid1').hide();
+                $('#tableid2').hide();
+                $('.jinglebellmedium').removeClass('active');
+                $('.jinglebellmedium i').removeClass('fas fa-bell mymediumBell');
+                $('.jinglebellmedium i').addClass('fa fa-bell-o mymediumBell');
+                $scope.yellowcount = 1;
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };
+
+        $scope.redcount = 1;
+        $scope.AlertCountredDisplay = function () {
+            $scope.yellowcount = 1;
+            $scope.greencount = 1;
+            $('.jinglebellmedium').removeClass('active');
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
+            $('.jinglebellhigh').removeClass('active');
+            $('#Lowcount').addClass('fa fa-bell-o mylowBell');
+            $('.jinglebelllow').addClass('active');
+            $('#Highcount').removeClass('fa fa-bell-o myhighBell');
+            $('#Highcount').addClass('fas fa-bell myhighBell');
+            var x = document.getElementById("tableid");
+            var i = document.getElementById("tableid_img");
+            i.src = "../../Images/expand.gif"
+            x.style.display = "none";
+            document.getElementById('tableid_img').title = 'Click to Expand';
+            $('#tableid').hide();
+            $('#tableid3').hide();
+            $('#tableid4').hide();
+            $scope.redcount++;
+
+            var HighCountVital;
+            $scope.HighCountVitalList = [];
+            if ($scope.redcount == 2) {
+                $scope.ParameterValueList = [];
+                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.ParameterValueList = data;
+                });
+                angular.forEach($scope.ParameterValueList, function (value, index) {
+                    console.log(value);
+                    if (value.HighCount != 0) {
+                        HighCountVital = value.HighCount;
+                        console.log(HighCountVital);
+                        $scope.HighCountVitalList.push(value);
+                    }
+                });
+                if ($scope.HighCountVitalList.length > 0) {
+                    $('#tableid3').show();
+                    $('#tableid1').hide();
+                    $('#tableid2').hide();
+                    $('#tableid5').hide();
+                    $('#tableid6').hide();
+                    return true;
+                } else {
+                    $('#tableid3').hide();
+                    $('#tableid1').hide();
+                    $('#tableid2').hide();
+                    $('#tableid5').hide();
+                    $('#tableid6').hide();
+
+                    return true;
+                }
+
+            } else if ($scope.redcount == 3) {
+                $('#tableid1').hide();
+                $('#tableid5').hide();
+                $('#tableid3').hide();
+                $('#tableid4').show();
+                $('#tableid2').hide();
+                $('#tableid6').hide();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+
+                $('#tableid3').hide();
+                $('#tableid4').hide();
+                $('.jinglebelllow').removeClass('active');
+                $('.jinglebelllow i').removeClass('fas fa-bell myhighBell');
+                $('.jinglebelllow i').addClass('fa fa-bell-o myhighBell');
+                $scope.redcount = 1;
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };
+
+        $scope.greencount = 1;
+        $scope.AlertCountgreenDisplay = function () {
+            $scope.redcount = 1;
+            $scope.yellowcount = 1;
+            $('.jinglebelllow').removeClass('active');
+            $('#Highcount').addClass('fa fa-bell-o myhighBell');
+            $('.jinglebellmedium').removeClass('active');
+            $('#Medcount').addClass('fa fa-bell-o mymediumBell');
+            $('.jinglebellhigh').addClass('active');
+            $('#Lowcount').removeClass('fa fa-bell-o mylowBell');
+            $('#Lowcount').addClass('fas fa-bell mylowBell');
+            var x = document.getElementById("tableid");
+            var i = document.getElementById("tableid_img");
+            i.src = "../../Images/expand.gif"
+            x.style.display = "none";
+            document.getElementById('tableid_img').title = 'Click to Expand';
+            $('#tableid').hide();
+            $('#tableid5').hide();
+            $('#tableid6').hide();
+            $scope.greencount++;
+
+            var LowCountVital;
+            $scope.LowCountVitalList = [];
+            if ($scope.greencount == 2) {
+                $scope.ParameterValueList = [];
+                $http.get(baseUrl + '/api/CareCoordinnator/Get_ParameterValue/?PatientId=' + $scope.SelectedPatientId + '&UserTypeId=' + $scope.UserTypeId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                    $scope.ParameterValueList = data;
+                });
+                angular.forEach($scope.ParameterValueList, function (value, index) {
+                    console.log(value);
+                    if (value.LowCount != 0) {
+                        LowCountVital = value.LowCount;
+                        console.log(LowCountVital);
+                        $scope.LowCountVitalList.push(value);
+                    }
+                });
+                if ($scope.LowCountVitalList.length > 0) {
+                    $('#tableid5').show();
+                    $('#tableid1').hide();
+                    $('#tableid4').hide();
+                    $('#tableid3').hide();
+                    $('#tableid2').hide();
+                    $('#tableid6').hide();
+                    return true;
+                } else {
+                    $('#tableid5').hide();
+                    $('#tableid1').hide();
+                    $('#tableid4').hide();
+                    $('#tableid3').hide();
+                    $('#tableid2').hide();
+                    $('#tableid6').hide();
+                    return true;
+                }
+
+            } else if ($scope.greencount == 3) {
+                $('#tableid1').hide();
+                $('#tableid4').hide();
+                $('#tableid5').hide();
+                $('#tableid6').show();
+                $('#tableid2').hide();
+                $('#tableid4').hide();
+                $('#tableid3').hide();
+
+            } else {
+
+                //i.src = "../../Images/expand.gif"
+
+                $('#tableid5').hide();
+                $('#tableid6').hide();
+                $('.jinglebellhigh').removeClass('active');
+                $('.jinglebellhigh i').removeClass('fas fa-bell mylowBell');
+                $('.jinglebellhigh i').addClass('fa fa-bell-o mylowBell');
+                $scope.greencount = 1;
+                //document.getElementById(tableid + '_img').title = 'Click to Expand';
+                //count = $scope.yellowcount - 3;
+
+            }
+            return true;
+        };*/
 
 
         $scope.Assign_CareGiver_Id = "0";

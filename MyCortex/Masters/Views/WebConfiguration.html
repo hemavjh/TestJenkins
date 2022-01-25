@@ -110,15 +110,20 @@
                         <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
                         <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
                     </select>
-
+                    <div ng-if="row.CONFIGCODE=='BT Device Data Posting' && IsEdit==true">
+                        <input style="margin-left: 5px !important" type="radio" value="Auto" ng-model="Config_value[row.ID]"> Auto
+                        <input style="margin-left: 5px !important" type="radio" value="Manual" ng-model="Config_value[row.ID]"> Manual
+                    </div> 
                     <!--<select class="form-control" style="max-width:100% !important" ng-model="SelectedChronic" multiple="multiple" ng-change="onChangeChronic();"
-                            ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
-                            multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
-                    </select>-->
+            ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
+            multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
+    </select>-->
 
                     <input type="text" class="form-control" style="max-width:100% !important"
-                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA'  && IsEdit==true">
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT Device Data Posting'  && IsEdit==true">
                     <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
+
+                                       
                 </td>
             </tr>
 

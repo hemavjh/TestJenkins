@@ -167,6 +167,20 @@ namespace MyCortex.User.Controllers
                 return null;
             }
         }
+        public IList<GetParameterValueCountModel> Get_ParameterValueCount(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        {
+            try
+            {
+                IList<GetParameterValueCountModel> model;
+                model = repository.Get_ParameterValueCount(PatientId, UserTypeId, Login_Session_Id);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>     
         /// Get the assign caregiver history
         /// </summary>

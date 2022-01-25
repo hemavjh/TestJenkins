@@ -223,6 +223,60 @@ namespace MyCortex.Repositories.User
                 return null;
             }
         }
+        /// <summary>
+        /// get user parameter values of a selected patient
+        /// </summary>
+        /// <param name="PatientId"></param>
+        /// <param name="UserTypeId"></param>
+        /// <returns></returns>
+        public IList<GetParameterValueCountModel> Get_ParameterValueCount(long PatientId, long UserTypeId, Guid Login_Session_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@PatientId", PatientId));
+            param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+            try
+            {
+                DataEncryption DecryptFields = new DataEncryption();
+                DataTable dt = new DataTable();
+                if (UserTypeId == 6)
+                {
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[GETPARAMETERVALUE_SP_LIST]", param);
+                }
+                else
+                {
+                    param.Add(new DataParameter("@VIEWUSER", UserTypeId));
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[CAREGIVER_GETPARAMETERVALUECOUNT_SP_LIST]", param);
+                }
+                List<GetParameterValueCountModel> list = (from p in dt.AsEnumerable()
+                                                     select new GetParameterValueCountModel()
+                                                     {
+                                                         //Id = p.Field<long>("Id"),
+                                                         //PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                         HighCount = p.Field<int>("HighCount"),
+                                                         MediumCount = p.Field<int>("MediumCount"),
+                                                         LowCount = p.Field<int>("LowCount"),
+                                                         //ParameterName = p.Field<string>("ParameterName"),
+                                                         //ParameterValue = p.Field<decimal?>("PARAMETERVALUE"),
+                                                         //Average = p.Field<decimal?>("AVERAGE"),
+                                                         //UnitName = p.Field<string>("UnitName"),
+                                                         //PageType = p.Field<string>("PageType"),
+                                                         //Activity_Date = p.Field<DateTime?>("ACTIVITY_DATE"),
+                                                         //DeviceType = p.Field<string>("DEVICETYPE"),
+                                                         //Device_No = p.Field<string>("DEVICE_NO"),
+                                                         //FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                         //TypeName = p.Field<string>("TYPENAME"),
+                                                         //Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
+                                                         //Com_DurationType = p.Field<string>("DurationType"),
+                                                     }).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
         /// <summary>     
         /// Get the assign caregiver history
         /// </summary>
