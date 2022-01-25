@@ -153,22 +153,22 @@
                                         </td>
 
                                         <td rowspan="9" valign="top">
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutiontypeList">
-                                                                <input type="checkbox" ng-model="InstitutionAddList[$index]" />{{value.ModuleName}}
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutiontypeList">
+                                                                <input type="checkbox" id="Module{{value.Id}}" ng-model="InstitutionAddList[$index]" ng-click="ModulelistChange('Module'+value.Id,value);"/>{{value.ModuleName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in LanguageList">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in LanguageList">
                                                                 <div ng-if="value.LanguageName == 'English'">
                                                                     <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" /> {{value.LanguageName}}
                                                                 </div>
@@ -180,28 +180,28 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Insurance</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionInsuranceName">
                                                                 <input type="checkbox" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Payment</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionPaymentMethod">
                                                                 <input type="checkbox" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
@@ -289,25 +289,25 @@
                                                         </table>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <!--<tr>
                                                     <td>
                                                         <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td class="nopadding">
                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
                                                             <tr>
-                                                                <td>
-                                                                    <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
-                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
+                                                                <td>-->
+                                                            <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                                        <!--<input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
                                                                         <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
                                                                         <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
-                                                                        <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC
-                                                                    <!--</div>-->
-                                                                </td>
+                                                                        <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
+                                                                   <!--</div>-->
+                                                                <!--</td>
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="13%">
                                                         <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
@@ -456,50 +456,50 @@
                                             {{ViewInstitution_Name}}
                                         </td>
                                         <td rowspan="9" valign="top">
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="row in InstitutiontypeList">
-                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" />{{row.ModuleName}}
+                                                            <div class="col-md-4" ng-repeat="row in InstitutiontypeList">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" onchange="ModulelistChange();"/>{{row.ModuleName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="row in LanguageList">
+                                                            <div class="col-md-4" ng-repeat="row in LanguageList">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddLanguageList[$index]" />{{row.LanguageName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Insurance</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionInsuranceName">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Payment</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionPaymentMethod">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
@@ -559,7 +559,7 @@
                                                         </table>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                               <!-- <tr>
                                                     <td>
                                                         <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
@@ -575,7 +575,7 @@
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="7%">
                                                         <label>Appointment Module</label>
