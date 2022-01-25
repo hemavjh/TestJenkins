@@ -44,16 +44,15 @@ namespace MyCortex.Repositories.User
         /// <returns>list of patients pending for approval based on given filter</returns>
         public IList<PatientApprovalModel> PatientApproval_List(long? InstitutionId, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
-            param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
+            param.Add(new DataParameter("@PatientNo", PATIENTNO));
+            param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
             param.Add(new DataParameter("@GenderId", GENDER_ID));
             param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
             param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
-            param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
+            param.Add(new DataParameter("@MobileNo", MOBILE_NO));
             param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-            param.Add(new DataParameter("@Email", EncryptPassword.Encrypt(EMAILID==null?null:EMAILID.ToLower())));
+            param.Add(new DataParameter("@Email", EMAILID==null?null:EMAILID.ToLower()));
             param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
             param.Add(new DataParameter("@CountryId", COUNTRY_ID));
             param.Add(new DataParameter("@StateId", STATE_ID));
@@ -64,19 +63,18 @@ namespace MyCortex.Repositories.User
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPROVAL_SP_LIST]", param);
                 List<PatientApprovalModel> lst = (from p in dt.AsEnumerable()
                                                   select new PatientApprovalModel()
                                                   {
                                                       Id = p.Field<long>("ID"),
-                                                      FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
-                                                      Mobile_No = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                                      MRN_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")),
+                                                      FullName = p.Field<string>("FULLNAME"),
+                                                      Mobile_No = p.Field<string>("MOBILE_NO"),
+                                                      MRN_NO = p.Field<string>("MRN_NO"),
                                                       PendingSince = p.Field<string>("PENDINGSINCE"),
                                                       Remarks = p.Field<string>("Remarks"),
                                                       Approval_Flag = p.Field<int>("Approval_Flag"),
-                                                      EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID"))
+                                                      EmailId = p.Field<string>("EMAILID")
                                                   }).ToList();
                 return lst;
             }
@@ -120,7 +118,6 @@ namespace MyCortex.Repositories.User
         {
             string Message = "";
             int Flag = 0;
-            DataEncryption DecryptFields = new DataEncryption();
             foreach (PatientApprovalModel item in obj)
             {
                 List<DataParameter> param = new List<DataParameter>();
@@ -152,7 +149,7 @@ namespace MyCortex.Repositories.User
                                                              {
                                                                  ReturnFlag = p.Field<int>("flag"),
                                                                  MessageString = p.Field<string>("msgstr"),
-                                                                 FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
+                                                                 FullName = p.Field<string>("FullName"),
                                                              }).FirstOrDefault();
                         Message = Message + result.MessageString + " " + "for the User" + " " + result.FullName + "\r\n";
                         Flag = result.ReturnFlag;
@@ -209,7 +206,6 @@ namespace MyCortex.Repositories.User
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_PATIENTLICENCE_COUNT]", param);
                 List<PatientApprovalModel> lst = (from p in dt.AsEnumerable()
                                                   select new PatientApprovalModel()

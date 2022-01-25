@@ -296,9 +296,8 @@ namespace MyCortex.Repositories.Uesr
                                              {
                                                  MNR_NO = p.Field<string>("LASTCOUNT"),
                                              }).FirstOrDefault();
-                DataEncryption EncryptMrn = new DataEncryption();
                 //insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
-                insobj.MrnPrefix = EncryptMrn.Encrypt(Get_Patient_Mrn.MNR_NO);
+                insobj.MrnPrefix = Get_Patient_Mrn.MNR_NO;
                 param.Add(new DataParameter("@MNR_NO", insobj.MrnPrefix));
             }
             
@@ -310,8 +309,7 @@ namespace MyCortex.Repositories.Uesr
                                         {
                                             PATIENTNO = p.Field<string>("PATIENTNO"),
                                         }).FirstOrDefault();
-            DataEncryption EncryptPassword = new DataEncryption();
-            insobj.PATIENTNO = EncryptPassword.Encrypt(Get_Patient_No.PATIENTNO);
+            insobj.PATIENTNO = Get_Patient_No.PATIENTNO;
             param.Add(new DataParameter("@PATIENTNO", insobj.PATIENTNO));
             param.Add(new DataParameter("@IS_MASTER", insobj.IS_MASTER));
             _logger.Info("GET_PATIENTID_SP_LIST");
@@ -570,7 +568,6 @@ namespace MyCortex.Repositories.Uesr
                     }
                 }
             }
-            DataEncryption DecryptFields = new DataEncryption();
             UserModel insert = (from p in dt.AsEnumerable()
                                 select
                                 new UserModel()
@@ -578,15 +575,15 @@ namespace MyCortex.Repositories.Uesr
                                     Id = p.IsNull("Id") ? 0 : p.Field<long>("Id"),
                                     flag = p.Field<int>("flag"),
                                     INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
-                                    FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                    MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                    LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                    FirstName = p.Field<string>("FirstName"),
+                                    MiddleName = p.Field<string>("MiddleName"),
+                                    LastName = p.Field<string>("LastName"),
                                     EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
-                                    EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                    EMAILID = p.Field<string>("EMAILID"),
                                     DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
-                                    MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                    MOBILE_NO = p.Field<string>("MOBILE_NO"),
                                     //DOB = p.Field<DateTime?>("DOB"),
-                                    DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
+                                    DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                     Department_Name = p.Field<string>("Department_Name"),
                                     InstitutionName = p.Field<string>("InstitutionName"),
                                     IsActive = p.Field<int?>("IsActive"),
@@ -614,11 +611,11 @@ namespace MyCortex.Repositories.Uesr
                                     CITY_ID = p.IsNull("CITY_ID") ? 0 : p.Field<long>("CITY_ID"),
                                     BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
                                     MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
-                                    PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
-                                    //MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                    PATIENTNO = p.Field<string>("PATIENTNO"),
+                                    //MNR_NO = p.Field<string>("MNR_NO"),
                                     MNR_NO = p.Field<string>("MNR_NO"),
-                                    INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")),
-                                    NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
+                                    INSURANCEID = p.Field<string>("INSURANCEID"),
+                                    NATIONALID = p.Field<string>("NATIONALID"),
                                     EthnicGroup = p.Field<string>("EthnicGroup"),
                                     UserName = p.Field<string>("UserName"),
                                     GENDER_NAME = p.Field<string>("GENDER_NAME"),
@@ -650,12 +647,12 @@ namespace MyCortex.Repositories.Uesr
                                     ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT"),
                                     CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
                                     CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT"),
-                                    EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")),
-                                    EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
-                                    EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
+                                    EMERG_CONT_FIRSTNAME = p.Field<string>("EMERG_CONT_FIRSTNAME"),
+                                    EMERG_CONT_MIDDLENAME = p.Field<string>("EMERG_CONT_MIDDLENAME"),
+                                    EMERG_CONT_LASTNAME = p.Field<string>("EMERG_CONT_LASTNAME"),
                                     EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
-                                    GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
-                                    FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
+                                    GOOGLE_EMAILID = p.Field<string>("Google_EmailId"),
+                                    FB_EMAILID = p.Field<string>("FB_EMAILID"),
                                     DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
                                     HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
                                     CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
@@ -663,14 +660,14 @@ namespace MyCortex.Repositories.Uesr
                                     HyperTension_Option = p.Field<string>("HyperTension_Option"),
                                     Cholesterol_Option = p.Field<string>("Cholestrol_Option"),
                                     Patient_Type = p.Field<int?>("Patient_Type"),
-                                    Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
-                                    FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
-                                    appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
+                                    Emergency_MobileNo = p.Field<string>("EMRG_CONT_PHONENO"),
+                                    FullName = p.Field<string>("FULLNAME"),
+                                    appleUserID = p.Field<string>("appleUserID"),
                                     PatientId = p.Field<string>("PATIENT_ID"),
-                                    Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
-                                    PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
-                                    RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
-                                    ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                    Memberid = p.Field<string>("MEMBERID"),
+                                    PolicyNumber = p.Field<string>("POLICYNUMBER"),
+                                    RefernceId = p.Field<string>("REFERNCEID"),
+                                    ExpiryDate = p.Field<string>("EXPIRYDATE"),
                                     PayorId = p.Field<string>("PAYORID"),
                                     PlanId = p.Field<string>("PLANID"),
                                 }).FirstOrDefault();
@@ -774,7 +771,6 @@ namespace MyCortex.Repositories.Uesr
         public IList<ItemizedUserDetailsModel> UserDetails_List(long Id, long InstitutionId, int? IsActive, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
-            DataEncryption DecryptFields = new DataEncryption();
             //List<ItemizedUserDetailsModel> products = new List<ItemizedUserDetailsModel>();
             param.Add(new DataParameter("@MenuType", Id));
             param.Add(new DataParameter("@IsActive", IsActive));
@@ -790,11 +786,11 @@ namespace MyCortex.Repositories.Uesr
                                         //FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
                                         //MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
                                         //LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
-                                        FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
+                                        FullName = p.Field<string>("FullName"),
                                         EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
-                                        EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                        EMAILID = p.Field<string>("EMAILID"),
                                         DEPARTMENT_ID = p.Field<long?>("DEPARTMENT_ID"),
-                                        MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                        MOBILE_NO = p.Field<string>("MOBILE_NO"),
                                         Department_Name = p.Field<string>("Department_Name"),
                                         InstitutionName = p.Field<string>("InstitutionName"),
                                         IsActive = p.Field<int?>("IsActive"),
@@ -833,7 +829,6 @@ namespace MyCortex.Repositories.Uesr
         /// <returns></returns>
         public IList<ItemizedUserDetailsModel> Patient_List(long? Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber,string SearchQuery,string SearchEncryptedQuery)
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
@@ -857,7 +852,6 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SearchQuery", SearchQuery));
             param.Add(new DataParameter("@SearchEncryptedQuery", SearchQuery));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST_NEW", param);
-            DataEncryption DecryptFields = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                                    {
@@ -881,33 +875,31 @@ namespace MyCortex.Repositories.Uesr
 
         public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery)
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
             param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
             //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);
-            DataEncryption DecryptFields = new DataEncryption();
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()
                                                    {
                                                        //TotalRecord = p.Field<string>("TotalRecords"),
                                                        Id = p.Field<long>("Id"),
-                                                       FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                                       MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                                       LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
-                                                       FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
-                                                       MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                                       FirstName = p.Field<string>("FirstName"),
+                                                       MiddleName = p.Field<string>("MiddleName"),
+                                                       LastName = p.Field<string>("LastName"),
+                                                       FullName = p.Field<string>("FullName"),
+                                                       MOBILE_NO = p.Field<string>("MOBILE_NO"),
                                                        IsActive = p.Field<int?>("IsActive"),
                                                        GroupName = p.Field<string>("GroupName"),
-                                                       MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
+                                                       MNR_NO = p.Field<string>("MNR_NO"),
                                                        GENDER_NAME = p.Field<string>("Gender_Name"),
                                                        LoginTime = p.Field<DateTime?>("LOGINTIME"),
-                                                       EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
-                                                       PATIENT_ID = (p.Field<string>("PATIENT_ID")) ?? "",
-                                                       INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
-                                                       NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
+                                                       EMAILID = p.Field<string>("EMAILID"),
+                                                       PATIENT_ID = p.Field<string>("PATIENT_ID"),
+                                                       INSURANCEID = p.Field<string>("INSURANCEID"),
+                                                       NATIONALID = p.Field<string>("NATIONALID"),
                                                    }).OrderBy(o => o.FullName).ToList();
             return list;
         }
@@ -920,7 +912,6 @@ namespace MyCortex.Repositories.Uesr
         public UserModel UserDetails_View(long Id, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
-            DataEncryption DecryptFields = new DataEncryption();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].USERDETAILS_SP_VIEW", param);
@@ -932,15 +923,15 @@ namespace MyCortex.Repositories.Uesr
                                    
                                   Id = p.Field<long>("Id"),
                                   INSTITUTION_ID = p.IsNull("INSTITUTION_ID") ? 0 : p.Field<long>("INSTITUTION_ID"),
-                                  FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                  MiddleName = DecryptFields.Decrypt(p.Field<string>("MiddleName")),
-                                  LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                  FirstName = p.Field<string>("FirstName"),
+                                  MiddleName = p.Field<string>("MiddleName"),
+                                  LastName = p.Field<string>("LastName"),
                                   EMPLOYEMENTNO = p.Field<string>("EMPLOYEMENTNO"),
-                                  EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                  EMAILID = p.Field<string>("EMAILID"),
                                   DEPARTMENT_ID = p.IsNull("DEPARTMENT_ID") ? 0 : p.Field<long>("DEPARTMENT_ID"),
-                                  MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
+                                  MOBILE_NO = p.Field<string>("MOBILE_NO"),
                                   //DOB = p.Field<DateTime?>("DOB"),
-                                  DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
+                                  DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
                                   Department_Name = p.Field<string>("Department_Name"),
                                   InstitutionName = p.Field<string>("InstitutionName"),
                                   IsActive = p.Field<int?>("IsActive"),
@@ -969,10 +960,10 @@ namespace MyCortex.Repositories.Uesr
                                   BLOODGROUP_ID = p.IsNull("BLOODGROUP_ID") ? 0 : p.Field<long>("BLOODGROUP_ID"),
                                   MARITALSTATUS_ID = p.IsNull("MARITALSTATUS_ID") ? 0 : p.Field<long>("MARITALSTATUS_ID"),
                                   // PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
-                                  PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")),
-                                  MNR_NO = DecryptFields.Decrypt(p.Field<string>("MNR_NO")),
-                                  INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")),
-                                  NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
+                                  PATIENTNO = p.Field<string>("PATIENTNO"),
+                                  MNR_NO = p.Field<string>("MNR_NO"),
+                                  INSURANCEID = p.Field<string>("INSURANCEID"),
+                                  NATIONALID = p.Field<string>("NATIONALID"),
                                   EthnicGroup = p.Field<string>("EthnicGroup"),
                                   UserName = p.Field<string>("UserName"),
                                   GENDER_NAME = p.Field<string>("GENDER_NAME"),
@@ -1008,12 +999,12 @@ namespace MyCortex.Repositories.Uesr
                                   ALCOHALSUBSTANCE_TEXT = p.Field<string>("ALCOHALSUBSTANCE_TEXT"),
                                   CAFFEINATED_BEVERAGESID = p.IsNull("CAFFEINATED_BEVERAGESID") ? 0 : p.Field<long>("CAFFEINATED_BEVERAGESID"),
                                   CAFFEINATEDBEVERAGES_TEXT = p.Field<string>("CAFFEINATEDBEVERAGES_TEXT"),
-                                  EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")),
-                                  EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")),
-                                  EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")),
+                                  EMERG_CONT_FIRSTNAME = p.Field<string>("EMERG_CONT_FIRSTNAME"),
+                                  EMERG_CONT_MIDDLENAME = p.Field<string>("EMERG_CONT_MIDDLENAME"),
+                                  EMERG_CONT_LASTNAME = p.Field<string>("EMERG_CONT_LASTNAME"),
                                   EMERG_CONT_RELATIONSHIP_ID = p.IsNull("EMERG_CONT_RELATIONSHIP_ID") ? 0 : p.Field<long>("EMERG_CONT_RELATIONSHIP_ID"),
-                                  GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("Google_EmailId")),
-                                  FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")),
+                                  GOOGLE_EMAILID = p.Field<string>("Google_EmailId"),
+                                  FB_EMAILID = p.Field<string>("FB_EMAILID"),
                                   DIABETIC = p.IsNull("DIABETIC") ? 0 : p.Field<long>("DIABETIC"),
                                   HYPERTENSION = p.IsNull("HYPERTENSION") ? 0 : p.Field<long>("HYPERTENSION"),
                                   CHOLESTEROL = p.IsNull("CHOLESTEROL") ? 0 : p.Field<long>("CHOLESTEROL"),
@@ -1021,15 +1012,15 @@ namespace MyCortex.Repositories.Uesr
                                   HyperTension_Option = p.Field<string>("HyperTension_Option"),
                                   Cholesterol_Option = p.Field<string>("Cholestrol_Option"),
                                   Patient_Type = p.Field<int?>("Patient_Type"),
-                                  Emergency_MobileNo = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")),
+                                  Emergency_MobileNo = p.Field<string>("EMRG_CONT_PHONENO"),
                                   Approval_flag = p.Field<int>("APPROVAL_FLAG"),
                                   Createdby_ShortName = p.Field<string>("SHORTNAME_CODE"),
-                                  appleUserID = DecryptFields.Decrypt(p.Field<string>("appleUserID")),
+                                  appleUserID = p.Field<string>("appleUserID"),
                                   PatientId = p.Field<string>("PATIENT_ID"),
-                                  Memberid = DecryptFields.Decrypt(p.Field<string>("MEMBERID")),
-                                  PolicyNumber = DecryptFields.Decrypt(p.Field<string>("POLICYNUMBER")),
-                                  RefernceId = DecryptFields.Decrypt(p.Field<string>("REFERNCEID")),
-                                  ExpiryDate = DecryptFields.Decrypt(p.Field<string>("EXPIRYDATE")),
+                                  Memberid = p.Field<string>("MEMBERID"),
+                                  PolicyNumber = p.Field<string>("POLICYNUMBER"),
+                                  RefernceId = p.Field<string>("REFERNCEID"),
+                                  ExpiryDate = p.Field<string>("EXPIRYDATE"),
                                   PayorId = p.Field<string>("PAYORID"),
                                   PlanId = p.Field<string>("PLANID"),
                                   PayorName = p.Field<string>("PayorName"),
@@ -1369,12 +1360,12 @@ namespace MyCortex.Repositories.Uesr
 
                               {
                                   PatientId = p.Field<long>("ID"),
-                                  MNR_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")),
-                                  NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")),
+                                  MNR_NO = p.Field<string>("MRN_NO"),
+                                  NATIONALID = p.Field<string>("NATIONALID"),
                                   //DOB = p.Field<DateTime?>("DOB"),
-                                  DOB_Encrypt = DecryptFields.Decrypt(p.Field<string>("DOB_Encrypt")),
-                                  MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")),
-                                  FullName = DecryptFields.Decrypt(p.Field<string>("FullName")),
+                                  DOB_Encrypt = p.Field<string>("DOB_Encrypt"),
+                                  MOBILE_NO = p.Field<string>("MOBILE_NO"),
+                                  FullName = p.Field<string>("FullName"),
                                   Photo = p.Field<string>("PHOTO_NAME"),
                                   FileName = p.Field<string>("PHOTO_FULLPATH"),
                                   Photo_Fullpath = p.Field<string>("PHOTO_FILENAME"),
@@ -1478,7 +1469,6 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@IsGraphPlot", IsGraphPlot));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTHDATA_SP_LISTS]", param);
-            DataEncryption DecryptFields = new DataEncryption();
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                  select new PatientHealthDataModel()
                                                  {
@@ -1499,7 +1489,7 @@ namespace MyCortex.Repositories.Uesr
                                                      DeviceNo = p.Field<string>("Device_No"),
                                                      TypeName = p.Field<string>("TYPENAME") ?? "",
                                                      //Createdby_FullName = p.Field<string>("CREATEDBY_FULLNAME"),
-                                                     Createdby_FullName = DecryptFields.Decrypt(p.Field<string>("CREATEDBY_FULLNAME")),
+                                                     Createdby_FullName = p.Field<string>("CREATEDBY_FULLNAME"),
                                                      Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME") ?? "",
                                                      Created_Dt = p.Field<DateTime>("CREATED_DT")
                                                  }).ToList();
@@ -1526,7 +1516,6 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@IsGraphPlot", IsGraphPlot));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTHEALTH_DATA_SP_LIST]", param);
-            DataEncryption DecryptFields = new DataEncryption();
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                  select new PatientHealthDataModel()
                                                  {
@@ -1546,7 +1535,7 @@ namespace MyCortex.Repositories.Uesr
                                                      DeviceNo = p.Field<string>("Device_No"),
                                                      TypeName = p.Field<string>("TYPENAME") ?? "",
                                                      //Createdby_FullName = p.Field<string>("CREATEDBY_FULLNAME"),
-                                                     Createdby_FullName = DecryptFields.Decrypt(p.Field<string>("CREATEDBY_FULLNAME")),
+                                                     Createdby_FullName = p.Field<string>("CREATEDBY_FULLNAME"),
                                                      Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME") ?? "",
                                                      Created_Dt = p.Field<DateTime>("CREATED_DT")
                                                  }).ToList();
@@ -1566,7 +1555,6 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@LIVEDATA_FROM", DataTime));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_HEALTHDATA_SP_LIVEDATA]", param);
-            DataEncryption DecryptFields = new DataEncryption();
             List<PatientHealthDataModel> list = (from p in dt.AsEnumerable()
                                                  select new PatientHealthDataModel()
                                                  {
@@ -1579,7 +1567,7 @@ namespace MyCortex.Repositories.Uesr
                                                      ParameterValue = p.IsNull("PARAMETERVALUE") ? 0 : p.Field<decimal>("PARAMETERVALUE"),
                                                      DeviceType = p.Field<string>("DeviceType"),
                                                      DeviceNo = p.Field<string>("Device_No"),
-                                                     Createdby_FullName = DecryptFields.Decrypt(p.Field<string>("CREATEDBY_FULLNAME")),
+                                                     Createdby_FullName = p.Field<string>("CREATEDBY_FULLNAME"),
                                                      Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                      Type_Id = p.Field<int>("TYPE_REF"),
                                                      LiveData_Blob = p.IsNull("PARAMETERVALUE") ? null : p.Field<byte[]>("BLOBDATA"),
@@ -1824,7 +1812,6 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENTS_SP_LIST]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
@@ -1832,8 +1819,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
                                                           Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
                                                           Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
-                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          PatientName = p.Field<string>("PATIENTNAME"),
                                                           //PatientName = p.Field<string>("PATIENTNAME"),
                                                           //DoctorName = p.Field<string>("DOCTORNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
@@ -1867,7 +1854,6 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_PATIENTAPPOINTMENTS_SP_LIST]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
@@ -1875,8 +1861,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
                                                           Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
                                                           Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
-                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          PatientName = p.Field<string>("PATIENTNAME"),
                                                           //PatientName = p.Field<string>("PATIENTNAME"),
                                                           //DoctorName = p.Field<string>("DOCTORNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
@@ -1910,8 +1896,6 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_UPDATE_PATIENTAPPOINTMENTS]", param);
-                DataEncryption DecryptFields = new DataEncryption();
-                DataEncryption decrypt = new DataEncryption();
                 IList<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                        select
                                                        new PatientAppointmentsModel()
@@ -1957,7 +1941,6 @@ namespace MyCortex.Repositories.Uesr
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENTS_PREVIOUS_SP_LIST]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 DataEncryption decrypt = new DataEncryption();
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
                                                       select new PatientAppointmentsModel()
@@ -1965,8 +1948,8 @@ namespace MyCortex.Repositories.Uesr
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
                                                           Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
                                                           Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
-                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          PatientName = p.Field<string>("PATIENTNAME"),
                                                           //PatientName = p.Field<string>("PATIENTNAME"),
                                                           //DoctorName = p.Field<string>("DOCTORNAME"),
                                                           Appointment_Date = p.Field<DateTime>("APPOINTMENT_DATE"),
@@ -2519,7 +2502,6 @@ namespace MyCortex.Repositories.Uesr
         public IList<PatientAppointmentsModel> DoctorAppoinmentHistoryList(long PatientId, Guid Login_Session_Id)
         {
             DataEncryption decrypt = new DataEncryption();
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENTID", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -2545,12 +2527,12 @@ namespace MyCortex.Repositories.Uesr
                                                           Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
                                                           //IsActive = p.Field<int>("ISACTIVE"),
                                                           Created_By = p.Field<int>("CREATED_BY"),
-                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          PatientName = p.Field<string>("PATIENTNAME"),
                                                           // DoctorName = p.Field<string>("DOCTORNAME"),
                                                           // PatientName = p.Field<string>("PATIENTNAME"),
                                                           // Created_By_Name = p.Field<string>("CREATEDBYNAME"),
-                                                          Created_By_Name = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                                          Created_By_Name = p.Field<string>("CREATEDBYNAME"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                                       }).ToList();
@@ -2571,7 +2553,6 @@ namespace MyCortex.Repositories.Uesr
         public IList<PatientAppointmentsModel> DoctorAppoinmentsList(long PatientId, Guid Login_Session_Id)
         {
             DataEncryption decrypt = new DataEncryption();
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENTID", PatientId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -2597,12 +2578,12 @@ namespace MyCortex.Repositories.Uesr
                                                           Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
                                                           //IsActive = p.Field<int>("ISACTIVE"),
                                                           Created_By = p.Field<int>("CREATED_BY"),
-                                                          DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
+                                                          DoctorName = p.Field<string>("DOCTORNAME"),
+                                                          PatientName = p.Field<string>("PATIENTNAME"),
                                                           // DoctorName = p.Field<string>("DOCTORNAME"),
                                                           // PatientName = p.Field<string>("PATIENTNAME"),
                                                           // Created_By_Name = p.Field<string>("CREATEDBYNAME"),
-                                                          Created_By_Name = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                                          Created_By_Name = p.Field<string>("CREATEDBYNAME"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                                       }).ToList();
@@ -2639,7 +2620,6 @@ namespace MyCortex.Repositories.Uesr
         /// <returns>monitoring protocol assigned history list</returns>
         public IList<ProtocolModel> PatientAssignedProtocolHistorylist(long Patient_Id, Guid Login_Session_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -2647,11 +2627,11 @@ namespace MyCortex.Repositories.Uesr
             List<ProtocolModel> lst = (from p in dt.AsEnumerable()
                                        select new ProtocolModel()
                                        {
-                                           Patient_Name = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                           Patient_Name = p.Field<string>("FULLNAME"),
                                            //Patient_Name = p.Field<string>("FULLNAME"),
                                            ProtocolName = p.Field<string>("NAME"),
                                            Created_By = p.Field<long>("CREATED_BY"),
-                                           Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                           Doctor_Name = p.Field<string>("DOCTORNAME"),
                                            //Doctor_Name = p.Field<string>("DOCTORNAME"),
                                            Protocol_Assigned_On = p.Field<DateTime>("CREATED_ON")
                                        }).ToList();
@@ -2812,7 +2792,6 @@ namespace MyCortex.Repositories.Uesr
         /// <returns></returns>
         public IList<MasterICDModel> PatientICD10Details_List(long Patient_Id, int Isactive, Guid Login_Session_Id,long StartRowNumber,long EndRowNumber, long Institution_Id, long Page)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", Isactive));
@@ -2829,11 +2808,11 @@ namespace MyCortex.Repositories.Uesr
                                              CategoryName = p.Field<string>("CATEGORY_NAME"),
                                              ICD_Code = p.Field<string>("ICDCODE"),
                                              Description = p.Field<string>("ICD10_DESCRIPTION"),
-                                             Doctor_Name = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                             Doctor_Name = p.Field<string>("FULLNAME"),
                                              Active_From = p.Field<DateTime?>("ACTIVE_FROM"),
                                              Active_To = p.Field<DateTime?>("ACTIVE_TO"),
                                              Remarks = p.Field<string>("ICD_REMARKS"),
-                                             Created_By_Name = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                             Created_By_Name = p.Field<string>("FULLNAME"),
                                              Created_DT = p.Field<DateTime>("CREATED_DT"),
                                              IsActive = p.Field<int>("ISACTIVE")
 
@@ -2849,7 +2828,6 @@ namespace MyCortex.Repositories.Uesr
         /// <returns>selected Patient ICD 10 detail</returns>
         public MasterICDModel PatientICD10Details_View(long ID, Guid Login_Session_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
 
             param.Add(new DataParameter("@ID", ID));
@@ -2866,7 +2844,7 @@ namespace MyCortex.Repositories.Uesr
                                       Code_ID = p.Field<long>("CODE_ID"),
                                       Description = p.Field<string>("ICD10_DESCRIPTION"),
                                       Remarks = p.Field<string>("ICD_REMARKS"),
-                                      Doctor_Name = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                      Doctor_Name = p.Field<string>("FULLNAME"),
                                       Active_From = p.Field<DateTime?>("ACTIVE_FROM"),
                                       Active_To = p.Field<DateTime?>("ACTIVE_TO"),
 
@@ -3123,7 +3101,6 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_MEDICATION_SP_LIST", param);
-            DataEncryption DecryptFields = new DataEncryption();
             List<DrugDBMasterModel> lst = (from p in dt.AsEnumerable()
                                            select new DrugDBMasterModel()
                                            {
@@ -3140,7 +3117,7 @@ namespace MyCortex.Repositories.Uesr
                                                StrengthName = p.Field<string>("STRENGTHNAME"),
                                                Dosage_FromName = p.Field<string>("DOSAGEFORMNAME"),
                                                NoOfDays = p.Field<decimal?>("NO_OF_DAYS"),
-                                               Created_By_Name = DecryptFields.Decrypt(p.Field<string>("CREATEDBY")),
+                                               Created_By_Name = p.Field<string>("CREATEDBY"),
                                                Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                                IsActive = p.Field<int>("ISACTIVE")
 
@@ -3412,7 +3389,6 @@ namespace MyCortex.Repositories.Uesr
         /// <returns>allergy list of a patient</returns>
         public IList<AllergyModel> PatientAllergylist(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PatientId", Patient_Id));
             param.Add(new DataParameter("@ISACTIVE", IsActive));
@@ -3433,7 +3409,7 @@ namespace MyCortex.Repositories.Uesr
                                           OnSetDate = p.Field<DateTime?>("ONSETDATE"),
                                           AllergyReactionName = p.Field<string>("ALLERGYREACTIONNAME") ?? "",
                                           IsActive = p.Field<int>("ISACTIVE"),
-                                          Created_By_Name = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                          Created_By_Name = p.Field<string>("FULLNAME"),
                                           Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                           Remarks = p.Field<string>("REMARKS")
                                       }).ToList();
@@ -3545,7 +3521,6 @@ namespace MyCortex.Repositories.Uesr
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@patientid", idval));
                 param.Add(new DataParameter("@ISACTIVE", IsActive));
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -3562,7 +3537,7 @@ namespace MyCortex.Repositories.Uesr
                                                    PatientId = p.Field<long>("PATIENT_ID"),
                                                    Notes = p.Field<string>("NOTES"),
                                                    Created_By = p.Field<long>("CREATED_BY"),
-                                                   Created_By_Name = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                   Created_By_Name = p.Field<string>("FULLNAME"),
                                                    Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                                    IsActive = p.Field<int>("ISACTIVE")
                                                }).ToList();
@@ -3677,7 +3652,6 @@ namespace MyCortex.Repositories.Uesr
         public Patient_OtherDataModel Patient_OtherData_InsertUpdate(long Patient_Id, Guid Login_Session_Id,long Appointment_Id, long Id, string FileName, string DocumentName, string Remarks, byte[] fileData, long Created_By, DateTime? DocumentDates, int Is_Appointment = 0, string Filetype = "", string DocumentType="")
         {
             List<DataParameter> param = new List<DataParameter>();
-            //DataEncryption encrypt = new DataEncryption();
 
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@Patient_Id", Patient_Id));
@@ -3695,7 +3669,6 @@ namespace MyCortex.Repositories.Uesr
 
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_OTHERDATA_INSERTUPDATE]", param);
-            DataEncryption DecryptFields = new DataEncryption();
             Patient_OtherDataModel insert = (from p in dt.AsEnumerable()
                                              select
                                              new Patient_OtherDataModel()
@@ -3708,8 +3681,8 @@ namespace MyCortex.Repositories.Uesr
                                                  IsActive = p.Field<int>("ISACTIVE"),
                                                  Created_By = p.Field<long>("CREATED_BY"),
                                                  Is_Appointment = p.Field<int>("IS_APPOINTMENT"),
-                                                 Created_Name = DecryptFields.Decrypt(p.Field<string>("Created_Name")),
-                                                 PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                 Created_Name = p.Field<string>("Created_Name"),
+                                                 PatientName = p.Field<string>("PatientName"),
                                                  Remarks = p.Field<string>("Remarks"),
                                                  Filetype = p.Field<string>("FILETYPE"),
                                                  flag = p.Field<int>("flag"),
@@ -3798,7 +3771,6 @@ namespace MyCortex.Repositories.Uesr
         /// <returns></returns>
         public IList<Patient_OtherDataModel> Patient_OtherData_List(long Patient_Id, int IsActive, Guid Login_Session_Id, long StartRowNumber, long EndRowNumber)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@PATIENT_ID", Patient_Id));
             param.Add(new DataParameter("@IsActive", IsActive));
@@ -3820,8 +3792,8 @@ namespace MyCortex.Repositories.Uesr
                                                         FileName = p.Field<string>("FILE_NAME"),
                                                         IsActive = p.Field<int>("ISACTIVE"),
                                                         Created_By = p.Field<long>("CREATED_BY"),
-                                                        Created_Name = DecryptFields.Decrypt(p.Field<string>("Created_Name")),
-                                                        PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                        Created_Name = p.Field<string>("Created_Name"),
+                                                        PatientName = p.Field<string>("PatientName"),
                                                         Remarks = p.Field<string>("Remarks"),
                                                         Created_Date = p.Field<DateTime>("Created_dt"),
                                                         DocumentDate = p.Field<DateTime?>("DOCUMENT_DATE"),
@@ -3842,7 +3814,6 @@ namespace MyCortex.Repositories.Uesr
         /// <returns></returns>
         public Patient_OtherDataModel Patient_OtherData_GetDocument(long Id)
         {
-            DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENT_OTHERDATA_SP_GETDOCUMENT]", param);
@@ -3944,7 +3915,6 @@ namespace MyCortex.Repositories.Uesr
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption EncryptField = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("MYCORTEX.USERBASED_DEPARTMENT_SP_LIST", param);
                 List<UserGroupDetails_List> list = (from p in dt.AsEnumerable()
                                                     select new UserGroupDetails_List()
@@ -3952,7 +3922,7 @@ namespace MyCortex.Repositories.Uesr
                                                         User_Id = p.Field<long>("ID"),
                                                         Dept_Id = p.IsNull("DEPT_ID") ? 0 : p.Field<long>("DEPT_ID"),
                                                         DeptName = p.Field<string>("DEPARTMENT_NAME"),
-                                                        UserName = EncryptField.Decrypt(p.Field<string>("FULLNAME")),
+                                                        UserName = p.Field<string>("FULLNAME"),
                                                         GenderName = p.Field<string>("GENDER_NAME"),
                                                         GroupName = p.Field<string>("USERTYPE_NAME")
 
@@ -4075,7 +4045,6 @@ namespace MyCortex.Repositories.Uesr
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@LifeStyleData_Id", HealthData_Id));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_GET_DIAGNOSTICALERT]", param);
-            DataEncryption DecryptFields = new DataEncryption();
             PatientHealthDataModel list = (from p in dt.AsEnumerable()
                                            select new PatientHealthDataModel()
                                            {
@@ -4128,12 +4097,12 @@ namespace MyCortex.Repositories.Uesr
             }
             else
             {
-                DataEncryption DecryptFields = new DataEncryption();
-                insobj.EMAILID = DecryptFields.Decrypt(insobj.EMAILID);
-                insobj.MOBILE_NO = DecryptFields.Decrypt(insobj.MOBILE_NO);
-                insobj.GOOGLE_EMAILID = DecryptFields.Decrypt(insobj.GOOGLE_EMAILID);
-                insobj.FB_EMAILID = DecryptFields.Decrypt(insobj.FB_EMAILID);
-                insobj.appleUserID = DecryptFields.Decrypt(insobj.appleUserID);
+                //DataEncryption DecryptFields = new DataEncryption();
+                //insobj.EMAILID = DecryptFields.Decrypt(insobj.EMAILID);
+                //insobj.MOBILE_NO = DecryptFields.Decrypt(insobj.MOBILE_NO);
+                //insobj.GOOGLE_EMAILID = DecryptFields.Decrypt(insobj.GOOGLE_EMAILID);
+                //insobj.FB_EMAILID = DecryptFields.Decrypt(insobj.FB_EMAILID);
+                //insobj.appleUserID = DecryptFields.Decrypt(insobj.appleUserID);
                 insobj.flag = int.Parse((dr["flag"].ToString()));
             }
             
@@ -4431,7 +4400,6 @@ namespace MyCortex.Repositories.Uesr
         public IList<CometChat_User> GetCometChatUserList(long InstitutionId)
         {
             List<DataParameter> param = new List<DataParameter>();
-            DataEncryption DecryptFields = new DataEncryption();
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -4441,10 +4409,10 @@ namespace MyCortex.Repositories.Uesr
                                             select new CometChat_User()
                                             {
                                                 Id = p.Field<long>("ID"),
-                                                FirstName = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")),
-                                                FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                FirstName = p.Field<string>("FIRSTNAME"),
+                                                FullName = p.Field<string>("FULLNAME"),
                                                 DepartmentId = p.Field<long>("DEPARTMENT_ID"),
-                                                EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                EmailId = p.Field<string>("EMAILID"),
                                                 UserTypeId = p.Field<long>("USERTYPE_ID"),
                                             }).ToList();
                 return lst;
@@ -4458,12 +4426,11 @@ namespace MyCortex.Repositories.Uesr
 
         public IList<DecryptUserListModel> DecryptUserDetails(long INSTITUTION_ID, long startno)
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
             param.Add(new DataParameter("@STARTNO", startno));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_INSTITUTION_USERLIST]", param);
-            DataEncryption DecryptFields = new DataEncryption();
+            DataEncryption DecryptFields = new DataEncryption();   // dont remove it
             List<DecryptUserListModel> list = (from p in dt.AsEnumerable()
                                                    select new DecryptUserListModel()
                                                    {
