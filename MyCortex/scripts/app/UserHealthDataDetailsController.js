@@ -795,7 +795,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         $scope.DoctorListWithTimeZone = [];
                         $scope.DoctorListWithTimeZone1 = [];
                         document.getElementById("show").disabled = true;
-                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
+                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) {
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
                         }
                         else if ($scope.SelectedSpeciality == undefined || $scope.SelectedSpeciality == null || $scope.SelectedSpeciality == "") {
@@ -873,7 +873,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                         var AppointmentDate = moment($scope.AppoimDate).format('DD-MM-YYYY');
                         $scope.DoctorListWithTimeZone = [];
                         document.getElementById("show").disabled = true;
-                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate(AppointmentDate))) {
+                        if (($scope.AppoimDate != "" || $scope.AppoimDate != undefined) && (ParseDate(dt) > ParseDate($scope.AppoimDate))) { 
                             toastr.warning("Please avoid past date as AppointmentDate", "warning");
                         }
                         else if ($scope.DoctorID == undefined || $scope.DoctorID.length == 0 || $scope.DoctorID == null) {

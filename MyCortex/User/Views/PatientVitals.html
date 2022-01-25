@@ -1424,7 +1424,7 @@
                                                                 <td style="text-align: right"
                                                                     ng-init="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]=1">
                                                                     <label ng-show="EditVitalRow_EditFlag[((current_page-1)*page_size)+$index]==1">
-                                                                        {{row.ParameterValue}}
+                                                                        {{row.ParameterValue | number : 2}} 
                                                                     </label>
                                                                     <input type="text" class="form-control"
                                                                            ng-init="row.newParameterValue=row.ParameterValue"
