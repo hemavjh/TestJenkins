@@ -151,8 +151,10 @@ DrugDBcontroller.controller("DrugDBController", ['$scope', '$http', '$filter', '
                     $scope.page_size = data1[0].ConfigValue;
                     $scope.PageStart = (($scope.current_page - 1) * ($scope.page_size)) + 1;
                     $scope.PageEnd = $scope.current_page * $scope.page_size;
+                    /*$http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
+                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {*/
                     $http.get(baseUrl + '/api/DrugDBMaster/DrugDBMasterList/?IsActive=' + $scope.ISact + '&InstitutionId=' + $scope.InstituteId + '&StartRowNumber=' + $scope.PageStart +
-                        '&EndRowNumber=' + $scope.PageEnd).success(function (data) {
+                        '&EndRowNumber=' + $scope.page_size).success(function (data) {
                             $scope.emptydata = [];
                             $scope.rowCollection = [];
                             $scope.rowCollection = data;
