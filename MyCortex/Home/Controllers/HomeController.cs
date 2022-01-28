@@ -326,7 +326,10 @@ namespace MyCortex.Home.Controllers
                             fullname = fullname.Replace(",", "");
                             t.Add(fullname);
                         }
-                        t.Add(i.GENDER_NAME.ToString());
+                        if (i.GENDER_NAME != null)
+                        {
+                            t.Add(i.GENDER_NAME.ToString());
+                        }
                         t.Add(i.Employee_Name.ToString());
                         t.Add(i.PatientType.ToString());
                         t.Add(i.UserType.ToString());
