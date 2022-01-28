@@ -92,7 +92,7 @@ namespace MyCortex.Repositories.Masters
                 return null;
             }
         }
-
+        
         public long WebConfiguration_InsertUpdate(Guid Login_Session_Id, List<WebConfigurationModel> insobj)
         {
             try

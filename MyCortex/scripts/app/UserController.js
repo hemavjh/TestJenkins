@@ -3546,6 +3546,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             toastr.info(data.Message, "info");
                         }
                         else if (data.ReturnFlag == 1) {
+                            InstSub.setSubID(0);
+                            InstSub.setInstiID(0);
                             toastr.success(data.Message, "success");
                         }
                         $('#btnsave').attr("disabled", false);

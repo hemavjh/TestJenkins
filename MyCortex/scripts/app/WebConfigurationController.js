@@ -237,10 +237,19 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     }
                 }*/
 
-                var obj = {
-                    Id: value.ID,
-                    INSTITUTION_ID: value.INSTITUTION_ID, //$scope.INSTITUTION_ID,
-                    CONFIGVALUE: $scope.Config_value[value.ID] == 0 ? null : $scope.Config_value[value.ID],
+                if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "CHRONIC CODE") {
+                    obj = {
+                        Id: value.ID,
+                        INSTITUTION_ID: value.INSTITUTION_ID,
+                        CONFIGVALUE: CHRONIC_CODE == 0 || CHRONIC_CODE == "" ? '' : CHRONIC_CODE,
+                    }
+                }
+                else {
+                    obj = {
+                        Id: value.ID,
+                        INSTITUTION_ID: value.INSTITUTION_ID,
+                        CONFIGVALUE: $scope.Config_value[value.ID] == 0 || $scope.Config_value[value.ID] == "" ? '' : $scope.Config_value[value.ID],
+                    }
                 }
                 $('#save').attr("disabled", true);
                 $scope.WebConfigurationDetails.push(obj);        
