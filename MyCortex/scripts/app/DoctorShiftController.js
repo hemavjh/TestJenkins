@@ -134,7 +134,6 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         $scope.IntervalBt2 = "0";
         $scope.Days2 = "0";
         $scope.Minutes2 = "0";
-
         $http.get(baseUrl + '/api/User/DepartmentList/').success(function (data) {
             $scope.DepartmentList = data;
         });
@@ -158,8 +157,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $sel3.multiselect('enable');
             $scope.EditShiftDoctor();
             // $scope.AppoinmentSlotClear();
-            $scope.FromDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $scope.ToDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.onDateRange();
             $('#saveDoctorShift1').attr("disabled", false);
             $('#saveDoctorShift2').attr("disabled", false);
             $('#saveDoctorShift3').attr("disabled", false);
@@ -1480,10 +1478,15 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
 
         /* THIS IS FOR VALIDATION CONTROL FOR  DOCTOR SHIFT */
         $scope.ValidationcontrolsDoctorShift = function () {
-            var today = moment(new Date()).format('DD-MMM-YYYY');
-            $scope.FromDate = moment($scope.FromDate).format('DD-MMM-YYYY');
-            $scope.ToDate = moment($scope.ToDate).format('DD-MMM-YYYY');
+            var today = moment(new Date()).format('YYYY-MM-DD');
+            var fromDt = moment($scope.FromDate).format('YYYY-MM-DD');
+            var toDt = moment($scope.ToDate).format('YYYY-MM-DD');
+            //$scope.FromDate = moment($scope.FromDate).format('DD-MM-YYYY');
+            //$scope.ToDate = moment($scope.ToDate).format('DD-MM-YYYY');
 
+            $scope.FromDate = document.getElementById("FromDate").value;
+            $scope.ToDate = document.getElementById("ToDate").value;
+             
             if (typeof ($scope.SelectedDepartment) == "undefined" || $scope.SelectedDepartment == "") {
                 //alert("Please Select Department");
                 toastr.warning("Please Select Department", "warning");
@@ -1499,24 +1502,29 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Select CCCG", "warning");
                 return false;
             }
-            else if (typeof ($scope.FromDate) == "undefined" || $scope.FromDate == "") {
+            else if ($scope.FromDate == "undefined" || $scope.FromDate == "") {
                 //alert("Please select From Date");
-                toastr.warning("Please select From Date", "warning");
+                toastr.warning("Please select Start Date", "warning");
                 return false;
             }
-            else if (typeof ($scope.ToDate) == "undefined" || $scope.ToDate == "") {
+            else if (today > fromDt) {
+                toastr.warning("Please avoid past date as Start Date", "warning");
+                return false;
+            }
+            else if ($scope.ToDate == "undefined" || $scope.ToDate == "") {
                 //alert("Please select  End Date");
-                toastr.warning("Please select  End Date", "warning");
+                toastr.warning("Please select End Date", "warning");
                 return false;
             }
-            if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
-                if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
-                    //alert("Start Date should not be greater than End Date");
-                    toastr.warning("Start Date should not be greater than End Date", "warning");
-                    $scope.FromDate = DateFormatEdit($scope.FromDate);
-                    $scope.ToDate = DateFormatEdit($scope.ToDate);
-                    return false;
-                }
+            else if (today > toDt) {
+                toastr.warning("Please avoid past date as End Date", "warning");
+                return false;
+            }
+            else if ($scope.FromDate > $scope.ToDate) {
+                toastr.warning("Start Date should not be greater than End Date", "warning");
+                $scope.FromDate = DateFormatEdit($scope.FromDate);
+                $scope.ToDate = DateFormatEdit($scope.ToDate);
+                return false;
             }
             else if (typeof ($scope.NewAppointment) == "undefined" || $scope.NewAppointment == "0" || $scope.NewAppointment == '') {
                 //alert("Please Enter NewAppointment Time Slot");
@@ -1528,7 +1536,6 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Enter followup Time Slot", "warning");
                 return false;
             }
-
             else if (typeof ($scope.IntervalBt) == "undefined" || $scope.IntervalBt == "0" || $scope.IntervalBt == '') {
                 //alert("Please Enter Interval Time Slot");
                 toastr.warning("Please Enter Interval Time Slot", "warning");
@@ -1548,9 +1555,18 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                 toastr.warning("Please Enter Minutes", "warning");
                 return false;
             }
+            //else if (($scope.FromDate !== null) && ($scope.ToDate !== null)) {
+            //    if ((ParseDate($scope.ToDate) < ParseDate($scope.FromDate))) {
+            //        //alert("Start Date should not be greater than End Date");
+            //        toastr.warning("Start Date should not be greater than End Date", "warning");
+            //        $scope.FromDate = DateFormatEdit($scope.FromDate);
+            //        $scope.ToDate = DateFormatEdit($scope.ToDate);
+            //        return false;
+            //    }
+            //}
 
-            $scope.FromDate = DateFormatEdit($scope.FromDate);
-            $scope.ToDate = DateFormatEdit($scope.ToDate);
+            //$scope.FromDate = DateFormatEdit($scope.FromDate);
+            //$scope.ToDate = DateFormatEdit($scope.ToDate);
             return true;
         };
         $scope.OrganisationSettingsSelectedDays = function () {
@@ -1801,6 +1817,11 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             //    alert("Inactive record cannot be edited");
             //}
         };
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.EditDoctorShift = function () {
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
+        }
         /* 
      Calling api method for the dropdown list in the html page for the fields 
      Doctor List
@@ -2124,8 +2145,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $scope.SelectedDepartment = [];
             $scope.SelectedSpecialist = [];
             $scope.SelectedCCCG = [];
-            $scope.FromDate = "";
-            $scope.ToDate = "";
+            $scope.FromDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+            $scope.ToDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
             $scope.NewAppointment = "0";
             $scope.followup = "0";
             $scope.IntervalBt = "0";
@@ -3048,8 +3069,54 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
 
         }
 
+        $scope.remindDelete = function (Delete_Id, rowIndex) {
+            if ($scope.AddReminderParameters.length > 1) {
+                $scope.ReminderUserDelete(Delete_Id, rowIndex);
+            }
+            else if ($scope.Id == 0) {
+                $scope.ReminderUserDelete();
+                angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                    if (index != rowIndex)
+                        Previous_MyReminderItem.push(selectedPre);
+                });
+            }
+        }
+
         $scope.ReminderUserDelete = function (Delete_Id, rowIndex) {
-            var del = confirm("Do you like to delete User Remainder Details?");
+            Swal.fire({
+                title: 'Do you like to delete User Remainder Details?',
+                html: '',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+                showCloseButton: true,
+                allowOutsideClick: false,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $scope.$apply(() => {
+                        var Previous_MyReminderItem = [];
+                        if ($scope.Id == 0) {
+                            angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyReminderItem.push(selectedPre);
+                            });
+                            $scope.AddReminderParameters = Previous_MyReminderItem;
+                        } else if ($scope.Id > 0) {
+                            angular.forEach($scope.AddReminderParameters, function (selectedPre, index) {
+                                if (index != rowIndex)
+                                    Previous_MyReminderItem.push(selectedPre);
+                            });
+                            $scope.AddReminderParameters = Previous_MyReminderItem;
+                        }
+                    
+                    });
+                } else if (result.isDenied) {
+                    //Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+           /* var del = confirm("Do you like to delete User Remainder Details?");
             if (del == true) {
                 var Previous_MyReminderItem = [];
                 if ($scope.Id == 0) {
@@ -3065,7 +3132,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     });
                     $scope.AddReminderParameters = Previous_MyReminderItem;
                 }
-            }
+            }*/
         };
         $http.get(baseUrl + '/api/DoctorShift/TimeZoneList/').success(function (data) {
             $scope.TimeZoneList = data;

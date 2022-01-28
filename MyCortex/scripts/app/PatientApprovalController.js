@@ -163,6 +163,14 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
             $location.path("/PatientView/" + $scope.Id + "/0/3");
         };
 
+        $scope.splitMobileNumber = function (string, nb) {
+            var array = string.split('~');
+            var cc = array[0];
+            var number = array[1];
+            var mNumber = typeof (number) == "undefined" ? string : number;
+            //return array[nb];
+            return mNumber;
+        }
 
         $scope.searchquery = "";
         /* Filter the master list function.*/
@@ -212,8 +220,45 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                 $http.get(baseUrl + '/api/PatientApproval/Get_PatientCount/?InstitutionId=' + $scope.InstitutionId).success(function (data) {
                     $scope.PatientCount = data[0].PatientCount;
                     if ($scope.PatientCount >= cnt) {
-                        var msg = confirm("Do you like to Approve the Selected Patient?");
-                        if (msg == true) {
+                        Swal.fire({
+                            title: 'Do you like to Approve the Selected Patient?',
+                            html: '',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Yes',
+                            denyButtonText: 'No',
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $scope.ApprovedPatientList = [];
+                                angular.forEach($scope.rowCollectionFilter, function (SelectedPatient, index) {
+                                    if (SelectedPatient.SelectedPatient == true) {
+                                        if (SelectedPatient.Approval_Flag == 0) {
+                                            var ApprovePatientobj = {
+                                                Patient_Id: SelectedPatient.Id
+                                            };
+                                            $scope.ApprovedPatientList.push(ApprovePatientobj);
+                                        }
+                                    }
+                                });
+                                $http.post(baseUrl + '/api/PatientApproval/Multiple_PatientApproval_Active/', $scope.ApprovedPatientList).success(function (data) {
+                                    //alert(data.Message);
+                                    toastr.success(data.Message, "success");
+                                    $('#btnsave').attr("disabled", false);
+                                    if (data.ReturnFlag == 1) {
+                                        $scope.PatientApprovalList();
+                                        $scope.SelectedAllPatient = false;
+                                    }
+                                });
+                                   
+                            } else if (result.isDenied) {
+                                //Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
+                        //var msg = confirm("Do you like to Approve the Selected Patient?");
+                       /* if (msg == true) {
                             $scope.ApprovedPatientList = [];
                             angular.forEach($scope.rowCollectionFilter, function (SelectedPatient, index) {
                                 if (SelectedPatient.SelectedPatient == true) {
@@ -234,7 +279,7 @@ PatientApproval.controller("PatientApprovalController", ['$scope', '$http', '$ro
                                     $scope.SelectedAllPatient = false;
                                 }
                             });
-                        }
+                        }*/
                     }
                     else {
                         //alert("Maximum Number of Patient License reached already, cannot be approved");

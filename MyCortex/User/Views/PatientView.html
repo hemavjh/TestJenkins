@@ -54,7 +54,7 @@
                 </li>
             </ul>
             <div class="panel panel-default bt-0 m-0 b-0 bs-0" id="Div4">
-                <form class="form-horizontal" role="form" style="font-size: small">
+                <form class="form-horizontal" role="form" style="font-size: 15px">
                     <div class="panel panel-default bt-0 m-0 b-0 bs-0 patientProfileInfo">
                         <div class="panel-body">
                             <div class="panel-group" id="accordion">
@@ -90,8 +90,8 @@
                                                     <label>Short Name</label>
                                                     <span>{{Createdby_ShortName}}</span>
                                                 </div>
-                                                <div class="inputGroups">
-                                                    <label>National ID</label>
+                                                <div class="inputGroups" style="max-width: 150px; word-wrap: break-word;">
+                                                    <label> National ID</label>
                                                     <span> {{NationalId}}</span>
                                                 </div>
                                             </div>
@@ -100,9 +100,9 @@
                                                     <label valign="top">Email</label>
                                                     <span>{{EmailId}}</span>
                                                 </div>
-                                                <div class="inputGroups">
+                                                <div class="inputGroups"  style="max-width: 150px; word-wrap: break-word;">
                                                     <label>Insurance ID</label>
-                                                    <span>{{InsuranceId}}</span>
+                                                     <span>{{InsuranceId}}</span>
                                                 </div>
                                                 <div class="inputGroups">
                                                     <label valign="top">Google Email</label>
@@ -195,7 +195,7 @@
                                                         </div>-->
                                                         <div ng-if="(ViewGender| lowercase)=='male' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true"
                                                              valign="top" rowspan="6">
-                                                            <img width="180" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
+                                                            <img width="100" height="180" class="responsiveProfileImage" src="../../Images/male.png" />
                                                         </div>
                                                         <div ng-if="(ViewGender| lowercase)=='female' && (uploadme1 == null||uploadme1=='')&&Nationaluploadview ==true">
 

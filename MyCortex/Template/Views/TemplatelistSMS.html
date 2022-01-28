@@ -14,9 +14,14 @@
         $('.activeButton').removeClass('activeButton');
         var element = document.getElementById($('.secondaryMenuActive').data('menu'));
         $(element).addClass('activeButton');
+        if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+            $('.activeButton').removeClass('activeButton');
+            //$('#Templates/EmailSetup').addClass('activeButton');
+            document.getElementById("Templates/EmailSetup").className += 'activeButton';
+        }
     });
 </script>
-<ul class="secondaryMenu">
+<ul class="secondaryMenu" ng-show="UserTypeId == 3">
     <li>
         <a class="secondaryMenuActive" href="Home/Index#/SMSTemplate/3" data-menu="Bulk SMS">SMS Template</a>
     </li>
@@ -30,6 +35,14 @@
         <a href="Home/Index#/SMSHistory/3">SMS History</a>
     </li>
 </ul>
+<ul class="secondaryMenu" ng-show="UserTypeId == 1">
+    <li><a href="Home/Index#/AdminEmailConfigurationList/1">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+</ul>
+
 <h1 class="page-title">SMS Template</h1>
 
 
@@ -146,8 +159,9 @@
 <!--Add&Edit Modal-->
 <div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width:90%">
-        <form role="form" ng-submit="EmailTemplateAddEdit();" ng-class="{'submitted': submitted}">
-            <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
+        
+        <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
+            <form role="form" ng-submit="EmailTemplateAddEdit();" ng-class="{'submitted': submitted}">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" title="Close"
                             ng-click="CancelPopup()">
@@ -188,13 +202,13 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <div id="divSMSEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                <div id="divEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
                                     <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
                                          ondragover="allowDrop(event)">
                                     </div>
-                                    </div>
                                 </div>
                             </div>
+                        </div>
                         <div class="col-sm-4">
                             <div class="inputGroups">
                                 <label>Tag Name</label>
@@ -219,8 +233,9 @@
                         Cancel
                     </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+       
     </div>
 </div>
 
@@ -302,19 +317,19 @@
     CKEDITOR.instances['editor1'].on('change', function (e) {
         if (e.editor.checkDirty()) {
             if (CKEDITOR.instances['editor1'].getData() != "") {
-                $('#divSMSEditor').removeClass('ng-invalid');
-                $('#divSMSEditor').addClass('ng-valid');
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
             } else {
-                $('#divSMSEditor').removeClass('ng-valid');
-                $('#divSMSEditor').addClass('ng-invalid');
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
             }
         } else {
             if (CKEDITOR.instances['editor1'].getData() != "") {
-                $('#divSMSEditor').removeClass('ng-invalid');
-                $('#divSMSEditor').addClass('ng-valid');
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
             } else {
-                $('#divSMSEditor').removeClass('ng-valid');
-                $('#divSMSEditor').addClass('ng-invalid');
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
             }
         }
     });

@@ -14,6 +14,7 @@ EmailConfigurationcontroller.controller("EmailConfigurationController", ['$scope
         $scope.InstitutionName = "0";
         $scope.SSL_Enable = "0";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
+        $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
         /*clear the company details */
         $scope.clearInstitution = function () {
             if ($scope.InstitutionName != null) {

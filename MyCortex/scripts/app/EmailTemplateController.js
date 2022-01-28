@@ -10,6 +10,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.PageParameter = $routeParams.PageParameter;
         $scope.Id = "0";
         $scope.DuplicateId = "0";
+        $scope.UserTypeId = parseInt($window.localStorage["UserTypeId"]);
         $scope.flag = 0;
         $scope.IsActive = true;
         $scope.TemplateName = "";
@@ -22,9 +23,10 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         }
         $scope.Patient_Id = $window.localStorage['UserId'];
         $scope.InstituteId = $window.localStorage['InstitutionId'];
+        $scope.SectionType = "";
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id']
         $scope.TemplateTagList = [];
-        if ($window.localStorage['UserTypeId'] == 3) {
+        if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage["UserTypeId"] == 1) {
             $http.get(baseUrl + '/api/EmailTemplate/TemplateTag_List/?Id=' + $scope.InstituteId).success(function (data) {
                 $scope.TemplateTagList = data;
             });
@@ -34,26 +36,53 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         $scope.TemplateTagMappingList = [];
         $scope.TempMappinglist = function () {
-            if ($scope.PageParameter == 1) {
-                $scope.Type = "1"; //For Email
+            if ($scope.UserTypeId != 1) {
+                if ($scope.PageParameter == 1) {
+                    $scope.Type = "1"; //For Email
+                }
+                else if ($scope.PageParameter == 2) {
+                    $scope.Type = "2";//For Notification
+                }
+                else if ($scope.PageParameter == 3) {
+                    $scope.Type = "3";//For SMS
+                }
+                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+                    $scope.TemplateTagMappingList = data;
+                });
             }
-            else if ($scope.PageParameter == 2) {
-                $scope.Type = "2";//For Notification
+            else {
+                if ($scope.PageParameter == 1) {
+                    $scope.Type = "1"; //For Email
+                }
+                else if ($scope.PageParameter == 2) {
+                    $scope.Type = "2";//For Notification
+                }
+                else if ($scope.PageParameter == 3) {
+                    $scope.Type = "3";//For SMS
+                }
+                $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
+                    $scope.TemplateTagMappingList = data;
+                });
             }
-            else if ($scope.PageParameter == 3) {
-                $scope.Type = "3";//For SMS
-            }
-            $http.get(baseUrl + '/api/EmailTemplate/EmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.TemplateTagMappingList = data;
-            });
+        };
+
+        $scope.OnChangeTypeBasedTagList = function (TagType) {
+            var EmailSectionType = TagType;
+            $scope.SectionType = "";
+            if (EmailSectionType == "1")
+                $scope.SectionType = "BASIC";
+            if (EmailSectionType == "2")
+                $scope.SectionType = "INS_SUB_DETAILS";
+            if (EmailSectionType != "0")
+                $scope.TemplateTagMappingList = [];
+                $http.get(baseUrl + '/api/EmailTemplate/SectionEmailTemplateTagMapping_List/?Id=' + $scope.Type + '&Institution_Id=' + $scope.InstituteId + '&SectionName=' + $scope.SectionType).success(function (data) {
+                    $scope.TemplateTagMappingList = data;
+                });
         };
 
         /* THIS IS FOR VALIDATION CONTROL */
         $scope.Validationcontrols = function () {
-            if ($scope.PageParameter == 1) {
-                $scope.Template = (CKEDITOR.instances.editor1.getData());
-            }
-            else if ($scope.PageParameter == 3) {
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
                 $scope.Template = (CKEDITOR.instances.editor1.getData());
             }
             if (typeof ($scope.TemplateName) == "undefined" || $scope.TemplateName == "") {
@@ -68,7 +97,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     toastr.warning("Please enter Email Subject", "warning");
                 else
                     //alert("Please enter Notification Title");
-                    warning("Please enter Notification Title", "warning");
+                    toastr.warning("Please enter Notification Title", "warning");
 
                 return false;
             }
@@ -107,20 +136,25 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.EmailTemplateTagDetails = [];
 
         /* THIS IS FOR ADD/EDIT FUNCTION */
-        $scope.EmailTemplateAddEdit = function () {
-            //if ($scope.Validationcontrols() == true) {
-            
-            if ($scope.editor1 != "") {
-                $('#divSMSEditor').removeClass("ng-valid");
-                $('#divSMSEditor').addClass("ng-invalid");
+        $scope.EmailTemplateAddEdit = function () {            
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+                if (CKEDITOR.instances['editor1'].getData() != "") {
+                    $('#divEditor').removeClass('ng-invalid');
+                    $('#divEditor').addClass('ng-valid');
+                } else {
+                    $('#divEditor').removeClass('ng-valid');
+                    $('#divEditor').addClass('ng-invalid');
+                    return false;
+                }
             }
-            else {
-                $('#divSMSEditor').removeClass("ng-invalid");
-                $('#divSMSEditor').addClass("ng-valid");
+
+            if ($scope.PageParameter == 1 || $scope.PageParameter == 3) {
+                $scope.Template = (CKEDITOR.instances.editor1.getData());
             }
-            //$window.alert($scope.Template);
+            if ($scope.Validationcontrols() == true) {
+
                 var TemplateChildList = [],
-                
+
                     rxp = /{([^}]+)}/g,
 
                     TagName = $scope.Template,
@@ -175,7 +209,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
                     $("#chatLoaderPV").hide();
                     angular.element('#EmailTemplateModal').modal('hide');
                 })
-            //}
+            }
         }
 
         /* THIS IS FOR LIST PROCEDURE */
@@ -185,7 +219,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
         $scope.rowCollectionFilter = [];
 
         $scope.EmailTemplatelist = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+            if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage["UserTypeId"] == 1) {
                 $("#chatLoaderPV").show();
                 $scope.ISact = 1;       // default active
 
@@ -362,6 +396,7 @@ EmailTemplatecontroller.controller("EmailTemplateController", ['$scope', '$http'
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddEmailTemplatePopUP = function () {
+            $scope.submitted = false;
             angular.element('#EmailTemplateModal').modal('show');
             $('#btnsave').attr("disabled", false);
             $scope.ClearPopup();

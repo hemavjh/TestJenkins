@@ -200,8 +200,8 @@
                     <a href="javascript:" ng-click="ViewDoctorShift(row.ID,row.DoctorId,row.Institution_Id)" title="View">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a href="javascript:" title="Edit" ng-click="EditDoctorShift(row.ID, row.IsActive,row.DoctorId,row.Institution_Id)">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    <a href="javascript:" title="Edit" ng-click="row.IsActive==1 || EditDoctorShift(row.ID, row.IsActive,row.DoctorId,row.Institution_Id)">
+                        <i class="fa fa-pencil" aria-hidden="true" ></i>
                     </a>
                     <a href="javascript:;" ng-click="DeleteDoctorShift(row.ID,row.DoctorId)" title="Active">
                         <i class="fa fa-check-circle-o" aria-hidden="true" ng-if="row.IsActive==1"></i>

@@ -246,7 +246,67 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
                 return false;
             }
             else {
-                $("#chatLoaderPV").show();
+                var msgtype = "email";
+                if ($scope.PageParameter == "2")
+                    msgtype = "notification";
+                else if ($scope.PageParameter == "3")
+                    msgtype = "sms";
+                Swal.fire({
+                    
+                    title: 'Do you like to send ' + msgtype + ' for selected users?',
+                    html: '',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: 'Yes',
+                    denyButtonText: 'No',
+                    showCloseButton: true,
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        $("#chatLoaderPV").show();
+                        //var msg = confirm("Do you like to send " + msgtype + " for selected users?");
+                       // if (msg == true) {
+                            $scope.SelectedUserList = [];
+                            angular.forEach($scope.Filter_SendEmailUserList, function (SelectedUser, index) {
+                                if (SelectedUser.SelectedUser == true) {
+
+                                    var obj = {
+                                        UserId: SelectedUser.Id,
+                                        Template_Id: $scope.Template_Id,
+                                        Created_By: $scope.UserId,
+                                        Institution_Id: $scope.InstitutionId,
+                                        TemplateType_Id: $scope.PageParameter,
+                                        MobileNO: SelectedUser.MobileNO
+                                    };
+                                    $('#btnsave').attr("disabled", true);
+                                    $scope.SelectedUserList.push(obj);
+                                }
+                            });
+                            $http.post(baseUrl + '/api/SendEmail/SendEmail_AddEdit/', $scope.SelectedUserList).success(function (data) {
+                                //alert(data.Message);
+                                if (data.ReturnFlag == 1) {
+                                    toastr.success(data.Message, "success");
+                                }
+                                else if (data.ReturnFlag == 0) {
+                                    toastr.info(data.Message, "info");
+                                }
+                                $('#btnsave').attr("disabled", false);
+                                if (data.ReturnFlag == 1) {
+                                    $scope.ClearValues();
+                                    $scope.Get_SendEmail_UserList();
+                                }
+                                $("#chatLoaderPV").hide();
+                            });
+                    } else if (result.isDenied) {
+                        //Swal.fire('Changes are not saved', '', 'info')
+                    }
+                })
+                $("#chatLoaderPV").hide();
+            }
+        }
+
+                /*$("#chatLoaderPV").show();
                 var msgtype = "email";
                 if ($scope.PageParameter == "2")
                     msgtype = "notification";
@@ -286,9 +346,8 @@ SendEmailcontroller.controller("SendEmailController", ['$scope', '$http', '$filt
                         $("#chatLoaderPV").hide();
                     });
 
-                }
-            }
-        }
+                }*/
+            
         $scope.ClearValues = function () {
             angular.forEach($scope.Filter_SendEmailUserList, function (SelectedUser, index) {
                 SelectedUser.SelectedUser = false;

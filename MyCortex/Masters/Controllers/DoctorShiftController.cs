@@ -129,6 +129,19 @@ namespace MyCortex.Masters.Controllers
                 return null;
             }
         }
+        /// <summary>
+        /// get the list of Department for the filter date
+        /// </summary>
+        /// <param name="Institution_Id">Primary key Id of institution</param>
+        /// <param name="Date">selected Date</param>
+        /// <returns></returns>
+        [HttpGet]
+        public IList<ByDateDepartmentModel> ByDateDept_List(long Institution_Id, DateTime Filter_Date)
+        {
+            IList<ByDateDepartmentModel> model;
+            model = repository.ByDateDept_List(Institution_Id, Filter_Date);
+            return model;
+        }
 
         /// <summary>      
         ///Settings  --> Doctor Shift (menu) -- > List Page (result)

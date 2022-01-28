@@ -206,6 +206,12 @@ allergyMasterList.controller("AllergyMasterList", ['$scope', '$http', '$filter',
             });
         }
 
+        /*calling Alert message for cannot edit inactive record function */
+        $scope.ErrorFunction = function () {
+            //alert("Inactive record cannot be edited");
+            toastr.info("Inactive record cannot be edited", "info");
+        }
+
         // THIS IS OPENING POP WINDOW FORM LIST FOR ADD 
         $scope.AddMasterAllergyPopUP = function () {
             angular.element('#AllergyModal').modal('show');

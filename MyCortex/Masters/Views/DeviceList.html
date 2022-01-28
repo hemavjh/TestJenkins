@@ -86,8 +86,9 @@
                 <a href="javascript:" ng-click="ViewDevicePopUP(row.ID)" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                 <a href="javascript:" ng-click="row.IsActive == 0 ||  EditDevicePopUP(row.ID)" title="Edit">
-                    <i class="fa fa-pencil ng-scope" aria-hidden="true"></i>
+                    <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                     <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                      <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
 
                     </a>
                 </a>
@@ -148,29 +149,29 @@
                     <h4 class="modal-title">Add Device</h4>
                 </div>
                 <div class="modal-body">
-                 
 
 
-                        <!--<div class="inputGroups">
-                    <label>Device Name<sup>
-                        <font class='mandatory-field'>*</font></sup>
-                    </label>
-                    <input type="text" class="form-control" id="DeviceName"
-                           ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="50"
-                           maxlength="50" placeholder="" onkeypress="">
-                </div>-->
+
+                    <!--<div class="inputGroups">
+                <label>Device Name<sup>
+                    <font class='mandatory-field'>*</font></sup>
+                </label>
+                <input type="text" class="form-control" id="DeviceName"
+                       ng-model="DeviceName" ng-init="DeviceName=''" ng-maxlength="50"
+                       maxlength="50" placeholder="" onkeypress="">
+            </div>-->
                     <div class="inputGroups">
                         <label>
                             Device Name<sup>
                                 <font class='mandatory-field'>*</font>
                             </sup>
                         </label>
-                        <div id="divDeviceNameChange" class="ng-invalid ddlValidationBorder" ng-required="true;">
-                            <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDeviceNameList" id="DeviceName" ng-model="DeviceName"
-                                    ng-options="item2.DeviceId as item2.DeviceName for item2 in AllDeviceNameList" ng-change="onCategoryChange();DeviceChange();">
-                                <option value="">Select</option>
-                            </select>
-                        </div>
+
+                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDeviceNameList" id="DeviceName" ng-model="DeviceName"
+                                ng-options="item2.DeviceId as item2.DeviceName for item2 in AllDeviceNameList" ng-change="onCategoryChange();">
+                            <option value="">Select</option>
+                        </select>
+
                         <div class="inputGroups">
                             <label>
                                 DeviceId<sup>
@@ -178,7 +179,7 @@
                                 </sup>
                             </label>
                             <input type="text" class="form-control" id="DeviceId"
-                                   ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="50"  ng-required="true;"
+                                   ng-model="DeviceId" ng-init="DeviceId=''" ng-maxlength="50" ng-required="true;"
                                    maxlength="50" placeholder="" onkeypress="" disabled>
                         </div>
 
@@ -188,12 +189,12 @@
                                     <font class='mandatory-field'>*</font>
                                 </sup>
                             </label>
-                            <div id="divDeviceType" class="ng-invalid ddlValidationBorder" ng-required="true;">
-                                <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDevice" id="DeviceType" ng-model="DeviceType"
-                                        ng-change="DeviceTypeChange();" ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
-                                    <option value="">Select</option>
-                                </select>
-                            </div>
+
+                            <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="AllDevice" id="DeviceType" ng-model="DeviceType"
+                                    ng-options="item1.ID as item1.DeviceTypeName for item1 in AllDevice">
+                                <option value="">Select</option>
+                            </select>
+
 
 
                             <div class="inputGroups">
@@ -219,25 +220,25 @@
                             </div>
 
                             <!--<div class="inputGroups">
-        <label>Parameter</label>
-        <select ng-model="Parameter_Id" class="form-control"
-                ng-options="item.Id as item.Name for item in ParameterTypeList">
-            <option ng-repeat="" ng-selected="" ng-required="true"
-                    value="{{sel.Id}}">
-                Select
-            </option>
-        </select>
+                        <label>Parameter</label>
+                        <select ng-model="Parameter_Id" class="form-control"
+                                ng-options="item.Id as item.Name for item in ParameterTypeList">
+                            <option ng-repeat="" ng-selected="" ng-required="true"
+                                    value="{{sel.Id}}">
+                                Select
+                            </option>
+                        </select>
 
-    </div>-->
-                        <div class="inputGroups">
-                            <label>
-                                Parameter<sup>
-                                    <font class='mandatory-field'>*</font>
+                    </div>-->
+                            <div class="inputGroups">
+                                <label>
+                                    Parameter<sup>
+                                        <font class='mandatory-field'>*</font>
 
-                                </sup>
-                            </label>
-                            <div id="divDeviceParameter" class="ng-invalid ddlValidationBorder" ng-required="true;">
-                                <select ng-model="SelectedParamter" multiple="multiple" id="Parameter" ng-change="DeviceParameter();"
+                                    </sup>
+                                </label>
+
+                                <select ng-model="SelectedParamter" multiple="multiple" id="Parameter"
                                         ng-options="item.Id as item.Name for item in ParameterTypeList"
                                         multiselect-dropdown></select>
 
@@ -246,21 +247,21 @@
 
 
                                 <!--<select class="form-control" style="width:300px;">
-        <option value="0">Select</option>
-        <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
-                value="{{sel.ID}}">
-            {{sel.DeviceName}}
-        </option>-->
+                        <option value="0">Select</option>
+                        <option ng-repeat="sel in DevicesLists" ng-selected="DevicesListid==sel.ID"
+                                value="{{sel.ID}}">
+                            {{sel.DeviceName}}
+                        </option>-->
                                 <!--</select>-->
-
                             </div>
-
-                </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" ng-show="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="Device_InsertUpdate()" title="Click to Save">Save</button>
-                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelDeviceList()" title="Click to Cancel">Cancel</button>
-            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="submit" ng-show="showSave == true" id="btnsave" ng-disabled="false" class="theme-btn-1 mr-10 btn-save" ng-click="submitted= true" title="Click to Save">Save</button>
+                                <button type="button" class="theme-btn-2  btn-save" ng-click="CancelDeviceList()" title="Click to Cancel">Cancel</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
         </div>
     </div>
 </div>

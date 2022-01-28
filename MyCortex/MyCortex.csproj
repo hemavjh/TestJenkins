@@ -427,6 +427,7 @@
     <Content Include="Images\q4.png" />
     <Content Include="Images\reddot.png" />
     <Content Include="Images\requirt.png" />
+    <Content Include="Images\ResetIcon.png" />
     <Content Include="Images\save.png" />
     <Content Include="Images\skill.png" />
     <Content Include="Images\spinner.gif" />
@@ -1596,9 +1597,10 @@
     <Content Include="scripts\bootstrap-toggle.min.js" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Properties\PublishProfiles\IISProfile1.pubxml" />
-    <None Include="Properties\PublishProfiles\IISProfile2.pubxml" />
     <None Include="Properties\PublishProfiles\IISPublish.pubxml" />
     <None Include="Properties\PublishProfiles\Mycortex.pubxml" />
+    <None Include="Properties\PublishProfiles\MyCortexDev1.pubxml" />
+    <None Include="Properties\PublishProfiles\MyCortexQA.pubxml" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <Content Include="scripts\ckeditor\CHANGES.md" />
     <Content Include="scripts\ckeditor\LICENSE.md" />

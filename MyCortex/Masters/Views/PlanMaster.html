@@ -100,6 +100,7 @@
                             <a href="javascript:" ng-click="row.IsActive == 0 ||  EditPlanPopUP(row.Id)" title="Edit">
                                 <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
                                 <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                                    <i class="fa fa-pencil" aria-hidden="true" ng-if="row.IsActive==0"></i>
 
                                 </a>
                             </a>
@@ -157,17 +158,17 @@
                 <div class="modal-body">
                     <div class="inputGroups">
                         <label>Selected PayorName<sup><font class='mandatory-field'>*</font></sup></label>
-                        <div id="divPayorChange" class="ng-invalid ddlValidationBorder" ng-required="true">
+                       
                             <select class="form-control" data-style="form-control" id="SelectedPayor"
                                     data-live-search="true" data-selectpicker data-collection-name="SelectedPayorList"
-                                    ng-model="SelectedPayor" ng-change="PayorChange();">
+                                    ng-model="SelectedPayor">
                                 <option value="0">Select</option>
                                 <option ng-repeat="sel in PayorMasterList" ng-selected="SelectedPayor==sel.Id" ng-required="true"
                                         value="{{sel.Id}}">
                                     {{sel.PayorName}}
                                 </option>
                             </select>
-                        </div>
+                        
                     </div>
                     <div class="inputGroups">
                         <label>PlanName<sup><font class='mandatory-field'>*</font></sup></label>
@@ -201,18 +202,18 @@
                         <div class="col-xs-11 input-group date">
                             <label>ValidFromDate<sup><font class='mandatory-field'>*</font></sup></label>
 
-                            <div id="divValidFromDateChange" class="ng-valid ddlValidationBorder">
-                                <input type="date" class="form-control" ng-model="ValidFromDate" id="ValidFromDate" ng-change="ValidFromDateChange();"
+                           
+                                <input type="date" class="form-control" ng-model="ValidFromDate" id="ValidFromDate" 
                                        ng-init="ValidFromDate=''" style="width:190px" ng-required="true">
-                            </div>
+                            
                         </div>
                         <div class="inputGroups">
                             <div class="col-xs-11 input-group date">
                                 <label>ValidToDate<sup><font class='mandatory-field'>*</font></sup></label>
-                                <div id="divValidToDateChange" class="ng-valid ddlValidationBorder">
-                                    <input type="date" class="form-control" ng-model="ValidToDate" id="ValidToDate" ng-change="ValidToDateChange();"
+                               
+                                    <input type="date" class="form-control" ng-model="ValidToDate" id="ValidToDate" 
                                            ng-init="ValidToDate=''" style="width:190px" ng-required="true">
-                                </div>
+                                
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,25 @@
-﻿<div class="mainbody container-fluid">
+﻿<head>
+    <script>
+        $(document).ready(function () {
+            $('.activeButton').removeClass('activeButton');
+            $('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                //$('#Templates/EmailSetup').addClass('activeButton');
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
+        });
+    </script>
+</head>
+<ul class="secondaryMenu">
+    <li><a class="secondaryMenuActive" href="Home/Index#/AdminEmailConfigurationList/1">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+</ul>
+
+<div class="mainbody container-fluid">
     <h1 class="page-title">Email setup</h1>
     <div class="row" ng-init="EmailConfiguration_ViewEdit()">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -89,8 +110,8 @@
                 </div>
             </div>
             <div style="text-align: center;">
-                <button type="button" class="btn  btn-save" id="save" title="Click to Save"ng-click="EmailConfiguration_AddEdit()">Save</button>
-                <button type="button" class="btn  btn-save" id="reset"  title="Click to Reset"ng-click="ClearFields()">Reset</button>
+                <button type="button" class="theme-btn-1 mr-10" id="save" title="Click to Save"ng-click="EmailConfiguration_AddEdit()">Save</button>
+                <button type="button" class="theme-btn-1 mr-10" id="reset"  title="Click to Reset"ng-click="ClearFields()">Reset</button>
             </div>
 
         </div>

@@ -10,6 +10,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
 
         $scope.currentTab = "1";
         $scope.Id = "0";
+        $scope.UserTypeId = $window.localStorage["UserTypeId"];
 
         $scope.flag = 0;
         $scope.IsActive = true;
@@ -54,10 +55,14 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 toastr.warning("Please select Web Template", "warning");
                 return false;
             }
+            else if (($scope.SMSTemplate == 0) && $scope.SMSFlag == true) {
+                toastr.warning("Please select SMS Template", "warning");
+                return false;
+            }
 
-            if (($scope.EmailFlag == false) && ($scope.AppFlag == false) && ($scope.WebFlag == false)) {
+            if (($scope.EmailFlag == false) && ($scope.AppFlag == false) && ($scope.WebFlag == false) && ($scope.SMSFlag == false)) {
                 //alert("Please select Email or App or Web for alert");
-                toastr.warning("Please select Email or App or Web for alert", "warning");
+                toastr.warning("Please select Email or App or Web or Sms for alert", "warning");
                 return false;
             }
             $scope.EventCodeName = "";
@@ -81,61 +86,6 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             }
             return true;
         };
-        $scope.AlertEventChange = function () {
-            var event = document.getElementById('select1').value;
-            if (event != "0") {
-                $('#divAlertEvent').removeClass("ng-invalid");
-                $('#divAlertEvent').addClass("ng-valid");
-            }
-            else {
-                $('#divAlertEvent').removeClass("ng-valid");
-                $('#divAlertEvent').addClass("ng-invalid");
-            }
-        }
-        $scope.AlertEmailChange = function () {
-            var email = document.getElementById("select3").value;
-            if (email == "0" && $scope.EmailTemplate == true) {
-                $('#divAlertEmail').removeClass("ng-valid");
-                $('#divAlertEmail').addClass("ng-invalid");
-            }
-            else {
-                $('#divAlertEmail').removeClass("ng-invalid");
-                $('#divAlertEmail').addClass("ng-valid");
-            }
-        }
-        $scope.AlertAppTemplateChange = function () {
-            var tagtemplate = document.getElementById("select4").value;
-            if (tagtemplate == "0" && $scope.AppFlag == true) {
-                $('#divAlertAppTemplate').removeClass("ng-valid");
-                $('#divAlertAppTemplate').addClass("ng-invalid");
-            }
-            else {
-                $('#divAlertAppTemplate').removeClass("ng-invalid");
-                $('#divAlertAppTemplate').addClass("ng-valid");
-            }
-        }
-        $scope.AlertWebTemplateChange = function () {
-            var webtemplate = document.getElementById("select5").value;
-            if (webtemplate == "0" && $scope.WebTemplate == true) {
-                $('#divAlertWebTemplate').removeClass("ng-valid");
-                $('#divAlertWebTemplate').addClass("ng-invalid");
-            }
-            else {
-                $('#divAlertWebTemplate').removeClass("ng-invalid");
-                $('#divAlertWebTemplate').addClass("ng-valid");
-            }
-        }
-        $scope.AlertSMSTemplateChange = function () {
-            var SMStemplate = document.getElementById("select2").value;
-            if (SMStemplate == "0" && $scope.WebTemplate == true) {
-                $('#divAlertSMSTemplate').removeClass("ng-valid");
-                $('#divAlertSMSTemplate').addClass("ng-invalid");
-            }
-            else {
-                $('#divAlertSMSTemplate').removeClass("ng-invalid");
-                $('#divAlertSMSTemplate').addClass("ng-valid");
-            }
-        }
 
         /* Email Alert List Function*/
         $scope.AlertEvent = [];
@@ -143,16 +93,26 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         $scope.EmailTempalteTypeList = [];
         $scope.AppTempalteTypeList = [];
         $scope.TempalteTypeList = [];
+        $scope.SMSTempalteTypeList = [];
 
         $scope.Eventselected = function () {
+            if ($scope.UserTypeId == 1) {
+                $scope.status = 2;
+            }
+            else if ($scope.UserTypeId == 3) {
+                $scope.status = 0;
+            } else {
+                $scope.status = 1;
+            }
             $http.get(baseUrl + '/api/EmailAlertConfig/AlertEvent_List/?Institution_Id=' + $scope.InstituteId + '&Id=' + 0
                 + '&status=' + $scope.status).success(function (data) {
                     $scope.AlertListTemp = [];
                     $scope.AlertListTemp = data;
-                    /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
-                    $scope.AlertListTemp.splice(0, 0, obj);*/
-                    $scope.AlertEvent = angular.copy($scope.AlertListTemp);
-
+                    if (data != null) {
+                        /*var obj = { "Id": 0, "Name": "Select", "IsActive": 1 };
+                        $scope.AlertListTemp.splice(0, 0, obj);*/
+                        $scope.AlertEvent = angular.copy($scope.AlertListTemp);
+                    }
                 });
         };
         $scope.Eventselected();
@@ -209,8 +169,10 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
 
         $scope.EventBasedToList = function () {
             $http.get(baseUrl + '/api/EmailAlertConfig/EventTo_List/?EventId=' + $scope.Event).success(function (data) {
-                $scope.EventCC = data[0].EventCC;
-                $scope.EventTo = data[0].EventTo;
+                if (data != null) {
+                    $scope.EventCC = data[0].EventCC;
+                    $scope.EventTo = data[0].EventTo;
+                }
             });
         };
         $scope.EventToClearFunction = function () {
@@ -218,7 +180,16 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             $scope.EventTo = "";
         }
 
-
+        /* SMS Flag List Function*/
+        $scope.SMSselectlist = function () {
+            $scope.SMSTempId = 3;
+            $http.get(baseUrl + '/api/EmailAlertConfig/Template_List/?Institution_Id=' + $scope.InstituteId + '&TemplateType_Id=' + $scope.SMSTempId).success(function (data) {
+                $scope.SMSTempalteTypeListTemp = [];
+                $scope.SMSTempalteTypeListTemp = data;
+                $scope.SMSTempalteTypeList = angular.copy($scope.SMSTempalteTypeListTemp);
+            });
+        }
+        $scope.SMSselectlist();
 
         $scope.EmailTemplate = "0";
         $scope.AppTemplate = "0";
@@ -234,9 +205,11 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                     EmailFlag: $scope.EmailFlag,
                     AppFlag: $scope.AppFlag,
                     WebFlag: $scope.WebFlag,
+                    SMSFlag: $scope.SMSFlag,
                     EmailTemplate_Id: $scope.EmailTemplate == 0 ? null : $scope.EmailTemplate,
                     AppTemplate_Id: $scope.AppTemplate == 0 ? null : $scope.AppTemplate,
                     WebTemplate_Id: $scope.WebTemplate == 0 ? null : $scope.WebTemplate,
+                    SMSTemplate_Id: $scope.SMSTemplate == 0 ? null : $scope.SMSTemplate,
                     AlertDays: $scope.AlertDays,
                     ModifiedUser_Id: $scope.Patient_Id,
                     Created_By: $scope.Patient_Id
@@ -268,7 +241,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
         $scope.rowCollectionFilter = [];
         $scope.Id = 0;
         $scope.EmailAlertlist = function () {
-            if ($window.localStorage['UserTypeId'] == 3) {
+            if ($window.localStorage['UserTypeId'] == 3 || $window.localStorage["UserTypeId"] == 1) {
                 $("#chatLoaderPV").show();
                 $scope.ISact = 1;       // default active
                 if ($scope.IsActive == true) {
@@ -281,12 +254,14 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                     $scope.emptydata = [];
                     $scope.rowCollection = [];
                     $scope.rowCollection = data;
-                    $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
-                    if ($scope.rowCollectionFilter.length > 0) {
-                        $scope.flag = 1;
-                    }
-                    else {
-                        $scope.flag = 0;
+                    if (data != null) {
+                        $scope.rowCollectionFilter = angular.copy($scope.rowCollection);
+                        if ($scope.rowCollectionFilter.length > 0) {
+                            $scope.flag = 1;
+                        }
+                        else {
+                            $scope.flag = 0;
+                        }
                     }
                     $("#chatLoaderPV").hide();
                 }).error(function (data) {
@@ -310,7 +285,8 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                     return angular.lowercase(value.EventName).match(searchstring) ||
                         angular.lowercase(value.EmailTemplate == null ? '' : value.EmailTemplate).match(searchstring) ||
                         angular.lowercase(value.AppTemplate == null ? '' : value.AppTemplate).match(searchstring) ||
-                        angular.lowercase(value.WebTemplate == null ? '' : value.WebTemplate).match(searchstring);
+                        angular.lowercase(value.WebTemplate == null ? '' : value.WebTemplate).match(searchstring) ||
+                        angular.lowercase(value.SMSTemplate == null ? '' : value.SMSTemplate).match(searchstring);
                 });
             }
         }
@@ -334,6 +310,7 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                 $scope.EmailFlag = data.EmailFlag;
                 $scope.AppFlag = data.AppFlag;
                 $scope.WebFlag = data.WebFlag;
+                $scope.SMSFlag = data.SMSFlag;
                 if (data.EmailTemplate_Id != null) {
                     $scope.EmailTemplate = data.EmailTemplate_Id.toString();
                     $scope.EmailTempId = 1;
@@ -349,6 +326,12 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
                     $scope.WebTemplate = data.WebTemplate_Id.toString();
                     $scope.WebTempId = 2;
                     $scope.ViewWebTemplateName = data.WebTemplate;
+                }
+
+                if (data.SMSTemplate_Id != null) {
+                    $scope.SMSTemplate = data.SMSTemplate_Id.toString();
+                    $scope.SMSTempId = 3;
+                    $scope.ViewSMSTemplateName = data.SMSTemplate;
                 }
 
                 $scope.AlertDays = data.AlertDays == null ? "" : data.AlertDays;
@@ -517,7 +500,9 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             $scope.EmailTempId = -1;
             $scope.EventCC = "";
             $scope.EventTo = "";
-
+            $scope.SMSFlag = 0;
+            $scope.SMSTemplate = "0";
+            $scope.SMSTempId = -1;
         };
 
         /* THIS IS CLEAR POPUP FUNCTION */
@@ -533,10 +518,13 @@ EmailAlertlistcontroller.controller("EmailAlertlistController", ['$scope', '$htt
             $scope.AppTemplate = "0";
             $scope.WebFlag = 0;
             $scope.WebTemplate = "0";
+            $scope.SMSFlag = 0;
+            $scope.SMSTemplate = "0";
             $scope.AlertDays = "";
             $scope.WebTempId = -1;
             $scope.AppTempId = -1;
             $scope.EmailTempId = -1;
+            $scope.SMSTemplate = -1;
         }
 
         /* THIS IS OPENING POP WINDOW FORM LIST */

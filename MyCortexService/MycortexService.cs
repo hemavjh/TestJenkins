@@ -365,6 +365,13 @@ namespace MyCortexService
 
                 // END
 
+                // Deactivate Past Doctor Shift Details
+                // Start
+
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[DEACTIVATE_PAST_DOCTORSHIFT]");
+
+                // END
+
                 // TBLAPPOINTMENT_PAYMENT_STATUS FOR SUCCESS
                 // Start
 
@@ -445,7 +452,7 @@ namespace MyCortexService
                 // Start
 
                 List<DataParameter> appoint_rem = new List<DataParameter>();
-                appoint_param.Add(new DataParameter("@type", "Get_Mail"));
+                appoint_rem.Add(new DataParameter("@TYPE", "Get_Mail"));
                 dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", appoint_rem);
                 if (dt.Rows.Count > 0)
                 {
@@ -462,8 +469,8 @@ namespace MyCortexService
                             AlertEventReturn.Generate_SMTPEmail_Notification("PAT_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
 
                             List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@type", "Update_Mail_Notification"));
-                            param1.Add(new DataParameter("@id", Id));
+                            param1.Add(new DataParameter("@TYPE", "Update_Mail_Notification"));
+                            param1.Add(new DataParameter("@ID", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
                     }
@@ -472,8 +479,8 @@ namespace MyCortexService
                         if (Id != 0)
                         {
                             List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
-                            param1.Add(new DataParameter("@id", Id));
+                            param1.Add(new DataParameter("@TYPE", "Failed_Mail_Notification"));
+                            param1.Add(new DataParameter("@ID", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_TBLPATIENT_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
                     }
@@ -486,7 +493,7 @@ namespace MyCortexService
                 // Start
 
                 List<DataParameter> appoint_doc = new List<DataParameter>();
-                appoint_param.Add(new DataParameter("@type", "Get_Mail"));
+                appoint_doc.Add(new DataParameter("@TYPE", "Get_Mail"));
                 dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", appoint_doc);
                 if (dt.Rows.Count > 0)
                 {
@@ -503,8 +510,8 @@ namespace MyCortexService
                             AlertEventReturn.Generate_SMTPEmail_Notification("DOCTOR_APPOINTMENT_REMINDER", Id, (long)Institution_Id, EmailList);
 
                             List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@type", "Update_Mail_Notification"));
-                            param1.Add(new DataParameter("@id", Id));
+                            param1.Add(new DataParameter("@TYPE", "Update_Mail_Notification"));
+                            param1.Add(new DataParameter("@ID", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
                     }
@@ -513,8 +520,8 @@ namespace MyCortexService
                         if (Id != 0)
                         {
                             List<DataParameter> param1 = new List<DataParameter>();
-                            param1.Add(new DataParameter("@type", "Failed_Mail_Notification"));
-                            param1.Add(new DataParameter("@id", Id));
+                            param1.Add(new DataParameter("@TYPE", "Failed_Mail_Notification"));
+                            param1.Add(new DataParameter("@ID", Id));
                             dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_UPDATE_DOCTOR_APPOINTMENTS_REMINDER_EMAIL_NOTIFICATION]", param1);
                         }
                     }

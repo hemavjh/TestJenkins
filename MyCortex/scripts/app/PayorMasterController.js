@@ -290,11 +290,11 @@ PayorMastercontroller.controller("PayorMasterController", ['$scope', '$http', '$
             }*/
         };
 
-        $scope.Active_ErrorFunction = function () {
+        /*$scope.Active_ErrorFunction = function () {
             //alert("Inactive Payor details cannot be edited");
             toastr.info("Inactive Payor details cannot be edited", "info");
         };
-
+*/
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
             //alert("Inactive record cannot be edited");

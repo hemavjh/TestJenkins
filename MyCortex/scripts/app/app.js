@@ -73,6 +73,15 @@ EmpApp.config(function (toastrConfig) {
     });
 });
 
+EmpApp.run(function ($rootScope) {
+    $rootScope.$on("$locationChangeStart", function (event, next, current) {
+        var chk = localStorage.getItem('callisRunning');
+        if (chk == '1') {
+            event.preventDefault();
+        }
+    });
+});
+
 EmpApp.config(['IdleProvider', function (IdleProvider) {
     // configure Idle settings
     //console.log('KeepaliveProvider')
@@ -334,10 +343,14 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
              templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
              controller: 'EmailConfigurationController'
          }).
-         when('/AdminEmailConfigurationList', {
-             templateUrl: baseUrl + 'Masters/Views/AdminEmailConfiguration.html',
-             controller: 'EmailConfigurationController'
-         }).
+        when('/AdminEmailConfigurationList/:LoginUserType', {
+            templateUrl: baseUrl + 'Masters/Views/EmailConfiguration.html',
+            controller: 'EmailConfigurationController'
+        }).
+        //when('/AdminEmailConfigurationList/:LoginUserType', {
+        //    templateUrl: baseUrl + 'Masters/Views/AdminEmailConfiguration.html',
+        //    controller: 'EmailConfigurationController'
+        //}).
         when('/MasterAlertConfigurationList', {
             templateUrl: baseUrl + 'Template/Views/AlertConfiguration.html',
             controller: 'EmailAlertlistController'

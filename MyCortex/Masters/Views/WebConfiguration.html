@@ -94,12 +94,39 @@
                 </td>
 
                 <td style="text-align: left">
+
+                    <select class="form-control" style="max-width:100% !important"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='FULLNAME_FORMULA' && IsEdit==true">
+                        <option value="[L],[F]">[L],[F]</option>
+                        <option value="[F],[L],[M]">[F],[L],[M]</option>
+                        <option value="[L],[F],[M]">[L],[F],[M]</option>
+                    </select>
+
+                    <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple" multiselect-dropdown
+                            ng-change="onChangeChronic();"
+                            ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true">
+                        <option id="chkCL" ng-model="chronicCL" value="CL">CL</option>
+                        <option id="chkCG" ng-model="chronicCG" value="CG">CG</option>
+                        <option id="chkCC" ng-model="chronicCC" value="CC">CC</option>
+                        <option id="chkSC" ng-model="chronicSC" value="SC">SC</option>
+                    </select>
+                    <div ng-if="row.CONFIGCODE=='BT_DEVICE_DATA_POST' && IsEdit==true">
+                        <input style="margin-left: 5px !important" type="radio" value="Auto" ng-model="Config_value[row.ID]"> Auto
+                        <input style="margin-left: 5px !important" type="radio" value="Manual" ng-model="Config_value[row.ID]"> Manual
+                    </div> 
+                    <!--<select class="form-control" style="max-width:100% !important" ng-model="SelectedChronic" multiple="multiple" ng-change="onChangeChronic();"
+            ng-options="item1.CHRONICID as item1.CHRONICNAME for item1 in ChronicCodeList"
+            multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
+    </select>-->
+
                     <input type="text" class="form-control" style="max-width:100% !important"
-                           ng-model="Config_value[row.ID]" placeholder="" ng-if="IsEdit==true">
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST'  && IsEdit==true">
                     <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
-                    <!--{{row.CONFIGVALUE}}-->
+
+                                       
                 </td>
             </tr>
+
         </tbody>
     </table>
     <br>

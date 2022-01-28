@@ -22,9 +22,14 @@
             var element = document.getElementById($('.secondaryMenuActive').data('menu'));
             $(element).addClass('activeButton');
             //$('#' + $('.secondaryMenuActive').data('menu')).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                //$('#Templates/EmailSetup').addClass('activeButton');
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
         });
     </script>
-<ul class="secondaryMenu">
+<ul class="secondaryMenu" ng-show="UserTypeId == 3">
     <li>
         <a class="secondaryMenuActive" href="Home/Index#/Notification/2" data-menu="Bulk Notification">Notification Template</a>
     </li>
@@ -38,6 +43,15 @@
         <a href="Home/Index#/NotificationHistory/2">Notification History</a>
     </li>
 </ul>
+<ul class="secondaryMenu" ng-show="UserTypeId == 1">
+    <li><a href="Home/Index#/AdminEmailConfigurationList/1">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
+    <li><a href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+</ul>
+
+
 <h1 class="page-title">Notification Template</h1>
 <div ng-init="PageParameter='2'">
     <div ng-init="EmailTemplatelist()">
@@ -153,65 +167,79 @@
 <div id="EmailTemplateModal" class="modal fade-scale" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" style="width:70%">
         <div class="modal-content" ng-init="EmailTemplatelist();TempMappinglist()">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close"
-                    >&times;</button>
-                <h4 class="modal-title">Notification Template</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label>Template Name<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup></label>
-                                <input type="text" class="form-control" id="Text1" name="TemplateName"
-                                ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100"
-                                maxlength="100" onkeypress="" />
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="EmailTemplateAddEdit()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Notification Template</h4>
+                </div>
+                <div class="modal-body">
+                   <!-- <form class="form-horizontal" role="form">-->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="inputGroups">
+                                    <label>
+                                        Template Name<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                    <input type="text" class="form-control" id="Text1" name="TemplateName"
+                                           ng-model="TemplateName" ng-init="TemplateName=''" placeholder="" ng-maxlength="100"
+                                           maxlength="100" onkeypress="" required />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="inputGroups">
+                                    <label>
+                                        Notification Title<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                    <input type="text" class="form-control" id="Text3" name="EmailSubject"
+                                           ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
+                                           maxlength="100" onkeypress="" required />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="inputGroups">
+                                    <label>
+                                        Notification Message<sup>
+                                            <font class='mandatory-field'>*</font>
+                                        </sup>
+                                    </label>
+                                    <textarea class="mt-10 form-control" ng-model="Template" ng-init="Template=''"
+                                              ng-required="true" ng-maxlength="250" maxlength="250" cols="200" id="messages"
+                                              rows="12" ondragover="allowDrop(event)" ondrop="drop(event)"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="inputGroups">
+                                    <label>Tag Name</label>
+                                    <ul style="list-style-type:none;padding:15px; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 250px;overflow: auto;"
+                                        id="allfields">
+                                        <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
+                                            ng-repeat="row in TemplateTagMappingList" ng-model="TagName">
+                                            {{row.TagList}}
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label>Notification Title<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup></label>
-                                <input type="text" class="form-control" id="Text3" name="EmailSubject"
-                                ng-model="EmailSubject" ng-init="EmailSubject=''" placeholder="" ng-maxlength="100"
-                                maxlength="100" onkeypress="" />
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label>Notification Message<sup>
-                                    <font class='mandatory-field'>*</font>
-                                </sup></label>
-                                <textarea class="mt-10 form-control" ng-model="Template" ng-init="Template=''"
-                                ng-required="true" ng-maxlength="250" maxlength="250" cols="200" id="messages"
-                                rows="12" ondragover="allowDrop(event)" ondrop="drop(event)"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="inputGroups">
-                                <label>Tag Name</label>
-                                <ul style="list-style-type:none;padding:15px; border:1px solid #b5b5b7; width: 100%;border-radius:3%;max-height: 250px;overflow: auto;"
-                                id="allfields">
-                                <li class="list" id="node1" draggable="true" ondragstart="dragstart_handler(event);"
-                                    ng-repeat="row in TemplateTagMappingList" ng-model="TagName">{{row.TagList}}
-                                </li>
-                            </ul>
-                            </div>
-                        </div>
-                    </div>
-                   
+
+                    <!--</form>-->
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="submitted=true;"
+                            title="Click to Save">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
+                            title="Click to Cancel">
+                        Cancel
+                    </button>
+                </div>
                 </form>
-            </div>
-            <div class="modal-footer" style="text-align:center;">
-                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" ng-click="EmailTemplateAddEdit()"
-                    title="Click to Save">Save</button>
-                <button type="button" class="theme-btn-2" ng-click="CancelPopUP()"
-                    title="Click to Cancel">Cancel</button>
-            </div>
         </div>
     </div>
 </div>

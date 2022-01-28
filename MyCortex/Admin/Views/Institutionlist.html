@@ -135,17 +135,17 @@
     </thead>
     <tbody>
         <tr ng-if="rowCollectionFilter.length==0">
-            <td colspan="7" style="text-align: center">
+            <td colspan="8" style="text-align: center">
                 No Data Available
             </td>
         </tr>
         <tr ng-repeat="row in emptydata | filter : query">
             <td style="text-align: center">{{((current_page-1)*page_size)+$index+1}}</td>
             <td style="text-align: center">{{row.Id}}</td>
-            <td style="text-align: left">
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                 <div class="textwrap">{{row.Institution_Name}}</div>
             </td>
-            <td style="text-align: left">
+            <td style="text-align: left;max-width: 150px; word-wrap: break-word;">
                 <div class="textwrap">{{row.INSTITUTION_SHORTNAME}}</div>
             </td>
             <td style="text-align: left">
@@ -175,7 +175,7 @@
     </tbody>
     <tfoot ng-show="rowCollectionFilter.length >page_size">
         <tr>
-            <td colspan="7" class="text-center">
+            <td colspan="8" class="text-center">
                 <div st-items-by-page="page_size" st-page-change="rembemberCurrentPage(newPage)" st-pagination=""
                      st-template="Masters/Views/pagination.custom.html"></div>
             </td>
@@ -370,7 +370,7 @@
                                                             </label>
                                                         </td>
                                                         <td class="bootstrap-select">
-                                                            <div id="divInsCountry" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                            <!--<div id="divInsCountry" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                                 <select class="form-control" data-style="form-control"
                                                                         data-live-search="true" id="countryselectpicker"
                                                                         data-selectpicker data-collection-name="CountryNameList"
@@ -381,7 +381,7 @@
                                                                         {{sel.CountryName}}
                                                                     </option>
                                                                 </select>
-                                                            </div>
+                                                            <!--</div>-->
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -393,18 +393,18 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <div id="divInsState" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                            <!--<div id="divInsState" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                                 <select class="form-control" data-style="form-control"
                                                                         id="stateselectpicker" data-live-search="true"
                                                                         data-selectpicker data-collection-name="StateName_List"
-                                                                        ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();insStateChange();">
+                                                                        ng-model="StateNameId" ng-change="StateBased_CityFunction();LocationClearFunction();">
                                                                     <option value="0">Select</option>
                                                                     <option ng-repeat="sel in StateName_List"
                                                                             value="{{sel.Id}}">
                                                                         {{sel.StateName}}
                                                                     </option>
                                                                 </select>
-                                                            </div>
+                                                            <!--</div>-->
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -416,9 +416,9 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <div id="divInsCity" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                            <!--<div id="divInsCity" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                                 <select class="form-control" data-style="form-control" id="cityselectpicker"
-                                                                        data-live-search="true" data-selectpicker ng-change="insCityChange();"
+                                                                        data-live-search="true" data-selectpicker
                                                                         data-collection-name="LocationName_List"
                                                                         ng-model="LocationNameId">
                                                                     <option value="0">Select</option>
@@ -427,7 +427,7 @@
                                                                         {{sel.LocationName}}
                                                                     </option>
                                                                 </select>
-                                                            </div>
+                                                            <!--</div>-->
                                                         </td>
                                                     </tr>
                                                     <!--<tr ng-show="Id != 0">
@@ -456,11 +456,11 @@
                                     Save and Add Subscription
                                 </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Click to Save"
-                                        ng-click="submitted= true;" ng-if="editInstbutton == 1">
+                                        ng-click="submitted= true;" ng-show="editInstbutton == 1">
                                     Save
                                 </button>
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave2" ng-disabled="false" title="Save and Add Subscription"
-                                        ng-click="submitted= true;" ng-if="editInstbutton == 0">
+                                        ng-click="submitted= true;" ng-show="editInstbutton == 0">
                                     Save and Add Subscription
                                 </button>
                                 <button type="button" class="theme-btn-2" title="Click to Cancel"

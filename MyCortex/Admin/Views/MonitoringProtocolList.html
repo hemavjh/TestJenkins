@@ -108,341 +108,345 @@
      ng-init="currentTab='1'">
     <div class="modal-dialog" style="width: 90%">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" title="Close">
-                    &times;
-                </button>
-                <h4 class="modal-title">Monitoring Protocol</h4>
-            </div>
-            <ul class="themeTabs">
-                <li>
-                    <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
-                        <i class="far fa-file"></i>Diagnostic
-                    </a>
-                </li>
-                <li>
-                    <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
-                        <i class="far fa-file-alt"></i>Compliance
-                    </a>
-                </li>
-            </ul>
-
-            <div class="modal-body">
-                <div id="Div4">
-                    <form class="form-horizontal" role="form" style="font-size: small">
-
-
-                        <div class="row">
-                            <div class="col-sm-4" ng-show="Cloneval == 1">
-
-                                <div class="inputGroups">
-                                    <label>
-                                        Clone From Template<sup>
-                                            <font class='mandatory-field'>*</font>
-                                        </sup>
-                                    </label>
-                                    <select class="form-control" data-style="form-control" id="Select1" data-live-search="true" data-selectpicker data-collection-name="rowCollectionFilter"
-                                            ng-model="Protocol_Names" ng-change="CloneProtocolFunction()">
-                                        <option value="0">Select</option>
-                                        <option ng-repeat="sel in rowCollectionFilter | filter:{Isactive: 1}: true"
-                                                ng-selected="Protocol_Names==sel.Id" value="{{sel.Id}}">
-                                            {{sel.ProtocolName}}
-                                        </option>
-                                    </select>
-                                </div>
-
-
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="inputGroups">
-                                    <label>
-                                        Protocol Name<sup>
-                                            <font class='mandatory-field'>*</font>
-                                        </sup>
-                                    </label>
-                                    <input type="text" class="form-control" id="Text5" ng-model="ProtocolName"
-                                           ng-init="ProtocolName=''" ng-maxlength="100" maxlength="100" placeholder=""
-                                           onkeypress="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--  <div id="Div1" class="panel-collapse" ng-show="currentTab=='1'">-->
-                        <div id="collapse1" class="panel-collapse" ng-show="currentTab=='1'">
-
-                            <table template-pagination="custom/pager" style="width: 100%;" class="table themeTable">
-                                <thead>
-
-                                    <tr>
-                                        <th colspan="2"></th>
-                                        <th colspan="2">Normal Range</th>
-                                        <th colspan="2"></th>
-                                    </tr>
-                                    <tr>
-
-                                        <th>
-                                            Parameter <sup>
-                                                <font class='mandatory-field'>*</font>
-                                            </sup>
-                                        </th>
-                                        <th>
-                                            Unit <sup>
-                                                <font class='mandatory-field'>*</font>
-                                            </sup>
-                                        </th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th></th>
-                                        <th>Action</th>
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    <tr ng-if="ParameterSettingslist.length==0">
-                                        <td colspan="7" style="text-align: center">
-                                            No Data Available
-                                        </td>
-                                    </tr>
-                                    <!--{{ParameterSettingslist}}-->
-                                    <tr ng-repeat="row in ParameterSettingslist ">
-
-                                        <td>
-                                            <select ng-model="row.Parameter_Id" data-style="form-control" class="form-control" data-live-search="true" data-selectpicker data-collection-name="ParameterTypeList"
-                                                    ng-options="item.Id as item.Name for item in ParameterTypeList"
-                                                    ng-change="ParameterSettings_ViewEdit(row);">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </td>
-
-                                        <td>
-
-                                            {{(ViewParamList|filter:{Parameter_ID:row.Parameter_Id}:true)[0].Units_Name}}
-                                            <!--<input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                    ng-model="row.Units_Id"disabled>-->
-                                        </td>
-
-                                        <td style="width: 10%;">
-                                            <input type="text"
-                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                   ng-model="row.NormalRange_Low" maxlength="10" ng-maxlength="10"
-                                                   onkeypress="OnlySpecCharNum(event)">
-                                        </td>
-                                        <td style="width: 10%;">
-                                            <input type="text"
-                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                   ng-model="row.NormalRange_High" maxlength="10" ng-maxlength="10"
-                                                   onkeypress="OnlySpecCharNum(event)">
-                                        </td>
-                                        <td>
-
-
-                                            <table class="table themeTable" template-pagination="custom/pager"
-                                                   style="width: 100%;">
-                                                <thead>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th>Min</th>
-                                                        <th>Max</th>
-
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    <tr>
-                                                        <th>High</th>
-
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_HighMin_One" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_HighMax_One" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Medium</th>
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_MediumMin_One" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_MediumMax_One" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Low</th>
-
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_LowMin_One" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_LowMax_One" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Low</th>
-
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_LowMin_Two" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_LowMax_Two" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <th>Medium</th>
-
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_MediumMin_Two" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_MediumMax_Two" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                    </tr>
-                                                    <tr>
-                                                        <th>High</th>
-
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_HighMin_Two" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                   class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
-                                                                   ng-model="row.Diag_HighMax_Two" maxlength="10"
-                                                                   ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                                    </tr>
-
-
-
-                                                </tbody>
-                                            </table>
-
-                                        </td>
-                                        <td style="text-align: center">
-                                            <i class="fa fa-trash-o" aria-hidden="true"
-                                               ng-click="MonitoringProtocolDelete($index,row)"
-                                               ng-model="row.selectedQual" style="width: 20px;" id="Image7"></i>
-
-                                        </td>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <a href="javascript:" title="Click to Add" class="theme-btn-1"
-                               ng-click="MonitoringParameterSettings_Insert()">
-                                Add
-                            </a>
-
-
-                        </div>
-                        <div ng-show="currentTab=='2'">
-                            <table class="table themeTable" template-pagination="custom/pager">
-                                <thead>
-                                    <tr style="text-align: center">
-                                        <th>Parameter</th>
-                                        <th>Duration</th>
-                                        <th>Count</th>
-                                        <th>High</th>
-                                        <th>Medium</th>
-                                        <th>Low</th>
-                                        <th>Action</th>
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                    <tr ng-if="ParameterSettingslist.length==0">
-                                        <td colspan="7" style="text-align: center">
-                                            No Data Available
-                                        </td>
-                                    </tr>
-                                    <tr ng-repeat="row in ParameterSettingslist">
-                                        <td>
-                                            {{(ParameterTypeList | filter : {Id : row.Parameter_Id}: true)[0].Name}}
-                                        </td>
-                                        <td>
-                                            <select ng-model="row.Com_DurationType" class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="DurationTypeList"
-                                                    ng-options="item.Id as item.Name for item in DurationTypeList">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" ng-model="row.Comp_Duration"
-                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" ng-model="row.Comp_High"
-                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" ng-model="row.Comp_Medium"
-                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" ng-model="row.Comp_Low"
-                                                   maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
-                                        </td>
-                                        <td style="text-align: center">
-                                            <i class="fa fa-trash-o" aria-hidden="true"
-                                               ng-click="MonitoringProtocolDelete($index,row.Id)"
-                                               ng-model="row.selectedQual" id="Image5"></i>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-                        </div>
-
-
-
-                    </form>
+            <form class="form-horizontal" role="form" ng-class="{'submitted': submitted}" ng-submit="ProtocolParameter_AddEdit()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Monitoring Protocol</h4>
                 </div>
-            </div>
-            <div class="modal-footer" style="text-align: center;">
-                <button type="button" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
-                        ng-click="ProtocolParameter_AddEdit()">
-                    Save
-                </button>
-                <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelProtocol()">
-                    Cancel
-                </button>
-            </div>
+                <ul class="themeTabs">
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='1'}" ng-click="currentTab='1'">
+                            <i class="far fa-file"></i>Diagnostic
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'themeTabActive':currentTab=='2'}" ng-click="currentTab='2'">
+                            <i class="far fa-file-alt"></i>Compliance
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="modal-body">
+                    <div id="Div4">
+                       <!-- <form class="form-horizontal" role="form" style="font-size: small">-->
+
+
+                            <div class="row">
+                                <div class="col-sm-4" ng-show="Cloneval == 1">
+
+                                    <div class="inputGroups">
+                                        <label>
+                                            Clone From Template<sup>
+                                                <font class='mandatory-field'>*</font>
+                                            </sup>
+                                        </label>
+                                        <div id="divCloneProtocol" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                            <select class="form-control" data-style="form-control" id="Select1" data-live-search="true" data-selectpicker data-collection-name="rowCollectionFilter"
+                                                    ng-model="Protocol_Names" ng-change="CloneProtocolFunction();CloneFromChange();" >
+                                                <option value="0">Select</option>
+                                                <option ng-repeat="sel in rowCollectionFilter | filter:{Isactive: 1}: true"
+                                                        ng-selected="Protocol_Names==sel.Id" value="{{sel.Id}}">
+                                                    {{sel.ProtocolName}}
+                                                </option>
+                                            </select>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                <div class="col-sm-4">
+                                    <div class="inputGroups">
+                                        <label>
+                                            Protocol Name<sup>
+                                                <font class='mandatory-field'>*</font>
+                                            </sup>
+                                        </label>
+                                        <input type="text" class="form-control" id="Text5" ng-model="ProtocolName"
+                                               ng-init="ProtocolName=''" ng-maxlength="100" maxlength="100" placeholder=""
+                                               onkeypress="" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--  <div id="Div1" class="panel-collapse" ng-show="currentTab=='1'">-->
+                            <div id="collapse1" class="panel-collapse" ng-show="currentTab=='1'">
+
+                                <table template-pagination="custom/pager" style="width: 100%;" class="table themeTable">
+                                    <thead>
+
+                                        <tr>
+                                            <th colspan="2"></th>
+                                            <th colspan="2">Normal Range</th>
+                                            <th colspan="2"></th>
+                                        </tr>
+                                        <tr>
+
+                                            <th>
+                                                Parameter <sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup>
+                                            </th>
+                                            <th>
+                                                Unit <sup>
+                                                    <font class='mandatory-field'>*</font>
+                                                </sup>
+                                            </th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th></th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr ng-if="ParameterSettingslist.length==0">
+                                            <td colspan="7" style="text-align: center">
+                                                No Data Available
+                                            </td>
+                                        </tr>
+                                        <!--{{ParameterSettingslist}}-->
+                                        <tr ng-repeat="row in ParameterSettingslist ">
+
+                                            <td>
+                                                <select ng-model="row.Parameter_Id" data-style="form-control" class="form-control" data-live-search="true" data-selectpicker data-collection-name="ParameterTypeList"
+                                                        ng-options="item.Id as item.Name for item in ParameterTypeList"
+                                                        ng-change="ParameterSettings_ViewEdit(row);">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </td>
+
+                                            <td>
+
+                                                {{(ViewParamList|filter:{Parameter_ID:row.Parameter_Id}:true)[0].Units_Name}}
+                                                <!--<input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                ng-model="row.Units_Id"disabled>-->
+                                            </td>
+
+                                            <td style="width: 10%;">
+                                                <input type="text"
+                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                       ng-model="row.NormalRange_Low" maxlength="10" ng-maxlength="10"
+                                                       onkeypress="OnlySpecCharNum(event)">
+                                            </td>
+                                            <td style="width: 10%;">
+                                                <input type="text"
+                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                       ng-model="row.NormalRange_High" maxlength="10" ng-maxlength="10"
+                                                       onkeypress="OnlySpecCharNum(event)">
+                                            </td>
+                                            <td>
+
+
+                                                <table class="table themeTable" template-pagination="custom/pager"
+                                                       style="width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Min</th>
+                                                            <th>Max</th>
+
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>High</th>
+
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_HighMin_One" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_HighMax_One" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Medium</th>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_MediumMin_One" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_MediumMax_One" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Low</th>
+
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_LowMin_One" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_LowMax_One" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Low</th>
+
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_LowMin_Two" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_LowMax_Two" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th>Medium</th>
+
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_MediumMin_Two" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_MediumMax_Two" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                        </tr>
+                                                        <tr>
+                                                            <th>High</th>
+
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_HighMin_Two" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text"
+                                                                       class="form-control ng-pristine ng-untouched ng-valid ng-valid-maxlength"
+                                                                       ng-model="row.Diag_HighMax_Two" maxlength="10"
+                                                                       ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                                        </tr>
+
+
+
+                                                    </tbody>
+                                                </table>
+
+                                            </td>
+                                            <td style="text-align: center">
+                                                <i class="fa fa-trash-o" aria-hidden="true"
+                                                   ng-click="MonitoringProtocolDelete($index,row)"
+                                                   ng-model="row.selectedQual" style="width: 20px;" id="Image7"></i>
+
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a href="javascript:" title="Click to Add" class="theme-btn-1"
+                                   ng-click="MonitoringParameterSettings_Insert()">
+                                    Add
+                                </a>
+
+
+                            </div>
+                            <div ng-show="currentTab=='2'">
+                                <table class="table themeTable" template-pagination="custom/pager">
+                                    <thead>
+                                        <tr style="text-align: center">
+                                            <th>Parameter</th>
+                                            <th>Duration</th>
+                                            <th>Count</th>
+                                            <th>High</th>
+                                            <th>Medium</th>
+                                            <th>Low</th>
+                                            <th>Action</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-if="ParameterSettingslist.length==0">
+                                            <td colspan="7" style="text-align: center">
+                                                No Data Available
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat="row in ParameterSettingslist">
+                                            <td>
+                                                {{(ParameterTypeList | filter : {Id : row.Parameter_Id}: true)[0].Name}}
+                                            </td>
+                                            <td>
+                                                <select ng-model="row.Com_DurationType" class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="DurationTypeList"
+                                                        ng-options="item.Id as item.Name for item in DurationTypeList">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="row.Comp_Duration"
+                                                       maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="row.Comp_High"
+                                                       maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="row.Comp_Medium"
+                                                       maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" ng-model="row.Comp_Low"
+                                                       maxlength="10" ng-maxlength="10" onkeypress="OnlySpecCharNum(event)">
+                                            </td>
+                                            <td style="text-align: center">
+                                                <i class="fa fa-trash-o" aria-hidden="true"
+                                                   ng-click="MonitoringProtocolDelete($index,row.Id)"
+                                                   ng-model="row.selectedQual" id="Image5"></i>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+
+                       <!-- </form>-->
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
+                            ng-click="submitted= true;">
+                        Save
+                    </button>
+                    <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelProtocol()">
+                        Cancel
+                    </button>
+                </div>
+                </form>
         </div>
 
     </div>

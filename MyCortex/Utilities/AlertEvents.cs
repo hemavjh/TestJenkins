@@ -148,12 +148,14 @@ namespace MyCortex.Notification
                         //{
                         //    Console.WriteLine("{0}", d.Name);
                         //}
-                        sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                        //sendemailrepository.SendEmail_Update(EntityId, "", 1, "");
+                        sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, "", 1, "");
                     }
                     else
                     {
                         Console.WriteLine("{0} ({1})", (int)smsResponse.StatusCode, smsResponse.ReasonPhrase);
-                        sendemailrepository.SendEmail_Update(EntityId, smsResponse.ReasonPhrase, 2, "");
+                        //sendemailrepository.SendEmail_Update(EntityId, smsResponse.ReasonPhrase, 2, "");
+                        sendemailrepository.SendEmail_Update(sendEmailModel[0].Id, smsResponse.ReasonPhrase, 2, "");
                     }
 
                     //Make any other calls using HttpClient here.
@@ -282,6 +284,12 @@ namespace MyCortex.Notification
         {
             IList<EmailListModel> EmailListModel;
             EmailListModel = repository.InstitutionCreateEvent(Institution_Id, Entity_Id);
+            return EmailListModel;
+        }
+        public IList<EmailListModel> InstitutionEvent(long Entity_Id, long Institution_Id)
+        {
+            IList<EmailListModel> EmailListModel;
+            EmailListModel = repository.InstitutionEvent(Institution_Id, Entity_Id);
             return EmailListModel;
         }
         public IList<EmailListModel> ClinicianNoteEvent(long Entity_Id, long Institution_Id)

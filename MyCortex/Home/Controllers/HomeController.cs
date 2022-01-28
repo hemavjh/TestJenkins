@@ -825,17 +825,20 @@ namespace MyCortex.Home.Controllers
         [HttpPost]
         public ActionResult CreatePayByCheckoutSession(FormCollection form)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
-            string baseUrl = HttpContext.Request.Url.Authority;
+            //string baseUrl = HttpContext.Request.Url.Authority;
             long appointmentId = Convert.ToInt64(form["paymentAppointmentId"]);
             long departmentId = Convert.ToInt64(form["paymentdepartmentId"]);
             long PInstitutionId = Convert.ToInt64(form["paymentInstitutionId"]);
             double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId));
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
             int retid = patientAppointmentsRepository.PaymentStatus_Update(appointmentId, "Payment Initiated", merchantOrderNumber);
+            string baseUrl = HttpContext.Request.Url.Host.ToString();
             gatewayModel = gatewayrepository.GatewaySettings_Details(PInstitutionId, 2, "RSAPrivateKey");
             if (gatewayModel.Count > 0)
             {
@@ -871,9 +874,9 @@ namespace MyCortex.Home.Controllers
                 paySceneCode = "PAYPAGE",
                 paySceneParams = new PaySceneParams
                 {
-                    redirectUrl =  "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                    redirectUrl =  "https://"+ baseUrl +"/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
                 },
-                notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/Notify/",
+                notifyUrl = "https://"+ baseUrl +"/Home/Notify/",
                 accessoryContent = new AccessoryContent
                 {
                     amountDetail = new AmountDetail
@@ -954,6 +957,7 @@ namespace MyCortex.Home.Controllers
             }
             catch (WebException wx)
             {
+                _logger.Error(wx.Message, wx);
                 if (wx.Message != null)
                 {
                     using (WebResponse response = wx.Response)
@@ -975,6 +979,7 @@ namespace MyCortex.Home.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
             return new RedirectResult(redirectUrl);
@@ -983,14 +988,16 @@ namespace MyCortex.Home.Controllers
         [HttpPost]
         public ActionResult RefundPayByCheckoutSession(FormCollection form)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string redirectUrl = string.Empty;
             string privateKey = string.Empty;
             string publicKey = string.Empty;
             string partnetId = string.Empty;
-            string baseUrl = HttpContext.Request.Url.Authority;
+            string baseUrl = HttpContext.Request.Url.Host.ToString();
             try
             {
-                redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1";
+                redirectUrl = "https://"+ baseUrl + "/Home/Index#/PatientVitals/0/1";
                 long refundAppointmentId = Convert.ToInt64(form["refundAppointmentId"]);
                 string refundMerchantOrderNo = Convert.ToString(form["refundMerchantOrderNo"]);
                 double refundAmount = Convert.ToInt64(form["refundAmount"]);
@@ -1031,7 +1038,7 @@ namespace MyCortex.Home.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/RefundNotify?id="+ refundAppointmentId + "&merchantorderno="+ refundMerchantOrderNo +"",
+                    notifyUrl = "https://"+ baseUrl +"/Home/RefundNotify?id="+ refundAppointmentId + "&merchantorderno="+ refundMerchantOrderNo +"",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
@@ -1073,6 +1080,7 @@ namespace MyCortex.Home.Controllers
                 }
                 catch (WebException wx)
                 {
+                    _logger.Error(wx.Message, wx);
                     if (wx.Message != null)
                     {
                         using (WebResponse response = wx.Response)
@@ -1095,6 +1103,7 @@ namespace MyCortex.Home.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return null;
             }
             return new RedirectResult(redirectUrl);

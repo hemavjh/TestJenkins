@@ -13,22 +13,24 @@
             var image = $('#UserLogo').val();
             $image_crop = $('#image_demo').croppie({
                 enableExif: true,
-                url: image,
+                enableOrientation: true,
+                //type:'canvas',
+                //url: image,
                 viewport: {
                     width: 200,
                     height: 200,
-                    type: 'rectangle' //rectangle
+                    type: 'square' //rectangle
                 },
                 boundary: {
                     width: 300,
                     height: 300
-                },
+                }/*,
                 points: {
                     topLeftX: 0,
                     topLeftY: 0,
                     bottomRightX: 0,
                     bottomRightY: 0
-                }
+                }*/
             });
 
             $('#UserLogo').on('change', function () {
@@ -39,15 +41,16 @@
                     }).then(function () {
                     });
                 }
+                //alert(this.files[0]);
                 reader.readAsDataURL(this.files[0]);
                 $('#insertimageModal').modal('show');
             });
 
             $('.crop_image').click(function (event) {
                 $image_crop.croppie('result', {
-                    type: 'base64',
-                    format: 'jpeg',
-                    //type: 'canvas',
+                    //type: 'base64',
+                    //format: 'jpeg',
+                    type: 'canvas',
                     size: 'viewport'
                     //size: {width: 150, height: 200}
                 }).then(function (response) {
@@ -56,7 +59,6 @@
                 });
             });
         });
-
     </script>
     <script>
         $(document).ready(function () {
@@ -233,7 +235,7 @@
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <td class="textalign">{{row.Id}}</td>
-            <td style="text-align: left">
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
                 {{row.InstitutionName}}
             </td>
             <td style="text-align: left" title="{{row.FullName}}">
@@ -389,13 +391,15 @@
                                                 </label>
                                             </td>
                                             <td width="35%">
-                                                <div id="divInstitution" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                <!--<div id="divInstitution" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                <div style="max-width: 467px; word-wrap: break-word;">
                                                     <select data-style="form-control" data-live-search="true" id="selectpicker" data-selectpicker
                                                             data-collection-name="InstitutionList"
-                                                            ng-model="InstitutionId" ng-change="SubscriptionValidation();adminInsChange();" ng-show="LoginType == 1">
+                                                            ng-model="InstitutionId" ng-change="SubscriptionValidation();" ng-show="LoginType == 1">
                                                         <option ng-repeat="sel in InstitutionList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                     </select>
                                                 </div>
+                                                <!--</div>-->
                                             </td>
                                         </tr>
                                         <tr>
@@ -455,13 +459,15 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <select class="" data-style="form-control" ng-model="GenderId" id="Select3" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="AdmingetBase64Image()">
-                                                    <option value="0">Select</option>
-                                                    <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
-                                                            value="{{sel.Id}}">
-                                                        {{sel.Gender_Name}}
-                                                    </option>
-                                                </select>
+                                                <!--<div id="divGender" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                    <select class="form-control" data-style="form-control" ng-model="GenderId" id="Select10" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-required="true" ng-change="PatientgetBase64Image();" ng-disabled="Pat_UserTypeId==2">
+                                                        <option value="0">Select</option>
+                                                        <option ng-repeat="sel in GenderList" ng-selected="GenderId==sel.Id"
+                                                                value="{{sel.Id}}">
+                                                            {{sel.Gender_Name}}
+                                                        </option>
+                                                    </select>
+                                                <!--</div>-->
                                             </td>
                                         </tr>
                                         <!--<tr>

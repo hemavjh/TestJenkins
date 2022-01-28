@@ -67,8 +67,8 @@
             <th st-ratio="5" st-sort="Health_Care_Professionals">No.of HCP</th>
             <th st-ratio="5" st-sort="Created_No_Of_Patient">Created No.of Patient</th>
             <th st-ratio="5" st-sort="Created_No_Of_HealthCareProf">Created No.of HCP</th>
-            <th st-ratio="5" st-sort="Remaining_No_Of_Patient">Remaind Patient</th>
-            <th st-ratio="5" st-sort="Remaining_No_Of_HealthCareProf">Remaind HCP</th>
+            <th st-ratio="5" st-sort="Remaining_No_Of_Patient">Remind Patient</th>
+            <th st-ratio="5" st-sort="Remaining_No_Of_HealthCareProf">Remind HCP</th>
             <th st-ratio="8">Action</th>
         </tr>
     </thead>
@@ -81,11 +81,11 @@
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <td class="textalign">{{row.Id}}</td>
-            <td style="text-align: left">
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                 <div class="textwrap">{{row.Institution.Institution_Name}}</div>
             </td>
 
-            <td style="text-align: left">
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
                 <div class="textwrap">{{row.Institution.INSTITUTION_SHORTNAME}}</div>
             </td>
 
@@ -140,33 +140,35 @@
                                             <Lable>Institution Name<sup><font class='mandatory-field'>*</font></sup></Lable>
                                         </td>
                                         <td width="25%">
-                                            <div id="divInssInstitute" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                           <!-- <div id="divInssInstitute" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                            <div style="max-width: 240px; word-wrap: break-word;">
                                                 <select class="form-control" data-style="form-control" id="insselectpicker" data-live-search="true"
                                                         data-selectpicker data-collection-name="InstitutiondetailsList" ng-model="Institution_Id"
-                                                        ng-change="InstituteGetDetails();insSubInstituteChange();">
+                                                        ng-change="InstituteGetDetails();">
                                                     <!--<option value="0">Select</option>-->
                                                     <option ng-repeat="sel in InstitutiondetailsList" value="{{sel.Id}}">{{sel.Name}}</option>
                                                 </select>
                                             </div>
+                                            <!--</div>-->
                                         </td>
 
                                         <td rowspan="9" valign="top">
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutiontypeList">
-                                                                <input type="checkbox" ng-model="InstitutionAddList[$index]" />{{value.ModuleName}}
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutiontypeList">
+                                                                <input type="checkbox" id="Module{{value.Id}}" ng-model="InstitutionAddList[$index]" ng-click="ModulelistChange('Module'+value.Id,value);"/>{{value.ModuleName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in LanguageList">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in LanguageList">
                                                                 <div ng-if="value.LanguageName == 'English'">
                                                                     <input type="checkbox" disabled ng-model="InstitutionAddLanguageList[$index]=true" ng-init="checked=true" /> {{value.LanguageName}}
                                                                 </div>
@@ -178,28 +180,28 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Insurance</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionInsuranceName">
                                                                 <input type="checkbox" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Payment</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionPaymentMethod">
                                                                 <input type="checkbox" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
@@ -212,17 +214,17 @@
                                                         <Lable>TimeZone ID<sup><font class='mandatory-field'>*</font></sup></Lable>
                                                     </td>
                                                     <td width="25%">
-                                                        <div id="divInssTimeZone" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                        <!--<div id="divInssTimeZone" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                             <select class="form-control" data-style="form-control" data-live-search="true"
                                                                     data-selectpicker data-collection-name="TimeZoneListID" id="TimeZoneID"
-                                                                    ng-model="TimeZone_Id" ng-change="insSubTimeZoneChange();">
+                                                                    ng-model="TimeZone_Id">
                                                                 <option value="0">Select Time Zone</option>
                                                                 <option ng-repeat="set in TimeZoneListID"
                                                                         ng-selected="TimeZoneId == set.TimeZoneId" value="{{set.TimeZoneId}}">
                                                                     {{set.TimeZoneDisplayName}}
                                                                 </option>
                                                             </select>
-                                                        </div>
+                                                        <!--</div>-->
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -278,50 +280,50 @@
                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
                                                             <tr>
                                                                 <td>
-                                                                    <div id="divInssType" class="ng-valid ddlValidationBorder" ng-required="true">
-                                                                        <input type="radio" value="1" ng-change="insSubTypeChange()" ng-model="Subscription_Type" ng-checked="checked='true'"> Standard
-                                                                        <input type="radio" value="2" ng-change="insSubTypeChange()" ng-model="Subscription_Type"> Premium
-                                                                    </div>
+                                                                    <!--<div id="divInssType" class="ng-valid ddlValidationBorder" ng-required="true">-->
+                                                                        <input type="radio" value="1" ng-model="Subscription_Type" ng-checked="checked='true'"> Standard
+                                                                        <input type="radio" value="2" ng-model="Subscription_Type"> Premium
+                                                                    <!--</div>-->
                                                                 </td>
                                                             </tr>
                                                         </table>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <!--<tr>
                                                     <td>
                                                         <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
                                                     <td class="nopadding">
                                                         <table cellpadding="0" cellspacing="0" border="0" class="formControlGroup" width="100%">
                                                             <tr>
-                                                                <td>
-                                                                    <div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccc"  ng-model="Chroniccc">CC
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccg"  ng-model="Chroniccg">CG
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chroniccl"  ng-model="Chroniccl">CL
-                                                                        <input type="checkbox" class="input-checkbox" ng-change="insSubChronicChange();" name="Chronicsc"  ng-model="Chronicsc">SC
-                                                                    </div>
-                                                                </td>
+                                                                <td>-->
+                                                            <!--<div id="divInssChronicEdit" class="ng-invalid ddlValidationBorder" ng-required="true">-->
+                                                                        <!--<input type="checkbox" class="input-checkbox" name="Chroniccc"  ng-model="Chroniccc">CC
+                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccg"  ng-model="Chroniccg">CG
+                                                                        <input type="checkbox" class="input-checkbox" name="Chroniccl"  ng-model="Chroniccl">CL
+                                                                        <input type="checkbox" class="input-checkbox" name="Chronicsc"  ng-model="Chronicsc">SC-->
+                                                                   <!--</div>-->
+                                                                <!--</td>
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="13%">
                                                         <Lable>Appointment Module<sup><font class='mandatory-field'>*</font></sup></Lable>
                                                     </td>
                                                     <td width="25%">
-                                                        <div id="divInssApModule" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                                        <!--<div id="divInssApModule" class="ng-invalid ddlValidationBorder" ng-required="true">-->
                                                             <select class="form-control" data-style="form-control" data-live-search="true"
                                                                     data-selectpicker data-collection-name="AppointmentModuleListID" id="AppointmentModuleID"
-                                                                    ng-model="AppointmentModule_Id" ng-change="insSubAppointmentModuleChange();">
+                                                                    ng-model="AppointmentModule_Id">
                                                                 <option value="0">Select</option>
                                                                 <option ng-repeat="set in AppointmentModuleListID"
                                                                         ng-selected="AppointmentModuleId == set.Id" value="{{set.Id}}">
                                                                     {{set.Name}}
                                                                 </option>
                                                             </select>
-                                                        </div>
+                                                        <!--</div>-->
                                                     </td>
                                                 </tr>
                                                 <tr ng-show="Hcp_Pat == true">
@@ -338,13 +340,13 @@
                                                 </tr>
                                                 <tr ng-show="Hcp_Pat == true">
                                                     <td>
-                                                        <label>Remaind Patient</label>
+                                                        <label>Remind Patient</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_Patient}}</span></td>
                                                 </tr>
                                                 <tr ng-show="Hcp_Pat == true">
                                                     <td>
-                                                        <label>Remaind HCP</label>
+                                                        <label>Remind HCP</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_HealthCareProf}}</span></td>
                                                 </tr>
@@ -412,11 +414,11 @@
                                     Save and Add Admin
                                 </button>-->
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave" ng-disabled="false" title="Click to Save"
-                                        ng-click="submitted= true;" ng-if="EditInstSub == 1">
+                                        ng-click="submitted= true;" ng-show="EditInstSub == 1">
                                     Save
                                 </button>
                                 <button type="submit" class="theme-btn-1 mr-10" id="btnsave1" ng-disabled="false" title="Save and Add Admin"
-                                        ng-click="submitted= true;" ng-if="EditInstSub == 0">
+                                        ng-click="submitted= true;" ng-show="EditInstSub == 0">
                                     Save and Add Admin
                                 </button>
                                 <button type="button" class="theme-btn-2" title="Click to Cancel" ng-click="CancelIntstitutionSubPopup()">Cancel</button>
@@ -454,50 +456,50 @@
                                             {{ViewInstitution_Name}}
                                         </td>
                                         <td rowspan="9" valign="top">
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="row in InstitutiontypeList">
-                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" />{{row.ModuleName}}
+                                                            <div class="col-md-4" ng-repeat="row in InstitutiontypeList">
+                                                                <input type="checkbox" disabled="disabled" ng-model="InstitutionAddList[$index]" onchange="ModulelistChange();"/>{{row.ModuleName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <div class="col-sm-6" ng-repeat="row in LanguageList">
+                                                            <div class="col-md-4" ng-repeat="row in LanguageList">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddLanguageList[$index]" />{{row.LanguageName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Insurance</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionInsuranceName">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionInsuranceName">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddInsuranceList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup">
+                                            <table cellpadding="0" cellspacing="0" border="1" width="60%" class="formControlGroup" style="width: 98%;">
                                                 <tr>
                                                     <td>
                                                         <div class="row">
                                                             <div class="centerallign">
                                                                 <label>Payment</label>
                                                             </div>
-                                                            <div class="col-sm-6" ng-repeat="(key,value) in InstitutionPaymentMethod">
+                                                            <div class="col-md-4" ng-repeat="(key,value) in InstitutionPaymentMethod">
                                                                 <input type="checkbox" disabled="disabled" ng-model="InstitutionAddPaymentList[$index]" />{{value.PaymentName}}
                                                             </div>
                                                         </div>
@@ -557,7 +559,7 @@
                                                         </table>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                               <!-- <tr>
                                                     <td>
                                                         <label>Chronic Edit<sup><font class='mandatory-field'>*</font></sup></label>
                                                     </td>
@@ -573,7 +575,7 @@
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                </tr>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="7%">
                                                         <label>Appointment Module</label>
@@ -599,13 +601,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label>Remaind Patient</label>
+                                                        <label>Remind Patient</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_Patient}}</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <label>Remaind HCP</label>
+                                                        <label>Remind HCP</label>
                                                     </td>
                                                     <td><span>{{Remaining_No_Of_HealthCareProf}}</span></td>
                                                 </tr>

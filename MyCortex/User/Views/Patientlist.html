@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="inputGroups">
-                        <label>Remaind No.Of Patient / Total No.of Patients: </label>
+                        <label>Remind No.Of Patient / Total No.of Patients: </label>
                         <span style="margin-left: 120px; font-weight: bold;"> {{Remaining_No_Of_Patient}} / {{Patients}}</span>
                     </div>
                 </div>
@@ -316,7 +316,7 @@
         </tbody>
         <tfoot ng-show="total_pages>1">
             <tr>
-                <td colspan="10" class="text-center">
+                <td colspan="10" class="text-center" style="text-align:center">
                     <ul class="pagination">
                         <li>
                             <a ng-click="setPage(1)">First</a>
@@ -354,7 +354,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" ng-click="CancelPopup()" title="Close"
-                        style="color: #8B0000;">
+                        >
                     &times;
                 </button>
                 <h4 class="modal-title">Create Group</h4>
@@ -382,11 +382,11 @@
                             </form>
                         </div>
                         <div class="modal-footer" style="text-align: center;">
-                            <button type="button" class="btn  btn-save" title="Click to Save"
+                            <button type="button" class="theme-btn-1 mr-10" title="Click to Save"
                                     ng-click="AddGroup_Insert()">
                                 Save
                             </button>
-                            <button type="button" class="btn  btn-save" ng-click="CancelGroupPopup()"
+                            <button type="button" class="theme-btn-2" ng-click="CancelGroupPopup()"
                                     title="Click to Cancel">
                                 Cancel
                             </button>

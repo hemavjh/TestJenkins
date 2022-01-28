@@ -57,7 +57,7 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
             $scope.ValidFromDate = moment($scope.ValidFromDate).format('DD-MMM-YYYY');
             $scope.ValidToDate = moment($scope.ValidToDate).format('DD-MMM-YYYY');
 
-            if (typeof ($scope.SelectedPayor) == "undefined" || $scope.SelectedPayor == "" || $scope.SelectedPayor == null) {
+            if (typeof ($scope.SelectedPayor) == "undefined" || $scope.SelectedPayor == "0" || $scope.SelectedPayor == "" || $scope.SelectedPayor == null) {
                 //alert("Please Select Any Payor");
                 toastr.warning("Please Select Any Payor", "warning");
                 return false;
@@ -365,10 +365,10 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
             }*/
         };
 
-        $scope.Active_ErrorFunction = function () {
+       /* $scope.Active_ErrorFunction = function () {
             //alert("Inactive Payor details cannot be edited");
             toastr.info("Inactive Payor details cannot be edited", "info");
-        };
+        };*/
 
         /*calling Alert message for cannot edit inactive record function */
         $scope.ErrorFunction = function () {
@@ -376,7 +376,7 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
             toastr.info("Inactive record cannot be edited", "info");
         }
 
-        $scope.PayorChange = function () {
+      /*  $scope.PayorChange = function () {
 
             var PayorChange = document.getElementById('SelectedPayor').value;
             if (PayorChange != "0") {
@@ -413,15 +413,12 @@ PlanMastercontroller.controller("PlanMasterController", ['$scope', '$http', '$fi
                 $('#divValidToDateChange').removeClass("ng-valid");
                 $('#divValidToDateChange').addClass("ng-invalid");
             }
-        }
+        }*/
 
 
         /* THIS IS OPENING POP WINDOW FORM LIST FOR ADD */
         $scope.AddPlanPopUP = function () {
             $scope.submitted = false;
-            $('#divPayorChange').addClass("ng-invalid");
-            $('#divValidFromDateChange').addClass("ng-invalid");
-            $('#divValidToDateChange').addClass("ng-invalid");
             $scope.Id = 0;
             $scope.PlanSave = true;
             var sel1 = $('#SelectedPayor');

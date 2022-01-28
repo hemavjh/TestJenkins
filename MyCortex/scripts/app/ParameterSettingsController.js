@@ -106,7 +106,8 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
             });
 
             if (validateflag == false) {
-                alert(validationMsg + "\n" + "cannot Save ");
+                //alert(validationMsg + "\n" + "cannot Save ");
+                toastr.info(validationMsg + "\n" + "cannot Save ","info");
                 return false;
             }
             return true;
@@ -187,11 +188,11 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
                                     }
                                     $scope.Diagnostic_Flag[masterVal.Id] = $scope.ViewParamList1.Diagnostic_Flag == null ? true : $scope.ViewParamList1.Diagnostic_Flag;
                                     $scope.Compliance_Flag[masterVal.Id] = $scope.ViewParamList1.Compliance_Flag == null ? true : $scope.ViewParamList1.Compliance_Flag;
-                                    $scope.Max_Possible[masterVal.Id] = $scope.ViewParamList1.Max_Possible == null ? "" : $scope.ViewParamList1.Max_Possible;
-                                    $scope.Min_Possible[masterVal.Id] = $scope.ViewParamList1.Min_Possible == null ? "" : $scope.ViewParamList1.Min_Possible;
-                                    $scope.NormalRange_High[masterVal.Id] = $scope.ViewParamList1.NormalRange_High == null ? "" : $scope.ViewParamList1.NormalRange_High;
-                                    $scope.NormalRange_low[masterVal.Id] = $scope.ViewParamList1.NormalRange_low == null ? "" : $scope.ViewParamList1.NormalRange_low;
-                                    $scope.Average[masterVal.Id] = $scope.ViewParamList1.Average == null ? "" : $scope.ViewParamList1.Average;
+                                    $scope.Max_Possible[masterVal.Id] = $scope.ViewParamList1.Max_Possible == null ? "" : parseFloat($scope.ViewParamList1.Max_Possible).toFixed(2);
+                                    $scope.Min_Possible[masterVal.Id] = $scope.ViewParamList1.Min_Possible == null ? "" : parseFloat($scope.ViewParamList1.Min_Possible).toFixed(2);
+                                    $scope.NormalRange_High[masterVal.Id] = $scope.ViewParamList1.NormalRange_High == null ? "" : parseFloat($scope.ViewParamList1.NormalRange_High).toFixed(2);
+                                    $scope.NormalRange_low[masterVal.Id] = $scope.ViewParamList1.NormalRange_low == null ? "" : parseFloat($scope.ViewParamList1.NormalRange_low).toFixed(2);
+                                    $scope.Average[masterVal.Id] = $scope.ViewParamList1.Average == null ? "" : parseFloat($scope.ViewParamList1.Average).toFixed(2);
                                     $scope.Remarks[masterVal.Id] = $scope.ViewParamList1.Remarks == null ? "" : $scope.ViewParamList1.Remarks;
                                 }
                                 else {
@@ -238,11 +239,11 @@ ParameterSettings.controller("ParameterSettingsController", ['$scope', '$http', 
                         Units_ID: $scope.Units_ID[value.Id] == 0 ? null : $scope.Units_ID[value.Id],
                         Diagnostic_Flag: $scope.Diagnostic_Flag[value.Id] == null ? false : $scope.Diagnostic_Flag[value.Id],
                         Compliance_Flag: $scope.Compliance_Flag[value.Id] == null ? false : $scope.Compliance_Flag[value.Id],
-                        Max_Possible: $scope.Max_Possible[value.Id] == null ? "" : $scope.Max_Possible[value.Id],
-                        Min_Possible: $scope.Min_Possible[value.Id] == null ? "" : $scope.Min_Possible[value.Id],
-                        NormalRange_High: $scope.NormalRange_High[value.Id] == null ? "" : $scope.NormalRange_High[value.Id],
-                        NormalRange_low: $scope.NormalRange_low[value.Id] == null ? "" : $scope.NormalRange_low[value.Id],
-                        Average: $scope.Average[value.Id] == null ? "" : $scope.Average[value.Id],
+                        Max_Possible: $scope.Max_Possible[value.Id] == null ? "" : parseFloat($scope.Max_Possible[value.Id]).toFixed(2),
+                        Min_Possible: $scope.Min_Possible[value.Id] == null ? "" : parseFloat($scope.Min_Possible[value.Id]).toFixed(2),
+                        NormalRange_High: $scope.NormalRange_High[value.Id] == null ? "" : parseFloat($scope.NormalRange_High[value.Id]).toFixed(2),
+                        NormalRange_low: $scope.NormalRange_low[value.Id] == null ? "" : parseFloat($scope.NormalRange_low[value.Id]).toFixed(2),
+                        Average: $scope.Average[value.Id] == null ? "" : parseFloat($scope.Average[value.Id]).toFixed(2),
                         Remarks: $scope.Remarks[value.Id] == null ? "" : $scope.Remarks[value.Id],
                     }
                     $scope.UnitsParameterdata.push(obj);

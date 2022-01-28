@@ -26,6 +26,7 @@ namespace MyCortex.Admin.Controllers
     {
         static readonly IGatewaySettingsRepository gatewayrepository = new GatewaySettingsRepository();
         static readonly IPatientAppointmentsRepository patientAppointmentsRepository = new PatientAppointmentRepository();
+        private readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IList<GatewaySettingsModel> gatewayModel;
         [HttpGet]
         [Authorize]
@@ -39,13 +40,13 @@ namespace MyCortex.Admin.Controllers
 
             string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
             int retid = patientAppointmentsRepository.PaymentStatus_Update(Appointment_Id, "Payment Initiated", merchantOrderNumber);
-            string baseUrl = HttpContext.Current.Request.Url.Authority;
-            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl);
-            baseUrl = HttpContext.Current.Request.Url.Host.ToString();
-            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl);
+            //string baseUrl = HttpContext.Current.Request.Url.Authority;
+            //retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl);
+            string baseUrl = HttpContext.Current.Request.Url.Host.ToString();
+            retid = patientAppointmentsRepository.PaymentProvider_Notity_Log(baseUrl + " --  domain test");
             PaySceneParams paySceneParams = new PaySceneParams
             {
-                redirectUrl = "https://mycortexdev1.vjhsoftware.in/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
+                redirectUrl = "https://"+ baseUrl +"/Home/Index#/PatientVitals/0/1?orderId=414768633924763654"
             };
 
             if (!string.IsNullOrEmpty(iapDeviceId) && !string.IsNullOrEmpty(appId))
@@ -93,7 +94,7 @@ namespace MyCortex.Admin.Controllers
                 },
                 paySceneCode = payCode,
                 paySceneParams = paySceneParams,
-                notifyUrl = "https://mycortexdev1.vjhsoftware.in/Home/Notify/"
+                notifyUrl = "https://"+ baseUrl +"/Home/Notify/"
             };
             DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
 
@@ -151,6 +152,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (WebException wx)
             {
+                _logger.Error(wx.Message, wx);
                 if (wx.Message != null)
                 {
                     using (WebResponse response = wx.Response)
@@ -172,6 +174,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
             return Request.CreateResponse(HttpStatusCode.OK, new { Token = token, Sign = payBySign });
@@ -205,6 +208,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Error");
             }
         }
@@ -228,7 +232,7 @@ namespace MyCortex.Admin.Controllers
                 //double amount2 = Convert.ToDouble(gatewayrepository.PatientAmount(PInstitutionId, departmentId));
                 string merchantOrderNumber = Guid.NewGuid().ToString().Replace("-", "").PadLeft(10);
                 int retid = patientAppointmentsRepository.PaymentStatus_Update(refundAppointmentId, "Refund Initiated", refundMerchantOrderNo);
-
+                string baseUrl = HttpContext.Current.Request.Url.Host.ToString();
                 gatewayModel = gatewayrepository.GatewaySettings_Details(refundInstitutionId, 2, "RSAPrivateKey");
                 if (gatewayModel.Count > 0)
                 {
@@ -260,7 +264,7 @@ namespace MyCortex.Admin.Controllers
                     },
                     operatorName = "zxy",
                     reason = "refund",
-                    notifyUrl = "https://mycortexdev1.vjhsoftware.in/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
+                    notifyUrl = "https://"+ baseUrl + "/api/PayBy/RefundNotify?id=" + refundAppointmentId + "&merchantorderno=" + refundMerchantOrderNo + "",
                 };
                 DateTime unixRef = new DateTime(1970, 1, 1, 0, 0, 0);
                 payByCreateReq.requestTime = (DateTime.UtcNow.Ticks - unixRef.Ticks) / 10000;
@@ -302,6 +306,7 @@ namespace MyCortex.Admin.Controllers
                 }
                 catch (WebException wx)
                 {
+                    _logger.Error(wx.Message, wx);
                     if (wx.Message != null)
                     {
                         using (WebResponse response = wx.Response)
@@ -325,6 +330,7 @@ namespace MyCortex.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message, ex);
                 return Request.CreateResponse(HttpStatusCode.OK, new { status = 0 });
             }
         }

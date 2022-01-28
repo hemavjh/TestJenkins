@@ -16,6 +16,8 @@ namespace MyCortex.Masters.Models
         public string REMARKS { get; set; }
         public int ISACTIVE { get; set; }
         public int Flag { get; set; }
+        public string CHRONICID { get; set; }
+        public string CHRONICNAME { get; set; }
     }
 
     public class WebConfigurationReturnModels

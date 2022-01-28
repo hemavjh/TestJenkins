@@ -256,41 +256,41 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
             }
         }
 
-        $scope.insCountryChange = function () {
-            var country = document.getElementById('countryselectpicker').value;
-            if (country != "0") {
-                $('#divInsCountry').removeClass("ng-invalid");
-                $('#divInsCountry').addClass("ng-valid");
-            }
-            else {
-                $('#divInsCountry').removeClass("ng-valid");
-                $('#divInsCountry').addClass("ng-invalid");
-            }
-        }
+        //$scope.insCountryChange = function () {
+        //    var country = document.getElementById('countryselectpicker').value;
+        //    if (country != "0") {
+        //        $('#divInsCountry').removeClass("ng-invalid");
+        //        $('#divInsCountry').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInsCountry').removeClass("ng-valid");
+        //        $('#divInsCountry').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.insStateChange = function () {
-            var state = document.getElementById('stateselectpicker').value;
-            if (state != "0") {
-                $('#divInsState').removeClass("ng-invalid");
-                $('#divInsState').addClass("ng-valid");
-            }
-            else {
-                $('#divInsState').removeClass("ng-valid");
-                $('#divInsState').addClass("ng-invalid");
-            }
-        }
+        //$scope.insStateChange = function () {
+        //    var state = document.getElementById('stateselectpicker').value;
+        //    if (state != "0") {
+        //        $('#divInsState').removeClass("ng-invalid");
+        //        $('#divInsState').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInsState').removeClass("ng-valid");
+        //        $('#divInsState').addClass("ng-invalid");
+        //    }
+        //}
 
-        $scope.insCityChange = function () {
-            var city = document.getElementById('cityselectpicker').value;
-            if (city != "0") {
-                $('#divInsCity').removeClass("ng-invalid");
-                $('#divInsCity').addClass("ng-valid");
-            }
-            else {
-                $('#divInsCity').removeClass("ng-valid");
-                $('#divInsCity').addClass("ng-invalid");
-            }
-        }
+        //$scope.insCityChange = function () {
+        //    var city = document.getElementById('cityselectpicker').value;
+        //    if (city != "0") {
+        //        $('#divInsCity').removeClass("ng-invalid");
+        //        $('#divInsCity').addClass("ng-valid");
+        //    }
+        //    else {
+        //        $('#divInsCity').removeClass("ng-valid");
+        //        $('#divInsCity').addClass("ng-invalid");
+        //    }
+        //}
 
         /*on click Save calling the insert update function for Institution
              and check the Institution Name already exist,if exist it display alert message or its 

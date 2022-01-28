@@ -14,9 +14,14 @@
             $('.activeButton').removeClass('activeButton');
             var element = document.getElementById($('.secondaryMenuActive').data('menu'));
             $(element).addClass('activeButton');
+            if ($('#' + $('.secondaryMenuActive').data('menu')).length === 0) {
+                $('.activeButton').removeClass('activeButton');
+                //$('#Templates/EmailSetup').addClass('activeButton');
+                document.getElementById("Templates/EmailSetup").className += 'activeButton';
+            }
         });
     </script>
-<ul class="secondaryMenu">
+<ul class="secondaryMenu" ng-show="UserTypeId == 3">
     <li>
         <a class="secondaryMenuActive" href="Home/Index#/EmailTemplate/1" data-menu="Bulk Email">Email Template</a>
     </li>
@@ -30,6 +35,14 @@
         <a href="Home/Index#/MessagingHistory/1">Email History</a>
     </li>
 </ul>
+<ul class="secondaryMenu" ng-show="UserTypeId == 1">
+    <li><a href="Home/Index#/AdminEmailConfigurationList/1">Email setup</a></li>
+    <li><a href="Home/Index#/MasterAlertConfigurationList" data-menu="Templates/EmailSetup">Alerts</a></li>
+    <li><a class="secondaryMenuActive" href="Home/Index#/EmailTemplate/1" data-menu="Templates/EmailSetup">Email Template</a></li>
+    <li><a href="Home/Index#/Notification/2" data-menu="Templates/EmailSetup">Notification Template</a></li>
+    <li><a href="Home/Index#/SMSTemplate/3" data-menu="Templates/EmailSetup">Sms Template</a></li>
+</ul>
+
 <h1 class="page-title">Email Template</h1>
 
 
@@ -163,6 +176,24 @@
                                        maxlength="100" onkeypress="" ng-required="true" />
                             </div>
                         </div>
+                        <div class="col-sm-4">
+                            <div class="inputGroups" ng-show="UserTypeId == 1">
+                                <label class="sub-title">
+                                    Select Tag Type<sup>
+                                        <!--<font class='mandatory-field'>*</font>-->
+                                    </sup>
+                                </label>
+                                <!--<select ng-model="SelectedDepartment" multiple="multiple" id="TagType" ng-change="onChangeDepartment()"
+                                        ng-options="item1.Id as item1.Department_Name for item1 in DepartmentList"
+                                        multiselect-dropdown style="width: 220px;"></select>-->
+                                <select class="form-control" style="width: 382px;"
+                                ng-model="TagType" ng-change="OnChangeTypeBasedTagList(TagType)">
+                                <option ng-selected="true" value="0">Select</option>
+                                <option value="1">User Creation</option>
+                                <option value="2">Institution And Subscription Creation</option>
+                            </select>
+                            </div>
+                        </div>
                         <div class="col-sm-8">
                             <div class="inputGroups">
                                 <label>
@@ -182,13 +213,13 @@
                                         <font class='mandatory-field'>*</font>
                                     </sup>
                                 </label>
-                                <div id="divEmailEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
+                                <div id="divEditor" class="ng-invalid ddlValidationBorder" ng-required="true">
                                     <div cols="10" id="editor1" name="editor1" rows="10" contenteditable="true"
                                          ondragover="allowDrop(event)" ng-required="true">
                                     </div>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                         <div class="col-sm-4">
                             <div class="inputGroups">
                                 <label>Tag Name</label>
@@ -291,19 +322,19 @@
     CKEDITOR.instances['editor1'].on('change', function (e) {
         if (e.editor.checkDirty()) {
             if (CKEDITOR.instances['editor1'].getData() != "") {
-                $('#divEmailEditor').removeClass('ng-invalid');
-                $('#divEmailEditor').addClass('ng-valid');
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
             } else {
-                $('#divEmailEditor').removeClass('ng-valid');
-                $('#divEmailEditor').addClass('ng-invalid');
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
             }
         } else {
             if (CKEDITOR.instances['editor1'].getData() != "") {
-                $('#divEmailEditor').removeClass('ng-invalid');
-                $('#divEmailEditor').addClass('ng-valid');
+                $('#divEditor').removeClass('ng-invalid');
+                $('#divEditor').addClass('ng-valid');
             } else {
-                $('#divEmailEditor').removeClass('ng-valid');
-                $('#divEmailEditor').addClass('ng-invalid');
+                $('#divEditor').removeClass('ng-valid');
+                $('#divEditor').addClass('ng-invalid');
             }
         }
     });

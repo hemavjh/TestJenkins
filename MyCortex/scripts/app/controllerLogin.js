@@ -183,29 +183,39 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
     $scope.remember = ($rememberMeService('cmVtZW1iZXJocm1z'));
     // end
     $scope.forgotPasswordEmail = "";
-    $scope.forgotPasswordValidate = function () {
+        $scope.forgotPasswordValidate = function () {
+            $("#chatLoaderPV").show();
         if (typeof ($scope.forgotPasswordEmail) == "undefined" || $scope.forgotPasswordEmail == "") {
-            alert("Please enter Email");
+            //alert("Please enter Email");
+            toastr.warning("Please enter Email","warning");
             return false;
         }
 
         else if (EmailFormate($scope.forgotPasswordEmail) == false) {
-            alert("Invalid Email format");
+            //alert("Invalid Email format");
+            toastr.info("Invalid Email format","info");
             return false;
         }
         $http.get(baseUrl + '/api/Login/ForgotPassword/?EmailId=' + $scope.forgotPasswordEmail).success(function (data) {
             if (data != null) {
-                alert(data.Message)
+                //alert(data.Message)
                 if (data.ReturnFlag == "1") {
+                    toastr.success(data.Message, "success");
+                    $("#chatLoaderPV").hide();
                     angular.element('#forgotPasswordModal').modal('hide');
                     $scope.forgotPasswordEmail = "";
                 }
+                else if (data.ReturnFlag == "0") {
+                    toastr.info(data.Message, "info");
+                }
             }
             else {
-                alert("This Email is not registered, Invalid Email")
+                //alert("This Email is not registered, Invalid Email")
+                toastr.info("This Email is not registered, Invalid Email", "info");
             }
         }).error(function (data) {
-            alert("This Email is not registered, Invalid Email")
+            //alert("This Email is not registered, Invalid Email")
+            toastr.info("This Email is not registered, Invalid Email", "info");
             $scope.error = "An error has occurred while deleting reset password details" + data;
         });
     }
@@ -248,7 +258,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             return false;
         }
         else if (EmailFormate($scope.EmailId) == false) {
-            alert("Invalid Email format");
+            //alert("Invalid Email format");
+            toastr.warning("Invalid Email format","warning");
             return false;
         }
         else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
@@ -325,7 +336,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 //    data: data
                 //}).success(function (data) {
                 $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
-                    alert(data.Message);
+                    //alert(data.Message);
+                    toastr.info(data.Message, "info");
                     $scope.CancelSignUpPopup();
                     if ($scope.MenuTypeId == 3) {
                         $scope.ListRedirect();
@@ -333,9 +345,11 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 });
                 $("#chatLoaderPV").hide();
             }).error(function (err) {
-                console.log(err);
+                //console.log(err);
+                toastr.warning(err, "warning");
                 $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                alert('error');
+                //alert('error');
+                toastr.info("error", "info");
             });
         }
     };
@@ -399,18 +413,58 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             return false;
         }
         return true;
-    };
+        };
+
+        //function getOS() {
+        //    var userAgent = window.navigator.userAgent,
+        //        platform = window.navigator.platform,
+        //        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+        //        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+        //        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+        //        os = null;
+
+        //    if (macosPlatforms.indexOf(platform) !== -1) {
+        //        os = 'Mac OS';
+        //    } else if (iosPlatforms.indexOf(platform) !== -1) {
+        //        os = 'iOS';
+        //    } else if (windowsPlatforms.indexOf(platform) !== -1) {
+        //        os = 'Windows';
+        //    } else if (/Android/.test(userAgent)) {
+        //        os = 'Android';
+        //    } else if (!os && /Linux/.test(platform)) {
+        //        os = 'Linux';
+        //    }
+
+        //    return os;
+        //}
+
+        //alert(getOS());
 
     var IpAddress = "";
-    $http.get("http://api.ipify.org/?format=json").then(function (response) {
-        IpAddress = response.data.ip;
-    });
+    //$http.get("http://api.ipify.org/?format=json").then(function (response) {
+    //    IpAddress = response.data.ip;
+    //});
 
-    var Login_Country = "";
-    var Login_City = "";
+        var Login_Country = "";
+        var Login_City = "";
+        var Login_CountryCode = "";
+        var Login_Longitude = "";
+        var Login_Latitude = "";
+        var Login_region = "";
+        var Login_regionName = "";
+        var Login_timeZoneName = "";
+        var Login_zipCode = "";
     $http.get("http://ip-api.com/json").then(function (response) {
         Login_Country = response.data.country;
-        Login_City = response.data.city
+        Login_City = response.data.city;
+        IpAddress = response.data.query;
+        Login_CountryCode = response.data.countryCode;
+        Login_Latitude = response.data.lat;
+        Login_Longitude = response.data.lon;
+        Login_region = response.data.region;
+        Login_regionName = response.data.regionName;
+        Login_timeZoneName = response.data.timezone;
+        Login_zipCode = response.data.zip;
     });
 
     navigator.sayswho = (function () {
@@ -456,7 +510,14 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
                 Browser_Version: navigator.sayswho,
                 Login_Country: Login_Country,
                 Login_City: Login_City,
-                Login_IpAddress: IpAddress
+                Login_IpAddress: IpAddress,
+                countryCode: Login_CountryCode,
+                Latitude: Login_Latitude,
+                Longitude: Login_Longitude,
+                region: Login_region,
+                regionName: Login_regionName,
+                timezoneName: Login_timeZoneName,
+                zipcode: Login_zipCode
             };
 
             //$http.get(baseUrl + '/api/Login/Userlogin_AddEdit/?Id=' + $scope.Id + '&UserName=' + $scope.Username + '&Password=' + $scope.Password).success(function (data) {
@@ -581,8 +642,11 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
             toastr.error(Message, "Warning");
         }
         else if (data == "9") {
-            $scope.errorlist = "Username and/or Password are not active, please verify";
-            toastr.error("Username and/or Password are not active, please verify", "Warning");
+            //$scope.errorlist = "Username and/or Password are not active, please verify";
+            //toastr.error("Username and/or Password are not active, please verify", "Warning");
+
+            $scope.errorlist = "Inactive User Cannot Login";
+            toastr.error("Inactive User Cannot Login", "Warning");
         }
         else if (data == "13") {
             toastr.error("Waiting for approval", "Warning");
@@ -744,8 +808,8 @@ MyCortexControllers.controller("LoginController", ['$scope', '$http', '$routePar
 ]);
 
 /* THIS IS FOR SIGNUP CONTROLLER FUNCTION */
-MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'filterFilter',
-    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff) {
+MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routeParams', '$location', '$rootScope', '$window', '$filter', '$rootScope', '$timeout', 'rememberMe', 'filterFilter','toastr',
+    function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $rootScope, $timeout, $rememberMeService, $ff ,toastr) {
         //Declaration and initialization of Scope Variables.    
         $scope.InstitutionCode = $routeParams.InstitutionCode;
         $scope.InstitutionId = 0;
@@ -762,6 +826,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
         $scope.NationalityId = "0";
         $scope.EmailId = "";
         $scope.MobileNo = "";
+        $scope.MobileNo_CC = "";
         $scope.UserTypeId = 2;
         $scope.NationalityList = [];
         $scope.GenderList = [];
@@ -871,7 +936,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                 });
             }
             else {
-                alert("There is no Institution for this code!!!");
+                //alert("There is no Institution for this code!!!");
+                toastr.info("There is no Institution for this code!!!", "info");
             }
         }).error(function (data) {
             $scope.error = "AN error has occured while Listing the records!" + data;
@@ -947,7 +1013,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             else if (typeof ($scope.LastName) == "undefined" || $scope.LastName == "") {
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     if (masterVal.LANGUAGE_KEY === "pleaseenteravalidlastName") {
-                        alert(masterVal.LANGUAGE_TEXT);
+                        //alert(masterVal.LANGUAGE_TEXT);
+                        toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
                     }
                 });
                 return false;
@@ -957,13 +1024,15 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             //    return false;
             //}
             else if (typeof ($scope.NationalId) == "undefined" || $scope.NationalId == "") {
-                alert("Please enter NationalId.");
+                //alert("Please enter NationalId.");
+                toastr.warning("Please enter NationalId.", "warning");
                 return false;
             }
             else if (typeof ($scope.InsuranceId) == "undefined" || $scope.InsuranceId == "") {
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     if (masterVal.LANGUAGE_KEY === "pleaseenteravalidinsuranceid") {
-                        alert(masterVal.LANGUAGE_TEXT);
+                        //alert(masterVal.LANGUAGE_TEXT);
+                        toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
                     }
                 });
                 return false;
@@ -971,21 +1040,25 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             else if (typeof ($scope.GenderId) == "undefined" || $scope.GenderId == "0") {
                 angular.forEach($scope.rowCollectionLanguageSettings, function (masterVal, masterInd) {
                     if (masterVal.LANGUAGE_KEY === "selectgender") {
-                        alert(masterVal.LANGUAGE_TEXT);
+                        //alert(masterVal.LANGUAGE_TEXT);
+                        toastr.warning(masterVal.LANGUAGE_TEXT, "warning");
                     }
                 });
                 return false;
             }
             else if (typeof ($scope.NationalityId) == "undefined" || $scope.NationalityId == "0") {
-                alert("Please select Nationality");
+                //alert("Please select Nationality");
+                toastr.warning("Please select Nationality", "warning");
                 return false;
             }
             else if (typeof ($scope.DOB) == "undefined" || $scope.DOB == "") {
-                alert("Please select Date of Birth");
+                //alert("Please select Date of Birth");
+                toastr.warning("Please select Date of Birth", "warning");
                 return false;
             } 
             if ((ParseDate($scope.DOB)) > (ParseDate(today))) {
-                alert("DOB Can Be Only select past date");
+                //alert("DOB Can Be Only select past date");
+                toastr.warning("DOB Can Be Only select past date", "warning");
                 $scope.DOB = DateFormatEdit($scope.DOB);
                 return false;
             }
@@ -994,15 +1067,18 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             //    return false;
             //}
             else if (typeof ($scope.EmailId) == "undefined" || $scope.EmailId == "") {
-                alert("Please enter Email");
+                //alert("Please enter Email");
+                toastr.warning("Please enter Email", "warning");
                 return false;
             }
             else if (EmailFormate($scope.EmailId) == false) {
-                alert("Invalid Email format");
+                //alert("Invalid Email format");
+                toastr.warning("Invalid Email format","warning");
                 return false;
             }
             else if (typeof ($scope.MobileNo) == "undefined" || $scope.MobileNo == "") {
-                alert("Please enter Mobile No.");
+                //alert("Please enter Mobile No.");
+                toastr.warning("Please enter Mobile No.", "warning");
                 return false;
             }
             $scope.DOB = DateFormatEdit($scope.DOB);
@@ -1029,6 +1105,8 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             if ($scope.SignupLogin_AddEdit_Validations() == true) {
                 // window.location.href = baseUrl + "/Home/Index#;
                 $("#chatLoaderPV").show();
+                $('#submit').attr("disabled", true);
+                $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
                 var tokendata = "UserName=admin&Password=admin&grant_type=password"
                 $http.post(baseUrl + 'token', tokendata, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = response.access_token;
@@ -1046,7 +1124,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                         NATIONALITY_ID: $scope.NationalityId == 0 ? null : $scope.NationalityId,
                         DOB: $scope.DOB,
                         EMAILID: $scope.EmailId,
-                        MOBILE_NO: $scope.MobileNo,
+                        MOBILE_NO: $scope.MobileNo_CC,
                         UserType_Id: $scope.UserTypeId,
                         ApprovalFlag: 0,
                         MrnPrefix: $scope.PrefixMRN,
@@ -1067,10 +1145,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     $http.post(baseUrl + 'api/User/User_InsertUpdate?Login_Session_Id={00000000-0000-0000-0000-000000000000}', data, config).success(function (data) {
                         $("#chatLoaderPV").hide();
                         if (data.ReturnFlag == 1) {
-                            alert("You have been signed up successfully");
+                            //alert("You have been signed up successfully");
+                            toastr.success("You have been signed up successfully", "success");
+                            $scope.submitted = false;
+                            $('#submit').attr("disabled", false);
                             $scope.CancelSignUpPopup();
                         } else {
-                            alert(data.Message);
+                            //alert(data.Message);
+                            toastr.info(data.Message, "info");
+                            $scope.submitted = false;
+                            $('#submit').attr("disabled", false);
                         }
                         //if ($scope.MenuTypeId == 3) {
                         //    $scope.ListRedirect();
@@ -1078,13 +1162,16 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
                     }).error(function (err) {
                         $("#chatLoaderPV").hide();
                         console.log(err);
-                        alert(err);
-                    });
+                        //alert(err);
+                        toastr.info("err", "info");
+                    }
+                    );
                     //$("#chatLoaderPV").hide();
                 }).error(function (err) {
                     console.log(err);
                     $window.localStorage['dFhNCjOpdzPNNHxx54e+0w=='] = '';
-                    alert('error');
+                    //alert('error');
+                    toastr.info("error", "info");
                 });
             }
         };
@@ -1101,6 +1188,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
             $scope.NationalityId = "0";
             $scope.EmailId = "";
             $scope.MobileNo = "";
+            $scope.MobileNo_CC = "";
             $scope.DOB = "";
             //$scope.HideSignUpModal();
         }
@@ -1140,7 +1228,7 @@ MyCortexControllers.controller("SignupController", ['$scope', '$http', '$routePa
     }
 ]);
 
-MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope', 'toastr', 
+MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$timeout', '$rootScope', '$toastr', 
     function ($scope, $http, $filter, $routeParams, $location, $window, $ff, $timeout, $rootScope, toastr) {
         $scope.fix = parseInt($routeParams.no) / 3;
         $scope.userid = $routeParams.str;
@@ -1226,12 +1314,14 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             }
             //Password policy based validations
             else if (parseInt(('' + $scope.NewPassword).length) < parseInt($scope.Minimum_Length)) {
-                alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                //alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length, "warning");
                 return false;
             }
 
             else if (parseInt(('' + $scope.NewPassword).length) > parseInt($scope.Maximum_Length)) {
-                alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                //alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                toastr.warning("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length, "warning");
                 return false;
             }
             $scope.flag = 0;
@@ -1256,7 +1346,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagchar <= 0) {
-                    alert("Please enter atleast one special character ");
+                    //alert("Please enter atleast one special character ");
+                    toastr.info("Please enter atleast one special character ", "info");
                     return false;
                 }
             }
@@ -1276,7 +1367,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                         var a = $scope.Without_Char.substring(leng, leng + 1);
 
                         if (angular.equals(z, a)) {
-                            alert($scope.Without_Char + "  characters not allowed, please check");
+                            //alert($scope.Without_Char + "  characters not allowed, please check");
+                            toastr.info($scope.Without_Char + "  characters not allowed, please check","info");
                             return false;
                         }
 
@@ -1295,7 +1387,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     }
                 }
                 if ($scope.flag <= 0) {
-                    alert("Please enter atleast one number ");
+                    //alert("Please enter atleast one number ");
+                    toastr.warning("Please enter atleast one number ", "warning");
                     return false;
                 }
             }
@@ -1307,7 +1400,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 var user = $scope.username;
                 var pwd = $scope.NewPassword;
                 if (user == pwd) {
-                    alert("Username and password is same, please check the password");
+                    //alert("Username and password is same, please check the password");
+                    toastr.inf("Username and password is same, please check the password","info");
                     return false;
                 }
 
@@ -1335,7 +1429,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharUpper <= 0) {
-                    alert("Please enter atleast one uppercase letter ");
+                    //alert("Please enter atleast one uppercase letter ");
+                    toastr.info("Please enter atleast one uppercase letter ","info");
                     return false;
                 }
             }
@@ -1362,7 +1457,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharLower <= 0) {
-                    alert("Please enter atleast one lowercase letter ");
+                    //alert("Please enter atleast one lowercase letter ");
+                    toastr.info("Please enter atleast one lowercase letter ","info");
                     return false;
                 }
             }
@@ -1399,12 +1495,14 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
             }
             //Password policy based validations
             else if (parseInt(('' + $scope.NewPassword).length) < parseInt($scope.Minimum_Length)) {
-                alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                //alert("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length);
+                toastr.warning("Your Name Should Contain Minimum Length is " + $scope.Minimum_Length,"warning");
                 return false;
             }
 
             else if (parseInt(('' + $scope.NewPassword).length) > parseInt($scope.Maximum_Length)) {
-                alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                //alert("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length);
+                toastr.warning("Sorry You are Exceeding the Limit is " + $scope.Maximum_Length, "warning");
                 return false;
             }
             $scope.flag = 0;
@@ -1429,7 +1527,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagchar <= 0) {
-                    alert("Please enter atleast one special character ");
+                    //alert("Please enter atleast one special character ");
+                    toastr.info("Please enter atleast one special character ", "info");
                     return false;
                 }
             }
@@ -1468,7 +1567,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     }
                 }
                 if ($scope.flag <= 0) {
-                    alert("Please enter atleast one number ");
+                    //alert("Please enter atleast one number ");
+                    toastr.info("Please enter atleast one number ","info");
                     return false;
                 }
             }
@@ -1480,7 +1580,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 var user = $scope.username;
                 var pwd = $scope.NewPassword;
                 if (user == pwd) {
-                    alert("Username and password is same, please check the password");
+                    //alert("Username and password is same, please check the password");
+                    toastr.warning("Username and password is same, please check the password","warning");
                     return false;
                 }
 
@@ -1508,7 +1609,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharUpper <= 0) {
-                    alert("Please enter atleast one uppercase letter ");
+                    //alert("Please enter atleast one uppercase letter ");
+                    toastr.info("Please enter atleast one uppercase letter ","info");
                     return false;
                 }
             }
@@ -1535,7 +1637,8 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                 }
 
                 if ($scope.flagcharLower <= 0) {
-                    alert("Please enter atleast one lowercase letter ");
+                    //alert("Please enter atleast one lowercase letter ");
+                    toastr.info("Please enter atleast one lowercase letter ","info");
                     return false;
                 }
             }
@@ -1577,11 +1680,15 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                     + '&InstitutionId=' + $scope.InstituteId
                     + '&PageTypeId=' + $scope.PageParameter*/
                     .success(function (data) {
-                        alert(data.Message);
+                        //alert(data.Message);
                         if (data.ReturnFlag == "1") {
+                            toastr.success(data.Message, "success");
                             $scope.ClearPassword();
                             angular.element('#ChangepasswordpopupModal').modal('hide');
                             window.location.href = baseUrl + "/#/login";
+                        }
+                        else if (data.ReturnFlag == "0") {
+                            toastr.info(data.Message, "info");
                         }
                     }).error(function (data) {
                         $scope.error = "Problem in changing the password duplicate!" + data.ExceptionMessage;
@@ -1687,7 +1794,13 @@ MyCortexControllers.controller("PasswordController", ['$scope', '$http', '$filte
                             + '&created_By=' + $window.localStorage['UserId']
                             + '&EmailId=""'
                             + '&InstitutionId=' + $window.localStorage['InstitutionId']).success(function (data) {
-                                alert(data.Message);
+                                //alert(data.Message);
+                                if (data.ReturnFlag == "1") {
+                                    toastr.success(data.Message, "success");
+                                }
+                                else if (data.ReturnFlag == "0") {
+                                    toastr.info(data.Message, "info");
+                                }
                                 $('#btn-signup').attr("disabled", false);
                                 $scope.ClearPassword();
                                 $("#chatLoaderPV").hide();

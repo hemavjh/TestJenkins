@@ -260,7 +260,7 @@
                    </td>
                     <td style="text-align: left">{{row.FullName}}</td>
                   <td style="text-align: left">{{row.MRN_NO}}</td>
-                  <td style="text-align: left">{{row.Mobile_No}}</td>
+                  <td style="text-align: left"><!--{{row.Mobile_No}}-->{{splitMobileNumber(row.Mobile_No,1)}}</td>
                          <td style="text-align: left">{{row.EmailId}}</td>     
                   <td style="text-align: left">{{row.Approval_Flag==2?null:row.PendingSince}}
                       &nbsp;&nbsp;&nbsp;&nbsp;
