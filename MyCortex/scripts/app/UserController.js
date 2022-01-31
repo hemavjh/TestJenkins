@@ -718,6 +718,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             angular.element('#UserViewModel').modal('hide');
             angular.element('#PatientCreateModal').modal('hide');
             angular.element('#PatientViewModel').modal('hide');
+            InstSub.setSubID(0);
+            InstSub.setInstiID(0);
             $scope.ClearPopUp();
         }
 
