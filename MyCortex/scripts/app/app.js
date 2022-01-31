@@ -440,6 +440,13 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
     var _responseError = function (rejection) {
         if (rejection.status === 401) {
             //$location.path('/login');
+            var UserId = $window.localStorage['UserId'];
+            var SessionId = $window.localStorage['Login_Session_Id'];
+            $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                console.log(data);
+                //if (data["Status"]) {    
+                //}
+            });
             $window.location.href = baseUrl + "/Home/LoginIndex#/";
         }
         return $q.reject(rejection);
@@ -537,11 +544,25 @@ EmpApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, 
         }).then((result) => {
             if (result.value) {
                 $window.localStorage['inactivity_logout'] = 1;
+                var UserId = $window.localStorage['UserId'];
+                var SessionId = $window.localStorage['Login_Session_Id'];
+                $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                console.log(data);
+                //if (data["Status"]) {
+                //}
+            });
                 $window.location.href = baseUrl + "/Home/LoginIndex#/";
             } else {
                 if (result.dismiss) {
                     if (result.dismiss === swal.DismissReason.timer) {
                         $window.localStorage['inactivity_logout'] = 1;
+                        var UserId = $window.localStorage['UserId'];
+                        var SessionId = $window.localStorage['Login_Session_Id'];
+                        $.get(baseUrl + "/api/Login/User_Logout?UserId=" + UserId + "&Login_Session_Id=" + SessionId, function (data, Status) {
+                            console.log(data);
+                            //if (data["Status"]) {;
+                            //}
+                        });
                         $window.location.href = baseUrl + "/Home/LoginIndex#/";
                     } else {
                         timeLeft = 60;
