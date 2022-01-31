@@ -7,7 +7,7 @@
 
 <div class="lds-ripple" id="chatLoaderPV" style="display: none;z-index:10000"><div></div><div></div></div>
 <div class="row" ng-init="PatientListFunction(1);currentTab='1'">
-    <div class="col-md-12">
+    <div class="col-md-12" style="padding:7px">
         <h1 class="title1">All Patients</h1>
         <div class="panel panel-default panel-info" id="Div1">
             <form role="form" class="panel-body">
@@ -212,19 +212,19 @@
                         <img class="patientDetimg" src="{{'data:image/png;base64,'+ row.PhotoBlob}}" />
                     </div>
                     <h1><span class="spanwrap">{{row.PatientName}}</span></h1>
-                    <div class="cardViewDetails">
+                    <div class="cardViewDetails" >
                         <label>MRN</label>
-                        <span>{{row.MRN_NO}}</span>
+                        <span style=" word-wrap: break-word;">{{row.MRN_NO}}</span>
                     </div>
                     <div class="cardViewDetails">
-                        <label>Smoker</label>
-                        <span>{{row.Smoker_Option!=''?'Yes':'UnKnown'}}</span>
+                        <label style="margin-left:10px">Smoker</label>
+                        <span style="margin-left:10px">{{row.Smoker_Option!=''?'Yes':'UnKnown'}}</span>
                     </div>
-                    <div class="cardViewDetails">
+                    <div class="cardViewDetails" style="margin-right:10px">
                         <label>Diabetic</label>
                         <span>{{row.Diabetic_Option==''?'Unknown':row.Diabetic_Option}}</span>
                     </div>
-                    <div class="cardViewDetails">
+                    <div class="cardViewDetails" style="margin-right:-10px">
                         <label>Hypertension</label>
                         <span>{{row.HyperTension_Option==''?'Unknown':row.HyperTension_Option}}</span>
                     </div>

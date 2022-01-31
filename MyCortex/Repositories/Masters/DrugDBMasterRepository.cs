@@ -105,7 +105,7 @@ namespace MyCortex.Repositories.Masters
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
 
             try
-            {
+            {//DRUGDBMASTER_SP_LIST
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].DRUGDBMASTER_SP_LIST", param);
                 List<DrugDBMasterModel> lst = (from p in dt.AsEnumerable()
                                                select new DrugDBMasterModel()

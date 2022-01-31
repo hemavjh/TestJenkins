@@ -18,7 +18,7 @@ namespace MyCortex.Repositories
         IList<EmailListModel> NewDataCapturedEvent(long Institution_Id, long Entity_Id);
         IList<EmailListModel> Patient_MoreInfo_AlertEvent(long Institution_Id, long Entity_Id);
         IList<EmailListModel> Patient_SignUp_HosAdmin_AlertEvent(long Institution_Id, long Entity_Id);
-        IList<EmailListModel> Patient_AppointmentCreation_AlertEvent(long Institution_Id, long Entity_Id);
+        IList<EmailListModel> Patient_AppointmentCreation_AlertEvent(long Institution_Id, long Entity_Id,string CGtype=null);
         IList<EmailListModel> Patient_Appointment_Cancel_AlertEvent(long Institution_Id, long Entity_Id);
         IList<EmailListModel> CG_Assign_AlertEvent(long Entity_Id);
         IList<EmailListModel> AppointmentRemainder_ForDoctor(long Institution_Id, long Entity_Id);

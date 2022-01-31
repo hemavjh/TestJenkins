@@ -62,16 +62,16 @@
                 <thead>
                     <tr style="text-align: center">
                         <th st-ratio="3">#</th>
-                        <th st-ratio="10" st-sort="PayorName">SelectedPayor</th>
-                        <th st-ratio="10" st-sort="PlanName">PlanName</th>
-                        <th st-ratio="8" st-sort="ShortCode">ShortCode</th>
+                        <th st-ratio="10" st-sort="PayorName">Selected Payor</th>
+                        <th st-ratio="10" st-sort="PlanName">Plan Name</th>
+                        <th st-ratio="8" st-sort="ShortCode">Short Code</th>
                         <th st-ratio="10" st-sort="Description">Description</th>
-                        <th st-ratio="10" st-sort="PackageName">PackageName</th>
-                        <th st-ratio="10" st-sort="FinancialClass">FinancialClass</th>
-                        <th st-ratio="8" st-sort="PriceCode">PriceCode</th>
-                        <th st-ratio="8" st-sort="ReferCode">ReferCode</th>
-                        <th st-ratio="8" st-sort="ValidFromDate">ValidFromDate</th>
-                        <th st-ratio="8" st-sort="ValidToDate">ValidToDate</th>
+                        <th st-ratio="10" st-sort="PackageName">Package Name</th>
+                        <th st-ratio="10" st-sort="FinancialClass">Financial Class</th>
+                        <th st-ratio="8" st-sort="PriceCode">Price Code</th>
+                        <th st-ratio="8" st-sort="ReferCode">Refer Code</th>
+                        <th st-ratio="8" st-sort="ValidFromDate">Valid From Date</th>
+                        <th st-ratio="8" st-sort="ValidToDate">Valid To Date</th>
                         <th st-ratio="6">Action</th>
                     </tr>
                 </thead>
@@ -157,7 +157,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="inputGroups">
-                        <label>Selected PayorName<sup><font class='mandatory-field'>*</font></sup></label>
+                        <label>Selected Payor Name<sup><font class='mandatory-field'>*</font></sup></label>
                        
                             <select class="form-control" data-style="form-control" id="SelectedPayor"
                                     data-live-search="true" data-selectpicker data-collection-name="SelectedPayorList"
@@ -171,11 +171,11 @@
                         
                     </div>
                     <div class="inputGroups">
-                        <label>PlanName<sup><font class='mandatory-field'>*</font></sup></label>
+                        <label>Plan Name<sup><font class='mandatory-field'>*</font></sup></label>
                         <input type="text" class="form-control" id="PlanName" name="PlanName" ng-model="PlanName" ng-init="PlanName=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
-                        <label>ShortCode<sup><font class='mandatory-field'>*</font></sup></label>
+                        <label>Short Code<sup><font class='mandatory-field'>*</font></sup></label>
                         <input type="text" class="form-control" id="ShortCode" name="ShortCode" ng-model="ShortCode" ng-init="ShortCode=''" placeholder="" ng-maxlength="100" maxlength="100" onkeypress="" required />
                     </div>
                     <div class="inputGroups">
@@ -200,7 +200,7 @@
                     </div>
                     <div class="inputGroups">
                         <div class="col-xs-11 input-group date">
-                            <label>ValidFromDate<sup><font class='mandatory-field'>*</font></sup></label>
+                            <label>Valid From Date<sup><font class='mandatory-field'>*</font></sup></label>
 
                            
                                 <input type="date" class="form-control" ng-model="ValidFromDate" id="ValidFromDate" 
@@ -209,7 +209,7 @@
                         </div>
                         <div class="inputGroups">
                             <div class="col-xs-11 input-group date">
-                                <label>ValidToDate<sup><font class='mandatory-field'>*</font></sup></label>
+                                <label>Valid To Date<sup><font class='mandatory-field'>*</font></sup></label>
                                
                                     <input type="date" class="form-control" ng-model="ValidToDate" id="ValidToDate" 
                                            ng-init="ValidToDate=''" style="width:190px" ng-required="true">
