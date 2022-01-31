@@ -78,7 +78,7 @@ namespace MyCortex.Repositories.EmailAlert
                     DataTable Result_dt = ClsDataBase.GetDataTable("[MYCORTEX].[TEMPLATE_RESULTLIST]", Result_param);
 
                     //Replaced Process
-                    foreach (DataRow dtRow in Result_dt.Rows)
+                     foreach (DataRow dtRow in Result_dt.Rows)
                     {
                         List<DataParameter> param2 = new List<DataParameter>();
                         param2.Add(new DataParameter("@TemplateType_Id", Template_Id));
@@ -91,9 +91,31 @@ namespace MyCortex.Repositories.EmailAlert
                             FieldName = dtRow1["FieldName"].ToString();
                             EncryptFlag = int.Parse(dtRow1["ENCRYPT_FLAG"].ToString());
                             TagsReplaceData = dtRow[FieldName].ToString();
+
                             if (EncryptFlag == 1)
                             {
-                                TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
+                                if (TagsReplaceData.Contains(","))
+                                {
+                                    string[] cgList = TagsReplaceData.Split(',');
+                                    TagsReplaceData = "";
+                                    foreach ( string cg in cgList)
+                                    {
+                                        string cgs = DecryptFields.Decrypt(cg);
+                                        if (TagsReplaceData == "")
+                                        {
+                                            TagsReplaceData = cgs;
+                                        }
+                                        else
+                                        {
+                                            TagsReplaceData = TagsReplaceData + "," + cgs;
+                                        }
+                                        
+                                    }
+                                }
+                                else
+                                {
+                                    TagsReplaceData = DecryptFields.Decrypt(TagsReplaceData);
+                                }
                             }
                             Template = FinalResult.Replace(TagName, TagsReplaceData);
                             if (TemplateType_Id == 3)
@@ -367,7 +389,7 @@ namespace MyCortex.Repositories.EmailAlert
                 return null;
             }
         }
-        public IList<EmailListModel> Patient_AppointmentCreation_AlertEvent(long Institution_Id, long Entity_Id)
+        public IList<EmailListModel> Patient_AppointmentCreation_AlertEvent(long Institution_Id, long Entity_Id,string CGtype=null)
         {
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -376,6 +398,7 @@ namespace MyCortex.Repositories.EmailAlert
                 DataEncryption DecryptFields = new DataEncryption();
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
                 param.Add(new DataParameter("@Entity_Id", Entity_Id));
+                param.Add(new DataParameter("@CG_type", CGtype));
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[ALERTEVENT_SP_PATIENT_APPOINTMENTCREATION_GETEMAIL]", param);
                 List<EmailListModel> lst = (from p in dt.AsEnumerable()
                                             select new EmailListModel()
