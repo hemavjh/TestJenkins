@@ -74,7 +74,6 @@ namespace MyCortex.Repositories.User
         /// <returns>Populated List of AppoinmentSlot list Details DataTable</returns>
         public IList<AppoinmentSlotModel> AppoinmentSlot_List(int? IsActive, long Institution_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
@@ -88,7 +87,7 @@ namespace MyCortex.Repositories.User
                                                       Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                       Institution_Name = p.Field<string>("INSTITUTION_NAME"),
                                                       Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                                      Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                      Doctor_Name = p.Field<string>("DOCTORNAME"),
                                                      // Appoinment_Hours = p.Field<int>("APPOINMENTHOURS"),
                                                       Appoinment_Minutes = p.Field<decimal>("APPOINMENTMINUTES"),
                                                       FollowUp_Appoinment = p.Field<decimal>("FOLLOWUPAPPOINMENT"),
@@ -116,7 +115,6 @@ namespace MyCortex.Repositories.User
         /// <returns>Populated a AppoinmentSlot Details DataTable </returns>
         public AppoinmentSlotModel AppoinmentSlot_View(long Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             try
@@ -130,7 +128,7 @@ namespace MyCortex.Repositories.User
                                                Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                Institution_Name = p.Field<string>("INSTITUTION_NAME"),
                                                Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                               Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                               Doctor_Name = p.Field<string>("DOCTORNAME"),
                                              //  Appoinment_Hours = p.Field<int>("APPOINMENTHOURS"),
                                                Appoinment_Minutes = p.Field<decimal>("APPOINMENTMINUTES"),
                                                FollowUp_Appoinment = p.Field<decimal>("FOLLOWUPAPPOINMENT"),
@@ -231,7 +229,6 @@ namespace MyCortex.Repositories.User
         /// <returns>Populated List of Doctor list Details DataTable</returns>
         public IList<DoctorAppoinmentSlotModel> Doctors_List(long? Institution_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             try
@@ -241,11 +238,11 @@ namespace MyCortex.Repositories.User
                                                         select new DoctorAppoinmentSlotModel()
                                                   {
                                                       Id = p.Field<long>("ID"),
-                                                      FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                      FullName = p.Field<string>("FULLNAME"),
                                                       Department_Name = p.Field<string>("DEPARTMENT_NAME"),
                                                       NameSpecialization = p.Field<string>("NAMESPECIALIZATION"),
                                                       ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
-                                                      EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                      EmailId = p.Field<string>("EMAILID"),
                                                       TypeName = p.Field<string>("TYPENAME"),
                                                       IsActive = p.Field<int>("ISACTIVE")
                                                   }).ToList();

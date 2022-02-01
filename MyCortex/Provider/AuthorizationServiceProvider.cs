@@ -30,7 +30,6 @@ namespace MyCortex.Provider
         {
             string message = string.Empty;
             LoginModel model = new LoginModel();
-            DataEncryption EncryptPassword = new DataEncryption();
           
            
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
@@ -53,8 +52,8 @@ namespace MyCortex.Provider
                 }
                 else
                 {
-                    uname = EncryptPassword.Encrypt(context.UserName);
-                    pwd = EncryptPassword.Encrypt(context.Password);
+                    uname = context.UserName;
+                    pwd = context.Password;
                 }
                 if(context.Password != "admin")
                 {
