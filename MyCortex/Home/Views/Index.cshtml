@@ -329,29 +329,49 @@
                         <div id="patient_profile" class="patientHeaderProfile" style="display: none;">
                             <p id="fullname" style="margin-left: -68px;margin-left: -220px;margin-bottom: -52px;padding-bottom: 10px;">{{fullname}}</p>
                             <i style="margin-bottom: -54px;padding-bottom: 10px;" class="fas fa-chevron-down"></i>
-                            <div class="patientHeaderProfileDetails" style="word-wrap: break-word;display:none" >
+                            <div class="patientHeaderProfileDetails" style="width:50%; word-break:break-word; display:none">
                                 <div>
                                     <img class="responsiveProfileImage" id="imgSrc" src="{{imgSrc}}">
-                                    <p onclick=" ViewProfile()">
-                                        <span>USER TYPE</span>
-                                        <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
-                                        <i class="far fa-id-badge" style="color:#4285f4"></i>
-                                    </p>
-                                    <p onclick=" ViewProfile()">
-                                        <span>National Id</span>
-                                        <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
-                                        <i class="far fa-address-card" style="color: #ea4335" ></i>
-                                    </p>
-                                    <p onclick=" ViewProfile()">
-                                        <span>Phone</span>
-                                        <span id="MOBILE_NO">+{{MOBILE_NO}}</span>
-                                        <i class="fas fa-mobile-alt" style="color:#fbbc05"></i>
-                                    </p>
-                                    <p onclick=" ViewProfile()">
-                                        <span>DOB</span>
-                                        <span id="DOB">{{DOB}}</span>
-                                        <i class="far fa-calendar-alt" style="color:#34a853"></i>
-                                    </p>
+                                     <table style="width:110%">
+                                         <tbody>
+                                            <tr>
+                                                <td style="width:80%">
+                                                    <p onclick=" ViewProfile()">
+                                                        <span>USER TYPE</span> 
+                                                        <span id="USERTYPE_ID">{{USERTYPE_ID}}</span>
+                                                    </p>
+                                                </td>
+                                                <td style="width:3px"><i class="far fa-id-badge" style="color:#4285f4"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:80%;">
+                                                    <p onclick=" ViewProfile()">
+                                                        <span>NATIONAL ID</span> 
+                                                        <span id="NATIONALITY_ID">{{NATIONALITY_ID}}</span>
+                                                    </p>
+                                                </td>
+                                                <td style="width:3px"><i class="far fa-address-card" style="color: #ea4335"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:80%">
+                                                    <p onclick=" ViewProfile()">
+                                                        <span>Phone</span> 
+                                                        <span id="MOBILE_NO">{{MOBILE_NO}}</span>
+                                                    </p>
+                                                </td>
+                                                <td style="width:3px"><i class="fas fa-mobile-alt" style="color:#fbbc05"></i></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:80%">
+                                                    <p onclick=" ViewProfile()">
+                                                        <span>DOB</span> 
+                                                        <span id="DOB">{{DOB}}</span>
+                                                    </p>
+                                                </td>
+                                                <td style="width:3px"><i class="far fa-calendar-alt" style="color:#34a853"></i></td>
+                                            </tr>
+                                         </tbody>
+                                     </table>
                                 </div>
                             </div>
                         </div>
@@ -1171,7 +1191,7 @@
                 //Swal.fire('Changes are not saved', '', 'info')
             }
         })
-        
+
         //$('#colorSetting').modal('hide');
         //alert('after close again make api to get new values');
         //applyStyle();
