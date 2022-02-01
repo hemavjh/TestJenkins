@@ -105,10 +105,14 @@
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
             <!--<td style="text-align: left"><div class="textwrap">{{row.Institution_Name}}</div></td>-->
             <td style="text-align: left">
-                <div class="textwrap">{{row.TemplateName}}</div>
+                <div class="textwrap" style="word-break: break-word;max-width: 494px;">
+                    <!--{{row.TemplateName}}-->
+                    {{ row.TemplateName.length > 100 ? row.TemplateName.substring(0,100)+ "..." : row.TemplateName}}
+                </div>
             </td>
-            <td style="text-align: left">
-                {{row.EmailSubject}}
+            <td style="text-align: left; word-break: break-word;max-width: 494px;">
+                <!-- {{row.EmailSubject}}-->
+                {{ row.EmailSubject.length > 100 ? row.EmailSubject.substring(0,100)+ "..." : row.EmailSubject}}
             </td>
             <td style="text-align: left">
                 <div>
@@ -260,7 +264,7 @@
                             </div>
                             <div class="inputGroups">
                                 <label>SMS Subject</label>
-                                <span>{{EmailSubject}}</span>
+                                <span style="word-break:break-word">{{EmailSubject}}</span>
                             </div>
                             <div class="inputGroups">
                                 <label>SMS Template</label>

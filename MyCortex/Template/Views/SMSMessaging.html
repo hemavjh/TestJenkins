@@ -250,8 +250,9 @@
                 <td style="text-align: center">
                     <input type="checkbox" ng-model="row.SelectedUser" />
                 </td>
-                <td style="text-align: left" title="{{row.FullName}}">
-                    {{row.UserName}}
+                <td style="text-align: left;word-break:break-word" title="{{row.FullName}}">
+                    <!-- {{row.UserName}}-->
+                    {{ row.UserName.length > 100 ? row.UserName.substring(0,100)+ "..." : row.UserName}}
                 </td>
                 <td style="text-align: left" title="{{row.UserType}}">
                     {{row.UserType}}
