@@ -1422,14 +1422,16 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 '&Group_Id=' + $scope.filter_GroupId + '&IsActive=' + $scope.ActiveStatus + '&INSTITUTION_ID=' + $window.localStorage['InstitutionId'] + '&StartRowNumber=' + $scope.PageStart +
                 '&EndRowNumber=' + $scope.PageEnd + '&SearchQuery=' + $scope.searchquery + '&SearchEncryptedQuery=' + $scope.SearchEncryptedQuery).success(function (data) {
                     $("#chatLoaderPV").hide();
-                    if (data.length == 0) {
-                        $scope.SearchMsg = "No Data Available";
-                    }
                     $scope.Patientemptydata = [];
                     $scope.PatientList = [];
                     $scope.PatientList = data;
                     $scope.Patientemptydata = data;
-                    $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                    if (data.length == 0) {
+                        $scope.SearchMsg = "No Data Available";
+                        $scope.PatientCount = 0;
+                    } else {
+                        $scope.PatientCount = $scope.PatientList[0].TotalRecord;
+                    }
                     $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
 
 

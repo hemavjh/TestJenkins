@@ -39,7 +39,6 @@ namespace MyCortex.Repositories.Uesr
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataEncryption decrypt = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENTS_SP_LIST_BASEDON_DATE]", param);
                 List<PatientAppointmentsModel> lst = (from p in dt.AsEnumerable()
@@ -48,10 +47,10 @@ namespace MyCortex.Repositories.Uesr
                                                           Patient_Id = p.Field<long>("PATIENT_ID"),
                                                           Appointment_FromTime = p.Field<DateTime>("APPOINTMENT_FROMTIME"),
                                                           Appointment_ToTime = p.Field<DateTime>("APPOINTMENT_TOTIME"),
-                                                          PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                          PatientName = p.Field<string>("PatientName"),
                                                           Id = p.Field<long>("Id"),
                                                           ReasonForVisit = p.Field<string>("REASONFOR_VISIT"),
-                                                          MRN_No = DecryptFields.Decrypt(p.Field<string>("MRN_NO")),
+                                                          MRN_No = p.Field<string>("MRN_NO"),
                                                           Photo = p.Field<string>("PHOTO_NAME"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                           Smoker = p.Field<string>("Smoker"),
@@ -77,7 +76,6 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Cancel_Remarks", obj.Cancelled_Remarks));
             param.Add(new DataParameter("@ReasonTypeId", obj.ReasonTypeId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            DataEncryption DecryptFields = new DataEncryption();
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[PATIENTAPPOINTMENT_SP_UPDATE_CANCELLEDAPPOINTMENT]", param);
             PatientAppointmentsModel insert = (from p in dt.AsEnumerable()
                                                select
@@ -87,10 +85,10 @@ namespace MyCortex.Repositories.Uesr
                                                    flag = p.Field<int>("flag"),
                                                    Patient_Id = p.Field<long>("PATIENT_ID"),
                                                    Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                                   DoctorName = DecryptFields.Decrypt(p.Field<string>("DoctorName")),
-                                                   PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                   DoctorName = p.Field<string>("DoctorName"),
+                                                   PatientName = p.Field<string>("PatientName"),
                                                    Status = p.Field<int>("Status"),
-                                                   Cancelled_By = DecryptFields.Decrypt(p.Field<string>("Cancelled_Name")),
+                                                   Cancelled_By = p.Field<string>("Cancelled_Name"),
                                                    Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
                                                    Cancelled_Date = p.Field<DateTime>("CANCELED_DATE"),
                                                    Institution_Id= p.Field<long>("INSTITUTION_ID"),
@@ -209,7 +207,6 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@Page_Type", obj.Page_Type));
             param.Add(new DataParameter("@TIMEZONE_ID", obj.TimeZone_Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
-            DataEncryption DecryptFields = new DataEncryption();
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENTAPPOINTMENT_SP_UPDATE_RESCHEDULEAPPOINTMENT", param);
             DataRow dr = dt.Rows[0];
             flag = (dr["flag"].ToString());
@@ -233,10 +230,10 @@ namespace MyCortex.Repositories.Uesr
                                                        flag = p.Field<int>("flag"),
                                                        Patient_Id = p.Field<long>("PATIENT_ID"),
                                                        Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                                       DoctorName = DecryptFields.Decrypt(p.Field<string>("DoctorName")),
-                                                       PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                       DoctorName = p.Field<string>("DoctorName"),
+                                                       PatientName = p.Field<string>("PatientName"),
                                                        Status = p.Field<int>("Status"),
-                                                       Cancelled_By = DecryptFields.Decrypt(p.Field<string>("Cancelled_Name")),
+                                                       Cancelled_By = p.Field<string>("Cancelled_Name"),
                                                        Cancelled_Remarks = p.Field<string>("CANCEL_REMARKS"),
                                                        Cancelled_Date = p.Field<DateTime>("CANCELED_DATE"),
                                                        Institution_Id = p.Field<long>("INSTITUTION_ID"),
@@ -271,7 +268,7 @@ namespace MyCortex.Repositories.Uesr
                                                       select new PatientAppointmentsModel()
                                                       {
                                                           Doctor_Id = p.Field<long>("ID"),
-                                                          DoctorName = decrypt.Decrypt(p.Field<string>("FULLNAME")),
+                                                          DoctorName = p.Field<string>("FULLNAME"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
                                                           // Name_Specialization = p.Field<string>("NAMESPECIALIZATION"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
@@ -300,7 +297,7 @@ namespace MyCortex.Repositories.Uesr
                                                       select new PatientAppointmentsModel()
                                                       {
                                                           Doctor_Id = p.Field<long>("ID"),
-                                                          DoctorName = decrypt.Decrypt(p.Field<string>("FULLNAME")),
+                                                          DoctorName = p.Field<string>("FULLNAME"),
                                                           Doctor_DepartmentName = p.Field<string>("DEPARTMENT_NAME"),
                                                           // Name_Specialization = p.Field<string>("NAMESPECIALIZATION"),
                                                           PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
@@ -346,7 +343,6 @@ namespace MyCortex.Repositories.Uesr
 
         public IList<ScheduledDaysListModel> GetScheduledDates(Guid Login_Session_Id, long InstitutionId)
         {
-            DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
@@ -374,7 +370,6 @@ namespace MyCortex.Repositories.Uesr
 
         public IList<DoctorAppointmentTimeSlotModel> GetAppointmentTimeSlots(long DoctorId,DateTime Date, int IsNew, Guid Login_Session_Id, long TimeZoneId, long Institution_Id)
         {
-            DataEncryption decrypt = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@DOCTORID", DoctorId));
             param.Add(new DataParameter("@DATE", Date));

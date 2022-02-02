@@ -44,17 +44,16 @@ namespace MyCortex.Repositories.User
         /// <returns></returns>
         public IList<CareCoordinatorModel> CareCoordinator_PatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId)  
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Coordinator_Id", Coordinator_Id));
-            param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
-            param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
+            param.Add(new DataParameter("@PatientNo", PATIENTNO));
+            param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
             param.Add(new DataParameter("@GenderId", GENDER_ID));
             param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
             param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
-            param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
+            param.Add(new DataParameter("@MobileNo", MOBILE_NO));
             param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-            param.Add(new DataParameter("@Email", EncryptPassword.Encrypt(EMAILID==null?null:EMAILID.ToLower())));
+            param.Add(new DataParameter("@Email", EMAILID==null?null:EMAILID.ToLower()));
             param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
             param.Add(new DataParameter("@CountryId", COUNTRY_ID));
             param.Add(new DataParameter("@StateId", STATE_ID));
@@ -65,7 +64,6 @@ namespace MyCortex.Repositories.User
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataEncryption decrypt = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (TypeId == 1)
@@ -80,10 +78,10 @@ namespace MyCortex.Repositories.User
                                                   select new CareCoordinatorModel()
                                                   {
                                                       Id = p.Field<long>("Id"),
-                                                      MRN_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")),
-                                                      PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
-                                                      FirstName = DecryptFields.Decrypt(p.Field<string>("FirstName")),
-                                                      LastName = DecryptFields.Decrypt(p.Field<string>("LastName")),
+                                                      MRN_NO = p.Field<string>("MRN_NO"),
+                                                      PatientName = p.Field<string>("PatientName"),
+                                                      FirstName = p.Field<string>("FirstName"),
+                                                      LastName = p.Field<string>("LastName"),
                                                       Photo = p.Field<string>("PHOTO_NAME"),
                                                       HighCount = p.Field<int>("HighCount"),
                                                       MediumCount = p.Field<int>("MediumCount"),
@@ -115,14 +113,13 @@ namespace MyCortex.Repositories.User
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CAREGIVER_SP_LIST_BASEDONGROUP]", param);
 
                 List<CareGiverListModel> lst = (from p in dt.AsEnumerable()
                                                 select new CareGiverListModel()
                                                 {
                                                     Id = p.Field<long>("Id"),
-                                                    Name = DecryptFields.Decrypt(p.Field<string>("FullName"))
+                                                    Name = p.Field<string>("FullName")
                                                 }).ToList();
                 return lst;
             }
@@ -150,7 +147,6 @@ namespace MyCortex.Repositories.User
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].CAREGIVER_SP_ASSIGN", param);
 
                 List<AssignCareGiverModel> insert = (from p in dt.AsEnumerable()
@@ -162,9 +158,9 @@ namespace MyCortex.Repositories.User
                                                    Coordinator_Id = p.Field<long>("COORDINATOR_ID"),
                                                    Patient_Id = p.Field<long>("PATIENT_ID"),
                                                    CC_Remarks = p.Field<string>("CC_REMARKS"),
-                                                   PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
-                                                   Coordinator = DecryptFields.Decrypt(p.Field<string>("Coordinator")),
-                                                   CareGiver = DecryptFields.Decrypt(p.Field<string>("CareGiver")),
+                                                   PatientName = p.Field<string>("PatientName"),
+                                                   Coordinator = p.Field<string>("Coordinator"),
+                                                   CareGiver = p.Field<string>("CareGiver"),
                                                }).ToList();
 
                 return insert;
@@ -188,7 +184,6 @@ namespace MyCortex.Repositories.User
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = new DataTable();
                 if (UserTypeId == 6)
                 {
@@ -203,7 +198,7 @@ namespace MyCortex.Repositories.User
                                                      select new GetParameterValueModel()
                                                      {
                                                          Id = p.Field<long>("Id"),
-                                                         PatientName = DecryptFields.Decrypt(p.Field<string>("PatientName")),
+                                                         PatientName = p.Field<string>("PatientName"),
                                                          HighCount = p.Field<int>("HighCount"),
                                                          MediumCount = p.Field<int>("MediumCount"),
                                                          LowCount = p.Field<int>("LowCount"),
@@ -215,7 +210,7 @@ namespace MyCortex.Repositories.User
                                                          Activity_Date = p.Field<DateTime?>("ACTIVITY_DATE"),
                                                          DeviceType = p.Field<string>("DEVICETYPE"),
                                                          Device_No = p.Field<string>("DEVICE_NO"),
-                                                         FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                         FullName = p.Field<string>("FULLNAME"),
                                                          TypeName = p.Field<string>("TYPENAME"),
                                                          Createdby_ShortName = p.Field<string>("CREATEDBY_SHORTNAME"),
                                                          Com_DurationType = p.Field<string>("DurationType"),
@@ -295,7 +290,6 @@ namespace MyCortex.Repositories.User
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ASSIGNCAREGIVERHISTORY_SP_VIEW", param);
 
                 List<AssignCareGiverModel> lst = (from p in dt.AsEnumerable()
@@ -310,10 +304,10 @@ namespace MyCortex.Repositories.User
                                                     CG_Assign_Status = p.Field<int>("CG_ASSIGN_STATUS"),
                                                     Appoinment_Id_Ref = p.Field<long?>("APPOINTMENT_ID_REF"),
                                                     CG_Remarks = p.Field<string>("CG_REMARKS"),
-                                                    PatientName = DecryptFields.Decrypt(p.Field<string>("PATIENTNAME")),
-                                                    Coordinator = DecryptFields.Decrypt(p.Field<string>("COORDINATORNAME")),
-                                                    Createdbyname = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
-                                                    CareGiver = DecryptFields.Decrypt(p.Field<string>("CAREGIVERNAME")),
+                                                    PatientName = p.Field<string>("PATIENTNAME"),
+                                                    Coordinator = p.Field<string>("COORDINATORNAME"),
+                                                    Createdbyname = p.Field<string>("CREATEDBYNAME"),
+                                                    CareGiver = p.Field<string>("CAREGIVERNAME"),
                                                     PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                     Created_dt = p.Field<DateTime>("CREATED_DT")
                                                 }).ToList();

@@ -108,36 +108,34 @@ namespace MyCortex.Repositories.Template
         /// <returns></returns>
         public IList<SendEmailModel> Get_SendEmail_UserList(string UserTypeId, long Institution_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id)
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
             {
                 param.Add(new DataParameter("@UserTypeId", UserTypeId));
                 param.Add(new DataParameter("@Institution_Id", Institution_Id));
-                param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
-                param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
+                param.Add(new DataParameter("@PatientNo", PATIENTNO));
+                param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
                 param.Add(new DataParameter("@GenderId", GENDER_ID));
                 param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
                 param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
-                param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
+                param.Add(new DataParameter("@MobileNo", MOBILE_NO));
                 param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-                param.Add(new DataParameter("@Email", EncryptPassword.Encrypt(EMAILID)));
+                param.Add(new DataParameter("@Email", EMAILID));
                 param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
                 param.Add(new DataParameter("@CountryId", COUNTRY_ID));
                 param.Add(new DataParameter("@StateId", STATE_ID));
                 param.Add(new DataParameter("@CityId", CITY_ID));
                 param.Add(new DataParameter("@BloodGroupId", BLOODGROUP_ID));
                 param.Add(new DataParameter("@GroupId", Group_Id));
-                DataEncryption DecryptFields = new DataEncryption();
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[SENDEMAIL_SP_USERLIST]", param);
                 List<SendEmailModel> list = (from p in dt.AsEnumerable()
                                              select new SendEmailModel()
                                              {
                                                  Id = p.Field<long>("ID"),
-                                                 UserName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
-                                                 EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
-                                                 MobileNO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")), 
+                                                 UserName = p.Field<string>("FULLNAME"),
+                                                 EmailId = p.Field<string>("EMAILID"),
+                                                 MobileNO = p.Field<string>("MOBILE_NO"), 
                                                  UserType = p.Field<string>("UserType"),
                                                  IsActive = p.Field<int>("ISACTIVE")
                                              }).ToList();
@@ -171,7 +169,6 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@EMAIL_SUBJECT", obj.Email_Subject));
                 param.Add(new DataParameter("@CREATED_BY", obj.Created_By));
                 {
-                    DataEncryption DecryptFields = new DataEncryption();
                     DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_INSERTUPDATE ", param);
                     IList<SendEmailModel> list = (from p in dt.AsEnumerable()
                                                   select new SendEmailModel()
@@ -182,7 +179,7 @@ namespace MyCortex.Repositories.Template
                                                       //Email_Body = p.Field<string>("EMAIL_BODY"),
                                                       Email_Subject = p.Field<string>("EMAIL_SUBJECT"),
                                                       Template_Id = p.Field<long>("TEMPLATE_ID"),
-                                                      UserName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                      UserName = p.Field<string>("FULLNAME"),
                                                       Created_By = p.Field<long>("CREATED_BY"),
                                                       flag = p.Field<int>("FLAG"),
                                                       Send_Date = p.Field<DateTime>("SEND_DATE"),
@@ -206,7 +203,6 @@ namespace MyCortex.Repositories.Template
             {
                 param.Add(new DataParameter("@ID", obj.UserId));
                 {
-                    DataEncryption DecryptFields = new DataEncryption();
                     DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SENDEMAIL_RESENDLISTING", param);
                     IList<SendEmailModel> list = (from p in dt.AsEnumerable()
                                                   select new SendEmailModel()
@@ -216,7 +212,7 @@ namespace MyCortex.Repositories.Template
                                                       Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                       Email_Subject = p.Field<string>("EMAIL_SUBJECT"),
                                                       Template_Id = p.Field<long>("TEMPLATE_ID"),
-                                                      UserName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                      UserName = p.Field<string>("FULLNAME"),
                                                       Created_By = p.Field<long>("CREATED_BY"),
                                                       flag = p.Field<int>("FLAG"),
                                                       Send_Date = p.Field<DateTime>("SEND_DATE"),
@@ -345,9 +341,6 @@ namespace MyCortex.Repositories.Template
         /// <returns></returns>
         public IList<EmailHistoryListModel> EmailHistory_List(long? Id, DateTime? Period_From, DateTime? Period_To, int? Email_Stauts, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int? IsActive, long? INSTITUTION_ID, long TemplateType_Id, Guid Login_Session_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
-
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
             try
@@ -356,14 +349,14 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@PERIOD_FROM", Period_From));
                 param.Add(new DataParameter("@PERIOD_TO", Period_To));
                 param.Add(new DataParameter("@EMAIL_STATUS", Email_Stauts));
-                param.Add(new DataParameter("@PatientNo", EncryptPassword.Encrypt(PATIENTNO)));
-                param.Add(new DataParameter("@InsuranceNo", EncryptPassword.Encrypt(INSURANCEID)));
+                param.Add(new DataParameter("@PatientNo", PATIENTNO));
+                param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
                 param.Add(new DataParameter("@GenderId", GENDER_ID));
                 param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
                 param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
-                param.Add(new DataParameter("@MobileNo", EncryptPassword.Encrypt(MOBILE_NO)));
+                param.Add(new DataParameter("@MobileNo", MOBILE_NO));
                 param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-                param.Add(new DataParameter("@Email", EncryptPassword.Encrypt(EMAILID)));
+                param.Add(new DataParameter("@Email", EMAILID));
                 param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
                 param.Add(new DataParameter("@CountryId", COUNTRY_ID));
                 param.Add(new DataParameter("@StateId", STATE_ID));
@@ -381,7 +374,7 @@ namespace MyCortex.Repositories.Template
                                                    {
                                                        Id = p.Field<long>("ID"),
                                                        UserId = p.Field<long>("USERID"),
-                                                       FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                       FullName = p.Field<string>("FULLNAME"),
                                                        UserType_Id = p.Field<long>("USERTYPE_ID"),
                                                        TypeName = p.Field<string>("TYPENAME"),
                                                        Template_Id = p.Field<long>("TEMPLATE_ID"),
@@ -391,9 +384,9 @@ namespace MyCortex.Repositories.Template
                                                        Send_Date = p.Field<DateTime>("SEND_DATE"),
                                                        Email_Status = p.Field<int>("EMAIL_STATUS"),
                                                        Email_Error_Reason = p.Field<string>("EMAIL_ERROR_REASON") ?? "",
-                                                       EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                       EmailId = p.Field<string>("EMAILID"),
                                                        EmailStatusType = p.Field<string>("EmailStatusType"),
-                                                       MobileNO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO"))
+                                                       MobileNO = p.Field<string>("MOBILE_NO")
                                                    }).ToList();
                 return lst;
             }
@@ -562,7 +555,6 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@USER_ID", User_Id)); 
                 //Clear Notification
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[Clear_NOTIFICATION_SP_UPDATE]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 List<UserNotificationModel> lst = (from p in dt.AsEnumerable()
                                                    select new UserNotificationModel()
                                                    {
@@ -627,7 +619,6 @@ namespace MyCortex.Repositories.Template
                 param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
              
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[NOTIFICATION_SP_UPDATE]", param);
-                DataEncryption DecryptFields = new DataEncryption();
                 UserNotificationModel lst = (from p in dt.AsEnumerable()
                                              select new UserNotificationModel()
                                              {

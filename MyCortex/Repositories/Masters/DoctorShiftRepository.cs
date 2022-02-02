@@ -108,7 +108,6 @@ namespace MyCortex.Repositories.Masters
         public IList<New_DoctorShiftModel> DoctorShift_List(int IsActive, long InstitutionId, Guid Login_Session_Id)
         {
             List<DataParameter> param = new List<DataParameter>();
-            DataEncryption DecryptFields = new DataEncryption();
             //param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -123,7 +122,7 @@ namespace MyCortex.Repositories.Masters
                                                    ID = p.Field<long>("ID"),
                                                    DoctorId = p.Field<long>("DOCTOR_ID"),
                                                    Institution_Id = p.Field<long>("INSTITUTION_ID"),
-                                                   Doctor_Name = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                                   Doctor_Name = p.Field<string>("DOCTORNAME"),
                                                    //DayMaster_Id = p.Field<long>("DAYMASTER_ID"),
                                                    //WeekDayName = p.Field<string>("WEEKDAYNAME"),
                                                    //Sunday = p.Field<string>("SUNDAY"),
@@ -389,7 +388,6 @@ namespace MyCortex.Repositories.Masters
         /// <returns>Populated List of Doctor Shift list Details DataTable</returns>
         public New_DoctorShiftModel DoctorShift_View(long DoctorId, long Id, Guid Login_Session_Id, long institution_id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@doctor_id", DoctorId));
@@ -757,7 +755,6 @@ namespace MyCortex.Repositories.Masters
 
         public OrgAppointmentSettings APPOINTMENTLISTDETAILS(long InstitutionId, Guid Login_Session_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
            
             param.Add(new DataParameter("@InstitutionId", InstitutionId));
@@ -809,7 +806,6 @@ namespace MyCortex.Repositories.Masters
 
         public OrgAppointmentModuleSettings ORG_APPOINTMENT_MODULE_SETTINGS(long InstitutionId)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
 
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
@@ -843,7 +839,6 @@ namespace MyCortex.Repositories.Masters
 
         public IList<ReminderUserLists> ReminderUserLists(long MyAppConfigId,long InstitutionId)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@MYAPPCONFIGID", MyAppConfigId));
             param.Add(new DataParameter("@INSTITUTIONID", InstitutionId));

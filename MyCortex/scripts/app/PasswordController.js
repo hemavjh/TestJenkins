@@ -25,7 +25,7 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
         $scope.policyExist = false;
         $scope.PasswordPolicyDetails = function () {
             $("#chatLoaderPV").show();
-            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Insitution_Id=' + $scope.InstituteId).success(function (data) {
+            $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
                 if (data != null) {
                     $scope.Insitution_Id = data.Insitution_Id;
                     $scope.Insitution_Name = data.Insitution_Name;
@@ -721,25 +721,27 @@ Passwordcontroller.controller("PasswordController", ['$scope', '$http', '$filter
             //$scope.$broadcast('angucomplete-alt:clearInput', 'Div1');
             //$scope.NewPassword = "";
             $http.get(baseUrl + '/api/Common/PasswordPolicyDetails_View/?Institution_Id=' + $scope.InstituteId).success(function (data) {
-                $scope.Institution_Id = data.Institution_Id;
-                $scope.Insitution_Name = data.Insitution_Name;
-                $scope.Minimum_Length = data.Minimum_Length;
-                $scope.Maximum_Length = data.Maximum_Length;
-                $scope.UpperCase_Required = data.UpperCase_Required;
-                $scope.LowerCase_Required = data.LowerCase_Required;
-                $scope.Numeric_Required = data.Numeric_Required;
-                $scope.SpecialChar_Required = data.SpecialChar_Required;
-                $scope.Without_Char = data.Without_Char;
-                $scope.AllowExpiryDays = data.AllowExpiryDays;
-                $scope.Expiry_Period = data.Expiry_Period;
-                $scope.Allow_UserName = data.Allow_UserName;
-                $scope.Restrict_LastPassword = data.Restrict_LastPassword;
-                $scope.MaxLoginTime = data.MaxLoginTime;
-                $scope.MaxLoginHours = data.MaxLoginHours;
-                $scope.MaxLoginMins = data.MaxLoginMins;
-                $scope.Created_By = data.Created_By;
-                $scope.Remember_Password = data.Remember_Password;
-                $scope.Created_Dt = data.Created_Dt;
+                if (data != null) {
+                    $scope.Institution_Id = data.Institution_Id;
+                    $scope.Insitution_Name = data.Insitution_Name;
+                    $scope.Minimum_Length = data.Minimum_Length;
+                    $scope.Maximum_Length = data.Maximum_Length;
+                    $scope.UpperCase_Required = data.UpperCase_Required;
+                    $scope.LowerCase_Required = data.LowerCase_Required;
+                    $scope.Numeric_Required = data.Numeric_Required;
+                    $scope.SpecialChar_Required = data.SpecialChar_Required;
+                    $scope.Without_Char = data.Without_Char;
+                    $scope.AllowExpiryDays = data.AllowExpiryDays;
+                    $scope.Expiry_Period = data.Expiry_Period;
+                    $scope.Allow_UserName = data.Allow_UserName;
+                    $scope.Restrict_LastPassword = data.Restrict_LastPassword;
+                    $scope.MaxLoginTime = data.MaxLoginTime;
+                    $scope.MaxLoginHours = data.MaxLoginHours;
+                    $scope.MaxLoginMins = data.MaxLoginMins;
+                    $scope.Created_By = data.Created_By;
+                    $scope.Remember_Password = data.Remember_Password;
+                    $scope.Created_Dt = data.Created_Dt;
+                }
             });
         };
         //clear function for expiry period

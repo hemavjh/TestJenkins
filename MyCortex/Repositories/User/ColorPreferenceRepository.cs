@@ -23,7 +23,6 @@ namespace MyCortex.Repositories.User
         }
         public ColorPreferenceModel ColorPreference_List(long? InstitutionId)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", InstitutionId));
             try

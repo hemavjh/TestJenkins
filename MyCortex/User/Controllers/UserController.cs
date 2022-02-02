@@ -30,6 +30,8 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using Newtonsoft.Json;
 using System.Runtime.Caching;
+using System.Data;
+using System.Reflection;
 
 namespace MyCortex.User.Controller
 {
@@ -282,7 +284,7 @@ namespace MyCortex.User.Controller
                 userObj.PASSWORD = generatedPwd;
                 if (userObj.PASSWORD == "") userObj.PASSWORD = defaultPwd;   // this is for demo // default pwd when password policy not exist for the institution
                 DataEncryption EncryptPassword = new DataEncryption();
-                userObj.PASSWORD = EncryptPassword.Encrypt(userObj.PASSWORD);
+                string CHANGE_URl_PASSWORD = EncryptPassword.Encrypt(userObj.PASSWORD);
                 string FormulaforFullName = "";
                 FormulaforFullName = "[L],[F]";
                 string FullNameFormula = "";
@@ -313,30 +315,30 @@ namespace MyCortex.User.Controller
                 string Replaced_FullName = "[L][F]";
                 Replaced_FullName = FormulaforFullName.Replace("[L]", userObj.LastName).Replace("[F]", userObj.FirstName);
                 mail.UserName = Replaced_FullName;
-                userObj.FullName = EncryptPassword.Encrypt(Replaced_FullName);
-                userObj.FirstName = EncryptPassword.Encrypt(userObj.FirstName);
-                userObj.MiddleName = EncryptPassword.Encrypt(userObj.MiddleName);
-                userObj.LastName = EncryptPassword.Encrypt(userObj.LastName);
-                //userObj.MNR_NO = EncryptPassword.Encrypt(userObj.MNR_NO);
-                userObj.INSURANCEID = EncryptPassword.Encrypt(userObj.INSURANCEID);
-                userObj.NATIONALID = EncryptPassword.Encrypt(userObj.NATIONALID);
-                userObj.MOBILE_NO = EncryptPassword.Encrypt(userObj.MOBILE_NO);
-                userObj.EMERG_CONT_FIRSTNAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_FIRSTNAME);
-                userObj.EMERG_CONT_LASTNAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_LASTNAME);
-                userObj.DOB_Encrypt = EncryptPassword.Encrypt(userObj.DOB.ToString());
-                userObj.EMERG_CONT_MIDDLENAME = EncryptPassword.Encrypt(userObj.EMERG_CONT_MIDDLENAME);
-                userObj.Emergency_MobileNo = EncryptPassword.Encrypt(userObj.Emergency_MobileNo);
-                userObj.EMAILID = EncryptPassword.Encrypt(userObj.EMAILID.ToLower());
-                userObj.GOOGLE_EMAILID = EncryptPassword.Encrypt(userObj.GOOGLE_EMAILID);
-                userObj.FB_EMAILID = EncryptPassword.Encrypt(userObj.FB_EMAILID);
-                userObj.appleUserID = EncryptPassword.Encrypt(userObj.appleUserID);
-                userObj.Memberid = EncryptPassword.Encrypt(userObj.Memberid);
-                userObj.PolicyNumber = EncryptPassword.Encrypt(userObj.PolicyNumber);
-                userObj.RefernceId = EncryptPassword.Encrypt(userObj.RefernceId);
-                userObj.ExpiryDate = EncryptPassword.Encrypt(userObj.ExpiryDate);
-                //userObj.PayorId = EncryptPassword.Encrypt(userObj.PayorId);
-                //userObj.PlanId = EncryptPassword.Encrypt(userObj.PlanId);
-                //userObj.PATIENT_ID = EncryptPassword.Encrypt(userObj.PATIENT_ID);
+                userObj.FullName = Replaced_FullName;
+                userObj.FirstName = userObj.FirstName;
+                userObj.MiddleName = userObj.MiddleName;
+                userObj.LastName = userObj.LastName;
+                //userObj.MNR_NO = userObj.MNR_NO;
+                userObj.INSURANCEID = userObj.INSURANCEID;
+                userObj.NATIONALID = userObj.NATIONALID;
+                userObj.MOBILE_NO = userObj.MOBILE_NO;
+                userObj.EMERG_CONT_FIRSTNAME = userObj.EMERG_CONT_FIRSTNAME;
+                userObj.EMERG_CONT_LASTNAME = userObj.EMERG_CONT_LASTNAME;
+                userObj.DOB_Encrypt = userObj.DOB.ToString();
+                userObj.EMERG_CONT_MIDDLENAME = userObj.EMERG_CONT_MIDDLENAME;
+                userObj.Emergency_MobileNo = userObj.Emergency_MobileNo;
+                userObj.EMAILID = userObj.EMAILID.ToLower();
+                userObj.GOOGLE_EMAILID = userObj.GOOGLE_EMAILID;
+                userObj.FB_EMAILID = userObj.FB_EMAILID;
+                userObj.appleUserID = userObj.appleUserID;
+                userObj.Memberid = userObj.Memberid;
+                userObj.PolicyNumber = userObj.PolicyNumber;
+                userObj.RefernceId = userObj.RefernceId;
+                userObj.ExpiryDate = userObj.ExpiryDate;
+                //userObj.PayorId = userObj.PayorId;
+                //userObj.PlanId = userObj.PlanId;
+                //userObj.PATIENT_ID = userObj.PATIENT_ID;
                 if (userObj.ApprovalFlag == "0")
                 {
                     userObj.Patient_Type = 1;
@@ -432,7 +434,7 @@ namespace MyCortex.User.Controller
                 //c# encrrption
                 var encryptString = Convert.ToInt64(userid) * 4;
                 string turl = HttpContext.Current.Request.Url.Host.ToString();
-                string pwd = userObj.PASSWORD.Replace("/", "@");
+                string pwd = CHANGE_URl_PASSWORD.Replace("/", "@");
                 string url = HttpContext.Current.Request.Url.Host + "/#/ChangePassword/" + text + "/" + userObj.INSTITUTION_ID.ToString() + "/" + encryptString + "/" + pwd;
                 // below alert for change password
                 if (userid != "0")
@@ -556,8 +558,6 @@ namespace MyCortex.User.Controller
         /// <returns></returns>
         public int createCometChatUser(UserModel usrObj, long Institution, int isCreate = 0)
         {
-
-            DataEncryption EncryptPassword = new DataEncryption();
             IList<AppConfigurationModel> App_Id;
             IList<AppConfigurationModel> App_Key;
 
@@ -615,8 +615,6 @@ namespace MyCortex.User.Controller
 
         public int deleteCometChatUser(long Id, long Institution)
         {
-
-            DataEncryption EncryptPassword = new DataEncryption();
             IList<AppConfigurationModel> App_Id;
             //IList<AppConfigurationModel> App_Key;
             IList<AppConfigurationModel> Api_key;
@@ -745,7 +743,6 @@ namespace MyCortex.User.Controller
             List<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
             List<ItemizedUserDetailsModel> search_model = new List<ItemizedUserDetailsModel>();
             List<ItemizedUserDetailsModel> model;
-            DataEncryption EncryptPassword = new DataEncryption();
             if (INSTITUTION_ID == null)
             {
                 INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
@@ -4409,5 +4406,44 @@ namespace MyCortex.User.Controller
             }
         }
 
+        [HttpGet]
+        public int EncryptedUserList(long InstitutionId, long startno)
+        {
+            try
+            {
+                IList<DecryptUserListModel> li = repository.DecryptUserDetails(InstitutionId, startno);
+                DataTable dt = ToDataTable(li);
+                int y = repository.NEW_EncryptUserDetails(dt);
+                return y;
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }
+        }
+
+        public DataTable ToDataTable<T>(IList<T> items)
+        {
+            DataTable dataTable = new DataTable(typeof(T).Name);
+            //Get all the properties
+            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo prop in Props)
+            {
+                //Setting column names as Property names
+                dataTable.Columns.Add(prop.Name);
+            }
+            foreach (T item in items)
+            {
+                var values = new object[Props.Length];
+                for (int i = 0; i < Props.Length; i++)
+                {
+                    //inserting property values to datatable rows
+                    values[i] = Props[i].GetValue(item, null);
+                }
+                dataTable.Rows.Add(values);
+            }
+            //put a breakpoint here and check datatable
+            return dataTable;
+        }
     }
 }

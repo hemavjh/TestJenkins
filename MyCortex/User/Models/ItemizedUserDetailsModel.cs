@@ -55,4 +55,28 @@ namespace MyCortex.User.Model
         public string INSURANCEID { get; set; }
     }
 
+    public class DecryptUserListModel
+    {
+        public long SNO { get; set; }
+        public long ID { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string MIDDLENAME { get; set; }
+        public string LASTNAME { get; set; }
+        public string PASSWORD { get; set; }
+        public string EMAILID { get; set; }
+        public string GOOGLE_EMAILID { get; set; }
+        public string FB_EMAILID { get; set; }
+        public string MOBILE_NO { get; set; }
+        public string PATIENTNO { get; set; }
+        public string INSURANCEID { get; set; }
+        public string MRN_NO { get; set; }
+        public string NATIONALID { get; set; }
+        public string DOB_ENCRYPT { get; set; }
+        public string FULLNAME { get; set; }
+        public string EMERG_CONT_FIRSTNAME { get; set; }
+        public string EMERG_CONT_MIDDLENAME { get; set; }
+        public string EMERG_CONT_LASTNAME { get; set; }
+        public string EMRG_CONT_PHONENO { get; set; }
+    }
+
 }
