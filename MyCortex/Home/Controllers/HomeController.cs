@@ -334,6 +334,10 @@ namespace MyCortex.Home.Controllers
                         t.Add(i.PatientType.ToString());
                         t.Add(i.UserType.ToString());
                     }
+                    if (EmployeeId == 1)
+                    {
+                        t[8] = "Admin";
+                    }
                     var json = jsonSerialiser.Serialize(t);
                     return Content(json);
                 }
