@@ -200,7 +200,7 @@
                     <a href="javascript:" ng-click="ViewDoctorShift(row.ID,row.DoctorId,row.Institution_Id)" title="View">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a href="javascript:" title="Edit" ng-click="row.IsActive == 0 || EditDoctorShift(row.ID, row.IsActive,row.DoctorId,row.Institution_Id)">
+                    <a href="javascript:" title="Edit" ng-click="row.IsActive==1 || EditDoctorShift(row.ID, row.IsActive,row.DoctorId,row.Institution_Id)">
                         <i class="fa fa-pencil" aria-hidden="true" ></i>
                     </a>
                     <a href="javascript:;" ng-click="DeleteDoctorShift(row.ID,row.DoctorId)" title="Active">

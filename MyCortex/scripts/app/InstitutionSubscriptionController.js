@@ -24,10 +24,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
         $scope.V_Contract_Period_From = "";
         $scope.V_Contract_Period_To = "";
         $scope.Subscription_Type = "1";
-        $scope.Chroniccc = false;
+       /* $scope.Chroniccc = false;
         $scope.Chroniccg = false;
         $scope.Chroniccl = false;
-        $scope.Chronicsc = false;
+        $scope.Chronicsc = false;*/
         $scope.Hcp_Pat = false;
 
         $scope.InstitutionViewList = [];
@@ -194,6 +194,24 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             }
         }
 
+        $scope.Module_listAdd = [];
+        $scope.ModulelistChange = function (Id, value) {
+            var checked = $('#' + Id).is(":checked");
+            if (checked == true) {
+                    var obj = {
+                        Id: 0,
+                        Institution_Subcription_Id: $scope.Id,
+                        ModuleId: value.Id
+                    }
+                    $scope.Module_listAdd.push(obj);
+            } else {
+                angular.forEach($scope.Module_listAdd, function (item, index) {
+                    if (value.Id == item.ModuleId) {
+                        $scope.Module_listAdd.splice(index,1);
+                    }
+                });
+            }
+        } 
         //$scope.insSubInstituteChange = function () {
         //    var ins = document.getElementById('insselectpicker').value;
         //    if (ins != "0") {
@@ -309,10 +327,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                 $scope.Contract_Period_From = DateFormatEdit($scope.Contract_Period_From);
                 $scope.Contract_Period_To = DateFormatEdit($scope.Contract_Period_To);
             }
-            if ($scope.Chroniccc == false && $scope.Chroniccg == false && $scope.Chroniccl == false && $scope.Chronicsc == false) {
+            /*if ($scope.Chroniccc == false && $scope.Chroniccg == false && $scope.Chroniccl == false && $scope.Chronicsc == false) {
                 toastr.warning("Please select Any One In Chronic Edi", "warning");
                 return false;
-            }
+            }*/
             return true;
         };
         /*on click Save calling the insert update function for Institution Subscription */
@@ -331,7 +349,8 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.InstitutionPayment_List = [];
             if ($scope.Institution_SubscriptionAddEditValidations() == true) {
                 $("#chatLoaderPV").show();
-                angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
+                $scope.InstitutionModule_List = $scope.Module_listAdd;
+                /*angular.forEach($scope.InstitutionAddList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
                             var obj = {
@@ -342,7 +361,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                             $scope.InstitutionModule_List.push(obj);
                         }
                     }
-                });
+                });*/
                 angular.forEach($scope.InstitutionAddLanguageList, function (SelectedInstitutiontype, index) {
                     if (SelectedInstitutiontype == true) {
                         {
@@ -399,10 +418,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     Appointment_Module_Id: $scope.AppointmentModule_Id,
                     Payment_List: InstitutionSelectedPaymentList,
                     Payment_Module_Id: Payment_List_Id,
-                    ChronicCc: $scope.Chroniccc,
+                   /* ChronicCc: $scope.Chroniccc,
                     ChronicCg: $scope.Chroniccg,
                     ChronicCl: $scope.Chroniccl,
-                    ChronicSc: $scope.Chronicsc
+                    ChronicSc: $scope.Chronicsc*/
                 }
                 $('#btnsave').attr("disabled", true);
                 $('#btnsave1').attr("disabled", true);
@@ -514,6 +533,7 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.DuplicatesId = data.Id;
                     $scope.InstitutiontypeList = data.Module_List;
                     $scope.InstitutionChildList = data.ChildModuleList;
+                    $scope.Module_listAdd = data.ChildModuleList;
                     $scope.LanguageList = data.Language_List;
                     $scope.InstitutionLanguageList = data.ChildLanguageList;
                     $scope.PaymentList = data.Payment_List;
@@ -549,10 +569,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
                     $scope.Contract_Period_To = DateFormatEdit($filter('date')(data.Contract_PeriodTo, "dd-MMM-yyyy"));
                     $scope.Subscription_Type = data.Subscription_Type;
                     $scope.InsSub_Id = data.SubscriptionId;
-                    $scope.Chroniccc = data.ChronicCc;
+                    /*$scope.Chroniccc = data.ChronicCc;
                     $scope.Chroniccg = data.ChronicCg;
                     $scope.Chroniccl = data.ChronicCl;
-                    $scope.Chronicsc = data.ChronicSc;
+                    $scope.Chronicsc = data.ChronicSc;*/
                     //$scope.insSubChronicChange();
                     $scope.Created_No_Of_Patient = data.Created_No_Of_Patient;
                     $scope.Created_No_Of_HealthCareProf = data.Created_No_Of_HealthCareProf;
@@ -640,10 +660,10 @@ InstitutionSubscription.controller("InstitutionSubscriptionController", ['$scope
             $scope.InstitutionAddInsuranceList = [];
             $scope.InstitutionAddPaymentList = [];
 
-            $scope.Chroniccc = false;
+           /* $scope.Chroniccc = false;
             $scope.Chroniccg = false;
             $scope.Chroniccl = false;
-            $scope.Chronicsc = false;
+            $scope.Chronicsc = false;*/
             $scope.Hcp_Pat = false;
             $scope.Created_No_Of_Patient = "";
             $scope.Created_No_Of_HealthCareProf = "";

@@ -96,7 +96,7 @@
     </tbody>
     <tfoot ng-show="total_MyHomepage>1">
         <tr>
-            <td colspan="8" class="text-center">
+            <td colspan="8" class="text-center" style="text-align:center">
                 <ul class="pagination">
                     <li>
                         <a ng-click="setMyHomePage(1)">First</a>
@@ -242,7 +242,7 @@
                                                                         <td>
                                                                             <div style="width:80px;">
                                                                                 <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
-                                                                                        ng-click="MyHomeDelete(row.ID,$index)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2View" />
+                                                                                        ng-click="MyHomeDelete(row.ID,$index, row.UserId)" ng-model="row.SelectedUserId" style="width: 20px;" id="Image2View" />
                                                                                 <div style="width: 20px; cursor: pointer; margin-top: -26px; margin-left: 23px;">
                                                                                     <img ng-show="IsEdit == true" src="../../Images/ResetIcon.png" style="width: 20px;" title='Click to Change Pin' ng-click="PinChange(row.ID,$index, row.UserId);" />
                                                                                 </div>
@@ -297,7 +297,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <input type="image" src="../../Images/deleteNewIcon.png" title='Click to Delete' class="myhomedropdown"
-                                                                                   ng-click="MyDeviceDelete(row.Id,$index)" ng-model="row.SelectedDeviceId" style="width: 20px;" id="Image3View" />
+                                                                                   ng-click="MyDeviceDelete(row.ID,$index)" ng-model="row.SelectedDeviceId" style="width: 20px;" id="Image3View" />
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
