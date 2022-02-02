@@ -325,10 +325,10 @@ namespace MyCortex.Notification
             EmailListModel = repository.Patient_SignUp_HosAdmin_AlertEvent(Institution_Id, Entity_Id);
             return EmailListModel;
         }
-        public IList<EmailListModel> Patient_AppointmentCreation_AlertEvent(long Entity_Id, long Institution_Id)
+        public IList<EmailListModel> Patient_AppointmentCreation_AlertEvent(long Entity_Id, long Institution_Id,string CGtype=null)
         {
             IList<EmailListModel> EmailListModel;
-            EmailListModel = repository.Patient_AppointmentCreation_AlertEvent(Institution_Id, Entity_Id);
+            EmailListModel = repository.Patient_AppointmentCreation_AlertEvent(Institution_Id, Entity_Id, CGtype);
             return EmailListModel;
         }
 

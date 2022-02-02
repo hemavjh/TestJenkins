@@ -309,9 +309,8 @@ namespace MyCortex.User.Controllers
             TabAdminDetailsReturnModels model = new TabAdminDetailsReturnModels();
 
             var username = TabAdminObj.UserName.ToLower();
-            DataEncryption EncryptPassword = new DataEncryption();
-            TabAdminObj.Password = EncryptPassword.Encrypt(TabAdminObj.Password);
-            TabAdminObj.UserName = EncryptPassword.Encrypt(username);
+            TabAdminObj.Password = TabAdminObj.Password;
+            TabAdminObj.UserName = username;
             string messagestr = "";
             try
             {

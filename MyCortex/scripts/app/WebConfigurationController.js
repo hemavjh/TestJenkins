@@ -220,9 +220,8 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                 //}
                 //$('#save').attr("disabled", true);
                 //$scope.WebConfigurationDetails.push(obj);
-
-                var obj = "";
-/*                if (index = 32) {
+                
+                /*if (index = 32) {
                     obj = {
                         Id: value.ID,
                         INSTITUTION_ID: value.INSTITUTION_ID,
@@ -237,6 +236,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                     }
                 }*/
 
+                var obj = "";
                 if ($scope.rowCollectionWebConfiguration[index]["CONFIGCODE"] == "CHRONIC CODE") {
                     obj = {
                         Id: value.ID,

@@ -126,7 +126,6 @@ namespace MyCortex.Repositories.Masters
         }
         public IList<ClinicalUser_List> Clinician_UserList(long? Institution_Id)
         {
-            DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             try
@@ -136,11 +135,11 @@ namespace MyCortex.Repositories.Masters
                                                         select new ClinicalUser_List()
                                                         {
                                                             Id = p.Field<long>("ID"),
-                                                            FullName = DecryptFields.Decrypt(p.Field<string>("FULLNAME")),
+                                                            FullName = p.Field<string>("FULLNAME"),
                                                             Department_Name = p.Field<string>("DEPARTMENT_NAME"),
                                                             NameSpecialization = p.Field<string>("NAMESPECIALIZATION"),
                                                             ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
-                                                            EmailId = DecryptFields.Decrypt(p.Field<string>("EMAILID")),
+                                                            EmailId = p.Field<string>("EMAILID"),
                                                             TypeName = p.Field<string>("TYPENAME"),
                                                             IsActive = p.Field<int>("ISACTIVE")
                                                         }).ToList();
@@ -202,7 +201,6 @@ return null;
         /// <returns>Populated List of AppoinmentSlot list Details DataTable</returns>
         public IList<AttendanceModel> Attendance_List(int? IsActive, long Institution_Id, Guid Login_Session_Id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
@@ -210,19 +208,18 @@ return null;
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ATTENDANCE_SP_LIST", param);
-                DataEncryption DecryptFields = new DataEncryption();
                  List<AttendanceModel> list = (from p in dt.AsEnumerable()  
                                        select new AttendanceModel()
                                        {
                                            Id = p.Field<long>("ID"),
                                            Doctor_Id = p.Field<long>("DOCTOR_ID"),
                                            UserTypeName = p.Field<string>("TYPENAME"),
-                                           DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                           DoctorName = p.Field<string>("DOCTORNAME"),
                                            AttendanceFromDate = p.Field<DateTime>("ATTENDANCE_FROMDATE"),
                                            AttendanceToDate = p.Field<DateTime>("ATTENDANCE_TODATE"),
                                            IsActive = p.Field<int>("ISACTIVE"),
                                            Created_by = p.Field<long>("CREATED_BY"),
-                                           CreatedByName = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                           CreatedByName = p.Field<string>("CREATEDBYNAME"),
                                            Remarks = p.Field<string>("REMARKS"),
                                            Created_Dt = p.Field<DateTime>("CREATED_DT"),
                                            
@@ -244,7 +241,6 @@ return null;
         /// <returns>Populated a AppoinmentSlot Details DataTable </returns>
         public AttendanceModel Attendance_View(long Id, Guid Login_Session_Id, long institution_id)
         {
-            //  DataEncryption DecryptFields = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Id", Id));
             param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
@@ -252,18 +248,17 @@ return null;
             try
             {
                 DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].ATTENDANCE_SP_VIEW", param);
-                 DataEncryption DecryptFields = new DataEncryption();
                 AttendanceModel INS = (from p in dt.AsEnumerable()
                                        select new AttendanceModel()
                                          {
                                              Id = p.Field<long>("ID"),
                                              Doctor_Id = p.Field<long>("DOCTOR_ID"),
-                                             DoctorName = DecryptFields.Decrypt(p.Field<string>("DOCTORNAME")),
+                                             DoctorName = p.Field<string>("DOCTORNAME"),
                                              AttendanceFromDate = p.Field<DateTime>("ATTENDANCE_FROMDATE"),
                                              AttendanceToDate = p.Field<DateTime>("ATTENDANCE_TODATE"),
                                              IsActive = p.Field<int>("ISACTIVE"),
                                              Created_by = p.Field<long>("CREATED_BY"),
-                                             CreatedByName = DecryptFields.Decrypt(p.Field<string>("CREATEDBYNAME")),
+                                             CreatedByName = p.Field<string>("CREATEDBYNAME"),
                                              Remarks = p.Field<string>("REMARKS"),
                                              
                                          }).FirstOrDefault();

@@ -141,7 +141,6 @@ namespace MyCortex.Template.Controllers
             try
             {
                 long Institution_Id;
-                DataEncryption EncryptPassword = new DataEncryption();
                 /*var request = HttpContext.Current.Request.Url.Authority;
                 UserModel Ins_model = new UserModel();
                 Ins_model = userrepository.GetInstitutionForWebURL(request);
@@ -175,7 +174,7 @@ namespace MyCortex.Template.Controllers
                             List<EmailListModel> elList = new List<EmailListModel>();
                             EmailListModel el = new EmailListModel();
                             el.UserName = itemData.UserName;
-                            el.EmailId = EncryptPassword.Decrypt(ModelData[0].EmailId);
+                            el.EmailId = ModelData[0].EmailId;
                             el.EmailType_Flag = 1;
                             elList.Add(el);
 
@@ -390,7 +389,6 @@ namespace MyCortex.Template.Controllers
             try
             {
                 long Institution_Id;
-                DataEncryption EncryptPassword = new DataEncryption();
                 Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
                 EmailConfigurationModel emailModel = new EmailConfigurationModel();
                 emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
@@ -415,7 +413,7 @@ namespace MyCortex.Template.Controllers
                             List<EmailListModel> elList = new List<EmailListModel>();
                             EmailListModel el = new EmailListModel();
                             el.UserName = itemData.UserName;
-                            el.EmailId = EncryptPassword.Decrypt(ModelData[0].EmailId);
+                            el.EmailId = ModelData[0].EmailId;
                             el.EmailType_Flag = 1;
                             elList.Add(el);
 
@@ -502,7 +500,6 @@ namespace MyCortex.Template.Controllers
             {
 
                 long Institution_Id;
-                DataEncryption EncryptPassword = new DataEncryption();
                 Institution_Id = long.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
                 EmailConfigurationModel emailModel = new EmailConfigurationModel();
                 emailModel = emailrepository.EmailConfiguration_View(Institution_Id);
@@ -541,7 +538,7 @@ namespace MyCortex.Template.Controllers
                     {
                         if (emailModel != null)
                         {
-                            SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id, Emailobj.Email_Subject, Emailobj.Email_Body, Emailobj.UserName, EncryptPassword.Decrypt(ModelData[0].EmailId));
+                            SendGridMessage msg = SendGridApiManager.ComposeSendGridMessage(emailModel.UserName, emailModel.Sender_Email_Id, Emailobj.Email_Subject, Emailobj.Email_Body, Emailobj.UserName, ModelData[0].EmailId);
 
                             SendGridApiManager mail = new SendGridApiManager();
                             var res = mail.SendEmailAsync(msg, ModelData[0].Id);

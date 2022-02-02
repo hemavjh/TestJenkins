@@ -56,14 +56,13 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Identity (Primary Key) value of the Inserted/Updated record</returns>
         public long EmailConfiguration_AddEdit(EmailConfigurationModel obj)
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             long retid;
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ID", obj.Id));
             param.Add(new DataParameter("@INSTITUTION_ID", obj.Institution_Id));
             param.Add(new DataParameter("@SENDER_EMAIL_ID", obj.Sender_Email_Id));
-            param.Add(new DataParameter("@USERNAME", EncryptPassword.Encrypt(obj.UserName)));
-            param.Add(new DataParameter("@PASSWORD", EncryptPassword.Encrypt(obj.Password)));
+            param.Add(new DataParameter("@USERNAME", obj.UserName));
+            param.Add(new DataParameter("@PASSWORD", obj.Password));
             param.Add(new DataParameter("@SERVERNAME", obj.ServerName));
             param.Add(new DataParameter("@PORTNO", obj.PortNo));
             param.Add(new DataParameter("@DISPLAYNAME", obj.DisplayName));
@@ -90,7 +89,6 @@ namespace MyCortex.Repositories.Admin
         /// <returns>Email configuration details of a institution</returns>
         public EmailConfigurationModel EmailConfiguration_View(long Institution_Id)
         {
-            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@INSTITUTION_ID", Institution_Id));
             _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
@@ -104,8 +102,8 @@ namespace MyCortex.Repositories.Admin
                                                    Institution_Id = p.Field<long>("INSTITUTION_ID"),
                                                    Insitution_Name = p.Field<string>("INSTITUTION_NAME"),
                                                    Sender_Email_Id = p.Field<string>("SENDER_EMAIL_ID"),
-                                                   UserName = EncryptPassword.Decrypt(p.Field<string>("USERNAME")),
-                                                   Password = EncryptPassword.Decrypt(p.Field<string>("EPASSWORD")),
+                                                   UserName = p.Field<string>("USERNAME"),
+                                                   Password = p.Field<string>("EPASSWORD"),
                                                    ServerName = p.Field<string>("SERVERNAME"),
                                                    PortNo = p.Field<int>("PORTNO"),
                                                    DisplayName = p.Field<string>("DISPLAYNAME"),
