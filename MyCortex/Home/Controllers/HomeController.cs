@@ -330,7 +330,10 @@ namespace MyCortex.Home.Controllers
                         {
                             t.Add(i.GENDER_NAME.ToString());
                         }
-                        t.Add(i.Employee_Name.ToString());
+                        if (i.Employee_Name != null)
+                        {
+                            t.Add(i.Employee_Name.ToString());
+                        }
                         t.Add(i.PatientType.ToString());
                         t.Add(i.UserType.ToString());
                     }
