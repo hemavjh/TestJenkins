@@ -330,9 +330,16 @@ namespace MyCortex.Home.Controllers
                         {
                             t.Add(i.GENDER_NAME.ToString());
                         }
-                        t.Add(i.Employee_Name.ToString());
+                        if (i.Employee_Name != null)
+                        {
+                            t.Add(i.Employee_Name.ToString());
+                        }
                         t.Add(i.PatientType.ToString());
                         t.Add(i.UserType.ToString());
+                    }
+                    if (EmployeeId == 1)
+                    {
+                        t[8] = "Admin";
                     }
                     var json = jsonSerialiser.Serialize(t);
                     return Content(json);
@@ -951,6 +958,7 @@ namespace MyCortex.Home.Controllers
                     DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(PayByCreateOrderResponse));
                     object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
                     PayByCreateOrderResponse tokenRes = objResponse as PayByCreateOrderResponse;
+                    _logger.Info(tokenRes);
                     if (tokenRes != null && tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
                     {
                         redirectUrl = tokenRes.body.interActionParams.tokenUrl;

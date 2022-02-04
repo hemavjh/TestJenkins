@@ -4424,38 +4424,84 @@ namespace MyCortex.Repositories.Uesr
             }
         }
 
-        public IList<DecryptUserListModel> DecryptUserDetails(long INSTITUTION_ID, long startno)
+        public IList<DecryptUserListModel> DecryptUserDetails(long startno)
         {
             List<DataParameter> param = new List<DataParameter>();
-            param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
+            //param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
             param.Add(new DataParameter("@STARTNO", startno));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_INSTITUTION_USERLIST]", param);
             DataEncryption DecryptFields = new DataEncryption();   // dont remove it
-            List<DecryptUserListModel> list = (from p in dt.AsEnumerable()
-                                                   select new DecryptUserListModel()
-                                                   {
-                                                       SNO = p.Field<long>("SNO"),
-                                                       ID = p.Field<long>("ID"),
-                                                       FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")) ?? "",
-                                                       MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")) ?? "",
-                                                       LASTNAME = DecryptFields.Decrypt(p.Field<string>("LASTNAME")) ?? "",
-                                                       PASSWORD = DecryptFields.Decrypt(p.Field<string>("PASSWORD")) ?? "",
-                                                       EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
-                                                       GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("GOOGLE_EMAILID")) ?? "",
-                                                       FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")) ?? "",
-                                                       MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
-                                                       PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")) ?? "",
-                                                       INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
-                                                       MRN_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")) ?? "",
-                                                       NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
-                                                       DOB_ENCRYPT = DecryptFields.Decrypt(p.Field<string>("DOB_ENCRYPT")) ?? "",
-                                                       FULLNAME = DecryptFields.Decrypt(p.Field<string>("FULLNAME")) ?? "",
-                                                       EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")) ?? "",
-                                                       EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")) ?? "",
-                                                       EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")) ?? "",
-                                                       EMRG_CONT_PHONENO = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
-                                                   }).ToList();
-            return list;
+            //List<DecryptUserListModel> list = (from p in dt.AsEnumerable()
+            //                                       select new DecryptUserListModel()
+            //                                       {
+            //                                           SNO = p.Field<long>("SNO"),
+            //                                           ID = p.Field<long>("ID"),
+            //                                           FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("FIRSTNAME")) ?? "",
+            //                                           MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("MIDDLENAME")) ?? "",
+            //                                           LASTNAME = DecryptFields.Decrypt(p.Field<string>("LASTNAME")) ?? "",
+            //                                           PASSWORD = DecryptFields.Decrypt(p.Field<string>("PASSWORD")) ?? "",
+            //                                           EMAILID = DecryptFields.Decrypt(p.Field<string>("EMAILID")) ?? "",
+            //                                           GOOGLE_EMAILID = DecryptFields.Decrypt(p.Field<string>("GOOGLE_EMAILID")) ?? "",
+            //                                           FB_EMAILID = DecryptFields.Decrypt(p.Field<string>("FB_EMAILID")) ?? "",
+            //                                           MOBILE_NO = DecryptFields.Decrypt(p.Field<string>("MOBILE_NO")) ?? "",
+            //                                           PATIENTNO = DecryptFields.Decrypt(p.Field<string>("PATIENTNO")) ?? "",
+            //                                           INSURANCEID = DecryptFields.Decrypt(p.Field<string>("INSURANCEID")) ?? "",
+            //                                           MRN_NO = DecryptFields.Decrypt(p.Field<string>("MRN_NO")) ?? "",
+            //                                           NATIONALID = DecryptFields.Decrypt(p.Field<string>("NATIONALID")) ?? "",
+            //                                           DOB_ENCRYPT = DecryptFields.Decrypt(p.Field<string>("DOB_ENCRYPT")) ?? "",
+            //                                           FULLNAME = DecryptFields.Decrypt(p.Field<string>("FULLNAME")) ?? "",
+            //                                           EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_FIRSTNAME")) ?? "",
+            //                                           EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_MIDDLENAME")) ?? "",
+            //                                           EMERG_CONT_LASTNAME = DecryptFields.Decrypt(p.Field<string>("EMERG_CONT_LASTNAME")) ?? "",
+            //                                           EMRG_CONT_PHONENO = DecryptFields.Decrypt(p.Field<string>("EMRG_CONT_PHONENO")) ?? "",
+            //                                       }).ToList();
+            List<DecryptUserListModel> list2 = new List<DecryptUserListModel>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                try
+                {
+                    DecryptUserListModel dec = new DecryptUserListModel();
+                    dec.SNO = Convert.ToInt64(dt.Rows[i]["SNO"]);
+                    dec.ID = Convert.ToInt64(dt.Rows[i]["ID"]);
+                    dec.FIRSTNAME = DecryptFields.Decrypt(dt.Rows[i]["FIRSTNAME"].ToString()) ?? "";
+                    dec.MIDDLENAME = DecryptFields.Decrypt(dt.Rows[i]["MIDDLENAME"].ToString()) ?? "";
+                    dec.LASTNAME = DecryptFields.Decrypt(dt.Rows[i]["LASTNAME"].ToString()) ?? "";
+                    dec.PASSWORD = DecryptFields.Decrypt(dt.Rows[i]["PASSWORD"].ToString()) ?? "";
+                    dec.EMAILID = DecryptFields.Decrypt(dt.Rows[i]["EMAILID"].ToString()) ?? "";
+                    dec.GOOGLE_EMAILID = DecryptFields.Decrypt(dt.Rows[i]["GOOGLE_EMAILID"].ToString()) ?? "";
+                    dec.FB_EMAILID = DecryptFields.Decrypt(dt.Rows[i]["FB_EMAILID"].ToString()) ?? "";
+                    dec.MOBILE_NO = DecryptFields.Decrypt(dt.Rows[i]["MOBILE_NO"].ToString()) ?? "";
+                    dec.PATIENTNO = DecryptFields.Decrypt(dt.Rows[i]["PATIENTNO"].ToString()) ?? "";
+                    dec.INSURANCEID = DecryptFields.Decrypt(dt.Rows[i]["INSURANCEID"].ToString()) ?? "";
+                    dec.MRN_NO = DecryptFields.Decrypt(dt.Rows[i]["MRN_NO"].ToString()) ?? "";
+                    dec.NATIONALID = DecryptFields.Decrypt(dt.Rows[i]["NATIONALID"].ToString()) ?? "";
+                    dec.DOB_ENCRYPT = DecryptFields.Decrypt(dt.Rows[i]["DOB_ENCRYPT"].ToString()) ?? "";
+                    dec.FULLNAME = DecryptFields.Decrypt(dt.Rows[i]["FULLNAME"].ToString()) ?? "";
+                    dec.EMERG_CONT_FIRSTNAME = DecryptFields.Decrypt(dt.Rows[i]["EMERG_CONT_FIRSTNAME"].ToString()) ?? "";
+                    dec.EMERG_CONT_MIDDLENAME = DecryptFields.Decrypt(dt.Rows[i]["EMERG_CONT_MIDDLENAME"].ToString()) ?? "";
+                    dec.EMERG_CONT_LASTNAME = DecryptFields.Decrypt(dt.Rows[i]["EMERG_CONT_LASTNAME"].ToString()) ?? "";
+                    dec.EMRG_CONT_PHONENO = DecryptFields.Decrypt(dt.Rows[i]["EMRG_CONT_PHONENO"].ToString()) ?? "";
+                    list2.Add(dec);
+                }
+                catch(Exception EX)
+                {
+                    continue;
+                }
+            }
+            return list2;
+        }
+
+        public long GetUserCount()
+        {
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_DB_USER_COUNT]");
+                return Convert.ToInt64(dt.Rows[0]["Count"].ToString());
+            }
+            catch(Exception ex)
+            {
+                return 0;
+            }
         }
 
         public int NEW_EncryptUserDetails(DataTable dt)

@@ -96,11 +96,36 @@ namespace MyCortex.Repositories.Login
         /// <returns>Login validity details and User Information</returns>
         public LoginModel Userlogin_AddEdit(LoginModel obj)
         {
+            DataEncryption EncryptPassword = new DataEncryption();
+            string Password = EncryptPassword.Encrypt(obj.Password);
+            string Username = EncryptPassword.Encrypt(obj.Username);
+            string uid = "0";
+            string encrypted_data = "No";
+            List<DataParameter> user_param = new List<DataParameter>();
+            user_param.Add(new DataParameter("@NORMAL_USERNAME", obj.Username));
+            user_param.Add(new DataParameter("@NORMAL_PWD", obj.Password));
+            user_param.Add(new DataParameter("@ENCRYPT_USERNAME", Username));
+            user_param.Add(new DataParameter("@ENCRYPT_PWD", Password));
+            DataTable user_dt = ClsDataBase.GetDataTable("[MYCORTEX].GET_USER_LOGIN_ID", user_param);
+            if (user_dt.Rows.Count > 0)
+            {
+                uid = user_dt.Rows[0]["USERID"].ToString();
+                encrypted_data = user_dt.Rows[0]["ENCRYPTED_DATA"].ToString();
+            }
+
             //getSystemInformation(obj);
             List<DataParameter> param = new List<DataParameter>();
             //param.Add(new DataParameter("@Id", Id));
-            param.Add(new DataParameter("@UserName", obj.Username));
-            param.Add(new DataParameter("@Password", obj.Password));
+            if (uid == "1" && encrypted_data == "Yes")  // super admin user only
+            {
+                param.Add(new DataParameter("@UserName", Username));
+                param.Add(new DataParameter("@Password", Password));
+            } 
+            else
+            {
+                param.Add(new DataParameter("@UserName", obj.Username));
+                param.Add(new DataParameter("@Password", obj.Password));
+            }
             param.Add(new DataParameter("@DeviceType", obj.DeviceType));
             param.Add(new DataParameter("@LoginType", obj.LoginType));
             param.Add(new DataParameter("@TimeDifference", obj.Sys_TimeDifference));
@@ -121,8 +146,15 @@ namespace MyCortex.Repositories.Login
             param.Add(new DataParameter("@Login_TimeZone", obj.timeZone));
             //   param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
 
-
-            DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].LOGIN_SP_VALIDATIONSCHECK_INSERT", param);
+            DataTable dt = new DataTable();
+            if (uid == "1" && encrypted_data == "Yes")  // super admin user only
+            {
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].[SUPERADMIN_LOGIN_SP_VALIDATIONSCHECK_INSERT]", param);
+            }
+            else
+            {
+                dt = ClsDataBase.GetDataTable("[MYCORTEX].LOGIN_SP_VALIDATIONSCHECK_INSERT", param);
+            }
             LoginModel lst = (from p in dt.AsEnumerable()
                               select
                               new LoginModel()
@@ -998,9 +1030,12 @@ namespace MyCortex.Repositories.Login
         //  public LoginModel Userlogin_Validate(System.Security.Claims.ClaimsIdentity identity)
         public LoginModel Userlogin_Validate(string Username, string Password)
         {
+            DataEncryption EncryptPassword = new DataEncryption();
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@UserName", Username));
             param.Add(new DataParameter("@Password", Password));
+            param.Add(new DataParameter("@ENC_USERNAME", EncryptPassword.Encrypt(Username)));
+            param.Add(new DataParameter("@ENC_PASSWORD", EncryptPassword.Encrypt(Password)));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].LOGIN_SP_SUPERADMINVALIDATION", param);
             LoginModel lst = (from p in dt.AsEnumerable()

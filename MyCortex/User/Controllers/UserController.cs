@@ -4407,11 +4407,26 @@ namespace MyCortex.User.Controller
         }
 
         [HttpGet]
-        public int EncryptedUserList(long InstitutionId, long startno)
+        public long GetUserCount()
         {
             try
             {
-                IList<DecryptUserListModel> li = repository.DecryptUserDetails(InstitutionId, startno);
+                long y = repository.GetUserCount();
+                return y;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+
+        [HttpGet]
+        public int EncryptedUserList(long startno)
+        {
+            try
+            {
+                IList<DecryptUserListModel> li = repository.DecryptUserDetails(startno);
                 DataTable dt = ToDataTable(li);
                 int y = repository.NEW_EncryptUserDetails(dt);
                 return y;
