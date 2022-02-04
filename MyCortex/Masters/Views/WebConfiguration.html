@@ -103,7 +103,7 @@
                     </select>
 
                     <select class="form-control" id="chkChronic" style="max-width:100% !important" multiple="multiple" multiselect-dropdown
-                            ng-change="onChangeChronic();"
+                            ng-change="onChangeChronic(Config_value[row.ID],row.ID)"
                             ng-model="Config_value[row.ID]" ng-if="row.CONFIGCODE=='CHRONIC CODE' && IsEdit==true">
                         <option id="chkCL" ng-model="chronicCL" value="CL">CL</option>
                         <option id="chkCG" ng-model="chronicCG" value="CG">CG</option>

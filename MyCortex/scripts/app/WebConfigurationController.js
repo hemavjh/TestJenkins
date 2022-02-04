@@ -16,7 +16,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
         $scope.IsEdit = false;
         $scope.WebConfigEdit = function () {
             $scope.IsEdit = true;
-            //$scope.ChronicEdit();
+            $scope.ChronicEdit();
         }
 
         $scope.WebConfigCancel = function () {
@@ -26,33 +26,40 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
 
         
         $scope.ChronicEdit = function () {
+            var EditChronicEdit = [];
+            var EditChronicId = "";
             angular.forEach($scope.rowCollectionWebConfiguration, function (SplitChronic, Id) {
-                if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "CHRONIC_CODE") {
-                    var ConfigListValue = $scope.Config_value[$scope.Config_value.length - 1];
+                if (SplitChronic["CONFIGVALUE"] != "" && SplitChronic["CONFIGCODE"] == "CHRONIC CODE") {
+                    var ConfigListValue = $scope.Config_value[SplitChronic["ID"]];
+                    EditChronicId = SplitChronic["ID"];
                     var SplitChronic = ConfigListValue.split(',');
                     for (var a = 0; a < SplitChronic.length; a++) {
                         if (SplitChronic.length > 0) {
                             var option = SplitChronic[a];
                             if (option != "") {
                                 if (option == "CL") {
+                                    EditChronicEdit.push(option);
                                     var status = $('#chkCL').is(":checked");
                                     if (status == false) {
                                         
                                     }
                                 }
                                 if (option == "CG") {
+                                    EditChronicEdit.push(option);
                                     var status = $('#chkCG').is(":checked");
                                     if (status == false) {
 
                                     }
                                 }
                                 if (option == "CC") {
+                                    EditChronicEdit.push(option);
                                     var status = $('#chkCC').is(":checked");
                                     if (status == false) {
 
                                     }
                                 }
                                 if (option == "SC") {
+                                    EditChronicEdit.push(option);
                                     var status = $('#chkSC').is(":checked");
                                     if (status == false) {
 
@@ -61,6 +68,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
                             }
                         }
                     }
+                    $scope.Config_value[EditChronicId] = EditChronicEdit;
                 }
             });
         }
@@ -284,20 +292,20 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
         }*/
 
         
-        $scope.onChangeChronic = function () {
+        //$scope.onChangeChronic = function () {
             CHRONIC_CODE = "";
             //var ConfigValue = $scope.rowCollectionWebConfiguration["32"]["CONFIGVALUE"];
             /*var ConfigValue = $scope.Config_value[$scope.Config_value.length - 1];*/
-            var ConfigRowId = $scope.Config_value.length - 1;
-            angular.forEach($scope.Config_value[ConfigRowId], function (ID, index) {
-                if ($scope.Config_value[ConfigRowId].length == 1) {
-                    CHRONIC_CODE = ID.toString();
-                }
-                else if (CHRONIC_CODE != "" || $scope.Config_value[ConfigRowId].length > 1) {
-                    CHRONIC_CODE = CHRONIC_CODE + ID + ',';
+            //var ConfigRowId = $scope.Config_value.length - 1;
+            //angular.forEach($scope.Config_value[ConfigRowId], function (ID, index) {
+            //    if ($scope.Config_value[ConfigRowId].length == 1) {
+            //        CHRONIC_CODE = ID.toString();
+            //    }
+            //    else if (CHRONIC_CODE != "" || $scope.Config_value[ConfigRowId].length > 1) {
+            //        CHRONIC_CODE = CHRONIC_CODE + ID + ',';
 
-                }
-            });
+            //    }
+            //});
 
             //var CHRONIC_CODE = "";
             //angular.forEach($scope.Config_value[row.ID], function (Chronic_Id, index) {
@@ -309,7 +317,7 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
 
             //    }
             //});
-        }
+        //}
 
 
 /*
@@ -331,11 +339,11 @@ WebConfigurationcontroller.controller("WebConfigurationController", ['$scope', '
             });
         }*/
 
-        $scope.onChangeChronic = function () {
+        $scope.onChangeChronic = function (ID, ConfigRowId) {
             CHRONIC_CODE = "";
             //var ConfigValue = $scope.rowCollectionWebConfiguration["31"]["CONFIGVALUE"];
             /*var ConfigValue = $scope.Config_value[$scope.Config_value.length - 1];*/
-            var ConfigRowId = $scope.Config_value.length - 1;
+            //var ConfigRowId = $scope.Config_value.length - 1;
             angular.forEach($scope.Config_value[ConfigRowId], function (ID, index) {
                 if ($scope.Config_value[ConfigRowId].length == 1) {
                     CHRONIC_CODE = ID.toString();
