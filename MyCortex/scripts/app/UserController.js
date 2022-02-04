@@ -3136,7 +3136,24 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.User_InsertUpdate();
         }
         $scope.User_InsertUpdate = function () {
-            $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;
+            // Mobile Number Validation...
+            var countryData = inputPhoneNo.getSelectedCountryData();
+            var countryCode = countryData.dialCode; // using updated doc, code has been replaced with dialCode
+
+            countryCode = "+" + countryCode;
+            document.getElementById("txthdCountryCode").value = countryCode;
+
+            var isValidNum = inputPhoneNo.isValidNumber();
+
+            if (!isValidNum) {
+                swal.fire("Phone number invalid");
+                document.getElementById("txthdFullNumber").value = "";
+                return;
+            } else {               
+                document.getElementById("txthdFullNumber").value = document.getElementById("txthdCountryCode").value  + "~" + document.getElementById("txtMobile").value;                
+            }
+            $scope.MobileNo_CC = document.getElementById("txthdFullNumber").value;            
+            
             $('#btnsave').attr("disabled", true);
             $('#btnsave1').attr("disabled", true);
             $('#btnsave2').attr("disabled", true);
