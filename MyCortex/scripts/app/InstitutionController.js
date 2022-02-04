@@ -53,6 +53,34 @@ Institution.controller("InstitutionController", ['$scope', '$http', '$routeParam
         $scope.rowCollectionFilter = [];
         $scope.Id = 0;
         $scope.PhotoValue = 0;
+        $scope.UserCount = 0;
+        $scope.TotalUserCount = 0;
+        $scope.startno = 0;
+        $http.get(baseUrl + '/api/User/GetUserCount/').success(function (data) {
+            $scope.UserCount = data;
+            $scope.TotalUserCount = data;
+        });
+
+        $scope.Apply_New_Encryption_to_UserDetails = function () {
+            if ($scope.UserCount != 0) {
+                $("#newEncry").text('Processing...');
+                $http.get(baseUrl + '/api/User/EncryptedUserList/?startno=' + $scope.startno).success(function (data) {
+                    console.log(data);
+                    if ($scope.UserCount > 0) {
+                        $scope.startno = $scope.startno + 1;
+                        $scope.UserCount = $scope.UserCount - 1000;
+                        var te = parseInt((($scope.startno * 1000) / $scope.TotalUserCount) * 100);
+                        $("#newEncry").css('display', 'none');
+                        $("#processtext").text(te.toString() + " % Completed");
+                        $scope.Apply_New_Encryption_to_UserDetails();
+                    } else {
+                        $("#newEncry").text('Apply New Encryption');
+                        $("#newEncry").css('display', 'inline-block');
+                        $("#processtext").text('');
+                    }
+                });
+            }
+        }
 
         $scope.AddInstitutionpopup = function () {
             $('#divInsCountry').addClass("ng-invalid");
