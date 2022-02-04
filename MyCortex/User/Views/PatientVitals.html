@@ -1713,7 +1713,10 @@
                                                                 </td>
                                                                 <td style="text-align: left">{{row.CategoryName}}</td>
                                                                 <td style="text-align: left">
-                                                                    <div class="textwrap">{{row.Remarks}}</div>
+                                                                    <div class="textwrap" style="word-break:break-word">
+                                                                        <!--{{row.Remarks}}-->
+                                                                        {{ row.Remarks.length > 100 ? row.Remarks.substring(0,100)+ "..." : row.Remarks}}
+                                                                    </div>
                                                                 </td>
                                                                 <td style="text-align: left">{{row.Active_From | date :'dd-MMM-yyyy'}} <br />{{row.Active_To | date :'dd-MMM-yyyy'}}</td>
                                                                 <td style="text-align: left; max-width:150px; word-wrap:break-word;">{{row.Created_By_Name }} <br /> {{row.Created_DT | date :'dd-MMM-yyyy hh:mm:ss a'}} </td>
@@ -2661,10 +2664,10 @@
                                         <label class="col-sm-6 doc-label">Date of birth</label>
                                         <p class="col-sm-6 doc-p">{{DoctorDetailBio.DOB.split('T')[0]}}</p>
                                     </div>
-                                    <div class="flex">
+                                    <!--<div class="flex">
                                         <label class="col-sm-6 doc-label">Nationality</label>
                                         <p class="col-sm-6 doc-p">{{DoctorDetailBio.HEALTH_LICENSE}}</p>
-                                    </div>
+                                    </div>-->
                                     <div class="flex">
                                         <label class="col-sm-6 doc-label">Email</label>
                                         <p class="col-sm-6 doc-p">{{DoctorDetailBio.EMAILID}}</p>
@@ -3900,7 +3903,7 @@
                                             <label>Remarks</label>
                                         </td>
                                         <td width="30%">
-                                            <div class="textwrap"> {{ICD_Remarks}}</div>
+                                            <div class="textwrap" style="word-break: break-word;"> {{ICD_Remarks}}</div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -4466,14 +4469,14 @@
                                                         <td style="width: 15%; vertical-align: top;">
                                                             <label>Clinical Notes</label>
                                                         </td>
-                                                        <div>
                                                         <td>
-                                                            <div class="textwrap">{{Notes}}</div>
+                                                            <div class="textwrap" style="word-break:break-word">{{Notes}}</div>
                                                         </td>
-                                        </div>
+                                       
                                         </tr>
                                         </table>
                                         </form>
+                                        </div>
                                     </div>
                                     <div class="modal-footer" style="text-align: center;">
                                         <button type="button" class="btn btn-save" title="Click to Cancel" ng-click="CancelViewPatientNotespopup()">
@@ -4661,7 +4664,7 @@
                                         </td>
                                         <td>
                                             <span>
-                                                <div class="textwrap">{{Remarks}}</div>
+                                                <div class="textwrap" style="word-break: break-word;">{{Remarks}}</div>
                                             </span>
                                         </td>
                                     </tr>
@@ -5242,7 +5245,10 @@
                                                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                 <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.Coordinator}}</td>
                                                 <td style="text-align: left;max-width:150px;word-wrap:break-word;">{{row.CareGiver}}</td>
-                                                <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.CC_Remarks}}</td>
+                                                <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
+                                                    <!--{{row.CC_Remarks}}-->
+                                                    {{ row.CC_Remarks.length > 100 ? row.CC_Remarks.substring(0,100)+ "..." : row.CC_Remarks}}
+                                                </td>
                                                 <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
                                             </tr>
                                         </tbody>
@@ -5593,10 +5599,10 @@
                                                     <label class="col-sm-6 doc-label">Date of birth</label>
                                                     <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
                                                 </div>
-                                                <div class="flex">
+                                               <!-- <div class="flex">
                                                     <label class="col-sm-6 doc-label">Nationality</label>
                                                     <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
-                                                </div>
+                                                </div>-->
                                                 <div class="flex">
                                                     <label class="col-sm-6 doc-label">Email</label>
                                                     <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>
@@ -5869,10 +5875,10 @@
                                                 <label class="col-sm-6">Date of birth</label>
                                                 <p class="col-sm-6 doc-p">{{DoctorDetailList.DOB.split('T')[0]}}</p>
                                             </div>
-                                            <div class="flex">
+                                            <!--<div class="flex">
                                                 <label class="col-sm-6">Nationality</label>
                                                 <p class="col-sm-6 doc-p">{{DoctorDetailList.HEALTH_LICENSE}}</p>
-                                            </div>
+                                            </div>-->
                                             <div class="flex">
                                                 <label class="col-sm-6">Email</label>
                                                 <p class="col-sm-6 doc-p">{{DoctorDetailList.EMAILID}}</p>
