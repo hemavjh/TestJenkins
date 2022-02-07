@@ -33,6 +33,8 @@ namespace MyCortex.Admin.Controllers
         [CheckSessionOutFilter]
         public HttpResponseMessage Token(double amount, string iapDeviceId = "", string appId = "", long Institution_Id = 0, long Department_Id = 0, long Appointment_Id = 0)
         {
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             string token = string.Empty;
             string payBySign = string.Empty;
 

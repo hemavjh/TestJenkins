@@ -68,7 +68,9 @@ namespace MyCortex.Repositories
         void PatientAssignedProtocol_InsertUpdate(ProtocolModel prtobj);
         IList<ProtocolModel> PatientAssignedProtocolHistorylist(long Patient_Id, Guid Login_Session_Id);
 
-        IList<DecryptUserListModel> DecryptUserDetails(long InstitutionId, long startno);
+        IList<DecryptUserListModel> DecryptUserDetails(long startno);
+
+        long GetUserCount();
 
         int NEW_EncryptUserDetails(DataTable dt);
         IList<MasterICDModel> ICD10CategoryList();

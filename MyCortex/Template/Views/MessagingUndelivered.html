@@ -256,17 +256,26 @@
                 <input type="checkbox" ng-model="row.SelectedUser" />
             </td>
             <td style="text-align: left">
-                <div class="textwrap">{{row.FullName}}<br>{{row.EmailId}}
+                <div class="textwrap">
+                    <!--{{row.FullName}}-->
+                    {{ row.FullName.length > 100 ? row.FullName.substring(0,100)+ "..." : row.FullName}}
+                    <br>{{row.EmailId}}
                 </div>
             </td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.TypeName}}</div>
             </td>
             <td style="text-align: left">
-                <div class="textwrap">{{row.TemplateName}}</div>
+                <div class="textwrap" style="word-break:break-word;">
+                    <!--{{row.TemplateName}}-->
+                    {{ row.TemplateName.length > 100 ? row.TemplateName.substring(0,100)+ "..." : row.TemplateName}}
+                </div>
             </td>
             <td style="text-align: left">
-                <div class="textwrap">{{row.EmailSubject}}</div>
+                <div class="textwrap" style="word-break:break-word;">
+                    <!--{{row.EmailSubject}}-->
+                    {{ row.EmailSubject.length > 100 ? row.EmailSubject.substring(0,100)+ "..." : row.EmailSubject}}
+                </div>
             </td>
             <td style="text-align: left">
                 <div class="textwrap">{{row.Send_Date | date :'dd-MMM-yyyy hh:mm a'}}</div>
@@ -317,7 +326,7 @@
                             </div>
                             <div class="inputGroups">
                                 <label>Email Body</label>
-                                <span ng-bind-html="Generated_Template"></span>
+                                <span ng-bind-html="Generated_Template" style="word-break: break-word;"></span>
                             </div>
                         </div>
                     </div>

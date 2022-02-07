@@ -283,10 +283,10 @@
                     <!--{{row.MOBILE_NO}}-->
                     {{splitMobileNumber(row.MOBILE_NO,1)}}
                 </td>
-                <td style="text-align: left">
+                <td style="text-align: left; word-break: break-word;">
                     {{row.EMAILID}}
                 </td>
-                <td style="text-align: left" title="{{row.GroupName}}">
+                <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.GroupName}}">
                     <div class="textwrap">
                         {{
  row.GroupName.length > 50 ? row.GroupName.substring(0,50)+"..." : row.GroupName
