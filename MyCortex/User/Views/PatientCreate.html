@@ -505,7 +505,7 @@
                                     <label style=" margin-left: 0px; margin-top: 29px;">National ID image</label>
                                 </div>
                                 <div class="inputGroups">
-                                    <div class="imgAdd1">
+                                    <div class="imgAdd2">
                                         <input type="file" id="NationalLogo" fileread="uploadme1"
                                                onchange="angular.element(this).scope().NationalphotoChange(this)"
                                                name="NationalPhotoFilename" title="Click to Upload Nationality Photo "
@@ -513,7 +513,7 @@
                                                ng-click="NationalityPhotoUplaodSelected()" />
 
                                         <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
-                                            <img id="item-img-output1" style=" width: 200px; height: 200px;" class="responsiveProfileImage1" src="{{uploadme1}}" />
+                                            <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme1}}" />
                                         </div>
                                         <div style="margin-top: 15px;">
                                             <a class="textRight theme-btn-2 mr-10" href="javascript:" ng-click="imageclearPatientNational();"
@@ -525,7 +525,6 @@
                                                     <i class="fa fa-upload" ng-disabled="Pat_UserTypeId==2"></i>
                                                     <span>Upload National Photo</span>
                                                 </label>
-
                                             </div>
                                         </div>
                                     </div>

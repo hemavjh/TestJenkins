@@ -515,6 +515,8 @@
     <Content Include="Masters\Views\ParameterSettings.html" />
     <Content Include="Masters\Views\PasswordPolicy.html" />
     <Content Include="Masters\Views\WebConfiguration.html" />
+    <Content Include="National_Female.png" />
+    <Content Include="National_Male.png" />
     <Content Include="Report\Views\AuditReportList.html" />
     <Content Include="samplepatienthome.html" />
     <Content Include="scripts\7ca6cce699.js" />
