@@ -256,9 +256,9 @@
                 <input type="checkbox" ng-model="row.SelectedUser" />
             </td>
             <td style="text-align: left">
-                <div class="textwrap">
+                <div class="textwrap" title="{{row.FullName}}">
                     <!--{{row.FullName}}-->
-                    {{ row.FullName.length > 100 ? row.FullName.substring(0,100)+ "..." : row.FullName}}
+                    {{ row.FullName.length > 100 ? row.FullName.substring(0,200)+ "..." : row.FullName}}
                     <br>{{row.EmailId}}
                 </div>
             </td>
@@ -266,15 +266,15 @@
                 <div class="textwrap">{{row.TypeName}}</div>
             </td>
             <td style="text-align: left">
-                <div class="textwrap" style="word-break:break-word;">
+                <div class="textwrap" style="word-break:break-word;" title="{{row.TemplateName}}">
                     <!--{{row.TemplateName}}-->
-                    {{ row.TemplateName.length > 100 ? row.TemplateName.substring(0,100)+ "..." : row.TemplateName}}
+                    {{ row.TemplateName.length > 100 ? row.TemplateName.substring(0,200)+ "..." : row.TemplateName}}
                 </div>
             </td>
             <td style="text-align: left">
-                <div class="textwrap" style="word-break:break-word;">
+                <div class="textwrap" style="word-break:break-word;" title="{{row.EmailSubject}}">
                     <!--{{row.EmailSubject}}-->
-                    {{ row.EmailSubject.length > 100 ? row.EmailSubject.substring(0,100)+ "..." : row.EmailSubject}}
+                    {{ row.EmailSubject.length > 100 ? row.EmailSubject.substring(0,200)+ "..." : row.EmailSubject}}
                 </div>
             </td>
             <td style="text-align: left">

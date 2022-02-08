@@ -1713,9 +1713,9 @@
                                                                 </td>
                                                                 <td style="text-align: left">{{row.CategoryName}}</td>
                                                                 <td style="text-align: left">
-                                                                    <div class="textwrap" style="word-break:break-word">
+                                                                    <div class="textwrap" style="word-break:break-word" title="{{row.Remarks}}">
                                                                         <!--{{row.Remarks}}-->
-                                                                        {{ row.Remarks.length > 100 ? row.Remarks.substring(0,100)+ "..." : row.Remarks}}
+                                                                        {{ row.Remarks.length > 100 ? row.Remarks.substring(0,200)+ "..." : row.Remarks}}
                                                                     </div>
                                                                 </td>
                                                                 <td style="text-align: left">{{row.Active_From | date :'dd-MMM-yyyy'}} <br />{{row.Active_To | date :'dd-MMM-yyyy'}}</td>
@@ -4620,7 +4620,7 @@
                                         <td width="30%" valign="top">
                                             <label>Document Name</label>
                                         </td>
-                                        <td>
+                                        <td style="word-break:break-word">
                                             <span>
                                                 <div class="textwrap">{{DocumentName}}</div>
                                             </span>
@@ -5245,9 +5245,9 @@
                                                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                                                 <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.Coordinator}}</td>
                                                 <td style="text-align: left;max-width:150px;word-wrap:break-word;">{{row.CareGiver}}</td>
-                                                <td style="text-align: left; max-width: 150px; word-wrap: break-word;">
+                                                <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.CC_Remarks}}">
                                                     <!--{{row.CC_Remarks}}-->
-                                                    {{ row.CC_Remarks.length > 100 ? row.CC_Remarks.substring(0,100)+ "..." : row.CC_Remarks}}
+                                                    {{ row.CC_Remarks.length > 100 ? row.CC_Remarks.substring(0,200)+ "..." : row.CC_Remarks}}
                                                 </td>
                                                 <td style="text-align: left">{{row.Created_dt| date :'dd-MMM-yyyy hh:mm a'}}</td>
                                             </tr>
