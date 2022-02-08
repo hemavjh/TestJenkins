@@ -4731,17 +4731,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         /* This is for Edit Popup function from List  window page */
         $scope.EditPatientICD10 = function (CatId, createdDt, editval) {
             $('#buttonsave1').attr("disabled", false);
-            if ($scope.IsEditableCheck(createdDt) == false) {
+            /*if ($scope.IsEditableCheck(createdDt) == false) {
                 //alert("ICD10 Cannot be edited");
                 toastr.info("ICD10 Cannot be edited", "info");
             }
-            else {
+            else {*/
                 $scope.Icd10AddnewClear();
                 $scope.Icd10Clear();
                 $scope.Id = CatId;
                 $scope.PatientICD10Details_View();
                 angular.element('#EditICD10Modal').modal('show');
-            }
+            //}
         };
 
         /* This is for Patient ICD10 Details Delete function*/
@@ -5382,11 +5382,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         //This is for Editpopup	
         $scope.EditMedication = function (MedicationViewId, createdDt, editval) {
             $('#save1').attr("disabled", false);
-            if ($scope.IsEditableCheck(createdDt) == false) {
+            /*if ($scope.IsEditableCheck(createdDt) == false) {
                 //alert("Medication Cannot be edited");
                 toastr.info("Medication Cannot be edited", "info");
             }
-            else {
+            else { */
                 if (editval == 3) {
                     if ($scope.MedicationTabCount == 1) {
                         $scope.DropLoadMedication();
@@ -5399,7 +5399,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                     $scope.PatientMedicationCreateModalClear();
                     angular.element('#PatientMedicationEditModal').modal('show');
                 }
-            }
+            //}
         }
         $scope.CancelEditPopUp = function () {
             $scope.PatientMedicationCreateModalClear();
@@ -6187,17 +6187,17 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
         /* This is for Patient Allergy Edit Popup*/
         $scope.EditAllergy = function (AllergyViewId, createdDt) {
             $('#Allergysave').attr("disabled", false);
-            if ($scope.IsEditableCheck(createdDt) == false) {
+           /* if ($scope.IsEditableCheck(createdDt) == false) {
                 //alert("Allergy Cannot be edited");
                 toastr.info("Allergy Cannot be edited", "info");
             }
-            else {
+            else {*/
                 $scope.AllergyClickDetailsList();
                 $scope.Id = AllergyViewId;
                 $scope.PatientAllergyView();
                 $scope.AllergyDropDown = 2;
                 angular.element('#PatientAllergyCreateModal').modal('show');
-            }
+            //}
         }
         $scope.CancelPopUp = function () {
             angular.element('#PatientAllergyCreateModal').modal('hide');
