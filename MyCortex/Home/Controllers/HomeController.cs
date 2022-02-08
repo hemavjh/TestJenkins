@@ -958,7 +958,9 @@ namespace MyCortex.Home.Controllers
                     DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(typeof(PayByCreateOrderResponse));
                     object objResponse = jsonSerializer.ReadObject(res.GetResponseStream());
                     PayByCreateOrderResponse tokenRes = objResponse as PayByCreateOrderResponse;
-                    _logger.Info(tokenRes);
+                    var toekndata = new JavaScriptSerializer().Serialize(tokenRes);
+                    _logger.Info(toekndata);
+                    //_logger.Info(tokenRes.body.interActionParams.tokenUrl);
                     if (tokenRes != null && tokenRes.body != null && tokenRes.body.interActionParams != null && !string.IsNullOrEmpty(tokenRes.body.interActionParams.tokenUrl))
                     {
                         redirectUrl = tokenRes.body.interActionParams.tokenUrl;
