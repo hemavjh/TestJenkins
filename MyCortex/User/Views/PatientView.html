@@ -131,7 +131,7 @@
                                                             <span> {{ViewGroupName}}</span>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <button type="button" style="width:78px;" class="theme-btn-2  btn-save" ng-click="EditPatientGroup()" ng-show="EditgroupOption == 1">
+                                                            <button type="button" style="width: 122px;" class="theme-btn-2  btn-save" ng-click="EditPatientGroup()" ng-show="EditgroupOption == 1">
                                                                 Edit Group
                                                             </button>
                                                         </div>
@@ -266,7 +266,7 @@
                                                         <label>Blood Group</label>
                                                         <span>{{ViewBloodGroup}}</span>
                                                     </div>
-                                                    <div class="inputGroups" ng-show="EditPatientChronicCondition == 1">
+                                                    <div class="inputGroups" ng-if="EditPatientChronicCondition == 0">
                                                         <div class="row">
                                                             <div class="col-sm-9">
                                                                 <label> Chronic Condition</label>
@@ -289,7 +289,7 @@
                                                                 <option value="0">Select</option>
                                                             </select>
                                                         </div>
-                                                        <button type="button" style="width:100px;" class="theme-btn-2  btn-save" ng-click="EditSavePatientChronic(SelectedChronicConditionEdit)">
+                                                        <button type="button" style="width: 122px; margin-top: 15px; " class="theme-btn-2  btn-save" ng-click="EditSavePatientChronic(SelectedChronicConditionEdit)">
                                                             Save Chronic
                                                         </button>
                                                     </div>
