@@ -3258,20 +3258,26 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
 
         };
         $scope.ParameterClickEdit = function (rowData, rowIndex) {
-            var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: rowData.ParameterId }, true)[0];
-            if (checkobj.IsFormulaParam == "1") {
-                //alert(checkobj.ParameterName + " cannot be edited");
-                toastr.warning(checkobj.ParameterName + " cannot be edited", "warning");
+            if (rowData.IsActive == 0) {
+                toastr.warning("Inactive records cannot be edited", "warning");
             }
             else {
-                if ($scope.IsEditableCheck(rowData.Activity_Date) == false) {
-                    //alert("Parameter value cannot be edited");
-                    toastr.info("Inactive records cannot be edited", "info");
+                var checkobj = $ff($scope.GroupParameterNameList, { ParameterId: rowData.ParameterId }, true)[0];
+                if (checkobj.IsFormulaParam == "1") {
+                    //alert(checkobj.ParameterName + " cannot be edited");
+                    toastr.warning(checkobj.ParameterName + " cannot be edited", "warning");
                 }
                 else {
-                    $scope.EditVitalRow_EditFlag[rowIndex] = 2;
+                    if ($scope.IsEditableCheck(rowData.Activity_Date) == false) {
+                        //alert("Parameter value cannot be edited");
+                        toastr.info("Parameter value cannot be edited", "info");
+                    }
+                    else {
+                        $scope.EditVitalRow_EditFlag[rowIndex] = 2;
+                    }
                 }
             }
+            
         }
       /*  *//*calling Alert message for cannot edit inactive record function *//*
         $scope.ParameterClickEdit = function () {
@@ -3279,11 +3285,11 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
             toastr.info("Parameter value cannot be edited", "info");
         }
 */
-        /*calling Alert message for cannot edit inactive record function */
+        /*calling Alert message for cannot edit inactive record function *//*
         $scope.ParameterClickEdit = function () {
               //alert("Parameter value cannot be edited");
             toastr.info("Inactive records cannot be edited", "info");
-        }
+        }*/
         $scope.ParameterEdit_Update = function (rowData, rowIndex) {
             if (rowData.newParameterValue == '') {
                 //alert("Please enter value");
