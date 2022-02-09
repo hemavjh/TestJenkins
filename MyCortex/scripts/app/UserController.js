@@ -667,6 +667,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         reader1.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme1 = $scope.uploadmes;
+                            $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -682,7 +683,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
                            // $scope.uploadme1 = $scope.uploadmes;
-                            $scope.uploadme2 = $scope.uploadmes;
+                            //$scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
@@ -3235,7 +3236,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
-                    $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src');
+                    $scope.InsurancePhotoFullpath = $('#item-img-output1').attr('src'); //$('#item-img-output2').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
                         var Institutionobj = {
