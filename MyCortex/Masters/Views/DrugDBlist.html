@@ -76,16 +76,16 @@
         </tr>
         <tr ng-repeat="row in emptydata">
             <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-            <td style="text-align: left; max-width: 150px; word-wrap: break-word; ">
-                <div class="textwrap">{{row.Generic_name}}</div>
+            <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.Generic_name}}">
+                <div class="textwrap">{{row.Generic_name.length > 50 ? row.Generic_name.substring(0,50) + "..." : row.Generic_name}}</div>
             </td>
             <td style="text-align: left">{{row.StrengthName}}</td>
             <td style="text-align: left">{{row.Dosage_FromName}}</td>
-            <td style="text-align: left">
-                <div class="textwrap">{{row.Item_Code}}</div>
+            <td style="text-align: left; word-wrap: break-word" title="{{row.Item_Code.length}}">
+                <div class="textwrap">{{row.Item_Code.length > 50 ? row.Item_Code.substring(0,50) + "..." : row.Item_Code}}</div>
             </td>
             <td style="text-align: left">
-                <div class="textwrap">{{row.Drug_Code}}</div>
+                <div class="textwrap">{{row.Drug_Code.length > 50 ? row.Drug_Code.substring(0,50) + "..." : row.Drug_Code}}</div>
             </td>
             <td st-ratio="10">
                 <a href="javascript:" ng-click="ViewDrugDBPopUP(row.Id)" title="View">
@@ -108,7 +108,7 @@
     </tbody>
     <tfoot ng-show="total_pageDrug>1">
         <tr>
-            <td colspan="9" class="text-center">
+            <td colspan="9" class="text-center" style=" text-align: center; ">
                 <!--<div st-items-by-page="10" st-page-change="rembemberCurrentPage(newPage)" st-pagination="" st-template="Masters/Views/pagination.custom.html"></div>-->
                 <ul class="pagination">
                     <li>
