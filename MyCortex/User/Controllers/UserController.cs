@@ -727,7 +727,7 @@ namespace MyCortex.User.Controller
 
         [HttpGet]
         //  [CheckSessionOutFilter]
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string NATIONALITY_ID = null, String SearchQuery = null, string PATIENTNO = null, string INSURANCEID = null, string MOBILE_NO = null, string EMAILID = null, string FIRSTNAME = null, string LASTNAME = null, string MRNNO = null)
         {
             string NATIONALITY_ID2 = string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower();
             string PATIENTNO2 = string.IsNullOrEmpty(PATIENTNO) ? "" : PATIENTNO.ToLower();
@@ -738,142 +738,18 @@ namespace MyCortex.User.Controller
             string LASTNAME2 = string.IsNullOrEmpty(LASTNAME) ? "" : LASTNAME.ToLower();
             string MRNNO2 = string.IsNullOrEmpty(MRNNO) ? "" : MRNNO.ToLower();
             string SearchQuery2 = string.IsNullOrEmpty(SearchQuery) ? "" : SearchQuery.ToLower();
-            int lastno = (EndRowNumber - StartRowNumber) + 1;
-            int StartRowNumber2 = StartRowNumber - 1;
-            List<ItemizedUserDetailsModel> search_patient_list = new List<ItemizedUserDetailsModel>();
-            List<ItemizedUserDetailsModel> search_model = new List<ItemizedUserDetailsModel>();
-            List<ItemizedUserDetailsModel> model;
-            if (INSTITUTION_ID == null)
+            int lastno = 0;
+            int StartRowNumber2 = 1;
+            List<ItemizedUserDetailsModel> model = new List<ItemizedUserDetailsModel>();
+            try
             {
-                INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+                model = repository.Search_Patient_List(IsActive, INSTITUTION_ID, StartRowNumber2, lastno, NATIONALITY_ID2, SearchQuery2, PATIENTNO2, INSURANCEID2, MOBILE_NO2, EMAILID2, FIRSTNAME2, LASTNAME2, MRNNO2);
             }
-            else if (INSTITUTION_ID == 0)
+            catch(Exception ex)
             {
-                INSTITUTION_ID = Int16.Parse(HttpContext.Current.Session["InstitutionId"].ToString());
+
             }
-            var key = "patient_list_" + INSTITUTION_ID.ToString();
-            if (!memCache.Contains(key))
-            {
-                search_patient_list = repository.Search_Patient_List(IsActive, INSTITUTION_ID, SearchQuery);
-                var ss = JsonConvert.SerializeObject(search_patient_list);
-                memCache.Add(key, search_patient_list, DateTimeOffset.UtcNow.AddHours(1));
-                if (SearchQuery2 != "")
-                {
-                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).ToList();
-                    Int64 count = model.Count;
-                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                    model.ForEach(x => x.TotalRecord = count.ToString());
-                }
-                else
-                {
-                    Int64 count = 0;
-                    if (FIRSTNAME2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (LASTNAME2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (INSURANCEID2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    else if (MOBILE_NO2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (EMAILID2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (NATIONALITY_ID2 != "0")
-                    {
-                        model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (PATIENTNO2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (MRNNO2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    model = search_model.Distinct().ToList();
-                    count = model.Count;
-                    model.ForEach(x => x.TotalRecord = count.ToString());
-                    model = model.Skip(StartRowNumber2).Take(lastno).ToList();
-                }
-                return model;
-            }
-            else
-            {
-                search_patient_list = (List<ItemizedUserDetailsModel>)memCache.Get(key);
-                if (SearchQuery2 != "")
-                {
-                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).ToList();
-                    Int64 count = model.Count;
-                    model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(SearchQuery2) || x.LastName.ToLower().Contains(SearchQuery2) || x.MNR_NO.ToLower().Contains(SearchQuery2) || x.MOBILE_NO.ToLower().Contains(SearchQuery2) || x.EMAILID.ToLower().Contains(SearchQuery2) || x.NATIONALID.ToLower().Contains(SearchQuery2) || x.PATIENT_ID.ToLower().Contains(SearchQuery2) || x.INSURANCEID.ToLower().Contains(SearchQuery2)).Skip(StartRowNumber2).Take(lastno).ToList();
-                    model.ForEach(x => x.TotalRecord = count.ToString());
-                }
-                else
-                {
-                    Int64 count = 0;
-                    if (FIRSTNAME2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.FirstName.ToLower().Contains(FIRSTNAME2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (LASTNAME2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.LastName.ToLower().Contains(LASTNAME2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (INSURANCEID2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    else if (MOBILE_NO2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.MOBILE_NO.ToLower().Contains(MOBILE_NO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (EMAILID2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.EMAILID.ToLower().Contains(EMAILID2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (NATIONALITY_ID2 != "0")
-                    {
-                        model = search_patient_list.Where(x => x.NATIONALID.ToLower().Contains(NATIONALITY_ID2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (PATIENTNO2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.PATIENT_ID.ToLower().Contains(PATIENTNO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    if (MRNNO2 != "")
-                    {
-                        model = search_patient_list.Where(x => x.MNR_NO.ToLower().Contains(MRNNO2)).ToList();
-                        search_model.AddRange(model);
-                    }
-                    model = search_model.Distinct().ToList();
-                    count = model.Count;
-                    model.ForEach(x => x.TotalRecord = count.ToString());
-                    model = model.Skip(StartRowNumber2).Take(lastno).ToList();
-                }
-                return model;
-            }
+            return model;
         }
 
         /// <summary>
