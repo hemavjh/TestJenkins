@@ -2293,7 +2293,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //    return true;
         //};
         $scope.AgeRestrictioncalculation = function () {
-            $scope.Today_Date = $filter('date')(new Date(), 'DD-MMM-YYYY');
+            $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
             $scope.Join_Day = moment(ParseDate($scope.Today_Date).subtract($scope.JAge, 'years')).format("DD-MMM-YYYY");
             $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY');
             if ((ParseDate($scope.DOB)) > (ParseDate($scope.Join_Day))) {
