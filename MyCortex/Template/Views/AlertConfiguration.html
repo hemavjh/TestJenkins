@@ -97,13 +97,21 @@
                         <div class="textwrap">{{row.EventName}}</div>
                     </td>
                     <td style="text-align: center">{{row.EmailFlag==true?'Yes':'No'}}</td>
-                    <td style="text-align: left">{{row.EmailTemplate}}</td>
+                    <td style="text-align: left" title="{{row.EmailTemplate}}">
+                        <div class="textwrap">{{row.EmailTemplate.length > 50 ? row.EmailTemplate.substring(0,50) + "..." : row.EmailTemplate}}</div>
+                    </td>
                     <td style="text-align: center">{{row.AppFlag==true?'Yes':'No'}}</td>
-                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.AppTemplate}}</td>
+                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.AppTemplate}}">
+                        <div class="textwrap">{{row.AppTemplate.length > 50 ? row.AppTemplate.substring(0,50) + "..." : row.AppTemplate}}</div>
+                    </td>
                     <td style="text-align: center">{{row.WebFlag==true?'Yes':'No'}}</td>
-                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.WebTemplate}}</td>
+                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.WebTemplate}}">
+                        <div class="textwrap">{{row.WebTemplate.length > 50 ? row.WebTemplate.substring(0,50) + "..." : row.WebTemplate}}</div>
+                    </td>
                     <td style="text-align: center">{{row.SMSFlag==true?'Yes':'No'}}</td>
-                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.SMSTemplate}}</td>
+                    <td style="text-align: left; max-width: 150px; word-wrap: break-word;" title="{{row.SMSTemplate}}">
+                        <div class="textwrap">{{row.SMSTemplate.length > 50 ? row.SMSTemplate.substring(0,50) + "..." : row.SMSTemplate}}</div>
+                    </td>
                     <td style="text-align: left">{{row.AlertDays}}</td>
                     <td st-ratio="10">
                         <a href="javascript:" ng-click="ViewEmailAlertPopUP(row.Id)" title="View">

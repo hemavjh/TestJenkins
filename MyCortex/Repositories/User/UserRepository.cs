@@ -873,11 +873,21 @@ namespace MyCortex.Repositories.Uesr
         }
 
 
-        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, string SearchQuery)
+        public List<ItemizedUserDetailsModel> Search_Patient_List(int? IsActive, long? INSTITUTION_ID, int StartRowNumber, int EndRowNumber, string NATIONALITY_ID, String SearchQuery, string PATIENTNO, string INSURANCEID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRNNO)
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@ISACTIVE", IsActive));
             param.Add(new DataParameter("@INSTITUTION_ID", INSTITUTION_ID));
+            param.Add(new DataParameter("@STARTNO", StartRowNumber));
+            param.Add(new DataParameter("@ENDNO", EndRowNumber));
+            param.Add(new DataParameter("@NATIONALITY_ID", NATIONALITY_ID));
+            param.Add(new DataParameter("@PATIENTNO", PATIENTNO));
+            param.Add(new DataParameter("@INSURANCEID", INSURANCEID));
+            param.Add(new DataParameter("@MOBILE_NO", MOBILE_NO));
+            param.Add(new DataParameter("@EMAILID", EMAILID));
+            param.Add(new DataParameter("@FIRSTNAME", FIRSTNAME));
+            param.Add(new DataParameter("@LASTNAME", LASTNAME));
+            param.Add(new DataParameter("@MRNNO", MRNNO));
             param.Add(new DataParameter("@USERTYPE_ID", "2"));  // dont change
             //param.Add(new DataParameter("@SearchEncryptedQuery", EncryptPassword.Encrypt(SearchQuery)));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].SEARCH_PATIENT_SP_ALL_LIST", param);

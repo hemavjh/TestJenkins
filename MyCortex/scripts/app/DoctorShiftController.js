@@ -1803,7 +1803,7 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
         };
         /* on click Edit, edit popup opened*/
         $scope.EditDoctorShift = function (DId, activeFlag, DoctorId, Institution_Id) {
-            //if (activeFlag == 1) {
+            if (activeFlag == 1) {
             angular.element('#DoctorShiftModal').modal('show');
             $('#saveDoctorShift1').attr("disabled", false);
             $('#saveDoctorShift2').attr("disabled", false);
@@ -1812,16 +1812,17 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
             $scope.Id = DId;
             $scope.DoctorShift_View(DId, DoctorId, Institution_Id);
             $scope.EditShiftDoctor();
-            //}
-            //else {
-            //    alert("Inactive record cannot be edited");
-            //}
+            }
+            else {
+                //alert("Inactive record cannot be edited");
+                toastr.info("Inactive record cannot be edited", "info");
+            }
         };
         /*calling Alert message for cannot edit inactive record function */
-        $scope.EditDoctorShift = function () {
-            //alert("Inactive record cannot be edited");
-            toastr.info("Inactive record cannot be edited", "info");
-        }
+        //$scope.EditDoctorShift = function () {
+        //    //alert("Inactive record cannot be edited");
+        //    toastr.info("Inactive record cannot be edited", "info");
+        //}
         /* 
      Calling api method for the dropdown list in the html page for the fields 
      Doctor List

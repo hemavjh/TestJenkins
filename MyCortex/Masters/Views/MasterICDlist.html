@@ -78,7 +78,7 @@
                     </tr>
                     <tr ng-repeat="row in emptydata">
                         <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
-                        <td style="text-align: left">{{row.ICD_Code}}</td>
+                        <td style="text-align: left; max-width: 150px; word-wrap: break-word;">{{row.ICD_Code}}</td>
                         <td style="text-align: left; max-width: 150px; word-wrap: break-word;"> <div class="textwrap">{{row.Description}}</div></td>
                         <td style="text-align: left">{{row.CategoryName}}</td>
                         <td st-ratio="10">

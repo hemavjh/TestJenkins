@@ -36,7 +36,25 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
+                    <div class="inputGroups">
+                        <label>
+                            Field
+                        </label>
+                        <select class="form-control" ng-model="filter_SearchFieldId" id="ddlsearchfield" ng-required="true">
+                            <option value="0">Select</option>
+                            <option value="1">Patient ID</option>
+                            <option value="2">Nationality</option>
+                            <option value="3">First Name</option>
+                            <option value="4">Last Name</option>
+                            <option value="5">Insurance ID</option>
+                            <option value="6">Email</option>
+                            <option value="7">Mobile No</option>
+                            <option value="8">MRN</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
                     <div class="inputGroups">
                         <label>
                             Search
@@ -47,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <div class="inputGroups">
                         <label>Active</label>
                         <div>
