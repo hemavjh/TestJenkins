@@ -115,20 +115,20 @@
             <tr ng-repeat="row in emptydata">
                 <td class="textalign">{{((current_page-1)*page_size)+$index+1}}</td>
                 <td style="text-align: left">
-                    <div class="textwrap" style="word-break:break-word">
+                    <div class="textwrap" style="word-break:break-word" title="{{row.TemplateName}}">
                         <!--{{row.TemplateName}}-->
-                        {{ row.TemplateName.length > 100 ? row.TemplateName.substring(0,100)+ "..." : row.TemplateName}}
+                        {{ row.TemplateName.length > 100 ? row.TemplateName.substring(0,200)+ "..." : row.TemplateName}}
                     </div>
                 </td>
-                <td style="text-align: left;word-break:break-word" >
+                <td style="text-align: left;word-break:break-word" title="{{row.EmailSubject}}">
                     <!--{{row.EmailSubject}}-->
-                    {{ row.EmailSubject.length > 100 ? row.EmailSubject.substring(0,100)+ "..." : row.EmailSubject}}
+                    {{ row.EmailSubject.length > 100 ? row.EmailSubject.substring(0,200)+ "..." : row.EmailSubject}}
 
                 </td>
-                <td style="text-align: left">
+                <td style="text-align: left" title="{{row.EmailTemplate}}">
                     <div>
                         <p
-                            ng-bind-html="row.EmailTemplate.length>150?row.EmailTemplate.substring(0,150)+'...' : row.EmailTemplate">
+                            ng-bind-html="row.EmailTemplate.length>100?row.EmailTemplate.substring(0,200)+'...' : row.EmailTemplate">
                         </p>
                     </div>
                 </td>

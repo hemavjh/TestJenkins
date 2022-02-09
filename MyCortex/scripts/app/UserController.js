@@ -2404,24 +2404,64 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         $scope.uploadme2 = null;
                     }
                 });
-                $http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
-                    $scope.Chroniccc = data.ChronicCc;
-                    $scope.Chroniccg = data.ChronicCg;
-                    $scope.Chroniccl = data.ChronicCl;
-                    $scope.Chronicsc = data.ChronicSc;
-                    if ($window.localStorage['UserTypeId'] == 6 & $scope.Chroniccc == true) {
-                        $scope.EditChronicOption = 1;
-                    }
-                    if ($window.localStorage['UserTypeId'] == 5 & $scope.Chroniccg == true) {
-                        $scope.EditChronicOption = 1;
-                    }
-                    if ($window.localStorage['UserTypeId'] == 4 & $scope.Chroniccl == true) {
-                        $scope.EditChronicOption = 1;
-                    }
-                    if ($window.localStorage['UserTypeId'] == 7 & $scope.Chronicsc == true) {
-                        $scope.EditChronicOption = 1;
+                $scope.ConfigCode = "CHRONIC CODE";
+                $scope.SelectedInstitutionId = $window.localStorage['InstitutionId'];
+                $http.get(baseUrl + '/api/Common/AppConfigurationDetails/?ConfigCode=' + $scope.ConfigCode + '&Institution_Id=' + $scope.SelectedInstitutionId).success(function (data2) {
+                    if (data2.length !== 0) {
+                        var ChronicDet = data2[0].ConfigValue.split(',')
+
+                        angular.forEach(ChronicDet, function (value, index) {
+                            if (value != "") {
+                                if (value == 'CL') {
+                                    $scope.Chroniccl = true;
+                                }
+                                if (value == 'CG') {
+                                    $scope.Chroniccg = true;
+                                }
+                                if (value == 'CC') {
+                                    $scope.Chroniccc = true;
+                                }
+                                if (value == 'SL') {
+                                    $scope.Chronicsc = true;
+                                }
+                            }
+                        });
+                        //$scope.Chroniccc = data.ChronicCc;
+                        //$scope.Chroniccg = data.ChronicCg;
+                        //$scope.Chroniccl = data.ChronicCl;
+                        //$scope.Chronicsc = data.ChronicSc;
+                        if ($window.localStorage['UserTypeId'] == 6 & $scope.Chroniccc == true) {
+                            $scope.EditChronicOption = 1;
+                        }
+                        if ($window.localStorage['UserTypeId'] == 5 & $scope.Chroniccg == true) {
+                            $scope.EditChronicOption = 1;
+                        }
+                        if ($window.localStorage['UserTypeId'] == 4 & $scope.Chroniccl == true) {
+                            $scope.EditChronicOption = 1;
+                        }
+                        if ($window.localStorage['UserTypeId'] == 7 & $scope.Chronicsc == true) {
+                            $scope.EditChronicOption = 1;
+                        }
                     }
                 });
+                //$http.get(baseUrl + '/api/InstitutionSubscription/InstitutionSubscriptionActiveDetails_View/?Id=' + $scope.InstituteId + '&Login_Session_Id=' + $scope.LoginSessionId).success(function (data) {
+                //    $scope.Chroniccc = data.ChronicCc;
+                //    $scope.Chroniccg = data.ChronicCg;
+                //    $scope.Chroniccl = data.ChronicCl;
+                //    $scope.Chronicsc = data.ChronicSc;
+                //    if ($window.localStorage['UserTypeId'] == 6 & $scope.Chroniccc == true) {
+                //        $scope.EditChronicOption = 1;
+                //    }
+                //    if ($window.localStorage['UserTypeId'] == 5 & $scope.Chroniccg == true) {
+                //        $scope.EditChronicOption = 1;
+                //    }
+                //    if ($window.localStorage['UserTypeId'] == 4 & $scope.Chroniccl == true) {
+                //        $scope.EditChronicOption = 1;
+                //    }
+                //    if ($window.localStorage['UserTypeId'] == 7 & $scope.Chronicsc == true) {
+                //        $scope.EditChronicOption = 1;
+                //    }
+                //});
 
                 $http.get(baseUrl + '/api/User/GETPATIENTINSTITUTION/?ID=' + $scope.Id).success(function (data) {
                     $("#chatLoaderPV").hide();
