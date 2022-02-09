@@ -403,6 +403,8 @@
     <Content Include="Images\MyCortexlogotheme.jpg" />
     <Content Include="Images\MyHealthLoginBg.jpg" />
     <Content Include="Images\NatId.png" />
+    <Content Include="Images\National_Female.png" />
+    <Content Include="Images\National_Male.png" />
     <Content Include="Images\navLogo.png" />
     <Content Include="Images\noAllergy.png" />
     <Content Include="Images\NoImage.jpg" />
