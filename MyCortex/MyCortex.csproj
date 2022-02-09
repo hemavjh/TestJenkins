@@ -403,6 +403,8 @@
     <Content Include="Images\MyCortexlogotheme.jpg" />
     <Content Include="Images\MyHealthLoginBg.jpg" />
     <Content Include="Images\NatId.png" />
+    <Content Include="Images\National_Female.png" />
+    <Content Include="Images\National_Male.png" />
     <Content Include="Images\navLogo.png" />
     <Content Include="Images\noAllergy.png" />
     <Content Include="Images\NoImage.jpg" />
@@ -515,6 +517,8 @@
     <Content Include="Masters\Views\ParameterSettings.html" />
     <Content Include="Masters\Views\PasswordPolicy.html" />
     <Content Include="Masters\Views\WebConfiguration.html" />
+    <Content Include="National_Female.png" />
+    <Content Include="National_Male.png" />
     <Content Include="Report\Views\AuditReportList.html" />
     <Content Include="samplepatienthome.html" />
     <Content Include="scripts\7ca6cce699.js" />

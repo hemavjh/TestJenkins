@@ -648,6 +648,15 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     }
                 });
 
+                var picPath1 = "../../Images/National_Male.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath1 = "../../Images/National_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath1 = "../../Images/National_Male.png";
+                    }
+
                 var picPath = "../../Images/others.png";
                 if (typeof ($scope.Gender_Name) != "undefined")
                     if ($scope.GenderId == feMaleId) {
@@ -657,8 +666,21 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         picPath = "../../Images/Patient_Male.png";
                     }
 
-
                 if (photoview == false) {
+                    var request1 = new XMLHttpRequest();
+                    request1.open('GET', picPath1, true);
+                    request1.responseType = 'blob';
+                    request1.onload = function () {
+                        var reader1 = new FileReader();
+                        reader1.readAsDataURL(request1.response);
+                        reader1.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request1.send();
+                
                     var request = new XMLHttpRequest();
                     request.open('GET', picPath, true);
                     request.responseType = 'blob';
@@ -668,7 +690,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
-                            $scope.uploadme1 = $scope.uploadmes;
+                           // $scope.uploadme1 = $scope.uploadmes;
                             $scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
@@ -2272,7 +2294,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //    return true;
         //};
         $scope.AgeRestrictioncalculation = function () {
-            $scope.Today_Date = $filter('date')(new Date(), 'DD-MMM-YYYY');
+            $scope.Today_Date = $filter('date')(new Date(), 'dd-MMM-yyyy');
             $scope.Join_Day = moment(ParseDate($scope.Today_Date).subtract($scope.JAge, 'years')).format("DD-MMM-YYYY");
             $scope.DOB = moment($scope.DOB).format('DD-MMM-YYYY');
             if ((ParseDate($scope.DOB)) > (ParseDate($scope.Join_Day))) {
