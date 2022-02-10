@@ -142,6 +142,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.filter_Email2 = "";
         $scope.filter_MOBILE_NO2 = "";
         $scope.Filter_MRN2 = "";
+        $scope.filter_SearchFieldId = "0";
         $scope.Filter_PatientNo = "";
         $scope.Filter_FirstName = "";
         $scope.Filter_LastName = "";
