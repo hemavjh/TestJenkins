@@ -44,7 +44,7 @@
                         <select class="form-control" ng-model="filter_SearchFieldId" id="ddlsearchfield" ng-required="true">
                             <option value="0" selected="selected">Select</option>
                             <option value="1">Patient ID</option>
-                            <option value="2">Nationality</option>
+                            <option value="2">National ID</option>
                             <option value="3">First Name</option>
                             <option value="4">Last Name</option>
                             <option value="5">Insurance ID</option>
@@ -114,14 +114,16 @@
                            ng-maxlength="100">
                 </div>
                 <div class="inputGroups">
-                    <label>Nationality</label>
-                    <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17" ng-required="true">
-                        <option value="0">Select</option>
-                        <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
-                                value="{{sel.Id}}">
-                            {{sel.Name}}
-                        </option>
-                    </select>
+                    <label>National ID</label>
+                    <input type="text" class="form-control" ng-model="filter_NationalityId" maxlength="50"
+                           ng-maxlength="100">
+                    <!--<select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="filter_NationalityId" id="Select17" ng-required="true">
+        <option value="0">Select</option>
+        <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
+                value="{{sel.Id}}">
+            {{sel.Name}}
+        </option>
+    </select>-->
                 </div>
                 <!--<div class="inputGroups">
                     <label>Home Phone Number</label>
