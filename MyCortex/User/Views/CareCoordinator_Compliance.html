@@ -12,11 +12,29 @@
 
             <div cellpadding="0" cellspacing="0" border="0" width="100%" class="row" st-table="emptydata"
                  st-safe-src="rowCollectionFilter">
+                <div class="col-sm-2">
+                    <div class="inputGroups">
+                        <label>
+                            Search Field
+                        </label>
+                        <select class="form-control" ng-model="filter_CCComSearchFieldId" id="ddlsearchfield" ng-required="true">
+                            <option value="0" selected="selected">Select</option>
+                            <option value="1">Patient ID</option>
+                            <option value="2">National ID</option>
+                            <option value="3">First Name</option>
+                            <option value="4">Last Name</option>
+                            <option value="5">Insurance ID</option>
+                            <option value="6">Email</option>
+                            <option value="7">Mobile No</option>
+                            <option value="8">MRN</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-sm-3">
                     <div class="inputGroups">
                         <label>Search</label>
                         <div class="modernSearch">
-                            <input type="text" ng-model="coordinator_searchquery" ng-change="Coordinator_ListFilter()"
+                            <input type="text" ng-model="coordinator_searchquery" ng-change="CareCoordinator_Filter()"
                                    placeholder="" />
                             <i class="fa fa-search"></i>
                         </div>
@@ -51,7 +69,7 @@
                             </sub>
                         </a>
                     </div>
-                   
+
                 </div>
 
             </div>
@@ -72,38 +90,50 @@
                                ng-maxlength="100">
                     </div>
                     <div class="inputGroups">
-                        <label>Gender</label>
-                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="CC_GenderId" id="Select16" ng-required="true">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id"
-                                    value="{{sel.Id}}">
-                                {{sel.Gender_Name}}
-                            </option>
-                        </select>
+                        <label>First Name</label>
+                        <input type="text" class="form-control" ng-model="Filter_FirstName" maxlength="50"
+                               ng-maxlength="100">
                     </div>
-                    <div class="inputGroups">
-                        <label>Blood Group</label>
-                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-model="CC_BloodGroupId" id="Select19" ng-required="true">
-                            <option value="0">Select</option>
-                            <option ng-repeat="sel in BloodGroupList" ng-selected="CC_BloodGroupId==sel.Id"
-                                    value="{{sel.Id}}">
-                                {{sel.BloodGroup_Name}}
-                            </option>
-                        </select>
-                    </div>
+                    <!--<div class="inputGroups">
+        <label>Gender</label>
+        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="GenderList" ng-model="CC_GenderId" id="Select16" ng-required="true">
+            <option value="0">Select</option>
+            <option ng-repeat="sel in GenderList" ng-selected="Filter_GenderId==sel.Id"
+                    value="{{sel.Id}}">
+                {{sel.Gender_Name}}
+            </option>
+        </select>
+    </div>
+    <div class="inputGroups">
+        <label>Blood Group</label>
+        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="BloodGroupList" ng-model="CC_BloodGroupId" id="Select19" ng-required="true">
+            <option value="0">Select</option>
+            <option ng-repeat="sel in BloodGroupList" ng-selected="CC_BloodGroupId==sel.Id"
+                    value="{{sel.Id}}">
+                {{sel.BloodGroup_Name}}
+            </option>
+        </select>
+    </div>-->
                 </div>
                 <div class="col-sm-3">
                     <div class="inputGroups">
-                        <label>Nationality</label>
-                        <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="CC_NationalityId" id="Select17" ng-required="true">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" ng-model="Filter_LastName" maxlength="50"
+                               ng-maxlength="100">
+                    </div>
+                    <div class="inputGroups">
+                        <label>National ID</label>
+                        <input type="text" class="form-control" ng-model="filter_NationalityId" maxlength="50"
+                               ng-maxlength="100">
+                        <!--<select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="NationalityList" ng-model="CC_NationalityId" id="Select17" ng-required="true">
                             <option value="0">Select</option>
                             <option ng-repeat="sel in NationalityList" ng-selected="filter_NationalityId==sel.Id"
                                     value="{{sel.Id}}">
                                 {{sel.Name}}
                             </option>
-                        </select>
+                        </select>-->
                     </div>
-                    <div class="inputGroups">
+                    <!--<div class="inputGroups">
                         <label>Ethnic Group</label>
                         <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="EthnicGroupList" ng-model="CC_EthinicGroupId" id="Select20" ng-required="true">
                             <option value="0">Select</option>
@@ -112,32 +142,37 @@
                                 {{sel.Name}}
                             </option>
                         </select>
-                    </div>
+                    </div>-->
                     <div class="inputGroups">
                         <label>Mobile No.</label>
                         <input type="text" class="form-control" id="Text11" ng-model="CC_MOBILE_NO"
                                ng-init="MobileAreaCode=''" maxlength="20" ng-maxlength="20" placeholder="">
                     </div>
-                    <div class="inputGroups">
+                    <!--<div class="inputGroups">
                         <label>Group</label>
                         <select ng-model="CC_GroupId" multiple="multiple"
                                 ng-options="item1.Id as item1.GROUP_NAME for item1 in GroupTypeList" multiselect-dropdown
                                 style="width: 230px;">
                         </select>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="col-sm-3">
-                    <div class="inputGroups">
+                    <!--<div class="inputGroups">
                         <label>Home Phone Number</label>
                         <input type="text" class="form-control" id="Text13" ng-model="CC_HomePhoneNo" maxlength="50"
                                ng-maxlength="50" placeholder="">
-                    </div>
+                    </div>-->
                     <div class="inputGroups">
                         <label>Email</label>
                         <input type="text" class="form-control" ng-model="CC_Email" maxlength="100"
                                ng-maxlength="100" />
                     </div>
                     <div class="inputGroups">
+                    <label>MRN</label>
+                    <input type="text" class="form-control" ng-model="Filter_MRN" maxlength="50"
+                           ng-maxlength="100">
+                </div>
+                    <!--<div class="inputGroups">
                         <label>Marital Status</label>
                         <select class="form-control" data-style="form-control" data-live-search="true" data-selectpicker data-collection-name="MaritalStatusList" ng-model="CC_MaritalStatus" id="Select18" ng-required="true">
                             <option value="0">Select</option>
@@ -146,10 +181,15 @@
                                 {{sel.Name}}
                             </option>
                         </select>
+                    </div>-->
+                    <div class="inputGroups">
+                        <a href="javascript:" ng-click="CareCoordinator_AdvanceFilter()"
+                           class="theme-btn-1 mr-10 mt-20" title="Click to get the List based on Filters">Search</a>
+                        <a href="javascript:" ng-click="Reset_CC_Filter()" class="theme-btn-2"
+                           title="Click to Reset the Filters">Reset</a>
                     </div>
-
                 </div>
-                <div class="col-sm-3">
+                <!--<div class="col-sm-3">
                     <div class="inputGroups">
                         <label>Country</label>
                         <select class="form-control" data-style="form-control" data-live-search="true"
@@ -184,14 +224,9 @@
                             </option>
                         </select>
                     </div>
-                    <div class="inputGroups">
-                        <a href="javascript:" ng-click="CareCoordinator_PatientListFunction(1)"
-                           class="theme-btn-1 mr-10 mt-20" title="Click to get the List based on Filters">Search</a>
-                        <a href="javascript:" ng-click="Reset_CC_Filter()" class="theme-btn-2"
-                           title="Click to Reset the Filters">Reset</a>
-                    </div>
+                    
 
-                </div>
+                </div>-->
             </div>
         </div>
 

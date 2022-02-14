@@ -295,6 +295,17 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
                 $scope.CG_PatientSearch();
             }
         }
+        $scope.AdvancefilterPatientList = function () {
+            $scope.Filter_PatientNo2 = $scope.Filter_PatientNo;
+            $scope.filter_InsuranceId2 = $scope.filter_InsuranceId;
+            $scope.filter_MOBILE_NO2 = $scope.filter_MOBILE_NO;
+            $scope.filter_Email2 = $scope.filter_Email;
+            $scope.filter_NationalityId2 = $scope.filter_NationalityId;
+            $scope.Filter_FirstName2 = $scope.Filter_FirstName;
+            $scope.Filter_LastName2 = $scope.Filter_LastName;
+            $scope.Filter_MRN2 = $scope.Filter_MRN;
+            $scope.CG_PatientSearch();
+        }
         $scope.CG_PatientSearch = function () {
             $http.get(baseUrl + '/api/AllPatientList/SearchPatientList/?Doctor_Id=' + $scope.Doctor_Id + '&PATIENTNO=' + $scope.Filter_PatientNo2 + '&INSURANCEID=' + $scope.filter_InsuranceId2 + '&NATIONALITY_ID=' + $scope.filter_NationalityId2 + '&MOBILE_NO=' + $scope.filter_MOBILE_NO2 + '&FIRSTNAME=' + $scope.Filter_FirstName2 + '&LASTNAME=' + $scope.Filter_LastName2 + '&MRN=' + $scope.Filter_MRN2 + '&EMAILID=' + $scope.filter_Email2 + '&UserTypeId=' + $scope.UserTypeId + '&StartRowNumber=' + $scope.PageStart + '&EndRowNumber=' + $scope.PageEnd
             ).success(function (Patientdata) {
