@@ -158,7 +158,7 @@
                     multiselect-dropdown ng-if="row.CONFIGCODE=='CHRONIC_CODE' && IsEdit==true">
                     </select>-->
                     <input type="text" class="form-control" style="max-width:100% !important" id="{{row.CONFIGCODE}}"
-                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && IsEdit==true">
+                           ng-model="Config_value[row.ID]" placeholder="" ng-if="row.CONFIGCODE!='CHRONIC CODE' && row.CONFIGCODE!='FULLNAME_FORMULA' && row.CONFIGCODE!='BT_DEVICE_DATA_POST' && row.CONFIGCODE!='AUTO_SIGNUP_APPROVAL' && row.CONFIGCODE!='DATEFORMAT_TYPE' && row.CONFIGCODE!='TIMEFORMAT_TYPE' && row.CONFIGCODE!='NUMBER_FORMAT_TYPE' && row.CONFIGCODE!='CURRENCY_FORMAT_TYPE' && IsEdit==true">
                     <span ng-if="IsEdit==false">{{Config_value[row.ID]}}</span>
                 </td>
             </tr>
