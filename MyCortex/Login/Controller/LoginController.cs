@@ -48,7 +48,7 @@ namespace MyCortex.Login.Controller
 
         private MyCortexLogger _MyLogger = new MyCortexLogger();
         string
-            _AppLogger = string.Empty, _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            _AppLogger = string.Empty, _AppMethod = string.Empty;
 
         [HttpGet]
         public HttpResponseMessage getProductName()
@@ -76,6 +76,7 @@ namespace MyCortex.Login.Controller
         public IList<EmployeeLoginModel> GetProduct_Details()
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EmployeeLoginModel> model;
             try
             {
@@ -104,6 +105,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -269,6 +271,7 @@ namespace MyCortex.Login.Controller
         public IList<EmployeeLoginModel> BuildVersion_Details()
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IList<EmployeeLoginModel> model;
             try
             {
@@ -293,6 +296,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage GoogleLogin_get_Email()
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             if (_logger.IsInfoEnabled)
                 //_logger.Info("Controller");
                 _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
@@ -306,6 +310,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage UserDetails_Get_GoogleMail(string EmailId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -390,6 +395,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage User_Logout(long UserId, string Login_Session_Id)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             UserReturnModel user = new UserReturnModel();
             try
             {
@@ -422,6 +428,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage UserDetails_Get_FBEmail(string EmailId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 if (_logger.IsInfoEnabled)
@@ -511,6 +518,7 @@ namespace MyCortex.Login.Controller
         //long Id, string NewPassword, string OldPassword, string Confirmpassword, long ModifiedUser_Id, long InstitutionId, int PageTypeId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ResetPasswordReturnModel model = new ResetPasswordReturnModel();
             int flag = 0;
             if (loginMod.UserId > 0 && loginMod.NewPassword == loginMod.ReenterPassword)
@@ -591,6 +599,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage ForgotPassword(string EmailId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             string generatedpwd = "";
             string messagestr = "";
             string productname = "MyCortex";
@@ -729,6 +738,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage ResetPassword(int Id, string NewPassword, string ReenterPassword, long InstitutionId, long created_By, string EmailId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             string messagestr = "";
             if (Id > 0)
             {
@@ -808,6 +818,7 @@ namespace MyCortex.Login.Controller
         public IEnumerable<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IEnumerable<UsertypeModal> model;
             try
             {
@@ -833,6 +844,7 @@ namespace MyCortex.Login.Controller
         public IEnumerable<UsertypeModal> Usertypedetailslist()
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             IEnumerable<UsertypeModal> model;
             try
             {
@@ -859,6 +871,7 @@ namespace MyCortex.Login.Controller
         public LoginModel GetPasswordHistory_Count(long UserId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             LoginModel model = new LoginModel();
             try
             {
@@ -885,6 +898,7 @@ namespace MyCortex.Login.Controller
         public UsertypeModal LastPasswordChangeTime(long UserId)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             UsertypeModal model = new UsertypeModal();
             try
             {
@@ -906,6 +920,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage ChangePassword_For_User(LoginModel loginMod)
         {
             _AppLogger = this.GetType().FullName;
+            _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
             ResetPasswordReturnModel model = new ResetPasswordReturnModel();
             int flag = 0;
             if (loginMod.NewPassword == loginMod.ReenterPassword)
