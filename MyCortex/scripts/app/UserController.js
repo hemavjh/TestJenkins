@@ -35,6 +35,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //$scope.btn2Text = "Cancel";
         //$scope.alertbtn1Show = true;
         //$scope.alertbtn2Show = true;
+
         $scope.SearchMsg = "No Data Available";
         $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
@@ -180,6 +181,8 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.Pat_UserTypeId = $window.localStorage['UserTypeId'];
+
+
 
         $scope.InsCountryId = "0";
         $scope.InsStateId = "0";
@@ -690,12 +693,129 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                         reader.onload = function (e) {
                             $scope.uploadmes = e.target.result;
                             $scope.uploadme = $scope.uploadmes;
-                           // $scope.uploadme1 = $scope.uploadmes;
-                            //$scope.uploadme2 = $scope.uploadmes;
                             $scope.$apply();
                         };
                     };
                     request.send();
+                }
+            }
+        };
+        $scope.PatientgetBase64Image_Profile = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.Gender_Name;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.Id;
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.Id;
+                    }
+                });
+
+                var picPath = "../../Images/others.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath = "../../Images/Patient_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath = "../../Images/Patient_Male.png";
+                    }
+
+                if (photoview == false) {
+                    var request = new XMLHttpRequest();
+                    request.open('GET', picPath, true);
+                    request.responseType = 'blob';
+                    request.onload = function () {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(request.response);
+                        reader.onload = function (e) {
+                            $scope.uploadmes = e.target.result;                            
+                            $scope.uploadme = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request.send();
+                }
+            }
+        };
+        $scope.PatientgetBase64Image_Insurance = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.Gender_Name;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.Id;
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.Id;
+                    }
+                });
+
+                var picPath1 = "../../Images/National_Male.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath1 = "../../Images/National_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath1 = "../../Images/National_Male.png";
+                    }
+
+                      if (photoview == false) {
+                    var request1 = new XMLHttpRequest();
+                    request1.open('GET', picPath1, true);
+                    request1.responseType = 'blob';
+                    request1.onload = function () {
+                        var reader1 = new FileReader();
+                        reader1.readAsDataURL(request1.response);
+                        reader1.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme2 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request1.send();                    
+                }
+            }
+        };
+        $scope.PatientgetBase64Image_National = function () {
+            if ($scope.UserPhotoValue == 0) {
+                var maleId = 0;
+                var feMaleId = 0;
+                angular.forEach($scope.GenderList, function (value, index) {
+                    $scope.Gender_Name = value.Gender_Name;
+                    if ($scope.Gender_Name.toLowerCase() == "male") {
+                        maleId = value.Id;
+                    }
+                    else if ($scope.Gender_Name.toLowerCase() == "female") {
+                        feMaleId = value.Id;
+                    }
+                });
+
+                var picPath1 = "../../Images/National_Male.png";
+                if (typeof ($scope.Gender_Name) != "undefined")
+                    if ($scope.GenderId == feMaleId) {
+                        picPath1 = "../../Images/National_Female.png";
+                    }
+                    else if ($scope.GenderId == maleId) {
+                        picPath1 = "../../Images/National_Male.png";
+                    }
+                if (photoview == false) {
+                    var request1 = new XMLHttpRequest();
+                    request1.open('GET', picPath1, true);
+                    request1.responseType = 'blob';
+                    request1.onload = function () {
+                        var reader1 = new FileReader();
+                        reader1.readAsDataURL(request1.response);
+                        reader1.onload = function (e) {
+                            $scope.uploadmes = e.target.result;
+                            $scope.uploadme1 = $scope.uploadmes;
+                            $scope.$apply();
+                        };
+                    };
+                    request1.send();
                 }
             }
         };
@@ -1716,7 +1836,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.uploadview = false;
             $scope.UserPhotoValue = 0;
-            $scope.PatientgetBase64Image();
+            $scope.PatientgetBase64Image_Profile();
         };
 
         $scope.imageclearPatientNational = function () {
@@ -1729,7 +1849,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.Nationaluploadview = false;
             $scope.NationalPhotoValue = 0;
-            $scope.PatientgetBase64Image();
+            $scope.PatientgetBase64Image_National();
         };
         $scope.imageclearPatientInsurance = function () {
             $scope.InsurancePhoto = "";
@@ -1741,7 +1861,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             photoview2 = false;
             $scope.Insuranceuploadview = false;
             $scope.InsurancePhotoValue = 0;
-            $scope.PatientgetBase64Image();
+            $scope.PatientgetBase64Image_Insurance();
         };
 
         /* Read file name for the  Photo and file */
@@ -2489,7 +2609,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                     }
                     else {
-                        $scope.uploadme1 = null;
+                        $scope.uploadme1 = '../../Images/National_Male.png';//null;
                     }
                 });
                 $http.get(baseUrl + '/api/User/UserDetails_GetInsurancePhoto/?Id=' + $scope.Id).success(function (data) {
@@ -2501,7 +2621,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
                     }
                     else {
-                        $scope.uploadme2 = null;
+                        $scope.uploadme2 = '../../Images/National_Male.png';//null;
                     }
                 });
                 $scope.ConfigCode = "CHRONIC CODE";
@@ -2847,7 +2967,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                                $scope.EthnicGroupId = data.ETHINICGROUP_ID;
+                                //$scope.EthnicGroupId = data.ETHINICGROUP_ID;
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                                 $scope.EthnicGroup = data.EthnicGroup;
@@ -3335,7 +3455,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     $("#chatLoaderPV").show();
                     $scope.PhotoFullpath = $('#item-img-output').attr('src');
                     $scope.NationalPhotoFullpath = $('#item-img-output1').attr('src');
-                    $scope.InsurancePhotoFullpath = $('#item-img-output1').attr('src'); //$('#item-img-output2').attr('src');
+                    $scope.InsurancePhotoFullpath = $('#item-img-output2').attr('src'); //$('#item-img-output2').attr('src');
                     $scope.UserInstitutionDetails_List = [];
                     angular.forEach($scope.SelectedInstitution, function (value, index) {
                         var Institutionobj = {
