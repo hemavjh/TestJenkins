@@ -42,7 +42,7 @@ namespace MyCortex.Repositories.User
         /// <param name="TypeId"></param>
         /// <param name="UserTypeId"></param>
         /// <returns></returns>
-        public IList<CareCoordinatorModel> CareCoordinator_PatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId)  
+        public IList<CareCoordinatorModel> CareCoordinator_PatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, long? GENDER_ID, long? NATIONALITY_ID, long? ETHINICGROUP_ID, string MOBILE_NO, string HOME_PHONENO, string EMAILID, long? MARITALSTATUS_ID, long? COUNTRY_ID, long? STATE_ID, long? CITY_ID, long? BLOODGROUP_ID, string Group_Id, int TypeId, long UserTypeId, Guid Login_Session_Id)  
         {
             List<DataParameter> param = new List<DataParameter>();
             param.Add(new DataParameter("@Coordinator_Id", Coordinator_Id));
@@ -72,6 +72,7 @@ namespace MyCortex.Repositories.User
                 }
                 else
                 {
+                    param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
                     dt = ClsDataBase.GetDataTable("[MYCORTEX].[COMPLIANCEALERT_SP_PATIENTLIST]", param);
                 }
                 List<CareCoordinatorModel> lst = (from p in dt.AsEnumerable()
@@ -93,6 +94,83 @@ namespace MyCortex.Repositories.User
                                                       PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
                                                       ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
                                                   }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
+
+        public IList<CareCoordinatorModel> CareCoordinator_FilterPatientList(long Coordinator_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, long UserTypeId, string FIRSTNAME, string LASTNAME, string MRN, int TypeId, Guid Login_Session_Id)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@Coordinator_Id", Coordinator_Id));
+            param.Add(new DataParameter("@PatientNo", string.IsNullOrEmpty(PATIENTNO)? "" : PATIENTNO.ToLower()));
+            param.Add(new DataParameter("@InsuranceNo", string.IsNullOrEmpty(INSURANCEID) ? "" : INSURANCEID.ToLower()));
+            param.Add(new DataParameter("@NationalityId", string.IsNullOrEmpty(NATIONALITY_ID) ? "" : NATIONALITY_ID.ToLower()));
+            param.Add(new DataParameter("@MobileNo", string.IsNullOrEmpty(MOBILE_NO) ? "" : MOBILE_NO.ToLower()));
+            param.Add(new DataParameter("@Email", string.IsNullOrEmpty(EMAILID) ? "" : EMAILID.ToLower()));
+            param.Add(new DataParameter("@FIRSTNAME", string.IsNullOrEmpty(FIRSTNAME) ? "" : FIRSTNAME.ToLower()));
+            param.Add(new DataParameter("@LASTNAME", string.IsNullOrEmpty(LASTNAME) ? "" : LASTNAME.ToLower()));
+            param.Add(new DataParameter("@MRN", string.IsNullOrEmpty(MRN) ? "" : MRN.ToLower()));
+            param.Add(new DataParameter("@UserTypeId", UserTypeId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataEncryption decrypt = new DataEncryption();
+                DataTable dt = new DataTable();
+                if (TypeId == 1)
+                {
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[DIAGOSTICALERT_SP_FILTERPATIENTLIST]", param);
+                }
+                else
+                {
+                    param.Add(new DataParameter("@SESSION_ID", Login_Session_Id));
+                    dt = ClsDataBase.GetDataTable("[MYCORTEX].[COMPLIANCEALERT_SP_FILTERPATIENTLIST]", param);
+                }
+                List<CareCoordinatorModel> lst = new List<CareCoordinatorModel>();
+                //List <CareCoordinatorModel> lst = (from p in dt.AsEnumerable()
+                //                                  select new CareCoordinatorModel()
+                //                                  {
+                //                                      Id = p.Field<long>("Id"),
+                //                                      MRN_NO = p.Field<string>("MRN_NO"),
+                //                                      PatientName = p.Field<string>("PatientName"),
+                //                                      FirstName = p.Field<string>("FirstName"),
+                //                                      LastName = p.Field<string>("LastName"),
+                //                                      Photo = p.Field<string>("PHOTO_NAME"),
+                //                                      HighCount = p.Field<int>("HighCount"),
+                //                                      MediumCount = p.Field<int>("MediumCount"),
+                //                                      LowCount = p.Field<int>("LowCount"),
+                //                                      Smoker_Option = p.Field<string>("Smoker"),
+                //                                      Diabetic_Option = p.Field<string>("Diabetic_Option"),
+                //                                      Cholestrol_Option = p.Field<string>("Cholstrol_Option"),
+                //                                      HyperTension_Option = p.Field<string>("HyperTension_Option"),
+                //                                      PhotoBlob = p.IsNull("PHOTOBLOB") ? null : decrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                //                                      ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
+                //                                  }).ToList();
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    CareCoordinatorModel cc = new CareCoordinatorModel();
+                    cc.Id = Convert.ToInt64(dt.Rows[i]["Id"].ToString());
+                    cc.MRN_NO = dt.Rows[i]["MRN_NO"].ToString();
+                    cc.PatientName = dt.Rows[i]["PatientName"].ToString();
+                    cc.FirstName = dt.Rows[i]["FirstName"].ToString();
+                    cc.LastName = dt.Rows[i]["LastName"].ToString();
+                    cc.Photo = dt.Rows[i]["PHOTO_NAME"].ToString();
+                    cc.HighCount = Convert.ToInt32(dt.Rows[i]["HighCount"].ToString());
+                    cc.MediumCount = Convert.ToInt32(dt.Rows[i]["MediumCount"].ToString());
+                    cc.LowCount = Convert.ToInt32(dt.Rows[i]["LowCount"].ToString());
+                    cc.Smoker_Option = dt.Rows[i]["Smoker"].ToString();
+                    cc.Diabetic_Option = dt.Rows[i]["Diabetic_Option"].ToString();
+                    cc.Cholestrol_Option = dt.Rows[i]["Cholstrol_Option"].ToString();
+                    cc.HyperTension_Option = dt.Rows[i]["HyperTension_Option"].ToString();
+                    cc.ViewGenderName = dt.Rows[i]["VIEWGENDERNAME"].ToString();
+                    lst.Add(cc);
+                }
+
                 return lst;
             }
             catch (Exception ex)

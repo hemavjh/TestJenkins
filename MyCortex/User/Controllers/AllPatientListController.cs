@@ -59,6 +59,22 @@ namespace MyCortex.User.Controllers
                 return null;
             }
         }
+        [HttpGet]
+        [CheckSessionOutFilter]
+        public IList<AllPatientListModel> SearchPatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRN, long? UserTypeId, int StartRowNumber, int EndRowNumber)
+        {
+            try
+            {
+                IList<AllPatientListModel> model;
+                model = repository.SearchPatientList(Doctor_Id, PATIENTNO, INSURANCEID, NATIONALITY_ID, MOBILE_NO, EMAILID, FIRSTNAME, LASTNAME, MRN, UserTypeId, StartRowNumber, EndRowNumber);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>
         /// to get All patient count based on the logged in user for the given filter
         /// </summary>
