@@ -48,7 +48,7 @@ namespace MyCortex.Login.Controller
 
         private MyCortexLogger _MyLogger = new MyCortexLogger();
         string
-            _AppLogger, _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            _AppLogger = string.Empty, _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
         [HttpGet]
         public HttpResponseMessage getProductName()

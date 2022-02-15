@@ -16,7 +16,7 @@ namespace MyCortex
             param.Add(new DataParameter("@LEVEL", Level));
             param.Add(new DataParameter("@LOGGER", Logger));
             param.Add(new DataParameter("@MESSAGE", Message));
-            param.Add(new DataParameter("@EXCEPTION", Exception.ToString()));
+            param.Add(new DataParameter("@EXCEPTION", Exception == null ? string.Empty : Exception.ToString()));
             param.Add(new DataParameter("@METHOD", Method));
 
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].APPLICATIONLOG_INSERT", param);
