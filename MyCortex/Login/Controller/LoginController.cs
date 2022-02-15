@@ -46,6 +46,9 @@ namespace MyCortex.Login.Controller
         private Int64 InstanceNameId = Convert.ToInt64(ConfigurationManager.AppSettings["InstanceNameId"]);
         private string Productid;
 
+        private MyCortexLogger _MyLogger = new MyCortexLogger();
+        string
+            _AppLogger, _AppMethod = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
         [HttpGet]
         public HttpResponseMessage getProductName()
@@ -72,17 +75,20 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public IList<EmployeeLoginModel> GetProduct_Details()
         {
+            _AppLogger = this.GetType().FullName;
             IList<EmployeeLoginModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.GetProduct_Details();
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -97,10 +103,12 @@ namespace MyCortex.Login.Controller
         [HttpPost]
         public HttpResponseMessage Userlogin_CheckValidity([FromBody] LoginModel loginObj)
         {
+            _AppLogger = this.GetType().FullName;
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 UserModel ModelData = new UserModel();
                 LoginModel model = new LoginModel();
                 //IList<TabDevicesModel> tabDevices;
@@ -215,7 +223,8 @@ namespace MyCortex.Login.Controller
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                    //_logger.Error(ex.Message, ex);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.Message = "Error in Login";
                     model.Status = "False";
@@ -227,7 +236,8 @@ namespace MyCortex.Login.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -258,17 +268,20 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public IList<EmployeeLoginModel> BuildVersion_Details()
         {
+            _AppLogger = this.GetType().FullName;
             IList<EmployeeLoginModel> model;
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.BuildVersion_Details();
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -279,9 +292,10 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public HttpResponseMessage GoogleLogin_get_Email()
         {
+            _AppLogger = this.GetType().FullName;
             if (_logger.IsInfoEnabled)
-                _logger.Info("Controller");
-
+                //_logger.Info("Controller");
+                _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
             return UserDetails_Get_GoogleMail(HttpContext.Current.Session["EmailId"].ToString());
         }
         /// <summary>
@@ -291,10 +305,12 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public HttpResponseMessage UserDetails_Get_GoogleMail(string EmailId)
         {
+            _AppLogger = this.GetType().FullName;
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 UserModel ModelData = new UserModel();
                 LoginModel model = new LoginModel();
                 if (EmailId == "")
@@ -347,7 +363,8 @@ namespace MyCortex.Login.Controller
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                    //_logger.Error(ex.Message, ex);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.Message = "Error in Login";
                     model.Status = "False";
@@ -359,7 +376,8 @@ namespace MyCortex.Login.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -371,6 +389,7 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public HttpResponseMessage User_Logout(long UserId, string Login_Session_Id)
         {
+            _AppLogger = this.GetType().FullName;
             UserReturnModel user = new UserReturnModel();
             try
             {
@@ -385,8 +404,8 @@ namespace MyCortex.Login.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
-
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 user.Status = "False";
                 user.Message = ex.Message;
                 user.ReturnFlag = 0;
@@ -402,10 +421,12 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public HttpResponseMessage UserDetails_Get_FBEmail(string EmailId)
         {
+            _AppLogger = this.GetType().FullName;
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 UserModel ModelData = new UserModel();
                 LoginModel model = new LoginModel();
                 if (EmailId == "")
@@ -458,7 +479,8 @@ namespace MyCortex.Login.Controller
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                    //_logger.Error(ex.Message, ex);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.Message = "Error in Login";
                     model.Status = "False";
@@ -470,7 +492,8 @@ namespace MyCortex.Login.Controller
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -487,6 +510,7 @@ namespace MyCortex.Login.Controller
         public HttpResponseMessage ChangePassword(LoginModel loginMod)
         //long Id, string NewPassword, string OldPassword, string Confirmpassword, long ModifiedUser_Id, long InstitutionId, int PageTypeId)
         {
+            _AppLogger = this.GetType().FullName;
             ResetPasswordReturnModel model = new ResetPasswordReturnModel();
             int flag = 0;
             if (loginMod.UserId > 0 && loginMod.NewPassword == loginMod.ReenterPassword)
@@ -494,7 +518,8 @@ namespace MyCortex.Login.Controller
                 try
                 {
                     if (_logger.IsInfoEnabled)
-                        _logger.Info("Controller");
+                        //_logger.Info("Controller");
+                        _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                     flag = repository.ChangePassword(loginMod.UserId, loginMod.NewPassword, loginMod.Password, loginMod.ReenterPassword, loginMod.UserId, loginMod.InstitutionId, loginMod.LoginType);
                     if (flag > 0)
                     {
@@ -537,7 +562,8 @@ namespace MyCortex.Login.Controller
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                    //_logger.Error(ex.Message, ex);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.ReturnFlag = 0;
                     model.Message = ex.Message;
@@ -564,6 +590,7 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public HttpResponseMessage ForgotPassword(string EmailId)
         {
+            _AppLogger = this.GetType().FullName;
             string generatedpwd = "";
             string messagestr = "";
             string productname = "MyCortex";
@@ -594,8 +621,8 @@ namespace MyCortex.Login.Controller
                 {
 
                     if (_logger.IsInfoEnabled)
-                        _logger.Info("Controller");
-
+                        //_logger.Info("Controller");
+                        _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                     var request = HttpContext.Current.Request.Url.Authority;
                     // UserModel Ins_model = new UserModel();
                     // Ins_model = userrepo.GetInstitutionForWebURL(request);
@@ -676,7 +703,8 @@ namespace MyCortex.Login.Controller
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                    //_logger.Error(ex.Message, ex);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.Message = "Invalid data";
                     model.Error_Code = ex.Message;
@@ -700,7 +728,7 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public HttpResponseMessage ResetPassword(int Id, string NewPassword, string ReenterPassword, long InstitutionId, long created_By, string EmailId)
         {
-
+            _AppLogger = this.GetType().FullName;
             string messagestr = "";
             if (Id > 0)
             {
@@ -716,7 +744,8 @@ namespace MyCortex.Login.Controller
                 try
                 {
                     if (_logger.IsInfoEnabled)
-                        _logger.Info("Controller");
+                        //_logger.Info("Controller");
+                        _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
 
                     model = repository.ResetPassword(Id, NewPassword, ReenterPassword, InstitutionId, created_By, EmailId);
                     if ((model.ReturnFlag == 3) == true)
@@ -754,7 +783,8 @@ namespace MyCortex.Login.Controller
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                    //_logger.Error(ex.Message, ex);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.Message = "Invalid data";
                     model.Error_Code = ex.Message;
@@ -777,17 +807,20 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public IEnumerable<UsertypeModal> Userdetailslist(int UserTypeId, long InstitutionId)
         {
+            _AppLogger = this.GetType().FullName;
             IEnumerable<UsertypeModal> model;
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Userdetailslist(UserTypeId, InstitutionId);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -799,17 +832,20 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public IEnumerable<UsertypeModal> Usertypedetailslist()
         {
+            _AppLogger = this.GetType().FullName;
             IEnumerable<UsertypeModal> model;
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.Usertypedetailslist();
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -822,17 +858,20 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public LoginModel GetPasswordHistory_Count(long UserId)
         {
+            _AppLogger = this.GetType().FullName;
             LoginModel model = new LoginModel();
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.GetPasswordHistory_Count(UserId);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -845,17 +884,20 @@ namespace MyCortex.Login.Controller
         [HttpGet]
         public UsertypeModal LastPasswordChangeTime(long UserId)
         {
+            _AppLogger = this.GetType().FullName;
             UsertypeModal model = new UsertypeModal();
             try
             {
                 if (_logger.IsInfoEnabled)
-                    _logger.Info("Controller");
+                    //_logger.Info("Controller");
+                    _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                 model = repository.LastPasswordChangeTime(UserId);
                 return model;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message, ex);
+                //_logger.Error(ex.Message, ex);
+                _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                 return null;
             }
         }
@@ -863,6 +905,7 @@ namespace MyCortex.Login.Controller
         [HttpPost]
         public HttpResponseMessage ChangePassword_For_User(LoginModel loginMod)
         {
+            _AppLogger = this.GetType().FullName;
             ResetPasswordReturnModel model = new ResetPasswordReturnModel();
             int flag = 0;
             if (loginMod.NewPassword == loginMod.ReenterPassword)
@@ -870,7 +913,8 @@ namespace MyCortex.Login.Controller
                 try
                 {
                     if (_logger.IsInfoEnabled)
-                        _logger.Info("Controller");
+                        //_logger.Info("Controller");
+                        _MyLogger.Exceptions("INFO", _AppLogger, "Controller", null, _AppMethod);
                     Int64 userid = Convert.ToInt64(loginMod.Status) / 4;
                     if (userid > 0)
                     {
@@ -927,7 +971,8 @@ namespace MyCortex.Login.Controller
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex.Message, ex);
+                    //_logger.Error(ex.Message, ex);
+                    _MyLogger.Exceptions("ERROR", _AppLogger, ex.Message, ex, _AppMethod);
                     model.Status = "False";
                     model.ReturnFlag = 0;
                     model.Message = ex.Message;
