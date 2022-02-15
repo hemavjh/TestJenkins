@@ -2846,7 +2846,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                                $scope.EthnicGroupId = data.ETHINICGROUP_ID;
+                               /* $scope.EthnicGroupId = data.ETHINICGROUP_ID;*/
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                                 $scope.EthnicGroup = data.EthnicGroup;
