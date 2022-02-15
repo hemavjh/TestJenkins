@@ -152,7 +152,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.filter_HomePhoneNo = "";
         $scope.filter_Email = "";
         $scope.Filter_GenderId = "0";
-        $scope.filter_NationalityId = "0";
+        $scope.filter_NationalityId = "";
         $scope.filter_EthinicGroupId = "0";
         $scope.filter_MaritalStatus = "0";
         $scope.filter_CountryId = "0";
@@ -1389,7 +1389,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.inputPageNo = PageNo;
 
             $scope.current_page = PageNo;
-            if ($scope.Patientsearchquery == "" && $scope.Filter_PatientNo == "" && $scope.filter_InsuranceId == "" && $scope.filter_NationalityId == "0" && $scope.filter_MOBILE_NO == "" && $scope.filter_Email == "" && $scope.Filter_FirstName == "" && $scope.Filter_LastName == "" && $scope.Filter_MRN == "") {
+            if ($scope.Patientsearchquery == "" && $scope.Filter_PatientNo == "" && $scope.filter_InsuranceId == "" && $scope.filter_NationalityId == "" && $scope.filter_MOBILE_NO == "" && $scope.filter_Email == "" && $scope.Filter_FirstName == "" && $scope.Filter_LastName == "" && $scope.Filter_MRN == "") {
                 $scope.Patient_List(3);
             }
             else {
@@ -2848,7 +2848,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 $scope.GenderId = data.GENDER_ID.toString();
                                 $scope.NationalityId = data.NATIONALITY_ID.toString();
                                 $scope.MaritalStatusId = data.MARITALSTATUS_ID.toString();
-                                $scope.EthnicGroupId = data.ETHINICGROUP_ID;
+                               /* $scope.EthnicGroupId = data.ETHINICGROUP_ID;*/
                                 $scope.BloodGroupId = data.BLOODGROUP_ID.toString();
                                 $scope.DepartmentId = data.DEPARTMENT_ID.toString();
                                 $scope.EthnicGroup = data.EthnicGroup;
@@ -4481,7 +4481,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             $scope.Filter_PatientNo = "";
             $scope.filter_InsuranceId = "";
             $scope.Filter_GenderId = "0";
-            $scope.filter_NationalityId = "0";
+            $scope.filter_NationalityId = "";
             $scope.filter_SearchFieldId = "0";
             $scope.filter_EthinicGroupId = "0";
             $scope.filter_MOBILE_NO = "";

@@ -96,6 +96,51 @@ namespace MyCortex.Repositories.User
                 return null;
             }
         }
+        public IList<AllPatientListModel> SearchPatientList(long Doctor_Id, string PATIENTNO, string INSURANCEID, string NATIONALITY_ID, string MOBILE_NO, string EMAILID, string FIRSTNAME, string LASTNAME, string MRN, long? UserTypeId, int StartRowNumber, int EndRowNumber)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
+            param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
+            param.Add(new DataParameter("@Doctor_Id", Doctor_Id));
+            param.Add(new DataParameter("@PatientNo", PATIENTNO == null ? "" : PATIENTNO));
+            param.Add(new DataParameter("@InsuranceNo", INSURANCEID == null ? "" : INSURANCEID));
+            param.Add(new DataParameter("@FIRSTNAME", FIRSTNAME == null ? "" : FIRSTNAME));
+            param.Add(new DataParameter("@NationalityId", NATIONALITY_ID == null ? "" : NATIONALITY_ID));
+            param.Add(new DataParameter("@LASTNAME", LASTNAME == null ? "" : LASTNAME));
+            param.Add(new DataParameter("@MobileNo", MOBILE_NO == null ? "" : MOBILE_NO));
+            param.Add(new DataParameter("@MRN", MRN == null ? "" : MRN));
+            param.Add(new DataParameter("@Email", EMAILID == null ? "" : EMAILID.ToLower()));
+            param.Add(new DataParameter("@UserTypeId", UserTypeId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataEncryption encrypt = new DataEncryption();
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[CG_SEARCH_PATIENT_LIST]", param);
+
+                List<AllPatientListModel> lst = (from p in dt.AsEnumerable()
+                                                 select new AllPatientListModel()
+                                                 {
+                                                     //TotalRecord = p.Field<string>("TotalRecords"),
+                                                     Id = p.Field<long>("Id"),
+                                                     Smoker_Option = p.Field<string>("Smoker"),
+                                                     Diabetic_Option = p.Field<string>("Diabetic_Option"),
+                                                     Cholestrol_Option = p.Field<string>("Cholstrol_Option"),
+                                                     HyperTension_Option = p.Field<string>("HyperTension_Option"),
+                                                     MRN_NO = p.Field<string>("MRN_NO"),
+                                                     PatientName = p.Field<string>("PatientName"),
+                                                     Photo = p.Field<string>("PHOTO_NAME"),
+                                                     PhotoBlob = p.IsNull("PHOTOBLOB") ? null : encrypt.DecryptFile(p.Field<byte[]>("PHOTOBLOB")),
+                                                     ViewGenderName = p.Field<string>("VIEWGENDERNAME"),
+
+                                                 }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+        }
         /// <summary>
         /// to get All patient count based on the logged in user for the given filter
         /// </summary>
