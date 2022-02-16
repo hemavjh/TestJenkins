@@ -231,13 +231,13 @@ namespace MyCortex.User.Controller
                     userObj.FILE_FULLPATH = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.UPLOAD_FILENAME);
                 }
                 //if (userObj.NationalPhoto != null && userObj.NationalPhoto != "")
-                //{
-                //    userObj.NationalPhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.NationalPhoto);
-                //}
+                {
+                    userObj.NationalPhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.NationalPhoto);
+                }
                 //if (userObj.InsurancePhoto != null && userObj.InsurancePhoto != "")
-                //{
-                //    userObj.InsurancePhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.InsurancePhoto);
-                //}
+                {
+                    userObj.InsurancePhotoFullpath = System.Web.HttpContext.Current.Server.MapPath("~/" + userObj.InsurancePhoto);
+                }
                 //}
 
 
