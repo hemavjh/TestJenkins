@@ -2641,7 +2641,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                                 if (value == 'CC') {
                                     $scope.Chroniccc = true;
                                 }
-                                if (value == 'SL') {
+                                if (value == 'SC') {
                                     $scope.Chronicsc = true;
                                 }
                             }
