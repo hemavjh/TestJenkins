@@ -6630,15 +6630,15 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 angular.element('#PatientNotesAddEditModal').modal('show');
             } else {
                 //alert('Notes only edited by author');
-                toastr.info("Inactive record cannot be edited", "info");
+                toastr.info("Notes only edited by author", "info");
             }
 
         }
-        /*calling Alert message for cannot edit inactive record function */
+        /*calling Alert message for cannot edit inactive record function *//*
         $scope.EditPatientNotes = function () {
              //alert('Notes only edited by author');
             toastr.info("Inactive record cannot be edited ", "info");
-        }
+        }*/
 
 
         //Validation for insert function

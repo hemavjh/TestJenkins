@@ -1985,15 +1985,18 @@
                                                                     <img src="../../Images/ViewIcon.png" />
                                                                 </a>
                                                                 <a href="javascript:" title="Edit" ng-click="EditPatientNotes(row.Id, row.Created_Dt, row.Created_By)">
-                                                                    <img src="../../Images/EditIcon.png" />
+                                                                    <i class="fa fa-pencil ng-scope" aria-hidden="true" ng-if="row.IsActive==1"></i>
+                                                                    <a href="javascript:" ng-click="ErrorFunction()" title="Edit">
+                                                                        <img src="../../Images/EditIcon.png" ng-if="row.IsActive==0" />
+                                                                    </a>
                                                                 </a>
-                                                                <a href="javascript:" ng-click="DoctorNotesDetails_InActive(row.Id)" title="Active" ng-if="row.IsActive==1">
-                                                                    <img src="../../Images/activeIcon1.png" />
-                                                                </a>
-                                                                <a href="javascript:" ng-click="DoctorNotesDetails_Active(row.Id)" title="Inactive" ng-if="row.IsActive==0">
-                                                                    <img src="../../Images/inactive.png" />
-                                                                </a>
-                                                            </td>
+                                                                    <a href="javascript:" ng-click="DoctorNotesDetails_InActive(row.Id)" title="Active" ng-if="row.IsActive==1">
+                                                                        <img src="../../Images/activeIcon1.png" />
+                                                                    </a>
+                                                                    <a href="javascript:" ng-click="DoctorNotesDetails_Active(row.Id)" title="Inactive" ng-if="row.IsActive==0">
+                                                                        <img src="../../Images/inactive.png" />
+                                                                    </a>
+</td>
                                                         </tr>
                                                         <tr ng-if="PatientNotesrowCollectionFilter.length==0">
                                                             <td colspan="7" style="text-align: center">

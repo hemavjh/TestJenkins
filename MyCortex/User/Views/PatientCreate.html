@@ -512,6 +512,15 @@
                                                style="height: 0px !important" accept="image/x-png,image/gif,image/jpeg"
                                                ng-click="NationalityPhotoUplaodSelected()" />
 
+                                        <!--<div ng-if="(Gender_Name| lowercase)=='male' && (uploadme1==null || uploadme1=='' || uploadme1=='null' )" valign="top" rowspan="6">
+        <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
+    </div>
+    <div ng-if="(Gender_Name| lowercase)=='female' && (uploadme1==null || uploadme1=='' || uploadme1=='null' )" valign="top" rowspan="6">
+        <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Female.png" />
+    </div>
+    <div ng-if="(((Gender_Name| lowercase)!='female' && (Gender_Name| lowercase)!='male') && (uploadme1==null || uploadme1=='' || uploadme1=='null'))" valign="top" rowspan="6">
+        <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="../../Images/National_Male.png" />
+    </div>-->
                                         <div ng-if="(uploadme1!=null || uploadme1!='')" valign="top" rowspan="6">
                                             <img id="item-img-output1" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme1}}" />
                                         </div>
@@ -1305,7 +1314,7 @@
                                         <label style=" margin-left: 0px; margin-top: 29px;">Insurance Card Image</label>
                                     </div>
                                     <div class="inputGroups">
-                                        <div class="imgAdd">
+                                        <div class="imgAdd2">
                                             <input type="file" id="InsuranceLogo" fileread="uploadme2"
                                                    onchange="angular.element(this).scope().InsurancephotoChange(this)"
                                                    name="InsurancePhotoFilename" title="Click to Upload Insurance Photo "
@@ -1313,7 +1322,7 @@
                                                    ng-click="InsurancePhotoUplaodSelected()" />
 
                                             <div ng-if="(uploadme2!=null || uploadme2!='')" valign="top" rowspan="6">
-                                                <img id="item-img-output2" style=" width: 200px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme2}}" />
+                                                <img id="item-img-output2" style=" width: 300px; height: 200px;" class="responsiveProfileImage2" src="{{uploadme2}}" />
                                             </div>
 
                                             <div style="margin-top: 15px;">
