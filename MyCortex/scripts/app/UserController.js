@@ -1552,7 +1552,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.Patientsearchquery == "") {
                 allpatientlist();
             } else {
-                if ($scope.filter_SearchFieldId == "1") {
+                if ($scope.filter_SearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                } else if ($scope.filter_SearchFieldId == "1") {
                     $scope.Filter_PatientNo2 = $scope.Patientsearchquery;
                     $scope.filter_NationalityId2 = "";
                     $scope.Filter_FirstName2 = "";
