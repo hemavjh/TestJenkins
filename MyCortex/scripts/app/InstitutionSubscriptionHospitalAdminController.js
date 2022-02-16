@@ -9,6 +9,7 @@ InstitutionSubscriptionHAcontroller.controller("InstitutionSubscriptionHospitalA
     function ($scope, $http, $routeParams, $location, $rootScope, $window, $filter, $ff) {
 
         //Declaration and initialization of Scope Variables.
+        $scope.InsModule_List = $rootScope.InsModuleList;
         $scope.ChildId = 0;
         $scope.Institution_Id = "0";
         $scope.Health_Care_Professionals = "";

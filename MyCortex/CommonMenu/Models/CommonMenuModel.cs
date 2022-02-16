@@ -17,4 +17,10 @@ namespace MyCortex.CommonMenu.Models
         public int IsActive { get; set; }
         public int HasChild { get; set; } 
     }
+
+    public class CommonModuleList
+    {
+        public long Module_Id { get; set; }
+        public string Module_Name { get; set; }
+    }
 }

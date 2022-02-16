@@ -24,8 +24,8 @@ if (baseUrl == "/") {
 //    };
 //}]);
 
-Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'InstSub', 'toastr',
-    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, InstSub, toastr) {
+Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', '$rootScope', 'InstSub', 'toastr',
+    function ($scope, $q, $http, $filter, $routeParams, $location, $window, $ff, $rootScope, InstSub, toastr) {
         //$scope.alertConfrimationVisible = false;
         //$scope.alertType = "alert-danger";
         //$scope.alertConfrimationMessage = "Do you like to deactivate the selected User?";
@@ -35,6 +35,12 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         //$scope.btn2Text = "Cancel";
         //$scope.alertbtn1Show = true;
         //$scope.alertbtn2Show = true;
+        $scope.isPatientSignUp = "";
+        $scope.InsModule_List = $rootScope.InsModuleList;
+        if ($rootScope.InsModuleList.length > 0) {
+            $scope.isPatientSignUp = $filter('filter')($rootScope.InsModuleList, { Module_Id: '24' })[0];
+        }
+        
         $scope.SearchMsg = "No Data Available";
         $scope.AdminFlowdata = InstSub.getSubID();
         $scope.currentTab = "1";
@@ -756,14 +762,20 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         }
 
         $scope.AddPatientPopup = function () {
-            $scope.currentTab = "1";
-            $scope.DropDownListValue = 1;
-            var UserTypeId = 2;
-            $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
-            $scope.AppConfigurationProfileImageList();
-            $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
-            $location.path("/PatientCreate/" + "2" + "/" + "3");
+
+            if (typeof ($scope.isPatientSignUp) != 'undefined') {
+                $scope.currentTab = "1";
+                $scope.DropDownListValue = 1;
+                var UserTypeId = 2;
+                $scope.InstitutionSubscriptionLicensecheck(UserTypeId);
+                $scope.AppConfigurationProfileImageList();
+                $scope.ExpiryDate = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+                //$scope.DOB = DateFormatEdit($filter('date')(new Date(), 'dd-MMM-yyyy'));
+                $location.path("/PatientCreate/" + "2" + "/" + "3");
+            }
+            else {
+                toastr.warning("You are not rights to access patient sign up", "warning");
+            }
         }
         $scope.SubscriptionValidation = function () {
             if ($scope.Id == 0 && $scope.InstitutionId > 0)
