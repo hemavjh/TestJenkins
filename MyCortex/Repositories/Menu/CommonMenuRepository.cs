@@ -59,5 +59,34 @@ namespace MyCortex.Repositories.Menu
             }
 
         }
+
+        /// <summary>
+        /// Module list based on user login
+        /// </summary>
+        /// <param name="InsId">Institution Id</param>
+        /// <returns>menu list with page URL</returns>
+        public IList<CommonModuleList> CommonModule_List(long InsId)
+        {
+            List<DataParameter> param = new List<DataParameter>();
+            param.Add(new DataParameter("@InsId", InsId));
+            _logger.Info(serializer.Serialize(param.Select(x => new { x.ParameterName, x.Value })));
+            try
+            {
+                DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].[GET_INSTITUTION_MODULELIST]", param);
+                List<CommonModuleList> lst = (from p in dt.AsEnumerable()
+                                              select new CommonModuleList()
+                                              {
+                                                  Module_Id = p.Field<long>("MODULE_ID"),
+                                                  Module_Name = p.Field<string>("MODULE_NAME"),
+                                              }).ToList();
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message, ex);
+                return null;
+            }
+
+        }
     }
 }
