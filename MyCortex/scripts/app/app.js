@@ -73,6 +73,12 @@ EmpApp.config(function (toastrConfig) {
     });
 });
 
+EmpApp.run(function ($rootScope, $http, $window) {
+    $http.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + $window.localStorage['InstitutionId']).success(function (response) {
+        $rootScope.InsModuleList = response;
+    });
+});
+
 EmpApp.run(function ($rootScope) {
     $rootScope.$on("$locationChangeStart", function (event, next, current) {
         var chk = localStorage.getItem('callisRunning');
@@ -592,4 +598,32 @@ EmpApp.config(function ($httpProvider) {
     //console.log('authInterceptorService')
     $httpProvider.interceptors.push('authInterceptorService');
 });
+
+//EmpApp.service('modulelistService', function () {
+
+//    this.moduleExists = false;
+
+//    var getDetails = function (insId, moduleId) {
+
+//        $.get(baseUrl + "/api/CommonMenu/CommonModule_List?InsId=" + insId, function (data) {
+//            if (data.length != 0) {
+//                this.moduleExists = true;
+//            }
+//            else {
+//                this.moduleExists = false;
+//            }
+//        });
+
+//        return this.moduleExists;
+//    };
+
+//    var setDetails = function (param) {
+//        this.moduleExists = param;
+//    };
+
+//    return {
+//        getDetails: getDetails,
+//        setDetails: setDetails,
+//    };
+//});
 
