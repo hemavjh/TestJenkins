@@ -6630,7 +6630,7 @@ UserHealthDataDetails.controller("UserHealthDataDetailsController", ['$scope', '
                 angular.element('#PatientNotesAddEditModal').modal('show');
             } else {
                 //alert('Notes only edited by author');
-                toastr.info("Notes only edited by author", "info");
+                toastr.info("Notes can be edited by Author only", "info");
             }
 
         }
