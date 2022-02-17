@@ -199,8 +199,8 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                     $http.get(baseUrl + '/api/DoctorShift/AppointmentSettingView/?InstitutionId=' + $window.localStorage['InstitutionId'] + '&Login_Session_Id=' + $window.localStorage['Login_Session_Id']).success(function (data) {
                         $("#chatLoaderPV").hide();
                         if (data != null && data.length != 0) {
-                            $scope.Days = data.MaxScheduleDays;
-                            $scope.Minutes = data.MinRescheduleMinutes;
+                            //$scope.Days = data.MaxScheduleDays;
+                            //$scope.Minutes = data.MinRescheduleMinutes;
                             $scope.Days2 = data.MaxScheduleDays;
                             $scope.Minutes2 = data.MinRescheduleMinutes;
                             $scope.NewAppointment = data.NewAppointmentDuration;
@@ -240,9 +240,9 @@ DoctorShiftcontroller.controller("DoctorShiftController", ['$scope', '$http', '$
                             $scope.Minutes = data.MinRescheduleMinutes;
                             $scope.Days2 = data.MaxScheduleDays;
                             $scope.Minutes2 = data.MinRescheduleMinutes;
-                            $scope.NewAppointment = data.NewAppointmentDuration;
-                            $scope.followup = data.FollowUpDuration;
-                            $scope.IntervalBt = data.AppointmentInterval;
+                            //$scope.NewAppointment = data.NewAppointmentDuration;
+                            //$scope.followup = data.FollowUpDuration;
+                            //$scope.IntervalBt = data.AppointmentInterval;
                             $scope.NewAppointment2 = data.NewAppointmentDuration;
                             $scope.followup2 = data.FollowUpDuration;
                             $scope.IntervalBt2 = data.AppointmentInterval;
