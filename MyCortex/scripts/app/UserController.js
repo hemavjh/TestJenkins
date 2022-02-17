@@ -885,7 +885,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
 
         $scope.AddPatientPopup = function () {
 
-            if (typeof ($scope.isPatientSignUp) != 'undefined') {
+            if (typeof ($scope.isPatientSignUp) != 'undefined' && $scope.isPatientSignUp != "") {
                 $scope.currentTab = "1";
                 $scope.DropDownListValue = 1;
                 var UserTypeId = 2;
