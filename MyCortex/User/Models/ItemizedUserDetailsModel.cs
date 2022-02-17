@@ -53,7 +53,7 @@ namespace MyCortex.User.Model
         public string PhotoBlobs { get; set; }
         public string PATIENT_ID { get; set; }
         public string INSURANCEID { get; set; }
-
+        public long NATIONALITY_ID { get; set; }
         public string HEALTH_LICENSE { get; set; }
     }
 

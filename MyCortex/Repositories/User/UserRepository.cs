@@ -800,7 +800,8 @@ namespace MyCortex.Repositories.Uesr
                                         GENDER_NAME = p.Field<string>("Gender_Name"),
                                         UserType_Id = p.Field<long?>("UserType_Id"),
                                         Is_Master = p.Field<bool>("IS_MASTER"),
-                                        HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE")
+                                        HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
+                                        NATIONALITY_ID = p.Field<long>("NATIONALITY_ID")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
