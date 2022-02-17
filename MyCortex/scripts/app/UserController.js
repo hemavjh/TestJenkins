@@ -188,7 +188,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.InstituteId = $window.localStorage['InstitutionId'];
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.Pat_UserTypeId = $window.localStorage['UserTypeId'];
-
+        $scope.filter_CL_SearchFieldId = "0";
 
 
         $scope.InsCountryId = "0";
@@ -1642,14 +1642,35 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 $scope.BusinessUserFilter = angular.copy($scope.BusinessUserList);
             }
             else {
-                $scope.BusinessUserFilter = $ff($scope.BusinessUserList, function (value) {
-                    return angular.lowercase(value.FullName).match(searchstring) ||
-                        angular.lowercase(value.EMAILID).match(searchstring) ||
-                        angular.lowercase(value.Department_Name).match(searchstring) ||
-                        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring) ||
-                        angular.lowercase(value.UserName).match(searchstring) ||
-                        angular.lowercase(value.GroupName).match(searchstring);
-                });
+                if ($scope.filter_CL_SearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                    //$scope.BusinessUserFilter = $ff($scope.BusinessUserList, function (value) {
+                    //    return angular.lowercase(value.FullName).match(searchstring) ||
+                    //        angular.lowercase(value.EMAILID).match(searchstring) ||
+                    //        angular.lowercase(value.Department_Name).match(searchstring) ||
+                    //        angular.lowercase(value.EMPLOYEMENTNO).match(searchstring) ||
+                    //        angular.lowercase(value.UserName).match(searchstring) ||
+                    //        angular.lowercase(value.GroupName).match(searchstring);
+                    //});
+                } else if ($scope.filter_CL_SearchFieldId == "1") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.EMPLOYEMENTNO != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMPLOYEMENTNO).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "2") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.Department_Name != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.Department_Name).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "3" || $scope.filter_CL_SearchFieldId == "4") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.FullName != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FullName).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "5") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.HEALTH_LICENSE != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.HEALTH_LICENSE).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "6") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.EMAILID != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.EMAILID).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "7") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.MOBILE_NO != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.MOBILE_NO).match(searchstring));
+                }
                 if ($scope.BusinessUserFilter.length > 0) {
                     $scope.BusinessUserflag = 1;
                 }
@@ -1664,7 +1685,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             if ($scope.Patientsearchquery == "") {
                 allpatientlist();
             } else {
-                if ($scope.filter_SearchFieldId == "1") {
+                if ($scope.filter_SearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                } else if ($scope.filter_SearchFieldId == "1") {
                     $scope.Filter_PatientNo2 = $scope.Patientsearchquery;
                     $scope.filter_NationalityId2 = "";
                     $scope.Filter_FirstName2 = "";

@@ -6,8 +6,8 @@ if (baseUrl == "/") {
 }
 
 
-CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.currentTab = '1';
         $scope.flag = 0;
         $scope.Coordinator_Id = $window.localStorage['UserId'];
@@ -72,6 +72,10 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
             $scope.CC_MOBILE_NO = "";
             $scope.CC_HomePhoneNo = "";
             $scope.CC_Email = "";
+            $scope.Filter_FirstName = "";
+            $scope.Filter_LastName = "";
+            $scope.Filter_MRN = "";
+            $scope.CC_NationalityId = "";
             $scope.CC_MaritalStatus = "0";
             $scope.CC_CountryId = "0";
             $scope.CC_StataId = "0";
@@ -190,7 +194,9 @@ CareCoordinator.controller("CareCoordinatorController", ['$scope', '$http', '$fi
             if ($scope.coordinator_searchquery == "") {
                 $scope.CareCoordinator_PatientListFunction(1);
             } else {
-                if ($scope.filter_CCComSearchFieldId == "1") {
+                if ($scope.filter_CCComSearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                } else if ($scope.filter_CCComSearchFieldId == "1") {
                     $scope.CC_PatientNo2 = $scope.coordinator_searchquery;
                     $scope.CC_InsuranceId2 = "";
                     $scope.CC_MOBILE_NO2 = "";
