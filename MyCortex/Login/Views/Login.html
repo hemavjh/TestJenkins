@@ -1,5 +1,6 @@
 ﻿    
 <script>
+    
 
     $(function () {
 
@@ -60,9 +61,12 @@
             <h2>New to {{ProductName1}}? Sign Up</h2>
         </div>
         <form>
-            <label>Username</label>
-            <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
-                   class="form-control" onkeypress="EmailFormate(event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
+            <div class="inputGroups">
+                <label>Username</label>
+                <input type="text" placeholder="Enter Your Username" required="required" ng-model="Username" name="username"
+                       class="form-control" onkeypress="EmailFormate(event)" ng-keypress="usernamekeypress($event)" ng-keyup="$event.keyCode == 13 && UserLogin_AddEdit()">
+            </div>
+            
             <label>Password</label>
             <div class="viewPasswordClass">
                 <i class="fa fa-eye" id="viewPassword" style="cursor:pointer"></i>
@@ -100,8 +104,8 @@
                 </div>
             </div>
             <!--<div class="version">
-            V1.3
-        </div>-->
+        V1.3
+    </div>-->
         </form>
     </div>
 
