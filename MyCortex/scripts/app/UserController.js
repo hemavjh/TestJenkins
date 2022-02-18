@@ -1660,10 +1660,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 } else if ($scope.filter_CL_SearchFieldId == "2") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.Department_Name != null);
                     $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.Department_Name).match(searchstring));
-                } else if ($scope.filter_CL_SearchFieldId == "3" || $scope.filter_CL_SearchFieldId == "4") {
-                    var NotNull_User = $scope.BusinessUserList.filter(x => x.FullName != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FullName).match(searchstring));
-                } else if ($scope.filter_CL_SearchFieldId == "5") {
+                } else if ($scope.filter_CL_SearchFieldId == "3") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.FirstName != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "4") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.LastName != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                }else if ($scope.filter_CL_SearchFieldId == "5") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.HEALTH_LICENSE != null);
                     $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.HEALTH_LICENSE).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "6") {
