@@ -6,8 +6,8 @@ if (baseUrl == "/") {
 }
 
 
-AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter',
-    function ($scope, $http, $filter, $routeParams, $location, $window, $ff) {
+AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filter', '$routeParams', '$location', '$window', 'filterFilter', 'toastr',
+    function ($scope, $http, $filter, $routeParams, $location, $window, $ff, toastr) {
         $scope.SearchMsg = "No Data Available";
         $scope.searchquery = "";
         $scope.SearchEncryptedQuery = "";
@@ -210,7 +210,9 @@ AllPatientList.controller("AllPatientListController", ['$scope', '$http', '$filt
             if ($scope.searchquery == "") {
                 $scope.PatientListFunction(1);
             } else {
-                if ($scope.filter_CGSearchFieldId == "1") {
+                if ($scope.filter_CGSearchFieldId == "0") {
+                    toastr.warning("Please select Search Field", "Warning");
+                } else if ($scope.filter_CGSearchFieldId == "1") {
                     $scope.Filter_PatientNo2 = $scope.searchquery;
                     $scope.filter_InsuranceId2 = "";
                     $scope.filter_MOBILE_NO2 = "";
