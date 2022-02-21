@@ -29,7 +29,11 @@ namespace MyCortex.User.Model
         public int MediumCount { get; set; }
         public int LowCount { get; set; }
         public int PatientCount { get; set; }
-
+        public string Patient_No { get; set; }
+        public string National_ID { get; set; }
+        public string Insurance_ID { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
     }
 
 
