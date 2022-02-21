@@ -801,7 +801,7 @@ namespace MyCortex.Repositories.Uesr
                                         UserType_Id = p.Field<long?>("UserType_Id"),
                                         Is_Master = p.Field<bool>("IS_MASTER"),
                                         HEALTH_LICENSE = p.Field<string>("HEALTH_LICENSE"),
-                                        NATIONALITY_ID = p.Field<long>("NATIONALITY_ID")
+                                        NATIONALITY_ID = p.Field<long?>("NATIONALITY_ID")
                                     }).ToList();
             //list.FullName = list.FullName;
             return list;
@@ -835,14 +835,14 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@StartRowNumber", StartRowNumber));
             param.Add(new DataParameter("@EndRowNumber", EndRowNumber));
             param.Add(new DataParameter("@Id", Id));
-            param.Add(new DataParameter("@PatientNo", PATIENTNO));
-            param.Add(new DataParameter("@InsuranceNo", INSURANCEID));
+            param.Add(new DataParameter("@PatientNo", PATIENTNO == null? "" : PATIENTNO));
+            param.Add(new DataParameter("@InsuranceNo", INSURANCEID == null ? "" : INSURANCEID));
             param.Add(new DataParameter("@GenderId", GENDER_ID));
             param.Add(new DataParameter("@NationalityId", NATIONALITY_ID));
             param.Add(new DataParameter("@EthnicGroupId", ETHINICGROUP_ID));
-            param.Add(new DataParameter("@MobileNo", MOBILE_NO));
-            param.Add(new DataParameter("@PhoneNo", HOME_PHONENO));
-            param.Add(new DataParameter("@Email", EMAILID));
+            param.Add(new DataParameter("@MobileNo", MOBILE_NO == null? "" : MOBILE_NO));
+            param.Add(new DataParameter("@PhoneNo", HOME_PHONENO == null? "" : HOME_PHONENO));
+            param.Add(new DataParameter("@Email", EMAILID == null? "" : EMAILID));
             param.Add(new DataParameter("@MaritalStatusId", MARITALSTATUS_ID));
             param.Add(new DataParameter("@CountryId", COUNTRY_ID));
             param.Add(new DataParameter("@StateId", STATE_ID));
@@ -851,8 +851,8 @@ namespace MyCortex.Repositories.Uesr
             param.Add(new DataParameter("@GroupId", Group_Id));
             param.Add(new DataParameter("@IsActive", IsActive));
             param.Add(new DataParameter("@InstitutionId", INSTITUTION_ID));
-            param.Add(new DataParameter("@SearchQuery", SearchQuery));
-            param.Add(new DataParameter("@SearchEncryptedQuery", SearchQuery));
+            param.Add(new DataParameter("@SearchQuery", SearchQuery == null? "" : SearchQuery));
+            param.Add(new DataParameter("@SearchEncryptedQuery", SearchQuery == null? "" : SearchQuery));
             DataTable dt = ClsDataBase.GetDataTable("[MYCORTEX].PATIENT_SP_LIST_NEW", param);
             List<ItemizedUserDetailsModel> list = (from p in dt.AsEnumerable()
                                                    select new ItemizedUserDetailsModel()

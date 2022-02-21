@@ -1598,7 +1598,7 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                     } else {
                         $scope.PatientCount = $scope.PatientList[0].TotalRecord;
                     }
-                    $scope.total_pages = Math.ceil(($scope.PatientCount) / ($scope.page_size));
+                    $scope.total_pages = Math.ceil(parseInt($scope.PatientCount) / ($scope.page_size));
 
 
                 });
@@ -1718,93 +1718,97 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         });
         $scope.PatientSearch = function () {
             if ($scope.Patientsearchquery == "") {
+                $scope.PageStart = 1;
+                $scope.PageEnd = 20;
                 allpatientlist();
             } else {
                 if ($scope.filter_SearchFieldId == "0") {
                     toastr.warning("Please select Search Field", "Warning");
-                } else if ($scope.filter_SearchFieldId == "1") {
-                    $scope.Filter_PatientNo2 = $scope.Patientsearchquery;
-                    $scope.filter_NationalityId2 = "";
-                    $scope.Filter_FirstName2 = "";
-                    $scope.Filter_LastName2 = "";
-                    $scope.filter_InsuranceId2 = "";
-                    $scope.filter_Email2 = "";
-                    $scope.filter_MOBILE_NO2 = "";
-                    $scope.Filter_MRN2 = "";
-                } else if ($scope.filter_SearchFieldId == "2") {
-                    $scope.Filter_PatientNo2 = "";
-                    $scope.filter_NationalityId2 = $scope.Patientsearchquery;
-                    $scope.Filter_FirstName2 = "";
-                    $scope.Filter_LastName2 = "";
-                    $scope.filter_InsuranceId2 = "";
-                    $scope.filter_Email2 = "";
-                    $scope.filter_MOBILE_NO2 = "";
-                    $scope.Filter_MRN2 = "";
-                } else if ($scope.filter_SearchFieldId == "3") {
-                    $scope.Filter_PatientNo2 = "";
-                    $scope.filter_NationalityId2 = "";
-                    $scope.Filter_FirstName2 = $scope.Patientsearchquery;
-                    $scope.Filter_LastName2 = "";
-                    $scope.filter_InsuranceId2 = "";
-                    $scope.filter_Email2 = "";
-                    $scope.filter_MOBILE_NO2 = "";
-                    $scope.Filter_MRN2 = "";
-                } else if ($scope.filter_SearchFieldId == "4") {
-                    $scope.Filter_PatientNo2 = "";
-                    $scope.filter_NationalityId2 = "";
-                    $scope.Filter_FirstName2 = "";
-                    $scope.Filter_LastName2 = $scope.Patientsearchquery;
-                    $scope.filter_InsuranceId2 = "";
-                    $scope.filter_Email2 = "";
-                    $scope.filter_MOBILE_NO2 = "";
-                    $scope.Filter_MRN2 = "";
-                } else if ($scope.filter_SearchFieldId == "5") {
-                    $scope.Filter_PatientNo2 = "";
-                    $scope.filter_NationalityId2 = "";
-                    $scope.Filter_FirstName2 = "";
-                    $scope.Filter_LastName2 = "";
-                    $scope.filter_InsuranceId2 = $scope.Patientsearchquery;
-                    $scope.filter_Email2 = "";
-                    $scope.filter_MOBILE_NO2 = "";
-                    $scope.Filter_MRN2 = "";
-                } else if ($scope.filter_SearchFieldId == "6") {
-                    $scope.Filter_PatientNo2 = "";
-                    $scope.filter_NationalityId2 = "";
-                    $scope.Filter_FirstName2 = "";
-                    $scope.Filter_LastName2 = "";
-                    $scope.filter_InsuranceId2 = "";
-                    $scope.filter_Email2 = $scope.Patientsearchquery;
-                    $scope.filter_MOBILE_NO2 = "";
-                    $scope.Filter_MRN2 = "";
-                } else if ($scope.filter_SearchFieldId == "7") {
-                    $scope.Filter_PatientNo2 = "";
-                    $scope.filter_NationalityId2 = "";
-                    $scope.Filter_FirstName2 = "";
-                    $scope.Filter_LastName2 = "";
-                    $scope.filter_InsuranceId2 = "";
-                    $scope.filter_Email2 = "";
-                    $scope.filter_MOBILE_NO2 = $scope.Patientsearchquery;
-                    $scope.Filter_MRN2 = "";
-                } else if ($scope.filter_SearchFieldId == "8") {
-                    $scope.Filter_PatientNo2 = "";
-                    $scope.filter_NationalityId2 = "";
-                    $scope.Filter_FirstName2 = "";
-                    $scope.Filter_LastName2 = "";
-                    $scope.filter_InsuranceId2 = "";
-                    $scope.filter_Email2 = "";
-                    $scope.filter_MOBILE_NO2 = "";
-                    $scope.Filter_MRN2 = $scope.Patientsearchquery;
                 } else {
-                    $scope.Filter_PatientNo2 = $scope.Patientsearchquery;
-                    $scope.filter_NationalityId2 = $scope.Patientsearchquery;
-                    $scope.Filter_FirstName2 = $scope.Patientsearchquery;
-                    $scope.Filter_LastName2 = $scope.Patientsearchquery;
-                    $scope.filter_InsuranceId2 = $scope.Patientsearchquery;
-                    $scope.filter_Email2 = $scope.Patientsearchquery;
-                    $scope.filter_MOBILE_NO2 = $scope.Patientsearchquery;
-                    $scope.Filter_MRN2 = $scope.Patientsearchquery;
+                    if ($scope.filter_SearchFieldId == "1") {
+                        $scope.Filter_PatientNo2 = $scope.Patientsearchquery;
+                        $scope.filter_NationalityId2 = "";
+                        $scope.Filter_FirstName2 = "";
+                        $scope.Filter_LastName2 = "";
+                        $scope.filter_InsuranceId2 = "";
+                        $scope.filter_Email2 = "";
+                        $scope.filter_MOBILE_NO2 = "";
+                        $scope.Filter_MRN2 = "";
+                    } else if ($scope.filter_SearchFieldId == "2") {
+                        $scope.Filter_PatientNo2 = "";
+                        $scope.filter_NationalityId2 = $scope.Patientsearchquery;
+                        $scope.Filter_FirstName2 = "";
+                        $scope.Filter_LastName2 = "";
+                        $scope.filter_InsuranceId2 = "";
+                        $scope.filter_Email2 = "";
+                        $scope.filter_MOBILE_NO2 = "";
+                        $scope.Filter_MRN2 = "";
+                    } else if ($scope.filter_SearchFieldId == "3") {
+                        $scope.Filter_PatientNo2 = "";
+                        $scope.filter_NationalityId2 = "";
+                        $scope.Filter_FirstName2 = $scope.Patientsearchquery;
+                        $scope.Filter_LastName2 = "";
+                        $scope.filter_InsuranceId2 = "";
+                        $scope.filter_Email2 = "";
+                        $scope.filter_MOBILE_NO2 = "";
+                        $scope.Filter_MRN2 = "";
+                    } else if ($scope.filter_SearchFieldId == "4") {
+                        $scope.Filter_PatientNo2 = "";
+                        $scope.filter_NationalityId2 = "";
+                        $scope.Filter_FirstName2 = "";
+                        $scope.Filter_LastName2 = $scope.Patientsearchquery;
+                        $scope.filter_InsuranceId2 = "";
+                        $scope.filter_Email2 = "";
+                        $scope.filter_MOBILE_NO2 = "";
+                        $scope.Filter_MRN2 = "";
+                    } else if ($scope.filter_SearchFieldId == "5") {
+                        $scope.Filter_PatientNo2 = "";
+                        $scope.filter_NationalityId2 = "";
+                        $scope.Filter_FirstName2 = "";
+                        $scope.Filter_LastName2 = "";
+                        $scope.filter_InsuranceId2 = $scope.Patientsearchquery;
+                        $scope.filter_Email2 = "";
+                        $scope.filter_MOBILE_NO2 = "";
+                        $scope.Filter_MRN2 = "";
+                    } else if ($scope.filter_SearchFieldId == "6") {
+                        $scope.Filter_PatientNo2 = "";
+                        $scope.filter_NationalityId2 = "";
+                        $scope.Filter_FirstName2 = "";
+                        $scope.Filter_LastName2 = "";
+                        $scope.filter_InsuranceId2 = "";
+                        $scope.filter_Email2 = $scope.Patientsearchquery;
+                        $scope.filter_MOBILE_NO2 = "";
+                        $scope.Filter_MRN2 = "";
+                    } else if ($scope.filter_SearchFieldId == "7") {
+                        $scope.Filter_PatientNo2 = "";
+                        $scope.filter_NationalityId2 = "";
+                        $scope.Filter_FirstName2 = "";
+                        $scope.Filter_LastName2 = "";
+                        $scope.filter_InsuranceId2 = "";
+                        $scope.filter_Email2 = "";
+                        $scope.filter_MOBILE_NO2 = $scope.Patientsearchquery;
+                        $scope.Filter_MRN2 = "";
+                    } else if ($scope.filter_SearchFieldId == "8") {
+                        $scope.Filter_PatientNo2 = "";
+                        $scope.filter_NationalityId2 = "";
+                        $scope.Filter_FirstName2 = "";
+                        $scope.Filter_LastName2 = "";
+                        $scope.filter_InsuranceId2 = "";
+                        $scope.filter_Email2 = "";
+                        $scope.filter_MOBILE_NO2 = "";
+                        $scope.Filter_MRN2 = $scope.Patientsearchquery;
+                    } else {
+                        $scope.Filter_PatientNo2 = $scope.Patientsearchquery;
+                        $scope.filter_NationalityId2 = $scope.Patientsearchquery;
+                        $scope.Filter_FirstName2 = $scope.Patientsearchquery;
+                        $scope.Filter_LastName2 = $scope.Patientsearchquery;
+                        $scope.filter_InsuranceId2 = $scope.Patientsearchquery;
+                        $scope.filter_Email2 = $scope.Patientsearchquery;
+                        $scope.filter_MOBILE_NO2 = $scope.Patientsearchquery;
+                        $scope.Filter_MRN2 = $scope.Patientsearchquery;
+                    }
+                    getallpatientlist();
                 }
-                getallpatientlist();
             }
         }
 

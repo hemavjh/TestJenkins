@@ -139,9 +139,16 @@ namespace MyCortex.User.Controller
         [HttpGet]
         public IList<ItemizedUserDetailsModel> UserDetailsbyUserType_List(long Id, int? IsActive, Guid Login_Session_Id)
         {
-            IList<ItemizedUserDetailsModel> model;
-            model = UserDetails_List(Id, Int32.Parse(HttpContext.Current.Session["InstitutionId"].ToString()), IsActive, Login_Session_Id);
-            return model;
+            try
+            {
+                IList<ItemizedUserDetailsModel> model;
+                model = UserDetails_List(Id, Int32.Parse(HttpContext.Current.Session["InstitutionId"].ToString()), IsActive, Login_Session_Id);
+                return model;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
         /// <summary>      
         /// Getting user list of a institution
