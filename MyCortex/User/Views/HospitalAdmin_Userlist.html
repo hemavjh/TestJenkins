@@ -252,7 +252,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--<div class="col-sm-1">
+                    <div class="col-sm-1">
                         <div class="inputGroups">
                             <label>Advance Filter</label>
                             <a data-toggle="collapse" data-parent="#accordion" class="btn btn-link"
@@ -267,14 +267,14 @@
                                 </sub>
                             </a>
                         </div>
-                    </div>-->
+                    </div>
                     <div class="col-sm-5">
                         <div class="inputGroups">
                             <label>Remind No.Of HealthCareProfessionals / Total No.of HealthCareProfessionals: </label>
                             <span style=" margin-left: 226px; font-weight: bold;"> {{Remaining_No_Of_HealthCareProf}} / {{Health_Care_Professionals}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         <div class="inputGroups">
                             <a href="javascript:" ng-click="AddUserPopUP();ClearPopUp();InstitutionBased_CountryStateList()"
                                class="theme-btn-1 pull-right mt-15 text-center" title='Add New User'>Add New</a>
@@ -293,8 +293,14 @@
                         <label>
                             User Type
                         </label>
-                        <input type="text" class="form-control" ng-model="filter_CL_UserType" maxlength="50"
-                               ng-maxlength="100">
+                        <select class="form-control" data-style="form-control" ng-model="filter_CL_UserType" id="ddlustype" data-live-search="true" data-selectpicker data-collection-name="UserTypeList2"
+                                ng-change="getBase64Image();ClearGroup();">
+                            <option value="0">Select</option>
+                            <option ng-repeat="sel in UserTypeList2"
+                                    ng-selected="filter_CL_UserType==sel.Id" value="{{sel.Id}}">
+                                {{sel.UserName}}
+                            </option>
+                        </select>
                     </div>
                     <div class="inputGroups">
                         <label>
@@ -303,14 +309,20 @@
                         <input type="text" class="form-control" ng-model="filter_CL_Group" maxlength="50"
                                ng-maxlength="100">
                     </div>
-                    <div class="inputGroups">
-                        <label>Nationality</label>
-                        <input type="text" class="form-control" ng-model="Filter_CL_Nationality" maxlength="50"
-                               ng-maxlength="100">
-                    </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="inputGroups">
+                        <label>Nationality</label>
+                        <select class="form-control" data-style="form-control" ng-model="Filter_CL_Nationality" id="Select5" data-live-search="true"
+                                data-selectpicker data-collection-name="NationalityList2">
+                            <option value="0">Select</option>
+                            <option ng-repeat="sel in NationalityList2"
+                                    ng-selected="Filter_CL_Nationality==sel.Id" value="{{sel.Id}}">
+                                {{sel.Name}}
+                            </option>
+                        </select>
+                    </div>
+                    <!--<div class="inputGroups">
                         <label>
                             Affiliation
                         </label>
@@ -321,7 +333,7 @@
                         <label>Languages Known</label>
                         <input type="text" class="form-control" ng-model="Filter_CL_Languages_Known" maxlength="50"
                                ng-maxlength="100">
-                    </div>
+                    </div>-->
                     <div class="inputGroups">
                         <a href="javascript:" ng-click="CareCoordinator_AdvanceFilter()"
                            class="theme-btn-1 mr-10 mt-20" title="Click to get the List based on Filters">Search</a>

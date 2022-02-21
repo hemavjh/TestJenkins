@@ -189,7 +189,9 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
         $scope.LoginSessionId = $window.localStorage['Login_Session_Id'];
         $scope.Pat_UserTypeId = $window.localStorage['UserTypeId'];
         $scope.filter_CL_SearchFieldId = "0";
-
+        $scope.filter_CL_UserType = "0";
+        $scope.filter_CL_Group = "";
+        $scope.Filter_CL_Nationality = "0";
 
         $scope.InsCountryId = "0";
         $scope.InsStateId = "0";
@@ -1658,10 +1660,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
                 } else if ($scope.filter_CL_SearchFieldId == "2") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.Department_Name != null);
                     $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.Department_Name).match(searchstring));
-                } else if ($scope.filter_CL_SearchFieldId == "3" || $scope.filter_CL_SearchFieldId == "4") {
-                    var NotNull_User = $scope.BusinessUserList.filter(x => x.FullName != null);
-                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FullName).match(searchstring));
-                } else if ($scope.filter_CL_SearchFieldId == "5") {
+                } else if ($scope.filter_CL_SearchFieldId == "3") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.FirstName != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.FirstName).match(searchstring));
+                } else if ($scope.filter_CL_SearchFieldId == "4") {
+                    var NotNull_User = $scope.BusinessUserList.filter(x => x.LastName != null);
+                    $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.LastName).match(searchstring));
+                }else if ($scope.filter_CL_SearchFieldId == "5") {
                     var NotNull_User = $scope.BusinessUserList.filter(x => x.HEALTH_LICENSE != null);
                     $scope.BusinessUserFilter = NotNull_User.filter(x => angular.lowercase(x.HEALTH_LICENSE).match(searchstring));
                 } else if ($scope.filter_CL_SearchFieldId == "6") {
@@ -1680,7 +1685,37 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             }
         }
 
-
+        $scope.CareCoordinator_AdvanceFilter = function () {
+            var ustype = [], usgroup = [], usnation = [];
+            if ($scope.filter_CL_UserType != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.UserType_Id != null);
+                ustype = NotNull_User.filter(x => x.UserType_Id == parseInt($scope.filter_CL_UserType));
+            }
+            if ($scope.filter_CL_Group != "") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.GroupName != null);
+                usgroup = NotNull_User.filter(x => angular.lowercase(x.GroupName).match($scope.filter_CL_Group));
+            }
+            if ($scope.Filter_CL_Nationality != "0") {
+                var NotNull_User = $scope.BusinessUserList.filter(x => x.NATIONALITY_ID != null);
+                usnation = NotNull_User.filter(x => x.NATIONALITY_ID == parseInt($scope.Filter_CL_Nationality));
+            }
+            var fil = [];
+            $scope.BusinessUserFilter = fil.concat(ustype, usgroup, usnation);
+            if ($scope.BusinessUserFilter.length > 0) {
+                $scope.BusinessUserflag = 1;
+            }
+            else {
+                $scope.BusinessUserflag = 0;
+            }
+        }
+        $scope.NationalityList2 = [];
+        $scope.UserTypeList2 = [];
+        $http.get(baseUrl + '/api/Common/NationalityList/').success(function (data) {
+            $scope.NationalityList2 = data;
+        });
+        $http.get(baseUrl + '/api/User/BusinessUser_UserTypeList/').success(function (data) {
+            $scope.UserTypeList2 = data;
+        });
         $scope.PatientSearch = function () {
             if ($scope.Patientsearchquery == "") {
                 allpatientlist();
@@ -4619,6 +4654,13 @@ Usercontroller.controller("UserController", ['$scope', '$q', '$http', '$filter',
             //} else {
             //    $scope.SelectedPlan = "";
             //}
+        }
+
+        $scope.Reset_CC_Filter = function () {
+            $scope.filter_CL_UserType = "0";
+            $scope.filter_CL_Group = "";
+            $scope.Filter_CL_Nationality = "0";
+            $scope.BusinessUserFilter = $scope.BusinessUserList;
         }
 
         $scope.ResetPatientFilter = function () {
